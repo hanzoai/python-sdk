@@ -16,12 +16,11 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictBool, StrictStr
-from typing import Any, Dict, Optional
+from pydantic import Field, StrictStr
+from typing import Any, Dict
 from typing_extensions import Annotated
 from hanzoai.cloud.models.pricing_card import PricingCard
 from hanzoai.cloud.models.pricing_enablement_board import PricingEnablementBoard
-from hanzoai.cloud.models.pricing_enso_out import PricingEnsoOut
 from hanzoai.cloud.models.pricing_pricing_health import PricingPricingHealth
 from hanzoai.cloud.models.pricing_pricing_model_list import PricingPricingModelList
 from hanzoai.cloud.models.pricing_pricing_plan_list import PricingPricingPlanList
@@ -2751,321 +2750,6 @@ class PricingApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/pricing/enablement',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def get_pricing_enso(
-        self,
-        preset: Annotated[Optional[StrictStr], Field(description="Preset is the Enso model to quote (\"enso-flash\"); empty quotes every one.")] = None,
-        reasoning: Annotated[Optional[StrictStr], Field(description="Reasoning is the depth to quote it at: none, low, medium, high, max, or default (what a request that names none gets). Empty quotes every depth together.")] = None,
-        arms: Annotated[Optional[StrictStr], Field(description="Arms quotes a set of models composed into a blend instead, comma-separated ids (the arms of a /v1/benchmark/presets blend): from its cheapest, up to its dearest, nothing typical.")] = None,
-        byok: Annotated[Optional[StrictBool], Field(description="BYOK quotes the platform's fee on a call the org's own provider key pays for.")] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PricingEnsoOut:
-        """Quotes what Enso costs.
-
-        Quotes what Enso costs. A call bills what its arms cost us — each provider's price, and OpenRouter's fee where OpenRouter's credit bought it — and the platform's fee on top, so a model has three prices: from (its cheapest arm), typical (what its calls cost over the last day, or its last calls when the day held few) and upTo (its dearest arm, a long prompt's price included), in dollars a million tokens. Preset and reasoning narrow the answer to one model at one depth; arms quotes a blend of models instead. A SuperAdmin's answer names each model's arms.
-
-        :param preset: Preset is the Enso model to quote (\"enso-flash\"); empty quotes every one.
-        :type preset: str
-        :param reasoning: Reasoning is the depth to quote it at: none, low, medium, high, max, or default (what a request that names none gets). Empty quotes every depth together.
-        :type reasoning: str
-        :param arms: Arms quotes a set of models composed into a blend instead, comma-separated ids (the arms of a /v1/benchmark/presets blend): from its cheapest, up to its dearest, nothing typical.
-        :type arms: str
-        :param byok: BYOK quotes the platform's fee on a call the org's own provider key pays for.
-        :type byok: bool
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_pricing_enso_serialize(
-            preset=preset,
-            reasoning=reasoning,
-            arms=arms,
-            byok=byok,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingEnsoOut",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_pricing_enso_with_http_info(
-        self,
-        preset: Annotated[Optional[StrictStr], Field(description="Preset is the Enso model to quote (\"enso-flash\"); empty quotes every one.")] = None,
-        reasoning: Annotated[Optional[StrictStr], Field(description="Reasoning is the depth to quote it at: none, low, medium, high, max, or default (what a request that names none gets). Empty quotes every depth together.")] = None,
-        arms: Annotated[Optional[StrictStr], Field(description="Arms quotes a set of models composed into a blend instead, comma-separated ids (the arms of a /v1/benchmark/presets blend): from its cheapest, up to its dearest, nothing typical.")] = None,
-        byok: Annotated[Optional[StrictBool], Field(description="BYOK quotes the platform's fee on a call the org's own provider key pays for.")] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PricingEnsoOut]:
-        """Quotes what Enso costs.
-
-        Quotes what Enso costs. A call bills what its arms cost us — each provider's price, and OpenRouter's fee where OpenRouter's credit bought it — and the platform's fee on top, so a model has three prices: from (its cheapest arm), typical (what its calls cost over the last day, or its last calls when the day held few) and upTo (its dearest arm, a long prompt's price included), in dollars a million tokens. Preset and reasoning narrow the answer to one model at one depth; arms quotes a blend of models instead. A SuperAdmin's answer names each model's arms.
-
-        :param preset: Preset is the Enso model to quote (\"enso-flash\"); empty quotes every one.
-        :type preset: str
-        :param reasoning: Reasoning is the depth to quote it at: none, low, medium, high, max, or default (what a request that names none gets). Empty quotes every depth together.
-        :type reasoning: str
-        :param arms: Arms quotes a set of models composed into a blend instead, comma-separated ids (the arms of a /v1/benchmark/presets blend): from its cheapest, up to its dearest, nothing typical.
-        :type arms: str
-        :param byok: BYOK quotes the platform's fee on a call the org's own provider key pays for.
-        :type byok: bool
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_pricing_enso_serialize(
-            preset=preset,
-            reasoning=reasoning,
-            arms=arms,
-            byok=byok,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingEnsoOut",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_pricing_enso_without_preload_content(
-        self,
-        preset: Annotated[Optional[StrictStr], Field(description="Preset is the Enso model to quote (\"enso-flash\"); empty quotes every one.")] = None,
-        reasoning: Annotated[Optional[StrictStr], Field(description="Reasoning is the depth to quote it at: none, low, medium, high, max, or default (what a request that names none gets). Empty quotes every depth together.")] = None,
-        arms: Annotated[Optional[StrictStr], Field(description="Arms quotes a set of models composed into a blend instead, comma-separated ids (the arms of a /v1/benchmark/presets blend): from its cheapest, up to its dearest, nothing typical.")] = None,
-        byok: Annotated[Optional[StrictBool], Field(description="BYOK quotes the platform's fee on a call the org's own provider key pays for.")] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Quotes what Enso costs.
-
-        Quotes what Enso costs. A call bills what its arms cost us — each provider's price, and OpenRouter's fee where OpenRouter's credit bought it — and the platform's fee on top, so a model has three prices: from (its cheapest arm), typical (what its calls cost over the last day, or its last calls when the day held few) and upTo (its dearest arm, a long prompt's price included), in dollars a million tokens. Preset and reasoning narrow the answer to one model at one depth; arms quotes a blend of models instead. A SuperAdmin's answer names each model's arms.
-
-        :param preset: Preset is the Enso model to quote (\"enso-flash\"); empty quotes every one.
-        :type preset: str
-        :param reasoning: Reasoning is the depth to quote it at: none, low, medium, high, max, or default (what a request that names none gets). Empty quotes every depth together.
-        :type reasoning: str
-        :param arms: Arms quotes a set of models composed into a blend instead, comma-separated ids (the arms of a /v1/benchmark/presets blend): from its cheapest, up to its dearest, nothing typical.
-        :type arms: str
-        :param byok: BYOK quotes the platform's fee on a call the org's own provider key pays for.
-        :type byok: bool
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_pricing_enso_serialize(
-            preset=preset,
-            reasoning=reasoning,
-            arms=arms,
-            byok=byok,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingEnsoOut",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_pricing_enso_serialize(
-        self,
-        preset,
-        reasoning,
-        arms,
-        byok,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        if preset is not None:
-            
-            _query_params.append(('preset', preset))
-            
-        if reasoning is not None:
-            
-            _query_params.append(('reasoning', reasoning))
-            
-        if arms is not None:
-            
-            _query_params.append(('arms', arms))
-            
-        if byok is not None:
-            
-            _query_params.append(('byok', byok))
-            
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json', 
-                    'application/problem+json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/pricing/enso',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -6078,7 +5762,7 @@ class PricingApi:
     ) -> Dict[str, object]:
         """Returns the catalog's headline statistics — model counts by family and the provider directory.
 
-        Returns the catalog's headline statistics — model counts by family and the provider directory. The provider sub-object is filtered to what the caller's org may see, so a disabled provider's name never leaks; the aggregate counts are the catalog's own, over everything it holds. A SuperAdmin's summary adds `enso`: the day's Enso answers, the arms that failed first, the share OpenRouter's credit bought (fallbacks), the fee collected and every loss, by route.
+        Returns the catalog's headline statistics — model counts by family and the provider directory. The provider sub-object is filtered to what the caller's org may see, so a disabled provider's name never leaks; the aggregate counts are the catalog's own, over everything it holds. A SuperAdmin's summary adds `enso`: the day's Enso answers, the arms that failed first, the share OpenRouter's credit bought (fallbacks), the margin the fixed prices made, the answers that stated no cost and every loss, by model, arm and vendor.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6141,7 +5825,7 @@ class PricingApi:
     ) -> ApiResponse[Dict[str, object]]:
         """Returns the catalog's headline statistics — model counts by family and the provider directory.
 
-        Returns the catalog's headline statistics — model counts by family and the provider directory. The provider sub-object is filtered to what the caller's org may see, so a disabled provider's name never leaks; the aggregate counts are the catalog's own, over everything it holds. A SuperAdmin's summary adds `enso`: the day's Enso answers, the arms that failed first, the share OpenRouter's credit bought (fallbacks), the fee collected and every loss, by route.
+        Returns the catalog's headline statistics — model counts by family and the provider directory. The provider sub-object is filtered to what the caller's org may see, so a disabled provider's name never leaks; the aggregate counts are the catalog's own, over everything it holds. A SuperAdmin's summary adds `enso`: the day's Enso answers, the arms that failed first, the share OpenRouter's credit bought (fallbacks), the margin the fixed prices made, the answers that stated no cost and every loss, by model, arm and vendor.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6204,7 +5888,7 @@ class PricingApi:
     ) -> RESTResponseType:
         """Returns the catalog's headline statistics — model counts by family and the provider directory.
 
-        Returns the catalog's headline statistics — model counts by family and the provider directory. The provider sub-object is filtered to what the caller's org may see, so a disabled provider's name never leaks; the aggregate counts are the catalog's own, over everything it holds. A SuperAdmin's summary adds `enso`: the day's Enso answers, the arms that failed first, the share OpenRouter's credit bought (fallbacks), the fee collected and every loss, by route.
+        Returns the catalog's headline statistics — model counts by family and the provider directory. The provider sub-object is filtered to what the caller's org may see, so a disabled provider's name never leaks; the aggregate counts are the catalog's own, over everything it holds. A SuperAdmin's summary adds `enso`: the day's Enso answers, the arms that failed first, the share OpenRouter's credit bought (fallbacks), the margin the fixed prices made, the answers that stated no cost and every loss, by model, arm and vendor.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

@@ -48,6 +48,7 @@ from hanzoai.cloud.models.marketing_summary import MarketingSummary
 from hanzoai.cloud.models.marketing_suppression import MarketingSuppression
 from hanzoai.cloud.models.marketing_suppression_list import MarketingSuppressionList
 from hanzoai.cloud.models.marketing_unsubscribed import MarketingUnsubscribed
+from hanzoai.cloud.models.problem_details import ProblemDetails
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -86,7 +87,7 @@ class MarketingApi:
     ) -> None:
         """Removes one of the caller org's audiences and answers 204.
 
-        Removes one of the caller org's audiences and answers 204. It deletes the saved filter only — no customer, event or enrollment is touched.
+        Removes one of the caller org's audiences and answers 204. It deletes the saved filter only — no customer, event or enrollment is touched.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param id: ID is the audience id from the path, as returned by create. (required)
         :type id: str
@@ -153,7 +154,7 @@ class MarketingApi:
     ) -> ApiResponse[None]:
         """Removes one of the caller org's audiences and answers 204.
 
-        Removes one of the caller org's audiences and answers 204. It deletes the saved filter only — no customer, event or enrollment is touched.
+        Removes one of the caller org's audiences and answers 204. It deletes the saved filter only — no customer, event or enrollment is touched.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param id: ID is the audience id from the path, as returned by create. (required)
         :type id: str
@@ -220,7 +221,7 @@ class MarketingApi:
     ) -> RESTResponseType:
         """Removes one of the caller org's audiences and answers 204.
 
-        Removes one of the caller org's audiences and answers 204. It deletes the saved filter only — no customer, event or enrollment is touched.
+        Removes one of the caller org's audiences and answers 204. It deletes the saved filter only — no customer, event or enrollment is touched.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param id: ID is the audience id from the path, as returned by create. (required)
         :type id: str
@@ -872,7 +873,7 @@ class MarketingApi:
     ) -> None:
         """Re-subscribes an address on one channel and answers 204.
 
-        Re-subscribes an address on one channel and answers 204. An address that is not on the list reads as not found.
+        Re-subscribes an address on one channel and answers 204. An address that is not on the list reads as not found.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param channel: Channel is the surface opted out of: email, sms, social, meta, google or tiktok. Empty means email. Opting out of one leaves the others reachable.
         :type channel: str
@@ -951,7 +952,7 @@ class MarketingApi:
     ) -> ApiResponse[None]:
         """Re-subscribes an address on one channel and answers 204.
 
-        Re-subscribes an address on one channel and answers 204. An address that is not on the list reads as not found.
+        Re-subscribes an address on one channel and answers 204. An address that is not on the list reads as not found.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param channel: Channel is the surface opted out of: email, sms, social, meta, google or tiktok. Empty means email. Opting out of one leaves the others reachable.
         :type channel: str
@@ -1030,7 +1031,7 @@ class MarketingApi:
     ) -> RESTResponseType:
         """Re-subscribes an address on one channel and answers 204.
 
-        Re-subscribes an address on one channel and answers 204. An address that is not on the list reads as not found.
+        Re-subscribes an address on one channel and answers 204. An address that is not on the list reads as not found.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param channel: Channel is the surface opted out of: email, sms, social, meta, google or tiktok. Empty means email. Opting out of one leaves the others reachable.
         :type channel: str
@@ -3023,6 +3024,283 @@ class MarketingApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/marketing/campaigns/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_marketing_click(
+        self,
+        user_agent: Annotated[Optional[StrictStr], Field(description="Agent is the clicker's User-Agent header. Only its family (chrome, safari, automated, …) is kept.")] = None,
+        t: Annotated[Optional[StrictStr], Field(description="T is the click token the send minted for this link and this recipient: base64url, signed under the deployment's KMS key marketing/click-hmac. It is the request's only authority.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ProblemDetails:
+        """Follows a tracked email link.
+
+        Follows a tracked email link. It is public — the person clicking has no session — and the token is its only authority: a token that verifies, for a sequence of one of Hanzo's own orgs that still exists, answers 302 to the destination it signs and records one click (time and user-agent family; no IP address), off the request path so the redirect never waits on storage. A token that is missing, altered, signed under another key, older than a year, or for any other org or a deleted sequence answers 302 to the brand's home page (https://hanzo.ai/ on Hanzo's deployment). The location is only ever a destination a token signs or that page, never a URL the request names.
+
+        :param user_agent: Agent is the clicker's User-Agent header. Only its family (chrome, safari, automated, …) is kept.
+        :type user_agent: str
+        :param t: T is the click token the send minted for this link and this recipient: base64url, signed under the deployment's KMS key marketing/click-hmac. It is the request's only authority.
+        :type t: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_click_serialize(
+            user_agent=user_agent,
+            t=t,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '302': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_marketing_click_with_http_info(
+        self,
+        user_agent: Annotated[Optional[StrictStr], Field(description="Agent is the clicker's User-Agent header. Only its family (chrome, safari, automated, …) is kept.")] = None,
+        t: Annotated[Optional[StrictStr], Field(description="T is the click token the send minted for this link and this recipient: base64url, signed under the deployment's KMS key marketing/click-hmac. It is the request's only authority.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ProblemDetails]:
+        """Follows a tracked email link.
+
+        Follows a tracked email link. It is public — the person clicking has no session — and the token is its only authority: a token that verifies, for a sequence of one of Hanzo's own orgs that still exists, answers 302 to the destination it signs and records one click (time and user-agent family; no IP address), off the request path so the redirect never waits on storage. A token that is missing, altered, signed under another key, older than a year, or for any other org or a deleted sequence answers 302 to the brand's home page (https://hanzo.ai/ on Hanzo's deployment). The location is only ever a destination a token signs or that page, never a URL the request names.
+
+        :param user_agent: Agent is the clicker's User-Agent header. Only its family (chrome, safari, automated, …) is kept.
+        :type user_agent: str
+        :param t: T is the click token the send minted for this link and this recipient: base64url, signed under the deployment's KMS key marketing/click-hmac. It is the request's only authority.
+        :type t: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_click_serialize(
+            user_agent=user_agent,
+            t=t,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '302': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_marketing_click_without_preload_content(
+        self,
+        user_agent: Annotated[Optional[StrictStr], Field(description="Agent is the clicker's User-Agent header. Only its family (chrome, safari, automated, …) is kept.")] = None,
+        t: Annotated[Optional[StrictStr], Field(description="T is the click token the send minted for this link and this recipient: base64url, signed under the deployment's KMS key marketing/click-hmac. It is the request's only authority.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Follows a tracked email link.
+
+        Follows a tracked email link. It is public — the person clicking has no session — and the token is its only authority: a token that verifies, for a sequence of one of Hanzo's own orgs that still exists, answers 302 to the destination it signs and records one click (time and user-agent family; no IP address), off the request path so the redirect never waits on storage. A token that is missing, altered, signed under another key, older than a year, or for any other org or a deleted sequence answers 302 to the brand's home page (https://hanzo.ai/ on Hanzo's deployment). The location is only ever a destination a token signs or that page, never a URL the request names.
+
+        :param user_agent: Agent is the clicker's User-Agent header. Only its family (chrome, safari, automated, …) is kept.
+        :type user_agent: str
+        :param t: T is the click token the send minted for this link and this recipient: base64url, signed under the deployment's KMS key marketing/click-hmac. It is the request's only authority.
+        :type t: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_click_serialize(
+            user_agent=user_agent,
+            t=t,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '302': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_marketing_click_serialize(
+        self,
+        user_agent,
+        t,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if t is not None:
+            
+            _query_params.append(('t', t))
+            
+        # process the header parameters
+        if user_agent is not None:
+            _header_params['User-Agent'] = user_agent
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/marketing/click',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -5715,7 +5993,6 @@ class MarketingApi:
 
         # authentication setting
         _auth_settings: List[str] = [
-            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -5755,7 +6032,7 @@ class MarketingApi:
     ) -> MarketingAudience:
         """Saves a cohort filter for the caller's org.
 
-        Saves a cohort filter for the caller's org. Name is required. Omitting event saves the WHOLE-ORG audience — every mailable customer — which needs no analytics warehouse; naming one narrows that roster to the customers who fired it within windowDays.
+        Saves a cohort filter for the caller's org. Name is required. Omitting event saves the WHOLE-ORG audience — every mailable customer — which needs no analytics warehouse; naming one narrows that roster to the customers who fired it within windowDays.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param marketing_audience: (required)
         :type marketing_audience: MarketingAudience
@@ -5822,7 +6099,7 @@ class MarketingApi:
     ) -> ApiResponse[MarketingAudience]:
         """Saves a cohort filter for the caller's org.
 
-        Saves a cohort filter for the caller's org. Name is required. Omitting event saves the WHOLE-ORG audience — every mailable customer — which needs no analytics warehouse; naming one narrows that roster to the customers who fired it within windowDays.
+        Saves a cohort filter for the caller's org. Name is required. Omitting event saves the WHOLE-ORG audience — every mailable customer — which needs no analytics warehouse; naming one narrows that roster to the customers who fired it within windowDays.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param marketing_audience: (required)
         :type marketing_audience: MarketingAudience
@@ -5889,7 +6166,7 @@ class MarketingApi:
     ) -> RESTResponseType:
         """Saves a cohort filter for the caller's org.
 
-        Saves a cohort filter for the caller's org. Name is required. Omitting event saves the WHOLE-ORG audience — every mailable customer — which needs no analytics warehouse; naming one narrows that roster to the customers who fired it within windowDays.
+        Saves a cohort filter for the caller's org. Name is required. Omitting event saves the WHOLE-ORG audience — every mailable customer — which needs no analytics warehouse; naming one narrows that roster to the customers who fired it within windowDays.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param marketing_audience: (required)
         :type marketing_audience: MarketingAudience
@@ -7435,7 +7712,7 @@ class MarketingApi:
     ) -> MarketingSequence:
         """Registers a drip sequence in the caller's org.
 
-        Registers a drip sequence in the caller's org. Name is required; status defaults to draft, and a sequence must be ACTIVE before it will accept enrollments. The id, createdAt and updatedAt of the input are ignored — the server assigns them.
+        Registers a drip sequence in the caller's org. Name is required; status defaults to draft, and a sequence must be ACTIVE before it will accept enrollments. The id, createdAt and updatedAt of the input are ignored — the server assigns them.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param marketing_sequence: (required)
         :type marketing_sequence: MarketingSequence
@@ -7502,7 +7779,7 @@ class MarketingApi:
     ) -> ApiResponse[MarketingSequence]:
         """Registers a drip sequence in the caller's org.
 
-        Registers a drip sequence in the caller's org. Name is required; status defaults to draft, and a sequence must be ACTIVE before it will accept enrollments. The id, createdAt and updatedAt of the input are ignored — the server assigns them.
+        Registers a drip sequence in the caller's org. Name is required; status defaults to draft, and a sequence must be ACTIVE before it will accept enrollments. The id, createdAt and updatedAt of the input are ignored — the server assigns them.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param marketing_sequence: (required)
         :type marketing_sequence: MarketingSequence
@@ -7569,7 +7846,7 @@ class MarketingApi:
     ) -> RESTResponseType:
         """Registers a drip sequence in the caller's org.
 
-        Registers a drip sequence in the caller's org. Name is required; status defaults to draft, and a sequence must be ACTIVE before it will accept enrollments. The id, createdAt and updatedAt of the input are ignored — the server assigns them.
+        Registers a drip sequence in the caller's org. Name is required; status defaults to draft, and a sequence must be ACTIVE before it will accept enrollments. The id, createdAt and updatedAt of the input are ignored — the server assigns them.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param marketing_sequence: (required)
         :type marketing_sequence: MarketingSequence
@@ -7711,7 +7988,7 @@ class MarketingApi:
     ) -> MarketingEnrollResult:
         """Adds one contact or a whole audience to a sequence and schedules the first step for each.
 
-        Adds one contact or a whole audience to a sequence and schedules the first step for each. The sequence must be ACTIVE (a draft sends nothing), and the request must name exactly one of address or audienceId.  Enrolling is ALL this does: the message itself is sent later by the drip engine, through the suppression gate, so an opted-out customer can be enrolled here and still never be mailed. Re-posting is safe — an address this sequence already took is counted in alreadyEnrolled and never double-dripped — which is what makes retrying a partially-applied announcement a resume rather than a second send.
+        Adds one contact or a whole audience to a sequence and schedules the first step for each. The sequence must be ACTIVE (a draft sends nothing), and the request must name exactly one of address or audienceId.  Enrolling is ALL this does: the message itself is sent later by the drip engine, through the suppression gate, so an opted-out customer can be enrolled here and still never be mailed. Re-posting is safe — an address this sequence already took is counted in alreadyEnrolled and never double-dripped — which is what makes retrying a partially-applied announcement a resume rather than a second send.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param id: ID is the sequence id from the path. (required)
         :type id: str
@@ -7782,7 +8059,7 @@ class MarketingApi:
     ) -> ApiResponse[MarketingEnrollResult]:
         """Adds one contact or a whole audience to a sequence and schedules the first step for each.
 
-        Adds one contact or a whole audience to a sequence and schedules the first step for each. The sequence must be ACTIVE (a draft sends nothing), and the request must name exactly one of address or audienceId.  Enrolling is ALL this does: the message itself is sent later by the drip engine, through the suppression gate, so an opted-out customer can be enrolled here and still never be mailed. Re-posting is safe — an address this sequence already took is counted in alreadyEnrolled and never double-dripped — which is what makes retrying a partially-applied announcement a resume rather than a second send.
+        Adds one contact or a whole audience to a sequence and schedules the first step for each. The sequence must be ACTIVE (a draft sends nothing), and the request must name exactly one of address or audienceId.  Enrolling is ALL this does: the message itself is sent later by the drip engine, through the suppression gate, so an opted-out customer can be enrolled here and still never be mailed. Re-posting is safe — an address this sequence already took is counted in alreadyEnrolled and never double-dripped — which is what makes retrying a partially-applied announcement a resume rather than a second send.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param id: ID is the sequence id from the path. (required)
         :type id: str
@@ -7853,7 +8130,7 @@ class MarketingApi:
     ) -> RESTResponseType:
         """Adds one contact or a whole audience to a sequence and schedules the first step for each.
 
-        Adds one contact or a whole audience to a sequence and schedules the first step for each. The sequence must be ACTIVE (a draft sends nothing), and the request must name exactly one of address or audienceId.  Enrolling is ALL this does: the message itself is sent later by the drip engine, through the suppression gate, so an opted-out customer can be enrolled here and still never be mailed. Re-posting is safe — an address this sequence already took is counted in alreadyEnrolled and never double-dripped — which is what makes retrying a partially-applied announcement a resume rather than a second send.
+        Adds one contact or a whole audience to a sequence and schedules the first step for each. The sequence must be ACTIVE (a draft sends nothing), and the request must name exactly one of address or audienceId.  Enrolling is ALL this does: the message itself is sent later by the drip engine, through the suppression gate, so an opted-out customer can be enrolled here and still never be mailed. Re-posting is safe — an address this sequence already took is counted in alreadyEnrolled and never double-dripped — which is what makes retrying a partially-applied announcement a resume rather than a second send.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param id: ID is the sequence id from the path. (required)
         :type id: str
@@ -8001,7 +8278,7 @@ class MarketingApi:
     ) -> None:
         """Stops one walk mid-sequence and answers 204: no further step is sent, and steps already delivered are not recalled.
 
-        Stops one walk mid-sequence and answers 204: no further step is sent, and steps already delivered are not recalled. Only an ACTIVE enrollment can be canceled — one already completed or canceled reads as not found.
+        Stops one walk mid-sequence and answers 204: no further step is sent, and steps already delivered are not recalled. Only an ACTIVE enrollment can be canceled — one already completed or canceled reads as not found.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param id: ID is the sequence id from the path. (required)
         :type id: str
@@ -8072,7 +8349,7 @@ class MarketingApi:
     ) -> ApiResponse[None]:
         """Stops one walk mid-sequence and answers 204: no further step is sent, and steps already delivered are not recalled.
 
-        Stops one walk mid-sequence and answers 204: no further step is sent, and steps already delivered are not recalled. Only an ACTIVE enrollment can be canceled — one already completed or canceled reads as not found.
+        Stops one walk mid-sequence and answers 204: no further step is sent, and steps already delivered are not recalled. Only an ACTIVE enrollment can be canceled — one already completed or canceled reads as not found.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param id: ID is the sequence id from the path. (required)
         :type id: str
@@ -8143,7 +8420,7 @@ class MarketingApi:
     ) -> RESTResponseType:
         """Stops one walk mid-sequence and answers 204: no further step is sent, and steps already delivered are not recalled.
 
-        Stops one walk mid-sequence and answers 204: no further step is sent, and steps already delivered are not recalled. Only an ACTIVE enrollment can be canceled — one already completed or canceled reads as not found.
+        Stops one walk mid-sequence and answers 204: no further step is sent, and steps already delivered are not recalled. Only an ACTIVE enrollment can be canceled — one already completed or canceled reads as not found.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param id: ID is the sequence id from the path. (required)
         :type id: str
@@ -8277,7 +8554,7 @@ class MarketingApi:
     ) -> MarketingSequenceStatus:
         """Flips draft/active/archived — the activation gate for sending, since only an active sequence accepts enrollments.
 
-        Flips draft/active/archived — the activation gate for sending, since only an active sequence accepts enrollments. It does not touch enrollments already walking: archiving stops new ones, not in-flight ones.
+        Flips draft/active/archived — the activation gate for sending, since only an active sequence accepts enrollments. It does not touch enrollments already walking: archiving stops new ones, not in-flight ones.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param id: ID is the sequence id from the path. (required)
         :type id: str
@@ -8348,7 +8625,7 @@ class MarketingApi:
     ) -> ApiResponse[MarketingSequenceStatus]:
         """Flips draft/active/archived — the activation gate for sending, since only an active sequence accepts enrollments.
 
-        Flips draft/active/archived — the activation gate for sending, since only an active sequence accepts enrollments. It does not touch enrollments already walking: archiving stops new ones, not in-flight ones.
+        Flips draft/active/archived — the activation gate for sending, since only an active sequence accepts enrollments. It does not touch enrollments already walking: archiving stops new ones, not in-flight ones.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param id: ID is the sequence id from the path. (required)
         :type id: str
@@ -8419,7 +8696,7 @@ class MarketingApi:
     ) -> RESTResponseType:
         """Flips draft/active/archived — the activation gate for sending, since only an active sequence accepts enrollments.
 
-        Flips draft/active/archived — the activation gate for sending, since only an active sequence accepts enrollments. It does not touch enrollments already walking: archiving stops new ones, not in-flight ones.
+        Flips draft/active/archived — the activation gate for sending, since only an active sequence accepts enrollments. It does not touch enrollments already walking: archiving stops new ones, not in-flight ones.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param id: ID is the sequence id from the path. (required)
         :type id: str
@@ -8567,7 +8844,7 @@ class MarketingApi:
     ) -> MarketingStep:
         """Appends a message to the END of a sequence: the new step's idx is one past the last, so steps arrive in the order they are added.
 
-        Appends a message to the END of a sequence: the new step's idx is one past the last, so steps arrive in the order they are added. Body is required and delaySeconds must be >= 0. Adding a step does not disturb enrollments already walking — one that has passed this index simply never sees it.
+        Appends a message to the END of a sequence: the new step's idx is one past the last, so steps arrive in the order they are added. Body is required and delaySeconds must be >= 0. Adding a step does not disturb enrollments already walking — one that has passed this index simply never sees it.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param id: SequenceID is the sequence id from the path (the route's :id). (required)
         :type id: str
@@ -8638,7 +8915,7 @@ class MarketingApi:
     ) -> ApiResponse[MarketingStep]:
         """Appends a message to the END of a sequence: the new step's idx is one past the last, so steps arrive in the order they are added.
 
-        Appends a message to the END of a sequence: the new step's idx is one past the last, so steps arrive in the order they are added. Body is required and delaySeconds must be >= 0. Adding a step does not disturb enrollments already walking — one that has passed this index simply never sees it.
+        Appends a message to the END of a sequence: the new step's idx is one past the last, so steps arrive in the order they are added. Body is required and delaySeconds must be >= 0. Adding a step does not disturb enrollments already walking — one that has passed this index simply never sees it.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param id: SequenceID is the sequence id from the path (the route's :id). (required)
         :type id: str
@@ -8709,7 +8986,7 @@ class MarketingApi:
     ) -> RESTResponseType:
         """Appends a message to the END of a sequence: the new step's idx is one past the last, so steps arrive in the order they are added.
 
-        Appends a message to the END of a sequence: the new step's idx is one past the last, so steps arrive in the order they are added. Body is required and delaySeconds must be >= 0. Adding a step does not disturb enrollments already walking — one that has passed this index simply never sees it.
+        Appends a message to the END of a sequence: the new step's idx is one past the last, so steps arrive in the order they are added. Body is required and delaySeconds must be >= 0. Adding a step does not disturb enrollments already walking — one that has passed this index simply never sees it.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param id: SequenceID is the sequence id from the path (the route's :id). (required)
         :type id: str
@@ -8856,7 +9133,7 @@ class MarketingApi:
     ) -> MarketingSuppression:
         """Records an opt-out for the org (admin / self-service management).
 
-        Records an opt-out for the org (admin / self-service management). Address is required; channel defaults to email. It is idempotent: re-suppressing the same tuple keeps the original record rather than erroring. From here on the ONE send gate refuses that recipient on that channel.
+        Records an opt-out for the org (admin / self-service management). Address is required; channel defaults to email. It is idempotent: re-suppressing the same tuple keeps the original record rather than erroring. From here on the ONE send gate refuses that recipient on that channel.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param marketing_suppression: (required)
         :type marketing_suppression: MarketingSuppression
@@ -8923,7 +9200,7 @@ class MarketingApi:
     ) -> ApiResponse[MarketingSuppression]:
         """Records an opt-out for the org (admin / self-service management).
 
-        Records an opt-out for the org (admin / self-service management). Address is required; channel defaults to email. It is idempotent: re-suppressing the same tuple keeps the original record rather than erroring. From here on the ONE send gate refuses that recipient on that channel.
+        Records an opt-out for the org (admin / self-service management). Address is required; channel defaults to email. It is idempotent: re-suppressing the same tuple keeps the original record rather than erroring. From here on the ONE send gate refuses that recipient on that channel.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param marketing_suppression: (required)
         :type marketing_suppression: MarketingSuppression
@@ -8990,7 +9267,7 @@ class MarketingApi:
     ) -> RESTResponseType:
         """Records an opt-out for the org (admin / self-service management).
 
-        Records an opt-out for the org (admin / self-service management). Address is required; channel defaults to email. It is idempotent: re-suppressing the same tuple keeps the original record rather than erroring. From here on the ONE send gate refuses that recipient on that channel.
+        Records an opt-out for the org (admin / self-service management). Address is required; channel defaults to email. It is idempotent: re-suppressing the same tuple keeps the original record rather than erroring. From here on the ONE send gate refuses that recipient on that channel.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param marketing_suppression: (required)
         :type marketing_suppression: MarketingSuppression
@@ -9097,6 +9374,350 @@ class MarketingApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/marketing/suppressions',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_marketing_unsubscribe(
+        self,
+        org: Annotated[Optional[StrictStr], Field(description="Org is the org the link was minted for.")] = None,
+        channel: Annotated[Optional[StrictStr], Field(description="Channel is the surface to opt out of.")] = None,
+        address: Annotated[Optional[StrictStr], Field(description="Address is the recipient to opt out.")] = None,
+        token: Annotated[Optional[StrictStr], Field(description="Token is the HMAC over (org, channel, address), the only authority here.")] = None,
+        list_unsubscribe: Annotated[Optional[StrictStr], Field(description="OneClick is the form's List-Unsubscribe field, \\\"One-Click\\\" from a mail client. The token decides; this field only names the form.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingUnsubscribed:
+        """Is the one-click unsubscribe a mail client sends from the List-Unsubscribe header (RFC 8058): the same signed link the footer carries, POSTed with the form body List-Unsubscribe=One-Click.
+
+        Is the one-click unsubscribe a mail client sends from the List-Unsubscribe header (RFC 8058): the same signed link the footer carries, POSTed with the form body List-Unsubscribe=One-Click. It opts out exactly what a click on the link does, under the same token check, and is as public.
+
+        :param org: Org is the org the link was minted for.
+        :type org: str
+        :param channel: Channel is the surface to opt out of.
+        :type channel: str
+        :param address: Address is the recipient to opt out.
+        :type address: str
+        :param token: Token is the HMAC over (org, channel, address), the only authority here.
+        :type token: str
+        :param list_unsubscribe: OneClick is the form's List-Unsubscribe field, \\\"One-Click\\\" from a mail client. The token decides; this field only names the form.
+        :type list_unsubscribe: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_unsubscribe_serialize(
+            org=org,
+            channel=channel,
+            address=address,
+            token=token,
+            list_unsubscribe=list_unsubscribe,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingUnsubscribed",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketing_unsubscribe_with_http_info(
+        self,
+        org: Annotated[Optional[StrictStr], Field(description="Org is the org the link was minted for.")] = None,
+        channel: Annotated[Optional[StrictStr], Field(description="Channel is the surface to opt out of.")] = None,
+        address: Annotated[Optional[StrictStr], Field(description="Address is the recipient to opt out.")] = None,
+        token: Annotated[Optional[StrictStr], Field(description="Token is the HMAC over (org, channel, address), the only authority here.")] = None,
+        list_unsubscribe: Annotated[Optional[StrictStr], Field(description="OneClick is the form's List-Unsubscribe field, \\\"One-Click\\\" from a mail client. The token decides; this field only names the form.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingUnsubscribed]:
+        """Is the one-click unsubscribe a mail client sends from the List-Unsubscribe header (RFC 8058): the same signed link the footer carries, POSTed with the form body List-Unsubscribe=One-Click.
+
+        Is the one-click unsubscribe a mail client sends from the List-Unsubscribe header (RFC 8058): the same signed link the footer carries, POSTed with the form body List-Unsubscribe=One-Click. It opts out exactly what a click on the link does, under the same token check, and is as public.
+
+        :param org: Org is the org the link was minted for.
+        :type org: str
+        :param channel: Channel is the surface to opt out of.
+        :type channel: str
+        :param address: Address is the recipient to opt out.
+        :type address: str
+        :param token: Token is the HMAC over (org, channel, address), the only authority here.
+        :type token: str
+        :param list_unsubscribe: OneClick is the form's List-Unsubscribe field, \\\"One-Click\\\" from a mail client. The token decides; this field only names the form.
+        :type list_unsubscribe: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_unsubscribe_serialize(
+            org=org,
+            channel=channel,
+            address=address,
+            token=token,
+            list_unsubscribe=list_unsubscribe,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingUnsubscribed",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketing_unsubscribe_without_preload_content(
+        self,
+        org: Annotated[Optional[StrictStr], Field(description="Org is the org the link was minted for.")] = None,
+        channel: Annotated[Optional[StrictStr], Field(description="Channel is the surface to opt out of.")] = None,
+        address: Annotated[Optional[StrictStr], Field(description="Address is the recipient to opt out.")] = None,
+        token: Annotated[Optional[StrictStr], Field(description="Token is the HMAC over (org, channel, address), the only authority here.")] = None,
+        list_unsubscribe: Annotated[Optional[StrictStr], Field(description="OneClick is the form's List-Unsubscribe field, \\\"One-Click\\\" from a mail client. The token decides; this field only names the form.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Is the one-click unsubscribe a mail client sends from the List-Unsubscribe header (RFC 8058): the same signed link the footer carries, POSTed with the form body List-Unsubscribe=One-Click.
+
+        Is the one-click unsubscribe a mail client sends from the List-Unsubscribe header (RFC 8058): the same signed link the footer carries, POSTed with the form body List-Unsubscribe=One-Click. It opts out exactly what a click on the link does, under the same token check, and is as public.
+
+        :param org: Org is the org the link was minted for.
+        :type org: str
+        :param channel: Channel is the surface to opt out of.
+        :type channel: str
+        :param address: Address is the recipient to opt out.
+        :type address: str
+        :param token: Token is the HMAC over (org, channel, address), the only authority here.
+        :type token: str
+        :param list_unsubscribe: OneClick is the form's List-Unsubscribe field, \\\"One-Click\\\" from a mail client. The token decides; this field only names the form.
+        :type list_unsubscribe: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_unsubscribe_serialize(
+            org=org,
+            channel=channel,
+            address=address,
+            token=token,
+            list_unsubscribe=list_unsubscribe,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingUnsubscribed",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketing_unsubscribe_serialize(
+        self,
+        org,
+        channel,
+        address,
+        token,
+        list_unsubscribe,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if org is not None:
+            
+            _query_params.append(('org', org))
+            
+        if channel is not None:
+            
+            _query_params.append(('channel', channel))
+            
+        if address is not None:
+            
+            _query_params.append(('address', address))
+            
+        if token is not None:
+            
+            _query_params.append(('token', token))
+            
+        # process the header parameters
+        # process the form parameters
+        if list_unsubscribe is not None:
+            _form_params.append(('List-Unsubscribe', list_unsubscribe))
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/x-www-form-urlencoded', 
+                        'multipart/form-data'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketing/unsubscribe',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

@@ -30,6 +30,7 @@ class BillingSubscription(BaseModel):
     cancel_at_period_end: Optional[StrictBool] = Field(default=None, description="CancelAtPeriodEnd reports that the plan ends at CurrentPeriodEnd.", alias="cancelAtPeriodEnd")
     canceled_at: Optional[StrictStr] = Field(default=None, description="CanceledAt is when it was canceled; absent when it was not.", alias="canceledAt")
     charged_cents: Optional[StrictInt] = Field(default=None, description="ChargedCents is what the period in hand was actually paid, after any discount and net of refunds. 0 when the period is unpaid.", alias="chargedCents")
+    coupon: Optional[StrictStr] = Field(default=None, description="Coupon is the plan coupon code the first period was bought with, as commerce stores it (upper case); absent when none was.")
     created_at: Optional[StrictStr] = Field(default=None, description="CreatedAt is when the row was written, RFC 3339.", alias="createdAt")
     current_period_end: Optional[StrictStr] = Field(default=None, description="CurrentPeriodEnd is when it ends, RFC 3339. The plan is paid through it.", alias="currentPeriodEnd")
     current_period_start: Optional[StrictStr] = Field(default=None, description="CurrentPeriodStart is when the period in hand began, RFC 3339.", alias="currentPeriodStart")
@@ -49,7 +50,7 @@ class BillingSubscription(BaseModel):
     trial_start: Optional[StrictStr] = Field(default=None, description="TrialStart is when a trial began; absent when there was none.", alias="trialStart")
     updated_at: Optional[StrictStr] = Field(default=None, description="UpdatedAt is when the row last changed, RFC 3339.", alias="updatedAt")
     user_id: Optional[StrictStr] = Field(default=None, description="UserID is the billing account that holds it: the org slug for an org's own plan, \"<org>/<name>\" for a member's.", alias="userId")
-    __properties: ClassVar[List[str]] = ["cancelAtPeriodEnd", "canceledAt", "chargedCents", "createdAt", "currentPeriodEnd", "currentPeriodStart", "defaultPaymentMethod", "endedAt", "id", "mrrCents", "plan", "planId", "providerType", "quantity", "seats", "settled", "status", "test", "trialEnd", "trialStart", "updatedAt", "userId"]
+    __properties: ClassVar[List[str]] = ["cancelAtPeriodEnd", "canceledAt", "chargedCents", "coupon", "createdAt", "currentPeriodEnd", "currentPeriodStart", "defaultPaymentMethod", "endedAt", "id", "mrrCents", "plan", "planId", "providerType", "quantity", "seats", "settled", "status", "test", "trialEnd", "trialStart", "updatedAt", "userId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -108,6 +109,7 @@ class BillingSubscription(BaseModel):
             "cancelAtPeriodEnd": obj.get("cancelAtPeriodEnd"),
             "canceledAt": obj.get("canceledAt"),
             "chargedCents": obj.get("chargedCents"),
+            "coupon": obj.get("coupon"),
             "createdAt": obj.get("createdAt"),
             "currentPeriodEnd": obj.get("currentPeriodEnd"),
             "currentPeriodStart": obj.get("currentPeriodStart"),

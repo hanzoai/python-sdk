@@ -26,7 +26,7 @@ class MarketingStep(BaseModel):
     """
     MarketingStep
     """ # noqa: E501
-    body: Optional[StrictStr] = Field(default=None, description="Body is the message text. Required. The signed one-click unsubscribe link is appended to it at send time.")
+    body: Optional[StrictStr] = Field(default=None, description="Body is the message text. Required. The signed one-click unsubscribe link is appended to it at send time, and in an HTML body each <a> to an http(s) URL is sent pointing at GET /v1/marketing/click, which counts the click and redirects to the URL written here.")
     created_at: Optional[StrictInt] = Field(default=None, description="CreatedAt is unix seconds, server-assigned.", alias="createdAt")
     delay_seconds: Optional[StrictInt] = Field(default=None, description="DelaySeconds is how long after the previous step this one sends (after enrollment, for step 0).", alias="delaySeconds")
     id: Optional[StrictStr] = Field(default=None, description="ID is the server-assigned step id (\"step_\" + 128 random bits).")
