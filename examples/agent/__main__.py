@@ -12,7 +12,8 @@ The read-back is the RUN list rather than the agent record: an agent you just
 created tells you nothing you did not just send, while its runs are the part the
 server actually produced. It reads the org's run feed and keeps this agent's
 rows, because the document declares ``GET /v1/agent/{ref}/runs`` without its
-``ref`` parameter and the generated method cannot take one.
+``ref`` parameter and the generated method cannot take one. The agent is
+deleted at the end, whatever happened, so a run leaves the org as it found it.
 
     python -m examples.agent
 """
@@ -41,13 +42,17 @@ def main() -> None:
         )
         print(f"created {created.name} ({created.id}) on {created.model}")
 
-        agents.post_agent_by_ref_run(NAME)
-        print("run started")
+        try:
+            agents.post_agent_by_ref_run(NAME)
+            print("run started")
 
-        entries = [r for r in agents.get_agent_runs().runs or [] if r.agent == NAME][:5]
-        print(f"{len(entries)} run(s):")
-        for entry in entries:
-            print(f"  {entry.to_str()}")
+            entries = [r for r in agents.get_agent_runs().runs or [] if r.agent == NAME][:5]
+            print(f"{len(entries)} run(s):")
+            for entry in entries:
+                print(f"  {entry.to_str()}")
+        finally:
+            agents.delete_agent_by_ref(NAME)
+            print(f"deleted {NAME}")
 
 
 if __name__ == "__main__":
