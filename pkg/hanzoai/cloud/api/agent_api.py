@@ -26,9 +26,11 @@ from hanzoai.cloud.models.agent_agent_view import AgentAgentView
 from hanzoai.cloud.models.agent_build_list import AgentBuildList
 from hanzoai.cloud.models.agent_build_view import AgentBuildView
 from hanzoai.cloud.models.agent_claim_key_out import AgentClaimKeyOut
+from hanzoai.cloud.models.agent_coding_ack import AgentCodingAck
 from hanzoai.cloud.models.agent_coding_artifacts import AgentCodingArtifacts
 from hanzoai.cloud.models.agent_coding_blob import AgentCodingBlob
 from hanzoai.cloud.models.agent_coding_changes import AgentCodingChanges
+from hanzoai.cloud.models.agent_coding_instruction import AgentCodingInstruction
 from hanzoai.cloud.models.agent_coding_merged import AgentCodingMerged
 from hanzoai.cloud.models.agent_coding_start_in import AgentCodingStartIn
 from hanzoai.cloud.models.agent_coding_started import AgentCodingStarted
@@ -1157,7 +1159,7 @@ class AgentApi:
     ) -> None:
         """Revoke any link in your organization
 
-        For an admin of the caller's organization: ends one share made in it, for every viewer, exactly as its owner's revoke does. Anyone else is answered 403, and a share of another organization 404. Every revoke is written to the audit trail.
+        For an admin of the caller's organization: ends one share made in it, for every viewer, exactly as its owner's revoke does. Anyone else is answered 403 (an admin of a held org included), and a share of another organization 404. Every revoke is written to the audit trail.
 
         :param share: (required)
         :type share: str
@@ -1223,7 +1225,7 @@ class AgentApi:
     ) -> ApiResponse[None]:
         """Revoke any link in your organization
 
-        For an admin of the caller's organization: ends one share made in it, for every viewer, exactly as its owner's revoke does. Anyone else is answered 403, and a share of another organization 404. Every revoke is written to the audit trail.
+        For an admin of the caller's organization: ends one share made in it, for every viewer, exactly as its owner's revoke does. Anyone else is answered 403 (an admin of a held org included), and a share of another organization 404. Every revoke is written to the audit trail.
 
         :param share: (required)
         :type share: str
@@ -1289,7 +1291,7 @@ class AgentApi:
     ) -> RESTResponseType:
         """Revoke any link in your organization
 
-        For an admin of the caller's organization: ends one share made in it, for every viewer, exactly as its owner's revoke does. Anyone else is answered 403, and a share of another organization 404. Every revoke is written to the audit trail.
+        For an admin of the caller's organization: ends one share made in it, for every viewer, exactly as its owner's revoke does. Anyone else is answered 403 (an admin of a held org included), and a share of another organization 404. Every revoke is written to the audit trail.
 
         :param share: (required)
         :type share: str
@@ -1914,9 +1916,9 @@ class AgentApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> AgentActivityFeed:
-        """Serves the org-wide recent-activity feed.
+        """Serves the recent-activity feed.
 
-        Serves the org-wide recent-activity feed. Events are REAL: each recorded run is an invoked (ok) or failed (error) event; each agent's own create/update timestamps are created/updated events. Merged, newest first, capped. Nothing is invented — an org with no agents and no runs gets [].
+        Serves the recent-activity feed. Events are REAL: each of the caller's own recorded runs is an invoked (ok) or failed (error) event; each of the org's agents' create/update timestamps are created/updated events. Merged, newest first, capped. Nothing is invented — an org with no agents and no runs gets [].
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1977,9 +1979,9 @@ class AgentApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[AgentActivityFeed]:
-        """Serves the org-wide recent-activity feed.
+        """Serves the recent-activity feed.
 
-        Serves the org-wide recent-activity feed. Events are REAL: each recorded run is an invoked (ok) or failed (error) event; each agent's own create/update timestamps are created/updated events. Merged, newest first, capped. Nothing is invented — an org with no agents and no runs gets [].
+        Serves the recent-activity feed. Events are REAL: each of the caller's own recorded runs is an invoked (ok) or failed (error) event; each of the org's agents' create/update timestamps are created/updated events. Merged, newest first, capped. Nothing is invented — an org with no agents and no runs gets [].
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2040,9 +2042,9 @@ class AgentApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Serves the org-wide recent-activity feed.
+        """Serves the recent-activity feed.
 
-        Serves the org-wide recent-activity feed. Events are REAL: each recorded run is an invoked (ok) or failed (error) event; each agent's own create/update timestamps are created/updated events. Merged, newest first, capped. Nothing is invented — an org with no agents and no runs gets [].
+        Serves the recent-activity feed. Events are REAL: each of the caller's own recorded runs is an invoked (ok) or failed (error) event; each of the org's agents' create/update timestamps are created/updated events. Merged, newest first, capped. Nothing is invented — an org with no agents and no runs gets [].
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2703,9 +2705,9 @@ class AgentApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> AgentAgentDetail:
-        """Returns one agent with its system prompt and its 20 most recent runs.
+        """Returns one agent with its system prompt and the caller's own 20 most recent runs of it: a run's input and output are its person's.
 
-        Returns one agent with its system prompt and its 20 most recent runs. The ref is the agent's public id or its org-unique name — a created agent is immediately gettable by whatever create handed back.
+        Returns one agent with its system prompt and the caller's own 20 most recent runs of it: a run's input and output are its person's. The ref is the agent's public id or its org-unique name — a created agent is immediately gettable by whatever create handed back.
 
         :param ref: Ref is the agent's public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent. (required)
         :type ref: str
@@ -2770,9 +2772,9 @@ class AgentApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[AgentAgentDetail]:
-        """Returns one agent with its system prompt and its 20 most recent runs.
+        """Returns one agent with its system prompt and the caller's own 20 most recent runs of it: a run's input and output are its person's.
 
-        Returns one agent with its system prompt and its 20 most recent runs. The ref is the agent's public id or its org-unique name — a created agent is immediately gettable by whatever create handed back.
+        Returns one agent with its system prompt and the caller's own 20 most recent runs of it: a run's input and output are its person's. The ref is the agent's public id or its org-unique name — a created agent is immediately gettable by whatever create handed back.
 
         :param ref: Ref is the agent's public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent. (required)
         :type ref: str
@@ -2837,9 +2839,9 @@ class AgentApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns one agent with its system prompt and its 20 most recent runs.
+        """Returns one agent with its system prompt and the caller's own 20 most recent runs of it: a run's input and output are its person's.
 
-        Returns one agent with its system prompt and its 20 most recent runs. The ref is the agent's public id or its org-unique name — a created agent is immediately gettable by whatever create handed back.
+        Returns one agent with its system prompt and the caller's own 20 most recent runs of it: a run's input and output are its person's. The ref is the agent's public id or its org-unique name — a created agent is immediately gettable by whatever create handed back.
 
         :param ref: Ref is the agent's public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent. (required)
         :type ref: str
@@ -2966,9 +2968,9 @@ class AgentApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> AgentRunList:
-        """Returns one agent's execution history, newest first — each run's input, its output or its error, and how long it took.
+        """Returns the caller's own runs of one agent, newest first — each run's input, its output or its error, and how long it took.
 
-        Returns one agent's execution history, newest first — each run's input, its output or its error, and how long it took. Every row is a run that actually happened.
+        Returns the caller's own runs of one agent, newest first — each run's input, its output or its error, and how long it took. A run is the person's who asked for it, so another member's runs are not listed, nor an org admin's view of them; a run no person asked for (a schedule) is listed to a SuperAdmin alone. Every row is a run that actually happened.
 
         :param ref: Ref is the agent's public id or its org-unique name, from the path. (required)
         :type ref: str
@@ -3037,9 +3039,9 @@ class AgentApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[AgentRunList]:
-        """Returns one agent's execution history, newest first — each run's input, its output or its error, and how long it took.
+        """Returns the caller's own runs of one agent, newest first — each run's input, its output or its error, and how long it took.
 
-        Returns one agent's execution history, newest first — each run's input, its output or its error, and how long it took. Every row is a run that actually happened.
+        Returns the caller's own runs of one agent, newest first — each run's input, its output or its error, and how long it took. A run is the person's who asked for it, so another member's runs are not listed, nor an org admin's view of them; a run no person asked for (a schedule) is listed to a SuperAdmin alone. Every row is a run that actually happened.
 
         :param ref: Ref is the agent's public id or its org-unique name, from the path. (required)
         :type ref: str
@@ -3108,9 +3110,9 @@ class AgentApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns one agent's execution history, newest first — each run's input, its output or its error, and how long it took.
+        """Returns the caller's own runs of one agent, newest first — each run's input, its output or its error, and how long it took.
 
-        Returns one agent's execution history, newest first — each run's input, its output or its error, and how long it took. Every row is a run that actually happened.
+        Returns the caller's own runs of one agent, newest first — each run's input, its output or its error, and how long it took. A run is the person's who asked for it, so another member's runs are not listed, nor an org admin's view of them; a run no person asked for (a schedule) is listed to a SuperAdmin alone. Every row is a run that actually happened.
 
         :param ref: Ref is the agent's public id or its org-unique name, from the path. (required)
         :type ref: str
@@ -3522,9 +3524,9 @@ class AgentApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """List the agent threads in your org
+        """List your own conversations
 
-        Returns a summary of every agent conversation in the caller's org — id, title, when it was last appended to, and whether it is pinned or archived — for populating a thread list: pinned first, then most recent. Archived conversations are left out; `?archived=true` lists them alone.  Scoped to the caller's org and nothing else, and that isolation is structural rather than a filter: conversations are persisted in a store opened PER ORG, so there is no query in which another tenant's threads could appear. A validated principal with a non-empty org is required: 401 without a principal, 403 without an org.
+        Returns a summary of each conversation the caller opened — id, title, when it was last appended to, and whether it is pinned or archived — for populating a thread list: pinned first, then most recent. Archived conversations are left out; `?archived=true` lists them alone.  A conversation is the person's who opened it, not the org's: another member of the same org lists none of it. Each org's conversations live in a store of its own, and inside it only the caller's are listed. One recorded before members were kept names nobody and is nobody's: `?memberless=true` lists those instead, for a SuperAdmin alone (403 for anyone else), and each such list is audited. A validated principal naming an org and a user the identity boundary attests no two people share is required: 401 without a principal, 403 without an org or such a user.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3584,9 +3586,9 @@ class AgentApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """List the agent threads in your org
+        """List your own conversations
 
-        Returns a summary of every agent conversation in the caller's org — id, title, when it was last appended to, and whether it is pinned or archived — for populating a thread list: pinned first, then most recent. Archived conversations are left out; `?archived=true` lists them alone.  Scoped to the caller's org and nothing else, and that isolation is structural rather than a filter: conversations are persisted in a store opened PER ORG, so there is no query in which another tenant's threads could appear. A validated principal with a non-empty org is required: 401 without a principal, 403 without an org.
+        Returns a summary of each conversation the caller opened — id, title, when it was last appended to, and whether it is pinned or archived — for populating a thread list: pinned first, then most recent. Archived conversations are left out; `?archived=true` lists them alone.  A conversation is the person's who opened it, not the org's: another member of the same org lists none of it. Each org's conversations live in a store of its own, and inside it only the caller's are listed. One recorded before members were kept names nobody and is nobody's: `?memberless=true` lists those instead, for a SuperAdmin alone (403 for anyone else), and each such list is audited. A validated principal naming an org and a user the identity boundary attests no two people share is required: 401 without a principal, 403 without an org or such a user.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3646,9 +3648,9 @@ class AgentApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """List the agent threads in your org
+        """List your own conversations
 
-        Returns a summary of every agent conversation in the caller's org — id, title, when it was last appended to, and whether it is pinned or archived — for populating a thread list: pinned first, then most recent. Archived conversations are left out; `?archived=true` lists them alone.  Scoped to the caller's org and nothing else, and that isolation is structural rather than a filter: conversations are persisted in a store opened PER ORG, so there is no query in which another tenant's threads could appear. A validated principal with a non-empty org is required: 401 without a principal, 403 without an org.
+        Returns a summary of each conversation the caller opened — id, title, when it was last appended to, and whether it is pinned or archived — for populating a thread list: pinned first, then most recent. Archived conversations are left out; `?archived=true` lists them alone.  A conversation is the person's who opened it, not the org's: another member of the same org lists none of it. Each org's conversations live in a store of its own, and inside it only the caller's are listed. One recorded before members were kept names nobody and is nobody's: `?memberless=true` lists those instead, for a SuperAdmin alone (403 for anyone else), and each such list is audited. A validated principal naming an org and a user the identity boundary attests no two people share is required: 401 without a principal, 403 without an org or such a user.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3761,7 +3763,7 @@ class AgentApi:
     ) -> None:
         """Read one agent thread in full
 
-        Returns every message of one conversation in order — role, content, the assistant's tool calls where it made any, and each message's creation time — which is the transcript a client replays to resume a thread.  The lookup happens inside the caller's OWN per-org store, so an id belonging to another tenant is not refused, it is simply absent: the answer is 200 with an empty message list. Read it as \"no such conversation for you\" rather than as an empty thread. A validated principal with a non-empty org is required: 401 without a principal, 403 without an org.
+        Returns every message of one of the caller's conversations in order — role, content, the assistant's tool calls where it made any, and each message's creation time — which is the transcript a client replays to resume a thread.  Another member's conversation, another org's, and one recorded with no member are answered 404, exactly as an id that never existed, so an id says nothing about whose it is (a SuperAdmin alone reads one with no member, and each read is audited). A turn sent under such an id opens a fresh conversation of the caller's. A validated principal naming an org and a user is required: 401 without a principal, 403 without an org or a user.
 
         :param id: (required)
         :type id: str
@@ -3827,7 +3829,7 @@ class AgentApi:
     ) -> ApiResponse[None]:
         """Read one agent thread in full
 
-        Returns every message of one conversation in order — role, content, the assistant's tool calls where it made any, and each message's creation time — which is the transcript a client replays to resume a thread.  The lookup happens inside the caller's OWN per-org store, so an id belonging to another tenant is not refused, it is simply absent: the answer is 200 with an empty message list. Read it as \"no such conversation for you\" rather than as an empty thread. A validated principal with a non-empty org is required: 401 without a principal, 403 without an org.
+        Returns every message of one of the caller's conversations in order — role, content, the assistant's tool calls where it made any, and each message's creation time — which is the transcript a client replays to resume a thread.  Another member's conversation, another org's, and one recorded with no member are answered 404, exactly as an id that never existed, so an id says nothing about whose it is (a SuperAdmin alone reads one with no member, and each read is audited). A turn sent under such an id opens a fresh conversation of the caller's. A validated principal naming an org and a user is required: 401 without a principal, 403 without an org or a user.
 
         :param id: (required)
         :type id: str
@@ -3893,7 +3895,7 @@ class AgentApi:
     ) -> RESTResponseType:
         """Read one agent thread in full
 
-        Returns every message of one conversation in order — role, content, the assistant's tool calls where it made any, and each message's creation time — which is the transcript a client replays to resume a thread.  The lookup happens inside the caller's OWN per-org store, so an id belonging to another tenant is not refused, it is simply absent: the answer is 200 with an empty message list. Read it as \"no such conversation for you\" rather than as an empty thread. A validated principal with a non-empty org is required: 401 without a principal, 403 without an org.
+        Returns every message of one of the caller's conversations in order — role, content, the assistant's tool calls where it made any, and each message's creation time — which is the transcript a client replays to resume a thread.  Another member's conversation, another org's, and one recorded with no member are answered 404, exactly as an id that never existed, so an id says nothing about whose it is (a SuperAdmin alone reads one with no member, and each read is audited). A turn sent under such an id opens a fresh conversation of the caller's. A validated principal naming an org and a user is required: 401 without a principal, 403 without an org or a user.
 
         :param id: (required)
         :type id: str
@@ -4985,7 +4987,7 @@ class AgentApi:
     ) -> None:
         """List every live link in your organization
 
-        For an admin of the caller's organization: every unrevoked share made in it, with the conversation's id and title, the member who made it, when, and how many people it is open to. `?user=` narrows it to one member's. Anyone else is answered 403.
+        For an admin of the caller's organization: every unrevoked share made in it, with the conversation's id and title, the member who made it, when, and how many people it is open to. `?user=` narrows it to one member's. Anyone else is answered 403, and so is an admin of a held org such as hanzo, whose members are customers who are strangers to each other.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5047,7 +5049,7 @@ class AgentApi:
     ) -> ApiResponse[None]:
         """List every live link in your organization
 
-        For an admin of the caller's organization: every unrevoked share made in it, with the conversation's id and title, the member who made it, when, and how many people it is open to. `?user=` narrows it to one member's. Anyone else is answered 403.
+        For an admin of the caller's organization: every unrevoked share made in it, with the conversation's id and title, the member who made it, when, and how many people it is open to. `?user=` narrows it to one member's. Anyone else is answered 403, and so is an admin of a held org such as hanzo, whose members are customers who are strangers to each other.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5109,7 +5111,7 @@ class AgentApi:
     ) -> RESTResponseType:
         """List every live link in your organization
 
-        For an admin of the caller's organization: every unrevoked share made in it, with the conversation's id and title, the member who made it, when, and how many people it is open to. `?user=` narrows it to one member's. Anyone else is answered 403.
+        For an admin of the caller's organization: every unrevoked share made in it, with the conversation's id and title, the member who made it, when, and how many people it is open to. `?user=` narrows it to one member's. Anyone else is answered 403, and so is an admin of a held org such as hanzo, whose members are customers who are strangers to each other.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6302,9 +6304,9 @@ class AgentApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> AgentMetricsView:
-        """Serves the invocations-over-time histogram for the org's Agents dashboard.
+        """Serves the invocations-over-time histogram for the Agents dashboard, over the caller's own runs.
 
-        Serves the invocations-over-time histogram for the org's Agents dashboard. Every point is a REAL count of recorded runs in that time bucket — one series line per agent that ran in the window. The Resource Usage rollup is all-null because this store meters no CPU/memory/storage/cost; the console renders those as \"—\" rather than a fabricated figure. No runs => empty series (an honest \"not connected / no activity yet\"), never a synthesized trend.
+        Serves the invocations-over-time histogram for the Agents dashboard, over the caller's own runs. Every point is a REAL count of recorded runs in that time bucket — one series line per agent that ran in the window. The Resource Usage rollup is all-null because this store meters no CPU/memory/storage/cost; the console renders those as \"—\" rather than a fabricated figure. No runs => empty series (an honest \"not connected / no activity yet\"), never a synthesized trend.
 
         :param range: Range is the window to bucket: 24H, 7D or 30D. Anything else reads as 30D.
         :type range: str
@@ -6369,9 +6371,9 @@ class AgentApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[AgentMetricsView]:
-        """Serves the invocations-over-time histogram for the org's Agents dashboard.
+        """Serves the invocations-over-time histogram for the Agents dashboard, over the caller's own runs.
 
-        Serves the invocations-over-time histogram for the org's Agents dashboard. Every point is a REAL count of recorded runs in that time bucket — one series line per agent that ran in the window. The Resource Usage rollup is all-null because this store meters no CPU/memory/storage/cost; the console renders those as \"—\" rather than a fabricated figure. No runs => empty series (an honest \"not connected / no activity yet\"), never a synthesized trend.
+        Serves the invocations-over-time histogram for the Agents dashboard, over the caller's own runs. Every point is a REAL count of recorded runs in that time bucket — one series line per agent that ran in the window. The Resource Usage rollup is all-null because this store meters no CPU/memory/storage/cost; the console renders those as \"—\" rather than a fabricated figure. No runs => empty series (an honest \"not connected / no activity yet\"), never a synthesized trend.
 
         :param range: Range is the window to bucket: 24H, 7D or 30D. Anything else reads as 30D.
         :type range: str
@@ -6436,9 +6438,9 @@ class AgentApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Serves the invocations-over-time histogram for the org's Agents dashboard.
+        """Serves the invocations-over-time histogram for the Agents dashboard, over the caller's own runs.
 
-        Serves the invocations-over-time histogram for the org's Agents dashboard. Every point is a REAL count of recorded runs in that time bucket — one series line per agent that ran in the window. The Resource Usage rollup is all-null because this store meters no CPU/memory/storage/cost; the console renders those as \"—\" rather than a fabricated figure. No runs => empty series (an honest \"not connected / no activity yet\"), never a synthesized trend.
+        Serves the invocations-over-time histogram for the Agents dashboard, over the caller's own runs. Every point is a REAL count of recorded runs in that time bucket — one series line per agent that ran in the window. The Resource Usage rollup is all-null because this store meters no CPU/memory/storage/cost; the console renders those as \"—\" rather than a fabricated figure. No runs => empty series (an honest \"not connected / no activity yet\"), never a synthesized trend.
 
         :param range: Range is the window to bucket: 24H, 7D or 30D. Anything else reads as 30D.
         :type range: str
@@ -6567,9 +6569,9 @@ class AgentApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> AgentRunList:
-        """Returns the org's agent runs across EVERY agent, newest first — what ran here, for whom, on which model, how long it took, and why it failed.
+        """Returns the caller's own agent runs across EVERY agent of the org, newest first — what ran, on which model, how long it took, and why it failed.
 
-        Returns the org's agent runs across EVERY agent, newest first — what ran here, for whom, on which model, how long it took, and why it failed.  It is the feed the per-agent history could not be: an operator asking \"what is this tenant's agent plane doing\" does not start out knowing an agent ref, and answering by listing the agents and then paging each one's history is N+1 round trips to reconstruct one ordering the database already has (RunsSince, ordered by created_at over the org index).  The org is the CALLER's, resolved from identity by tenantStore — never a parameter. There is deliberately no org field on orgRunsQuery to forge: run history is the tenant's own record, and the only tenant this can answer for is the one asking.
+        Returns the caller's own agent runs across EVERY agent of the org, newest first — what ran, on which model, how long it took, and why it failed. A run is the person's who asked for it: another member's never appears, and a run no person asked for (a schedule) appears to a SuperAdmin alone.  It is the feed the per-agent history could not be: an operator asking \"what is this tenant's agent plane doing\" does not start out knowing an agent ref, and answering by listing the agents and then paging each one's history is N+1 round trips to reconstruct one ordering the database already has (RunsSince, ordered by created_at over the org index).  The org is the CALLER's, resolved from identity by tenantStore — never a parameter. There is deliberately no org field on orgRunsQuery to forge: run history is the tenant's own record, and the only tenant this can answer for is the one asking.
 
         :param limit: Limit caps how many runs come back, newest first. Absent, zero or out of range (1..200) reads as 50.
         :type limit: int
@@ -6638,9 +6640,9 @@ class AgentApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[AgentRunList]:
-        """Returns the org's agent runs across EVERY agent, newest first — what ran here, for whom, on which model, how long it took, and why it failed.
+        """Returns the caller's own agent runs across EVERY agent of the org, newest first — what ran, on which model, how long it took, and why it failed.
 
-        Returns the org's agent runs across EVERY agent, newest first — what ran here, for whom, on which model, how long it took, and why it failed.  It is the feed the per-agent history could not be: an operator asking \"what is this tenant's agent plane doing\" does not start out knowing an agent ref, and answering by listing the agents and then paging each one's history is N+1 round trips to reconstruct one ordering the database already has (RunsSince, ordered by created_at over the org index).  The org is the CALLER's, resolved from identity by tenantStore — never a parameter. There is deliberately no org field on orgRunsQuery to forge: run history is the tenant's own record, and the only tenant this can answer for is the one asking.
+        Returns the caller's own agent runs across EVERY agent of the org, newest first — what ran, on which model, how long it took, and why it failed. A run is the person's who asked for it: another member's never appears, and a run no person asked for (a schedule) appears to a SuperAdmin alone.  It is the feed the per-agent history could not be: an operator asking \"what is this tenant's agent plane doing\" does not start out knowing an agent ref, and answering by listing the agents and then paging each one's history is N+1 round trips to reconstruct one ordering the database already has (RunsSince, ordered by created_at over the org index).  The org is the CALLER's, resolved from identity by tenantStore — never a parameter. There is deliberately no org field on orgRunsQuery to forge: run history is the tenant's own record, and the only tenant this can answer for is the one asking.
 
         :param limit: Limit caps how many runs come back, newest first. Absent, zero or out of range (1..200) reads as 50.
         :type limit: int
@@ -6709,9 +6711,9 @@ class AgentApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns the org's agent runs across EVERY agent, newest first — what ran here, for whom, on which model, how long it took, and why it failed.
+        """Returns the caller's own agent runs across EVERY agent of the org, newest first — what ran, on which model, how long it took, and why it failed.
 
-        Returns the org's agent runs across EVERY agent, newest first — what ran here, for whom, on which model, how long it took, and why it failed.  It is the feed the per-agent history could not be: an operator asking \"what is this tenant's agent plane doing\" does not start out knowing an agent ref, and answering by listing the agents and then paging each one's history is N+1 round trips to reconstruct one ordering the database already has (RunsSince, ordered by created_at over the org index).  The org is the CALLER's, resolved from identity by tenantStore — never a parameter. There is deliberately no org field on orgRunsQuery to forge: run history is the tenant's own record, and the only tenant this can answer for is the one asking.
+        Returns the caller's own agent runs across EVERY agent of the org, newest first — what ran, on which model, how long it took, and why it failed. A run is the person's who asked for it: another member's never appears, and a run no person asked for (a schedule) appears to a SuperAdmin alone.  It is the feed the per-agent history could not be: an operator asking \"what is this tenant's agent plane doing\" does not start out knowing an agent ref, and answering by listing the agents and then paging each one's history is N+1 round trips to reconstruct one ordering the database already has (RunsSince, ordered by created_at over the org index).  The org is the CALLER's, resolved from identity by tenantStore — never a parameter. There is deliberately no org field on orgRunsQuery to forge: run history is the tenant's own record, and the only tenant this can answer for is the one asking.
 
         :param limit: Limit caps how many runs come back, newest first. Absent, zero or out of range (1..200) reads as 50.
         :type limit: int
@@ -12387,6 +12389,296 @@ class AgentApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/agent/coding/{session}/merge',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_agent_coding_by_session_steer(
+        self,
+        session: Annotated[StrictStr, Field(description="Session identifies the running or paused coding session from the path.")],
+        agent_coding_instruction: AgentCodingInstruction,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AgentCodingAck:
+        """Redirect your running or paused coding session.
+
+        Redirect your running or paused coding session. The current run keeps its work before starting a follow-up; its status events report the next session. Ownership comes from the authenticated credential, never the request body.
+
+        :param session: Session identifies the running or paused coding session from the path. (required)
+        :type session: str
+        :param agent_coding_instruction: (required)
+        :type agent_coding_instruction: AgentCodingInstruction
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_coding_by_session_steer_serialize(
+            session=session,
+            agent_coding_instruction=agent_coding_instruction,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "AgentCodingAck",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_agent_coding_by_session_steer_with_http_info(
+        self,
+        session: Annotated[StrictStr, Field(description="Session identifies the running or paused coding session from the path.")],
+        agent_coding_instruction: AgentCodingInstruction,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AgentCodingAck]:
+        """Redirect your running or paused coding session.
+
+        Redirect your running or paused coding session. The current run keeps its work before starting a follow-up; its status events report the next session. Ownership comes from the authenticated credential, never the request body.
+
+        :param session: Session identifies the running or paused coding session from the path. (required)
+        :type session: str
+        :param agent_coding_instruction: (required)
+        :type agent_coding_instruction: AgentCodingInstruction
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_coding_by_session_steer_serialize(
+            session=session,
+            agent_coding_instruction=agent_coding_instruction,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "AgentCodingAck",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_agent_coding_by_session_steer_without_preload_content(
+        self,
+        session: Annotated[StrictStr, Field(description="Session identifies the running or paused coding session from the path.")],
+        agent_coding_instruction: AgentCodingInstruction,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Redirect your running or paused coding session.
+
+        Redirect your running or paused coding session. The current run keeps its work before starting a follow-up; its status events report the next session. Ownership comes from the authenticated credential, never the request body.
+
+        :param session: Session identifies the running or paused coding session from the path. (required)
+        :type session: str
+        :param agent_coding_instruction: (required)
+        :type agent_coding_instruction: AgentCodingInstruction
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_coding_by_session_steer_serialize(
+            session=session,
+            agent_coding_instruction=agent_coding_instruction,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "AgentCodingAck",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_agent_coding_by_session_steer_serialize(
+        self,
+        session,
+        agent_coding_instruction,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if session is not None:
+            _path_params['session'] = session
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if agent_coding_instruction is not None:
+            _body_params = agent_coding_instruction
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/agent/coding/{session}/steer',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

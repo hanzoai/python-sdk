@@ -27,14 +27,18 @@ class TranslateMemoryEntry(BaseModel):
     TranslateMemoryEntry
     """ # noqa: E501
     actor: Optional[StrictStr] = Field(default=None, description="Actor is the validated user id that last wrote this entry by hand. Empty on an entry an engine produced, and on one written before attribution existed.")
+    format: Optional[StrictStr] = Field(default=None, description="Format is the markup the source carried: text, html or markdown. Part of the identity.")
     glossary_version: Optional[StrictStr] = Field(default=None, description="Glossary is the glossary VERSION the entry was translated under — the digest version() derives from the terms, so changing a term changes the key and the stale rendering can never be served.")
+    lang: Optional[StrictStr] = Field(default=None, description="Lang is the source language the translate call declared, empty when the engine detected it. Part of the identity; an entry with none also serves a call that declares one.")
+    model: Optional[StrictStr] = Field(default=None, description="Model is the quality-tier model the translate call named, empty for the default. Part of the identity: one model's rendering never answers for another's.")
+    request_id: Optional[StrictStr] = Field(default=None, description="RequestID is the X-Request-Id of the translate call whose engine produced the entry. Empty on an entry a human wrote, and on one older than the field.")
     source: Optional[StrictStr] = Field(default=None, description="Source is the ORIGINAL string this entry translates. Part of the identity.")
     state: Optional[StrictStr] = Field(default=None, description="State is the entry's position on the review ladder: machine, suggested, approved or published.")
     target: Optional[StrictStr] = Field(default=None, description="Target is the target language tag (BCP-47, e.g. \"es\" or \"pt-BR\"). Part of the identity.")
     text: Optional[StrictStr] = Field(default=None, description="Text is the stored translation. A memory hit returns it verbatim, which is the idempotence contract.")
     tier: Optional[StrictStr] = Field(default=None, description="Tier is the engine tier the entry belongs to, quality or bulk. Part of the identity: the two tiers keep separate renderings of the same source.")
     updated_at: Optional[StrictInt] = Field(default=None, description="UpdatedAt is the unix second the entry last changed.")
-    __properties: ClassVar[List[str]] = ["actor", "glossary_version", "source", "state", "target", "text", "tier", "updated_at"]
+    __properties: ClassVar[List[str]] = ["actor", "format", "glossary_version", "lang", "model", "request_id", "source", "state", "target", "text", "tier", "updated_at"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -88,7 +92,11 @@ class TranslateMemoryEntry(BaseModel):
 
         _obj = cls.model_validate({
             "actor": obj.get("actor"),
+            "format": obj.get("format"),
             "glossary_version": obj.get("glossary_version"),
+            "lang": obj.get("lang"),
+            "model": obj.get("model"),
+            "request_id": obj.get("request_id"),
             "source": obj.get("source"),
             "state": obj.get("state"),
             "target": obj.get("target"),

@@ -3553,7 +3553,7 @@ class FrameworkApi:
     ) -> FrameworkInstall:
         """Creates an app lane's DocTypes in the caller's org.
 
-        Creates an app lane's DocTypes in the caller's org. Idempotent and create-if-absent: a DocType the org already has is reported as existing and never replaced, so re-installing cannot clobber a definition the org has since edited. Manager-only.
+        Creates an app lane's DocTypes in the caller's org. Idempotent: a DocType the org already has is reported as existing and never replaced. It only grows, by the fields the lane now declares and the stored definition lacks (reported as grown), so re-installing is how a lane's new fields reach an org that installed it earlier. Manager-only.
 
         :param module: Module is the lane's registered name (\"cms\", \"erp\"), from the path. (required)
         :type module: str
@@ -3620,7 +3620,7 @@ class FrameworkApi:
     ) -> ApiResponse[FrameworkInstall]:
         """Creates an app lane's DocTypes in the caller's org.
 
-        Creates an app lane's DocTypes in the caller's org. Idempotent and create-if-absent: a DocType the org already has is reported as existing and never replaced, so re-installing cannot clobber a definition the org has since edited. Manager-only.
+        Creates an app lane's DocTypes in the caller's org. Idempotent: a DocType the org already has is reported as existing and never replaced. It only grows, by the fields the lane now declares and the stored definition lacks (reported as grown), so re-installing is how a lane's new fields reach an org that installed it earlier. Manager-only.
 
         :param module: Module is the lane's registered name (\"cms\", \"erp\"), from the path. (required)
         :type module: str
@@ -3687,7 +3687,7 @@ class FrameworkApi:
     ) -> RESTResponseType:
         """Creates an app lane's DocTypes in the caller's org.
 
-        Creates an app lane's DocTypes in the caller's org. Idempotent and create-if-absent: a DocType the org already has is reported as existing and never replaced, so re-installing cannot clobber a definition the org has since edited. Manager-only.
+        Creates an app lane's DocTypes in the caller's org. Idempotent: a DocType the org already has is reported as existing and never replaced. It only grows, by the fields the lane now declares and the stored definition lacks (reported as grown), so re-installing is how a lane's new fields reach an org that installed it earlier. Manager-only.
 
         :param module: Module is the lane's registered name (\"cms\", \"erp\"), from the path. (required)
         :type module: str

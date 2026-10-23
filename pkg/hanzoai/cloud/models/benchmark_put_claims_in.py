@@ -19,7 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.benchmark_published_claim import BenchmarkPublishedClaim
+from hanzoai.cloud.models.benchmark_claim import BenchmarkClaim
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,7 +27,7 @@ class BenchmarkPutClaimsIn(BaseModel):
     """
     BenchmarkPutClaimsIn
     """ # noqa: E501
-    data: Optional[List[BenchmarkPublishedClaim]] = Field(default=None, description="Data is the claims to record. One row is a correction; many is an import. There is no separate bulk endpoint because there is no separate operation: importing a leaderboard and fixing one number are the same write.")
+    data: Optional[List[BenchmarkClaim]] = Field(default=None, description="Data is the claims to record. One row is a correction; many is an import. There is no separate bulk endpoint because there is no separate operation: importing a leaderboard and fixing one number are the same write.")
     visibility: Optional[StrictStr] = Field(default=None, description="Visibility is who may read every row in Data: \"private\", the default, keeps them to the caller's org; \"public\" shows them to anyone. Restating a claim with the other value moves it.")
     __properties: ClassVar[List[str]] = ["data", "visibility"]
 
@@ -89,7 +89,7 @@ class BenchmarkPutClaimsIn(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "data": [BenchmarkPublishedClaim.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None,
+            "data": [BenchmarkClaim.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None,
             "visibility": obj.get("visibility")
         })
         return _obj

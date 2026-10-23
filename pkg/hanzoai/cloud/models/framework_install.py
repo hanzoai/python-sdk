@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -28,8 +28,9 @@ class FrameworkInstall(BaseModel):
     """ # noqa: E501
     created: Optional[List[StrictStr]] = None
     existing: Optional[List[StrictStr]] = None
+    grown: Optional[List[StrictStr]] = Field(default=None, description="Grown names the existing DocTypes that gained the fields the module now declares and the org's stored definition lacked.")
     module: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["created", "existing", "module"]
+    __properties: ClassVar[List[str]] = ["created", "existing", "grown", "module"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -84,6 +85,7 @@ class FrameworkInstall(BaseModel):
         _obj = cls.model_validate({
             "created": obj.get("created"),
             "existing": obj.get("existing"),
+            "grown": obj.get("grown"),
             "module": obj.get("module")
         })
         return _obj

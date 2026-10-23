@@ -11472,6 +11472,242 @@ class IamApi:
 
 
     @validate_call
+    def get_iam_link(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Continues a link in the browser of the person it is for: the browser opens the address POST /v1/iam/link answered, as a top-level navigation, signed in here as that person, and is sent on to the provider.
+
+        Continues a link in the browser of the person it is for: the browser opens the address POST /v1/iam/link answered, as a top-level navigation, signed in here as that person, and is sent on to the provider.  The address works once. The provider leg runs on a fresh transaction, bound to this browser by a cookie set on this navigation, so that transaction and its binding exist only here.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_iam_link_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_iam_link_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Continues a link in the browser of the person it is for: the browser opens the address POST /v1/iam/link answered, as a top-level navigation, signed in here as that person, and is sent on to the provider.
+
+        Continues a link in the browser of the person it is for: the browser opens the address POST /v1/iam/link answered, as a top-level navigation, signed in here as that person, and is sent on to the provider.  The address works once. The provider leg runs on a fresh transaction, bound to this browser by a cookie set on this navigation, so that transaction and its binding exist only here.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_iam_link_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_iam_link_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Continues a link in the browser of the person it is for: the browser opens the address POST /v1/iam/link answered, as a top-level navigation, signed in here as that person, and is sent on to the provider.
+
+        Continues a link in the browser of the person it is for: the browser opens the address POST /v1/iam/link answered, as a top-level navigation, signed in here as that person, and is sent on to the provider.  The address works once. The provider leg runs on a fresh transaction, bound to this browser by a cookie set on this navigation, so that transaction and its binding exist only here.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_iam_link_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_iam_link_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/iam/link',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_iam_linked_accounts(
         self,
         _request_timeout: Union[
@@ -12248,7 +12484,7 @@ class IamApi:
     ) -> None:
         """Completes the round-trip: it resolves and burns the single-use transaction (checking expiry + browser binding), exchanges and verifies the IdP response, links or provisions the local user, and mints the iam authorization code the relying party expects — then redirects to the original redirect_uri with code + state.
 
-        Completes the round-trip: it resolves and burns the single-use transaction (checking expiry + browser binding), exchanges and verifies the IdP response, links or provisions the local user, and mints the iam authorization code the relying party expects — then redirects to the original redirect_uri with code + state.
+        Completes the round-trip: it resolves and burns the single-use transaction (checking expiry + browser binding), exchanges and verifies the IdP response, links or provisions the local user, and mints the iam authorization code the relying party expects — then redirects to the original redirect_uri with code + state. A redirect provider's reply is read from the query of its GET. A form_post provider's POST is answered with a 303 to a GET of this address naming a single-use handoff that holds the reply, and that GET finishes the sign-in.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -12310,7 +12546,7 @@ class IamApi:
     ) -> ApiResponse[None]:
         """Completes the round-trip: it resolves and burns the single-use transaction (checking expiry + browser binding), exchanges and verifies the IdP response, links or provisions the local user, and mints the iam authorization code the relying party expects — then redirects to the original redirect_uri with code + state.
 
-        Completes the round-trip: it resolves and burns the single-use transaction (checking expiry + browser binding), exchanges and verifies the IdP response, links or provisions the local user, and mints the iam authorization code the relying party expects — then redirects to the original redirect_uri with code + state.
+        Completes the round-trip: it resolves and burns the single-use transaction (checking expiry + browser binding), exchanges and verifies the IdP response, links or provisions the local user, and mints the iam authorization code the relying party expects — then redirects to the original redirect_uri with code + state. A redirect provider's reply is read from the query of its GET. A form_post provider's POST is answered with a 303 to a GET of this address naming a single-use handoff that holds the reply, and that GET finishes the sign-in.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -12372,7 +12608,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Completes the round-trip: it resolves and burns the single-use transaction (checking expiry + browser binding), exchanges and verifies the IdP response, links or provisions the local user, and mints the iam authorization code the relying party expects — then redirects to the original redirect_uri with code + state.
 
-        Completes the round-trip: it resolves and burns the single-use transaction (checking expiry + browser binding), exchanges and verifies the IdP response, links or provisions the local user, and mints the iam authorization code the relying party expects — then redirects to the original redirect_uri with code + state.
+        Completes the round-trip: it resolves and burns the single-use transaction (checking expiry + browser binding), exchanges and verifies the IdP response, links or provisions the local user, and mints the iam authorization code the relying party expects — then redirects to the original redirect_uri with code + state. A redirect provider's reply is read from the query of its GET. A form_post provider's POST is answered with a 303 to a GET of this address naming a single-use handoff that holds the reply, and that GET finishes the sign-in.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -24120,9 +24356,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Sets up an account on someone's behalf — the same onboarding a person gets themselves, driven by one of your own services instead of by them.
+        """Founds an org on someone's behalf — the same onboarding a person gets themselves, driven by one of your own services instead of by them.
 
-        Sets up an account on someone's behalf — the same onboarding a person gets themselves, driven by one of your own services instead of by them.  It authenticates as your service rather than as a person, which is why the person to provision is named in the request. The setup it performs is identical to self-service onboarding; there is one provisioning path, not two that can drift.
+        Founds an org on someone's behalf — the same onboarding a person gets themselves, driven by one of your own services instead of by them. The person keeps their account and owns the org by membership.  It authenticates as your service rather than as a person, which is why the person to provision is named in the request. The setup it performs is identical to self-service onboarding; there is one provisioning path, not two that can drift.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -24182,9 +24418,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Sets up an account on someone's behalf — the same onboarding a person gets themselves, driven by one of your own services instead of by them.
+        """Founds an org on someone's behalf — the same onboarding a person gets themselves, driven by one of your own services instead of by them.
 
-        Sets up an account on someone's behalf — the same onboarding a person gets themselves, driven by one of your own services instead of by them.  It authenticates as your service rather than as a person, which is why the person to provision is named in the request. The setup it performs is identical to self-service onboarding; there is one provisioning path, not two that can drift.
+        Founds an org on someone's behalf — the same onboarding a person gets themselves, driven by one of your own services instead of by them. The person keeps their account and owns the org by membership.  It authenticates as your service rather than as a person, which is why the person to provision is named in the request. The setup it performs is identical to self-service onboarding; there is one provisioning path, not two that can drift.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -24244,9 +24480,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Sets up an account on someone's behalf — the same onboarding a person gets themselves, driven by one of your own services instead of by them.
+        """Founds an org on someone's behalf — the same onboarding a person gets themselves, driven by one of your own services instead of by them.
 
-        Sets up an account on someone's behalf — the same onboarding a person gets themselves, driven by one of your own services instead of by them.  It authenticates as your service rather than as a person, which is why the person to provision is named in the request. The setup it performs is identical to self-service onboarding; there is one provisioning path, not two that can drift.
+        Founds an org on someone's behalf — the same onboarding a person gets themselves, driven by one of your own services instead of by them. The person keeps their account and owns the org by membership.  It authenticates as your service rather than as a person, which is why the person to provision is named in the request. The setup it performs is identical to self-service onboarding; there is one provisioning path, not two that can drift.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -26006,6 +26242,8 @@ class IamApi:
         cookie: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         sec_fetch_site: Optional[StrictStr] = None,
+        origin: Optional[StrictStr] = None,
+        host: Optional[StrictStr] = None,
         content_type: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -26032,6 +26270,10 @@ class IamApi:
         :type authorization: str
         :param sec_fetch_site:
         :type sec_fetch_site: str
+        :param origin:
+        :type origin: str
+        :param host:
+        :type host: str
         :param content_type:
         :type content_type: str
         :param _request_timeout: timeout setting for this request. If one
@@ -26061,6 +26303,8 @@ class IamApi:
             cookie=cookie,
             authorization=authorization,
             sec_fetch_site=sec_fetch_site,
+            origin=origin,
+            host=host,
             content_type=content_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -26094,6 +26338,8 @@ class IamApi:
         cookie: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         sec_fetch_site: Optional[StrictStr] = None,
+        origin: Optional[StrictStr] = None,
+        host: Optional[StrictStr] = None,
         content_type: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -26120,6 +26366,10 @@ class IamApi:
         :type authorization: str
         :param sec_fetch_site:
         :type sec_fetch_site: str
+        :param origin:
+        :type origin: str
+        :param host:
+        :type host: str
         :param content_type:
         :type content_type: str
         :param _request_timeout: timeout setting for this request. If one
@@ -26149,6 +26399,8 @@ class IamApi:
             cookie=cookie,
             authorization=authorization,
             sec_fetch_site=sec_fetch_site,
+            origin=origin,
+            host=host,
             content_type=content_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -26182,6 +26434,8 @@ class IamApi:
         cookie: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         sec_fetch_site: Optional[StrictStr] = None,
+        origin: Optional[StrictStr] = None,
+        host: Optional[StrictStr] = None,
         content_type: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -26208,6 +26462,10 @@ class IamApi:
         :type authorization: str
         :param sec_fetch_site:
         :type sec_fetch_site: str
+        :param origin:
+        :type origin: str
+        :param host:
+        :type host: str
         :param content_type:
         :type content_type: str
         :param _request_timeout: timeout setting for this request. If one
@@ -26237,6 +26495,8 @@ class IamApi:
             cookie=cookie,
             authorization=authorization,
             sec_fetch_site=sec_fetch_site,
+            origin=origin,
+            host=host,
             content_type=content_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -26265,6 +26525,8 @@ class IamApi:
         cookie,
         authorization,
         sec_fetch_site,
+        origin,
+        host,
         content_type,
         _request_auth,
         _content_type,
@@ -26295,6 +26557,10 @@ class IamApi:
             _header_params['Authorization'] = authorization
         if sec_fetch_site is not None:
             _header_params['Sec-Fetch-Site'] = sec_fetch_site
+        if origin is not None:
+            _header_params['Origin'] = origin
+        if host is not None:
+            _header_params['Host'] = host
         if content_type is not None:
             _header_params['Content-Type'] = content_type
         # process the form parameters
@@ -26940,7 +27206,7 @@ class IamApi:
     ) -> None:
         """Starts connecting another sign-in identity to the account you are already signed in as.
 
-        Starts connecting another sign-in identity to the account you are already signed in as. It answers with the provider's URL for the browser to follow; when the provider returns, that identity is attached and you come back to returnUri.  Your account is fixed here, from the credential you are already holding, and is carried server-side for the rest of the round-trip — so nothing that happens at the provider can point the link at somebody else.
+        Starts connecting another sign-in identity to the account you are already signed in as. It answers with an address for your browser to open; from there you go to the provider, and when it returns, that identity is attached and you come back to returnUri. Only the browser where you are signed in here can carry a link through.  Your account is fixed here, from the credential you are already holding, and is carried server-side for the rest of the round-trip — so nothing that happens at the provider can point the link at somebody else.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -27002,7 +27268,7 @@ class IamApi:
     ) -> ApiResponse[None]:
         """Starts connecting another sign-in identity to the account you are already signed in as.
 
-        Starts connecting another sign-in identity to the account you are already signed in as. It answers with the provider's URL for the browser to follow; when the provider returns, that identity is attached and you come back to returnUri.  Your account is fixed here, from the credential you are already holding, and is carried server-side for the rest of the round-trip — so nothing that happens at the provider can point the link at somebody else.
+        Starts connecting another sign-in identity to the account you are already signed in as. It answers with an address for your browser to open; from there you go to the provider, and when it returns, that identity is attached and you come back to returnUri. Only the browser where you are signed in here can carry a link through.  Your account is fixed here, from the credential you are already holding, and is carried server-side for the rest of the round-trip — so nothing that happens at the provider can point the link at somebody else.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -27064,7 +27330,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Starts connecting another sign-in identity to the account you are already signed in as.
 
-        Starts connecting another sign-in identity to the account you are already signed in as. It answers with the provider's URL for the browser to follow; when the provider returns, that identity is attached and you come back to returnUri.  Your account is fixed here, from the credential you are already holding, and is carried server-side for the rest of the round-trip — so nothing that happens at the provider can point the link at somebody else.
+        Starts connecting another sign-in identity to the account you are already signed in as. It answers with an address for your browser to open; from there you go to the provider, and when it returns, that identity is attached and you come back to returnUri. Only the browser where you are signed in here can carry a link through.  Your account is fixed here, from the credential you are already holding, and is carried server-side for the rest of the round-trip — so nothing that happens at the provider can point the link at somebody else.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -28559,6 +28825,242 @@ class IamApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/iam/oauth/authorize',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_iam_oauth_callback(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Completes the round-trip: it resolves and burns the single-use transaction (checking expiry + browser binding), exchanges and verifies the IdP response, links or provisions the local user, and mints the iam authorization code the relying party expects — then redirects to the original redirect_uri with code + state.
+
+        Completes the round-trip: it resolves and burns the single-use transaction (checking expiry + browser binding), exchanges and verifies the IdP response, links or provisions the local user, and mints the iam authorization code the relying party expects — then redirects to the original redirect_uri with code + state. A redirect provider's reply is read from the query of its GET. A form_post provider's POST is answered with a 303 to a GET of this address naming a single-use handoff that holds the reply, and that GET finishes the sign-in.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_iam_oauth_callback_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_iam_oauth_callback_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Completes the round-trip: it resolves and burns the single-use transaction (checking expiry + browser binding), exchanges and verifies the IdP response, links or provisions the local user, and mints the iam authorization code the relying party expects — then redirects to the original redirect_uri with code + state.
+
+        Completes the round-trip: it resolves and burns the single-use transaction (checking expiry + browser binding), exchanges and verifies the IdP response, links or provisions the local user, and mints the iam authorization code the relying party expects — then redirects to the original redirect_uri with code + state. A redirect provider's reply is read from the query of its GET. A form_post provider's POST is answered with a 303 to a GET of this address naming a single-use handoff that holds the reply, and that GET finishes the sign-in.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_iam_oauth_callback_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_iam_oauth_callback_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Completes the round-trip: it resolves and burns the single-use transaction (checking expiry + browser binding), exchanges and verifies the IdP response, links or provisions the local user, and mints the iam authorization code the relying party expects — then redirects to the original redirect_uri with code + state.
+
+        Completes the round-trip: it resolves and burns the single-use transaction (checking expiry + browser binding), exchanges and verifies the IdP response, links or provisions the local user, and mints the iam authorization code the relying party expects — then redirects to the original redirect_uri with code + state. A redirect provider's reply is read from the query of its GET. A form_post provider's POST is answered with a 303 to a GET of this address naming a single-use handoff that holds the reply, and that GET finishes the sign-in.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_iam_oauth_callback_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_iam_oauth_callback_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/iam/oauth/callback',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -34747,7 +35249,7 @@ class IamApi:
     ) -> None:
         """Validates the request and asks otp to get a code to the person.
 
-        Validates the request and asks otp to get a code to the person. The request fields are read via fiber's FormValue — the escape hatch zip exposes for form bodies (multipart or urlencoded) — since the typed JSON Bind does not apply here. v1 also accepts countryCode/method/checkUser/captchaType; iam ignores them (the captcha/forget/MFA flows those drive are not ported), and CAPTCHA verification is likewise not enforced — iam models no captcha provider — so the code is issued once the destination and application validate.
+        Validates the request and asks otp to get a code to the person. The request fields are read via fiber's FormValue — the escape hatch zip exposes for form bodies (multipart or urlencoded) — since the typed JSON Bind does not apply here. v1 also accepts countryCode/method/checkUser/captchaType; iam ignores them (the captcha/forget/MFA flows those drive are not ported), and CAPTCHA verification is likewise not enforced — iam models no captcha provider — so the code is issued once the destination and application validate.  An email is the designed sign-in mail, a link beside the code and from the application's org as its reader knows it (otp.IssueLink), when the request's Origin is the origin of one of the application's redirect URIs ([landing]); otherwise it is the code alone.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -34809,7 +35311,7 @@ class IamApi:
     ) -> ApiResponse[None]:
         """Validates the request and asks otp to get a code to the person.
 
-        Validates the request and asks otp to get a code to the person. The request fields are read via fiber's FormValue — the escape hatch zip exposes for form bodies (multipart or urlencoded) — since the typed JSON Bind does not apply here. v1 also accepts countryCode/method/checkUser/captchaType; iam ignores them (the captcha/forget/MFA flows those drive are not ported), and CAPTCHA verification is likewise not enforced — iam models no captcha provider — so the code is issued once the destination and application validate.
+        Validates the request and asks otp to get a code to the person. The request fields are read via fiber's FormValue — the escape hatch zip exposes for form bodies (multipart or urlencoded) — since the typed JSON Bind does not apply here. v1 also accepts countryCode/method/checkUser/captchaType; iam ignores them (the captcha/forget/MFA flows those drive are not ported), and CAPTCHA verification is likewise not enforced — iam models no captcha provider — so the code is issued once the destination and application validate.  An email is the designed sign-in mail, a link beside the code and from the application's org as its reader knows it (otp.IssueLink), when the request's Origin is the origin of one of the application's redirect URIs ([landing]); otherwise it is the code alone.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -34871,7 +35373,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Validates the request and asks otp to get a code to the person.
 
-        Validates the request and asks otp to get a code to the person. The request fields are read via fiber's FormValue — the escape hatch zip exposes for form bodies (multipart or urlencoded) — since the typed JSON Bind does not apply here. v1 also accepts countryCode/method/checkUser/captchaType; iam ignores them (the captcha/forget/MFA flows those drive are not ported), and CAPTCHA verification is likewise not enforced — iam models no captcha provider — so the code is issued once the destination and application validate.
+        Validates the request and asks otp to get a code to the person. The request fields are read via fiber's FormValue — the escape hatch zip exposes for form bodies (multipart or urlencoded) — since the typed JSON Bind does not apply here. v1 also accepts countryCode/method/checkUser/captchaType; iam ignores them (the captcha/forget/MFA flows those drive are not ported), and CAPTCHA verification is likewise not enforced — iam models no captcha provider — so the code is issued once the destination and application validate.  An email is the designed sign-in mail, a link beside the code and from the application's org as its reader knows it (otp.IssueLink), when the request's Origin is the origin of one of the application's redirect URIs ([landing]); otherwise it is the code alone.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -35455,7 +35957,7 @@ class IamApi:
     ) -> None:
         """Verifies the newly created passkey and stores it, so the person can sign in with their device from then on.
 
-        Verifies the newly created passkey and stores it, so the person can sign in with their device from then on.
+        Verifies the newly created passkey and stores it, so the person can sign in with their device from then on.  Only this site's own pages may finish an enrollment, and only as JSON.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -35517,7 +36019,7 @@ class IamApi:
     ) -> ApiResponse[None]:
         """Verifies the newly created passkey and stores it, so the person can sign in with their device from then on.
 
-        Verifies the newly created passkey and stores it, so the person can sign in with their device from then on.
+        Verifies the newly created passkey and stores it, so the person can sign in with their device from then on.  Only this site's own pages may finish an enrollment, and only as JSON.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -35579,7 +36081,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Verifies the newly created passkey and stores it, so the person can sign in with their device from then on.
 
-        Verifies the newly created passkey and stores it, so the person can sign in with their device from then on.
+        Verifies the newly created passkey and stores it, so the person can sign in with their device from then on.  Only this site's own pages may finish an enrollment, and only as JSON.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -35957,6 +36459,10 @@ class IamApi:
         iam_account_body: IamAccountBody,
         cookie: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
+        sec_fetch_site: Optional[StrictStr] = None,
+        origin: Optional[StrictStr] = None,
+        host: Optional[StrictStr] = None,
+        content_type: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -35980,6 +36486,14 @@ class IamApi:
         :type cookie: str
         :param authorization:
         :type authorization: str
+        :param sec_fetch_site:
+        :type sec_fetch_site: str
+        :param origin:
+        :type origin: str
+        :param host:
+        :type host: str
+        :param content_type:
+        :type content_type: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -36006,6 +36520,10 @@ class IamApi:
             iam_account_body=iam_account_body,
             cookie=cookie,
             authorization=authorization,
+            sec_fetch_site=sec_fetch_site,
+            origin=origin,
+            host=host,
+            content_type=content_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -36015,6 +36533,7 @@ class IamApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAnswer",
             '400': "IamAnswer",
+            '403': "IamAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36033,6 +36552,10 @@ class IamApi:
         iam_account_body: IamAccountBody,
         cookie: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
+        sec_fetch_site: Optional[StrictStr] = None,
+        origin: Optional[StrictStr] = None,
+        host: Optional[StrictStr] = None,
+        content_type: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -36056,6 +36579,14 @@ class IamApi:
         :type cookie: str
         :param authorization:
         :type authorization: str
+        :param sec_fetch_site:
+        :type sec_fetch_site: str
+        :param origin:
+        :type origin: str
+        :param host:
+        :type host: str
+        :param content_type:
+        :type content_type: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -36082,6 +36613,10 @@ class IamApi:
             iam_account_body=iam_account_body,
             cookie=cookie,
             authorization=authorization,
+            sec_fetch_site=sec_fetch_site,
+            origin=origin,
+            host=host,
+            content_type=content_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -36091,6 +36626,7 @@ class IamApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAnswer",
             '400': "IamAnswer",
+            '403': "IamAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36109,6 +36645,10 @@ class IamApi:
         iam_account_body: IamAccountBody,
         cookie: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
+        sec_fetch_site: Optional[StrictStr] = None,
+        origin: Optional[StrictStr] = None,
+        host: Optional[StrictStr] = None,
+        content_type: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -36132,6 +36672,14 @@ class IamApi:
         :type cookie: str
         :param authorization:
         :type authorization: str
+        :param sec_fetch_site:
+        :type sec_fetch_site: str
+        :param origin:
+        :type origin: str
+        :param host:
+        :type host: str
+        :param content_type:
+        :type content_type: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -36158,6 +36706,10 @@ class IamApi:
             iam_account_body=iam_account_body,
             cookie=cookie,
             authorization=authorization,
+            sec_fetch_site=sec_fetch_site,
+            origin=origin,
+            host=host,
+            content_type=content_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -36167,6 +36719,7 @@ class IamApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAnswer",
             '400': "IamAnswer",
+            '403': "IamAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36180,6 +36733,10 @@ class IamApi:
         iam_account_body,
         cookie,
         authorization,
+        sec_fetch_site,
+        origin,
+        host,
+        content_type,
         _request_auth,
         _content_type,
         _headers,
@@ -36207,6 +36764,14 @@ class IamApi:
             _header_params['Cookie'] = cookie
         if authorization is not None:
             _header_params['Authorization'] = authorization
+        if sec_fetch_site is not None:
+            _header_params['Sec-Fetch-Site'] = sec_fetch_site
+        if origin is not None:
+            _header_params['Origin'] = origin
+        if host is not None:
+            _header_params['Host'] = host
+        if content_type is not None:
+            _header_params['Content-Type'] = content_type
         # process the form parameters
         # process the body parameter
         if iam_account_body is not None:
@@ -38041,6 +38606,10 @@ class IamApi:
         iam_password_body: IamPasswordBody,
         cookie: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
+        sec_fetch_site: Optional[StrictStr] = None,
+        origin: Optional[StrictStr] = None,
+        host: Optional[StrictStr] = None,
+        content_type: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -38064,6 +38633,14 @@ class IamApi:
         :type cookie: str
         :param authorization:
         :type authorization: str
+        :param sec_fetch_site:
+        :type sec_fetch_site: str
+        :param origin:
+        :type origin: str
+        :param host:
+        :type host: str
+        :param content_type:
+        :type content_type: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -38090,6 +38667,10 @@ class IamApi:
             iam_password_body=iam_password_body,
             cookie=cookie,
             authorization=authorization,
+            sec_fetch_site=sec_fetch_site,
+            origin=origin,
+            host=host,
+            content_type=content_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -38099,6 +38680,7 @@ class IamApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAnswer",
             '400': "IamAnswer",
+            '403': "IamAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38117,6 +38699,10 @@ class IamApi:
         iam_password_body: IamPasswordBody,
         cookie: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
+        sec_fetch_site: Optional[StrictStr] = None,
+        origin: Optional[StrictStr] = None,
+        host: Optional[StrictStr] = None,
+        content_type: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -38140,6 +38726,14 @@ class IamApi:
         :type cookie: str
         :param authorization:
         :type authorization: str
+        :param sec_fetch_site:
+        :type sec_fetch_site: str
+        :param origin:
+        :type origin: str
+        :param host:
+        :type host: str
+        :param content_type:
+        :type content_type: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -38166,6 +38760,10 @@ class IamApi:
             iam_password_body=iam_password_body,
             cookie=cookie,
             authorization=authorization,
+            sec_fetch_site=sec_fetch_site,
+            origin=origin,
+            host=host,
+            content_type=content_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -38175,6 +38773,7 @@ class IamApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAnswer",
             '400': "IamAnswer",
+            '403': "IamAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38193,6 +38792,10 @@ class IamApi:
         iam_password_body: IamPasswordBody,
         cookie: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
+        sec_fetch_site: Optional[StrictStr] = None,
+        origin: Optional[StrictStr] = None,
+        host: Optional[StrictStr] = None,
+        content_type: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -38216,6 +38819,14 @@ class IamApi:
         :type cookie: str
         :param authorization:
         :type authorization: str
+        :param sec_fetch_site:
+        :type sec_fetch_site: str
+        :param origin:
+        :type origin: str
+        :param host:
+        :type host: str
+        :param content_type:
+        :type content_type: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -38242,6 +38853,10 @@ class IamApi:
             iam_password_body=iam_password_body,
             cookie=cookie,
             authorization=authorization,
+            sec_fetch_site=sec_fetch_site,
+            origin=origin,
+            host=host,
+            content_type=content_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -38251,6 +38866,7 @@ class IamApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAnswer",
             '400': "IamAnswer",
+            '403': "IamAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38264,6 +38880,10 @@ class IamApi:
         iam_password_body,
         cookie,
         authorization,
+        sec_fetch_site,
+        origin,
+        host,
+        content_type,
         _request_auth,
         _content_type,
         _headers,
@@ -38291,6 +38911,14 @@ class IamApi:
             _header_params['Cookie'] = cookie
         if authorization is not None:
             _header_params['Authorization'] = authorization
+        if sec_fetch_site is not None:
+            _header_params['Sec-Fetch-Site'] = sec_fetch_site
+        if origin is not None:
+            _header_params['Origin'] = origin
+        if host is not None:
+            _header_params['Host'] = host
+        if content_type is not None:
+            _header_params['Content-Type'] = content_type
         # process the form parameters
         # process the body parameter
         if iam_password_body is not None:
@@ -39832,6 +40460,10 @@ class IamApi:
         iam_terms_body: IamTermsBody,
         cookie: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
+        sec_fetch_site: Optional[StrictStr] = None,
+        origin: Optional[StrictStr] = None,
+        host: Optional[StrictStr] = None,
+        content_type: Optional[StrictStr] = None,
         x_forwarded_for: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -39856,6 +40488,14 @@ class IamApi:
         :type cookie: str
         :param authorization:
         :type authorization: str
+        :param sec_fetch_site:
+        :type sec_fetch_site: str
+        :param origin:
+        :type origin: str
+        :param host:
+        :type host: str
+        :param content_type:
+        :type content_type: str
         :param x_forwarded_for:
         :type x_forwarded_for: str
         :param _request_timeout: timeout setting for this request. If one
@@ -39884,6 +40524,10 @@ class IamApi:
             iam_terms_body=iam_terms_body,
             cookie=cookie,
             authorization=authorization,
+            sec_fetch_site=sec_fetch_site,
+            origin=origin,
+            host=host,
+            content_type=content_type,
             x_forwarded_for=x_forwarded_for,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -39894,6 +40538,7 @@ class IamApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAnswer",
             '400': "IamAnswer",
+            '403': "IamAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39912,6 +40557,10 @@ class IamApi:
         iam_terms_body: IamTermsBody,
         cookie: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
+        sec_fetch_site: Optional[StrictStr] = None,
+        origin: Optional[StrictStr] = None,
+        host: Optional[StrictStr] = None,
+        content_type: Optional[StrictStr] = None,
         x_forwarded_for: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -39936,6 +40585,14 @@ class IamApi:
         :type cookie: str
         :param authorization:
         :type authorization: str
+        :param sec_fetch_site:
+        :type sec_fetch_site: str
+        :param origin:
+        :type origin: str
+        :param host:
+        :type host: str
+        :param content_type:
+        :type content_type: str
         :param x_forwarded_for:
         :type x_forwarded_for: str
         :param _request_timeout: timeout setting for this request. If one
@@ -39964,6 +40621,10 @@ class IamApi:
             iam_terms_body=iam_terms_body,
             cookie=cookie,
             authorization=authorization,
+            sec_fetch_site=sec_fetch_site,
+            origin=origin,
+            host=host,
+            content_type=content_type,
             x_forwarded_for=x_forwarded_for,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -39974,6 +40635,7 @@ class IamApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAnswer",
             '400': "IamAnswer",
+            '403': "IamAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39992,6 +40654,10 @@ class IamApi:
         iam_terms_body: IamTermsBody,
         cookie: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
+        sec_fetch_site: Optional[StrictStr] = None,
+        origin: Optional[StrictStr] = None,
+        host: Optional[StrictStr] = None,
+        content_type: Optional[StrictStr] = None,
         x_forwarded_for: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -40016,6 +40682,14 @@ class IamApi:
         :type cookie: str
         :param authorization:
         :type authorization: str
+        :param sec_fetch_site:
+        :type sec_fetch_site: str
+        :param origin:
+        :type origin: str
+        :param host:
+        :type host: str
+        :param content_type:
+        :type content_type: str
         :param x_forwarded_for:
         :type x_forwarded_for: str
         :param _request_timeout: timeout setting for this request. If one
@@ -40044,6 +40718,10 @@ class IamApi:
             iam_terms_body=iam_terms_body,
             cookie=cookie,
             authorization=authorization,
+            sec_fetch_site=sec_fetch_site,
+            origin=origin,
+            host=host,
+            content_type=content_type,
             x_forwarded_for=x_forwarded_for,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -40054,6 +40732,7 @@ class IamApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAnswer",
             '400': "IamAnswer",
+            '403': "IamAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40067,6 +40746,10 @@ class IamApi:
         iam_terms_body,
         cookie,
         authorization,
+        sec_fetch_site,
+        origin,
+        host,
+        content_type,
         x_forwarded_for,
         _request_auth,
         _content_type,
@@ -40095,6 +40778,14 @@ class IamApi:
             _header_params['Cookie'] = cookie
         if authorization is not None:
             _header_params['Authorization'] = authorization
+        if sec_fetch_site is not None:
+            _header_params['Sec-Fetch-Site'] = sec_fetch_site
+        if origin is not None:
+            _header_params['Origin'] = origin
+        if host is not None:
+            _header_params['Host'] = host
+        if content_type is not None:
+            _header_params['Content-Type'] = content_type
         if x_forwarded_for is not None:
             _header_params['X-Forwarded-For'] = x_forwarded_for
         # process the form parameters

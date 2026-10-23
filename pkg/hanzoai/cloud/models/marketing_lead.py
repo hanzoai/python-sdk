@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,9 +26,11 @@ class MarketingLead(BaseModel):
     """
     MarketingLead
     """ # noqa: E501
-    lead: Optional[StrictStr] = Field(default=None, description="Lead is the lead's reference, \"lead_\" and 24 hex characters. It is random, not the lead's internal name, so it says nothing about how many leads the team has.")
+    lead: Optional[StrictStr] = Field(default=None, description="Lead is the reference of what was filed: \"lead_\" and 24 hex characters for a lead, \"cand_\" and 24 for a job application. It is random, not a record's id, so it says nothing about how many the team has.")
+    offer: Optional[StrictStr] = Field(default=None, description="Offer says what an application's code did: \"mailed\", a new code went to the address; \"held\", the address already holds one. Absent when no code was given. The code itself is never answered here.")
+    sent: Optional[StrictBool] = Field(default=None, description="Sent says whether an investor's SAFE went out for signature from Hanzo eSign: false when the deployment sends none yet, or eSign did not take it, and the investor is filed either way. Absent on every other form.")
     stage: Optional[StrictStr] = Field(default=None, description="Stage is where the lead stands. Always \"new\" on a fresh lead.")
-    __properties: ClassVar[List[str]] = ["lead", "stage"]
+    __properties: ClassVar[List[str]] = ["lead", "offer", "sent", "stage"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -82,6 +84,8 @@ class MarketingLead(BaseModel):
 
         _obj = cls.model_validate({
             "lead": obj.get("lead"),
+            "offer": obj.get("offer"),
+            "sent": obj.get("sent"),
             "stage": obj.get("stage")
         })
         return _obj

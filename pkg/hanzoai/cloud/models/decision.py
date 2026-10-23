@@ -28,12 +28,11 @@ class Decision(BaseModel):
     Decision
     """ # noqa: E501
     defaults: Optional[Grants] = None
-    gpc: Optional[StrictBool] = None
     mode: Optional[StrictStr] = None
-    notice: Optional[StrictStr] = None
+    refused: Optional[StrictBool] = None
     region: Optional[StrictStr] = None
     version: Optional[StrictInt] = None
-    __properties: ClassVar[List[str]] = ["defaults", "gpc", "mode", "notice", "region", "version"]
+    __properties: ClassVar[List[str]] = ["defaults", "mode", "refused", "region", "version"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -90,9 +89,8 @@ class Decision(BaseModel):
 
         _obj = cls.model_validate({
             "defaults": Grants.from_dict(obj["defaults"]) if obj.get("defaults") is not None else None,
-            "gpc": obj.get("gpc"),
             "mode": obj.get("mode"),
-            "notice": obj.get("notice"),
+            "refused": obj.get("refused"),
             "region": obj.get("region"),
             "version": obj.get("version")
         })

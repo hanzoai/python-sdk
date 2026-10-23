@@ -16,8 +16,8 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictInt, StrictStr
-from typing import Optional
+from pydantic import Field, StrictBytes, StrictInt, StrictStr
+from typing import Optional, Tuple, Union
 from typing_extensions import Annotated
 from hanzoai.cloud.models.auto_automation import AutoAutomation
 from hanzoai.cloud.models.auto_automation_in import AutoAutomationIn
@@ -32,6 +32,8 @@ from hanzoai.cloud.models.auto_flow import AutoFlow
 from hanzoai.cloud.models.auto_flow_page import AutoFlowPage
 from hanzoai.cloud.models.auto_flow_run import AutoFlowRun
 from hanzoai.cloud.models.auto_flow_version import AutoFlowVersion
+from hanzoai.cloud.models.auto_job import AutoJob
+from hanzoai.cloud.models.auto_job_page import AutoJobPage
 from hanzoai.cloud.models.auto_patch_flow_in import AutoPatchFlowIn
 from hanzoai.cloud.models.auto_populated_flow import AutoPopulatedFlow
 from hanzoai.cloud.models.auto_review_in import AutoReviewIn
@@ -41,6 +43,8 @@ from hanzoai.cloud.models.auto_run_resp import AutoRunResp
 from hanzoai.cloud.models.auto_run_started import AutoRunStarted
 from hanzoai.cloud.models.auto_starter_page import AutoStarterPage
 from hanzoai.cloud.models.auto_version_page import AutoVersionPage
+from hanzoai.cloud.models.auto_when_in import AutoWhenIn
+from hanzoai.cloud.models.auto_when_out import AutoWhenOut
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -587,6 +591,7 @@ class AutoApi:
         self,
         q: Annotated[Optional[StrictStr], Field(description="Q keeps the automations whose name or instructions contain it, ignoring case.")] = None,
         sort: Annotated[Optional[StrictStr], Field(description="Sort is name, next or updated (the default, newest first).")] = None,
+        source: Annotated[Optional[StrictStr], Field(description="Source keeps the automations made in one product: chat, dev, studio or workflow.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -600,14 +605,16 @@ class AutoApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> AutoAutomationPage:
-        """Returns the org's automations.
+        """Returns your automations — another member's are never listed.
 
-        Returns the org's automations. `q` keeps those whose name or instructions contain it, ignoring case; `sort` is `updated` (the default, newest first), `name`, or `next` (soonest first, unscheduled last).
+        Returns your automations — another member's are never listed. `q` keeps those whose name or instructions contain it, ignoring case; `source` keeps those made in one product; `sort` is `updated` (the default, newest first), `name`, or `next` (soonest first, unscheduled last).
 
         :param q: Q keeps the automations whose name or instructions contain it, ignoring case.
         :type q: str
         :param sort: Sort is name, next or updated (the default, newest first).
         :type sort: str
+        :param source: Source keeps the automations made in one product: chat, dev, studio or workflow.
+        :type source: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -633,6 +640,7 @@ class AutoApi:
         _param = self._get_auto_automations_serialize(
             q=q,
             sort=sort,
+            source=source,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -658,6 +666,7 @@ class AutoApi:
         self,
         q: Annotated[Optional[StrictStr], Field(description="Q keeps the automations whose name or instructions contain it, ignoring case.")] = None,
         sort: Annotated[Optional[StrictStr], Field(description="Sort is name, next or updated (the default, newest first).")] = None,
+        source: Annotated[Optional[StrictStr], Field(description="Source keeps the automations made in one product: chat, dev, studio or workflow.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -671,14 +680,16 @@ class AutoApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[AutoAutomationPage]:
-        """Returns the org's automations.
+        """Returns your automations — another member's are never listed.
 
-        Returns the org's automations. `q` keeps those whose name or instructions contain it, ignoring case; `sort` is `updated` (the default, newest first), `name`, or `next` (soonest first, unscheduled last).
+        Returns your automations — another member's are never listed. `q` keeps those whose name or instructions contain it, ignoring case; `source` keeps those made in one product; `sort` is `updated` (the default, newest first), `name`, or `next` (soonest first, unscheduled last).
 
         :param q: Q keeps the automations whose name or instructions contain it, ignoring case.
         :type q: str
         :param sort: Sort is name, next or updated (the default, newest first).
         :type sort: str
+        :param source: Source keeps the automations made in one product: chat, dev, studio or workflow.
+        :type source: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -704,6 +715,7 @@ class AutoApi:
         _param = self._get_auto_automations_serialize(
             q=q,
             sort=sort,
+            source=source,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -729,6 +741,7 @@ class AutoApi:
         self,
         q: Annotated[Optional[StrictStr], Field(description="Q keeps the automations whose name or instructions contain it, ignoring case.")] = None,
         sort: Annotated[Optional[StrictStr], Field(description="Sort is name, next or updated (the default, newest first).")] = None,
+        source: Annotated[Optional[StrictStr], Field(description="Source keeps the automations made in one product: chat, dev, studio or workflow.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -742,14 +755,16 @@ class AutoApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns the org's automations.
+        """Returns your automations — another member's are never listed.
 
-        Returns the org's automations. `q` keeps those whose name or instructions contain it, ignoring case; `sort` is `updated` (the default, newest first), `name`, or `next` (soonest first, unscheduled last).
+        Returns your automations — another member's are never listed. `q` keeps those whose name or instructions contain it, ignoring case; `source` keeps those made in one product; `sort` is `updated` (the default, newest first), `name`, or `next` (soonest first, unscheduled last).
 
         :param q: Q keeps the automations whose name or instructions contain it, ignoring case.
         :type q: str
         :param sort: Sort is name, next or updated (the default, newest first).
         :type sort: str
+        :param source: Source keeps the automations made in one product: chat, dev, studio or workflow.
+        :type source: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -775,6 +790,7 @@ class AutoApi:
         _param = self._get_auto_automations_serialize(
             q=q,
             sort=sort,
+            source=source,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -795,6 +811,7 @@ class AutoApi:
         self,
         q,
         sort,
+        source,
         _request_auth,
         _content_type,
         _headers,
@@ -824,6 +841,10 @@ class AutoApi:
         if sort is not None:
             
             _query_params.append(('sort', sort))
+            
+        if source is not None:
+            
+            _query_params.append(('source', source))
             
         # process the header parameters
         # process the form parameters
@@ -1143,9 +1164,9 @@ class AutoApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> AutoAutomationRunPage:
-        """Returns one automation's runs, newest first, to the person it runs as or an admin of the org.
+        """Returns one automation's runs, newest first, to the person it runs as.
 
-        Returns one automation's runs, newest first, to the person it runs as or an admin of the org. Each links the Dev run it started as `transcript`. The optional `limit` bounds the page.
+        Returns one automation's runs, newest first, to the person it runs as. Each links the Dev run it started as `transcript`. The optional `limit` bounds the page.
 
         :param id: ID is the automation, from the path. (required)
         :type id: str
@@ -1214,9 +1235,9 @@ class AutoApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[AutoAutomationRunPage]:
-        """Returns one automation's runs, newest first, to the person it runs as or an admin of the org.
+        """Returns one automation's runs, newest first, to the person it runs as.
 
-        Returns one automation's runs, newest first, to the person it runs as or an admin of the org. Each links the Dev run it started as `transcript`. The optional `limit` bounds the page.
+        Returns one automation's runs, newest first, to the person it runs as. Each links the Dev run it started as `transcript`. The optional `limit` bounds the page.
 
         :param id: ID is the automation, from the path. (required)
         :type id: str
@@ -1285,9 +1306,9 @@ class AutoApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns one automation's runs, newest first, to the person it runs as or an admin of the org.
+        """Returns one automation's runs, newest first, to the person it runs as.
 
-        Returns one automation's runs, newest first, to the person it runs as or an admin of the org. Each links the Dev run it started as `transcript`. The optional `limit` bounds the page.
+        Returns one automation's runs, newest first, to the person it runs as. Each links the Dev run it started as `transcript`. The optional `limit` bounds the page.
 
         :param id: ID is the automation, from the path. (required)
         :type id: str
@@ -1389,6 +1410,252 @@ class AutoApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/auto/automations/{id}/runs',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_auto_events(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> bytearray:
+        """Stream your jobs and automations as they change, as Server-Sent Events
+
+        Holds one text/event-stream open and writes a frame each time one of your jobs or automations changes: `event: job` with the job as GET /v1/auto/jobs/{id} answers it, and `event: automation` with the automation as GET /v1/auto/automations/{id} answers it. Only your own rows are sent; another member's never are. Authenticate with `Authorization: Bearer` — a fetch-based reader, since a browser EventSource cannot set it. A `: ping` comment is written every 15 seconds, and the server closes the stream after 15 minutes; reconnect and re-read the lists. Frames carry no `id`: the lists are the truth, and the stream is a live hint over them.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_auto_events_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "bytearray",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_auto_events_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[bytearray]:
+        """Stream your jobs and automations as they change, as Server-Sent Events
+
+        Holds one text/event-stream open and writes a frame each time one of your jobs or automations changes: `event: job` with the job as GET /v1/auto/jobs/{id} answers it, and `event: automation` with the automation as GET /v1/auto/automations/{id} answers it. Only your own rows are sent; another member's never are. Authenticate with `Authorization: Bearer` — a fetch-based reader, since a browser EventSource cannot set it. A `: ping` comment is written every 15 seconds, and the server closes the stream after 15 minutes; reconnect and re-read the lists. Frames carry no `id`: the lists are the truth, and the stream is a live hint over them.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_auto_events_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "bytearray",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_auto_events_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Stream your jobs and automations as they change, as Server-Sent Events
+
+        Holds one text/event-stream open and writes a frame each time one of your jobs or automations changes: `event: job` with the job as GET /v1/auto/jobs/{id} answers it, and `event: automation` with the automation as GET /v1/auto/automations/{id} answers it. Only your own rows are sent; another member's never are. Authenticate with `Authorization: Bearer` — a fetch-based reader, since a browser EventSource cannot set it. A `: ping` comment is written every 15 seconds, and the server closes the stream after 15 minutes; reconnect and re-read the lists. Frames carry no `id`: the lists are the truth, and the stream is a live hint over them.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_auto_events_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "bytearray",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_auto_events_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'text/event-stream'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/auto/events',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -2210,6 +2477,566 @@ class AutoApi:
 
 
     @validate_call
+    def get_auto_jobs(
+        self,
+        product: Annotated[Optional[StrictStr], Field(description="Product keeps one product's jobs: chat, dev, studio or workflow.")] = None,
+        state: Annotated[Optional[StrictStr], Field(description="State keeps one state: scheduled, running, succeeded, failed or cancelled.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit bounds the page (default 100, at most 500).")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AutoJobPage:
+        """Lists everything of yours that runs without you watching, across every product: each run of your automations and workflows, and every Studio render, long video or other background run a product recorded for you.
+
+        Lists everything of yours that runs without you watching, across every product: each run of your automations and workflows, and every Studio render, long video or other background run a product recorded for you. Each is in one of five states — scheduled, running, succeeded, failed, cancelled — with what it made (Library item ids) and what it cost when that is known. Another member's jobs are never listed.
+
+        :param product: Product keeps one product's jobs: chat, dev, studio or workflow.
+        :type product: str
+        :param state: State keeps one state: scheduled, running, succeeded, failed or cancelled.
+        :type state: str
+        :param limit: Limit bounds the page (default 100, at most 500).
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_auto_jobs_serialize(
+            product=product,
+            state=state,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AutoJobPage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_auto_jobs_with_http_info(
+        self,
+        product: Annotated[Optional[StrictStr], Field(description="Product keeps one product's jobs: chat, dev, studio or workflow.")] = None,
+        state: Annotated[Optional[StrictStr], Field(description="State keeps one state: scheduled, running, succeeded, failed or cancelled.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit bounds the page (default 100, at most 500).")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AutoJobPage]:
+        """Lists everything of yours that runs without you watching, across every product: each run of your automations and workflows, and every Studio render, long video or other background run a product recorded for you.
+
+        Lists everything of yours that runs without you watching, across every product: each run of your automations and workflows, and every Studio render, long video or other background run a product recorded for you. Each is in one of five states — scheduled, running, succeeded, failed, cancelled — with what it made (Library item ids) and what it cost when that is known. Another member's jobs are never listed.
+
+        :param product: Product keeps one product's jobs: chat, dev, studio or workflow.
+        :type product: str
+        :param state: State keeps one state: scheduled, running, succeeded, failed or cancelled.
+        :type state: str
+        :param limit: Limit bounds the page (default 100, at most 500).
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_auto_jobs_serialize(
+            product=product,
+            state=state,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AutoJobPage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_auto_jobs_without_preload_content(
+        self,
+        product: Annotated[Optional[StrictStr], Field(description="Product keeps one product's jobs: chat, dev, studio or workflow.")] = None,
+        state: Annotated[Optional[StrictStr], Field(description="State keeps one state: scheduled, running, succeeded, failed or cancelled.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit bounds the page (default 100, at most 500).")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Lists everything of yours that runs without you watching, across every product: each run of your automations and workflows, and every Studio render, long video or other background run a product recorded for you.
+
+        Lists everything of yours that runs without you watching, across every product: each run of your automations and workflows, and every Studio render, long video or other background run a product recorded for you. Each is in one of five states — scheduled, running, succeeded, failed, cancelled — with what it made (Library item ids) and what it cost when that is known. Another member's jobs are never listed.
+
+        :param product: Product keeps one product's jobs: chat, dev, studio or workflow.
+        :type product: str
+        :param state: State keeps one state: scheduled, running, succeeded, failed or cancelled.
+        :type state: str
+        :param limit: Limit bounds the page (default 100, at most 500).
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_auto_jobs_serialize(
+            product=product,
+            state=state,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AutoJobPage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_auto_jobs_serialize(
+        self,
+        product,
+        state,
+        limit,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if product is not None:
+            
+            _query_params.append(('product', product))
+            
+        if state is not None:
+            
+            _query_params.append(('state', state))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/auto/jobs',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_auto_jobs_by_id(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path: a run_ or a job_ id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AutoJob:
+        """Reads one of your jobs.
+
+        Reads one of your jobs. A job that is not yours answers 404, as one that does not exist.
+
+        :param id: ID is the job, from the path: a run_ or a job_ id. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_auto_jobs_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AutoJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_auto_jobs_by_id_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path: a run_ or a job_ id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AutoJob]:
+        """Reads one of your jobs.
+
+        Reads one of your jobs. A job that is not yours answers 404, as one that does not exist.
+
+        :param id: ID is the job, from the path: a run_ or a job_ id. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_auto_jobs_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AutoJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_auto_jobs_by_id_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path: a run_ or a job_ id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Reads one of your jobs.
+
+        Reads one of your jobs. A job that is not yours answers 404, as one that does not exist.
+
+        :param id: ID is the job, from the path: a run_ or a job_ id. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_auto_jobs_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AutoJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_auto_jobs_by_id_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/auto/jobs/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_auto_provider(
         self,
         _request_timeout: Union[
@@ -2474,9 +3301,9 @@ class AutoApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> AutoRunPage:
-        """Returns the caller org's run history, newest first.
+        """Returns your run history, newest first: the runs of the flows you hold.
 
-        Returns the caller org's run history, newest first. The optional `flowId` query narrows it to one flow and `limit` bounds the page.
+        Returns your run history, newest first: the runs of the flows you hold. The optional `flowId` query narrows it to one of them and `limit` bounds the page.
 
         :param flow_id: FlowID narrows the history to one flow. Omit it for the whole org's runs.
         :type flow_id: str
@@ -2545,9 +3372,9 @@ class AutoApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[AutoRunPage]:
-        """Returns the caller org's run history, newest first.
+        """Returns your run history, newest first: the runs of the flows you hold.
 
-        Returns the caller org's run history, newest first. The optional `flowId` query narrows it to one flow and `limit` bounds the page.
+        Returns your run history, newest first: the runs of the flows you hold. The optional `flowId` query narrows it to one of them and `limit` bounds the page.
 
         :param flow_id: FlowID narrows the history to one flow. Omit it for the whole org's runs.
         :type flow_id: str
@@ -2616,9 +3443,9 @@ class AutoApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns the caller org's run history, newest first.
+        """Returns your run history, newest first: the runs of the flows you hold.
 
-        Returns the caller org's run history, newest first. The optional `flowId` query narrows it to one flow and `limit` bounds the page.
+        Returns your run history, newest first: the runs of the flows you hold. The optional `flowId` query narrows it to one of them and `limit` bounds the page.
 
         :param flow_id: FlowID narrows the history to one flow. Omit it for the whole org's runs.
         :type flow_id: str
@@ -3264,9 +4091,9 @@ class AutoApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> AutoAutomation:
-        """Changes an automation, for the person it runs as or an admin of the org: any field it was created with, and `enabled`, which arms or disarms its schedule.
+        """Changes an automation, for the person it runs as: any field it was created with, and `enabled`, which arms or disarms its schedule.
 
-        Changes an automation, for the person it runs as or an admin of the org: any field it was created with, and `enabled`, which arms or disarms its schedule. A field the request omits is left alone; `project` or `model` sent as null (or \"\") clears it. Any change but `enabled` makes the caller the person it runs as from then on. A draft is finished by saving its `instructions`: it becomes an automation in place, on unless `enabled` says otherwise.
+        Changes an automation, for the person it runs as: any field it was created with, and `enabled`, which arms or disarms its schedule. A field the request omits is left alone; `project` or `model` sent as null (or \"\") clears it. Any change but `enabled` makes the caller the person it runs as from then on. A draft is finished by saving its `instructions`: it becomes an automation in place, on unless `enabled` says otherwise.
 
         :param id: ID is the automation, from the path. (required)
         :type id: str
@@ -3335,9 +4162,9 @@ class AutoApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[AutoAutomation]:
-        """Changes an automation, for the person it runs as or an admin of the org: any field it was created with, and `enabled`, which arms or disarms its schedule.
+        """Changes an automation, for the person it runs as: any field it was created with, and `enabled`, which arms or disarms its schedule.
 
-        Changes an automation, for the person it runs as or an admin of the org: any field it was created with, and `enabled`, which arms or disarms its schedule. A field the request omits is left alone; `project` or `model` sent as null (or \"\") clears it. Any change but `enabled` makes the caller the person it runs as from then on. A draft is finished by saving its `instructions`: it becomes an automation in place, on unless `enabled` says otherwise.
+        Changes an automation, for the person it runs as: any field it was created with, and `enabled`, which arms or disarms its schedule. A field the request omits is left alone; `project` or `model` sent as null (or \"\") clears it. Any change but `enabled` makes the caller the person it runs as from then on. A draft is finished by saving its `instructions`: it becomes an automation in place, on unless `enabled` says otherwise.
 
         :param id: ID is the automation, from the path. (required)
         :type id: str
@@ -3406,9 +4233,9 @@ class AutoApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Changes an automation, for the person it runs as or an admin of the org: any field it was created with, and `enabled`, which arms or disarms its schedule.
+        """Changes an automation, for the person it runs as: any field it was created with, and `enabled`, which arms or disarms its schedule.
 
-        Changes an automation, for the person it runs as or an admin of the org: any field it was created with, and `enabled`, which arms or disarms its schedule. A field the request omits is left alone; `project` or `model` sent as null (or \"\") clears it. Any change but `enabled` makes the caller the person it runs as from then on. A draft is finished by saving its `instructions`: it becomes an automation in place, on unless `enabled` says otherwise.
+        Changes an automation, for the person it runs as: any field it was created with, and `enabled`, which arms or disarms its schedule. A field the request omits is left alone; `project` or `model` sent as null (or \"\") clears it. Any change but `enabled` makes the caller the person it runs as from then on. A draft is finished by saving its `instructions`: it becomes an automation in place, on unless `enabled` says otherwise.
 
         :param id: ID is the automation, from the path. (required)
         :type id: str
@@ -4120,7 +4947,7 @@ class AutoApi:
     ) -> AutoRunStarted:
         """Starts one run now, whether or not its schedule is armed.
 
-        Starts one run now, whether or not its schedule is armed. Only the person it runs as, or an admin of the org, may start one; who did is kept. An automation runs one at a time: while a run is going, this records a skipped start and answers it. Every run first asks IAM whether the person it runs as is still a member of the org; one who is not makes the run refused and turns the automation off.
+        Starts one run now, whether or not its schedule is armed. Only the person it runs as may start one; who did is kept. An automation runs one at a time: while a run is going, this records a skipped start and answers it. Every run first asks IAM whether the person it runs as is still a member of the org; one who is not makes the run refused and turns the automation off.
 
         :param id: ID is the automation, from the path. (required)
         :type id: str
@@ -4187,7 +5014,7 @@ class AutoApi:
     ) -> ApiResponse[AutoRunStarted]:
         """Starts one run now, whether or not its schedule is armed.
 
-        Starts one run now, whether or not its schedule is armed. Only the person it runs as, or an admin of the org, may start one; who did is kept. An automation runs one at a time: while a run is going, this records a skipped start and answers it. Every run first asks IAM whether the person it runs as is still a member of the org; one who is not makes the run refused and turns the automation off.
+        Starts one run now, whether or not its schedule is armed. Only the person it runs as may start one; who did is kept. An automation runs one at a time: while a run is going, this records a skipped start and answers it. Every run first asks IAM whether the person it runs as is still a member of the org; one who is not makes the run refused and turns the automation off.
 
         :param id: ID is the automation, from the path. (required)
         :type id: str
@@ -4254,7 +5081,7 @@ class AutoApi:
     ) -> RESTResponseType:
         """Starts one run now, whether or not its schedule is armed.
 
-        Starts one run now, whether or not its schedule is armed. Only the person it runs as, or an admin of the org, may start one; who did is kept. An automation runs one at a time: while a run is going, this records a skipped start and answers it. Every run first asks IAM whether the person it runs as is still a member of the org; one who is not makes the run refused and turns the automation off.
+        Starts one run now, whether or not its schedule is armed. Only the person it runs as may start one; who did is kept. An automation runs one at a time: while a run is going, this records a skipped start and answers it. Every run first asks IAM whether the person it runs as is still a member of the org; one who is not makes the run refused and turns the automation off.
 
         :param id: ID is the automation, from the path. (required)
         :type id: str
@@ -4382,9 +5209,9 @@ class AutoApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> AutoAutomationRun:
-        """Answers a run that holds a post for review, for the person the automation runs as or an admin of the org: `post` true posts it to the automation's accounts and answers the run while it posts; false discards it.
+        """Answers a run that holds a post for review, for the person the automation runs as: `post` true posts it to the automation's accounts and answers the run while it posts; false discards it.
 
-        Answers a run that holds a post for review, for the person the automation runs as or an admin of the org: `post` true posts it to the automation's accounts and answers the run while it posts; false discards it. A run not in review answers 409; one held longer than a day is not posted.
+        Answers a run that holds a post for review, for the person the automation runs as: `post` true posts it to the automation's accounts and answers the run while it posts; false discards it. A run not in review answers 409; one held longer than a day is not posted.
 
         :param id: ID is the automation, and Run its run in review, from the path. (required)
         :type id: str
@@ -4457,9 +5284,9 @@ class AutoApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[AutoAutomationRun]:
-        """Answers a run that holds a post for review, for the person the automation runs as or an admin of the org: `post` true posts it to the automation's accounts and answers the run while it posts; false discards it.
+        """Answers a run that holds a post for review, for the person the automation runs as: `post` true posts it to the automation's accounts and answers the run while it posts; false discards it.
 
-        Answers a run that holds a post for review, for the person the automation runs as or an admin of the org: `post` true posts it to the automation's accounts and answers the run while it posts; false discards it. A run not in review answers 409; one held longer than a day is not posted.
+        Answers a run that holds a post for review, for the person the automation runs as: `post` true posts it to the automation's accounts and answers the run while it posts; false discards it. A run not in review answers 409; one held longer than a day is not posted.
 
         :param id: ID is the automation, and Run its run in review, from the path. (required)
         :type id: str
@@ -4532,9 +5359,9 @@ class AutoApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Answers a run that holds a post for review, for the person the automation runs as or an admin of the org: `post` true posts it to the automation's accounts and answers the run while it posts; false discards it.
+        """Answers a run that holds a post for review, for the person the automation runs as: `post` true posts it to the automation's accounts and answers the run while it posts; false discards it.
 
-        Answers a run that holds a post for review, for the person the automation runs as or an admin of the org: `post` true posts it to the automation's accounts and answers the run while it posts; false discards it. A run not in review answers 409; one held longer than a day is not posted.
+        Answers a run that holds a post for review, for the person the automation runs as: `post` true posts it to the automation's accounts and answers the run while it posts; false discards it. A run not in review answers 409; one held longer than a day is not posted.
 
         :param id: ID is the automation, and Run its run in review, from the path. (required)
         :type id: str
@@ -4653,6 +5480,281 @@ class AutoApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/auto/automations/{id}/runs/{run}/review',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_auto_cron(
+        self,
+        auto_when_in: AutoWhenIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AutoWhenOut:
+        """Reads a schedule said in words — \"every 5 minutes\", \"weekdays at 8:30\", \"every monday at 9am\", \"tomorrow at 7pm\", \"in 20 minutes\", or a five-field cron expression — in your time zone, and answers the schedule an automation takes, said back in plain words, with when it would first run.
+
+        Reads a schedule said in words — \"every 5 minutes\", \"weekdays at 8:30\", \"every monday at 9am\", \"tomorrow at 7pm\", \"in 20 minutes\", or a five-field cron expression — in your time zone, and answers the schedule an automation takes, said back in plain words, with when it would first run. Nothing is created: send the schedule to POST /v1/auto/automations. A phrase that no rule reads is read by a model; a phrase that names no schedule answers 422.
+
+        :param auto_when_in: (required)
+        :type auto_when_in: AutoWhenIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_auto_cron_serialize(
+            auto_when_in=auto_when_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AutoWhenOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_auto_cron_with_http_info(
+        self,
+        auto_when_in: AutoWhenIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AutoWhenOut]:
+        """Reads a schedule said in words — \"every 5 minutes\", \"weekdays at 8:30\", \"every monday at 9am\", \"tomorrow at 7pm\", \"in 20 minutes\", or a five-field cron expression — in your time zone, and answers the schedule an automation takes, said back in plain words, with when it would first run.
+
+        Reads a schedule said in words — \"every 5 minutes\", \"weekdays at 8:30\", \"every monday at 9am\", \"tomorrow at 7pm\", \"in 20 minutes\", or a five-field cron expression — in your time zone, and answers the schedule an automation takes, said back in plain words, with when it would first run. Nothing is created: send the schedule to POST /v1/auto/automations. A phrase that no rule reads is read by a model; a phrase that names no schedule answers 422.
+
+        :param auto_when_in: (required)
+        :type auto_when_in: AutoWhenIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_auto_cron_serialize(
+            auto_when_in=auto_when_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AutoWhenOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_auto_cron_without_preload_content(
+        self,
+        auto_when_in: AutoWhenIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Reads a schedule said in words — \"every 5 minutes\", \"weekdays at 8:30\", \"every monday at 9am\", \"tomorrow at 7pm\", \"in 20 minutes\", or a five-field cron expression — in your time zone, and answers the schedule an automation takes, said back in plain words, with when it would first run.
+
+        Reads a schedule said in words — \"every 5 minutes\", \"weekdays at 8:30\", \"every monday at 9am\", \"tomorrow at 7pm\", \"in 20 minutes\", or a five-field cron expression — in your time zone, and answers the schedule an automation takes, said back in plain words, with when it would first run. Nothing is created: send the schedule to POST /v1/auto/automations. A phrase that no rule reads is read by a model; a phrase that names no schedule answers 422.
+
+        :param auto_when_in: (required)
+        :type auto_when_in: AutoWhenIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_auto_cron_serialize(
+            auto_when_in=auto_when_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AutoWhenOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_auto_cron_serialize(
+        self,
+        auto_when_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if auto_when_in is not None:
+            _body_params = auto_when_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/auto/cron',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

@@ -23,6 +23,7 @@ from hanzoai.cloud.models.billing_accounts import BillingAccounts
 from hanzoai.cloud.models.billing_alert import BillingAlert
 from hanzoai.cloud.models.billing_alert_patch import BillingAlertPatch
 from hanzoai.cloud.models.billing_alert_spec import BillingAlertSpec
+from hanzoai.cloud.models.billing_assignment import BillingAssignment
 from hanzoai.cloud.models.billing_auto_recharge import BillingAutoRecharge
 from hanzoai.cloud.models.billing_auto_recharge_edit import BillingAutoRechargeEdit
 from hanzoai.cloud.models.billing_billing_account import BillingBillingAccount
@@ -38,6 +39,7 @@ from hanzoai.cloud.models.billing_detachment import BillingDetachment
 from hanzoai.cloud.models.billing_finance_ledger_entry import BillingFinanceLedgerEntry
 from hanzoai.cloud.models.billing_holder import BillingHolder
 from hanzoai.cloud.models.billing_invoice import BillingInvoice
+from hanzoai.cloud.models.billing_invoice_ref import BillingInvoiceRef
 from hanzoai.cloud.models.billing_invoices import BillingInvoices
 from hanzoai.cloud.models.billing_mode import BillingMode
 from hanzoai.cloud.models.billing_mode_in import BillingModeIn
@@ -45,9 +47,10 @@ from hanzoai.cloud.models.billing_payment_config import BillingPaymentConfig
 from hanzoai.cloud.models.billing_payout import BillingPayout
 from hanzoai.cloud.models.billing_raise_in import BillingRaiseIn
 from hanzoai.cloud.models.billing_recharge import BillingRecharge
+from hanzoai.cloud.models.billing_resize import BillingResize
 from hanzoai.cloud.models.billing_rollup import BillingRollup
 from hanzoai.cloud.models.billing_subscription import BillingSubscription
-from hanzoai.cloud.models.billing_subscription_ref import BillingSubscriptionRef
+from hanzoai.cloud.models.billing_subscription_act import BillingSubscriptionAct
 from hanzoai.cloud.models.billing_subscriptions import BillingSubscriptions
 from hanzoai.cloud.models.billing_tier import BillingTier
 from hanzoai.cloud.models.billing_topup_in import BillingTopupIn
@@ -76,10 +79,10 @@ class BillingApi:
 
 
     @validate_call
-    def cancel_subscription(
+    def assign_seats(
         self,
         id: StrictStr,
-        billing_subscription_ref: BillingSubscriptionRef,
+        billing_assignment: BillingAssignment,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -93,14 +96,14 @@ class BillingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> BillingSubscription:
-        """End a subscription
+        """Assign a team's seats
 
-        Ends a subscription.  It cancels at the END OF THE PAID PERIOD by default, because a customer who cancels has already paid for the period they are in and taking it away is taking money for nothing. `atPeriodEnd: false` ends it at once, which is the caller asking for that.  A subscription from another org is not found rather than refused, so an id cannot be probed for existence.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Assigns a team's seats: which member holds a standard seat and which a premium one, replacing what was assigned.  A seat type is given no more members than the seats of it paid for — the fewer of the period in hand's and the next one's — and a member holds one seat; past either the request is 400 and nothing changes. Which member holds a seat moves no money and bounds no usage: a team's usage is all of its seats' together.  The team's seats are its admins' to assign, and the platform's. A member is refused with 403 and told to ask an admin. A subscription from another org, or held by a wallet the caller may not change, is not found.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param id: (required)
         :type id: str
-        :param billing_subscription_ref: (required)
-        :type billing_subscription_ref: BillingSubscriptionRef
+        :param billing_assignment: (required)
+        :type billing_assignment: BillingAssignment
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -123,9 +126,9 @@ class BillingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._cancel_subscription_serialize(
+        _param = self._assign_seats_serialize(
             id=id,
-            billing_subscription_ref=billing_subscription_ref,
+            billing_assignment=billing_assignment,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -147,10 +150,10 @@ class BillingApi:
 
 
     @validate_call
-    def cancel_subscription_with_http_info(
+    def assign_seats_with_http_info(
         self,
         id: StrictStr,
-        billing_subscription_ref: BillingSubscriptionRef,
+        billing_assignment: BillingAssignment,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -164,14 +167,14 @@ class BillingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[BillingSubscription]:
-        """End a subscription
+        """Assign a team's seats
 
-        Ends a subscription.  It cancels at the END OF THE PAID PERIOD by default, because a customer who cancels has already paid for the period they are in and taking it away is taking money for nothing. `atPeriodEnd: false` ends it at once, which is the caller asking for that.  A subscription from another org is not found rather than refused, so an id cannot be probed for existence.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Assigns a team's seats: which member holds a standard seat and which a premium one, replacing what was assigned.  A seat type is given no more members than the seats of it paid for — the fewer of the period in hand's and the next one's — and a member holds one seat; past either the request is 400 and nothing changes. Which member holds a seat moves no money and bounds no usage: a team's usage is all of its seats' together.  The team's seats are its admins' to assign, and the platform's. A member is refused with 403 and told to ask an admin. A subscription from another org, or held by a wallet the caller may not change, is not found.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param id: (required)
         :type id: str
-        :param billing_subscription_ref: (required)
-        :type billing_subscription_ref: BillingSubscriptionRef
+        :param billing_assignment: (required)
+        :type billing_assignment: BillingAssignment
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -194,9 +197,9 @@ class BillingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._cancel_subscription_serialize(
+        _param = self._assign_seats_serialize(
             id=id,
-            billing_subscription_ref=billing_subscription_ref,
+            billing_assignment=billing_assignment,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -218,10 +221,10 @@ class BillingApi:
 
 
     @validate_call
-    def cancel_subscription_without_preload_content(
+    def assign_seats_without_preload_content(
         self,
         id: StrictStr,
-        billing_subscription_ref: BillingSubscriptionRef,
+        billing_assignment: BillingAssignment,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -235,14 +238,14 @@ class BillingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """End a subscription
+        """Assign a team's seats
 
-        Ends a subscription.  It cancels at the END OF THE PAID PERIOD by default, because a customer who cancels has already paid for the period they are in and taking it away is taking money for nothing. `atPeriodEnd: false` ends it at once, which is the caller asking for that.  A subscription from another org is not found rather than refused, so an id cannot be probed for existence.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Assigns a team's seats: which member holds a standard seat and which a premium one, replacing what was assigned.  A seat type is given no more members than the seats of it paid for — the fewer of the period in hand's and the next one's — and a member holds one seat; past either the request is 400 and nothing changes. Which member holds a seat moves no money and bounds no usage: a team's usage is all of its seats' together.  The team's seats are its admins' to assign, and the platform's. A member is refused with 403 and told to ask an admin. A subscription from another org, or held by a wallet the caller may not change, is not found.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param id: (required)
         :type id: str
-        :param billing_subscription_ref: (required)
-        :type billing_subscription_ref: BillingSubscriptionRef
+        :param billing_assignment: (required)
+        :type billing_assignment: BillingAssignment
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -265,9 +268,9 @@ class BillingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._cancel_subscription_serialize(
+        _param = self._assign_seats_serialize(
             id=id,
-            billing_subscription_ref=billing_subscription_ref,
+            billing_assignment=billing_assignment,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -284,10 +287,10 @@ class BillingApi:
         return response_data.response
 
 
-    def _cancel_subscription_serialize(
+    def _assign_seats_serialize(
         self,
         id,
-        billing_subscription_ref,
+        billing_assignment,
         _request_auth,
         _content_type,
         _headers,
@@ -315,8 +318,298 @@ class BillingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if billing_subscription_ref is not None:
-            _body_params = billing_subscription_ref
+        if billing_assignment is not None:
+            _body_params = billing_assignment
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/v1/billing/subscriptions/{id}/seats',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def cancel_subscription(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the subscription, from the path.")],
+        billing_subscription_act: BillingSubscriptionAct,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> BillingSubscription:
+        """End a subscription
+
+        Ends a subscription.  It cancels at the END OF THE PAID PERIOD by default, because a customer who cancels has already paid for the period they are in and taking it away is taking money for nothing. `atPeriodEnd: false` ends it at once, which is the caller asking for that.  The org's plan is its admins' to end, and the platform's in support mode. A member is refused with 403 and told to ask an admin; a member billed from a wallet of their own may end that wallet's plan. Every one is on the audit trail, the operator named when it is the platform acting inside the org.  A subscription from another org, or held by a wallet the caller may not change, is not found rather than refused, so an id cannot be probed for existence.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param id: ID is the subscription, from the path. (required)
+        :type id: str
+        :param billing_subscription_act: (required)
+        :type billing_subscription_act: BillingSubscriptionAct
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._cancel_subscription_serialize(
+            id=id,
+            billing_subscription_act=billing_subscription_act,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BillingSubscription",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def cancel_subscription_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the subscription, from the path.")],
+        billing_subscription_act: BillingSubscriptionAct,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[BillingSubscription]:
+        """End a subscription
+
+        Ends a subscription.  It cancels at the END OF THE PAID PERIOD by default, because a customer who cancels has already paid for the period they are in and taking it away is taking money for nothing. `atPeriodEnd: false` ends it at once, which is the caller asking for that.  The org's plan is its admins' to end, and the platform's in support mode. A member is refused with 403 and told to ask an admin; a member billed from a wallet of their own may end that wallet's plan. Every one is on the audit trail, the operator named when it is the platform acting inside the org.  A subscription from another org, or held by a wallet the caller may not change, is not found rather than refused, so an id cannot be probed for existence.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param id: ID is the subscription, from the path. (required)
+        :type id: str
+        :param billing_subscription_act: (required)
+        :type billing_subscription_act: BillingSubscriptionAct
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._cancel_subscription_serialize(
+            id=id,
+            billing_subscription_act=billing_subscription_act,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BillingSubscription",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def cancel_subscription_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the subscription, from the path.")],
+        billing_subscription_act: BillingSubscriptionAct,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """End a subscription
+
+        Ends a subscription.  It cancels at the END OF THE PAID PERIOD by default, because a customer who cancels has already paid for the period they are in and taking it away is taking money for nothing. `atPeriodEnd: false` ends it at once, which is the caller asking for that.  The org's plan is its admins' to end, and the platform's in support mode. A member is refused with 403 and told to ask an admin; a member billed from a wallet of their own may end that wallet's plan. Every one is on the audit trail, the operator named when it is the platform acting inside the org.  A subscription from another org, or held by a wallet the caller may not change, is not found rather than refused, so an id cannot be probed for existence.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param id: ID is the subscription, from the path. (required)
+        :type id: str
+        :param billing_subscription_act: (required)
+        :type billing_subscription_act: BillingSubscriptionAct
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._cancel_subscription_serialize(
+            id=id,
+            billing_subscription_act=billing_subscription_act,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BillingSubscription",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _cancel_subscription_serialize(
+        self,
+        id,
+        billing_subscription_act,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if billing_subscription_act is not None:
+            _body_params = billing_subscription_act
 
 
         # set the HTTP header `Accept`
@@ -369,6 +662,7 @@ class BillingApi:
     def collect_invoice(
         self,
         id: Annotated[StrictStr, Field(description="ID is the invoice id.")],
+        billing_invoice_ref: BillingInvoiceRef,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -388,6 +682,8 @@ class BillingApi:
 
         :param id: ID is the invoice id. (required)
         :type id: str
+        :param billing_invoice_ref: (required)
+        :type billing_invoice_ref: BillingInvoiceRef
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -412,6 +708,7 @@ class BillingApi:
 
         _param = self._collect_invoice_serialize(
             id=id,
+            billing_invoice_ref=billing_invoice_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -436,6 +733,7 @@ class BillingApi:
     def collect_invoice_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the invoice id.")],
+        billing_invoice_ref: BillingInvoiceRef,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -455,6 +753,8 @@ class BillingApi:
 
         :param id: ID is the invoice id. (required)
         :type id: str
+        :param billing_invoice_ref: (required)
+        :type billing_invoice_ref: BillingInvoiceRef
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -479,6 +779,7 @@ class BillingApi:
 
         _param = self._collect_invoice_serialize(
             id=id,
+            billing_invoice_ref=billing_invoice_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -503,6 +804,7 @@ class BillingApi:
     def collect_invoice_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the invoice id.")],
+        billing_invoice_ref: BillingInvoiceRef,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -522,6 +824,8 @@ class BillingApi:
 
         :param id: ID is the invoice id. (required)
         :type id: str
+        :param billing_invoice_ref: (required)
+        :type billing_invoice_ref: BillingInvoiceRef
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -546,6 +850,7 @@ class BillingApi:
 
         _param = self._collect_invoice_serialize(
             id=id,
+            billing_invoice_ref=billing_invoice_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -565,6 +870,7 @@ class BillingApi:
     def _collect_invoice_serialize(
         self,
         id,
+        billing_invoice_ref,
         _request_auth,
         _content_type,
         _headers,
@@ -592,6 +898,8 @@ class BillingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if billing_invoice_ref is not None:
+            _body_params = billing_invoice_ref
 
 
         # set the HTTP header `Accept`
@@ -603,6 +911,19 @@ class BillingApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -907,7 +1228,7 @@ class BillingApi:
     ) -> BillingDetachment:
         """Removes one card or account the caller has saved.
 
-        Removes one card or account the caller has saved.  It detaches only the CALLER'S own — the wallet this request bills from, resolved server-side — so an id belonging to another customer of the same org is not something this operation can reach. A platform or service caller detaches on the subject's behalf, and that authority is decided HERE, where the credential is, and travels as a value: authority decided twice is authority that eventually disagrees with itself.  The card is vaulted at the processor, so what goes is our token for it.
+        Removes one card or account the caller has saved.  It detaches only the CALLER'S own — the wallet this request bills from, resolved server-side — so an id belonging to another customer of the same org is not something this operation can reach. The org's cards are removed only by an admin of the org or the platform; a member is refused with 403 and told to ask an admin. A platform or service caller detaches on the subject's behalf, and that authority is decided HERE, where the credential is, and travels as a value: authority decided twice is authority that eventually disagrees with itself.  The card is vaulted at the processor, so what goes is our token for it.
 
         :param id: ID is the saved method to detach, from the path. (required)
         :type id: str
@@ -974,7 +1295,7 @@ class BillingApi:
     ) -> ApiResponse[BillingDetachment]:
         """Removes one card or account the caller has saved.
 
-        Removes one card or account the caller has saved.  It detaches only the CALLER'S own — the wallet this request bills from, resolved server-side — so an id belonging to another customer of the same org is not something this operation can reach. A platform or service caller detaches on the subject's behalf, and that authority is decided HERE, where the credential is, and travels as a value: authority decided twice is authority that eventually disagrees with itself.  The card is vaulted at the processor, so what goes is our token for it.
+        Removes one card or account the caller has saved.  It detaches only the CALLER'S own — the wallet this request bills from, resolved server-side — so an id belonging to another customer of the same org is not something this operation can reach. The org's cards are removed only by an admin of the org or the platform; a member is refused with 403 and told to ask an admin. A platform or service caller detaches on the subject's behalf, and that authority is decided HERE, where the credential is, and travels as a value: authority decided twice is authority that eventually disagrees with itself.  The card is vaulted at the processor, so what goes is our token for it.
 
         :param id: ID is the saved method to detach, from the path. (required)
         :type id: str
@@ -1041,7 +1362,7 @@ class BillingApi:
     ) -> RESTResponseType:
         """Removes one card or account the caller has saved.
 
-        Removes one card or account the caller has saved.  It detaches only the CALLER'S own — the wallet this request bills from, resolved server-side — so an id belonging to another customer of the same org is not something this operation can reach. A platform or service caller detaches on the subject's behalf, and that authority is decided HERE, where the credential is, and travels as a value: authority decided twice is authority that eventually disagrees with itself.  The card is vaulted at the processor, so what goes is our token for it.
+        Removes one card or account the caller has saved.  It detaches only the CALLER'S own — the wallet this request bills from, resolved server-side — so an id belonging to another customer of the same org is not something this operation can reach. The org's cards are removed only by an admin of the org or the platform; a member is refused with 403 and told to ask an admin. A platform or service caller detaches on the subject's behalf, and that authority is decided HERE, where the credential is, and travels as a value: authority decided twice is authority that eventually disagrees with itself.  The card is vaulted at the processor, so what goes is our token for it.
 
         :param id: ID is the saved method to detach, from the path. (required)
         :type id: str
@@ -5317,7 +5638,7 @@ class BillingApi:
     ) -> None:
         """The plan catalog, priced with whatever offer is in force
 
-        Answers every plan on sale — its price, what it includes, and the limits it carries — optionally narrowed to one `?category=`.  The prices are what the CHECKOUT will charge: any active promotion is applied before they leave the store, so a reader never applies a discount a second time and a quote can never disagree with the sale.  `?coupon=` quotes the catalog under a plan coupon code: each paid plan it covers carries `couponCode`, `couponPercent`, `couponFirstCents` (the first month's charge under it) and `couponEnds`; every other row carries `couponError` — `unknown`, `expired`, `exhausted` or `not_applicable`. Nothing is reserved by a quote. Without the parameter the catalog is unchanged.  It is public and needs no tenant, and it is the catalog of the brand the request's host resolves to — the same brand `/v1/commerce/org` answers there. A brand that publishes no plans answers an empty list.
+        Answers every plan on sale — its price, what it includes, and the limits it carries — optionally narrowed to one `?category=`.  The prices are what the CHECKOUT will charge: any active promotion is applied before they leave the store, so a reader never applies a discount a second time and a quote can never disagree with the sale.  `?coupon=` quotes the catalog under a plan coupon code: each paid plan it covers carries `couponCode`, `couponPercent`, `couponMonths` (how many monthly periods it discounts, from the first paid one; 1 for a first-month coupon), `couponFirstCents` (what each of those months charges under it) and `couponEnds`; every other row carries `couponError` — `unknown`, `expired`, `exhausted` or `not_applicable`. Nothing is reserved by a quote. Without the parameter the catalog is unchanged.  It is public and needs no tenant, and it is the catalog of the brand the request's host resolves to — the same brand `/v1/commerce/org` answers there. A brand that publishes no plans answers an empty list.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5379,7 +5700,7 @@ class BillingApi:
     ) -> ApiResponse[None]:
         """The plan catalog, priced with whatever offer is in force
 
-        Answers every plan on sale — its price, what it includes, and the limits it carries — optionally narrowed to one `?category=`.  The prices are what the CHECKOUT will charge: any active promotion is applied before they leave the store, so a reader never applies a discount a second time and a quote can never disagree with the sale.  `?coupon=` quotes the catalog under a plan coupon code: each paid plan it covers carries `couponCode`, `couponPercent`, `couponFirstCents` (the first month's charge under it) and `couponEnds`; every other row carries `couponError` — `unknown`, `expired`, `exhausted` or `not_applicable`. Nothing is reserved by a quote. Without the parameter the catalog is unchanged.  It is public and needs no tenant, and it is the catalog of the brand the request's host resolves to — the same brand `/v1/commerce/org` answers there. A brand that publishes no plans answers an empty list.
+        Answers every plan on sale — its price, what it includes, and the limits it carries — optionally narrowed to one `?category=`.  The prices are what the CHECKOUT will charge: any active promotion is applied before they leave the store, so a reader never applies a discount a second time and a quote can never disagree with the sale.  `?coupon=` quotes the catalog under a plan coupon code: each paid plan it covers carries `couponCode`, `couponPercent`, `couponMonths` (how many monthly periods it discounts, from the first paid one; 1 for a first-month coupon), `couponFirstCents` (what each of those months charges under it) and `couponEnds`; every other row carries `couponError` — `unknown`, `expired`, `exhausted` or `not_applicable`. Nothing is reserved by a quote. Without the parameter the catalog is unchanged.  It is public and needs no tenant, and it is the catalog of the brand the request's host resolves to — the same brand `/v1/commerce/org` answers there. A brand that publishes no plans answers an empty list.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5441,7 +5762,7 @@ class BillingApi:
     ) -> RESTResponseType:
         """The plan catalog, priced with whatever offer is in force
 
-        Answers every plan on sale — its price, what it includes, and the limits it carries — optionally narrowed to one `?category=`.  The prices are what the CHECKOUT will charge: any active promotion is applied before they leave the store, so a reader never applies a discount a second time and a quote can never disagree with the sale.  `?coupon=` quotes the catalog under a plan coupon code: each paid plan it covers carries `couponCode`, `couponPercent`, `couponFirstCents` (the first month's charge under it) and `couponEnds`; every other row carries `couponError` — `unknown`, `expired`, `exhausted` or `not_applicable`. Nothing is reserved by a quote. Without the parameter the catalog is unchanged.  It is public and needs no tenant, and it is the catalog of the brand the request's host resolves to — the same brand `/v1/commerce/org` answers there. A brand that publishes no plans answers an empty list.
+        Answers every plan on sale — its price, what it includes, and the limits it carries — optionally narrowed to one `?category=`.  The prices are what the CHECKOUT will charge: any active promotion is applied before they leave the store, so a reader never applies a discount a second time and a quote can never disagree with the sale.  `?coupon=` quotes the catalog under a plan coupon code: each paid plan it covers carries `couponCode`, `couponPercent`, `couponMonths` (how many monthly periods it discounts, from the first paid one; 1 for a first-month coupon), `couponFirstCents` (what each of those months charges under it) and `couponEnds`; every other row carries `couponError` — `unknown`, `expired`, `exhausted` or `not_applicable`. Nothing is reserved by a quote. Without the parameter the catalog is unchanged.  It is public and needs no tenant, and it is the catalog of the brand the request's host resolves to — the same brand `/v1/commerce/org` answers there. A brand that publishes no plans answers an empty list.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5787,9 +6108,9 @@ class BillingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> BillingAutoRecharge:
-        """Reads the caller's auto-reload rule: top the balance up by `amountCents` whenever it falls below `thresholdCents`, charging the card on file off-session.
+        """Reads the org's auto-reload rule: top the balance up by `amountCents` whenever it falls below `thresholdCents`, charging the card on file off-session, at most `perDay` times in a UTC day.
 
-        Reads the caller's auto-reload rule: top the balance up by `amountCents` whenever it falls below `thresholdCents`, charging the card on file off-session. It is the same setting every prepaid AI account calls auto-reload.  An org that has never set one reads as disabled with zeroes rather than as an error — \"no rule\" answers the question — and `stored` is how a caller tells never-configured from deliberately-off.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Reads the org's auto-reload rule: top the balance up by `amountCents` whenever it falls below `thresholdCents`, charging the card on file off-session, at most `perDay` times in a UTC day. It is the same setting every prepaid AI account calls auto-reload.  An org that has never set one reads as disabled with zeroes rather than as an error — \"no rule\" answers the question — and `stored` is how a caller tells never-configured from deliberately-off.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5850,9 +6171,9 @@ class BillingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[BillingAutoRecharge]:
-        """Reads the caller's auto-reload rule: top the balance up by `amountCents` whenever it falls below `thresholdCents`, charging the card on file off-session.
+        """Reads the org's auto-reload rule: top the balance up by `amountCents` whenever it falls below `thresholdCents`, charging the card on file off-session, at most `perDay` times in a UTC day.
 
-        Reads the caller's auto-reload rule: top the balance up by `amountCents` whenever it falls below `thresholdCents`, charging the card on file off-session. It is the same setting every prepaid AI account calls auto-reload.  An org that has never set one reads as disabled with zeroes rather than as an error — \"no rule\" answers the question — and `stored` is how a caller tells never-configured from deliberately-off.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Reads the org's auto-reload rule: top the balance up by `amountCents` whenever it falls below `thresholdCents`, charging the card on file off-session, at most `perDay` times in a UTC day. It is the same setting every prepaid AI account calls auto-reload.  An org that has never set one reads as disabled with zeroes rather than as an error — \"no rule\" answers the question — and `stored` is how a caller tells never-configured from deliberately-off.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5913,9 +6234,9 @@ class BillingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Reads the caller's auto-reload rule: top the balance up by `amountCents` whenever it falls below `thresholdCents`, charging the card on file off-session.
+        """Reads the org's auto-reload rule: top the balance up by `amountCents` whenever it falls below `thresholdCents`, charging the card on file off-session, at most `perDay` times in a UTC day.
 
-        Reads the caller's auto-reload rule: top the balance up by `amountCents` whenever it falls below `thresholdCents`, charging the card on file off-session. It is the same setting every prepaid AI account calls auto-reload.  An org that has never set one reads as disabled with zeroes rather than as an error — \"no rule\" answers the question — and `stored` is how a caller tells never-configured from deliberately-off.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Reads the org's auto-reload rule: top the balance up by `amountCents` whenever it falls below `thresholdCents`, charging the card on file off-session, at most `perDay` times in a UTC day. It is the same setting every prepaid AI account calls auto-reload.  An org that has never set one reads as disabled with zeroes rather than as an error — \"no rule\" answers the question — and `stored` is how a caller tells never-configured from deliberately-off.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6281,9 +6602,9 @@ class BillingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> BillingSubscriptions:
-        """Lists the plans the caller holds, with the count beside them.
+        """Lists the plans the caller may see, with the count beside them.
 
-        Lists the plans the caller holds, with the count beside them.  It is scoped to the caller's own org, so a query cannot widen it to another customer's. An org on nothing is an empty list, not a refusal — being on no plan is an answer.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Lists the plans the caller may see, with the count beside them.  An admin of the org, and the platform, see every plan the org holds, and may narrow to one wallet with `userId`. A member sees the plans of the wallet they pay from — the org's own for a member of a pooled org, their own in the shared signup org — and never another member's; the card a plan renews on is left off a row the member cannot change. A query cannot widen any of it to another customer's org. An org on nothing is an empty list, not a refusal — being on no plan is an answer.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6344,9 +6665,9 @@ class BillingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[BillingSubscriptions]:
-        """Lists the plans the caller holds, with the count beside them.
+        """Lists the plans the caller may see, with the count beside them.
 
-        Lists the plans the caller holds, with the count beside them.  It is scoped to the caller's own org, so a query cannot widen it to another customer's. An org on nothing is an empty list, not a refusal — being on no plan is an answer.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Lists the plans the caller may see, with the count beside them.  An admin of the org, and the platform, see every plan the org holds, and may narrow to one wallet with `userId`. A member sees the plans of the wallet they pay from — the org's own for a member of a pooled org, their own in the shared signup org — and never another member's; the card a plan renews on is left off a row the member cannot change. A query cannot widen any of it to another customer's org. An org on nothing is an empty list, not a refusal — being on no plan is an answer.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6407,9 +6728,9 @@ class BillingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Lists the plans the caller holds, with the count beside them.
+        """Lists the plans the caller may see, with the count beside them.
 
-        Lists the plans the caller holds, with the count beside them.  It is scoped to the caller's own org, so a query cannot widen it to another customer's. An org on nothing is an empty list, not a refusal — being on no plan is an answer.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Lists the plans the caller may see, with the count beside them.  An admin of the org, and the platform, see every plan the org holds, and may narrow to one wallet with `userId`. A member sees the plans of the wallet they pay from — the org's own for a member of a pooled org, their own in the shared signup org — and never another member's; the card a plan renews on is left off a row the member cannot change. A query cannot widen any of it to another customer's org. An org on nothing is an empty list, not a refusal — being on no plan is an answer.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -8300,6 +8621,7 @@ class BillingApi:
     def get_invoice(
         self,
         id: Annotated[StrictStr, Field(description="ID is the invoice id.")],
+        brand: Annotated[Optional[StrictStr], Field(description="Brand is the brand that bills (hanzo, lux, zoo, pars), whose mark and address a rendered invoice carries. The edge sets it from the caller's issuer; empty is Hanzo.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8319,6 +8641,8 @@ class BillingApi:
 
         :param id: ID is the invoice id. (required)
         :type id: str
+        :param brand: Brand is the brand that bills (hanzo, lux, zoo, pars), whose mark and address a rendered invoice carries. The edge sets it from the caller's issuer; empty is Hanzo.
+        :type brand: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8343,6 +8667,7 @@ class BillingApi:
 
         _param = self._get_invoice_serialize(
             id=id,
+            brand=brand,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8367,6 +8692,7 @@ class BillingApi:
     def get_invoice_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the invoice id.")],
+        brand: Annotated[Optional[StrictStr], Field(description="Brand is the brand that bills (hanzo, lux, zoo, pars), whose mark and address a rendered invoice carries. The edge sets it from the caller's issuer; empty is Hanzo.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8386,6 +8712,8 @@ class BillingApi:
 
         :param id: ID is the invoice id. (required)
         :type id: str
+        :param brand: Brand is the brand that bills (hanzo, lux, zoo, pars), whose mark and address a rendered invoice carries. The edge sets it from the caller's issuer; empty is Hanzo.
+        :type brand: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8410,6 +8738,7 @@ class BillingApi:
 
         _param = self._get_invoice_serialize(
             id=id,
+            brand=brand,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8434,6 +8763,7 @@ class BillingApi:
     def get_invoice_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the invoice id.")],
+        brand: Annotated[Optional[StrictStr], Field(description="Brand is the brand that bills (hanzo, lux, zoo, pars), whose mark and address a rendered invoice carries. The edge sets it from the caller's issuer; empty is Hanzo.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8453,6 +8783,8 @@ class BillingApi:
 
         :param id: ID is the invoice id. (required)
         :type id: str
+        :param brand: Brand is the brand that bills (hanzo, lux, zoo, pars), whose mark and address a rendered invoice carries. The edge sets it from the caller's issuer; empty is Hanzo.
+        :type brand: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8477,6 +8809,7 @@ class BillingApi:
 
         _param = self._get_invoice_serialize(
             id=id,
+            brand=brand,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8496,6 +8829,7 @@ class BillingApi:
     def _get_invoice_serialize(
         self,
         id,
+        brand,
         _request_auth,
         _content_type,
         _headers,
@@ -8520,6 +8854,10 @@ class BillingApi:
         if id is not None:
             _path_params['id'] = id
         # process the query parameters
+        if brand is not None:
+            
+            _query_params.append(('brand', brand))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -8562,6 +8900,7 @@ class BillingApi:
     def issue_invoice(
         self,
         id: Annotated[StrictStr, Field(description="ID is the invoice id.")],
+        billing_invoice_ref: BillingInvoiceRef,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8581,6 +8920,8 @@ class BillingApi:
 
         :param id: ID is the invoice id. (required)
         :type id: str
+        :param billing_invoice_ref: (required)
+        :type billing_invoice_ref: BillingInvoiceRef
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8605,6 +8946,7 @@ class BillingApi:
 
         _param = self._issue_invoice_serialize(
             id=id,
+            billing_invoice_ref=billing_invoice_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8629,6 +8971,7 @@ class BillingApi:
     def issue_invoice_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the invoice id.")],
+        billing_invoice_ref: BillingInvoiceRef,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8648,6 +8991,8 @@ class BillingApi:
 
         :param id: ID is the invoice id. (required)
         :type id: str
+        :param billing_invoice_ref: (required)
+        :type billing_invoice_ref: BillingInvoiceRef
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8672,6 +9017,7 @@ class BillingApi:
 
         _param = self._issue_invoice_serialize(
             id=id,
+            billing_invoice_ref=billing_invoice_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8696,6 +9042,7 @@ class BillingApi:
     def issue_invoice_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the invoice id.")],
+        billing_invoice_ref: BillingInvoiceRef,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8715,6 +9062,8 @@ class BillingApi:
 
         :param id: ID is the invoice id. (required)
         :type id: str
+        :param billing_invoice_ref: (required)
+        :type billing_invoice_ref: BillingInvoiceRef
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8739,6 +9088,7 @@ class BillingApi:
 
         _param = self._issue_invoice_serialize(
             id=id,
+            billing_invoice_ref=billing_invoice_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8758,6 +9108,7 @@ class BillingApi:
     def _issue_invoice_serialize(
         self,
         id,
+        billing_invoice_ref,
         _request_auth,
         _content_type,
         _headers,
@@ -8785,6 +9136,8 @@ class BillingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if billing_invoice_ref is not None:
+            _body_params = billing_invoice_ref
 
 
         # set the HTTP header `Accept`
@@ -8796,6 +9149,19 @@ class BillingApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -9678,7 +10044,7 @@ class BillingApi:
     ) -> None:
         """Save a card or account for the caller
 
-        Vaults the instrument at the processor and stores the row.  A saved method is a card or account VAULTED at the processor: what is stored here is the processor's token for it plus the last four digits and the expiry a customer recognises it by, never a card number.  The list is the caller's OWN — the wallet this request bills from, resolved server-side — so a query cannot widen it to another customer of the same org.  `/v1/billing/portal/methods` answers the same list under the name a hosted checkout addresses it by. One set of rows, two spellings; a card added at either is present at both.  Saving a card ALREADY on file answers with the row that already holds it rather than stacking a duplicate — 200 for that, 201 for a genuinely new row, so a client can tell which happened. A card the processor declines is 402 and nothing is stored.
+        Vaults the instrument at the processor and stores the row.  A saved method is a card or account VAULTED at the processor: what is stored here is the processor's token for it plus the last four digits and the expiry a customer recognises it by, never a card number.  The list is the caller's OWN — the wallet this request bills from, resolved server-side — so a query cannot widen it to another customer of the same org.  `/v1/billing/portal/methods` answers the same list under the name a hosted checkout addresses it by. One set of rows, two spellings; a card added at either is present at both.  Saving a card ALREADY on file answers with the row that already holds it rather than stacking a duplicate — 200 for that, 201 for a genuinely new row, so a client can tell which happened. A card the processor declines is 402 and nothing is stored.  The org's cards are an admin's to add: a member billed from the org's account is refused 403 with a sentence naming who to ask. A member billed from a wallet of their own saves cards to that wallet.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -9740,7 +10106,7 @@ class BillingApi:
     ) -> ApiResponse[None]:
         """Save a card or account for the caller
 
-        Vaults the instrument at the processor and stores the row.  A saved method is a card or account VAULTED at the processor: what is stored here is the processor's token for it plus the last four digits and the expiry a customer recognises it by, never a card number.  The list is the caller's OWN — the wallet this request bills from, resolved server-side — so a query cannot widen it to another customer of the same org.  `/v1/billing/portal/methods` answers the same list under the name a hosted checkout addresses it by. One set of rows, two spellings; a card added at either is present at both.  Saving a card ALREADY on file answers with the row that already holds it rather than stacking a duplicate — 200 for that, 201 for a genuinely new row, so a client can tell which happened. A card the processor declines is 402 and nothing is stored.
+        Vaults the instrument at the processor and stores the row.  A saved method is a card or account VAULTED at the processor: what is stored here is the processor's token for it plus the last four digits and the expiry a customer recognises it by, never a card number.  The list is the caller's OWN — the wallet this request bills from, resolved server-side — so a query cannot widen it to another customer of the same org.  `/v1/billing/portal/methods` answers the same list under the name a hosted checkout addresses it by. One set of rows, two spellings; a card added at either is present at both.  Saving a card ALREADY on file answers with the row that already holds it rather than stacking a duplicate — 200 for that, 201 for a genuinely new row, so a client can tell which happened. A card the processor declines is 402 and nothing is stored.  The org's cards are an admin's to add: a member billed from the org's account is refused 403 with a sentence naming who to ask. A member billed from a wallet of their own saves cards to that wallet.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -9802,7 +10168,7 @@ class BillingApi:
     ) -> RESTResponseType:
         """Save a card or account for the caller
 
-        Vaults the instrument at the processor and stores the row.  A saved method is a card or account VAULTED at the processor: what is stored here is the processor's token for it plus the last four digits and the expiry a customer recognises it by, never a card number.  The list is the caller's OWN — the wallet this request bills from, resolved server-side — so a query cannot widen it to another customer of the same org.  `/v1/billing/portal/methods` answers the same list under the name a hosted checkout addresses it by. One set of rows, two spellings; a card added at either is present at both.  Saving a card ALREADY on file answers with the row that already holds it rather than stacking a duplicate — 200 for that, 201 for a genuinely new row, so a client can tell which happened. A card the processor declines is 402 and nothing is stored.
+        Vaults the instrument at the processor and stores the row.  A saved method is a card or account VAULTED at the processor: what is stored here is the processor's token for it plus the last four digits and the expiry a customer recognises it by, never a card number.  The list is the caller's OWN — the wallet this request bills from, resolved server-side — so a query cannot widen it to another customer of the same org.  `/v1/billing/portal/methods` answers the same list under the name a hosted checkout addresses it by. One set of rows, two spellings; a card added at either is present at both.  Saving a card ALREADY on file answers with the row that already holds it rather than stacking a duplicate — 200 for that, 201 for a genuinely new row, so a client can tell which happened. A card the processor declines is 402 and nothing is stored.  The org's cards are an admin's to add: a member billed from the org's account is refused 403 with a sentence naming who to ask. A member billed from a wallet of their own saves cards to that wallet.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -10189,7 +10555,7 @@ class BillingApi:
     ) -> None:
         """Save a card or account for the caller
 
-        Vaults the instrument at the processor and stores the row.  A saved method is a card or account VAULTED at the processor: what is stored here is the processor's token for it plus the last four digits and the expiry a customer recognises it by, never a card number.  The list is the caller's OWN — the wallet this request bills from, resolved server-side — so a query cannot widen it to another customer of the same org.  `/v1/billing/portal/methods` answers the same list under the name a hosted checkout addresses it by. One set of rows, two spellings; a card added at either is present at both.  Saving a card ALREADY on file answers with the row that already holds it rather than stacking a duplicate — 200 for that, 201 for a genuinely new row, so a client can tell which happened. A card the processor declines is 402 and nothing is stored.
+        Vaults the instrument at the processor and stores the row.  A saved method is a card or account VAULTED at the processor: what is stored here is the processor's token for it plus the last four digits and the expiry a customer recognises it by, never a card number.  The list is the caller's OWN — the wallet this request bills from, resolved server-side — so a query cannot widen it to another customer of the same org.  `/v1/billing/portal/methods` answers the same list under the name a hosted checkout addresses it by. One set of rows, two spellings; a card added at either is present at both.  Saving a card ALREADY on file answers with the row that already holds it rather than stacking a duplicate — 200 for that, 201 for a genuinely new row, so a client can tell which happened. A card the processor declines is 402 and nothing is stored.  The org's cards are an admin's to add: a member billed from the org's account is refused 403 with a sentence naming who to ask. A member billed from a wallet of their own saves cards to that wallet.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -10251,7 +10617,7 @@ class BillingApi:
     ) -> ApiResponse[None]:
         """Save a card or account for the caller
 
-        Vaults the instrument at the processor and stores the row.  A saved method is a card or account VAULTED at the processor: what is stored here is the processor's token for it plus the last four digits and the expiry a customer recognises it by, never a card number.  The list is the caller's OWN — the wallet this request bills from, resolved server-side — so a query cannot widen it to another customer of the same org.  `/v1/billing/portal/methods` answers the same list under the name a hosted checkout addresses it by. One set of rows, two spellings; a card added at either is present at both.  Saving a card ALREADY on file answers with the row that already holds it rather than stacking a duplicate — 200 for that, 201 for a genuinely new row, so a client can tell which happened. A card the processor declines is 402 and nothing is stored.
+        Vaults the instrument at the processor and stores the row.  A saved method is a card or account VAULTED at the processor: what is stored here is the processor's token for it plus the last four digits and the expiry a customer recognises it by, never a card number.  The list is the caller's OWN — the wallet this request bills from, resolved server-side — so a query cannot widen it to another customer of the same org.  `/v1/billing/portal/methods` answers the same list under the name a hosted checkout addresses it by. One set of rows, two spellings; a card added at either is present at both.  Saving a card ALREADY on file answers with the row that already holds it rather than stacking a duplicate — 200 for that, 201 for a genuinely new row, so a client can tell which happened. A card the processor declines is 402 and nothing is stored.  The org's cards are an admin's to add: a member billed from the org's account is refused 403 with a sentence naming who to ask. A member billed from a wallet of their own saves cards to that wallet.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -10313,7 +10679,7 @@ class BillingApi:
     ) -> RESTResponseType:
         """Save a card or account for the caller
 
-        Vaults the instrument at the processor and stores the row.  A saved method is a card or account VAULTED at the processor: what is stored here is the processor's token for it plus the last four digits and the expiry a customer recognises it by, never a card number.  The list is the caller's OWN — the wallet this request bills from, resolved server-side — so a query cannot widen it to another customer of the same org.  `/v1/billing/portal/methods` answers the same list under the name a hosted checkout addresses it by. One set of rows, two spellings; a card added at either is present at both.  Saving a card ALREADY on file answers with the row that already holds it rather than stacking a duplicate — 200 for that, 201 for a genuinely new row, so a client can tell which happened. A card the processor declines is 402 and nothing is stored.
+        Vaults the instrument at the processor and stores the row.  A saved method is a card or account VAULTED at the processor: what is stored here is the processor's token for it plus the last four digits and the expiry a customer recognises it by, never a card number.  The list is the caller's OWN — the wallet this request bills from, resolved server-side — so a query cannot widen it to another customer of the same org.  `/v1/billing/portal/methods` answers the same list under the name a hosted checkout addresses it by. One set of rows, two spellings; a card added at either is present at both.  Saving a card ALREADY on file answers with the row that already holds it rather than stacking a duplicate — 200 for that, 201 for a genuinely new row, so a client can tell which happened. A card the processor declines is 402 and nothing is stored.  The org's cards are an admin's to add: a member billed from the org's account is refused 403 with a sentence naming who to ask. A member billed from a wallet of their own saves cards to that wallet.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -10672,7 +11038,7 @@ class BillingApi:
     ) -> None:
         """Buy a plan with a card
 
-        Vaults the card (or reuses one already on file), charges the plan's FIRST period at the catalog price, and opens the subscription — one act, all of it server-side.  There is NO AMOUNT in the request. `level` picks which of the plan's published prices to buy at — an index, never a number — so what the card is charged is decided by the catalog and underpaying cannot be expressed.  `interval` picks the term: \"month\" (the default) or \"year\", which charges the plan's annual total now and renews yearly. A plan with no annual price refuses \"year\".  `coupon` is a plan coupon code (case-insensitive) for a percent off the FIRST month only; renewals bill the catalog price. It is a code, never an amount. A code that is unknown, expired, used up, not for this plan, or sent with annual billing or prepaid credit is 400, and one this org or this card has already redeemed is 409 — before any card is charged, never a silent full-price sale. The receipt names the coupon and its percent.  A fresh sale answers 201 with the receipt. An identical retry answers 200 with the FIRST sale's body, byte for byte, so a client cannot read a replay as a second subscription having been opened. A caller already on a paid plan is 409 rather than charged again.
+        Vaults the card (or reuses one already on file), charges the plan's FIRST period at the catalog price, and opens the subscription — one act, all of it server-side.  There is NO AMOUNT in the request. `level` picks which of the plan's published prices to buy at — an index, never a number — so what the card is charged is decided by the catalog and underpaying cannot be expressed.  `interval` picks the term: \"month\" (the default) or \"year\", which charges the plan's annual total now and renews yearly. A plan with no annual price refuses \"year\".  `lines` are a team's other seat types, bought on the same subscription: `[{\"planId\":\"team-premium\",\"quantity\":1}]` beside `planId` \"team\" and `quantity` 1 is a team of one standard and one premium seat, charged both seats' prices. A team is at least two members across every seat type and at most 100; a line of a plan that is not a seat type of the team is 400 before any card is charged.  `coupon` is a plan coupon code (case-insensitive) for a percent off the FIRST month only; renewals bill the catalog price. It is a code, never an amount. A code that is unknown, expired, used up, not for this plan, or sent with annual billing or prepaid credit is 400, and one this org or this card has already redeemed is 409 — before any card is charged, never a silent full-price sale. The receipt names the coupon and its percent.  `wallet: true` says `sourceId` is a wallet's single-use token (Apple Pay, Google Pay, Cash App Pay). The first period is authorized on the wallet, any coupon is held against the org and the card behind it, and only then is the payment captured; a coupon already used by either voids the hold and is 409. Cash App Pay names no card, so a coupon with it is 400. The token is kept nowhere: renewals are drawn from the prepaid balance.  `consent` is the choice the checkout page holds, as @hanzo/event spells it (\"analytics,marketing,ads\"). The sale reaches an ad platform only under it. It counts only from a browser (a request with Sec-Fetch-Site), and a browser that sends GPC or DNT has allowed nothing, whatever the page says.  A fresh sale answers 201 with the receipt. An identical retry answers 200 with the FIRST sale's body, byte for byte, so a client cannot read a replay as a second subscription having been opened. A caller already on a paid plan is 409 rather than charged again.  The org's plan is bought only by an admin of the org or the platform: a member billed from the org's account is refused 403, before any card is charged, with a sentence naming who to ask. A member billed from a wallet of their own buys a plan for that wallet.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -10734,7 +11100,7 @@ class BillingApi:
     ) -> ApiResponse[None]:
         """Buy a plan with a card
 
-        Vaults the card (or reuses one already on file), charges the plan's FIRST period at the catalog price, and opens the subscription — one act, all of it server-side.  There is NO AMOUNT in the request. `level` picks which of the plan's published prices to buy at — an index, never a number — so what the card is charged is decided by the catalog and underpaying cannot be expressed.  `interval` picks the term: \"month\" (the default) or \"year\", which charges the plan's annual total now and renews yearly. A plan with no annual price refuses \"year\".  `coupon` is a plan coupon code (case-insensitive) for a percent off the FIRST month only; renewals bill the catalog price. It is a code, never an amount. A code that is unknown, expired, used up, not for this plan, or sent with annual billing or prepaid credit is 400, and one this org or this card has already redeemed is 409 — before any card is charged, never a silent full-price sale. The receipt names the coupon and its percent.  A fresh sale answers 201 with the receipt. An identical retry answers 200 with the FIRST sale's body, byte for byte, so a client cannot read a replay as a second subscription having been opened. A caller already on a paid plan is 409 rather than charged again.
+        Vaults the card (or reuses one already on file), charges the plan's FIRST period at the catalog price, and opens the subscription — one act, all of it server-side.  There is NO AMOUNT in the request. `level` picks which of the plan's published prices to buy at — an index, never a number — so what the card is charged is decided by the catalog and underpaying cannot be expressed.  `interval` picks the term: \"month\" (the default) or \"year\", which charges the plan's annual total now and renews yearly. A plan with no annual price refuses \"year\".  `lines` are a team's other seat types, bought on the same subscription: `[{\"planId\":\"team-premium\",\"quantity\":1}]` beside `planId` \"team\" and `quantity` 1 is a team of one standard and one premium seat, charged both seats' prices. A team is at least two members across every seat type and at most 100; a line of a plan that is not a seat type of the team is 400 before any card is charged.  `coupon` is a plan coupon code (case-insensitive) for a percent off the FIRST month only; renewals bill the catalog price. It is a code, never an amount. A code that is unknown, expired, used up, not for this plan, or sent with annual billing or prepaid credit is 400, and one this org or this card has already redeemed is 409 — before any card is charged, never a silent full-price sale. The receipt names the coupon and its percent.  `wallet: true` says `sourceId` is a wallet's single-use token (Apple Pay, Google Pay, Cash App Pay). The first period is authorized on the wallet, any coupon is held against the org and the card behind it, and only then is the payment captured; a coupon already used by either voids the hold and is 409. Cash App Pay names no card, so a coupon with it is 400. The token is kept nowhere: renewals are drawn from the prepaid balance.  `consent` is the choice the checkout page holds, as @hanzo/event spells it (\"analytics,marketing,ads\"). The sale reaches an ad platform only under it. It counts only from a browser (a request with Sec-Fetch-Site), and a browser that sends GPC or DNT has allowed nothing, whatever the page says.  A fresh sale answers 201 with the receipt. An identical retry answers 200 with the FIRST sale's body, byte for byte, so a client cannot read a replay as a second subscription having been opened. A caller already on a paid plan is 409 rather than charged again.  The org's plan is bought only by an admin of the org or the platform: a member billed from the org's account is refused 403, before any card is charged, with a sentence naming who to ask. A member billed from a wallet of their own buys a plan for that wallet.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -10796,7 +11162,7 @@ class BillingApi:
     ) -> RESTResponseType:
         """Buy a plan with a card
 
-        Vaults the card (or reuses one already on file), charges the plan's FIRST period at the catalog price, and opens the subscription — one act, all of it server-side.  There is NO AMOUNT in the request. `level` picks which of the plan's published prices to buy at — an index, never a number — so what the card is charged is decided by the catalog and underpaying cannot be expressed.  `interval` picks the term: \"month\" (the default) or \"year\", which charges the plan's annual total now and renews yearly. A plan with no annual price refuses \"year\".  `coupon` is a plan coupon code (case-insensitive) for a percent off the FIRST month only; renewals bill the catalog price. It is a code, never an amount. A code that is unknown, expired, used up, not for this plan, or sent with annual billing or prepaid credit is 400, and one this org or this card has already redeemed is 409 — before any card is charged, never a silent full-price sale. The receipt names the coupon and its percent.  A fresh sale answers 201 with the receipt. An identical retry answers 200 with the FIRST sale's body, byte for byte, so a client cannot read a replay as a second subscription having been opened. A caller already on a paid plan is 409 rather than charged again.
+        Vaults the card (or reuses one already on file), charges the plan's FIRST period at the catalog price, and opens the subscription — one act, all of it server-side.  There is NO AMOUNT in the request. `level` picks which of the plan's published prices to buy at — an index, never a number — so what the card is charged is decided by the catalog and underpaying cannot be expressed.  `interval` picks the term: \"month\" (the default) or \"year\", which charges the plan's annual total now and renews yearly. A plan with no annual price refuses \"year\".  `lines` are a team's other seat types, bought on the same subscription: `[{\"planId\":\"team-premium\",\"quantity\":1}]` beside `planId` \"team\" and `quantity` 1 is a team of one standard and one premium seat, charged both seats' prices. A team is at least two members across every seat type and at most 100; a line of a plan that is not a seat type of the team is 400 before any card is charged.  `coupon` is a plan coupon code (case-insensitive) for a percent off the FIRST month only; renewals bill the catalog price. It is a code, never an amount. A code that is unknown, expired, used up, not for this plan, or sent with annual billing or prepaid credit is 400, and one this org or this card has already redeemed is 409 — before any card is charged, never a silent full-price sale. The receipt names the coupon and its percent.  `wallet: true` says `sourceId` is a wallet's single-use token (Apple Pay, Google Pay, Cash App Pay). The first period is authorized on the wallet, any coupon is held against the org and the card behind it, and only then is the payment captured; a coupon already used by either voids the hold and is 409. Cash App Pay names no card, so a coupon with it is 400. The token is kept nowhere: renewals are drawn from the prepaid balance.  `consent` is the choice the checkout page holds, as @hanzo/event spells it (\"analytics,marketing,ads\"). The sale reaches an ad platform only under it. It counts only from a browser (a request with Sec-Fetch-Site), and a browser that sends GPC or DNT has allowed nothing, whatever the page says.  A fresh sale answers 201 with the receipt. An identical retry answers 200 with the FIRST sale's body, byte for byte, so a client cannot read a replay as a second subscription having been opened. A caller already on a paid plan is 409 rather than charged again.  The org's plan is bought only by an admin of the org or the platform: a member billed from the org's account is refused 403, before any card is charged, with a sentence naming who to ask. A member billed from a wallet of their own buys a plan for that wallet.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -10910,7 +11276,7 @@ class BillingApi:
     ) -> BillingCharged:
         """Charges a card the caller already saved and credits the balance.
 
-        Charges a card the caller already saved and credits the balance. Same receipt and the same retry safety as the token endpoint; the only difference is which card, so a caller topping up from a saved method never re-enters one.
+        Charges a card the caller already saved and credits the balance. Same receipt and the same retry safety as the token endpoint; the only difference is which card, so a caller topping up from a saved method never re-enters one.  The org's card on file is charged only by an admin of the org or the platform; a member is refused with 403 and told to ask an admin. A member billed from a wallet of their own charges that wallet's card.
 
         :param billing_topup_in: (required)
         :type billing_topup_in: BillingTopupIn
@@ -10981,7 +11347,7 @@ class BillingApi:
     ) -> ApiResponse[BillingCharged]:
         """Charges a card the caller already saved and credits the balance.
 
-        Charges a card the caller already saved and credits the balance. Same receipt and the same retry safety as the token endpoint; the only difference is which card, so a caller topping up from a saved method never re-enters one.
+        Charges a card the caller already saved and credits the balance. Same receipt and the same retry safety as the token endpoint; the only difference is which card, so a caller topping up from a saved method never re-enters one.  The org's card on file is charged only by an admin of the org or the platform; a member is refused with 403 and told to ask an admin. A member billed from a wallet of their own charges that wallet's card.
 
         :param billing_topup_in: (required)
         :type billing_topup_in: BillingTopupIn
@@ -11052,7 +11418,7 @@ class BillingApi:
     ) -> RESTResponseType:
         """Charges a card the caller already saved and credits the balance.
 
-        Charges a card the caller already saved and credits the balance. Same receipt and the same retry safety as the token endpoint; the only difference is which card, so a caller topping up from a saved method never re-enters one.
+        Charges a card the caller already saved and credits the balance. Same receipt and the same retry safety as the token endpoint; the only difference is which card, so a caller topping up from a saved method never re-enters one.  The org's card on file is charged only by an admin of the org or the platform; a member is refused with 403 and told to ask an admin. A member billed from a wallet of their own charges that wallet's card.
 
         :param billing_topup_in: (required)
         :type billing_topup_in: BillingTopupIn
@@ -11762,9 +12128,9 @@ class BillingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> BillingAutoRecharge:
-        """Sets the caller's auto-reload rule, and answers with the rule as stored.
+        """Sets the org's auto-reload rule, and answers with the rule as stored.
 
-        Sets the caller's auto-reload rule, and answers with the rule as stored.  ENABLING REQUIRES A CARD ON FILE (400), because the sweep charges off-session: a rule naming no chargeable method is a promise the schedule cannot keep. A non-positive amount and a negative threshold are refused the same way, each naming the field that was wrong.  The rule is the caller's OWN. The org comes from the validated principal and the body names none, so there is no field a write could be steered through onto another tenant's schedule.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Sets the org's auto-reload rule, and answers with the rule as stored.  ONLY AN ADMIN OF THE ORG, or the platform, may (403 otherwise, with the plain sentence \"Only an admin of <org> can change its auto-reload. Ask an admin to do it.\"): the sweep charges the org's default card with nobody there.  ENABLING REQUIRES A CARD ON FILE (400), because the sweep charges off-session: a rule naming no chargeable method is a promise the schedule cannot keep. The amount is a top-up's own range, $5 to $5,000, and the balance it reloads below is $0 to $5,000; a value outside either is refused the same way, the range in the sentence. The sweep reloads at most `perDay` times in a UTC day.  The rule is the org's OWN. The org comes from the validated principal and the body names none, so there is no field a write could be steered through onto another tenant's schedule.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param billing_auto_recharge_edit: (required)
         :type billing_auto_recharge_edit: BillingAutoRechargeEdit
@@ -11829,9 +12195,9 @@ class BillingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[BillingAutoRecharge]:
-        """Sets the caller's auto-reload rule, and answers with the rule as stored.
+        """Sets the org's auto-reload rule, and answers with the rule as stored.
 
-        Sets the caller's auto-reload rule, and answers with the rule as stored.  ENABLING REQUIRES A CARD ON FILE (400), because the sweep charges off-session: a rule naming no chargeable method is a promise the schedule cannot keep. A non-positive amount and a negative threshold are refused the same way, each naming the field that was wrong.  The rule is the caller's OWN. The org comes from the validated principal and the body names none, so there is no field a write could be steered through onto another tenant's schedule.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Sets the org's auto-reload rule, and answers with the rule as stored.  ONLY AN ADMIN OF THE ORG, or the platform, may (403 otherwise, with the plain sentence \"Only an admin of <org> can change its auto-reload. Ask an admin to do it.\"): the sweep charges the org's default card with nobody there.  ENABLING REQUIRES A CARD ON FILE (400), because the sweep charges off-session: a rule naming no chargeable method is a promise the schedule cannot keep. The amount is a top-up's own range, $5 to $5,000, and the balance it reloads below is $0 to $5,000; a value outside either is refused the same way, the range in the sentence. The sweep reloads at most `perDay` times in a UTC day.  The rule is the org's OWN. The org comes from the validated principal and the body names none, so there is no field a write could be steered through onto another tenant's schedule.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param billing_auto_recharge_edit: (required)
         :type billing_auto_recharge_edit: BillingAutoRechargeEdit
@@ -11896,9 +12262,9 @@ class BillingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Sets the caller's auto-reload rule, and answers with the rule as stored.
+        """Sets the org's auto-reload rule, and answers with the rule as stored.
 
-        Sets the caller's auto-reload rule, and answers with the rule as stored.  ENABLING REQUIRES A CARD ON FILE (400), because the sweep charges off-session: a rule naming no chargeable method is a promise the schedule cannot keep. A non-positive amount and a negative threshold are refused the same way, each naming the field that was wrong.  The rule is the caller's OWN. The org comes from the validated principal and the body names none, so there is no field a write could be steered through onto another tenant's schedule.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Sets the org's auto-reload rule, and answers with the rule as stored.  ONLY AN ADMIN OF THE ORG, or the platform, may (403 otherwise, with the plain sentence \"Only an admin of <org> can change its auto-reload. Ask an admin to do it.\"): the sweep charges the org's default card with nobody there.  ENABLING REQUIRES A CARD ON FILE (400), because the sweep charges off-session: a rule naming no chargeable method is a promise the schedule cannot keep. The amount is a top-up's own range, $5 to $5,000, and the balance it reloads below is $0 to $5,000; a value outside either is refused the same way, the range in the sentence. The sweep reloads at most `perDay` times in a UTC day.  The rule is the org's OWN. The org comes from the validated principal and the body names none, so there is no field a write could be steered through onto another tenant's schedule.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param billing_auto_recharge_edit: (required)
         :type billing_auto_recharge_edit: BillingAutoRechargeEdit
@@ -12298,8 +12664,8 @@ class BillingApi:
     @validate_call
     def reactivate_subscription(
         self,
-        id: StrictStr,
-        billing_subscription_ref: BillingSubscriptionRef,
+        id: Annotated[StrictStr, Field(description="ID is the subscription, from the path.")],
+        billing_subscription_act: BillingSubscriptionAct,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -12315,12 +12681,12 @@ class BillingApi:
     ) -> BillingSubscription:
         """Put a canceled subscription back on its plan
 
-        Puts a canceled subscription back on its plan.  What asks for this is usually a recovered payment method or a support tool rather than a browser, which is most of the argument for it having an address at all. The engine decides whether the move is legal; a row it will not reactivate comes back with its own reason.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Puts a canceled subscription back on its plan.  What asks for this is usually a recovered payment method or a support tool rather than a browser, which is most of the argument for it having an address at all. The engine decides whether the move is legal; a row it will not reactivate comes back with its own reason.  Resuming the org's plan commits its card to the next renewal, so it takes the authority ending it does: an admin of the org or the platform, or a member for a wallet of their own. A member is refused with 403 and told to ask an admin.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
-        :param id: (required)
+        :param id: ID is the subscription, from the path. (required)
         :type id: str
-        :param billing_subscription_ref: (required)
-        :type billing_subscription_ref: BillingSubscriptionRef
+        :param billing_subscription_act: (required)
+        :type billing_subscription_act: BillingSubscriptionAct
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -12345,7 +12711,7 @@ class BillingApi:
 
         _param = self._reactivate_subscription_serialize(
             id=id,
-            billing_subscription_ref=billing_subscription_ref,
+            billing_subscription_act=billing_subscription_act,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12369,8 +12735,8 @@ class BillingApi:
     @validate_call
     def reactivate_subscription_with_http_info(
         self,
-        id: StrictStr,
-        billing_subscription_ref: BillingSubscriptionRef,
+        id: Annotated[StrictStr, Field(description="ID is the subscription, from the path.")],
+        billing_subscription_act: BillingSubscriptionAct,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -12386,12 +12752,12 @@ class BillingApi:
     ) -> ApiResponse[BillingSubscription]:
         """Put a canceled subscription back on its plan
 
-        Puts a canceled subscription back on its plan.  What asks for this is usually a recovered payment method or a support tool rather than a browser, which is most of the argument for it having an address at all. The engine decides whether the move is legal; a row it will not reactivate comes back with its own reason.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Puts a canceled subscription back on its plan.  What asks for this is usually a recovered payment method or a support tool rather than a browser, which is most of the argument for it having an address at all. The engine decides whether the move is legal; a row it will not reactivate comes back with its own reason.  Resuming the org's plan commits its card to the next renewal, so it takes the authority ending it does: an admin of the org or the platform, or a member for a wallet of their own. A member is refused with 403 and told to ask an admin.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
-        :param id: (required)
+        :param id: ID is the subscription, from the path. (required)
         :type id: str
-        :param billing_subscription_ref: (required)
-        :type billing_subscription_ref: BillingSubscriptionRef
+        :param billing_subscription_act: (required)
+        :type billing_subscription_act: BillingSubscriptionAct
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -12416,7 +12782,7 @@ class BillingApi:
 
         _param = self._reactivate_subscription_serialize(
             id=id,
-            billing_subscription_ref=billing_subscription_ref,
+            billing_subscription_act=billing_subscription_act,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12440,8 +12806,8 @@ class BillingApi:
     @validate_call
     def reactivate_subscription_without_preload_content(
         self,
-        id: StrictStr,
-        billing_subscription_ref: BillingSubscriptionRef,
+        id: Annotated[StrictStr, Field(description="ID is the subscription, from the path.")],
+        billing_subscription_act: BillingSubscriptionAct,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -12457,12 +12823,12 @@ class BillingApi:
     ) -> RESTResponseType:
         """Put a canceled subscription back on its plan
 
-        Puts a canceled subscription back on its plan.  What asks for this is usually a recovered payment method or a support tool rather than a browser, which is most of the argument for it having an address at all. The engine decides whether the move is legal; a row it will not reactivate comes back with its own reason.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Puts a canceled subscription back on its plan.  What asks for this is usually a recovered payment method or a support tool rather than a browser, which is most of the argument for it having an address at all. The engine decides whether the move is legal; a row it will not reactivate comes back with its own reason.  Resuming the org's plan commits its card to the next renewal, so it takes the authority ending it does: an admin of the org or the platform, or a member for a wallet of their own. A member is refused with 403 and told to ask an admin.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
-        :param id: (required)
+        :param id: ID is the subscription, from the path. (required)
         :type id: str
-        :param billing_subscription_ref: (required)
-        :type billing_subscription_ref: BillingSubscriptionRef
+        :param billing_subscription_act: (required)
+        :type billing_subscription_act: BillingSubscriptionAct
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -12487,7 +12853,7 @@ class BillingApi:
 
         _param = self._reactivate_subscription_serialize(
             id=id,
-            billing_subscription_ref=billing_subscription_ref,
+            billing_subscription_act=billing_subscription_act,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12507,7 +12873,7 @@ class BillingApi:
     def _reactivate_subscription_serialize(
         self,
         id,
-        billing_subscription_ref,
+        billing_subscription_act,
         _request_auth,
         _content_type,
         _headers,
@@ -12535,8 +12901,8 @@ class BillingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if billing_subscription_ref is not None:
-            _body_params = billing_subscription_ref
+        if billing_subscription_act is not None:
+            _body_params = billing_subscription_act
 
 
         # set the HTTP header `Accept`
@@ -12586,9 +12952,10 @@ class BillingApi:
 
 
     @validate_call
-    def void_invoice(
+    def resize_subscription(
         self,
-        id: Annotated[StrictStr, Field(description="ID is the invoice id.")],
+        id: StrictStr,
+        billing_resize: BillingResize,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -12601,13 +12968,15 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> BillingInvoice:
-        """Void a draft or issued invoice
+    ) -> BillingSubscription:
+        """Change a team's seats
 
-        Voids a draft or issued invoice — the cancel. It is the org admin's act; a member is refused 403.  A paid invoice cannot be voided: money has moved, and the correction for that is a refund, not an erasure. The state machine refuses it and that refusal is the answer.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Changes a team's seats: how many standard and premium seats its next period opens at.  `quantity` is the subscription's own seat type, 0 to keep it, and `lines` each other seat type: `{\"lines\":[{\"planId\":\"team-premium\",\"quantity\":1}]}` adds a premium seat to a team bought with standard ones. The renewal that opens the next period charges the seats asked for, and the period in hand keeps the ones it was paid for, so nothing is charged now. A team is at least 2 seats and at most 100 across every seat type; past either, or naming a plan that is not a seat type of the team, is 400 and nothing changes.  The team's seats are its admins' to change, and the platform's. A member is refused with 403 and told to ask an admin. A subscription from another org, or held by a wallet the caller may not change, is not found.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
-        :param id: ID is the invoice id. (required)
+        :param id: (required)
         :type id: str
+        :param billing_resize: (required)
+        :type billing_resize: BillingResize
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -12630,8 +12999,9 @@ class BillingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._void_invoice_serialize(
+        _param = self._resize_subscription_serialize(
             id=id,
+            billing_resize=billing_resize,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12639,7 +13009,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BillingInvoice",
+            '200': "BillingSubscription",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12653,9 +13023,10 @@ class BillingApi:
 
 
     @validate_call
-    def void_invoice_with_http_info(
+    def resize_subscription_with_http_info(
         self,
-        id: Annotated[StrictStr, Field(description="ID is the invoice id.")],
+        id: StrictStr,
+        billing_resize: BillingResize,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -12668,13 +13039,15 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[BillingInvoice]:
-        """Void a draft or issued invoice
+    ) -> ApiResponse[BillingSubscription]:
+        """Change a team's seats
 
-        Voids a draft or issued invoice — the cancel. It is the org admin's act; a member is refused 403.  A paid invoice cannot be voided: money has moved, and the correction for that is a refund, not an erasure. The state machine refuses it and that refusal is the answer.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Changes a team's seats: how many standard and premium seats its next period opens at.  `quantity` is the subscription's own seat type, 0 to keep it, and `lines` each other seat type: `{\"lines\":[{\"planId\":\"team-premium\",\"quantity\":1}]}` adds a premium seat to a team bought with standard ones. The renewal that opens the next period charges the seats asked for, and the period in hand keeps the ones it was paid for, so nothing is charged now. A team is at least 2 seats and at most 100 across every seat type; past either, or naming a plan that is not a seat type of the team, is 400 and nothing changes.  The team's seats are its admins' to change, and the platform's. A member is refused with 403 and told to ask an admin. A subscription from another org, or held by a wallet the caller may not change, is not found.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
-        :param id: ID is the invoice id. (required)
+        :param id: (required)
         :type id: str
+        :param billing_resize: (required)
+        :type billing_resize: BillingResize
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -12697,8 +13070,9 @@ class BillingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._void_invoice_serialize(
+        _param = self._resize_subscription_serialize(
             id=id,
+            billing_resize=billing_resize,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12706,7 +13080,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BillingInvoice",
+            '200': "BillingSubscription",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12720,9 +13094,10 @@ class BillingApi:
 
 
     @validate_call
-    def void_invoice_without_preload_content(
+    def resize_subscription_without_preload_content(
         self,
-        id: Annotated[StrictStr, Field(description="ID is the invoice id.")],
+        id: StrictStr,
+        billing_resize: BillingResize,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -12736,12 +13111,14 @@ class BillingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Void a draft or issued invoice
+        """Change a team's seats
 
-        Voids a draft or issued invoice — the cancel. It is the org admin's act; a member is refused 403.  A paid invoice cannot be voided: money has moved, and the correction for that is a refund, not an erasure. The state machine refuses it and that refusal is the answer.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Changes a team's seats: how many standard and premium seats its next period opens at.  `quantity` is the subscription's own seat type, 0 to keep it, and `lines` each other seat type: `{\"lines\":[{\"planId\":\"team-premium\",\"quantity\":1}]}` adds a premium seat to a team bought with standard ones. The renewal that opens the next period charges the seats asked for, and the period in hand keeps the ones it was paid for, so nothing is charged now. A team is at least 2 seats and at most 100 across every seat type; past either, or naming a plan that is not a seat type of the team, is 400 and nothing changes.  The team's seats are its admins' to change, and the platform's. A member is refused with 403 and told to ask an admin. A subscription from another org, or held by a wallet the caller may not change, is not found.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
-        :param id: ID is the invoice id. (required)
+        :param id: (required)
         :type id: str
+        :param billing_resize: (required)
+        :type billing_resize: BillingResize
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -12764,8 +13141,9 @@ class BillingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._void_invoice_serialize(
+        _param = self._resize_subscription_serialize(
             id=id,
+            billing_resize=billing_resize,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12773,7 +13151,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BillingInvoice",
+            '200': "BillingSubscription",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12782,9 +13160,10 @@ class BillingApi:
         return response_data.response
 
 
-    def _void_invoice_serialize(
+    def _resize_subscription_serialize(
         self,
         id,
+        billing_resize,
         _request_auth,
         _content_type,
         _headers,
@@ -12812,6 +13191,8 @@ class BillingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if billing_resize is not None:
+            _body_params = billing_resize
 
 
         # set the HTTP header `Accept`
@@ -12823,6 +13204,309 @@ class BillingApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/billing/subscriptions/{id}/resize',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def void_invoice(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the invoice id.")],
+        billing_invoice_ref: BillingInvoiceRef,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> BillingInvoice:
+        """Void a draft or issued invoice
+
+        Voids a draft or issued invoice — the cancel. It is the org admin's act; a member is refused 403.  A paid invoice cannot be voided: money has moved, and the correction for that is a refund, not an erasure. The state machine refuses it and that refusal is the answer.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param id: ID is the invoice id. (required)
+        :type id: str
+        :param billing_invoice_ref: (required)
+        :type billing_invoice_ref: BillingInvoiceRef
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._void_invoice_serialize(
+            id=id,
+            billing_invoice_ref=billing_invoice_ref,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BillingInvoice",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def void_invoice_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the invoice id.")],
+        billing_invoice_ref: BillingInvoiceRef,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[BillingInvoice]:
+        """Void a draft or issued invoice
+
+        Voids a draft or issued invoice — the cancel. It is the org admin's act; a member is refused 403.  A paid invoice cannot be voided: money has moved, and the correction for that is a refund, not an erasure. The state machine refuses it and that refusal is the answer.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param id: ID is the invoice id. (required)
+        :type id: str
+        :param billing_invoice_ref: (required)
+        :type billing_invoice_ref: BillingInvoiceRef
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._void_invoice_serialize(
+            id=id,
+            billing_invoice_ref=billing_invoice_ref,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BillingInvoice",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def void_invoice_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the invoice id.")],
+        billing_invoice_ref: BillingInvoiceRef,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Void a draft or issued invoice
+
+        Voids a draft or issued invoice — the cancel. It is the org admin's act; a member is refused 403.  A paid invoice cannot be voided: money has moved, and the correction for that is a refund, not an erasure. The state machine refuses it and that refusal is the answer.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param id: ID is the invoice id. (required)
+        :type id: str
+        :param billing_invoice_ref: (required)
+        :type billing_invoice_ref: BillingInvoiceRef
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._void_invoice_serialize(
+            id=id,
+            billing_invoice_ref=billing_invoice_ref,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BillingInvoice",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _void_invoice_serialize(
+        self,
+        id,
+        billing_invoice_ref,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if billing_invoice_ref is not None:
+            _body_params = billing_invoice_ref
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [

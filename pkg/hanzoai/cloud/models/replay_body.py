@@ -26,11 +26,12 @@ class ReplayBody(BaseModel):
     """
     ReplayBody
     """ # noqa: E501
+    consent: Optional[Any] = None
     distinct_id: Optional[StrictStr] = Field(default=None, alias="distinctId")
     events: Optional[List[Any]] = None
     session_id: Optional[StrictStr] = Field(default=None, alias="sessionId")
     window_id: Optional[StrictStr] = Field(default=None, alias="windowId")
-    __properties: ClassVar[List[str]] = ["distinctId", "events", "sessionId", "windowId"]
+    __properties: ClassVar[List[str]] = ["consent", "distinctId", "events", "sessionId", "windowId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -71,6 +72,11 @@ class ReplayBody(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if consent (nullable) is None
+        # and model_fields_set contains the field
+        if self.consent is None and "consent" in self.model_fields_set:
+            _dict['consent'] = None
+
         return _dict
 
     @classmethod
@@ -83,6 +89,7 @@ class ReplayBody(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "consent": obj.get("consent"),
             "distinctId": obj.get("distinctId"),
             "events": obj.get("events"),
             "sessionId": obj.get("sessionId"),

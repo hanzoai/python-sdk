@@ -27,7 +27,7 @@ class GraphQLError(BaseModel):
     GraphQLError
     """ # noqa: E501
     message: Optional[StrictStr] = None
-    path: Optional[List[StrictStr]] = None
+    path: Optional[List[Any]] = None
     __properties: ClassVar[List[str]] = ["message", "path"]
 
     model_config = ConfigDict(

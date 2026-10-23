@@ -19,7 +19,9 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.billing_subscription_line import BillingSubscriptionLine
 from hanzoai.cloud.models.billing_subscription_plan import BillingSubscriptionPlan
+from hanzoai.cloud.models.billing_subscription_seat import BillingSubscriptionSeat
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,6 +29,7 @@ class BillingSubscription(BaseModel):
     """
     BillingSubscription
     """ # noqa: E501
+    assigned: Optional[List[BillingSubscriptionSeat]] = Field(default=None, description="Assigned is which member holds which seat type, as the org's admin set it.")
     cancel_at_period_end: Optional[StrictBool] = Field(default=None, description="CancelAtPeriodEnd reports that the plan ends at CurrentPeriodEnd.", alias="cancelAtPeriodEnd")
     canceled_at: Optional[StrictStr] = Field(default=None, description="CanceledAt is when it was canceled; absent when it was not.", alias="canceledAt")
     charged_cents: Optional[StrictInt] = Field(default=None, description="ChargedCents is what the period in hand was actually paid, after any discount and net of refunds. 0 when the period is unpaid.", alias="chargedCents")
@@ -36,7 +39,9 @@ class BillingSubscription(BaseModel):
     current_period_start: Optional[StrictStr] = Field(default=None, description="CurrentPeriodStart is when the period in hand began, RFC 3339.", alias="currentPeriodStart")
     default_payment_method: Optional[StrictStr] = Field(default=None, description="DefaultPaymentMethod is the saved method a renewal would use. Empty means there is none, so nothing can charge the plan.", alias="defaultPaymentMethod")
     ended_at: Optional[StrictStr] = Field(default=None, description="EndedAt is when it ended; absent while it runs.", alias="endedAt")
+    held: Optional[StrictBool] = Field(default=None, description="Held reports that this row is the subject's one paid plan: while it stands, commerce refuses a second paid sale (409).")
     id: Optional[StrictStr] = Field(default=None, description="ID is the subscription's own id, the one cancel and reactivate take.")
+    lines: Optional[List[BillingSubscriptionLine]] = Field(default=None, description="Lines are a team's other seat types beside Plan (a team of standard and premium seats is Plan \"team\" and one line of \"team-premium\"), each with the seats of it the period in hand was paid for. Seats above counts them too. After Held, so the fields before them keep their places on the ZAP wire.")
     mrr_cents: Optional[StrictInt] = Field(default=None, description="MRRCents is what this subscription contributes per month — commerce's own figure, interval-normalized and multiplied by its seats, so no reader re-derives it from price and interval.", alias="mrrCents")
     plan: Optional[BillingSubscriptionPlan] = Field(default=None, description="Plan is the plan as this subscription snapshotted it.")
     plan_id: Optional[StrictStr] = Field(default=None, description="PlanID is the plan slug, e.g. \"max-20x\".", alias="planId")
@@ -50,7 +55,7 @@ class BillingSubscription(BaseModel):
     trial_start: Optional[StrictStr] = Field(default=None, description="TrialStart is when a trial began; absent when there was none.", alias="trialStart")
     updated_at: Optional[StrictStr] = Field(default=None, description="UpdatedAt is when the row last changed, RFC 3339.", alias="updatedAt")
     user_id: Optional[StrictStr] = Field(default=None, description="UserID is the billing account that holds it: the org slug for an org's own plan, \"<org>/<name>\" for a member's.", alias="userId")
-    __properties: ClassVar[List[str]] = ["cancelAtPeriodEnd", "canceledAt", "chargedCents", "coupon", "createdAt", "currentPeriodEnd", "currentPeriodStart", "defaultPaymentMethod", "endedAt", "id", "mrrCents", "plan", "planId", "providerType", "quantity", "seats", "settled", "status", "test", "trialEnd", "trialStart", "updatedAt", "userId"]
+    __properties: ClassVar[List[str]] = ["assigned", "cancelAtPeriodEnd", "canceledAt", "chargedCents", "coupon", "createdAt", "currentPeriodEnd", "currentPeriodStart", "defaultPaymentMethod", "endedAt", "held", "id", "lines", "mrrCents", "plan", "planId", "providerType", "quantity", "seats", "settled", "status", "test", "trialEnd", "trialStart", "updatedAt", "userId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -91,6 +96,20 @@ class BillingSubscription(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in assigned (list)
+        _items = []
+        if self.assigned:
+            for _item_assigned in self.assigned:
+                if _item_assigned:
+                    _items.append(_item_assigned.to_dict())
+            _dict['assigned'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in lines (list)
+        _items = []
+        if self.lines:
+            for _item_lines in self.lines:
+                if _item_lines:
+                    _items.append(_item_lines.to_dict())
+            _dict['lines'] = _items
         # override the default output from pydantic by calling `to_dict()` of plan
         if self.plan:
             _dict['plan'] = self.plan.to_dict()
@@ -106,6 +125,7 @@ class BillingSubscription(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "assigned": [BillingSubscriptionSeat.from_dict(_item) for _item in obj["assigned"]] if obj.get("assigned") is not None else None,
             "cancelAtPeriodEnd": obj.get("cancelAtPeriodEnd"),
             "canceledAt": obj.get("canceledAt"),
             "chargedCents": obj.get("chargedCents"),
@@ -115,7 +135,9 @@ class BillingSubscription(BaseModel):
             "currentPeriodStart": obj.get("currentPeriodStart"),
             "defaultPaymentMethod": obj.get("defaultPaymentMethod"),
             "endedAt": obj.get("endedAt"),
+            "held": obj.get("held"),
             "id": obj.get("id"),
+            "lines": [BillingSubscriptionLine.from_dict(_item) for _item in obj["lines"]] if obj.get("lines") is not None else None,
             "mrrCents": obj.get("mrrCents"),
             "plan": BillingSubscriptionPlan.from_dict(obj["plan"]) if obj.get("plan") is not None else None,
             "planId": obj.get("planId"),

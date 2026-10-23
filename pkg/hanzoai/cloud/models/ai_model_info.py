@@ -21,6 +21,8 @@ from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, Strict
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.ai_model_access_info import AiModelAccessInfo
 from hanzoai.cloud.models.ai_model_pricing_info import AiModelPricingInfo
+from hanzoai.cloud.models.ai_video_spec import AiVideoSpec
+from hanzoai.cloud.models.ai_voice_spec import AiVoiceSpec
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -50,7 +52,9 @@ class AiModelInfo(BaseModel):
     supports_reasoning: Optional[StrictBool] = None
     supports_tools: Optional[StrictBool] = None
     supports_vision: Optional[StrictBool] = None
-    __properties: ClassVar[List[str]] = ["access", "canonical_slug", "class", "context_window", "created", "description", "expires", "family", "free", "id", "inputs", "max_output_tokens", "name", "object", "outputs", "owned_by", "premium", "pricing", "provider", "supports_reasoning", "supports_tools", "supports_vision"]
+    video: Optional[AiVideoSpec] = None
+    voice: Optional[AiVoiceSpec] = None
+    __properties: ClassVar[List[str]] = ["access", "canonical_slug", "class", "context_window", "created", "description", "expires", "family", "free", "id", "inputs", "max_output_tokens", "name", "object", "outputs", "owned_by", "premium", "pricing", "provider", "supports_reasoning", "supports_tools", "supports_vision", "video", "voice"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -97,6 +101,12 @@ class AiModelInfo(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of pricing
         if self.pricing:
             _dict['pricing'] = self.pricing.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of video
+        if self.video:
+            _dict['video'] = self.video.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of voice
+        if self.voice:
+            _dict['voice'] = self.voice.to_dict()
         return _dict
 
     @classmethod
@@ -130,7 +140,9 @@ class AiModelInfo(BaseModel):
             "provider": obj.get("provider"),
             "supports_reasoning": obj.get("supports_reasoning"),
             "supports_tools": obj.get("supports_tools"),
-            "supports_vision": obj.get("supports_vision")
+            "supports_vision": obj.get("supports_vision"),
+            "video": AiVideoSpec.from_dict(obj["video"]) if obj.get("video") is not None else None,
+            "voice": AiVoiceSpec.from_dict(obj["voice"]) if obj.get("voice") is not None else None
         })
         return _obj
 

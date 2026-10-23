@@ -31,12 +31,13 @@ class GatewayPolicy(BaseModel):
     cors_origins: Optional[List[StrictStr]] = Field(default=None, description="CORSOrigins is the PLATFORM-scope CORS allowlist EdgeCORS admits: an exact origin, a bare host, or a \"*.host\" wildcard. Writable only by a SuperAdmin — CORS is evaluated before identity, so it has no tenant to scope to.")
     methods: Optional[List[StrictStr]] = Field(default=None, description="Methods is the allowlist of HTTP methods the edge accepts for this org. Empty means all are accepted.")
     mode: Optional[StrictStr] = Field(default=None, description="Mode is the abuse gate's posture for THIS scope: \"shadow\" scores traffic and records the verdict without acting on it, \"live\" enforces it. Unset means shadow.  It is the one per-org field that does NOT inherit. Every other field here layers a platform default under the org's own value, which is right for a default: a tenant that sets no rate ceiling should get the platform's. Mode is not a default, it is an ARMING DECISION — it is what makes a statistical judgement start refusing real traffic — and inheriting it means arming one scope arms every tenant that never asked for it, without a write to their row and without anything in their config changing. So a tenant is live only if that tenant's OWN row says live, and the platform row's mode governs exactly one scope: the anonymous lane, which has no tenant of its own.  It is also not self-service. Writing it requires SuperAdmin (see the /v1/gateway config op): the subject of an abuse control does not get to switch the control off.")
-    org_rpm: Optional[StrictInt] = Field(default=None, description="OrgRPM is the org's OWN authenticated rate ceiling, requests per minute, as ScopeRateLimit enforces it. Unset inherits the platform default, then the static boot default.")
-    per_ip_rpm: Optional[StrictInt] = Field(default=None, description="PerIPRPM is the PLATFORM-scope pre-auth flood cap: requests EdgeRateLimit admits per WindowSec from one client IP. SuperAdmin-only, same reason.")
+    org_cap: Optional[StrictInt] = Field(default=None, description="OrgCap is the most this organization's ceiling may be, requests per minute. Unset, it is the platform's org_rpm, else 60,000. Only a SuperAdmin sets it: it is how the platform raises one organization above the default, and the organization a limit governs does not get to remove it. It does not inherit from the platform row. Read back, it is the cap in force.")
+    org_rpm: Optional[StrictInt] = Field(default=None, description="OrgRPM is the org's OWN authenticated rate ceiling, requests per minute, as ScopeRateLimit enforces it across the deployment. An organization may lower it but never raise it past its cap (org_cap); unset, the org is held to its cap. On the platform row it is every organization's default cap, and it does not inherit into any organization's own row. Read back, it is the ceiling in force: the org's own, clipped to its cap.")
+    per_ip_rpm: Optional[StrictInt] = Field(default=None, description="PerIPRPM is the PLATFORM-scope flood cap: requests admitted per WindowSec from one client IP that presents no credential, or a credential that resolves to nobody. A request presenting a credential is held to ten times this from its address until the credential is checked; a validated caller is then held by its key and org ceilings instead. SuperAdmin-only, same reason.")
     updated_at: Optional[StrictInt] = Field(default=None, description="UpdatedAt is the unix second this policy row was last written. Server-stamped; a client-supplied value is ignored.")
     updated_by: Optional[StrictStr] = Field(default=None, description="UpdatedBy is the validated user id that wrote this policy row. Server-stamped; a client-supplied value is ignored.")
     window_sec: Optional[StrictInt] = Field(default=None, description="WindowSec is the window PerIPRPM is counted over, in seconds. SuperAdmin-only.")
-    __properties: ClassVar[List[str]] = ["cache_paths", "cache_ttl_sec", "cors_origins", "methods", "mode", "org_rpm", "per_ip_rpm", "updated_at", "updated_by", "window_sec"]
+    __properties: ClassVar[List[str]] = ["cache_paths", "cache_ttl_sec", "cors_origins", "methods", "mode", "org_cap", "org_rpm", "per_ip_rpm", "updated_at", "updated_by", "window_sec"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -94,6 +95,7 @@ class GatewayPolicy(BaseModel):
             "cors_origins": obj.get("cors_origins"),
             "methods": obj.get("methods"),
             "mode": obj.get("mode"),
+            "org_cap": obj.get("org_cap"),
             "org_rpm": obj.get("org_rpm"),
             "per_ip_rpm": obj.get("per_ip_rpm"),
             "updated_at": obj.get("updated_at"),

@@ -28,6 +28,7 @@ class RoutingVersion(BaseModel):
     """ # noqa: E501
     actor: Optional[StrictStr] = None
     base: Optional[StrictInt] = None
+    boot: Optional[StrictStr] = None
     catalog: Optional[StrictStr] = None
     created_time: Optional[StrictStr] = Field(default=None, alias="createdTime")
     diff: Optional[StrictStr] = None
@@ -35,7 +36,7 @@ class RoutingVersion(BaseModel):
     id: Optional[StrictInt] = None
     note: Optional[StrictStr] = None
     sum: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["actor", "base", "catalog", "createdTime", "diff", "family", "id", "note", "sum"]
+    __properties: ClassVar[List[str]] = ["actor", "base", "boot", "catalog", "createdTime", "diff", "family", "id", "note", "sum"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -90,6 +91,7 @@ class RoutingVersion(BaseModel):
         _obj = cls.model_validate({
             "actor": obj.get("actor"),
             "base": obj.get("base"),
+            "boot": obj.get("boot"),
             "catalog": obj.get("catalog"),
             "createdTime": obj.get("createdTime"),
             "diff": obj.get("diff"),

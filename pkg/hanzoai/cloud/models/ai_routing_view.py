@@ -31,10 +31,11 @@ class AiRoutingView(BaseModel):
     drift: Optional[StrictBool] = None
     error: Optional[StrictStr] = None
     family: Optional[StrictStr] = None
+    redeployed: Optional[StrictBool] = None
     stats: Optional[Any] = None
     version: Optional[RoutingVersion] = None
     versions: Optional[List[RoutingVersion]] = None
-    __properties: ClassVar[List[str]] = ["catalog", "drift", "error", "family", "stats", "version", "versions"]
+    __properties: ClassVar[List[str]] = ["catalog", "drift", "error", "family", "redeployed", "stats", "version", "versions"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -111,6 +112,7 @@ class AiRoutingView(BaseModel):
             "drift": obj.get("drift"),
             "error": obj.get("error"),
             "family": obj.get("family"),
+            "redeployed": obj.get("redeployed"),
             "stats": obj.get("stats"),
             "version": RoutingVersion.from_dict(obj["version"]) if obj.get("version") is not None else None,
             "versions": [RoutingVersion.from_dict(_item) for _item in obj["versions"]] if obj.get("versions") is not None else None

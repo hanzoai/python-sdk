@@ -28,7 +28,7 @@ class MarketingVisit(BaseModel):
     """ # noqa: E501
     cid: Optional[StrictStr] = Field(default=None, description="Cid is the Google Analytics client id, the last two fields of _ga.")
     clicked: Optional[StrictInt] = Field(default=None, description="Clicked is when the page captured the click, in unix seconds.")
-    consent: Optional[StrictStr] = Field(default=None, description="Consent is the Cookie Preferences the visitor granted, comma separated: any of analytics, marketing and ads. Empty is a visitor who refused them all, which is a choice; absent is one who stated none.")
+    consent: Optional[StrictStr] = Field(default=None, description="Consent is the Cookie Preferences the visitor granted, comma separated: any of analytics, marketing and ads. Empty is a visitor who refused them all, which is a choice; absent is one who stated none. It counts only from a browser, and a browser that sends GPC or DNT has allowed nothing.")
     fbc: Optional[StrictStr] = Field(default=None, description="Fbc is Meta's click cookie, fb.1.<ms>.<fbclid>.")
     fbclid: Optional[StrictStr] = Field(default=None, description="Fbclid is the Meta click id the visitor arrived with.")
     fbp: Optional[StrictStr] = Field(default=None, description="Fbp is Meta's browser cookie, fb.1.<ms>.<random>.")

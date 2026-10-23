@@ -30,6 +30,7 @@ class ComplianceWire(BaseModel):
     act: Optional[ComplianceAct] = Field(default=None, description="Act is present ONLY on an action taken in a support session: the platform operator IAM signed in AS this row's sub, while org, sub and email stay the person's. A console row carrying `act` was done by the operator it names.")
     action: Optional[StrictStr] = Field(default=None, description="Action is the verb that was performed. It is the event's name, not the HTTP method — a request-sourced record carries both, and the pair is what makes a row readable (\"grant.create\" at POST /v1/admin/grants).")
     after: Optional[Any] = None
+    agent: Optional[StrictStr] = Field(default=None, description="Agent is present ONLY on an action a delegated token took: who acted for this row's sub — the deployment that ran their work in a sandbox — while org, sub and email stay the person's, who is billed for it.")
     auth_method: Optional[StrictStr] = Field(default=None, description="Auth is the credential the actor presented: \"jwt\", \"api-key\", or \"none\".", alias="authMethod")
     before: Optional[Any] = None
     email: Optional[StrictStr] = Field(default=None, description="Email is the actor's validated address, absent when the credential carried none. It comes from the verified token, never from a client header.")
@@ -51,7 +52,7 @@ class ComplianceWire(BaseModel):
     sub: Optional[StrictStr] = Field(default=None, description="Sub is the acting user (the IAM subject). Empty for a machine principal or an anonymous request, which is how a service action is told from a person's.")
     time: Optional[StrictStr] = Field(default=None, description="Time is when the action happened, RFC3339Nano in UTC. The stored column has the same precision and sorts the same way, so a client can range and order on this string verbatim.")
     user_agent: Optional[StrictStr] = Field(default=None, description="UserAgent is the client the request announced itself as. Client-supplied, so it is evidence about what claimed to act, not proof of it.", alias="userAgent")
-    __properties: ClassVar[List[str]] = ["act", "action", "after", "authMethod", "before", "email", "hash", "home", "isAdmin", "method", "org", "path", "prevHash", "reason", "requestId", "resource", "resourceId", "result", "seq", "sourceIp", "status", "sub", "time", "userAgent"]
+    __properties: ClassVar[List[str]] = ["act", "action", "after", "agent", "authMethod", "before", "email", "hash", "home", "isAdmin", "method", "org", "path", "prevHash", "reason", "requestId", "resource", "resourceId", "result", "seq", "sourceIp", "status", "sub", "time", "userAgent"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -120,6 +121,7 @@ class ComplianceWire(BaseModel):
             "act": ComplianceAct.from_dict(obj["act"]) if obj.get("act") is not None else None,
             "action": obj.get("action"),
             "after": obj.get("after"),
+            "agent": obj.get("agent"),
             "authMethod": obj.get("authMethod"),
             "before": obj.get("before"),
             "email": obj.get("email"),

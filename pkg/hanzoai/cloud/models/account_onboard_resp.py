@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,12 +26,11 @@ class AccountOnboardResp(BaseModel):
     """
     AccountOnboardResp
     """ # noqa: E501
-    access_key: Optional[StrictStr] = Field(default=None, description="AccessKey is the identifier of the org-scoped credential provisioning minted with the organization. Present on a first run that actually minted one.", alias="accessKey")
-    access_secret: Optional[StrictStr] = Field(default=None, description="AccessSecret is that credential's confidential half, returned ONCE — on the response that mints it and never again. IAM keeps only its argon2id digest and blanks the plaintext, so this is the single moment it exists in a form its owner can read; a replay of the same provision re-reveals nothing.", alias="accessSecret")
-    additional: Optional[StrictBool] = Field(default=None, description="Additional is true when the caller already had an organization and this one was created WITHOUT moving them into it — they reach it via the org switcher.")
+    access_key: Optional[StrictStr] = Field(default=None, description="AccessKey is the publishable half of the organization's default API key, held by its creator. Absent when the key could not be minted; the creator then mints one from the keys page.", alias="accessKey")
+    access_secret: Optional[StrictStr] = Field(default=None, description="AccessSecret is that credential's confidential half, returned ONCE — on the response that mints it and never again. IAM keeps only its argon2id digest and blanks the plaintext, so this is the single moment it exists in a form its owner can read.", alias="accessSecret")
     display_name: Optional[StrictStr] = Field(default=None, description="DisplayName is the organization's human name.", alias="displayName")
     org: Optional[StrictStr] = Field(default=None, description="Org is the created organization's slug, which is what X-Org-Id carries.")
-    __properties: ClassVar[List[str]] = ["accessKey", "accessSecret", "additional", "displayName", "org"]
+    __properties: ClassVar[List[str]] = ["accessKey", "accessSecret", "displayName", "org"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -86,7 +85,6 @@ class AccountOnboardResp(BaseModel):
         _obj = cls.model_validate({
             "accessKey": obj.get("accessKey"),
             "accessSecret": obj.get("accessSecret"),
-            "additional": obj.get("additional"),
             "displayName": obj.get("displayName"),
             "org": obj.get("org")
         })

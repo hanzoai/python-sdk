@@ -17,22 +17,21 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional, Union
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class BenchmarkPublishedClaim(BaseModel):
+class MarketingTags(BaseModel):
     """
-    BenchmarkPublishedClaim
+    MarketingTags
     """ # noqa: E501
-    benchmark: Optional[StrictStr] = Field(default=None, description="Benchmark is the canonical test id the claim is about, from /catalog.")
-    model: Optional[StrictStr] = Field(default=None, description="Model is the system the score is claimed for.")
-    protocol: Optional[StrictStr] = Field(default=None, description="Protocol records HOW it was scored — provider-reported, agentic, third-party-leaderboard — because a provider card and a third party running its own harness are different kinds of number and must not be blended.")
-    provider: Optional[StrictStr] = Field(default=None, description="Provider is who the claim belongs to — the lab or leaderboard whose number this is. It joins a claim to the attempts measured for that same model.")
-    score: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Score is the reported aggregate, as a percentage.")
-    source: Optional[StrictStr] = Field(default=None, description="Source is the citation the row was read from. A claim without one is a number nobody can check, so every write requires it.")
-    __properties: ClassVar[List[str]] = ["benchmark", "model", "protocol", "provider", "score", "source"]
+    utm_campaign: Optional[StrictStr] = Field(default=None, description="Name is utm_campaign: the campaign's own name.")
+    utm_content: Optional[StrictStr] = Field(default=None, description="Content is utm_content: which link of several in one placement.")
+    utm_medium: Optional[StrictStr] = Field(default=None, description="Medium is utm_medium: the kind of placement, such as cpc or email.")
+    utm_source: Optional[StrictStr] = Field(default=None, description="Source is utm_source: where the link was placed, such as google.")
+    utm_term: Optional[StrictStr] = Field(default=None, description="Term is utm_term: the paid search term.")
+    __properties: ClassVar[List[str]] = ["utm_campaign", "utm_content", "utm_medium", "utm_source", "utm_term"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -52,7 +51,7 @@ class BenchmarkPublishedClaim(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of BenchmarkPublishedClaim from a JSON string"""
+        """Create an instance of MarketingTags from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -77,7 +76,7 @@ class BenchmarkPublishedClaim(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of BenchmarkPublishedClaim from a dict"""
+        """Create an instance of MarketingTags from a dict"""
         if obj is None:
             return None
 
@@ -85,12 +84,11 @@ class BenchmarkPublishedClaim(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "benchmark": obj.get("benchmark"),
-            "model": obj.get("model"),
-            "protocol": obj.get("protocol"),
-            "provider": obj.get("provider"),
-            "score": obj.get("score"),
-            "source": obj.get("source")
+            "utm_campaign": obj.get("utm_campaign"),
+            "utm_content": obj.get("utm_content"),
+            "utm_medium": obj.get("utm_medium"),
+            "utm_source": obj.get("utm_source"),
+            "utm_term": obj.get("utm_term")
         })
         return _obj
 

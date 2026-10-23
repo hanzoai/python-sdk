@@ -26,13 +26,16 @@ class TranslateReviewRequest(BaseModel):
     """
     TranslateReviewRequest
     """ # noqa: E501
+    format: Optional[StrictStr] = Field(default=None, description="Format is the markup the source carries: text (the default), html or markdown. Part of the entry's identity.")
     glossary: Optional[Dict[str, StrictStr]] = Field(default=None, description="Glossary is the terminology the entry was translated under. Its VERSION — the digest of the sorted terms — is part of the entry's identity, so editing a term yields a new entry rather than overwriting the old rendering.")
+    lang: Optional[StrictStr] = Field(default=None, description="Lang is the source language the translate calls this entry serves declare (their `source`), empty for calls that let the engine detect it. Part of the entry's identity; an entry with none also serves calls that declare one.")
+    model: Optional[StrictStr] = Field(default=None, description="Model is the quality-tier model the translate calls this entry serves name; empty for the default. Part of the entry's identity, and refused with bulk.")
     source: Optional[StrictStr] = Field(default=None, description="Source is the ORIGINAL string this entry translates. Required; part of the entry's identity, so a different source is a different entry.")
     state: Optional[StrictStr] = Field(default=None, description="State is the entry's new position on the review ladder: suggested, approved or published. `machine` is engine-only and is refused here — a human may not demote a string back into the churn.")
     target: Optional[StrictStr] = Field(default=None, description="Target is the target language tag (BCP-47, e.g. \"es\" or \"pt-BR\"). Required; part of the entry's identity.")
     text: Optional[StrictStr] = Field(default=None, description="Text is the reviewed translation to store. A human write always wins over the stored value.")
     tier: Optional[StrictStr] = Field(default=None, description="Tier is the engine tier the entry belongs to, quality (the default) or bulk. Part of the entry's identity: the two tiers keep separate renderings.")
-    __properties: ClassVar[List[str]] = ["glossary", "source", "state", "target", "text", "tier"]
+    __properties: ClassVar[List[str]] = ["format", "glossary", "lang", "model", "source", "state", "target", "text", "tier"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -85,7 +88,10 @@ class TranslateReviewRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "format": obj.get("format"),
             "glossary": obj.get("glossary"),
+            "lang": obj.get("lang"),
+            "model": obj.get("model"),
             "source": obj.get("source"),
             "state": obj.get("state"),
             "target": obj.get("target"),

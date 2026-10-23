@@ -31,7 +31,8 @@ class BillingSubscriptionPlan(BaseModel):
     interval: Optional[StrictStr] = Field(default=None, description="Interval is the billing period: \"month\" or \"year\".")
     name: Optional[StrictStr] = Field(default=None, description="Name is the plan's display name, e.g. \"Max 20x\".")
     price: Optional[StrictInt] = Field(default=None, description="Price is what one period costs per seat, in cents, as the subscription snapshotted it: a later catalog price change does not move it.")
-    __properties: ClassVar[List[str]] = ["currency", "id", "interval", "name", "price"]
+    slug: Optional[StrictStr] = Field(default=None, description="Slug is the catalog plan it was opened on, e.g. \"max-20x\": what a reader matches against GET /v1/billing/plans. Empty on a row that predates it.")
+    __properties: ClassVar[List[str]] = ["currency", "id", "interval", "name", "price", "slug"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -88,7 +89,8 @@ class BillingSubscriptionPlan(BaseModel):
             "id": obj.get("id"),
             "interval": obj.get("interval"),
             "name": obj.get("name"),
-            "price": obj.get("price")
+            "price": obj.get("price"),
+            "slug": obj.get("slug")
         })
         return _obj
 

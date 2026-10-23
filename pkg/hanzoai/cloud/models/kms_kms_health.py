@@ -26,15 +26,16 @@ class KmsKmsHealth(BaseModel):
     """
     KmsKmsHealth
     """ # noqa: E501
+    audit: Optional[StrictStr] = Field(default=None, description="Audit is the state of the audit trail every access is recorded to: `ok`, `failing` when it did not take the last record, or `absent` when this process has none. Every access is refused in the last two. Absent from the answer when there is no in-process client to audit.")
     enforcing: Optional[StrictBool] = Field(default=None, description="Enforcing is whether a secret value the declaration in force does not grant is refused. False while it says `enforce: false` and while none has loaded; every such value is then logged and audited as would-deny.")
     error: Optional[StrictStr] = Field(default=None, description="Error is the honest reason readiness is false: no in-process KMS client, or no master key. Absent when ready.")
     policy: Optional[StrictStr] = Field(default=None, description="Policy is the sha256 of the grant declaration in force, so a probe can prove which one is live. Absent when none has ever loaded, which measures: the rule each caller had before still decides.")
-    ready: Optional[StrictBool] = Field(default=None, description="Ready is whether a secret operation would actually succeed right now. These are exactly the two states in which the secret operations refuse.")
+    ready: Optional[StrictBool] = Field(default=None, description="Ready is whether a secret operation would actually succeed right now. These are exactly the states in which the secret operations refuse.")
     refused: Optional[StrictStr] = Field(default=None, description="Refused is what the MOUNTED declaration reads as — its sha256, or \"absent\" or \"unreadable\" — when it is not the one in force: a document cloud refused to parse, or a mount that went away. The declaration in force stays, so a bad edit changes nothing, and this is where it shows.")
     service: Optional[StrictStr] = Field(default=None, description="Service names the subsystem answering, `kms`.")
     signing: Optional[StrictBool] = Field(default=None, description="Signing reports whether signing keys are configured. Absent when there is no in-process client to ask.")
     status: Optional[StrictStr] = Field(default=None, description="Status is `ok` or `degraded`, the one-word form of Ready.")
-    __properties: ClassVar[List[str]] = ["enforcing", "error", "policy", "ready", "refused", "service", "signing", "status"]
+    __properties: ClassVar[List[str]] = ["audit", "enforcing", "error", "policy", "ready", "refused", "service", "signing", "status"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -87,6 +88,7 @@ class KmsKmsHealth(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "audit": obj.get("audit"),
             "enforcing": obj.get("enforcing"),
             "error": obj.get("error"),
             "policy": obj.get("policy"),

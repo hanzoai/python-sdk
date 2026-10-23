@@ -31,11 +31,12 @@ class AutoAutomationRun(BaseModel):
     draft: Optional[StrictStr] = Field(default=None, description="Draft is the post the agent wrote, for an automation that posts; empty otherwise.")
     finished: Optional[StrictStr] = None
     id: Optional[StrictStr] = None
+    outputs: Optional[List[StrictStr]] = Field(default=None, description="Outputs are the Library items the run made: its answer, kept as a document. Never null.")
     posts: Optional[List[AutoPostResult]] = Field(default=None, description="Posts are where it went: one per account, its link or the platform's reason it did not go. Never null.")
     status: Optional[StrictStr] = Field(default=None, description="Status is succeeded, failed, running, queued, review for a post waiting for its person to post or discard it, skipped for a start that found the previous run still going, or refused for a run whose person is no longer a member of the org.")
     summary: Optional[StrictStr] = Field(default=None, description="Summary is one line on how it went.")
     transcript: Optional[StrictStr] = Field(default=None, description="Transcript opens the run's Dev run; null when it started none.")
-    __properties: ClassVar[List[str]] = ["at", "draft", "finished", "id", "posts", "status", "summary", "transcript"]
+    __properties: ClassVar[List[str]] = ["at", "draft", "finished", "id", "outputs", "posts", "status", "summary", "transcript"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -99,6 +100,7 @@ class AutoAutomationRun(BaseModel):
             "draft": obj.get("draft"),
             "finished": obj.get("finished"),
             "id": obj.get("id"),
+            "outputs": obj.get("outputs"),
             "posts": [AutoPostResult.from_dict(_item) for _item in obj["posts"]] if obj.get("posts") is not None else None,
             "status": obj.get("status"),
             "summary": obj.get("summary"),

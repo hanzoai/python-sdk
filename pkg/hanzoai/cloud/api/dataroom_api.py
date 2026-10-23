@@ -81,7 +81,7 @@ class DataroomApi:
     ) -> DataroomDataroomStats:
         """Rolls up every share link pointing at one data room: session and page-view totals for the room, plus the per-page breakdown for each link beneath it.
 
-        Rolls up every share link pointing at one data room: session and page-view totals for the room, plus the per-page breakdown for each link beneath it.  A room id outside the caller's own tenant store is not found. Only links that NAME the room are counted — a link created over a single document contributes nothing here, even when that document also sits in the room.
+        Rolls up every share link pointing at one data room: session and page-view totals for the room, plus the per-page breakdown for each link beneath it.  A room id outside the caller's own tenant store is not found. Only links that NAME the room are counted — a link created over a single document contributes nothing here, even when that document also sits in the room.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param dataroom_id: DataroomID is the room to report on. It is the path segment, resolved in the caller's own tenant store. (required)
         :type dataroom_id: str
@@ -148,7 +148,7 @@ class DataroomApi:
     ) -> ApiResponse[DataroomDataroomStats]:
         """Rolls up every share link pointing at one data room: session and page-view totals for the room, plus the per-page breakdown for each link beneath it.
 
-        Rolls up every share link pointing at one data room: session and page-view totals for the room, plus the per-page breakdown for each link beneath it.  A room id outside the caller's own tenant store is not found. Only links that NAME the room are counted — a link created over a single document contributes nothing here, even when that document also sits in the room.
+        Rolls up every share link pointing at one data room: session and page-view totals for the room, plus the per-page breakdown for each link beneath it.  A room id outside the caller's own tenant store is not found. Only links that NAME the room are counted — a link created over a single document contributes nothing here, even when that document also sits in the room.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param dataroom_id: DataroomID is the room to report on. It is the path segment, resolved in the caller's own tenant store. (required)
         :type dataroom_id: str
@@ -215,7 +215,7 @@ class DataroomApi:
     ) -> RESTResponseType:
         """Rolls up every share link pointing at one data room: session and page-view totals for the room, plus the per-page breakdown for each link beneath it.
 
-        Rolls up every share link pointing at one data room: session and page-view totals for the room, plus the per-page breakdown for each link beneath it.  A room id outside the caller's own tenant store is not found. Only links that NAME the room are counted — a link created over a single document contributes nothing here, even when that document also sits in the room.
+        Rolls up every share link pointing at one data room: session and page-view totals for the room, plus the per-page breakdown for each link beneath it.  A room id outside the caller's own tenant store is not found. Only links that NAME the room are counted — a link created over a single document contributes nothing here, even when that document also sits in the room.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param dataroom_id: DataroomID is the room to report on. It is the path segment, resolved in the caller's own tenant store. (required)
         :type dataroom_id: str
@@ -343,7 +343,7 @@ class DataroomApi:
     ) -> DataroomDataroomLinkStats:
         """Reports how one share link was actually read: total viewing sessions, total page views, and per page the view count, the summed dwell measure and its average.
 
-        Reports how one share link was actually read: total viewing sessions, total page views, and per page the view count, the summed dwell measure and its average.  The link is resolved in the caller's OWN tenant store, so another org's link id is not found — knowing a link id is enough to OPEN the room it shares, and never enough to read who has been reading it.
+        Reports how one share link was actually read: total viewing sessions, total page views, and per page the view count, the summed dwell measure and its average.  The link is resolved in the caller's OWN tenant store, so another org's link id is not found — knowing a link id is enough to OPEN the room it shares, and never enough to read who has been reading it.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param link_id: LinkID is the link to report on. It is the path segment, resolved in the caller's own tenant store. (required)
         :type link_id: str
@@ -410,7 +410,7 @@ class DataroomApi:
     ) -> ApiResponse[DataroomDataroomLinkStats]:
         """Reports how one share link was actually read: total viewing sessions, total page views, and per page the view count, the summed dwell measure and its average.
 
-        Reports how one share link was actually read: total viewing sessions, total page views, and per page the view count, the summed dwell measure and its average.  The link is resolved in the caller's OWN tenant store, so another org's link id is not found — knowing a link id is enough to OPEN the room it shares, and never enough to read who has been reading it.
+        Reports how one share link was actually read: total viewing sessions, total page views, and per page the view count, the summed dwell measure and its average.  The link is resolved in the caller's OWN tenant store, so another org's link id is not found — knowing a link id is enough to OPEN the room it shares, and never enough to read who has been reading it.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param link_id: LinkID is the link to report on. It is the path segment, resolved in the caller's own tenant store. (required)
         :type link_id: str
@@ -477,7 +477,7 @@ class DataroomApi:
     ) -> RESTResponseType:
         """Reports how one share link was actually read: total viewing sessions, total page views, and per page the view count, the summed dwell measure and its average.
 
-        Reports how one share link was actually read: total viewing sessions, total page views, and per page the view count, the summed dwell measure and its average.  The link is resolved in the caller's OWN tenant store, so another org's link id is not found — knowing a link id is enough to OPEN the room it shares, and never enough to read who has been reading it.
+        Reports how one share link was actually read: total viewing sessions, total page views, and per page the view count, the summed dwell measure and its average.  The link is resolved in the caller's OWN tenant store, so another org's link id is not found — knowing a link id is enough to OPEN the room it shares, and never enough to read who has been reading it.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param link_id: LinkID is the link to report on. It is the path segment, resolved in the caller's own tenant store. (required)
         :type link_id: str
@@ -604,7 +604,7 @@ class DataroomApi:
     ) -> DataroomDataroomRooms:
         """Returns every data room in the caller org's own store, newest first, with its short public id, name, description and timestamps.
 
-        Returns every data room in the caller org's own store, newest first, with its short public id, name, description and timestamps.  Documents are not included — a room's contents come from reading the single room.
+        Returns every data room in the caller org's own store, newest first, with its short public id, name, description and timestamps.  Documents are not included — a room's contents come from reading the single room.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -667,7 +667,7 @@ class DataroomApi:
     ) -> ApiResponse[DataroomDataroomRooms]:
         """Returns every data room in the caller org's own store, newest first, with its short public id, name, description and timestamps.
 
-        Returns every data room in the caller org's own store, newest first, with its short public id, name, description and timestamps.  Documents are not included — a room's contents come from reading the single room.
+        Returns every data room in the caller org's own store, newest first, with its short public id, name, description and timestamps.  Documents are not included — a room's contents come from reading the single room.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -730,7 +730,7 @@ class DataroomApi:
     ) -> RESTResponseType:
         """Returns every data room in the caller org's own store, newest first, with its short public id, name, description and timestamps.
 
-        Returns every data room in the caller org's own store, newest first, with its short public id, name, description and timestamps.  Documents are not included — a room's contents come from reading the single room.
+        Returns every data room in the caller org's own store, newest first, with its short public id, name, description and timestamps.  Documents are not included — a room's contents come from reading the single room.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -852,7 +852,7 @@ class DataroomApi:
     ) -> DataroomDataroomRoomDetailOne:
         """Reads one of the caller org's data rooms together with every document in it, each carrying its membership id and order index.
 
-        Reads one of the caller org's data rooms together with every document in it, each carrying its membership id and order index.  The documents are sorted by that index with unordered ones last and creation time breaking ties — the SAME order a link's visitor sees, so this is what the room looks like from the outside. A room id outside the caller's own tenant store is not found.
+        Reads one of the caller org's data rooms together with every document in it, each carrying its membership id and order index.  The documents are sorted by that index with unordered ones last and creation time breaking ties — the SAME order a link's visitor sees, so this is what the room looks like from the outside. A room id outside the caller's own tenant store is not found.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param id: ID is the room to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found. (required)
         :type id: str
@@ -919,7 +919,7 @@ class DataroomApi:
     ) -> ApiResponse[DataroomDataroomRoomDetailOne]:
         """Reads one of the caller org's data rooms together with every document in it, each carrying its membership id and order index.
 
-        Reads one of the caller org's data rooms together with every document in it, each carrying its membership id and order index.  The documents are sorted by that index with unordered ones last and creation time breaking ties — the SAME order a link's visitor sees, so this is what the room looks like from the outside. A room id outside the caller's own tenant store is not found.
+        Reads one of the caller org's data rooms together with every document in it, each carrying its membership id and order index.  The documents are sorted by that index with unordered ones last and creation time breaking ties — the SAME order a link's visitor sees, so this is what the room looks like from the outside. A room id outside the caller's own tenant store is not found.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param id: ID is the room to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found. (required)
         :type id: str
@@ -986,7 +986,7 @@ class DataroomApi:
     ) -> RESTResponseType:
         """Reads one of the caller org's data rooms together with every document in it, each carrying its membership id and order index.
 
-        Reads one of the caller org's data rooms together with every document in it, each carrying its membership id and order index.  The documents are sorted by that index with unordered ones last and creation time breaking ties — the SAME order a link's visitor sees, so this is what the room looks like from the outside. A room id outside the caller's own tenant store is not found.
+        Reads one of the caller org's data rooms together with every document in it, each carrying its membership id and order index.  The documents are sorted by that index with unordered ones last and creation time breaking ties — the SAME order a link's visitor sees, so this is what the room looks like from the outside. A room id outside the caller's own tenant store is not found.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param id: ID is the room to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found. (required)
         :type id: str
@@ -1113,7 +1113,7 @@ class DataroomApi:
     ) -> DataroomDataroomDocuments:
         """Returns every document in the caller org's own store, newest first — name, opaque storage key, content type, page count, size and timestamps.
 
-        Returns every document in the caller org's own store, newest first — name, opaque storage key, content type, page count, size and timestamps.  Tenant isolation is the per-org store itself: there is one SQLite file per org and the org is never a parameter, so no input the caller controls can address another tenant's documents. Metadata only — the bytes come from the file route.
+        Returns every document in the caller org's own store, newest first — name, opaque storage key, content type, page count, size and timestamps.  Tenant isolation is the per-org store itself: there is one SQLite file per org and the org is never a parameter, so no input the caller controls can address another tenant's documents. Metadata only — the bytes come from the file route.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1176,7 +1176,7 @@ class DataroomApi:
     ) -> ApiResponse[DataroomDataroomDocuments]:
         """Returns every document in the caller org's own store, newest first — name, opaque storage key, content type, page count, size and timestamps.
 
-        Returns every document in the caller org's own store, newest first — name, opaque storage key, content type, page count, size and timestamps.  Tenant isolation is the per-org store itself: there is one SQLite file per org and the org is never a parameter, so no input the caller controls can address another tenant's documents. Metadata only — the bytes come from the file route.
+        Returns every document in the caller org's own store, newest first — name, opaque storage key, content type, page count, size and timestamps.  Tenant isolation is the per-org store itself: there is one SQLite file per org and the org is never a parameter, so no input the caller controls can address another tenant's documents. Metadata only — the bytes come from the file route.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1239,7 +1239,7 @@ class DataroomApi:
     ) -> RESTResponseType:
         """Returns every document in the caller org's own store, newest first — name, opaque storage key, content type, page count, size and timestamps.
 
-        Returns every document in the caller org's own store, newest first — name, opaque storage key, content type, page count, size and timestamps.  Tenant isolation is the per-org store itself: there is one SQLite file per org and the org is never a parameter, so no input the caller controls can address another tenant's documents. Metadata only — the bytes come from the file route.
+        Returns every document in the caller org's own store, newest first — name, opaque storage key, content type, page count, size and timestamps.  Tenant isolation is the per-org store itself: there is one SQLite file per org and the org is never a parameter, so no input the caller controls can address another tenant's documents. Metadata only — the bytes come from the file route.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1361,7 +1361,7 @@ class DataroomApi:
     ) -> DataroomDataroomDocumentOne:
         """Reads one of the caller org's documents — its name, opaque storage key, content type, page count, size and timestamps.
 
-        Reads one of the caller org's documents — its name, opaque storage key, content type, page count, size and timestamps.  The lookup runs in the caller's own tenant store, so an id belonging to another org is not found exactly like one that never existed. Metadata only: the bytes are a separate read.
+        Reads one of the caller org's documents — its name, opaque storage key, content type, page count, size and timestamps.  The lookup runs in the caller's own tenant store, so an id belonging to another org is not found exactly like one that never existed. Metadata only: the bytes are a separate read.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param id: ID is the document to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found. (required)
         :type id: str
@@ -1428,7 +1428,7 @@ class DataroomApi:
     ) -> ApiResponse[DataroomDataroomDocumentOne]:
         """Reads one of the caller org's documents — its name, opaque storage key, content type, page count, size and timestamps.
 
-        Reads one of the caller org's documents — its name, opaque storage key, content type, page count, size and timestamps.  The lookup runs in the caller's own tenant store, so an id belonging to another org is not found exactly like one that never existed. Metadata only: the bytes are a separate read.
+        Reads one of the caller org's documents — its name, opaque storage key, content type, page count, size and timestamps.  The lookup runs in the caller's own tenant store, so an id belonging to another org is not found exactly like one that never existed. Metadata only: the bytes are a separate read.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param id: ID is the document to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found. (required)
         :type id: str
@@ -1495,7 +1495,7 @@ class DataroomApi:
     ) -> RESTResponseType:
         """Reads one of the caller org's documents — its name, opaque storage key, content type, page count, size and timestamps.
 
-        Reads one of the caller org's documents — its name, opaque storage key, content type, page count, size and timestamps.  The lookup runs in the caller's own tenant store, so an id belonging to another org is not found exactly like one that never existed. Metadata only: the bytes are a separate read.
+        Reads one of the caller org's documents — its name, opaque storage key, content type, page count, size and timestamps.  The lookup runs in the caller's own tenant store, so an id belonging to another org is not found exactly like one that never existed. Metadata only: the bytes are a separate read.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param id: ID is the document to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found. (required)
         :type id: str
@@ -1623,7 +1623,7 @@ class DataroomApi:
     ) -> None:
         """Download a document's bytes as its owner
 
-        Streams the stored file back under the type read from its BYTES — a raster image or a PDF renders in place, and anything else is served as application/octet-stream with an attachment disposition, so a stored file never executes as markup in this origin. Every response carries nosniff, which keeps the declared type binding.  Requires a validated principal; 401 without one, and the document is resolved in the caller's own tenant store, so another org's id is a 404. This is the OWNER's path and applies no link gate at all — the per-link password, email and download controls live on the viewer surface, not here. Bytes that cannot be fetched from object storage are 502, never a truncated or empty file.
+        Streams the stored file back under the type read from its BYTES — a raster image or a PDF renders in place, and anything else is served as application/octet-stream with an attachment disposition, so a stored file never executes as markup in this origin. Every response carries nosniff, which keeps the declared type binding.  Requires a validated principal that is a SuperAdmin or an admin of the org; 401 without one, 403 for a member who is neither, and the document is resolved in the caller's own tenant store, so another org's id is a 404. This is the OWNER's path and applies no link gate at all — the per-link password, email and download controls live on the viewer surface, not here. Bytes that cannot be fetched from object storage are 502, never a truncated or empty file.
 
         :param id: (required)
         :type id: str
@@ -1689,7 +1689,7 @@ class DataroomApi:
     ) -> ApiResponse[None]:
         """Download a document's bytes as its owner
 
-        Streams the stored file back under the type read from its BYTES — a raster image or a PDF renders in place, and anything else is served as application/octet-stream with an attachment disposition, so a stored file never executes as markup in this origin. Every response carries nosniff, which keeps the declared type binding.  Requires a validated principal; 401 without one, and the document is resolved in the caller's own tenant store, so another org's id is a 404. This is the OWNER's path and applies no link gate at all — the per-link password, email and download controls live on the viewer surface, not here. Bytes that cannot be fetched from object storage are 502, never a truncated or empty file.
+        Streams the stored file back under the type read from its BYTES — a raster image or a PDF renders in place, and anything else is served as application/octet-stream with an attachment disposition, so a stored file never executes as markup in this origin. Every response carries nosniff, which keeps the declared type binding.  Requires a validated principal that is a SuperAdmin or an admin of the org; 401 without one, 403 for a member who is neither, and the document is resolved in the caller's own tenant store, so another org's id is a 404. This is the OWNER's path and applies no link gate at all — the per-link password, email and download controls live on the viewer surface, not here. Bytes that cannot be fetched from object storage are 502, never a truncated or empty file.
 
         :param id: (required)
         :type id: str
@@ -1755,7 +1755,7 @@ class DataroomApi:
     ) -> RESTResponseType:
         """Download a document's bytes as its owner
 
-        Streams the stored file back under the type read from its BYTES — a raster image or a PDF renders in place, and anything else is served as application/octet-stream with an attachment disposition, so a stored file never executes as markup in this origin. Every response carries nosniff, which keeps the declared type binding.  Requires a validated principal; 401 without one, and the document is resolved in the caller's own tenant store, so another org's id is a 404. This is the OWNER's path and applies no link gate at all — the per-link password, email and download controls live on the viewer surface, not here. Bytes that cannot be fetched from object storage are 502, never a truncated or empty file.
+        Streams the stored file back under the type read from its BYTES — a raster image or a PDF renders in place, and anything else is served as application/octet-stream with an attachment disposition, so a stored file never executes as markup in this origin. Every response carries nosniff, which keeps the declared type binding.  Requires a validated principal that is a SuperAdmin or an admin of the org; 401 without one, 403 for a member who is neither, and the document is resolved in the caller's own tenant store, so another org's id is a 404. This is the OWNER's path and applies no link gate at all — the per-link password, email and download controls live on the viewer surface, not here. Bytes that cannot be fetched from object storage are 502, never a truncated or empty file.
 
         :param id: (required)
         :type id: str
@@ -2120,7 +2120,7 @@ class DataroomApi:
     ) -> DataroomDataroomLinks:
         """Returns every live share link in the caller org's own store, newest first, with the controls a visitor will meet: whether an address is required, whether a password is set, the allow and deny lists, whether download is permitted, and when the link expires.
 
-        Returns every live share link in the caller org's own store, newest first, with the controls a visitor will meet: whether an address is required, whether a password is set, the allow and deny lists, whether download is permitted, and when the link expires.  Archived links are omitted entirely. A link reports only THAT a password is set — the stored form is a bcrypt hash and no route returns it.
+        Returns every live share link in the caller org's own store, newest first, with the controls a visitor will meet: whether an address is required, whether a password is set, the allow and deny lists, whether download is permitted, and when the link expires.  Archived links are omitted entirely. A link reports only THAT a password is set — the stored form is a bcrypt hash and no route returns it.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2183,7 +2183,7 @@ class DataroomApi:
     ) -> ApiResponse[DataroomDataroomLinks]:
         """Returns every live share link in the caller org's own store, newest first, with the controls a visitor will meet: whether an address is required, whether a password is set, the allow and deny lists, whether download is permitted, and when the link expires.
 
-        Returns every live share link in the caller org's own store, newest first, with the controls a visitor will meet: whether an address is required, whether a password is set, the allow and deny lists, whether download is permitted, and when the link expires.  Archived links are omitted entirely. A link reports only THAT a password is set — the stored form is a bcrypt hash and no route returns it.
+        Returns every live share link in the caller org's own store, newest first, with the controls a visitor will meet: whether an address is required, whether a password is set, the allow and deny lists, whether download is permitted, and when the link expires.  Archived links are omitted entirely. A link reports only THAT a password is set — the stored form is a bcrypt hash and no route returns it.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2246,7 +2246,7 @@ class DataroomApi:
     ) -> RESTResponseType:
         """Returns every live share link in the caller org's own store, newest first, with the controls a visitor will meet: whether an address is required, whether a password is set, the allow and deny lists, whether download is permitted, and when the link expires.
 
-        Returns every live share link in the caller org's own store, newest first, with the controls a visitor will meet: whether an address is required, whether a password is set, the allow and deny lists, whether download is permitted, and when the link expires.  Archived links are omitted entirely. A link reports only THAT a password is set — the stored form is a bcrypt hash and no route returns it.
+        Returns every live share link in the caller org's own store, newest first, with the controls a visitor will meet: whether an address is required, whether a password is set, the allow and deny lists, whether download is permitted, and when the link expires.  Archived links are omitted entirely. A link reports only THAT a password is set — the stored form is a bcrypt hash and no route returns it.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2367,7 +2367,7 @@ class DataroomApi:
     ) -> DataroomTrustDesk:
         """Answers the caller org's OWN trust centre: its settings, every item it holds in both tiers, the requests waiting on it, and the grants it has made.
 
-        Answers the caller org's OWN trust centre: its settings, every item it holds in both tiers, the requests waiting on it, and the grants it has made.  The org is the caller's, taken from the validated bearer and from nothing else, so this op cannot be pointed at another tenant — there is no field for one. An org that has never opened a centre reads back an empty one rather than an error, because having no trust centre is an ordinary state and this is the read that tells you so.
+        Answers the caller org's OWN trust centre: its settings, every item it holds in both tiers, the requests waiting on it, and the grants it has made.  The org is the caller's, taken from the validated bearer and from nothing else, so this op cannot be pointed at another tenant — there is no field for one. An org that has never opened a centre reads back an empty one rather than an error, because having no trust centre is an ordinary state and this is the read that tells you so.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2430,7 +2430,7 @@ class DataroomApi:
     ) -> ApiResponse[DataroomTrustDesk]:
         """Answers the caller org's OWN trust centre: its settings, every item it holds in both tiers, the requests waiting on it, and the grants it has made.
 
-        Answers the caller org's OWN trust centre: its settings, every item it holds in both tiers, the requests waiting on it, and the grants it has made.  The org is the caller's, taken from the validated bearer and from nothing else, so this op cannot be pointed at another tenant — there is no field for one. An org that has never opened a centre reads back an empty one rather than an error, because having no trust centre is an ordinary state and this is the read that tells you so.
+        Answers the caller org's OWN trust centre: its settings, every item it holds in both tiers, the requests waiting on it, and the grants it has made.  The org is the caller's, taken from the validated bearer and from nothing else, so this op cannot be pointed at another tenant — there is no field for one. An org that has never opened a centre reads back an empty one rather than an error, because having no trust centre is an ordinary state and this is the read that tells you so.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2493,7 +2493,7 @@ class DataroomApi:
     ) -> RESTResponseType:
         """Answers the caller org's OWN trust centre: its settings, every item it holds in both tiers, the requests waiting on it, and the grants it has made.
 
-        Answers the caller org's OWN trust centre: its settings, every item it holds in both tiers, the requests waiting on it, and the grants it has made.  The org is the caller's, taken from the validated bearer and from nothing else, so this op cannot be pointed at another tenant — there is no field for one. An org that has never opened a centre reads back an empty one rather than an error, because having no trust centre is an ordinary state and this is the read that tells you so.
+        Answers the caller org's OWN trust centre: its settings, every item it holds in both tiers, the requests waiting on it, and the grants it has made.  The org is the caller's, taken from the validated bearer and from nothing else, so this op cannot be pointed at another tenant — there is no field for one. An org that has never opened a centre reads back an empty one rather than an error, because having no trust centre is an ordinary state and this is the read that tells you so.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3950,7 +3950,7 @@ class DataroomApi:
     ) -> DataroomDataroomRoomOne:
         """Opens a new data room for the caller org and answers with it, including the short public id it is addressed by.
 
-        Opens a new data room for the caller org and answers with it, including the short public id it is addressed by.  `name` is required; without it the call is refused and the tenant store is untouched, because a dispatch answering 4xx rolls its transaction back. A new room holds no documents and is reachable by NOBODY until a share link is created over it — opening a room and granting access are two separate acts, so a room cannot leak by existing.
+        Opens a new data room for the caller org and answers with it, including the short public id it is addressed by.  `name` is required; without it the call is refused and the tenant store is untouched, because a dispatch answering 4xx rolls its transaction back. A new room holds no documents and is reachable by NOBODY until a share link is created over it — opening a room and granting access are two separate acts, so a room cannot leak by existing.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param dataroom_dataroom_create: (required)
         :type dataroom_dataroom_create: DataroomDataroomCreate
@@ -4017,7 +4017,7 @@ class DataroomApi:
     ) -> ApiResponse[DataroomDataroomRoomOne]:
         """Opens a new data room for the caller org and answers with it, including the short public id it is addressed by.
 
-        Opens a new data room for the caller org and answers with it, including the short public id it is addressed by.  `name` is required; without it the call is refused and the tenant store is untouched, because a dispatch answering 4xx rolls its transaction back. A new room holds no documents and is reachable by NOBODY until a share link is created over it — opening a room and granting access are two separate acts, so a room cannot leak by existing.
+        Opens a new data room for the caller org and answers with it, including the short public id it is addressed by.  `name` is required; without it the call is refused and the tenant store is untouched, because a dispatch answering 4xx rolls its transaction back. A new room holds no documents and is reachable by NOBODY until a share link is created over it — opening a room and granting access are two separate acts, so a room cannot leak by existing.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param dataroom_dataroom_create: (required)
         :type dataroom_dataroom_create: DataroomDataroomCreate
@@ -4084,7 +4084,7 @@ class DataroomApi:
     ) -> RESTResponseType:
         """Opens a new data room for the caller org and answers with it, including the short public id it is addressed by.
 
-        Opens a new data room for the caller org and answers with it, including the short public id it is addressed by.  `name` is required; without it the call is refused and the tenant store is untouched, because a dispatch answering 4xx rolls its transaction back. A new room holds no documents and is reachable by NOBODY until a share link is created over it — opening a room and granting access are two separate acts, so a room cannot leak by existing.
+        Opens a new data room for the caller org and answers with it, including the short public id it is addressed by.  `name` is required; without it the call is refused and the tenant store is untouched, because a dispatch answering 4xx rolls its transaction back. A new room holds no documents and is reachable by NOBODY until a share link is created over it — opening a room and granting access are two separate acts, so a room cannot leak by existing.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param dataroom_dataroom_create: (required)
         :type dataroom_dataroom_create: DataroomDataroomCreate
@@ -4226,7 +4226,7 @@ class DataroomApi:
     ) -> DataroomDataroomMembership:
         """Puts an already-uploaded document into one of the caller org's data rooms and answers with the new membership id.
 
-        Puts an already-uploaded document into one of the caller org's data rooms and answers with the new membership id.  It ATTACHES, it never uploads: the bytes must already be stored, so the usual order is upload the document, then add it to the room. Both the room and the document must exist in the caller's own store — either missing is not found — and a document already in the room is refused as a conflict rather than duplicated.
+        Puts an already-uploaded document into one of the caller org's data rooms and answers with the new membership id.  It ATTACHES, it never uploads: the bytes must already be stored, so the usual order is upload the document, then add it to the room. Both the room and the document must exist in the caller's own store — either missing is not found — and a document already in the room is refused as a conflict rather than duplicated.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param id: ID is the room to add to. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found. (required)
         :type id: str
@@ -4297,7 +4297,7 @@ class DataroomApi:
     ) -> ApiResponse[DataroomDataroomMembership]:
         """Puts an already-uploaded document into one of the caller org's data rooms and answers with the new membership id.
 
-        Puts an already-uploaded document into one of the caller org's data rooms and answers with the new membership id.  It ATTACHES, it never uploads: the bytes must already be stored, so the usual order is upload the document, then add it to the room. Both the room and the document must exist in the caller's own store — either missing is not found — and a document already in the room is refused as a conflict rather than duplicated.
+        Puts an already-uploaded document into one of the caller org's data rooms and answers with the new membership id.  It ATTACHES, it never uploads: the bytes must already be stored, so the usual order is upload the document, then add it to the room. Both the room and the document must exist in the caller's own store — either missing is not found — and a document already in the room is refused as a conflict rather than duplicated.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param id: ID is the room to add to. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found. (required)
         :type id: str
@@ -4368,7 +4368,7 @@ class DataroomApi:
     ) -> RESTResponseType:
         """Puts an already-uploaded document into one of the caller org's data rooms and answers with the new membership id.
 
-        Puts an already-uploaded document into one of the caller org's data rooms and answers with the new membership id.  It ATTACHES, it never uploads: the bytes must already be stored, so the usual order is upload the document, then add it to the room. Both the room and the document must exist in the caller's own store — either missing is not found — and a document already in the room is refused as a conflict rather than duplicated.
+        Puts an already-uploaded document into one of the caller org's data rooms and answers with the new membership id.  It ATTACHES, it never uploads: the bytes must already be stored, so the usual order is upload the document, then add it to the room. Both the room and the document must exist in the caller's own store — either missing is not found — and a document already in the room is refused as a conflict rather than duplicated.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param id: ID is the room to add to. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found. (required)
         :type id: str
@@ -4514,7 +4514,7 @@ class DataroomApi:
     ) -> None:
         """Upload a document's bytes and record it
 
-        Takes the file ITSELF as the raw request body — not a JSON envelope, not multipart — stores it on the object-storage client, and records the metadata row, answering with the new document. `?name=` names it (default \"document\"), the request's Content-Type is recorded as the document's mime type, and `?numPages=` is optional. That recorded type is metadata the owner sees; what the file is later SERVED as is read from the bytes.  Requires a validated principal; 401 without one. An empty body is 400 and anything over 64 MiB is 413 — a data room holds decks and PDFs, not a media library.  The storage key is 128 random bits under the tenant's own key prefix, minted before the bytes are written: if the system's randomness is unavailable the upload fails 500 rather than fall back to a predictable key that could overwrite another document's bytes. A storage write that fails is 502 and no metadata row is recorded, so a document never exists without its file.
+        Takes the file ITSELF as the raw request body — not a JSON envelope, not multipart — stores it on the object-storage client, and records the metadata row, answering with the new document. `?name=` names it (default \"document\"), the request's Content-Type is recorded as the document's mime type, and `?numPages=` is optional. That recorded type is metadata the owner sees; what the file is later SERVED as is read from the bytes.  Requires a validated principal that is a SuperAdmin or an admin of the org; 401 without one, 403 for a member who is neither. An empty body is 400 and anything over 64 MiB is 413 — a data room holds decks and PDFs, not a media library.  The storage key is 128 random bits under the tenant's own key prefix, minted before the bytes are written: if the system's randomness is unavailable the upload fails 500 rather than fall back to a predictable key that could overwrite another document's bytes. A storage write that fails is 502 and no metadata row is recorded, so a document never exists without its file.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4576,7 +4576,7 @@ class DataroomApi:
     ) -> ApiResponse[None]:
         """Upload a document's bytes and record it
 
-        Takes the file ITSELF as the raw request body — not a JSON envelope, not multipart — stores it on the object-storage client, and records the metadata row, answering with the new document. `?name=` names it (default \"document\"), the request's Content-Type is recorded as the document's mime type, and `?numPages=` is optional. That recorded type is metadata the owner sees; what the file is later SERVED as is read from the bytes.  Requires a validated principal; 401 without one. An empty body is 400 and anything over 64 MiB is 413 — a data room holds decks and PDFs, not a media library.  The storage key is 128 random bits under the tenant's own key prefix, minted before the bytes are written: if the system's randomness is unavailable the upload fails 500 rather than fall back to a predictable key that could overwrite another document's bytes. A storage write that fails is 502 and no metadata row is recorded, so a document never exists without its file.
+        Takes the file ITSELF as the raw request body — not a JSON envelope, not multipart — stores it on the object-storage client, and records the metadata row, answering with the new document. `?name=` names it (default \"document\"), the request's Content-Type is recorded as the document's mime type, and `?numPages=` is optional. That recorded type is metadata the owner sees; what the file is later SERVED as is read from the bytes.  Requires a validated principal that is a SuperAdmin or an admin of the org; 401 without one, 403 for a member who is neither. An empty body is 400 and anything over 64 MiB is 413 — a data room holds decks and PDFs, not a media library.  The storage key is 128 random bits under the tenant's own key prefix, minted before the bytes are written: if the system's randomness is unavailable the upload fails 500 rather than fall back to a predictable key that could overwrite another document's bytes. A storage write that fails is 502 and no metadata row is recorded, so a document never exists without its file.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4638,7 +4638,7 @@ class DataroomApi:
     ) -> RESTResponseType:
         """Upload a document's bytes and record it
 
-        Takes the file ITSELF as the raw request body — not a JSON envelope, not multipart — stores it on the object-storage client, and records the metadata row, answering with the new document. `?name=` names it (default \"document\"), the request's Content-Type is recorded as the document's mime type, and `?numPages=` is optional. That recorded type is metadata the owner sees; what the file is later SERVED as is read from the bytes.  Requires a validated principal; 401 without one. An empty body is 400 and anything over 64 MiB is 413 — a data room holds decks and PDFs, not a media library.  The storage key is 128 random bits under the tenant's own key prefix, minted before the bytes are written: if the system's randomness is unavailable the upload fails 500 rather than fall back to a predictable key that could overwrite another document's bytes. A storage write that fails is 502 and no metadata row is recorded, so a document never exists without its file.
+        Takes the file ITSELF as the raw request body — not a JSON envelope, not multipart — stores it on the object-storage client, and records the metadata row, answering with the new document. `?name=` names it (default \"document\"), the request's Content-Type is recorded as the document's mime type, and `?numPages=` is optional. That recorded type is metadata the owner sees; what the file is later SERVED as is read from the bytes.  Requires a validated principal that is a SuperAdmin or an admin of the org; 401 without one, 403 for a member who is neither. An empty body is 400 and anything over 64 MiB is 413 — a data room holds decks and PDFs, not a media library.  The storage key is 128 random bits under the tenant's own key prefix, minted before the bytes are written: if the system's randomness is unavailable the upload fails 500 rather than fall back to a predictable key that could overwrite another document's bytes. A storage write that fails is 502 and no metadata row is recorded, so a document never exists without its file.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4751,7 +4751,7 @@ class DataroomApi:
     ) -> DataroomDataroomLinkOne:
         """Grants access: it mints a public share link over one data room (`dataroomId`) or one document (`documentId`) — one of the two is required — and answers with the link, whose `id` is the token a visitor opens it with.
 
-        Grants access: it mints a public share link over one data room (`dataroomId`) or one document (`documentId`) — one of the two is required — and answers with the link, whose `id` is the token a visitor opens it with.  This is how a party is let in. The controls are declared HERE and enforced on the viewer surface: `password` is hashed with bcrypt before storage and is never readable back, `emailProtected` (on by default) makes a visitor state an address, `allowList`/`denyList` narrow which addresses pass, `allowDownload` (off by default) governs downloads, and `expiresAt` closes the link. The target room or document must exist in the caller's own store or it is not found.  Creating a link also writes dataroom's ONE cross-tenant row: the link id to owning org mapping an anonymous visitor is routed through. That write is part of the operation — if it fails the call is 500 — so a link that no visitor could open is never handed back as usable.  The address a visitor later states is recorded UNVERIFIED, so a link gated only by email is openable by anyone the link reaches. Use a password for a link that must not travel.
+        Grants access: it mints a public share link over one data room (`dataroomId`) or one document (`documentId`) — one of the two is required — and answers with the link, whose `id` is the token a visitor opens it with.  This is how a party is let in. The controls are declared HERE and enforced on the viewer surface: `password` is hashed with bcrypt before storage and is never readable back, `emailProtected` (on by default) makes a visitor state an address, `allowList`/`denyList` narrow which addresses pass, `allowDownload` (off by default) governs downloads, and `expiresAt` closes the link. The target room or document must exist in the caller's own store or it is not found.  Creating a link also writes dataroom's ONE cross-tenant row: the link id to owning org mapping an anonymous visitor is routed through. That write is part of the operation — if it fails the call is 500 — so a link that no visitor could open is never handed back as usable.  The address a visitor later states is recorded UNVERIFIED, so a link gated only by email is openable by anyone the link reaches. Use a password for a link that must not travel.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param dataroom_dataroom_link_create: (required)
         :type dataroom_dataroom_link_create: DataroomDataroomLinkCreate
@@ -4818,7 +4818,7 @@ class DataroomApi:
     ) -> ApiResponse[DataroomDataroomLinkOne]:
         """Grants access: it mints a public share link over one data room (`dataroomId`) or one document (`documentId`) — one of the two is required — and answers with the link, whose `id` is the token a visitor opens it with.
 
-        Grants access: it mints a public share link over one data room (`dataroomId`) or one document (`documentId`) — one of the two is required — and answers with the link, whose `id` is the token a visitor opens it with.  This is how a party is let in. The controls are declared HERE and enforced on the viewer surface: `password` is hashed with bcrypt before storage and is never readable back, `emailProtected` (on by default) makes a visitor state an address, `allowList`/`denyList` narrow which addresses pass, `allowDownload` (off by default) governs downloads, and `expiresAt` closes the link. The target room or document must exist in the caller's own store or it is not found.  Creating a link also writes dataroom's ONE cross-tenant row: the link id to owning org mapping an anonymous visitor is routed through. That write is part of the operation — if it fails the call is 500 — so a link that no visitor could open is never handed back as usable.  The address a visitor later states is recorded UNVERIFIED, so a link gated only by email is openable by anyone the link reaches. Use a password for a link that must not travel.
+        Grants access: it mints a public share link over one data room (`dataroomId`) or one document (`documentId`) — one of the two is required — and answers with the link, whose `id` is the token a visitor opens it with.  This is how a party is let in. The controls are declared HERE and enforced on the viewer surface: `password` is hashed with bcrypt before storage and is never readable back, `emailProtected` (on by default) makes a visitor state an address, `allowList`/`denyList` narrow which addresses pass, `allowDownload` (off by default) governs downloads, and `expiresAt` closes the link. The target room or document must exist in the caller's own store or it is not found.  Creating a link also writes dataroom's ONE cross-tenant row: the link id to owning org mapping an anonymous visitor is routed through. That write is part of the operation — if it fails the call is 500 — so a link that no visitor could open is never handed back as usable.  The address a visitor later states is recorded UNVERIFIED, so a link gated only by email is openable by anyone the link reaches. Use a password for a link that must not travel.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param dataroom_dataroom_link_create: (required)
         :type dataroom_dataroom_link_create: DataroomDataroomLinkCreate
@@ -4885,7 +4885,7 @@ class DataroomApi:
     ) -> RESTResponseType:
         """Grants access: it mints a public share link over one data room (`dataroomId`) or one document (`documentId`) — one of the two is required — and answers with the link, whose `id` is the token a visitor opens it with.
 
-        Grants access: it mints a public share link over one data room (`dataroomId`) or one document (`documentId`) — one of the two is required — and answers with the link, whose `id` is the token a visitor opens it with.  This is how a party is let in. The controls are declared HERE and enforced on the viewer surface: `password` is hashed with bcrypt before storage and is never readable back, `emailProtected` (on by default) makes a visitor state an address, `allowList`/`denyList` narrow which addresses pass, `allowDownload` (off by default) governs downloads, and `expiresAt` closes the link. The target room or document must exist in the caller's own store or it is not found.  Creating a link also writes dataroom's ONE cross-tenant row: the link id to owning org mapping an anonymous visitor is routed through. That write is part of the operation — if it fails the call is 500 — so a link that no visitor could open is never handed back as usable.  The address a visitor later states is recorded UNVERIFIED, so a link gated only by email is openable by anyone the link reaches. Use a password for a link that must not travel.
+        Grants access: it mints a public share link over one data room (`dataroomId`) or one document (`documentId`) — one of the two is required — and answers with the link, whose `id` is the token a visitor opens it with.  This is how a party is let in. The controls are declared HERE and enforced on the viewer surface: `password` is hashed with bcrypt before storage and is never readable back, `emailProtected` (on by default) makes a visitor state an address, `allowList`/`denyList` narrow which addresses pass, `allowDownload` (off by default) governs downloads, and `expiresAt` closes the link. The target room or document must exist in the caller's own store or it is not found.  Creating a link also writes dataroom's ONE cross-tenant row: the link id to owning org mapping an anonymous visitor is routed through. That write is part of the operation — if it fails the call is 500 — so a link that no visitor could open is never handed back as usable.  The address a visitor later states is recorded UNVERIFIED, so a link gated only by email is openable by anyone the link reaches. Use a password for a link that must not travel.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param dataroom_dataroom_link_create: (required)
         :type dataroom_dataroom_link_create: DataroomDataroomLinkCreate

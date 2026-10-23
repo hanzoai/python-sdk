@@ -28,7 +28,8 @@ class CaptureResult(BaseModel):
     """ # noqa: E501
     accepted: Optional[StrictInt] = None
     dropped: Optional[StrictInt] = None
-    __properties: ClassVar[List[str]] = ["accepted", "dropped"]
+    withheld: Optional[StrictInt] = None
+    __properties: ClassVar[List[str]] = ["accepted", "dropped", "withheld"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -82,7 +83,8 @@ class CaptureResult(BaseModel):
 
         _obj = cls.model_validate({
             "accepted": obj.get("accepted"),
-            "dropped": obj.get("dropped")
+            "dropped": obj.get("dropped"),
+            "withheld": obj.get("withheld")
         })
         return _obj
 

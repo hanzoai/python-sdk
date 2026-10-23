@@ -72,7 +72,7 @@ class EsignApi:
     ) -> EsignEsignDocuments:
         """Returns your org's documents, newest first.
 
-        Returns your org's documents, newest first.  Each carries its status, recipients and field layout. The listing is capped at 200 and there is no paging, so treat it as the recent window rather than a complete export. It reads the caller's own tenant store, so no other org's documents can appear in it.
+        Returns your org's documents, newest first.  Each carries its status, recipients and field layout. The listing is capped at 200 and there is no paging, so treat it as the recent window rather than a complete export. It reads the caller's own tenant store, so no other org's documents can appear in it.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -135,7 +135,7 @@ class EsignApi:
     ) -> ApiResponse[EsignEsignDocuments]:
         """Returns your org's documents, newest first.
 
-        Returns your org's documents, newest first.  Each carries its status, recipients and field layout. The listing is capped at 200 and there is no paging, so treat it as the recent window rather than a complete export. It reads the caller's own tenant store, so no other org's documents can appear in it.
+        Returns your org's documents, newest first.  Each carries its status, recipients and field layout. The listing is capped at 200 and there is no paging, so treat it as the recent window rather than a complete export. It reads the caller's own tenant store, so no other org's documents can appear in it.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -198,7 +198,7 @@ class EsignApi:
     ) -> RESTResponseType:
         """Returns your org's documents, newest first.
 
-        Returns your org's documents, newest first.  Each carries its status, recipients and field layout. The listing is capped at 200 and there is no paging, so treat it as the recent window rather than a complete export. It reads the caller's own tenant store, so no other org's documents can appear in it.
+        Returns your org's documents, newest first.  Each carries its status, recipients and field layout. The listing is capped at 200 and there is no paging, so treat it as the recent window rather than a complete export. It reads the caller's own tenant store, so no other org's documents can appear in it.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -320,7 +320,7 @@ class EsignApi:
     ) -> EsignEsignDocument:
         """Returns one document with its recipients and field layout.
 
-        Returns one document with its recipients and field layout.  It answers the document, its recipients with each one's read and signing status, and every field with its type, page and position — the view a sender's UI renders, and where the field ids come from. The id is resolved in the caller's OWN tenant store, so another org's document id is a 404 rather than a refusal that would confirm it exists.
+        Returns one document with its recipients and field layout.  It answers the document, its recipients with each one's read and signing status, and every field with its type, page and position — the view a sender's UI renders, and where the field ids come from. The id is resolved in the caller's OWN tenant store, so another org's document id is a 404 rather than a refusal that would confirm it exists.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param id: ID is the document to act on. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id belonging to another tenant is simply not found. (required)
         :type id: str
@@ -387,7 +387,7 @@ class EsignApi:
     ) -> ApiResponse[EsignEsignDocument]:
         """Returns one document with its recipients and field layout.
 
-        Returns one document with its recipients and field layout.  It answers the document, its recipients with each one's read and signing status, and every field with its type, page and position — the view a sender's UI renders, and where the field ids come from. The id is resolved in the caller's OWN tenant store, so another org's document id is a 404 rather than a refusal that would confirm it exists.
+        Returns one document with its recipients and field layout.  It answers the document, its recipients with each one's read and signing status, and every field with its type, page and position — the view a sender's UI renders, and where the field ids come from. The id is resolved in the caller's OWN tenant store, so another org's document id is a 404 rather than a refusal that would confirm it exists.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param id: ID is the document to act on. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id belonging to another tenant is simply not found. (required)
         :type id: str
@@ -454,7 +454,7 @@ class EsignApi:
     ) -> RESTResponseType:
         """Returns one document with its recipients and field layout.
 
-        Returns one document with its recipients and field layout.  It answers the document, its recipients with each one's read and signing status, and every field with its type, page and position — the view a sender's UI renders, and where the field ids come from. The id is resolved in the caller's OWN tenant store, so another org's document id is a 404 rather than a refusal that would confirm it exists.
+        Returns one document with its recipients and field layout.  It answers the document, its recipients with each one's read and signing status, and every field with its type, page and position — the view a sender's UI renders, and where the field ids come from. The id is resolved in the caller's OWN tenant store, so another org's document id is a 404 rather than a refusal that would confirm it exists.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param id: ID is the document to act on. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id belonging to another tenant is simply not found. (required)
         :type id: str
@@ -582,7 +582,7 @@ class EsignApi:
     ) -> EsignEsignTrail:
         """Returns the document's full audit trail, oldest first.
 
-        Returns the document's full audit trail, oldest first.  It answers every recorded event for the document in order — created, recipient added, field created, sent, opened, each field inserted, each recipient completed or rejected, and completion — with the actor and timestamp on each. This is the evidence record behind a signature, so it is append-only and nothing in the surface edits it.  The id is resolved in the caller's OWN tenant store, so another org's document id is a 404.
+        Returns the document's full audit trail, oldest first.  It answers every recorded event for the document in order — created, recipient added, field created, sent, opened, each field inserted, each recipient completed or rejected, and completion — with the actor and timestamp on each. This is the evidence record behind a signature, so it is append-only and nothing in the surface edits it.  The id is resolved in the caller's OWN tenant store, so another org's document id is a 404.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param id: ID is the document to act on. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id belonging to another tenant is simply not found. (required)
         :type id: str
@@ -649,7 +649,7 @@ class EsignApi:
     ) -> ApiResponse[EsignEsignTrail]:
         """Returns the document's full audit trail, oldest first.
 
-        Returns the document's full audit trail, oldest first.  It answers every recorded event for the document in order — created, recipient added, field created, sent, opened, each field inserted, each recipient completed or rejected, and completion — with the actor and timestamp on each. This is the evidence record behind a signature, so it is append-only and nothing in the surface edits it.  The id is resolved in the caller's OWN tenant store, so another org's document id is a 404.
+        Returns the document's full audit trail, oldest first.  It answers every recorded event for the document in order — created, recipient added, field created, sent, opened, each field inserted, each recipient completed or rejected, and completion — with the actor and timestamp on each. This is the evidence record behind a signature, so it is append-only and nothing in the surface edits it.  The id is resolved in the caller's OWN tenant store, so another org's document id is a 404.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param id: ID is the document to act on. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id belonging to another tenant is simply not found. (required)
         :type id: str
@@ -716,7 +716,7 @@ class EsignApi:
     ) -> RESTResponseType:
         """Returns the document's full audit trail, oldest first.
 
-        Returns the document's full audit trail, oldest first.  It answers every recorded event for the document in order — created, recipient added, field created, sent, opened, each field inserted, each recipient completed or rejected, and completion — with the actor and timestamp on each. This is the evidence record behind a signature, so it is append-only and nothing in the surface edits it.  The id is resolved in the caller's OWN tenant store, so another org's document id is a 404.
+        Returns the document's full audit trail, oldest first.  It answers every recorded event for the document in order — created, recipient added, field created, sent, opened, each field inserted, each recipient completed or rejected, and completion — with the actor and timestamp on each. This is the evidence record behind a signature, so it is append-only and nothing in the surface edits it.  The id is resolved in the caller's OWN tenant store, so another org's document id is a 404.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param id: ID is the document to act on. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id belonging to another tenant is simply not found. (required)
         :type id: str
@@ -844,7 +844,7 @@ class EsignApi:
     ) -> EsignEsignPDF:
         """Returns the document — the sealed PDF once it is complete.
 
-        Returns the document — the sealed PDF once it is complete.  It answers the document's current PDF as base64 with a sealed flag and a filename. Before completion that is the original upload; once every signer has finished it is the SEALED artifact, with the field values rendered onto the page and a real x509 PKCS#7 digital signature applied. There is one pdfBase64 field either way, so sealed is what tells you which you are holding.  The id is resolved in the caller's OWN tenant store, so another org's document id is a 404.
+        Returns the document — the sealed PDF once it is complete.  It answers the document's current PDF as base64 with a sealed flag and a filename. Before completion that is the original upload; once every signer has finished it is the SEALED artifact, with the field values rendered onto the page and a real x509 PKCS#7 digital signature applied. There is one pdfBase64 field either way, so sealed is what tells you which you are holding.  The id is resolved in the caller's OWN tenant store, so another org's document id is a 404.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param id: ID is the document to act on. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id belonging to another tenant is simply not found. (required)
         :type id: str
@@ -911,7 +911,7 @@ class EsignApi:
     ) -> ApiResponse[EsignEsignPDF]:
         """Returns the document — the sealed PDF once it is complete.
 
-        Returns the document — the sealed PDF once it is complete.  It answers the document's current PDF as base64 with a sealed flag and a filename. Before completion that is the original upload; once every signer has finished it is the SEALED artifact, with the field values rendered onto the page and a real x509 PKCS#7 digital signature applied. There is one pdfBase64 field either way, so sealed is what tells you which you are holding.  The id is resolved in the caller's OWN tenant store, so another org's document id is a 404.
+        Returns the document — the sealed PDF once it is complete.  It answers the document's current PDF as base64 with a sealed flag and a filename. Before completion that is the original upload; once every signer has finished it is the SEALED artifact, with the field values rendered onto the page and a real x509 PKCS#7 digital signature applied. There is one pdfBase64 field either way, so sealed is what tells you which you are holding.  The id is resolved in the caller's OWN tenant store, so another org's document id is a 404.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param id: ID is the document to act on. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id belonging to another tenant is simply not found. (required)
         :type id: str
@@ -978,7 +978,7 @@ class EsignApi:
     ) -> RESTResponseType:
         """Returns the document — the sealed PDF once it is complete.
 
-        Returns the document — the sealed PDF once it is complete.  It answers the document's current PDF as base64 with a sealed flag and a filename. Before completion that is the original upload; once every signer has finished it is the SEALED artifact, with the field values rendered onto the page and a real x509 PKCS#7 digital signature applied. There is one pdfBase64 field either way, so sealed is what tells you which you are holding.  The id is resolved in the caller's OWN tenant store, so another org's document id is a 404.
+        Returns the document — the sealed PDF once it is complete.  It answers the document's current PDF as base64 with a sealed flag and a filename. Before completion that is the original upload; once every signer has finished it is the SEALED artifact, with the field values rendered onto the page and a real x509 PKCS#7 digital signature applied. There is one pdfBase64 field either way, so sealed is what tells you which you are holding.  The id is resolved in the caller's OWN tenant store, so another org's document id is a 404.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param id: ID is the document to act on. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id belonging to another tenant is simply not found. (required)
         :type id: str
@@ -1630,7 +1630,7 @@ class EsignApi:
     ) -> EsignEsignDocument:
         """Uploads a PDF and opens a draft ready for recipients and fields.
 
-        Uploads a PDF and opens a draft ready for recipients and fields.  It answers 201 with the document in DRAFT — the state where recipients and fields may still be added, and the only state they may. The bytes go to object storage rather than into the tenant database, and the original is kept under its own key so it survives sealing untouched: a completed document can always be compared against what was uploaded. Creation is recorded on the audit trail.  This is the sender's surface: a validated principal is required, and the document lands in that principal's OWN org. Isolation is physical rather than a filter — each tenant has its own store — so another org's document id is simply not there. A body over 32 MiB is refused with 413.
+        Uploads a PDF and opens a draft ready for recipients and fields.  It answers 201 with the document in DRAFT — the state where recipients and fields may still be added, and the only state they may. The bytes go to object storage rather than into the tenant database, and the original is kept under its own key so it survives sealing untouched: a completed document can always be compared against what was uploaded. Creation is recorded on the audit trail.  This is the sender's surface: a validated principal is required, and the document lands in that principal's OWN org. Isolation is physical rather than a filter — each tenant has its own store — so another org's document id is simply not there. A body over 32 MiB is refused with 413.   Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param esign_esign_upload_in: (required)
         :type esign_esign_upload_in: EsignEsignUploadIn
@@ -1697,7 +1697,7 @@ class EsignApi:
     ) -> ApiResponse[EsignEsignDocument]:
         """Uploads a PDF and opens a draft ready for recipients and fields.
 
-        Uploads a PDF and opens a draft ready for recipients and fields.  It answers 201 with the document in DRAFT — the state where recipients and fields may still be added, and the only state they may. The bytes go to object storage rather than into the tenant database, and the original is kept under its own key so it survives sealing untouched: a completed document can always be compared against what was uploaded. Creation is recorded on the audit trail.  This is the sender's surface: a validated principal is required, and the document lands in that principal's OWN org. Isolation is physical rather than a filter — each tenant has its own store — so another org's document id is simply not there. A body over 32 MiB is refused with 413.
+        Uploads a PDF and opens a draft ready for recipients and fields.  It answers 201 with the document in DRAFT — the state where recipients and fields may still be added, and the only state they may. The bytes go to object storage rather than into the tenant database, and the original is kept under its own key so it survives sealing untouched: a completed document can always be compared against what was uploaded. Creation is recorded on the audit trail.  This is the sender's surface: a validated principal is required, and the document lands in that principal's OWN org. Isolation is physical rather than a filter — each tenant has its own store — so another org's document id is simply not there. A body over 32 MiB is refused with 413.   Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param esign_esign_upload_in: (required)
         :type esign_esign_upload_in: EsignEsignUploadIn
@@ -1764,7 +1764,7 @@ class EsignApi:
     ) -> RESTResponseType:
         """Uploads a PDF and opens a draft ready for recipients and fields.
 
-        Uploads a PDF and opens a draft ready for recipients and fields.  It answers 201 with the document in DRAFT — the state where recipients and fields may still be added, and the only state they may. The bytes go to object storage rather than into the tenant database, and the original is kept under its own key so it survives sealing untouched: a completed document can always be compared against what was uploaded. Creation is recorded on the audit trail.  This is the sender's surface: a validated principal is required, and the document lands in that principal's OWN org. Isolation is physical rather than a filter — each tenant has its own store — so another org's document id is simply not there. A body over 32 MiB is refused with 413.
+        Uploads a PDF and opens a draft ready for recipients and fields.  It answers 201 with the document in DRAFT — the state where recipients and fields may still be added, and the only state they may. The bytes go to object storage rather than into the tenant database, and the original is kept under its own key so it survives sealing untouched: a completed document can always be compared against what was uploaded. Creation is recorded on the audit trail.  This is the sender's surface: a validated principal is required, and the document lands in that principal's OWN org. Isolation is physical rather than a filter — each tenant has its own store — so another org's document id is simply not there. A body over 32 MiB is refused with 413.   Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param esign_esign_upload_in: (required)
         :type esign_esign_upload_in: EsignEsignUploadIn
@@ -1906,7 +1906,7 @@ class EsignApi:
     ) -> EsignEsignPlacement:
         """Places a field on the page for one recipient to fill.
 
-        Places a field on the page for one recipient to fill.  It adds a signature, date, name, email or text box at a page and position for ONE named recipient, and answers 201 with its id. The recipient must belong to this document; one from elsewhere is refused.  Fields are what make a recipient signable: a document cannot be sent while any signing recipient has none. Only while DRAFT — adding a field to a sent document is a 409 — and an unknown document is a 404. The addition is recorded on the audit trail.
+        Places a field on the page for one recipient to fill.  It adds a signature, date, name, email or text box at a page and position for ONE named recipient, and answers 201 with its id. The recipient must belong to this document; one from elsewhere is refused.  Fields are what make a recipient signable: a document cannot be sent while any signing recipient has none. Only while DRAFT — adding a field to a sent document is a 409 — and an unknown document is a 404. The addition is recorded on the audit trail.   Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param id: (required)
         :type id: str
@@ -1977,7 +1977,7 @@ class EsignApi:
     ) -> ApiResponse[EsignEsignPlacement]:
         """Places a field on the page for one recipient to fill.
 
-        Places a field on the page for one recipient to fill.  It adds a signature, date, name, email or text box at a page and position for ONE named recipient, and answers 201 with its id. The recipient must belong to this document; one from elsewhere is refused.  Fields are what make a recipient signable: a document cannot be sent while any signing recipient has none. Only while DRAFT — adding a field to a sent document is a 409 — and an unknown document is a 404. The addition is recorded on the audit trail.
+        Places a field on the page for one recipient to fill.  It adds a signature, date, name, email or text box at a page and position for ONE named recipient, and answers 201 with its id. The recipient must belong to this document; one from elsewhere is refused.  Fields are what make a recipient signable: a document cannot be sent while any signing recipient has none. Only while DRAFT — adding a field to a sent document is a 409 — and an unknown document is a 404. The addition is recorded on the audit trail.   Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param id: (required)
         :type id: str
@@ -2048,7 +2048,7 @@ class EsignApi:
     ) -> RESTResponseType:
         """Places a field on the page for one recipient to fill.
 
-        Places a field on the page for one recipient to fill.  It adds a signature, date, name, email or text box at a page and position for ONE named recipient, and answers 201 with its id. The recipient must belong to this document; one from elsewhere is refused.  Fields are what make a recipient signable: a document cannot be sent while any signing recipient has none. Only while DRAFT — adding a field to a sent document is a 409 — and an unknown document is a 404. The addition is recorded on the audit trail.
+        Places a field on the page for one recipient to fill.  It adds a signature, date, name, email or text box at a page and position for ONE named recipient, and answers 201 with its id. The recipient must belong to this document; one from elsewhere is refused.  Fields are what make a recipient signable: a document cannot be sent while any signing recipient has none. Only while DRAFT — adding a field to a sent document is a 409 — and an unknown document is a 404. The addition is recorded on the audit trail.   Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param id: (required)
         :type id: str
@@ -2196,7 +2196,7 @@ class EsignApi:
     ) -> EsignEsignInvite:
         """Adds someone to a draft and mints their signing token.
 
-        Adds someone to a draft and mints their signing token.  It answers 201 with the recipient's id and their signing TOKEN — the crypto-random capability that is the only credential the signer's surface accepts — so this response is where the signing link is built from. A CC recipient is recorded as already complete, because they are never asked to sign.  Only while DRAFT: adding a recipient to a document already sent is a 409, because the field layout and the turn order were fixed when it went out. An unknown document is a 404. The addition is recorded on the audit trail.
+        Adds someone to a draft and mints their signing token.  It answers 201 with the recipient's id and their signing TOKEN — the crypto-random capability that is the only credential the signer's surface accepts — so this response is where the signing link is built from. A CC recipient is recorded as already complete, because they are never asked to sign.  Only while DRAFT: adding a recipient to a document already sent is a 409, because the field layout and the turn order were fixed when it went out. An unknown document is a 404. The addition is recorded on the audit trail.   Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param id: (required)
         :type id: str
@@ -2267,7 +2267,7 @@ class EsignApi:
     ) -> ApiResponse[EsignEsignInvite]:
         """Adds someone to a draft and mints their signing token.
 
-        Adds someone to a draft and mints their signing token.  It answers 201 with the recipient's id and their signing TOKEN — the crypto-random capability that is the only credential the signer's surface accepts — so this response is where the signing link is built from. A CC recipient is recorded as already complete, because they are never asked to sign.  Only while DRAFT: adding a recipient to a document already sent is a 409, because the field layout and the turn order were fixed when it went out. An unknown document is a 404. The addition is recorded on the audit trail.
+        Adds someone to a draft and mints their signing token.  It answers 201 with the recipient's id and their signing TOKEN — the crypto-random capability that is the only credential the signer's surface accepts — so this response is where the signing link is built from. A CC recipient is recorded as already complete, because they are never asked to sign.  Only while DRAFT: adding a recipient to a document already sent is a 409, because the field layout and the turn order were fixed when it went out. An unknown document is a 404. The addition is recorded on the audit trail.   Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param id: (required)
         :type id: str
@@ -2338,7 +2338,7 @@ class EsignApi:
     ) -> RESTResponseType:
         """Adds someone to a draft and mints their signing token.
 
-        Adds someone to a draft and mints their signing token.  It answers 201 with the recipient's id and their signing TOKEN — the crypto-random capability that is the only credential the signer's surface accepts — so this response is where the signing link is built from. A CC recipient is recorded as already complete, because they are never asked to sign.  Only while DRAFT: adding a recipient to a document already sent is a 409, because the field layout and the turn order were fixed when it went out. An unknown document is a 404. The addition is recorded on the audit trail.
+        Adds someone to a draft and mints their signing token.  It answers 201 with the recipient's id and their signing TOKEN — the crypto-random capability that is the only credential the signer's surface accepts — so this response is where the signing link is built from. A CC recipient is recorded as already complete, because they are never asked to sign.  Only while DRAFT: adding a recipient to a document already sent is a 409, because the field layout and the turn order were fixed when it went out. An unknown document is a 404. The addition is recorded on the audit trail.   Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param id: (required)
         :type id: str
@@ -2485,7 +2485,7 @@ class EsignApi:
     ) -> EsignEsignLinks:
         """Sends the document out and answers each signer's link.
 
-        Sends the document out and answers each signer's link.  It moves the document from DRAFT to PENDING and answers the signing tokens — one per signing recipient, with the path to hand them — which is how the links reach the people who must sign. Nothing is emailed by this call; delivering the links is the caller's.  It refuses to send an unsignable document: no recipients at all is a 400, and so is any signing recipient with no fields to fill, named in the error. Re-sending an already-pending document is allowed and re-issues the same links rather than restarting anything; a completed document is a 409, and an unknown one a 404. The send is recorded on the audit trail.
+        Sends the document out and answers each signer's link.  It moves the document from DRAFT to PENDING and answers the signing tokens — one per signing recipient, with the path to hand them — which is how the links reach the people who must sign. Nothing is emailed by this call; delivering the links is the caller's.  It refuses to send an unsignable document: no recipients at all is a 400, and so is any signing recipient with no fields to fill, named in the error. Re-sending an already-pending document is allowed and re-issues the same links rather than restarting anything; a completed document is a 409, and an unknown one a 404. The send is recorded on the audit trail.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param id: ID is the document to send. The URL is the addressing authority. (required)
         :type id: str
@@ -2552,7 +2552,7 @@ class EsignApi:
     ) -> ApiResponse[EsignEsignLinks]:
         """Sends the document out and answers each signer's link.
 
-        Sends the document out and answers each signer's link.  It moves the document from DRAFT to PENDING and answers the signing tokens — one per signing recipient, with the path to hand them — which is how the links reach the people who must sign. Nothing is emailed by this call; delivering the links is the caller's.  It refuses to send an unsignable document: no recipients at all is a 400, and so is any signing recipient with no fields to fill, named in the error. Re-sending an already-pending document is allowed and re-issues the same links rather than restarting anything; a completed document is a 409, and an unknown one a 404. The send is recorded on the audit trail.
+        Sends the document out and answers each signer's link.  It moves the document from DRAFT to PENDING and answers the signing tokens — one per signing recipient, with the path to hand them — which is how the links reach the people who must sign. Nothing is emailed by this call; delivering the links is the caller's.  It refuses to send an unsignable document: no recipients at all is a 400, and so is any signing recipient with no fields to fill, named in the error. Re-sending an already-pending document is allowed and re-issues the same links rather than restarting anything; a completed document is a 409, and an unknown one a 404. The send is recorded on the audit trail.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param id: ID is the document to send. The URL is the addressing authority. (required)
         :type id: str
@@ -2619,7 +2619,7 @@ class EsignApi:
     ) -> RESTResponseType:
         """Sends the document out and answers each signer's link.
 
-        Sends the document out and answers each signer's link.  It moves the document from DRAFT to PENDING and answers the signing tokens — one per signing recipient, with the path to hand them — which is how the links reach the people who must sign. Nothing is emailed by this call; delivering the links is the caller's.  It refuses to send an unsignable document: no recipients at all is a 400, and so is any signing recipient with no fields to fill, named in the error. Re-sending an already-pending document is allowed and re-issues the same links rather than restarting anything; a completed document is a 409, and an unknown one a 404. The send is recorded on the audit trail.
+        Sends the document out and answers each signer's link.  It moves the document from DRAFT to PENDING and answers the signing tokens — one per signing recipient, with the path to hand them — which is how the links reach the people who must sign. Nothing is emailed by this call; delivering the links is the caller's.  It refuses to send an unsignable document: no recipients at all is a 400, and so is any signing recipient with no fields to fill, named in the error. Re-sending an already-pending document is allowed and re-issues the same links rather than restarting anything; a completed document is a 409, and an unknown one a 404. The send is recorded on the audit trail.  Only a SuperAdmin or an admin of the org may call it; a member who is neither is refused 403.
 
         :param id: ID is the document to send. The URL is the addressing authority. (required)
         :type id: str

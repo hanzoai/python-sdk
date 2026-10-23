@@ -577,7 +577,7 @@ class ChannelApi:
     ) -> ChannelAllowlistView:
         """Returns the caller org's access policy for one channel: whether DMs are pairing-gated, allowlisted or open, whether group rooms are open, allowlisted or disabled, the config-managed DM and group allow entries, the senders approved through PAIRING (read-only here), and the org's named access groups.
 
-        Returns the caller org's access policy for one channel: whether DMs are pairing-gated, allowlisted or open, whether group rooms are open, allowlisted or disabled, the config-managed DM and group allow entries, the senders approved through PAIRING (read-only here), and the org's named access groups. An unknown channel is a 404.
+        Returns the caller org's access policy for one channel: whether DMs are pairing-gated, allowlisted or open, whether group rooms are open, allowlisted or disabled, the config-managed DM and group allow entries, the senders approved through PAIRING (read-only here), and the org's named access groups. An unknown channel is a 404. The entries name the people the org's bots admit, so reading them is an org admin's, as editing them is.
 
         :param channel: Channel is the transport to read: discord, github, linear, slack, teams, telegram or whatsapp. Required; an unknown value is a 404.
         :type channel: str
@@ -644,7 +644,7 @@ class ChannelApi:
     ) -> ApiResponse[ChannelAllowlistView]:
         """Returns the caller org's access policy for one channel: whether DMs are pairing-gated, allowlisted or open, whether group rooms are open, allowlisted or disabled, the config-managed DM and group allow entries, the senders approved through PAIRING (read-only here), and the org's named access groups.
 
-        Returns the caller org's access policy for one channel: whether DMs are pairing-gated, allowlisted or open, whether group rooms are open, allowlisted or disabled, the config-managed DM and group allow entries, the senders approved through PAIRING (read-only here), and the org's named access groups. An unknown channel is a 404.
+        Returns the caller org's access policy for one channel: whether DMs are pairing-gated, allowlisted or open, whether group rooms are open, allowlisted or disabled, the config-managed DM and group allow entries, the senders approved through PAIRING (read-only here), and the org's named access groups. An unknown channel is a 404. The entries name the people the org's bots admit, so reading them is an org admin's, as editing them is.
 
         :param channel: Channel is the transport to read: discord, github, linear, slack, teams, telegram or whatsapp. Required; an unknown value is a 404.
         :type channel: str
@@ -711,7 +711,7 @@ class ChannelApi:
     ) -> RESTResponseType:
         """Returns the caller org's access policy for one channel: whether DMs are pairing-gated, allowlisted or open, whether group rooms are open, allowlisted or disabled, the config-managed DM and group allow entries, the senders approved through PAIRING (read-only here), and the org's named access groups.
 
-        Returns the caller org's access policy for one channel: whether DMs are pairing-gated, allowlisted or open, whether group rooms are open, allowlisted or disabled, the config-managed DM and group allow entries, the senders approved through PAIRING (read-only here), and the org's named access groups. An unknown channel is a 404.
+        Returns the caller org's access policy for one channel: whether DMs are pairing-gated, allowlisted or open, whether group rooms are open, allowlisted or disabled, the config-managed DM and group allow entries, the senders approved through PAIRING (read-only here), and the org's named access groups. An unknown channel is a 404. The entries name the people the org's bots admit, so reading them is an org admin's, as editing them is.
 
         :param channel: Channel is the transport to read: discord, github, linear, slack, teams, telegram or whatsapp. Required; an unknown value is a 404.
         :type channel: str
@@ -840,9 +840,9 @@ class ChannelApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ChannelInboxPage:
-        """Returns the messages people have sent to the caller org's connected chat bots, oldest first, in the portable envelope shape every transport normalises into.
+        """Returns the caller's own messages to the org's connected chat bots — those recorded on the caller's linked account — oldest first, in the portable envelope shape every transport normalises into.
 
-        Returns the messages people have sent to the caller org's connected chat bots, oldest first, in the portable envelope shape every transport normalises into. It is a CURSOR feed, not a search: pass the returned cursor back as `since` to get only what has arrived since. Only this org's messages are stored under this org, so the feed can never carry another tenant's chat.
+        Returns the caller's own messages to the org's connected chat bots — those recorded on the caller's linked account — oldest first, in the portable envelope shape every transport normalises into. It is a CURSOR feed, not a search: pass the returned cursor back as `since` to get only what has arrived since. A message is its person's: another member's is never listed, an admin of the org reads only their own, and one recorded on no account is listed to a SuperAdmin alone.
 
         :param since: Since is the exclusive cursor: only messages with a higher row id come back. Empty starts at the beginning. Must parse as an integer.
         :type since: str
@@ -911,9 +911,9 @@ class ChannelApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[ChannelInboxPage]:
-        """Returns the messages people have sent to the caller org's connected chat bots, oldest first, in the portable envelope shape every transport normalises into.
+        """Returns the caller's own messages to the org's connected chat bots — those recorded on the caller's linked account — oldest first, in the portable envelope shape every transport normalises into.
 
-        Returns the messages people have sent to the caller org's connected chat bots, oldest first, in the portable envelope shape every transport normalises into. It is a CURSOR feed, not a search: pass the returned cursor back as `since` to get only what has arrived since. Only this org's messages are stored under this org, so the feed can never carry another tenant's chat.
+        Returns the caller's own messages to the org's connected chat bots — those recorded on the caller's linked account — oldest first, in the portable envelope shape every transport normalises into. It is a CURSOR feed, not a search: pass the returned cursor back as `since` to get only what has arrived since. A message is its person's: another member's is never listed, an admin of the org reads only their own, and one recorded on no account is listed to a SuperAdmin alone.
 
         :param since: Since is the exclusive cursor: only messages with a higher row id come back. Empty starts at the beginning. Must parse as an integer.
         :type since: str
@@ -982,9 +982,9 @@ class ChannelApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns the messages people have sent to the caller org's connected chat bots, oldest first, in the portable envelope shape every transport normalises into.
+        """Returns the caller's own messages to the org's connected chat bots — those recorded on the caller's linked account — oldest first, in the portable envelope shape every transport normalises into.
 
-        Returns the messages people have sent to the caller org's connected chat bots, oldest first, in the portable envelope shape every transport normalises into. It is a CURSOR feed, not a search: pass the returned cursor back as `since` to get only what has arrived since. Only this org's messages are stored under this org, so the feed can never carry another tenant's chat.
+        Returns the caller's own messages to the org's connected chat bots — those recorded on the caller's linked account — oldest first, in the portable envelope shape every transport normalises into. It is a CURSOR feed, not a search: pass the returned cursor back as `since` to get only what has arrived since. A message is its person's: another member's is never listed, an admin of the org reads only their own, and one recorded on no account is listed to a SuperAdmin alone.
 
         :param since: Since is the exclusive cursor: only messages with a higher row id come back. Empty starts at the beginning. Must parse as an integer.
         :type since: str
@@ -1121,7 +1121,7 @@ class ChannelApi:
     ) -> ChannelPairingQueue:
         """Returns the pairing requests waiting for the caller org to approve — one per person who messaged a connected bot on a channel whose DM policy is \"pairing\" and who is not allowed yet.
 
-        Returns the pairing requests waiting for the caller org to approve — one per person who messaged a connected bot on a channel whose DM policy is \"pairing\" and who is not allowed yet. Each row carries the CODE an org admin passes to POST /v1/channel/pairing/approve. Expired requests are not returned. Codes are capability strings: they are shown here, and never logged.
+        Returns the pairing requests waiting for the caller org to approve — one per person who messaged a connected bot on a channel whose DM policy is \"pairing\" and who is not allowed yet. Each row carries the CODE an org admin passes to POST /v1/channel/pairing/approve. Expired requests are not returned. Codes are capability strings: they are shown here, and never logged. Reading them is an org admin's, as approving them is.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1184,7 +1184,7 @@ class ChannelApi:
     ) -> ApiResponse[ChannelPairingQueue]:
         """Returns the pairing requests waiting for the caller org to approve — one per person who messaged a connected bot on a channel whose DM policy is \"pairing\" and who is not allowed yet.
 
-        Returns the pairing requests waiting for the caller org to approve — one per person who messaged a connected bot on a channel whose DM policy is \"pairing\" and who is not allowed yet. Each row carries the CODE an org admin passes to POST /v1/channel/pairing/approve. Expired requests are not returned. Codes are capability strings: they are shown here, and never logged.
+        Returns the pairing requests waiting for the caller org to approve — one per person who messaged a connected bot on a channel whose DM policy is \"pairing\" and who is not allowed yet. Each row carries the CODE an org admin passes to POST /v1/channel/pairing/approve. Expired requests are not returned. Codes are capability strings: they are shown here, and never logged. Reading them is an org admin's, as approving them is.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1247,7 +1247,7 @@ class ChannelApi:
     ) -> RESTResponseType:
         """Returns the pairing requests waiting for the caller org to approve — one per person who messaged a connected bot on a channel whose DM policy is \"pairing\" and who is not allowed yet.
 
-        Returns the pairing requests waiting for the caller org to approve — one per person who messaged a connected bot on a channel whose DM policy is \"pairing\" and who is not allowed yet. Each row carries the CODE an org admin passes to POST /v1/channel/pairing/approve. Expired requests are not returned. Codes are capability strings: they are shown here, and never logged.
+        Returns the pairing requests waiting for the caller org to approve — one per person who messaged a connected bot on a channel whose DM policy is \"pairing\" and who is not allowed yet. Each row carries the CODE an org admin passes to POST /v1/channel/pairing/approve. Expired requests are not returned. Codes are capability strings: they are shown here, and never logged. Reading them is an org admin's, as approving them is.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

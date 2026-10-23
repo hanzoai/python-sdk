@@ -19,6 +19,8 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
+from hanzoai.cloud.models.brief import Brief
+from hanzoai.cloud.models.delivery import Delivery
 from hanzoai.cloud.models.translate_memory_entry import TranslateMemoryEntry
 from hanzoai.cloud.models.translate_memory_page import TranslateMemoryPage
 from hanzoai.cloud.models.translate_review_request import TranslateReviewRequest
@@ -342,6 +344,7 @@ class TranslateApi:
     @validate_call
     def post_translate(
         self,
+        brief: Optional[Brief] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -354,11 +357,13 @@ class TranslateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Delivery:
         """Translate a string or a batch into one target language
 
-        Returns one translation per input string, in input order, each carrying where it sits on the review ladder and whether it came from your memory rather than an engine — plus a usage block of REAL counts (strings, cached, translated, and the source characters that actually reached an engine). Send `text` for one string or `batch` for many, never both. When you name no `source`, the detected one is reported back.  THE TRANSLATION MEMORY IS CONSULTED FIRST AND IT IS NORMATIVE, NOT A CACHE. Every string keys on (source text, target, glossary version, tier); a hit is returned VERBATIM and never re-translated, which is what makes a locale rebuild idempotent under a non-deterministic model and the bill proportional to what actually changed. Misses go to the engine and are written back at state `machine`. Editing a glossary term changes the key, so a stale rendering can never be served.  IT CANNOT TRAMPLE REVIEWED WORK. A write from this route may create an entry or refresh one still at `machine`, and nothing else — a string a human moved to approved or published through the memory review lane survives every rebuild, and comes back here unchanged. The memory is the caller's OWN org's, a separate store per org: the source text you send is customer content and lands nowhere else. Read it back or review it at /v1/translate/memory.  `tier` picks the engine and defaults to quality — the model plane, which carries context, terminology and tone, and which bills its own tokens, so nothing is charged twice here. `bulk` is the high-volume engine and is metered HERE, on the source characters that reached it: a fully-cached rebuild reports zero characters and costs zero. BULK NEVER FALLS BACK TO QUALITY — on a deployment that does not serve it the answer is 503 for that tier, so a caller is never quietly served, or charged, at a tier it did not ask for. A bulk request beyond its balance is refused with the nested {\"error\":{\"code\",\"message\"}} body at 402/503.  `target` IS CHECKED FOR SHAPE, NOT FOR SUPPORT: anything BCP-47-shaped is accepted (`es`, `pt-BR`), anything else is 400. There is no unsupported-language error — a well-formed tag no engine can actually render is passed straight through, and whatever comes back is what gets stored and returned. `format` (text, html, markdown) tells the engine what markup to preserve; `glossary` fixes terms verbatim.  Requires a validated principal — 401 without one, and the org is always that principal's. At most 512 strings per call and 32768 characters per string; an engine that fails or answers a reply that does not cover every input is 502, and nothing is stored.
+        Returns one translation per input string, in input order, each carrying where it sits on the review ladder and whether it came from your memory rather than an engine — plus a usage block of REAL counts (strings, cached, translated, failed, and the source characters of the strings an engine translated). Send `text` for one string or `batch` for many, never both. When you name no `source`, the detected one is reported back.  THE TRANSLATION MEMORY IS CONSULTED FIRST AND IT IS NORMATIVE, NOT A CACHE. Every string keys on (source text, declared source language, target, glossary version, tier, format, model); a hit is returned VERBATIM and never re-translated, which is what makes a locale rebuild idempotent under a non-deterministic model and the bill proportional to what actually changed. The same text through another model or another format is another entry. A string translated with its source detected also answers a later call that declares one, so declaring `source` never throws away work done without it; one translated under a declared source answers only that source. Misses go to the engine and are written back at state `machine`. Editing a glossary term changes the key, so a stale rendering can never be served.  IT CANNOT TRAMPLE REVIEWED WORK. A write from this route may create an entry or refresh one still at `machine`, and nothing else — a string a human moved to approved or published through the memory review lane survives every rebuild, and comes back here unchanged. The memory is the caller's OWN org's, a separate store per org: the source text you send is customer content and lands nowhere else. Read it back or review it at /v1/translate/memory.  `tier` picks the engine and defaults to quality — the model plane, which carries context, terminology and tone, and which bills its own tokens, so nothing is charged twice here. `bulk` is the high-volume engine and is metered HERE, on the source characters of the strings it translated: a fully-cached rebuild, or a string that failed, costs zero. BULK NEVER FALLS BACK TO QUALITY — on a deployment that does not serve it the answer is 503 for that tier, so a caller is never quietly served, or charged, at a tier it did not ask for. A bulk request beyond its balance is refused with the nested {\"error\":{\"code\",\"message\"}} body at 402/503.  `model` names the model the quality tier runs on, through the same metered model plane as the default (enso-auto), which decides whether your org may use it exactly as it does for chat. That is how an org points translation at a model it serves itself, on its own linked GPU say: by the alias it registered for it. A name from an upstream model family is rewritten to the default before it runs, so a model of your own must be named by your org's alias; the reply's `model` names the one it runs on. `model` with `tier: bulk` is 400.  `target` IS CHECKED FOR SHAPE, NOT FOR SUPPORT: anything BCP-47-shaped is accepted (`es`, `pt-BR`), anything else is 400. There is no unsupported-language error — a well-formed tag no engine can actually render is passed straight through, and whatever comes back is what gets stored and returned. `format` (text, html, markdown) tells the engine what markup to preserve; `glossary` fixes terms verbatim.  A BATCH IS TRANSLATED IN PARTS of about 8 KB, each its own completion with a ceiling sized to it. A part that comes back cut short (any finish other than stop), malformed, or covering the wrong number of strings is asked again one string at a time. Every translation must keep its source's shape: the same {placeholders}, printf conversions in the same order, the same ICU arguments and selectors with an other branch (the words in their branches are translated), the same tags with the same attributes (alt, title, aria-label and placeholder are words), the same link targets and URLs; a string whose shape moved is asked once more. A string that still fails comes back with `error` naming what went wrong (a lost placeholder, an added URL) and no text, is not stored, and fails nothing else.  THE WORK IS BOUNDED: at most two model calls per part, one held for every part still to come, a stop after two parts in a row return nothing, 90 seconds per call, and a stop when the caller disconnects. Strings the call did not reach come back with `error` saying why. What came back is stored, so sending the batch again asks only for the rest. When no string at all can be returned, or the engine fails, the answer is 502 with code `translate_failed`.  Requires a validated principal — 401 without one, and the org is always that principal's. At most 512 strings per call and 32768 characters per string (400 past either), and 262144 characters in all (413 past it: split the batch).
 
+        :param brief:
+        :type brief: Brief
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -382,6 +387,7 @@ class TranslateApi:
         """ # noqa: E501
 
         _param = self._post_translate_serialize(
+            brief=brief,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -389,6 +395,7 @@ class TranslateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "Delivery",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -404,6 +411,7 @@ class TranslateApi:
     @validate_call
     def post_translate_with_http_info(
         self,
+        brief: Optional[Brief] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -416,11 +424,13 @@ class TranslateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Delivery]:
         """Translate a string or a batch into one target language
 
-        Returns one translation per input string, in input order, each carrying where it sits on the review ladder and whether it came from your memory rather than an engine — plus a usage block of REAL counts (strings, cached, translated, and the source characters that actually reached an engine). Send `text` for one string or `batch` for many, never both. When you name no `source`, the detected one is reported back.  THE TRANSLATION MEMORY IS CONSULTED FIRST AND IT IS NORMATIVE, NOT A CACHE. Every string keys on (source text, target, glossary version, tier); a hit is returned VERBATIM and never re-translated, which is what makes a locale rebuild idempotent under a non-deterministic model and the bill proportional to what actually changed. Misses go to the engine and are written back at state `machine`. Editing a glossary term changes the key, so a stale rendering can never be served.  IT CANNOT TRAMPLE REVIEWED WORK. A write from this route may create an entry or refresh one still at `machine`, and nothing else — a string a human moved to approved or published through the memory review lane survives every rebuild, and comes back here unchanged. The memory is the caller's OWN org's, a separate store per org: the source text you send is customer content and lands nowhere else. Read it back or review it at /v1/translate/memory.  `tier` picks the engine and defaults to quality — the model plane, which carries context, terminology and tone, and which bills its own tokens, so nothing is charged twice here. `bulk` is the high-volume engine and is metered HERE, on the source characters that reached it: a fully-cached rebuild reports zero characters and costs zero. BULK NEVER FALLS BACK TO QUALITY — on a deployment that does not serve it the answer is 503 for that tier, so a caller is never quietly served, or charged, at a tier it did not ask for. A bulk request beyond its balance is refused with the nested {\"error\":{\"code\",\"message\"}} body at 402/503.  `target` IS CHECKED FOR SHAPE, NOT FOR SUPPORT: anything BCP-47-shaped is accepted (`es`, `pt-BR`), anything else is 400. There is no unsupported-language error — a well-formed tag no engine can actually render is passed straight through, and whatever comes back is what gets stored and returned. `format` (text, html, markdown) tells the engine what markup to preserve; `glossary` fixes terms verbatim.  Requires a validated principal — 401 without one, and the org is always that principal's. At most 512 strings per call and 32768 characters per string; an engine that fails or answers a reply that does not cover every input is 502, and nothing is stored.
+        Returns one translation per input string, in input order, each carrying where it sits on the review ladder and whether it came from your memory rather than an engine — plus a usage block of REAL counts (strings, cached, translated, failed, and the source characters of the strings an engine translated). Send `text` for one string or `batch` for many, never both. When you name no `source`, the detected one is reported back.  THE TRANSLATION MEMORY IS CONSULTED FIRST AND IT IS NORMATIVE, NOT A CACHE. Every string keys on (source text, declared source language, target, glossary version, tier, format, model); a hit is returned VERBATIM and never re-translated, which is what makes a locale rebuild idempotent under a non-deterministic model and the bill proportional to what actually changed. The same text through another model or another format is another entry. A string translated with its source detected also answers a later call that declares one, so declaring `source` never throws away work done without it; one translated under a declared source answers only that source. Misses go to the engine and are written back at state `machine`. Editing a glossary term changes the key, so a stale rendering can never be served.  IT CANNOT TRAMPLE REVIEWED WORK. A write from this route may create an entry or refresh one still at `machine`, and nothing else — a string a human moved to approved or published through the memory review lane survives every rebuild, and comes back here unchanged. The memory is the caller's OWN org's, a separate store per org: the source text you send is customer content and lands nowhere else. Read it back or review it at /v1/translate/memory.  `tier` picks the engine and defaults to quality — the model plane, which carries context, terminology and tone, and which bills its own tokens, so nothing is charged twice here. `bulk` is the high-volume engine and is metered HERE, on the source characters of the strings it translated: a fully-cached rebuild, or a string that failed, costs zero. BULK NEVER FALLS BACK TO QUALITY — on a deployment that does not serve it the answer is 503 for that tier, so a caller is never quietly served, or charged, at a tier it did not ask for. A bulk request beyond its balance is refused with the nested {\"error\":{\"code\",\"message\"}} body at 402/503.  `model` names the model the quality tier runs on, through the same metered model plane as the default (enso-auto), which decides whether your org may use it exactly as it does for chat. That is how an org points translation at a model it serves itself, on its own linked GPU say: by the alias it registered for it. A name from an upstream model family is rewritten to the default before it runs, so a model of your own must be named by your org's alias; the reply's `model` names the one it runs on. `model` with `tier: bulk` is 400.  `target` IS CHECKED FOR SHAPE, NOT FOR SUPPORT: anything BCP-47-shaped is accepted (`es`, `pt-BR`), anything else is 400. There is no unsupported-language error — a well-formed tag no engine can actually render is passed straight through, and whatever comes back is what gets stored and returned. `format` (text, html, markdown) tells the engine what markup to preserve; `glossary` fixes terms verbatim.  A BATCH IS TRANSLATED IN PARTS of about 8 KB, each its own completion with a ceiling sized to it. A part that comes back cut short (any finish other than stop), malformed, or covering the wrong number of strings is asked again one string at a time. Every translation must keep its source's shape: the same {placeholders}, printf conversions in the same order, the same ICU arguments and selectors with an other branch (the words in their branches are translated), the same tags with the same attributes (alt, title, aria-label and placeholder are words), the same link targets and URLs; a string whose shape moved is asked once more. A string that still fails comes back with `error` naming what went wrong (a lost placeholder, an added URL) and no text, is not stored, and fails nothing else.  THE WORK IS BOUNDED: at most two model calls per part, one held for every part still to come, a stop after two parts in a row return nothing, 90 seconds per call, and a stop when the caller disconnects. Strings the call did not reach come back with `error` saying why. What came back is stored, so sending the batch again asks only for the rest. When no string at all can be returned, or the engine fails, the answer is 502 with code `translate_failed`.  Requires a validated principal — 401 without one, and the org is always that principal's. At most 512 strings per call and 32768 characters per string (400 past either), and 262144 characters in all (413 past it: split the batch).
 
+        :param brief:
+        :type brief: Brief
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -444,6 +454,7 @@ class TranslateApi:
         """ # noqa: E501
 
         _param = self._post_translate_serialize(
+            brief=brief,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -451,6 +462,7 @@ class TranslateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "Delivery",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -466,6 +478,7 @@ class TranslateApi:
     @validate_call
     def post_translate_without_preload_content(
         self,
+        brief: Optional[Brief] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -481,8 +494,10 @@ class TranslateApi:
     ) -> RESTResponseType:
         """Translate a string or a batch into one target language
 
-        Returns one translation per input string, in input order, each carrying where it sits on the review ladder and whether it came from your memory rather than an engine — plus a usage block of REAL counts (strings, cached, translated, and the source characters that actually reached an engine). Send `text` for one string or `batch` for many, never both. When you name no `source`, the detected one is reported back.  THE TRANSLATION MEMORY IS CONSULTED FIRST AND IT IS NORMATIVE, NOT A CACHE. Every string keys on (source text, target, glossary version, tier); a hit is returned VERBATIM and never re-translated, which is what makes a locale rebuild idempotent under a non-deterministic model and the bill proportional to what actually changed. Misses go to the engine and are written back at state `machine`. Editing a glossary term changes the key, so a stale rendering can never be served.  IT CANNOT TRAMPLE REVIEWED WORK. A write from this route may create an entry or refresh one still at `machine`, and nothing else — a string a human moved to approved or published through the memory review lane survives every rebuild, and comes back here unchanged. The memory is the caller's OWN org's, a separate store per org: the source text you send is customer content and lands nowhere else. Read it back or review it at /v1/translate/memory.  `tier` picks the engine and defaults to quality — the model plane, which carries context, terminology and tone, and which bills its own tokens, so nothing is charged twice here. `bulk` is the high-volume engine and is metered HERE, on the source characters that reached it: a fully-cached rebuild reports zero characters and costs zero. BULK NEVER FALLS BACK TO QUALITY — on a deployment that does not serve it the answer is 503 for that tier, so a caller is never quietly served, or charged, at a tier it did not ask for. A bulk request beyond its balance is refused with the nested {\"error\":{\"code\",\"message\"}} body at 402/503.  `target` IS CHECKED FOR SHAPE, NOT FOR SUPPORT: anything BCP-47-shaped is accepted (`es`, `pt-BR`), anything else is 400. There is no unsupported-language error — a well-formed tag no engine can actually render is passed straight through, and whatever comes back is what gets stored and returned. `format` (text, html, markdown) tells the engine what markup to preserve; `glossary` fixes terms verbatim.  Requires a validated principal — 401 without one, and the org is always that principal's. At most 512 strings per call and 32768 characters per string; an engine that fails or answers a reply that does not cover every input is 502, and nothing is stored.
+        Returns one translation per input string, in input order, each carrying where it sits on the review ladder and whether it came from your memory rather than an engine — plus a usage block of REAL counts (strings, cached, translated, failed, and the source characters of the strings an engine translated). Send `text` for one string or `batch` for many, never both. When you name no `source`, the detected one is reported back.  THE TRANSLATION MEMORY IS CONSULTED FIRST AND IT IS NORMATIVE, NOT A CACHE. Every string keys on (source text, declared source language, target, glossary version, tier, format, model); a hit is returned VERBATIM and never re-translated, which is what makes a locale rebuild idempotent under a non-deterministic model and the bill proportional to what actually changed. The same text through another model or another format is another entry. A string translated with its source detected also answers a later call that declares one, so declaring `source` never throws away work done without it; one translated under a declared source answers only that source. Misses go to the engine and are written back at state `machine`. Editing a glossary term changes the key, so a stale rendering can never be served.  IT CANNOT TRAMPLE REVIEWED WORK. A write from this route may create an entry or refresh one still at `machine`, and nothing else — a string a human moved to approved or published through the memory review lane survives every rebuild, and comes back here unchanged. The memory is the caller's OWN org's, a separate store per org: the source text you send is customer content and lands nowhere else. Read it back or review it at /v1/translate/memory.  `tier` picks the engine and defaults to quality — the model plane, which carries context, terminology and tone, and which bills its own tokens, so nothing is charged twice here. `bulk` is the high-volume engine and is metered HERE, on the source characters of the strings it translated: a fully-cached rebuild, or a string that failed, costs zero. BULK NEVER FALLS BACK TO QUALITY — on a deployment that does not serve it the answer is 503 for that tier, so a caller is never quietly served, or charged, at a tier it did not ask for. A bulk request beyond its balance is refused with the nested {\"error\":{\"code\",\"message\"}} body at 402/503.  `model` names the model the quality tier runs on, through the same metered model plane as the default (enso-auto), which decides whether your org may use it exactly as it does for chat. That is how an org points translation at a model it serves itself, on its own linked GPU say: by the alias it registered for it. A name from an upstream model family is rewritten to the default before it runs, so a model of your own must be named by your org's alias; the reply's `model` names the one it runs on. `model` with `tier: bulk` is 400.  `target` IS CHECKED FOR SHAPE, NOT FOR SUPPORT: anything BCP-47-shaped is accepted (`es`, `pt-BR`), anything else is 400. There is no unsupported-language error — a well-formed tag no engine can actually render is passed straight through, and whatever comes back is what gets stored and returned. `format` (text, html, markdown) tells the engine what markup to preserve; `glossary` fixes terms verbatim.  A BATCH IS TRANSLATED IN PARTS of about 8 KB, each its own completion with a ceiling sized to it. A part that comes back cut short (any finish other than stop), malformed, or covering the wrong number of strings is asked again one string at a time. Every translation must keep its source's shape: the same {placeholders}, printf conversions in the same order, the same ICU arguments and selectors with an other branch (the words in their branches are translated), the same tags with the same attributes (alt, title, aria-label and placeholder are words), the same link targets and URLs; a string whose shape moved is asked once more. A string that still fails comes back with `error` naming what went wrong (a lost placeholder, an added URL) and no text, is not stored, and fails nothing else.  THE WORK IS BOUNDED: at most two model calls per part, one held for every part still to come, a stop after two parts in a row return nothing, 90 seconds per call, and a stop when the caller disconnects. Strings the call did not reach come back with `error` saying why. What came back is stored, so sending the batch again asks only for the rest. When no string at all can be returned, or the engine fails, the answer is 502 with code `translate_failed`.  Requires a validated principal — 401 without one, and the org is always that principal's. At most 512 strings per call and 32768 characters per string (400 past either), and 262144 characters in all (413 past it: split the batch).
 
+        :param brief:
+        :type brief: Brief
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -506,6 +521,7 @@ class TranslateApi:
         """ # noqa: E501
 
         _param = self._post_translate_serialize(
+            brief=brief,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -513,6 +529,7 @@ class TranslateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "Delivery",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -523,6 +540,7 @@ class TranslateApi:
 
     def _post_translate_serialize(
         self,
+        brief,
         _request_auth,
         _content_type,
         _headers,
@@ -548,9 +566,31 @@ class TranslateApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if brief is not None:
+            _body_params = brief
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [

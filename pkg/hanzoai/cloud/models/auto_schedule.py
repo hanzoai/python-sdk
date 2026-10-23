@@ -26,10 +26,10 @@ class AutoSchedule(BaseModel):
     """
     AutoSchedule
     """ # noqa: E501
-    at: Optional[StrictStr] = Field(default=None, description="At is the local time, HH:MM on a 24-hour clock, for daily, weekdays and weekly. Hourly takes its minute, and runs on the hour without one.")
+    at: Optional[StrictStr] = Field(default=None, description="At is the local time, HH:MM on a 24-hour clock, for daily, weekdays and weekly. Hourly takes its minute, and runs on the hour without one. Once takes a local date and time, YYYY-MM-DDTHH:MM, and runs now without one.")
     cron: Optional[StrictStr] = Field(default=None, description="Cron is a five-field cron expression (minute hour day-of-month month day-of-week), for kind cron only, read in TZ.")
     day: Optional[StrictStr] = Field(default=None, description="Day is the weekday a weekly schedule runs on: mon, tue, wed, thu, fri, sat or sun.")
-    kind: Optional[StrictStr] = Field(default=None, description="Kind is manual, hourly, daily, weekdays, weekly or cron. Manual runs only when asked.")
+    kind: Optional[StrictStr] = Field(default=None, description="Kind is manual, hourly, daily, weekdays, weekly, cron or once. Manual runs only when asked; once runs one time and then switches itself off.")
     tz: Optional[StrictStr] = Field(default=None, description="TZ is the IANA time zone every time here is read in. Empty is UTC.")
     __properties: ClassVar[List[str]] = ["at", "cron", "day", "kind", "tz"]
 

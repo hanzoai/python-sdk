@@ -64,6 +64,7 @@ from hanzoai.cloud.api.kv_api import KvApi
 from hanzoai.cloud.api.label_api import LabelApi
 from hanzoai.cloud.api.leaderboard_api import LeaderboardApi
 from hanzoai.cloud.api.legal_api import LegalApi
+from hanzoai.cloud.api.library_api import LibraryApi
 from hanzoai.cloud.api.licensing_api import LicensingApi
 from hanzoai.cloud.api.link_api import LinkApi
 from hanzoai.cloud.api.lsp_api import LspApi
@@ -105,6 +106,7 @@ from hanzoai.cloud.api.share_api import ShareApi
 from hanzoai.cloud.api.social_api import SocialApi
 from hanzoai.cloud.api.space_api import SpaceApi
 from hanzoai.cloud.api.standing_api import StandingApi
+from hanzoai.cloud.api.studio_api import StudioApi
 from hanzoai.cloud.api.sync_api import SyncApi
 from hanzoai.cloud.api.task_api import TaskApi
 from hanzoai.cloud.api.tax_api import TaxApi

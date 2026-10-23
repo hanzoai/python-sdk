@@ -58,9 +58,9 @@ class X402Api:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> X402SettlementList:
-        """Lists the caller's x402 receipts, newest first: as payer, what its ledger paid; as payee, what it was paid — each settled payment with what it bought, both parties, the exact amount and when.
+        """Lists the caller's x402 receipts, newest first: as payer, what its wallet paid; as payee, what its org was paid — each settled payment with what it bought, both parties, the exact amount and when.
 
-        Lists the caller's x402 receipts, newest first: as payer, what its ledger paid; as payee, what it was paid — each settled payment with what it bought, both parties, the exact amount and when. A payer is the org whose ledger is debited, which for a SuperAdmin inspecting another org is still its own; a payee is the caller's own org. An unsettled claim is not a receipt and is never listed.
+        Lists the caller's x402 receipts, newest first: as payer, what its wallet paid; as payee, what its org was paid — each settled payment with what it bought, both parties, the exact amount and when. A payer is the caller's own account, which for a SuperAdmin inspecting another org is still its own and for a member of the signup org is their own wallet, never the org's; a payee is the caller's own org. An unsettled claim is not a receipt and is never listed.
 
         :param role: Role is payer — what the caller's org paid — or payee — what it was paid. Payer when empty.
         :type role: str
@@ -129,9 +129,9 @@ class X402Api:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[X402SettlementList]:
-        """Lists the caller's x402 receipts, newest first: as payer, what its ledger paid; as payee, what it was paid — each settled payment with what it bought, both parties, the exact amount and when.
+        """Lists the caller's x402 receipts, newest first: as payer, what its wallet paid; as payee, what its org was paid — each settled payment with what it bought, both parties, the exact amount and when.
 
-        Lists the caller's x402 receipts, newest first: as payer, what its ledger paid; as payee, what it was paid — each settled payment with what it bought, both parties, the exact amount and when. A payer is the org whose ledger is debited, which for a SuperAdmin inspecting another org is still its own; a payee is the caller's own org. An unsettled claim is not a receipt and is never listed.
+        Lists the caller's x402 receipts, newest first: as payer, what its wallet paid; as payee, what its org was paid — each settled payment with what it bought, both parties, the exact amount and when. A payer is the caller's own account, which for a SuperAdmin inspecting another org is still its own and for a member of the signup org is their own wallet, never the org's; a payee is the caller's own org. An unsettled claim is not a receipt and is never listed.
 
         :param role: Role is payer — what the caller's org paid — or payee — what it was paid. Payer when empty.
         :type role: str
@@ -200,9 +200,9 @@ class X402Api:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Lists the caller's x402 receipts, newest first: as payer, what its ledger paid; as payee, what it was paid — each settled payment with what it bought, both parties, the exact amount and when.
+        """Lists the caller's x402 receipts, newest first: as payer, what its wallet paid; as payee, what its org was paid — each settled payment with what it bought, both parties, the exact amount and when.
 
-        Lists the caller's x402 receipts, newest first: as payer, what its ledger paid; as payee, what it was paid — each settled payment with what it bought, both parties, the exact amount and when. A payer is the org whose ledger is debited, which for a SuperAdmin inspecting another org is still its own; a payee is the caller's own org. An unsettled claim is not a receipt and is never listed.
+        Lists the caller's x402 receipts, newest first: as payer, what its wallet paid; as payee, what its org was paid — each settled payment with what it bought, both parties, the exact amount and when. A payer is the caller's own account, which for a SuperAdmin inspecting another org is still its own and for a member of the signup org is their own wallet, never the org's; a payee is the caller's own org. An unsettled claim is not a receipt and is never listed.
 
         :param role: Role is payer — what the caller's org paid — or payee — what it was paid. Payer when empty.
         :type role: str
@@ -340,7 +340,7 @@ class X402Api:
     ) -> X402Receipt:
         """Reads one x402 payment receipt by id.
 
-        Reads one x402 payment receipt by id.  It is scoped to the caller's PAYER org — the ledger that was debited — so one tenant can never read another's settlement, and an id that exists but belongs to somebody else is a 404 exactly like one that does not exist. A caller with no billable identity is refused outright.
+        Reads one x402 payment receipt by id.  It is scoped to the caller's own account — the wallet that was drawn, in the books that hold it — so one tenant can never read another's settlement, nor one member of the signup org another's, and an id that exists but belongs to somebody else is a 404 exactly like one that does not exist. A caller with no billable identity is refused outright.
 
         :param id: ID is the settlement id from the URL — the deterministic keccak(from|nonce) key an x402 receipt is issued under (the `id` field of a Receipt, and the `transaction` of the SettlementResponse on the PAYMENT-RESPONSE header a paid request answers with). (required)
         :type id: str
@@ -407,7 +407,7 @@ class X402Api:
     ) -> ApiResponse[X402Receipt]:
         """Reads one x402 payment receipt by id.
 
-        Reads one x402 payment receipt by id.  It is scoped to the caller's PAYER org — the ledger that was debited — so one tenant can never read another's settlement, and an id that exists but belongs to somebody else is a 404 exactly like one that does not exist. A caller with no billable identity is refused outright.
+        Reads one x402 payment receipt by id.  It is scoped to the caller's own account — the wallet that was drawn, in the books that hold it — so one tenant can never read another's settlement, nor one member of the signup org another's, and an id that exists but belongs to somebody else is a 404 exactly like one that does not exist. A caller with no billable identity is refused outright.
 
         :param id: ID is the settlement id from the URL — the deterministic keccak(from|nonce) key an x402 receipt is issued under (the `id` field of a Receipt, and the `transaction` of the SettlementResponse on the PAYMENT-RESPONSE header a paid request answers with). (required)
         :type id: str
@@ -474,7 +474,7 @@ class X402Api:
     ) -> RESTResponseType:
         """Reads one x402 payment receipt by id.
 
-        Reads one x402 payment receipt by id.  It is scoped to the caller's PAYER org — the ledger that was debited — so one tenant can never read another's settlement, and an id that exists but belongs to somebody else is a 404 exactly like one that does not exist. A caller with no billable identity is refused outright.
+        Reads one x402 payment receipt by id.  It is scoped to the caller's own account — the wallet that was drawn, in the books that hold it — so one tenant can never read another's settlement, nor one member of the signup org another's, and an id that exists but belongs to somebody else is a 404 exactly like one that does not exist. A caller with no billable identity is refused outright.
 
         :param id: ID is the settlement id from the URL — the deterministic keccak(from|nonce) key an x402 receipt is issued under (the `id` field of a Receipt, and the `transaction` of the SettlementResponse on the PAYMENT-RESPONSE header a paid request answers with). (required)
         :type id: str

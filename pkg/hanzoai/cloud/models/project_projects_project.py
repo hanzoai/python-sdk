@@ -45,6 +45,7 @@ class ProjectProjectsProject(BaseModel):
     license: Optional[StrictStr] = Field(default=None, description="License is the terms that upstream work carries. Absent has the same reading: undeclared, not unencumbered.")
     live_url: Optional[StrictStr] = Field(default=None, description="LiveURL is where the site answers today. Absent until something has been deployed.", alias="liveUrl")
     name: Optional[StrictStr] = Field(default=None, description="Name is the project's display name, free text a person chose.")
+    namespace: Optional[StrictStr] = Field(default=None, description="Namespace is where the site's files are kept: `<namespace>/<slug>/` in the sites bucket. It is the GitHub org the project's repository lives in when this org holds that GitHub account, and the org otherwise, decided when the repository is linked.")
     org: Optional[StrictStr] = Field(default=None, description="Org is the organisation that owns the project, and therefore who pays for it and who may change it. It is also the AUTHORSHIP line a gallery credits; there is no separate author field.")
     repo: Optional[ProjectProjectsRepo] = Field(default=None, description="Repo is the git source this project builds from, empty when it is deployed by uploading an artifact instead.")
     slug: Optional[StrictStr] = Field(default=None, description="Slug is the identifier that MATTERS: the handle every later call addresses, the S3 key segment the site's objects live under, and the label of the public host `<slug>.hanzo.app`. Because it is a hostname it is constrained and reserved labels such as `api` are refused.")
@@ -55,7 +56,7 @@ class ProjectProjectsProject(BaseModel):
     updated_at: Optional[StrictInt] = Field(default=None, description="UpdatedAt is when the project's own record last changed, as Unix seconds. A deploy is not an edit of the project, so this does not move on every publish.", alias="updatedAt")
     upstream: Optional[StrictStr] = Field(default=None, description="Upstream credits the third-party work this project was published from — a free-text line, because the honest answer is a name and a title that no enum could hold. Absent means NOBODY HAS SAID, not that there is nothing to say.")
     visibility: Optional[StrictStr] = Field(default=None, description="Visibility is \"public\" or \"private\", and Hidden reports platform moderation. Both are always present (never omitempty) so a consumer can tell a real answer from \"this API is too old to say\" — and so a console never renders a project as public because a field was missing.  Authorship is deliberately absent: it is Org, above.")
-    __properties: ClassVar[List[str]] = ["analytics", "bucket", "cacheControl", "createdAt", "currentDeploymentId", "description", "dropLocal", "forkedFrom", "framework", "hidden", "hiddenReason", "id", "internalNetworks", "key", "lastPurgeAt", "license", "liveUrl", "name", "org", "repo", "slug", "space", "starred", "status", "tags", "updatedAt", "upstream", "visibility"]
+    __properties: ClassVar[List[str]] = ["analytics", "bucket", "cacheControl", "createdAt", "currentDeploymentId", "description", "dropLocal", "forkedFrom", "framework", "hidden", "hiddenReason", "id", "internalNetworks", "key", "lastPurgeAt", "license", "liveUrl", "name", "namespace", "org", "repo", "slug", "space", "starred", "status", "tags", "updatedAt", "upstream", "visibility"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -129,6 +130,7 @@ class ProjectProjectsProject(BaseModel):
             "license": obj.get("license"),
             "liveUrl": obj.get("liveUrl"),
             "name": obj.get("name"),
+            "namespace": obj.get("namespace"),
             "org": obj.get("org"),
             "repo": ProjectProjectsRepo.from_dict(obj["repo"]) if obj.get("repo") is not None else None,
             "slug": obj.get("slug"),

@@ -21,6 +21,7 @@ from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.compute_byo_gpu import ComputeByoGPU
 from hanzoai.cloud.models.compute_engine_advertisement import ComputeEngineAdvertisement
+from hanzoai.cloud.models.compute_lane_model import ComputeLaneModel
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -41,15 +42,17 @@ class ComputeByoWorker(BaseModel):
     hostname: Optional[StrictStr] = Field(default=None, description="Hostname is what the host calls itself. It equals ID for any hostname already in the [a-z0-9-] alphabet, and differs when sanitizing had to change it.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the node's id in the fleet — the sanitized hostname it registered under, which is also the `unit` its samples and its gpu-jobs lane key on. This is the id to use everywhere else on the compute surface.")
     job_queue: Optional[StrictStr] = Field(default=None, description="JobQueue is the tasks NAMESPACE this worker claims render jobs out of — \"gpu-jobs\" unless `hanzo link` was pointed at another. Within it, a job aimed at this node alone rides the task-queue value \"gpu:<id>\".", alias="jobQueue")
+    lanes: Optional[List[StrictStr]] = Field(default=None, description="Lanes are the Studio render lanes the node's engine can run now (image.zen, edit.qwen, video.wan, mesh, ...): advertised only when every weight file a lane loads is on the node, so a page offers a GPU card only where it renders.")
     last_heartbeat: Optional[StrictStr] = Field(default=None, description="LastHeartbeat is the most recent beat this node sent, RFC 3339. It is what Status is computed from, so a reader can check the judgement.", alias="lastHeartbeat")
     location: Optional[StrictStr] = Field(default=None, description="Location is always \"on-prem\" — a machine that dialed in has no cloud region, and inventing one would put it somewhere it is not.")
     memory: Optional[StrictInt] = Field(default=None, description="Memory is the host's total RAM in BYTES.")
+    models: Optional[List[ComputeLaneModel]] = Field(default=None, description="Models are the weights behind those lanes, each with its SPDX licence.")
     os: Optional[StrictStr] = Field(default=None, description="Os is the host's operating system: linux, darwin or windows.")
     provider: Optional[StrictStr] = Field(default=None, description="Provider is always \"byo\": this machine is the operator's, not one Hanzo provisioned. It exists so a fold into the machines/GPUs pages says which rows are rented and which are the customer's own.")
     rocm: Optional[StrictStr] = Field(default=None, description="Rocm is the host's ROCm version. AMD hosts report it; empty otherwise.")
     status: Optional[StrictStr] = Field(default=None, description="Status is \"online\" when the last heartbeat landed within 90s, else \"offline\" — so it is a fact about heartbeat freshness, not about the box being powered on. A worker that has never beaten reads offline.")
     version: Optional[StrictStr] = Field(default=None, description="Version is the `hanzo` CLI version running on the node. It is what to check when a worker is missing a field a newer registration reports.")
-    __properties: ClassVar[List[str]] = ["arch", "capabilities", "cpuModel", "cpus", "cuda", "driver", "engine", "firstSeen", "gpus", "hip", "hostname", "id", "jobQueue", "lastHeartbeat", "location", "memory", "os", "provider", "rocm", "status", "version"]
+    __properties: ClassVar[List[str]] = ["arch", "capabilities", "cpuModel", "cpus", "cuda", "driver", "engine", "firstSeen", "gpus", "hip", "hostname", "id", "jobQueue", "lanes", "lastHeartbeat", "location", "memory", "models", "os", "provider", "rocm", "status", "version"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -100,6 +103,13 @@ class ComputeByoWorker(BaseModel):
                 if _item_gpus:
                     _items.append(_item_gpus.to_dict())
             _dict['gpus'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in models (list)
+        _items = []
+        if self.models:
+            for _item_models in self.models:
+                if _item_models:
+                    _items.append(_item_models.to_dict())
+            _dict['models'] = _items
         return _dict
 
     @classmethod
@@ -125,9 +135,11 @@ class ComputeByoWorker(BaseModel):
             "hostname": obj.get("hostname"),
             "id": obj.get("id"),
             "jobQueue": obj.get("jobQueue"),
+            "lanes": obj.get("lanes"),
             "lastHeartbeat": obj.get("lastHeartbeat"),
             "location": obj.get("location"),
             "memory": obj.get("memory"),
+            "models": [ComputeLaneModel.from_dict(_item) for _item in obj["models"]] if obj.get("models") is not None else None,
             "os": obj.get("os"),
             "provider": obj.get("provider"),
             "rocm": obj.get("rocm"),

@@ -72,7 +72,7 @@ class S3Api:
     ) -> None:
         """Removes an EMPTY bucket and answers 204.
 
-        Removes an EMPTY bucket and answers 204.  A non-empty bucket is 409 rather than a cascade: deleting a tenant's objects behind a single bucket call is not a thing this surface will do silently. A bucket the caller's org does not own is the same 404 an unknown name gives.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing deleted, and the debit lands only once the bucket is gone.
+        Removes an EMPTY bucket and answers 204.  It requires an admin of the org, or a SuperAdmin, as creating one does; anyone else is refused 403 with nothing deleted.  A non-empty bucket is 409 rather than a cascade: deleting a tenant's objects behind a single bucket call is not a thing this surface will do silently. A bucket the caller's org does not own is the same 404 an unknown name gives.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing deleted, and the debit lands only once the bucket is gone.
 
         :param bucket: Bucket is the bucket's friendly name, from the path. (required)
         :type bucket: str
@@ -139,7 +139,7 @@ class S3Api:
     ) -> ApiResponse[None]:
         """Removes an EMPTY bucket and answers 204.
 
-        Removes an EMPTY bucket and answers 204.  A non-empty bucket is 409 rather than a cascade: deleting a tenant's objects behind a single bucket call is not a thing this surface will do silently. A bucket the caller's org does not own is the same 404 an unknown name gives.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing deleted, and the debit lands only once the bucket is gone.
+        Removes an EMPTY bucket and answers 204.  It requires an admin of the org, or a SuperAdmin, as creating one does; anyone else is refused 403 with nothing deleted.  A non-empty bucket is 409 rather than a cascade: deleting a tenant's objects behind a single bucket call is not a thing this surface will do silently. A bucket the caller's org does not own is the same 404 an unknown name gives.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing deleted, and the debit lands only once the bucket is gone.
 
         :param bucket: Bucket is the bucket's friendly name, from the path. (required)
         :type bucket: str
@@ -206,7 +206,7 @@ class S3Api:
     ) -> RESTResponseType:
         """Removes an EMPTY bucket and answers 204.
 
-        Removes an EMPTY bucket and answers 204.  A non-empty bucket is 409 rather than a cascade: deleting a tenant's objects behind a single bucket call is not a thing this surface will do silently. A bucket the caller's org does not own is the same 404 an unknown name gives.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing deleted, and the debit lands only once the bucket is gone.
+        Removes an EMPTY bucket and answers 204.  It requires an admin of the org, or a SuperAdmin, as creating one does; anyone else is refused 403 with nothing deleted.  A non-empty bucket is 409 rather than a cascade: deleting a tenant's objects behind a single bucket call is not a thing this surface will do silently. A bucket the caller's org does not own is the same 404 an unknown name gives.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing deleted, and the debit lands only once the bucket is gone.
 
         :param bucket: Bucket is the bucket's friendly name, from the path. (required)
         :type bucket: str
@@ -1714,7 +1714,7 @@ class S3Api:
     ) -> S3BucketItem:
         """Makes a new bucket for the caller's org and answers 201 with it.
 
-        Makes a new bucket for the caller's org and answers 201 with it.  The physical name is derived from the caller's validated org, so a tenant can only ever create inside its own namespace and no request field can redirect that. A name already taken in the org is 409.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing created, and the debit lands only once the bucket exists.
+        Makes a new bucket for the caller's org and answers 201 with it.  It requires an admin of the org, a SuperAdmin, or the org's own application (CI makes its cache bucket on first use): every member of the org uses its buckets, and only an admin makes or removes one. Anyone else is refused 403 with nothing created.  The physical name is derived from the caller's validated org, so a tenant can only ever create inside its own namespace and no request field can redirect that. A name already taken in the org is 409.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing created, and the debit lands only once the bucket exists.
 
         :param s3_bucket_in: (required)
         :type s3_bucket_in: S3BucketIn
@@ -1781,7 +1781,7 @@ class S3Api:
     ) -> ApiResponse[S3BucketItem]:
         """Makes a new bucket for the caller's org and answers 201 with it.
 
-        Makes a new bucket for the caller's org and answers 201 with it.  The physical name is derived from the caller's validated org, so a tenant can only ever create inside its own namespace and no request field can redirect that. A name already taken in the org is 409.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing created, and the debit lands only once the bucket exists.
+        Makes a new bucket for the caller's org and answers 201 with it.  It requires an admin of the org, a SuperAdmin, or the org's own application (CI makes its cache bucket on first use): every member of the org uses its buckets, and only an admin makes or removes one. Anyone else is refused 403 with nothing created.  The physical name is derived from the caller's validated org, so a tenant can only ever create inside its own namespace and no request field can redirect that. A name already taken in the org is 409.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing created, and the debit lands only once the bucket exists.
 
         :param s3_bucket_in: (required)
         :type s3_bucket_in: S3BucketIn
@@ -1848,7 +1848,7 @@ class S3Api:
     ) -> RESTResponseType:
         """Makes a new bucket for the caller's org and answers 201 with it.
 
-        Makes a new bucket for the caller's org and answers 201 with it.  The physical name is derived from the caller's validated org, so a tenant can only ever create inside its own namespace and no request field can redirect that. A name already taken in the org is 409.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing created, and the debit lands only once the bucket exists.
+        Makes a new bucket for the caller's org and answers 201 with it.  It requires an admin of the org, a SuperAdmin, or the org's own application (CI makes its cache bucket on first use): every member of the org uses its buckets, and only an admin makes or removes one. Anyone else is refused 403 with nothing created.  The physical name is derived from the caller's validated org, so a tenant can only ever create inside its own namespace and no request field can redirect that. A name already taken in the org is 409.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing created, and the debit lands only once the bucket exists.
 
         :param s3_bucket_in: (required)
         :type s3_bucket_in: S3BucketIn

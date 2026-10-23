@@ -38,8 +38,8 @@ class AiLimits(BaseModel):
     limited: Optional[AiLimited] = Field(default=None, description="Limited is present in limited mode.")
     paused: Optional[List[AiPaused]] = Field(default=None, description="Paused are the models whose share of the plan is used for now: each is answered by its fallback in chat until its share resets.")
     period_end: Optional[StrictStr] = None
-    period_start: Optional[StrictStr] = Field(default=None, description="PeriodStart and PeriodEnd bound the billing period (RFC3339).")
-    plan: Optional[StrictStr] = Field(default=None, description="Plan is the plan the caller is served as (\"dev\", \"max-5x\", \"max-20x\", \"team\", \"team-annual\", \"agency\", \"advisory\", \"dedicated\", ...), \"free\" when none counts.")
+    period_start: Optional[StrictStr] = Field(default=None, description="PeriodStart and PeriodEnd bound the month the plan's usage renews over (RFC3339): the billing period, or one month of a yearly one.")
+    plan: Optional[StrictStr] = Field(default=None, description="Plan is the plan the caller is served as (\"dev\", \"max-5x\", \"max-20x\", \"team\", \"agency\", \"advisory\", \"dedicated\", ...), \"free\" when none counts.")
     session: Optional[AiWindow] = Field(default=None, description="Session and Day are the request windows over every request the plan covers.")
     state: Optional[StrictStr] = Field(default=None, description="State is the worst class's: ok, near or limited.")
     upgrade: Optional[StrictStr] = Field(default=None, description="Upgrade is the plan that raises these limits, absent at the top.")

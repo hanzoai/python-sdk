@@ -30,7 +30,7 @@ class PlatformDomainView(BaseModel):
     created_at: Optional[StrictInt] = Field(default=None, description="CreatedAt is the unix second the custom claim was made.", alias="createdAt")
     detail: Optional[StrictStr] = Field(default=None, description="Detail says why a claim is still pending, in the resolver's own words.")
     host: Optional[StrictStr] = Field(default=None, description="Host is the hostname itself.")
-    kind: Optional[StrictStr] = Field(default=None, description="Kind is `default`, `subtree` or `custom` — how the org came to own it.")
+    kind: Optional[StrictStr] = Field(default=None, description="Kind is `default` (the app's own name) or `custom` — how the org came to own it.")
     primary: Optional[StrictBool] = Field(default=None, description="Primary marks the app's permanent default host.")
     records: Optional[List[PlatformRecord]] = Field(default=None, description="Records are the DNS records to publish while a custom claim is pending.")
     status: Optional[StrictStr] = Field(default=None, description="Status is `live`, `provisioning`, `pending_deploy` or `pending`, derived from the operator CR and never fabricated.")

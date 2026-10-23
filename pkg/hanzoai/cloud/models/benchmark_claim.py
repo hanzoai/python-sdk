@@ -17,18 +17,24 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional, Union
 from typing import Optional, Set
 from typing_extensions import Self
 
-class BillingSubscriptionRef(BaseModel):
+class BenchmarkClaim(BaseModel):
     """
-    BillingSubscriptionRef
+    BenchmarkClaim
     """ # noqa: E501
-    at_period_end: Optional[StrictBool] = Field(default=None, description="AtPeriodEnd cancels at the end of the paid period rather than at once. It defaults TRUE on the endpoint, because a customer who cancels has already paid for the period they are in.", alias="atPeriodEnd")
-    id: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["atPeriodEnd", "id"]
+    benchmark: Optional[StrictStr] = Field(default=None, description="Benchmark is the canonical test id the claim is about, from /catalog.")
+    evidence: Optional[List[StrictStr]] = Field(default=None, description="Evidence are the evidence uris the claim rests on, at most 64.")
+    model: Optional[StrictStr] = Field(default=None, description="Model is the system the score is claimed for.")
+    protocol: Optional[StrictStr] = Field(default=None, description="Protocol records HOW it was scored — provider-reported, agentic, third-party-leaderboard — so a provider card is never read as a measurement.")
+    provider: Optional[StrictStr] = Field(default=None, description="Provider is who the claim belongs to — the lab or leaderboard whose number this is.")
+    runs: Optional[List[StrictStr]] = Field(default=None, description="Runs are the research run ids the claim rests on, at most 64.")
+    score: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Score is the reported aggregate, as a percentage.")
+    source: Optional[StrictStr] = Field(default=None, description="Source is the citation the row was read from. Required.")
+    __properties: ClassVar[List[str]] = ["benchmark", "evidence", "model", "protocol", "provider", "runs", "score", "source"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +54,7 @@ class BillingSubscriptionRef(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of BillingSubscriptionRef from a JSON string"""
+        """Create an instance of BenchmarkClaim from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,7 +79,7 @@ class BillingSubscriptionRef(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of BillingSubscriptionRef from a dict"""
+        """Create an instance of BenchmarkClaim from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +87,14 @@ class BillingSubscriptionRef(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "atPeriodEnd": obj.get("atPeriodEnd"),
-            "id": obj.get("id")
+            "benchmark": obj.get("benchmark"),
+            "evidence": obj.get("evidence"),
+            "model": obj.get("model"),
+            "protocol": obj.get("protocol"),
+            "provider": obj.get("provider"),
+            "runs": obj.get("runs"),
+            "score": obj.get("score"),
+            "source": obj.get("source")
         })
         return _obj
 

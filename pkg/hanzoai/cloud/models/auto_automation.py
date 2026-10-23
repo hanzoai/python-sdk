@@ -42,8 +42,9 @@ class AutoAutomation(BaseModel):
     post_to: Optional[List[StrictStr]] = Field(default=None, description="PostTo are the connected accounts each run's answer is posted to — x, linkedin, facebook — after review when Permissions is ask (post.go). Never null.", alias="postTo")
     project: Optional[StrictStr] = Field(default=None, description="Project is the Dev project the run works in, by its slug; null for none.")
     schedule: Optional[AutoSchedule] = Field(default=None, description="Schedule is when it runs.")
+    source: Optional[StrictStr] = Field(default=None, description="Source is the product it was made in: chat, dev, studio or workflow.")
     updated: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["created", "draft", "enabled", "id", "instructions", "last", "model", "name", "next", "notify", "permissions", "postTo", "project", "schedule", "updated"]
+    __properties: ClassVar[List[str]] = ["created", "draft", "enabled", "id", "instructions", "last", "model", "name", "next", "notify", "permissions", "postTo", "project", "schedule", "source", "updated"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -116,6 +117,7 @@ class AutoAutomation(BaseModel):
             "postTo": obj.get("postTo"),
             "project": obj.get("project"),
             "schedule": AutoSchedule.from_dict(obj["schedule"]) if obj.get("schedule") is not None else None,
+            "source": obj.get("source"),
             "updated": obj.get("updated")
         })
         return _obj

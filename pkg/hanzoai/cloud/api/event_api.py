@@ -1759,7 +1759,7 @@ class EventApi:
     ) -> bytearray:
         """A site's default pixel — a page view from an image, for a page that runs no script
 
-        Answers a transparent 1x1 GIF and records one page view for the project whose publishable key names the address:      <img src=\"https://api.hanzo.ai/v1/event/pixel/pk-….gif\" alt=\"\" width=\"1\" height=\"1\">  The page is `?u=` when given, else the Referer. The visitor is stamped from the request like every event, is one visitor for a day, and carries no cookie. Do-not-track and a developer's own machine record nothing. The image is answered whatever happened to the view, with no-store.
+        Answers a transparent 1x1 GIF and records one page view for the project whose publishable key names the address:      <img src=\"https://api.hanzo.ai/v1/event/pixel/pk-….gif\" alt=\"\" width=\"1\" height=\"1\">  The page is `?u=` when given, else the Referer. The visitor is stamped from the request like every event, is one visitor for a day, and carries no cookie. A view is recorded only under `?consent=analytics`, the visitor's choice as the embedding page knows it; Do-not-track, Global Privacy Control and a developer's own machine record nothing. The image is answered whatever happened to the view, with no-store.
 
         :param key: (required)
         :type key: str
@@ -1826,7 +1826,7 @@ class EventApi:
     ) -> ApiResponse[bytearray]:
         """A site's default pixel — a page view from an image, for a page that runs no script
 
-        Answers a transparent 1x1 GIF and records one page view for the project whose publishable key names the address:      <img src=\"https://api.hanzo.ai/v1/event/pixel/pk-….gif\" alt=\"\" width=\"1\" height=\"1\">  The page is `?u=` when given, else the Referer. The visitor is stamped from the request like every event, is one visitor for a day, and carries no cookie. Do-not-track and a developer's own machine record nothing. The image is answered whatever happened to the view, with no-store.
+        Answers a transparent 1x1 GIF and records one page view for the project whose publishable key names the address:      <img src=\"https://api.hanzo.ai/v1/event/pixel/pk-….gif\" alt=\"\" width=\"1\" height=\"1\">  The page is `?u=` when given, else the Referer. The visitor is stamped from the request like every event, is one visitor for a day, and carries no cookie. A view is recorded only under `?consent=analytics`, the visitor's choice as the embedding page knows it; Do-not-track, Global Privacy Control and a developer's own machine record nothing. The image is answered whatever happened to the view, with no-store.
 
         :param key: (required)
         :type key: str
@@ -1893,7 +1893,7 @@ class EventApi:
     ) -> RESTResponseType:
         """A site's default pixel — a page view from an image, for a page that runs no script
 
-        Answers a transparent 1x1 GIF and records one page view for the project whose publishable key names the address:      <img src=\"https://api.hanzo.ai/v1/event/pixel/pk-….gif\" alt=\"\" width=\"1\" height=\"1\">  The page is `?u=` when given, else the Referer. The visitor is stamped from the request like every event, is one visitor for a day, and carries no cookie. Do-not-track and a developer's own machine record nothing. The image is answered whatever happened to the view, with no-store.
+        Answers a transparent 1x1 GIF and records one page view for the project whose publishable key names the address:      <img src=\"https://api.hanzo.ai/v1/event/pixel/pk-….gif\" alt=\"\" width=\"1\" height=\"1\">  The page is `?u=` when given, else the Referer. The visitor is stamped from the request like every event, is one visitor for a day, and carries no cookie. A view is recorded only under `?consent=analytics`, the visitor's choice as the embedding page knows it; Do-not-track, Global Privacy Control and a developer's own machine record nothing. The image is answered whatever happened to the view, with no-store.
 
         :param key: (required)
         :type key: str

@@ -26,7 +26,7 @@ class FlagPlatformOut(BaseModel):
     """
     FlagPlatformOut
     """ # noqa: E501
-    flags: Optional[Dict[str, StrictBool]] = Field(default=None, description="Flags maps each principal switch's key to whether it is on for the caller: `beta` is whether the caller sees products and catalog items that are not yet generally available.")
+    flags: Optional[Dict[str, StrictBool]] = Field(default=None, description="Flags maps each principal switch's key to whether it is on for the caller: `beta` is whether the caller sees products and catalog items that are not yet generally available, and beta.<id> whether they see that one app in beta in the Hanzo app.")
     __properties: ClassVar[List[str]] = ["flags"]
 
     model_config = ConfigDict(

@@ -30,10 +30,11 @@ class BillingAutoRecharge(BaseModel):
     currency: Optional[StrictStr] = None
     enabled: Optional[StrictBool] = None
     last_recharged_at: Optional[StrictStr] = Field(default=None, alias="lastRechargedAt")
+    per_day: Optional[StrictInt] = Field(default=None, description="PerDay is the most times the sweep reloads the balance in one UTC day.", alias="perDay")
     stored: Optional[StrictBool] = None
     subject: Optional[StrictStr] = None
     threshold_cents: Optional[StrictInt] = Field(default=None, alias="thresholdCents")
-    __properties: ClassVar[List[str]] = ["amountCents", "currency", "enabled", "lastRechargedAt", "stored", "subject", "thresholdCents"]
+    __properties: ClassVar[List[str]] = ["amountCents", "currency", "enabled", "lastRechargedAt", "perDay", "stored", "subject", "thresholdCents"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -90,6 +91,7 @@ class BillingAutoRecharge(BaseModel):
             "currency": obj.get("currency"),
             "enabled": obj.get("enabled"),
             "lastRechargedAt": obj.get("lastRechargedAt"),
+            "perDay": obj.get("perDay"),
             "stored": obj.get("stored"),
             "subject": obj.get("subject"),
             "thresholdCents": obj.get("thresholdCents")

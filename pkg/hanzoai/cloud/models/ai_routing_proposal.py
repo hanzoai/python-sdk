@@ -29,7 +29,8 @@ class AiRoutingProposal(BaseModel):
     base: Optional[StrictInt] = None
     diff: Optional[StrictStr] = None
     family: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["base", "diff", "family"]
+    refused: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["base", "diff", "family", "refused"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -84,7 +85,8 @@ class AiRoutingProposal(BaseModel):
         _obj = cls.model_validate({
             "base": obj.get("base"),
             "diff": obj.get("diff"),
-            "family": obj.get("family")
+            "family": obj.get("family"),
+            "refused": obj.get("refused")
         })
         return _obj
 

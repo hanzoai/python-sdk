@@ -43,6 +43,7 @@ class CaptureEvent(BaseModel):
     group_id: Optional[StrictStr] = Field(default=None, alias="groupId")
     group_type: Optional[StrictStr] = Field(default=None, alias="groupType")
     kind: Optional[StrictStr] = None
+    last_utm: Optional[UTM] = Field(default=None, alias="lastUtm")
     level: Optional[StrictStr] = None
     library: Optional[StrictStr] = None
     library_version: Optional[StrictStr] = Field(default=None, alias="libraryVersion")
@@ -71,7 +72,7 @@ class CaptureEvent(BaseModel):
     type: Optional[StrictStr] = None
     url: Optional[StrictStr] = None
     utm: Optional[UTM] = None
-    __properties: ClassVar[List[str]] = ["anonymousId", "channel", "clip", "currency", "distinctId", "environment", "error", "event", "groupId", "groupType", "kind", "level", "library", "libraryVersion", "log", "messageId", "metric", "path", "personId", "product", "productId", "properties", "quantity", "refCode", "referrer", "release", "resource", "revenue", "service", "sessionId", "signupWeek", "site", "span", "spanId", "timestamp", "traceId", "type", "url", "utm"]
+    __properties: ClassVar[List[str]] = ["anonymousId", "channel", "clip", "currency", "distinctId", "environment", "error", "event", "groupId", "groupType", "kind", "lastUtm", "level", "library", "libraryVersion", "log", "messageId", "metric", "path", "personId", "product", "productId", "properties", "quantity", "refCode", "referrer", "release", "resource", "revenue", "service", "sessionId", "signupWeek", "site", "span", "spanId", "timestamp", "traceId", "type", "url", "utm"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -118,6 +119,9 @@ class CaptureEvent(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of error
         if self.error:
             _dict['error'] = self.error.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of last_utm
+        if self.last_utm:
+            _dict['lastUtm'] = self.last_utm.to_dict()
         # override the default output from pydantic by calling `to_dict()` of log
         if self.log:
             _dict['log'] = self.log.to_dict()
@@ -153,6 +157,7 @@ class CaptureEvent(BaseModel):
             "groupId": obj.get("groupId"),
             "groupType": obj.get("groupType"),
             "kind": obj.get("kind"),
+            "lastUtm": UTM.from_dict(obj["lastUtm"]) if obj.get("lastUtm") is not None else None,
             "level": obj.get("level"),
             "library": obj.get("library"),
             "libraryVersion": obj.get("libraryVersion"),

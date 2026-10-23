@@ -17,8 +17,11 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.marketing_address import MarketingAddress
+from hanzoai.cloud.models.marketing_answer import MarketingAnswer
+from hanzoai.cloud.models.marketing_tags import MarketingTags
 from hanzoai.cloud.models.marketing_visit import MarketingVisit
 from typing import Optional, Set
 from typing_extensions import Self
@@ -27,16 +30,31 @@ class MarketingLeadIn(BaseModel):
     """
     MarketingLeadIn
     """ # noqa: E501
+    address: Optional[MarketingAddress] = Field(default=None, description="Address is where an investor lives, or where the entity they invest through is: street, city and country required, each at most 200 characters.")
+    amount: Optional[Any] = None
+    answers: Optional[List[MarketingAnswer]] = Field(default=None, description="Answers is the application question by question, as the form asked it: at most 40, each question clipped at 200 characters and each answer at 2 KiB. Recorded on the lead as they came; optional.")
+    campaign: Optional[MarketingTags] = Field(default=None, description="Campaign is the utm_* tags of the link the visit arrived on, recorded on the lead. Optional.")
     company: Optional[StrictStr] = Field(default=None, description="Company is the person's company. Optional; clipped at 200 characters.")
+    consent: Optional[StrictBool] = Field(default=None, description="Consent is the applicant ticking \"Keep me posted about roles and news at Hanzo. Unsubscribe any time.\" Unticked, they hear nothing but the reply to their application. Read only with Job.")
     country: Optional[StrictStr] = Field(default=None, description="Country is where the person is. Optional; clipped at 200 characters.")
+    coupon: Optional[StrictStr] = Field(default=None, description="Coupon is the offer code the visitor's page held: letters, digits, dash and underscore, at most 32. Any other value is recorded as none. Optional.")
+    department: Optional[StrictStr] = Field(default=None, description="Department is the opening's department. Read only with Job.")
     email: Optional[StrictStr] = Field(default=None, description="Email is where sales replies: the person's work email. Required, and it must look like an address. It is not verified.")
-    name: Optional[StrictStr] = Field(default=None, description="Name is the person's name. Optional; clipped at 200 characters.")
+    entity: Optional[StrictStr] = Field(default=None, description="Entity is the legal name of the entity an investor invests through; empty, they invest in their own name. At most 200 characters. Read only with program investor, as are Title, Amount, Phone and Address.")
+    job: Optional[StrictStr] = Field(default=None, description="Job is the opening a careers form applies to, by its id on the careers page (senior-backend-engineer). A body naming one is a job application: it is filed as a candidate, never as a lead, so it is offered no call and no code, no ad platform hears of it, and the brand's careers mailbox is told instead of sales. Name, Email, Role (the opening's title), Country (where the person is), Need (what they wrote about themselves), Source and Answers carry over. Optional; clipped at 200 characters.")
+    links: Optional[List[StrictStr]] = Field(default=None, description="Links are https addresses the applicant gave: a portfolio, a profile, a site. At most five, each at most 500 characters; any other value is dropped. Read only with Job.")
+    name: Optional[StrictStr] = Field(default=None, description="Name is the person's name. Optional, and clipped at 200 characters, except for an investor, who must give it, in at most 200.")
     need: Optional[StrictStr] = Field(default=None, description="Need is what the person wants from sales, in their own words. Optional; clipped at 4 KiB.")
+    phone: Optional[StrictStr] = Field(default=None, description="Phone is an investor's phone number: 3 to 20 digits, an optional leading +, and any spaces, dots, dashes or brackets between them. Optional.")
+    program: Optional[StrictStr] = Field(default=None, description="Program is the program the person applies to: beta, research or partner. Any other value is recorded as none. An application is mailed a code for 50% off a first month, once per address (offer.go). Optional. \"investor\" is an investor's subscription (investor.go): it is mailed no code, it is sent a SAFE, and Name, Amount and Address are required.")
+    resume: Optional[StrictStr] = Field(default=None, description="Resume is an https address the applicant gave for their resume. Read only with Job; any other value is recorded as none.")
+    resume_file: Optional[StrictStr] = Field(default=None, description="ResumeFile is the key POST /v1/marketing/leads/resume handed out for the resume the applicant uploaded. Any other value is recorded as none. Read only with Job.")
     role: Optional[StrictStr] = Field(default=None, description="Role is the person's job title. Optional; clipped at 200 characters.")
     size: Optional[StrictStr] = Field(default=None, description="Size is the company's headcount band: 1-49, 50-249, 250-999, 1000-4999 or 5000+. Any other value is recorded as unstated rather than refused.")
     source: Optional[StrictStr] = Field(default=None, description="Source is the page the form was filed from, such as hanzo.ai/contact-sales. Optional; clipped at 200 characters.")
+    title: Optional[StrictStr] = Field(default=None, description="Title is the investor's title at Entity, as the SAFE's signature block names it. At most 200 characters; read only with Entity.")
     visit: Optional[MarketingVisit] = Field(default=None, description="Visit is what the visitor's page knows about the ad click that brought them and the consent they gave, so the lead reaches the ad platforms matched to the click and under the visitor's own choice. Optional.")
-    __properties: ClassVar[List[str]] = ["company", "country", "email", "name", "need", "role", "size", "source", "visit"]
+    __properties: ClassVar[List[str]] = ["address", "amount", "answers", "campaign", "company", "consent", "country", "coupon", "department", "email", "entity", "job", "links", "name", "need", "phone", "program", "resume", "resume_file", "role", "size", "source", "title", "visit"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -77,9 +95,27 @@ class MarketingLeadIn(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of address
+        if self.address:
+            _dict['address'] = self.address.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in answers (list)
+        _items = []
+        if self.answers:
+            for _item_answers in self.answers:
+                if _item_answers:
+                    _items.append(_item_answers.to_dict())
+            _dict['answers'] = _items
+        # override the default output from pydantic by calling `to_dict()` of campaign
+        if self.campaign:
+            _dict['campaign'] = self.campaign.to_dict()
         # override the default output from pydantic by calling `to_dict()` of visit
         if self.visit:
             _dict['visit'] = self.visit.to_dict()
+        # set to None if amount (nullable) is None
+        # and model_fields_set contains the field
+        if self.amount is None and "amount" in self.model_fields_set:
+            _dict['amount'] = None
+
         return _dict
 
     @classmethod
@@ -92,14 +128,29 @@ class MarketingLeadIn(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "address": MarketingAddress.from_dict(obj["address"]) if obj.get("address") is not None else None,
+            "amount": obj.get("amount"),
+            "answers": [MarketingAnswer.from_dict(_item) for _item in obj["answers"]] if obj.get("answers") is not None else None,
+            "campaign": MarketingTags.from_dict(obj["campaign"]) if obj.get("campaign") is not None else None,
             "company": obj.get("company"),
+            "consent": obj.get("consent"),
             "country": obj.get("country"),
+            "coupon": obj.get("coupon"),
+            "department": obj.get("department"),
             "email": obj.get("email"),
+            "entity": obj.get("entity"),
+            "job": obj.get("job"),
+            "links": obj.get("links"),
             "name": obj.get("name"),
             "need": obj.get("need"),
+            "phone": obj.get("phone"),
+            "program": obj.get("program"),
+            "resume": obj.get("resume"),
+            "resume_file": obj.get("resume_file"),
             "role": obj.get("role"),
             "size": obj.get("size"),
             "source": obj.get("source"),
+            "title": obj.get("title"),
             "visit": MarketingVisit.from_dict(obj["visit"]) if obj.get("visit") is not None else None
         })
         return _obj
