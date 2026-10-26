@@ -1262,6 +1262,8 @@ from hanzoai.cloud.models.layout import Layout
 from hanzoai.cloud.models.leaderboard_activity_point import LeaderboardActivityPoint
 from hanzoai.cloud.models.leaderboard_activity_totals import LeaderboardActivityTotals
 from hanzoai.cloud.models.leaderboard_activity_view import LeaderboardActivityView
+from hanzoai.cloud.models.leaderboard_beta_board import LeaderboardBetaBoard
+from hanzoai.cloud.models.leaderboard_beta_row import LeaderboardBetaRow
 from hanzoai.cloud.models.leaderboard_leaderboard_row import LeaderboardLeaderboardRow
 from hanzoai.cloud.models.leaderboard_leaderboard_view import LeaderboardLeaderboardView
 from hanzoai.cloud.models.leaderboard_optin_view import LeaderboardOptinView

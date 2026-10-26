@@ -1403,6 +1403,8 @@ __all__ = [
     "LeaderboardActivityPoint",
     "LeaderboardActivityTotals",
     "LeaderboardActivityView",
+    "LeaderboardBetaBoard",
+    "LeaderboardBetaRow",
     "LeaderboardLeaderboardRow",
     "LeaderboardLeaderboardView",
     "LeaderboardOptinView",
@@ -4675,6 +4677,8 @@ from hanzoai.cloud.models.layout import Layout as Layout
 from hanzoai.cloud.models.leaderboard_activity_point import LeaderboardActivityPoint as LeaderboardActivityPoint
 from hanzoai.cloud.models.leaderboard_activity_totals import LeaderboardActivityTotals as LeaderboardActivityTotals
 from hanzoai.cloud.models.leaderboard_activity_view import LeaderboardActivityView as LeaderboardActivityView
+from hanzoai.cloud.models.leaderboard_beta_board import LeaderboardBetaBoard as LeaderboardBetaBoard
+from hanzoai.cloud.models.leaderboard_beta_row import LeaderboardBetaRow as LeaderboardBetaRow
 from hanzoai.cloud.models.leaderboard_leaderboard_row import LeaderboardLeaderboardRow as LeaderboardLeaderboardRow
 from hanzoai.cloud.models.leaderboard_leaderboard_view import LeaderboardLeaderboardView as LeaderboardLeaderboardView
 from hanzoai.cloud.models.leaderboard_optin_view import LeaderboardOptinView as LeaderboardOptinView

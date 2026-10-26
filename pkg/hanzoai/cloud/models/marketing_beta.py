@@ -35,12 +35,13 @@ class MarketingBeta(BaseModel):
     github: Optional[StrictStr] = Field(default=None, description="GitHub is the GitHub login the account's stars are counted for.")
     lead: Optional[StrictStr] = Field(default=None, description="Lead is the reference the application was filed under as a lead.")
     of: Optional[StrictInt] = Field(default=None, description="Of is how many records are on the waitlist.")
-    place: Optional[StrictInt] = Field(default=None, description="Place is the record's place on the waitlist, 1 first; 0 with no record.")
+    place: Optional[StrictInt] = Field(default=None, description="Place is the record's place on the waitlist, 1 first; 0 with no record, or when the board did not answer.")
     points: Optional[StrictInt] = Field(default=None, description="Points is the sum of what Actions earned.")
     program: Optional[StrictStr] = Field(default=None, description="Program is the program applied to: beta, research or partner.")
     requested: Optional[Dict[str, StrictStr]] = Field(default=None, description="Requested is when each of Betas was asked for, RFC 3339 in UTC, by id.")
+    score: Optional[StrictInt] = Field(default=None, description="Score is what the waitlist ranks the record by: Points, the account's referrals and its token usage (GET /v1/leaderboard/beta says how). 0 with no record, or when the board did not answer.")
     since: Optional[StrictStr] = Field(default=None, description="Since is when the record began, as the CRM stamped it; empty with no record.")
-    __properties: ClassVar[List[str]] = ["actions", "answers", "applied", "betas", "github", "lead", "of", "place", "points", "program", "requested", "since"]
+    __properties: ClassVar[List[str]] = ["actions", "answers", "applied", "betas", "github", "lead", "of", "place", "points", "program", "requested", "score", "since"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -118,6 +119,7 @@ class MarketingBeta(BaseModel):
             "points": obj.get("points"),
             "program": obj.get("program"),
             "requested": obj.get("requested"),
+            "score": obj.get("score"),
             "since": obj.get("since")
         })
         return _obj

@@ -1381,6 +1381,8 @@ pkg/hanzoai/cloud/models/layout.py
 pkg/hanzoai/cloud/models/leaderboard_activity_point.py
 pkg/hanzoai/cloud/models/leaderboard_activity_totals.py
 pkg/hanzoai/cloud/models/leaderboard_activity_view.py
+pkg/hanzoai/cloud/models/leaderboard_beta_board.py
+pkg/hanzoai/cloud/models/leaderboard_beta_row.py
 pkg/hanzoai/cloud/models/leaderboard_leaderboard_row.py
 pkg/hanzoai/cloud/models/leaderboard_leaderboard_view.py
 pkg/hanzoai/cloud/models/leaderboard_optin_view.py
