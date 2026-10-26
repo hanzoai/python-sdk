@@ -19,6 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.auto_outcome_trigger import AutoOutcomeTrigger
 from hanzoai.cloud.models.auto_schedule import AutoSchedule
 from typing import Optional, Set
 from typing_extensions import Self
@@ -28,6 +29,7 @@ class AutoAutomationPatch(BaseModel):
     AutoAutomationPatch
     """ # noqa: E501
     enabled: Optional[StrictBool] = Field(default=None, description="Enabled arms or disarms its schedule.")
+    event: Optional[AutoOutcomeTrigger] = Field(default=None, description="Event replaces the trigger with a product outcome; null clears it.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the automation, from the path.")
     instructions: Optional[StrictStr] = None
     model: Optional[StrictStr] = None
@@ -37,7 +39,8 @@ class AutoAutomationPatch(BaseModel):
     post_to: Optional[List[StrictStr]] = Field(default=None, alias="postTo")
     project: Optional[StrictStr] = None
     schedule: Optional[AutoSchedule] = None
-    __properties: ClassVar[List[str]] = ["enabled", "id", "instructions", "model", "name", "notify", "permissions", "postTo", "project", "schedule"]
+    target: Optional[StrictStr] = Field(default=None, description="Target replaces the registered execution target; null clears it.")
+    __properties: ClassVar[List[str]] = ["enabled", "event", "id", "instructions", "model", "name", "notify", "permissions", "postTo", "project", "schedule", "target"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -78,6 +81,9 @@ class AutoAutomationPatch(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of event
+        if self.event:
+            _dict['event'] = self.event.to_dict()
         # override the default output from pydantic by calling `to_dict()` of schedule
         if self.schedule:
             _dict['schedule'] = self.schedule.to_dict()
@@ -94,6 +100,7 @@ class AutoAutomationPatch(BaseModel):
 
         _obj = cls.model_validate({
             "enabled": obj.get("enabled"),
+            "event": AutoOutcomeTrigger.from_dict(obj["event"]) if obj.get("event") is not None else None,
             "id": obj.get("id"),
             "instructions": obj.get("instructions"),
             "model": obj.get("model"),
@@ -102,7 +109,8 @@ class AutoAutomationPatch(BaseModel):
             "permissions": obj.get("permissions"),
             "postTo": obj.get("postTo"),
             "project": obj.get("project"),
-            "schedule": AutoSchedule.from_dict(obj["schedule"]) if obj.get("schedule") is not None else None
+            "schedule": AutoSchedule.from_dict(obj["schedule"]) if obj.get("schedule") is not None else None,
+            "target": obj.get("target")
         })
         return _obj
 

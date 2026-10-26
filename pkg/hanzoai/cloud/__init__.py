@@ -54,6 +54,7 @@ __all__ = [
     "DestinationApi",
     "DnsApi",
     "DomainApi",
+    "EmailApi",
     "EngineApi",
     "EntitlementApi",
     "EnvironmentApi",
@@ -386,6 +387,7 @@ __all__ = [
     "AutoJob",
     "AutoJobPage",
     "AutoLastRun",
+    "AutoOutcomeTrigger",
     "AutoPatchFlowIn",
     "AutoPopulatedFlow",
     "AutoPostResult",
@@ -865,6 +867,23 @@ __all__ = [
     "DomainRenewReq",
     "DomainRenewResult",
     "DomainTransferReq",
+    "EmailClassificationCheck",
+    "EmailDispatch",
+    "EmailDomainCheck",
+    "EmailListMessagesResult",
+    "EmailMXCheck",
+    "EmailMessageRecord",
+    "EmailRefused",
+    "EmailSESDNSRecord",
+    "EmailSESStatusResult",
+    "EmailSMTPCheck",
+    "EmailSendGridStatusResult",
+    "EmailSendMessageInput",
+    "EmailSuggestion",
+    "EmailSyntaxCheck",
+    "EmailVerificationChecks",
+    "EmailVerificationInput",
+    "EmailVerificationResult",
     "EngineEngineStatus",
     "EntitlementEntitlementsView",
     "EntitlementMutateReq",
@@ -987,6 +1006,10 @@ __all__ = [
     "FlagDeletedOut",
     "FlagEvaluateIn",
     "FlagHealthOut",
+    "FlagOptinIn",
+    "FlagOptinOut",
+    "FlagOrgOptinIn",
+    "FlagOrgOptinOut",
     "FlagPlatformOut",
     "FlowFlowCreate",
     "FlowFlowRun",
@@ -1516,6 +1539,7 @@ __all__ = [
     "MarketingStepList",
     "MarketingSummary",
     "MarketingSuppression",
+    "MarketingSuppressionCheck",
     "MarketingSuppressionList",
     "MarketingTags",
     "MarketingUnsubscribed",
@@ -2659,6 +2683,11 @@ __all__ = [
     "ProviderGithubUserOut",
     "ProviderGitlabProjectView",
     "ProviderGitlabProjectsOut",
+    "ProviderGoogleUserCompleteIn",
+    "ProviderGoogleUserConnectIn",
+    "ProviderGoogleUserConnectOut",
+    "ProviderGoogleUserDisconnectOut",
+    "ProviderGoogleUserOut",
     "ProviderJoinFailure",
     "ProviderLinearBackfillIn",
     "ProviderLinearBackfillResult",
@@ -2721,6 +2750,7 @@ __all__ = [
     "ReferralClaimView",
     "ReferralMyReferralView",
     "ReferralMyReferrals",
+    "ReferralSetCodeRequest",
     "ReferralStatusCounts",
     "RegistryRegistryImage",
     "RegistryRegistryImageList",
@@ -3292,6 +3322,7 @@ from hanzoai.cloud.api.deploy_api import DeployApi as DeployApi
 from hanzoai.cloud.api.destination_api import DestinationApi as DestinationApi
 from hanzoai.cloud.api.dns_api import DnsApi as DnsApi
 from hanzoai.cloud.api.domain_api import DomainApi as DomainApi
+from hanzoai.cloud.api.email_api import EmailApi as EmailApi
 from hanzoai.cloud.api.engine_api import EngineApi as EngineApi
 from hanzoai.cloud.api.entitlement_api import EntitlementApi as EntitlementApi
 from hanzoai.cloud.api.environment_api import EnvironmentApi as EnvironmentApi
@@ -3628,6 +3659,7 @@ from hanzoai.cloud.models.auto_flow_version import AutoFlowVersion as AutoFlowVe
 from hanzoai.cloud.models.auto_job import AutoJob as AutoJob
 from hanzoai.cloud.models.auto_job_page import AutoJobPage as AutoJobPage
 from hanzoai.cloud.models.auto_last_run import AutoLastRun as AutoLastRun
+from hanzoai.cloud.models.auto_outcome_trigger import AutoOutcomeTrigger as AutoOutcomeTrigger
 from hanzoai.cloud.models.auto_patch_flow_in import AutoPatchFlowIn as AutoPatchFlowIn
 from hanzoai.cloud.models.auto_populated_flow import AutoPopulatedFlow as AutoPopulatedFlow
 from hanzoai.cloud.models.auto_post_result import AutoPostResult as AutoPostResult
@@ -4107,6 +4139,23 @@ from hanzoai.cloud.models.domain_registrant import DomainRegistrant as DomainReg
 from hanzoai.cloud.models.domain_renew_req import DomainRenewReq as DomainRenewReq
 from hanzoai.cloud.models.domain_renew_result import DomainRenewResult as DomainRenewResult
 from hanzoai.cloud.models.domain_transfer_req import DomainTransferReq as DomainTransferReq
+from hanzoai.cloud.models.email_classification_check import EmailClassificationCheck as EmailClassificationCheck
+from hanzoai.cloud.models.email_dispatch import EmailDispatch as EmailDispatch
+from hanzoai.cloud.models.email_domain_check import EmailDomainCheck as EmailDomainCheck
+from hanzoai.cloud.models.email_list_messages_result import EmailListMessagesResult as EmailListMessagesResult
+from hanzoai.cloud.models.email_mx_check import EmailMXCheck as EmailMXCheck
+from hanzoai.cloud.models.email_message_record import EmailMessageRecord as EmailMessageRecord
+from hanzoai.cloud.models.email_refused import EmailRefused as EmailRefused
+from hanzoai.cloud.models.email_sesdns_record import EmailSESDNSRecord as EmailSESDNSRecord
+from hanzoai.cloud.models.email_ses_status_result import EmailSESStatusResult as EmailSESStatusResult
+from hanzoai.cloud.models.email_smtp_check import EmailSMTPCheck as EmailSMTPCheck
+from hanzoai.cloud.models.email_send_grid_status_result import EmailSendGridStatusResult as EmailSendGridStatusResult
+from hanzoai.cloud.models.email_send_message_input import EmailSendMessageInput as EmailSendMessageInput
+from hanzoai.cloud.models.email_suggestion import EmailSuggestion as EmailSuggestion
+from hanzoai.cloud.models.email_syntax_check import EmailSyntaxCheck as EmailSyntaxCheck
+from hanzoai.cloud.models.email_verification_checks import EmailVerificationChecks as EmailVerificationChecks
+from hanzoai.cloud.models.email_verification_input import EmailVerificationInput as EmailVerificationInput
+from hanzoai.cloud.models.email_verification_result import EmailVerificationResult as EmailVerificationResult
 from hanzoai.cloud.models.engine_engine_status import EngineEngineStatus as EngineEngineStatus
 from hanzoai.cloud.models.entitlement_entitlements_view import EntitlementEntitlementsView as EntitlementEntitlementsView
 from hanzoai.cloud.models.entitlement_mutate_req import EntitlementMutateReq as EntitlementMutateReq
@@ -4229,6 +4278,10 @@ from hanzoai.cloud.models.flag_defs_out import FlagDefsOut as FlagDefsOut
 from hanzoai.cloud.models.flag_deleted_out import FlagDeletedOut as FlagDeletedOut
 from hanzoai.cloud.models.flag_evaluate_in import FlagEvaluateIn as FlagEvaluateIn
 from hanzoai.cloud.models.flag_health_out import FlagHealthOut as FlagHealthOut
+from hanzoai.cloud.models.flag_optin_in import FlagOptinIn as FlagOptinIn
+from hanzoai.cloud.models.flag_optin_out import FlagOptinOut as FlagOptinOut
+from hanzoai.cloud.models.flag_org_optin_in import FlagOrgOptinIn as FlagOrgOptinIn
+from hanzoai.cloud.models.flag_org_optin_out import FlagOrgOptinOut as FlagOrgOptinOut
 from hanzoai.cloud.models.flag_platform_out import FlagPlatformOut as FlagPlatformOut
 from hanzoai.cloud.models.flow_flow_create import FlowFlowCreate as FlowFlowCreate
 from hanzoai.cloud.models.flow_flow_run import FlowFlowRun as FlowFlowRun
@@ -4758,6 +4811,7 @@ from hanzoai.cloud.models.marketing_step_input import MarketingStepInput as Mark
 from hanzoai.cloud.models.marketing_step_list import MarketingStepList as MarketingStepList
 from hanzoai.cloud.models.marketing_summary import MarketingSummary as MarketingSummary
 from hanzoai.cloud.models.marketing_suppression import MarketingSuppression as MarketingSuppression
+from hanzoai.cloud.models.marketing_suppression_check import MarketingSuppressionCheck as MarketingSuppressionCheck
 from hanzoai.cloud.models.marketing_suppression_list import MarketingSuppressionList as MarketingSuppressionList
 from hanzoai.cloud.models.marketing_tags import MarketingTags as MarketingTags
 from hanzoai.cloud.models.marketing_unsubscribed import MarketingUnsubscribed as MarketingUnsubscribed
@@ -5901,6 +5955,11 @@ from hanzoai.cloud.models.provider_github_user_disconnect_out import ProviderGit
 from hanzoai.cloud.models.provider_github_user_out import ProviderGithubUserOut as ProviderGithubUserOut
 from hanzoai.cloud.models.provider_gitlab_project_view import ProviderGitlabProjectView as ProviderGitlabProjectView
 from hanzoai.cloud.models.provider_gitlab_projects_out import ProviderGitlabProjectsOut as ProviderGitlabProjectsOut
+from hanzoai.cloud.models.provider_google_user_complete_in import ProviderGoogleUserCompleteIn as ProviderGoogleUserCompleteIn
+from hanzoai.cloud.models.provider_google_user_connect_in import ProviderGoogleUserConnectIn as ProviderGoogleUserConnectIn
+from hanzoai.cloud.models.provider_google_user_connect_out import ProviderGoogleUserConnectOut as ProviderGoogleUserConnectOut
+from hanzoai.cloud.models.provider_google_user_disconnect_out import ProviderGoogleUserDisconnectOut as ProviderGoogleUserDisconnectOut
+from hanzoai.cloud.models.provider_google_user_out import ProviderGoogleUserOut as ProviderGoogleUserOut
 from hanzoai.cloud.models.provider_join_failure import ProviderJoinFailure as ProviderJoinFailure
 from hanzoai.cloud.models.provider_linear_backfill_in import ProviderLinearBackfillIn as ProviderLinearBackfillIn
 from hanzoai.cloud.models.provider_linear_backfill_result import ProviderLinearBackfillResult as ProviderLinearBackfillResult
@@ -5963,6 +6022,7 @@ from hanzoai.cloud.models.referral_claim_request import ReferralClaimRequest as 
 from hanzoai.cloud.models.referral_claim_view import ReferralClaimView as ReferralClaimView
 from hanzoai.cloud.models.referral_my_referral_view import ReferralMyReferralView as ReferralMyReferralView
 from hanzoai.cloud.models.referral_my_referrals import ReferralMyReferrals as ReferralMyReferrals
+from hanzoai.cloud.models.referral_set_code_request import ReferralSetCodeRequest as ReferralSetCodeRequest
 from hanzoai.cloud.models.referral_status_counts import ReferralStatusCounts as ReferralStatusCounts
 from hanzoai.cloud.models.registry_registry_image import RegistryRegistryImage as RegistryRegistryImage
 from hanzoai.cloud.models.registry_registry_image_list import RegistryRegistryImageList as RegistryRegistryImageList

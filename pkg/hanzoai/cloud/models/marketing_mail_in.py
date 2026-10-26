@@ -27,7 +27,7 @@ class MarketingMailIn(BaseModel):
     MarketingMailIn
     """ # noqa: E501
     body: Optional[StrictStr] = Field(default=None, description="Body is the mail as plain text, at most 20000 characters; a blank line separates paragraphs.")
-    person: Optional[StrictStr] = Field(default=None, description="Person is the CRM person the mail is written to. When set, the sent mail goes on their timeline.")
+    person: Optional[StrictStr] = Field(default=None, description="Person is the CRM person the mail is written to. Empty, the mail goes on the timeline of the person the org holds for the address, if any.")
     subject: Optional[StrictStr] = Field(default=None, description="Subject is the subject line, at most 200 characters on one line.")
     to: Optional[StrictStr] = Field(default=None, description="To is the one address the mail goes to.")
     __properties: ClassVar[List[str]] = ["body", "person", "subject", "to"]

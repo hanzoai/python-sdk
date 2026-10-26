@@ -20,6 +20,7 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.auto_last_run import AutoLastRun
+from hanzoai.cloud.models.auto_outcome_trigger import AutoOutcomeTrigger
 from hanzoai.cloud.models.auto_schedule import AutoSchedule
 from typing import Optional, Set
 from typing_extensions import Self
@@ -31,6 +32,7 @@ class AutoAutomation(BaseModel):
     created: Optional[StrictStr] = Field(default=None, description="Created and Updated are RFC 3339 UTC.")
     draft: Optional[StrictBool] = Field(default=None, description="Draft is a flow with no step yet: it has no instructions, never runs, and becomes an automation when its instructions are saved.")
     enabled: Optional[StrictBool] = Field(default=None, description="Enabled is whether its schedule is armed.")
+    event: Optional[AutoOutcomeTrigger] = Field(default=None, description="Event runs the automation on a committed product outcome instead of a schedule.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the automation's id, which is also its flow's.")
     instructions: Optional[StrictStr] = Field(default=None, description="Instructions are what the agent is asked to do each run.")
     last: Optional[AutoLastRun] = Field(default=None, description="Last is its most recent run that was not skipped; null before the first.")
@@ -43,8 +45,9 @@ class AutoAutomation(BaseModel):
     project: Optional[StrictStr] = Field(default=None, description="Project is the Dev project the run works in, by its slug; null for none.")
     schedule: Optional[AutoSchedule] = Field(default=None, description="Schedule is when it runs.")
     source: Optional[StrictStr] = Field(default=None, description="Source is the product it was made in: chat, dev, studio or workflow.")
+    target: Optional[StrictStr] = Field(default=None, description="Target is an optional registered execution target, such as the person's local machine.")
     updated: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["created", "draft", "enabled", "id", "instructions", "last", "model", "name", "next", "notify", "permissions", "postTo", "project", "schedule", "source", "updated"]
+    __properties: ClassVar[List[str]] = ["created", "draft", "enabled", "event", "id", "instructions", "last", "model", "name", "next", "notify", "permissions", "postTo", "project", "schedule", "source", "target", "updated"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -85,6 +88,9 @@ class AutoAutomation(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of event
+        if self.event:
+            _dict['event'] = self.event.to_dict()
         # override the default output from pydantic by calling `to_dict()` of last
         if self.last:
             _dict['last'] = self.last.to_dict()
@@ -106,6 +112,7 @@ class AutoAutomation(BaseModel):
             "created": obj.get("created"),
             "draft": obj.get("draft"),
             "enabled": obj.get("enabled"),
+            "event": AutoOutcomeTrigger.from_dict(obj["event"]) if obj.get("event") is not None else None,
             "id": obj.get("id"),
             "instructions": obj.get("instructions"),
             "last": AutoLastRun.from_dict(obj["last"]) if obj.get("last") is not None else None,
@@ -118,6 +125,7 @@ class AutoAutomation(BaseModel):
             "project": obj.get("project"),
             "schedule": AutoSchedule.from_dict(obj["schedule"]) if obj.get("schedule") is not None else None,
             "source": obj.get("source"),
+            "target": obj.get("target"),
             "updated": obj.get("updated")
         })
         return _obj

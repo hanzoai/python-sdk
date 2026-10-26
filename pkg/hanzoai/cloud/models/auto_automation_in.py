@@ -19,6 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.auto_outcome_trigger import AutoOutcomeTrigger
 from hanzoai.cloud.models.auto_schedule import AutoSchedule
 from typing import Optional, Set
 from typing_extensions import Self
@@ -28,6 +29,7 @@ class AutoAutomationIn(BaseModel):
     AutoAutomationIn
     """ # noqa: E501
     enabled: Optional[StrictBool] = Field(default=None, description="Enabled arms its schedule. Absent is true.")
+    event: Optional[AutoOutcomeTrigger] = Field(default=None, description="Event arms a product-outcome trigger; it is mutually exclusive with a timed schedule.")
     instructions: Optional[StrictStr] = Field(default=None, description="Instructions are what the agent is asked to do each run. Required.")
     model: Optional[StrictStr] = Field(default=None, description="Model is the model id to think with. Optional; absent is the default.")
     name: Optional[StrictStr] = Field(default=None, description="Name is what it is called. Required.")
@@ -37,7 +39,8 @@ class AutoAutomationIn(BaseModel):
     project: Optional[StrictStr] = Field(default=None, description="Project is a Dev project's slug to work in. Optional.")
     schedule: Optional[AutoSchedule] = Field(default=None, description="Schedule is when it runs. Absent runs it only on demand.")
     source: Optional[StrictStr] = Field(default=None, description="Source is the product it is made in: chat, dev, studio or workflow. Absent is dev.")
-    __properties: ClassVar[List[str]] = ["enabled", "instructions", "model", "name", "notify", "permissions", "postTo", "project", "schedule", "source"]
+    target: Optional[StrictStr] = Field(default=None, description="Target selects a registered execution target for the coding run.")
+    __properties: ClassVar[List[str]] = ["enabled", "event", "instructions", "model", "name", "notify", "permissions", "postTo", "project", "schedule", "source", "target"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -78,6 +81,9 @@ class AutoAutomationIn(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of event
+        if self.event:
+            _dict['event'] = self.event.to_dict()
         # override the default output from pydantic by calling `to_dict()` of schedule
         if self.schedule:
             _dict['schedule'] = self.schedule.to_dict()
@@ -94,6 +100,7 @@ class AutoAutomationIn(BaseModel):
 
         _obj = cls.model_validate({
             "enabled": obj.get("enabled"),
+            "event": AutoOutcomeTrigger.from_dict(obj["event"]) if obj.get("event") is not None else None,
             "instructions": obj.get("instructions"),
             "model": obj.get("model"),
             "name": obj.get("name"),
@@ -102,7 +109,8 @@ class AutoAutomationIn(BaseModel):
             "postTo": obj.get("postTo"),
             "project": obj.get("project"),
             "schedule": AutoSchedule.from_dict(obj["schedule"]) if obj.get("schedule") is not None else None,
-            "source": obj.get("source")
+            "source": obj.get("source"),
+            "target": obj.get("target")
         })
         return _obj
 

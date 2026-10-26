@@ -16,7 +16,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictInt, StrictStr
+from pydantic import Field, StrictBool, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
 from hanzoai.cloud.models.marketing_audience import MarketingAudience
@@ -56,6 +56,7 @@ from hanzoai.cloud.models.marketing_step_input import MarketingStepInput
 from hanzoai.cloud.models.marketing_step_list import MarketingStepList
 from hanzoai.cloud.models.marketing_summary import MarketingSummary
 from hanzoai.cloud.models.marketing_suppression import MarketingSuppression
+from hanzoai.cloud.models.marketing_suppression_check import MarketingSuppressionCheck
 from hanzoai.cloud.models.marketing_suppression_list import MarketingSuppressionList
 from hanzoai.cloud.models.marketing_unsubscribed import MarketingUnsubscribed
 from hanzoai.cloud.models.problem_details import ProblemDetails
@@ -864,10 +865,8 @@ class MarketingApi:
     @validate_call
     def delete_marketing_suppressions(
         self,
-        channel: Annotated[Optional[StrictStr], Field(description="Channel is the surface opted out of: email, sms, social, meta, google or tiktok. Empty means email. Opting out of one leaves the others reachable.")] = None,
-        address: Annotated[Optional[StrictStr], Field(description="Address is the recipient, normalized (lower-cased, trimmed) so an opt-out cannot be slipped past on a case or whitespace difference. Required.")] = None,
-        reason: Annotated[Optional[StrictStr], Field(description="Reason is a free-text note, capped at 1024 bytes. The public one-click endpoint records \"one-click unsubscribe\".")] = None,
-        created_at: Annotated[Optional[StrictInt], Field(description="CreatedAt is unix seconds, server-assigned.")] = None,
+        channel: Annotated[Optional[StrictStr], Field(description="Channel is the surface the entry opts out of; empty is email.")] = None,
+        address: Annotated[Optional[StrictStr], Field(description="Address is the entry: an address, or \"@example.com\" for a company.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -883,16 +882,12 @@ class MarketingApi:
     ) -> None:
         """Re-subscribes an address on one channel and answers 204.
 
-        Re-subscribes an address on one channel and answers 204. An address that is not on the list reads as not found.  Org admin or SuperAdmin only; a member of the org is refused.
+        Re-subscribes an address on one channel and answers 204. The entry is named in the query. An address that is not on the list reads as not found.  Org admin or SuperAdmin only; a member of the org is refused.
 
-        :param channel: Channel is the surface opted out of: email, sms, social, meta, google or tiktok. Empty means email. Opting out of one leaves the others reachable.
+        :param channel: Channel is the surface the entry opts out of; empty is email.
         :type channel: str
-        :param address: Address is the recipient, normalized (lower-cased, trimmed) so an opt-out cannot be slipped past on a case or whitespace difference. Required.
+        :param address: Address is the entry: an address, or \"@example.com\" for a company.
         :type address: str
-        :param reason: Reason is a free-text note, capped at 1024 bytes. The public one-click endpoint records \"one-click unsubscribe\".
-        :type reason: str
-        :param created_at: CreatedAt is unix seconds, server-assigned.
-        :type created_at: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -918,8 +913,6 @@ class MarketingApi:
         _param = self._delete_marketing_suppressions_serialize(
             channel=channel,
             address=address,
-            reason=reason,
-            created_at=created_at,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -943,10 +936,8 @@ class MarketingApi:
     @validate_call
     def delete_marketing_suppressions_with_http_info(
         self,
-        channel: Annotated[Optional[StrictStr], Field(description="Channel is the surface opted out of: email, sms, social, meta, google or tiktok. Empty means email. Opting out of one leaves the others reachable.")] = None,
-        address: Annotated[Optional[StrictStr], Field(description="Address is the recipient, normalized (lower-cased, trimmed) so an opt-out cannot be slipped past on a case or whitespace difference. Required.")] = None,
-        reason: Annotated[Optional[StrictStr], Field(description="Reason is a free-text note, capped at 1024 bytes. The public one-click endpoint records \"one-click unsubscribe\".")] = None,
-        created_at: Annotated[Optional[StrictInt], Field(description="CreatedAt is unix seconds, server-assigned.")] = None,
+        channel: Annotated[Optional[StrictStr], Field(description="Channel is the surface the entry opts out of; empty is email.")] = None,
+        address: Annotated[Optional[StrictStr], Field(description="Address is the entry: an address, or \"@example.com\" for a company.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -962,16 +953,12 @@ class MarketingApi:
     ) -> ApiResponse[None]:
         """Re-subscribes an address on one channel and answers 204.
 
-        Re-subscribes an address on one channel and answers 204. An address that is not on the list reads as not found.  Org admin or SuperAdmin only; a member of the org is refused.
+        Re-subscribes an address on one channel and answers 204. The entry is named in the query. An address that is not on the list reads as not found.  Org admin or SuperAdmin only; a member of the org is refused.
 
-        :param channel: Channel is the surface opted out of: email, sms, social, meta, google or tiktok. Empty means email. Opting out of one leaves the others reachable.
+        :param channel: Channel is the surface the entry opts out of; empty is email.
         :type channel: str
-        :param address: Address is the recipient, normalized (lower-cased, trimmed) so an opt-out cannot be slipped past on a case or whitespace difference. Required.
+        :param address: Address is the entry: an address, or \"@example.com\" for a company.
         :type address: str
-        :param reason: Reason is a free-text note, capped at 1024 bytes. The public one-click endpoint records \"one-click unsubscribe\".
-        :type reason: str
-        :param created_at: CreatedAt is unix seconds, server-assigned.
-        :type created_at: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -997,8 +984,6 @@ class MarketingApi:
         _param = self._delete_marketing_suppressions_serialize(
             channel=channel,
             address=address,
-            reason=reason,
-            created_at=created_at,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1022,10 +1007,8 @@ class MarketingApi:
     @validate_call
     def delete_marketing_suppressions_without_preload_content(
         self,
-        channel: Annotated[Optional[StrictStr], Field(description="Channel is the surface opted out of: email, sms, social, meta, google or tiktok. Empty means email. Opting out of one leaves the others reachable.")] = None,
-        address: Annotated[Optional[StrictStr], Field(description="Address is the recipient, normalized (lower-cased, trimmed) so an opt-out cannot be slipped past on a case or whitespace difference. Required.")] = None,
-        reason: Annotated[Optional[StrictStr], Field(description="Reason is a free-text note, capped at 1024 bytes. The public one-click endpoint records \"one-click unsubscribe\".")] = None,
-        created_at: Annotated[Optional[StrictInt], Field(description="CreatedAt is unix seconds, server-assigned.")] = None,
+        channel: Annotated[Optional[StrictStr], Field(description="Channel is the surface the entry opts out of; empty is email.")] = None,
+        address: Annotated[Optional[StrictStr], Field(description="Address is the entry: an address, or \"@example.com\" for a company.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1041,16 +1024,12 @@ class MarketingApi:
     ) -> RESTResponseType:
         """Re-subscribes an address on one channel and answers 204.
 
-        Re-subscribes an address on one channel and answers 204. An address that is not on the list reads as not found.  Org admin or SuperAdmin only; a member of the org is refused.
+        Re-subscribes an address on one channel and answers 204. The entry is named in the query. An address that is not on the list reads as not found.  Org admin or SuperAdmin only; a member of the org is refused.
 
-        :param channel: Channel is the surface opted out of: email, sms, social, meta, google or tiktok. Empty means email. Opting out of one leaves the others reachable.
+        :param channel: Channel is the surface the entry opts out of; empty is email.
         :type channel: str
-        :param address: Address is the recipient, normalized (lower-cased, trimmed) so an opt-out cannot be slipped past on a case or whitespace difference. Required.
+        :param address: Address is the entry: an address, or \"@example.com\" for a company.
         :type address: str
-        :param reason: Reason is a free-text note, capped at 1024 bytes. The public one-click endpoint records \"one-click unsubscribe\".
-        :type reason: str
-        :param created_at: CreatedAt is unix seconds, server-assigned.
-        :type created_at: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1076,8 +1055,6 @@ class MarketingApi:
         _param = self._delete_marketing_suppressions_serialize(
             channel=channel,
             address=address,
-            reason=reason,
-            created_at=created_at,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1098,8 +1075,6 @@ class MarketingApi:
         self,
         channel,
         address,
-        reason,
-        created_at,
         _request_auth,
         _content_type,
         _headers,
@@ -1129,14 +1104,6 @@ class MarketingApi:
         if address is not None:
             
             _query_params.append(('address', address))
-            
-        if reason is not None:
-            
-            _query_params.append(('reason', reason))
-            
-        if created_at is not None:
-            
-            _query_params.append(('createdAt', created_at))
             
         # process the header parameters
         # process the form parameters
@@ -5957,12 +5924,294 @@ class MarketingApi:
 
 
     @validate_call
+    def get_marketing_suppressions_check(
+        self,
+        channel: Annotated[Optional[StrictStr], Field(description="Channel is the surface the entry opts out of; empty is email.")] = None,
+        address: Annotated[Optional[StrictStr], Field(description="Address is the entry: an address, or \"@example.com\" for a company.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingSuppressionCheck:
+        """Answers whether the org's send gate refuses an address, and which list holds it, by the same check every commercial send asks.
+
+        Answers whether the org's send gate refuses an address, and which list holds it, by the same check every commercial send asks.
+
+        :param channel: Channel is the surface the entry opts out of; empty is email.
+        :type channel: str
+        :param address: Address is the entry: an address, or \"@example.com\" for a company.
+        :type address: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_suppressions_check_serialize(
+            channel=channel,
+            address=address,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingSuppressionCheck",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_marketing_suppressions_check_with_http_info(
+        self,
+        channel: Annotated[Optional[StrictStr], Field(description="Channel is the surface the entry opts out of; empty is email.")] = None,
+        address: Annotated[Optional[StrictStr], Field(description="Address is the entry: an address, or \"@example.com\" for a company.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingSuppressionCheck]:
+        """Answers whether the org's send gate refuses an address, and which list holds it, by the same check every commercial send asks.
+
+        Answers whether the org's send gate refuses an address, and which list holds it, by the same check every commercial send asks.
+
+        :param channel: Channel is the surface the entry opts out of; empty is email.
+        :type channel: str
+        :param address: Address is the entry: an address, or \"@example.com\" for a company.
+        :type address: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_suppressions_check_serialize(
+            channel=channel,
+            address=address,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingSuppressionCheck",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_marketing_suppressions_check_without_preload_content(
+        self,
+        channel: Annotated[Optional[StrictStr], Field(description="Channel is the surface the entry opts out of; empty is email.")] = None,
+        address: Annotated[Optional[StrictStr], Field(description="Address is the entry: an address, or \"@example.com\" for a company.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Answers whether the org's send gate refuses an address, and which list holds it, by the same check every commercial send asks.
+
+        Answers whether the org's send gate refuses an address, and which list holds it, by the same check every commercial send asks.
+
+        :param channel: Channel is the surface the entry opts out of; empty is email.
+        :type channel: str
+        :param address: Address is the entry: an address, or \"@example.com\" for a company.
+        :type address: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_suppressions_check_serialize(
+            channel=channel,
+            address=address,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingSuppressionCheck",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_marketing_suppressions_check_serialize(
+        self,
+        channel,
+        address,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if channel is not None:
+            
+            _query_params.append(('channel', channel))
+            
+        if address is not None:
+            
+            _query_params.append(('address', address))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/marketing/suppressions/check',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_marketing_unsubscribe(
         self,
         org: Annotated[Optional[StrictStr], Field(description="Org is the org the link was minted for.")] = None,
         channel: Annotated[Optional[StrictStr], Field(description="Channel is the surface to opt out of.")] = None,
         address: Annotated[Optional[StrictStr], Field(description="Address is the recipient to opt out.")] = None,
         token: Annotated[Optional[StrictStr], Field(description="Token is the HMAC over (org, channel, address). It is the ONLY authority here — there is no principal — so it binds the request to one tuple and nothing else.")] = None,
+        company: Annotated[Optional[StrictBool], Field(description="Company opts out everyone at the address's domain as well, in this org alone: a company's unsubscribe. An address at a free mail provider is a person's and is refused 422.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5978,7 +6227,7 @@ class MarketingApi:
     ) -> MarketingUnsubscribed:
         """Is the PUBLIC one-click endpoint (no principal): a recipient clicks the signed link in an email footer.
 
-        Is the PUBLIC one-click endpoint (no principal): a recipient clicks the signed link in an email footer. The token binds (org, channel, address), so a caller can only opt OUT exactly the tuple it was minted for — never another address and never another org. An invalid token is refused, and a deployment with no KMS-sealed key refuses rather than accepting anything.
+        Is the PUBLIC one-click endpoint (no principal): a recipient clicks the signed link in an email footer. The token binds (org, channel, address), so a caller can only opt OUT exactly the tuple it was minted for — never another address and never another org. With company=true the address's whole domain is opted out of this org's mail too, which a free mail address may not ask (422); without it, the answer offers the company's domain when there is one to offer. An invalid token is refused, and a deployment with no KMS-sealed key refuses rather than accepting anything.
 
         :param org: Org is the org the link was minted for.
         :type org: str
@@ -5988,6 +6237,8 @@ class MarketingApi:
         :type address: str
         :param token: Token is the HMAC over (org, channel, address). It is the ONLY authority here — there is no principal — so it binds the request to one tuple and nothing else.
         :type token: str
+        :param company: Company opts out everyone at the address's domain as well, in this org alone: a company's unsubscribe. An address at a free mail provider is a person's and is refused 422.
+        :type company: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6015,6 +6266,7 @@ class MarketingApi:
             channel=channel,
             address=address,
             token=token,
+            company=company,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6042,6 +6294,7 @@ class MarketingApi:
         channel: Annotated[Optional[StrictStr], Field(description="Channel is the surface to opt out of.")] = None,
         address: Annotated[Optional[StrictStr], Field(description="Address is the recipient to opt out.")] = None,
         token: Annotated[Optional[StrictStr], Field(description="Token is the HMAC over (org, channel, address). It is the ONLY authority here — there is no principal — so it binds the request to one tuple and nothing else.")] = None,
+        company: Annotated[Optional[StrictBool], Field(description="Company opts out everyone at the address's domain as well, in this org alone: a company's unsubscribe. An address at a free mail provider is a person's and is refused 422.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6057,7 +6310,7 @@ class MarketingApi:
     ) -> ApiResponse[MarketingUnsubscribed]:
         """Is the PUBLIC one-click endpoint (no principal): a recipient clicks the signed link in an email footer.
 
-        Is the PUBLIC one-click endpoint (no principal): a recipient clicks the signed link in an email footer. The token binds (org, channel, address), so a caller can only opt OUT exactly the tuple it was minted for — never another address and never another org. An invalid token is refused, and a deployment with no KMS-sealed key refuses rather than accepting anything.
+        Is the PUBLIC one-click endpoint (no principal): a recipient clicks the signed link in an email footer. The token binds (org, channel, address), so a caller can only opt OUT exactly the tuple it was minted for — never another address and never another org. With company=true the address's whole domain is opted out of this org's mail too, which a free mail address may not ask (422); without it, the answer offers the company's domain when there is one to offer. An invalid token is refused, and a deployment with no KMS-sealed key refuses rather than accepting anything.
 
         :param org: Org is the org the link was minted for.
         :type org: str
@@ -6067,6 +6320,8 @@ class MarketingApi:
         :type address: str
         :param token: Token is the HMAC over (org, channel, address). It is the ONLY authority here — there is no principal — so it binds the request to one tuple and nothing else.
         :type token: str
+        :param company: Company opts out everyone at the address's domain as well, in this org alone: a company's unsubscribe. An address at a free mail provider is a person's and is refused 422.
+        :type company: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6094,6 +6349,7 @@ class MarketingApi:
             channel=channel,
             address=address,
             token=token,
+            company=company,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6121,6 +6377,7 @@ class MarketingApi:
         channel: Annotated[Optional[StrictStr], Field(description="Channel is the surface to opt out of.")] = None,
         address: Annotated[Optional[StrictStr], Field(description="Address is the recipient to opt out.")] = None,
         token: Annotated[Optional[StrictStr], Field(description="Token is the HMAC over (org, channel, address). It is the ONLY authority here — there is no principal — so it binds the request to one tuple and nothing else.")] = None,
+        company: Annotated[Optional[StrictBool], Field(description="Company opts out everyone at the address's domain as well, in this org alone: a company's unsubscribe. An address at a free mail provider is a person's and is refused 422.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6136,7 +6393,7 @@ class MarketingApi:
     ) -> RESTResponseType:
         """Is the PUBLIC one-click endpoint (no principal): a recipient clicks the signed link in an email footer.
 
-        Is the PUBLIC one-click endpoint (no principal): a recipient clicks the signed link in an email footer. The token binds (org, channel, address), so a caller can only opt OUT exactly the tuple it was minted for — never another address and never another org. An invalid token is refused, and a deployment with no KMS-sealed key refuses rather than accepting anything.
+        Is the PUBLIC one-click endpoint (no principal): a recipient clicks the signed link in an email footer. The token binds (org, channel, address), so a caller can only opt OUT exactly the tuple it was minted for — never another address and never another org. With company=true the address's whole domain is opted out of this org's mail too, which a free mail address may not ask (422); without it, the answer offers the company's domain when there is one to offer. An invalid token is refused, and a deployment with no KMS-sealed key refuses rather than accepting anything.
 
         :param org: Org is the org the link was minted for.
         :type org: str
@@ -6146,6 +6403,8 @@ class MarketingApi:
         :type address: str
         :param token: Token is the HMAC over (org, channel, address). It is the ONLY authority here — there is no principal — so it binds the request to one tuple and nothing else.
         :type token: str
+        :param company: Company opts out everyone at the address's domain as well, in this org alone: a company's unsubscribe. An address at a free mail provider is a person's and is refused 422.
+        :type company: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6173,6 +6432,7 @@ class MarketingApi:
             channel=channel,
             address=address,
             token=token,
+            company=company,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6195,6 +6455,7 @@ class MarketingApi:
         channel,
         address,
         token,
+        company,
         _request_auth,
         _content_type,
         _headers,
@@ -6232,6 +6493,10 @@ class MarketingApi:
         if token is not None:
             
             _query_params.append(('token', token))
+            
+        if company is not None:
+            
+            _query_params.append(('company', company))
             
         # process the header parameters
         # process the form parameters
@@ -8779,7 +9044,7 @@ class MarketingApi:
     ) -> MarketingMailOut:
         """Sends one email from the org to one person, the way a person on the org's team writes back to a lead from its record.
 
-        Sends one email from the org to one person, the way a person on the org's team writes back to a lead from its record.  It leaves by the org's own path, the one every marketing send takes: the org's mailbox when it has one, else the platform's notify rail, and never to an address that opted out of the org's mail (Sent is false then, and that is not an error). The org's mailbox caps hold: at its cap the send is refused with 429 and the time it frees.  An admin of the org acting, or SuperAdmin, may send: mail that leaves in the org's name is the team's to write, not every member's. The send is on the audit trail before it leaves (marketing.mail.send: the address, the subject and the person, never the text), and a sent mail with a person goes on their timeline.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Sends one email from the org to one person, the way a person on the org's team writes back to a lead from its record.  It leaves by the org's own path, the one every marketing send takes: the org's mailbox when it has one, else the platform's notify rail, and never to an address that opted out of the org's mail, whose company did, or that the platform blocks (Sent is false then, and that is not an error). It carries the opt-out footer and List-Unsubscribe. The org's mailbox caps hold: at its cap the send is refused with 429 and the time it frees.  An admin of the org acting, or SuperAdmin, may send: mail that leaves in the org's name is the team's to write, not every member's. The send is on the audit trail before it leaves (marketing.mail.send: the address, the subject and the person, never the text), and the mail, sent or refused, goes on the timeline of its person.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param marketing_mail_in: (required)
         :type marketing_mail_in: MarketingMailIn
@@ -8846,7 +9111,7 @@ class MarketingApi:
     ) -> ApiResponse[MarketingMailOut]:
         """Sends one email from the org to one person, the way a person on the org's team writes back to a lead from its record.
 
-        Sends one email from the org to one person, the way a person on the org's team writes back to a lead from its record.  It leaves by the org's own path, the one every marketing send takes: the org's mailbox when it has one, else the platform's notify rail, and never to an address that opted out of the org's mail (Sent is false then, and that is not an error). The org's mailbox caps hold: at its cap the send is refused with 429 and the time it frees.  An admin of the org acting, or SuperAdmin, may send: mail that leaves in the org's name is the team's to write, not every member's. The send is on the audit trail before it leaves (marketing.mail.send: the address, the subject and the person, never the text), and a sent mail with a person goes on their timeline.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Sends one email from the org to one person, the way a person on the org's team writes back to a lead from its record.  It leaves by the org's own path, the one every marketing send takes: the org's mailbox when it has one, else the platform's notify rail, and never to an address that opted out of the org's mail, whose company did, or that the platform blocks (Sent is false then, and that is not an error). It carries the opt-out footer and List-Unsubscribe. The org's mailbox caps hold: at its cap the send is refused with 429 and the time it frees.  An admin of the org acting, or SuperAdmin, may send: mail that leaves in the org's name is the team's to write, not every member's. The send is on the audit trail before it leaves (marketing.mail.send: the address, the subject and the person, never the text), and the mail, sent or refused, goes on the timeline of its person.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param marketing_mail_in: (required)
         :type marketing_mail_in: MarketingMailIn
@@ -8913,7 +9178,7 @@ class MarketingApi:
     ) -> RESTResponseType:
         """Sends one email from the org to one person, the way a person on the org's team writes back to a lead from its record.
 
-        Sends one email from the org to one person, the way a person on the org's team writes back to a lead from its record.  It leaves by the org's own path, the one every marketing send takes: the org's mailbox when it has one, else the platform's notify rail, and never to an address that opted out of the org's mail (Sent is false then, and that is not an error). The org's mailbox caps hold: at its cap the send is refused with 429 and the time it frees.  An admin of the org acting, or SuperAdmin, may send: mail that leaves in the org's name is the team's to write, not every member's. The send is on the audit trail before it leaves (marketing.mail.send: the address, the subject and the person, never the text), and a sent mail with a person goes on their timeline.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Sends one email from the org to one person, the way a person on the org's team writes back to a lead from its record.  It leaves by the org's own path, the one every marketing send takes: the org's mailbox when it has one, else the platform's notify rail, and never to an address that opted out of the org's mail, whose company did, or that the platform blocks (Sent is false then, and that is not an error). It carries the opt-out footer and List-Unsubscribe. The org's mailbox caps hold: at its cap the send is refused with 429 and the time it frees.  An admin of the org acting, or SuperAdmin, may send: mail that leaves in the org's name is the team's to write, not every member's. The send is on the audit trail before it leaves (marketing.mail.send: the address, the subject and the person, never the text), and the mail, sent or refused, goes on the timeline of its person.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param marketing_mail_in: (required)
         :type marketing_mail_in: MarketingMailIn
@@ -10765,7 +11030,7 @@ class MarketingApi:
     ) -> MarketingSuppression:
         """Records an opt-out for the org (admin / self-service management).
 
-        Records an opt-out for the org (admin / self-service management). Address is required; channel defaults to email. It is idempotent: re-suppressing the same tuple keeps the original record rather than erroring. From here on the ONE send gate refuses that recipient on that channel.  Org admin or SuperAdmin only; a member of the org is refused.
+        Records an opt-out for the org (admin / self-service management). Address is required; channel defaults to email. An address of the form \"@example.com\" opts out the whole domain, a company; a free mail provider's domain is refused 422. The admin org's list is the platform's: what it holds, every org's send gate refuses. It is idempotent: re-suppressing the same tuple keeps the original record rather than erroring. From here on the ONE send gate refuses that recipient on that channel.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param marketing_suppression: (required)
         :type marketing_suppression: MarketingSuppression
@@ -10832,7 +11097,7 @@ class MarketingApi:
     ) -> ApiResponse[MarketingSuppression]:
         """Records an opt-out for the org (admin / self-service management).
 
-        Records an opt-out for the org (admin / self-service management). Address is required; channel defaults to email. It is idempotent: re-suppressing the same tuple keeps the original record rather than erroring. From here on the ONE send gate refuses that recipient on that channel.  Org admin or SuperAdmin only; a member of the org is refused.
+        Records an opt-out for the org (admin / self-service management). Address is required; channel defaults to email. An address of the form \"@example.com\" opts out the whole domain, a company; a free mail provider's domain is refused 422. The admin org's list is the platform's: what it holds, every org's send gate refuses. It is idempotent: re-suppressing the same tuple keeps the original record rather than erroring. From here on the ONE send gate refuses that recipient on that channel.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param marketing_suppression: (required)
         :type marketing_suppression: MarketingSuppression
@@ -10899,7 +11164,7 @@ class MarketingApi:
     ) -> RESTResponseType:
         """Records an opt-out for the org (admin / self-service management).
 
-        Records an opt-out for the org (admin / self-service management). Address is required; channel defaults to email. It is idempotent: re-suppressing the same tuple keeps the original record rather than erroring. From here on the ONE send gate refuses that recipient on that channel.  Org admin or SuperAdmin only; a member of the org is refused.
+        Records an opt-out for the org (admin / self-service management). Address is required; channel defaults to email. An address of the form \"@example.com\" opts out the whole domain, a company; a free mail provider's domain is refused 422. The admin org's list is the platform's: what it holds, every org's send gate refuses. It is idempotent: re-suppressing the same tuple keeps the original record rather than erroring. From here on the ONE send gate refuses that recipient on that channel.  Org admin or SuperAdmin only; a member of the org is refused.
 
         :param marketing_suppression: (required)
         :type marketing_suppression: MarketingSuppression

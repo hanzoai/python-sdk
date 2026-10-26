@@ -26,7 +26,7 @@ class MarketingSuppression(BaseModel):
     """
     MarketingSuppression
     """ # noqa: E501
-    address: Optional[StrictStr] = Field(default=None, description="Address is the recipient, normalized (lower-cased, trimmed) so an opt-out cannot be slipped past on a case or whitespace difference. Required.")
+    address: Optional[StrictStr] = Field(default=None, description="Address is the recipient, normalized (lower-cased, trimmed) so an opt-out cannot be slipped past on a case or whitespace difference. Required. An entry \"@example.com\" opts out everyone at that domain, a company's unsubscribe; a free mail provider's domain is refused.")
     channel: Optional[StrictStr] = Field(default=None, description="Channel is the surface opted out of: email, sms, social, meta, google or tiktok. Empty means email. Opting out of one leaves the others reachable.")
     created_at: Optional[StrictInt] = Field(default=None, description="CreatedAt is unix seconds, server-assigned.", alias="createdAt")
     reason: Optional[StrictStr] = Field(default=None, description="Reason is a free-text note, capped at 1024 bytes. The public one-click endpoint records \"one-click unsubscribe\".")
