@@ -225,12 +225,10 @@ Auto-backgrounds commands after {AUTO_BACKGROUND_TIMEOUT}s.
             timeout = min(timeout, max_timeout_ms)
             timeout_sec = timeout / 1000
 
-            # Get process info
-            procs = self.process_manager.list_processes()
-            if proc_id not in procs:
+            # Get process info (live or already completed)
+            info = self.process_manager.get_process_info(proc_id)
+            if info is None:
                 raise NotFoundError(f"Process not found: {proc_id}")
-
-            info = procs[proc_id]
 
             # If already completed, return immediately
             if not info.get("running", False):
@@ -269,11 +267,10 @@ Auto-backgrounds commands after {AUTO_BACKGROUND_TIMEOUT}s.
                     }
 
                 # Check if process completed
-                procs = self.process_manager.list_processes()
-                if proc_id not in procs:
+                info = self.process_manager.get_process_info(proc_id)
+                if info is None:
                     raise NotFoundError(f"Process disappeared: {proc_id}")
 
-                info = procs[proc_id]
                 if not info.get("running", False):
                     # Process completed
                     log_file = info.get("log_file")
@@ -315,11 +312,16 @@ Auto-backgrounds commands after {AUTO_BACKGROUND_TIMEOUT}s.
             """
             processes = []
 
-            for pid, info in self.process_manager.list_processes().items():
-                # Filter by proc_id
-                if proc_id and pid != proc_id:
-                    continue
+            if proc_id:
+                # A specific lookup also covers already-completed processes
+                info = self.process_manager.get_process_info(proc_id)
+                if info is None:
+                    raise NotFoundError(f"Process not found: {proc_id}")
+                items = [(proc_id, info)]
+            else:
+                items = list(self.process_manager.list_processes().items())
 
+            for pid, info in items:
                 # Filter by command pattern
                 cmd = info.get("cmd", "")
                 if filter and filter.lower() not in cmd.lower():
@@ -336,9 +338,6 @@ Auto-backgrounds commands after {AUTO_BACKGROUND_TIMEOUT}s.
                         "log_file": info.get("log_file"),
                     }
                 )
-
-            if proc_id and not processes:
-                raise NotFoundError(f"Process not found: {proc_id}")
 
             return {
                 "processes": processes,
@@ -363,12 +362,20 @@ Auto-backgrounds commands after {AUTO_BACKGROUND_TIMEOUT}s.
             if not proc_id:
                 raise InvalidParamsError("proc_id is required", param="proc_id")
 
-            # Find process
-            procs = self.process_manager.list_processes()
-            if proc_id not in procs:
+            # Find process (live or already completed)
+            info = self.process_manager.get_process_info(proc_id)
+            if info is None:
                 raise NotFoundError(f"Process not found: {proc_id}")
 
-            info = procs[proc_id]
+            if not info.get("running", True):
+                return {
+                    "proc_id": proc_id,
+                    "pid": info.get("pid"),
+                    "killed": False,
+                    "exit_code": info.get("return_code"),
+                    "message": "Process already terminated",
+                }
+
             pid = info.get("pid")
 
             if not pid:
@@ -444,11 +451,10 @@ Auto-backgrounds commands after {AUTO_BACKGROUND_TIMEOUT}s.
             if not proc_id:
                 raise InvalidParamsError("proc_id is required", param="proc_id")
 
-            procs = self.process_manager.list_processes()
-            if proc_id not in procs:
+            info = self.process_manager.get_process_info(proc_id)
+            if info is None:
                 raise NotFoundError(f"Process not found: {proc_id}")
 
-            info = procs[proc_id]
             log_file = info.get("log_file")
 
             if not log_file or not Path(log_file).exists():
