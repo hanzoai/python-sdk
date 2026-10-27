@@ -27,7 +27,8 @@ class ReferralClaimRequest(BaseModel):
     ReferralClaimRequest
     """ # noqa: E501
     code: Optional[StrictStr] = Field(default=None, description="Code is the referrer's referral code, as it appeared in their ?ref= link. Case and surrounding whitespace do not matter.")
-    __properties: ClassVar[List[str]] = ["code"]
+    invite: Optional[StrictStr] = Field(default=None, description="Invite is the beta invite the referee's link carried (its utm_content), when it carried one. Optional; it only lets the referrer's invite be marked joined, and never changes who the referral credits.")
+    __properties: ClassVar[List[str]] = ["code", "invite"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -80,7 +81,8 @@ class ReferralClaimRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "code": obj.get("code")
+            "code": obj.get("code"),
+            "invite": obj.get("invite")
         })
         return _obj
 

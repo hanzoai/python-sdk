@@ -34,7 +34,7 @@ class MarketingBeta(BaseModel):
     betas: Optional[List[StrictStr]] = Field(default=None, description="Betas are the ids of the unreleased products asked for.")
     github: Optional[StrictStr] = Field(default=None, description="GitHub is the GitHub login the account's stars are counted for.")
     lead: Optional[StrictStr] = Field(default=None, description="Lead is the reference the application was filed under as a lead.")
-    of: Optional[StrictInt] = Field(default=None, description="Of is how many records are on the waitlist.")
+    of: Optional[StrictInt] = Field(default=None, description="Of is how many people are on the waitlist, as the board counts them.")
     place: Optional[StrictInt] = Field(default=None, description="Place is the record's place on the waitlist, 1 first; 0 with no record, or when the board did not answer.")
     points: Optional[StrictInt] = Field(default=None, description="Points is the sum of what Actions earned.")
     program: Optional[StrictStr] = Field(default=None, description="Program is the program applied to: beta, research or partner.")

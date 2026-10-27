@@ -26,7 +26,7 @@ class LeaderboardBetaRow(BaseModel):
     """
     LeaderboardBetaRow
     """ # noqa: E501
-    applied: Optional[StrictStr] = Field(default=None, description="Applied is the day the record began, 2006-01-02.")
+    applied: Optional[StrictStr] = Field(default=None, description="Applied is the day the application began, 2006-01-02: the record's own, or the day of the lead it claims when that was earlier.")
     name: Optional[StrictStr] = Field(default=None, description="Name is the handle its owner listed under on the public board; null for a person who did not opt in, whom the page calls a builder. The caller's own row is always named.")
     qualified: Optional[StrictInt] = Field(default=None, description="Qualified is how many of them have made metered spend.")
     rank: Optional[StrictInt] = Field(default=None, description="Rank is the record's place, 1 first.")

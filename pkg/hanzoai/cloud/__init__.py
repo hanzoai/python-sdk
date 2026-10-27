@@ -98,6 +98,7 @@ __all__ = [
     "NotifyApi",
     "O11yApi",
     "OpenapiApi",
+    "PatentApi",
     "PatrolApi",
     "PlanApi",
     "PlatformApi",
@@ -347,6 +348,8 @@ __all__ = [
     "ApplicationEvent",
     "ApplicationView",
     "Approval",
+    "ApprovalBatch",
+    "ApprovalsOut",
     "Article",
     "AskReport",
     "AskRequest",
@@ -854,6 +857,8 @@ __all__ = [
     "DestinationDestinationTest",
     "DestinationField",
     "DestinationStatus",
+    "DisclosureBatch",
+    "DiscsOut",
     "DocSearchResult",
     "DomainContacts",
     "DomainHolding",
@@ -1137,6 +1142,7 @@ __all__ = [
     "GitWorkflowRuns",
     "GitWorkflowView",
     "GitWorkspaceView",
+    "GrantIn",
     "Grants",
     "Graph",
     "GraphGraphAnswerIn",
@@ -1304,6 +1310,10 @@ __all__ = [
     "IamWorkspacesDeleteOutput",
     "IamWorkspacesInput",
     "IamWorkspacesListOutput",
+    "IdeaBatch",
+    "IdeasOut",
+    "ImplBatch",
+    "ImplsOut",
     "InboxItem",
     "Index",
     "IndexEnqueued",
@@ -1505,6 +1515,16 @@ __all__ = [
     "MarketingBetaAction",
     "MarketingBetaAnswer",
     "MarketingBetaIn",
+    "MarketingBetaInvite",
+    "MarketingBetaInviteCounts",
+    "MarketingBetaInviteFailure",
+    "MarketingBetaInviteIn",
+    "MarketingBetaInviteList",
+    "MarketingBetaInviteRow",
+    "MarketingBetaInviteRows",
+    "MarketingBetaInviteSentIn",
+    "MarketingBetaInviteSkip",
+    "MarketingBetaInvites",
     "MarketingBetaRequest",
     "MarketingCalendarPost",
     "MarketingCampaign",
@@ -2398,6 +2418,23 @@ __all__ = [
     "OpenaiViolence",
     "PagesDeploy",
     "Patch",
+    "PatentAnchor",
+    "PatentApproval",
+    "PatentCoverage",
+    "PatentDisclosure",
+    "PatentGap",
+    "PatentGrantOut",
+    "PatentHealth",
+    "PatentIdea",
+    "PatentImplementation",
+    "PatentOrderCheck",
+    "PatentProof",
+    "PatentProofEntry",
+    "PatentRejectedAlternative",
+    "PatentSignature",
+    "PatentTimeline",
+    "PatentTimelineEntry",
+    "PatentWriteOut",
     "PatrolPatrolAct",
     "PatrolPatrolActivation",
     "PatrolPatrolAlarmIn",
@@ -3368,6 +3405,7 @@ from hanzoai.cloud.api.node_api import NodeApi as NodeApi
 from hanzoai.cloud.api.notify_api import NotifyApi as NotifyApi
 from hanzoai.cloud.api.o11y_api import O11yApi as O11yApi
 from hanzoai.cloud.api.openapi_api import OpenapiApi as OpenapiApi
+from hanzoai.cloud.api.patent_api import PatentApi as PatentApi
 from hanzoai.cloud.api.patrol_api import PatrolApi as PatrolApi
 from hanzoai.cloud.api.plan_api import PlanApi as PlanApi
 from hanzoai.cloud.api.platform_api import PlatformApi as PlatformApi
@@ -3621,6 +3659,8 @@ from hanzoai.cloud.models.application_config_option import ApplicationConfigOpti
 from hanzoai.cloud.models.application_event import ApplicationEvent as ApplicationEvent
 from hanzoai.cloud.models.application_view import ApplicationView as ApplicationView
 from hanzoai.cloud.models.approval import Approval as Approval
+from hanzoai.cloud.models.approval_batch import ApprovalBatch as ApprovalBatch
+from hanzoai.cloud.models.approvals_out import ApprovalsOut as ApprovalsOut
 from hanzoai.cloud.models.article import Article as Article
 from hanzoai.cloud.models.ask_report import AskReport as AskReport
 from hanzoai.cloud.models.ask_request import AskRequest as AskRequest
@@ -4128,6 +4168,8 @@ from hanzoai.cloud.models.destination_destination_status import DestinationDesti
 from hanzoai.cloud.models.destination_destination_test import DestinationDestinationTest as DestinationDestinationTest
 from hanzoai.cloud.models.destination_field import DestinationField as DestinationField
 from hanzoai.cloud.models.destination_status import DestinationStatus as DestinationStatus
+from hanzoai.cloud.models.disclosure_batch import DisclosureBatch as DisclosureBatch
+from hanzoai.cloud.models.discs_out import DiscsOut as DiscsOut
 from hanzoai.cloud.models.doc_search_result import DocSearchResult as DocSearchResult
 from hanzoai.cloud.models.domain_contacts import DomainContacts as DomainContacts
 from hanzoai.cloud.models.domain_holding import DomainHolding as DomainHolding
@@ -4411,6 +4453,7 @@ from hanzoai.cloud.models.git_workflow_run import GitWorkflowRun as GitWorkflowR
 from hanzoai.cloud.models.git_workflow_runs import GitWorkflowRuns as GitWorkflowRuns
 from hanzoai.cloud.models.git_workflow_view import GitWorkflowView as GitWorkflowView
 from hanzoai.cloud.models.git_workspace_view import GitWorkspaceView as GitWorkspaceView
+from hanzoai.cloud.models.grant_in import GrantIn as GrantIn
 from hanzoai.cloud.models.grants import Grants as Grants
 from hanzoai.cloud.models.graph import Graph as Graph
 from hanzoai.cloud.models.graph_graph_answer_in import GraphGraphAnswerIn as GraphGraphAnswerIn
@@ -4578,6 +4621,10 @@ from hanzoai.cloud.models.iam_workspace import IamWorkspace as IamWorkspace
 from hanzoai.cloud.models.iam_workspaces_delete_output import IamWorkspacesDeleteOutput as IamWorkspacesDeleteOutput
 from hanzoai.cloud.models.iam_workspaces_input import IamWorkspacesInput as IamWorkspacesInput
 from hanzoai.cloud.models.iam_workspaces_list_output import IamWorkspacesListOutput as IamWorkspacesListOutput
+from hanzoai.cloud.models.idea_batch import IdeaBatch as IdeaBatch
+from hanzoai.cloud.models.ideas_out import IdeasOut as IdeasOut
+from hanzoai.cloud.models.impl_batch import ImplBatch as ImplBatch
+from hanzoai.cloud.models.impls_out import ImplsOut as ImplsOut
 from hanzoai.cloud.models.inbox_item import InboxItem as InboxItem
 from hanzoai.cloud.models.index import Index as Index
 from hanzoai.cloud.models.index_enqueued import IndexEnqueued as IndexEnqueued
@@ -4779,6 +4826,16 @@ from hanzoai.cloud.models.marketing_beta_act_in import MarketingBetaActIn as Mar
 from hanzoai.cloud.models.marketing_beta_action import MarketingBetaAction as MarketingBetaAction
 from hanzoai.cloud.models.marketing_beta_answer import MarketingBetaAnswer as MarketingBetaAnswer
 from hanzoai.cloud.models.marketing_beta_in import MarketingBetaIn as MarketingBetaIn
+from hanzoai.cloud.models.marketing_beta_invite import MarketingBetaInvite as MarketingBetaInvite
+from hanzoai.cloud.models.marketing_beta_invite_counts import MarketingBetaInviteCounts as MarketingBetaInviteCounts
+from hanzoai.cloud.models.marketing_beta_invite_failure import MarketingBetaInviteFailure as MarketingBetaInviteFailure
+from hanzoai.cloud.models.marketing_beta_invite_in import MarketingBetaInviteIn as MarketingBetaInviteIn
+from hanzoai.cloud.models.marketing_beta_invite_list import MarketingBetaInviteList as MarketingBetaInviteList
+from hanzoai.cloud.models.marketing_beta_invite_row import MarketingBetaInviteRow as MarketingBetaInviteRow
+from hanzoai.cloud.models.marketing_beta_invite_rows import MarketingBetaInviteRows as MarketingBetaInviteRows
+from hanzoai.cloud.models.marketing_beta_invite_sent_in import MarketingBetaInviteSentIn as MarketingBetaInviteSentIn
+from hanzoai.cloud.models.marketing_beta_invite_skip import MarketingBetaInviteSkip as MarketingBetaInviteSkip
+from hanzoai.cloud.models.marketing_beta_invites import MarketingBetaInvites as MarketingBetaInvites
 from hanzoai.cloud.models.marketing_beta_request import MarketingBetaRequest as MarketingBetaRequest
 from hanzoai.cloud.models.marketing_calendar_post import MarketingCalendarPost as MarketingCalendarPost
 from hanzoai.cloud.models.marketing_campaign import MarketingCampaign as MarketingCampaign
@@ -5672,6 +5729,23 @@ from hanzoai.cloud.models.openai_usage import OpenaiUsage as OpenaiUsage
 from hanzoai.cloud.models.openai_violence import OpenaiViolence as OpenaiViolence
 from hanzoai.cloud.models.pages_deploy import PagesDeploy as PagesDeploy
 from hanzoai.cloud.models.patch import Patch as Patch
+from hanzoai.cloud.models.patent_anchor import PatentAnchor as PatentAnchor
+from hanzoai.cloud.models.patent_approval import PatentApproval as PatentApproval
+from hanzoai.cloud.models.patent_coverage import PatentCoverage as PatentCoverage
+from hanzoai.cloud.models.patent_disclosure import PatentDisclosure as PatentDisclosure
+from hanzoai.cloud.models.patent_gap import PatentGap as PatentGap
+from hanzoai.cloud.models.patent_grant_out import PatentGrantOut as PatentGrantOut
+from hanzoai.cloud.models.patent_health import PatentHealth as PatentHealth
+from hanzoai.cloud.models.patent_idea import PatentIdea as PatentIdea
+from hanzoai.cloud.models.patent_implementation import PatentImplementation as PatentImplementation
+from hanzoai.cloud.models.patent_order_check import PatentOrderCheck as PatentOrderCheck
+from hanzoai.cloud.models.patent_proof import PatentProof as PatentProof
+from hanzoai.cloud.models.patent_proof_entry import PatentProofEntry as PatentProofEntry
+from hanzoai.cloud.models.patent_rejected_alternative import PatentRejectedAlternative as PatentRejectedAlternative
+from hanzoai.cloud.models.patent_signature import PatentSignature as PatentSignature
+from hanzoai.cloud.models.patent_timeline import PatentTimeline as PatentTimeline
+from hanzoai.cloud.models.patent_timeline_entry import PatentTimelineEntry as PatentTimelineEntry
+from hanzoai.cloud.models.patent_write_out import PatentWriteOut as PatentWriteOut
 from hanzoai.cloud.models.patrol_patrol_act import PatrolPatrolAct as PatrolPatrolAct
 from hanzoai.cloud.models.patrol_patrol_activation import PatrolPatrolActivation as PatrolPatrolActivation
 from hanzoai.cloud.models.patrol_patrol_alarm_in import PatrolPatrolAlarmIn as PatrolPatrolAlarmIn

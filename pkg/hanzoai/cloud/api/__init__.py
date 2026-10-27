@@ -81,6 +81,7 @@ from hanzoai.cloud.api.node_api import NodeApi
 from hanzoai.cloud.api.notify_api import NotifyApi
 from hanzoai.cloud.api.o11y_api import O11yApi
 from hanzoai.cloud.api.openapi_api import OpenapiApi
+from hanzoai.cloud.api.patent_api import PatentApi
 from hanzoai.cloud.api.patrol_api import PatrolApi
 from hanzoai.cloud.api.plan_api import PlanApi
 from hanzoai.cloud.api.platform_api import PlatformApi

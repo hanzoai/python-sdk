@@ -18763,7 +18763,7 @@ class IamApi:
     ) -> None:
         """Starts a wallet sign-in: it returns a one-time challenge for the wallet to sign.
 
-        Starts a wallet sign-in: it returns a one-time challenge for the wallet to sign. The challenge is good once and is tied to the site that asked for it, so a signature collected elsewhere cannot be replayed here.
+        Starts a wallet sign-in: it returns a one-time challenge for the wallet to sign. The challenge is good once and is tied to the site that asked for it, so a signature collected elsewhere cannot be replayed here. Pass your application's clientId and, from a page at one of its registered redirect origins, the challenge names that page's site, which is what the wallet shows the person.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -18825,7 +18825,7 @@ class IamApi:
     ) -> ApiResponse[None]:
         """Starts a wallet sign-in: it returns a one-time challenge for the wallet to sign.
 
-        Starts a wallet sign-in: it returns a one-time challenge for the wallet to sign. The challenge is good once and is tied to the site that asked for it, so a signature collected elsewhere cannot be replayed here.
+        Starts a wallet sign-in: it returns a one-time challenge for the wallet to sign. The challenge is good once and is tied to the site that asked for it, so a signature collected elsewhere cannot be replayed here. Pass your application's clientId and, from a page at one of its registered redirect origins, the challenge names that page's site, which is what the wallet shows the person.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -18887,7 +18887,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Starts a wallet sign-in: it returns a one-time challenge for the wallet to sign.
 
-        Starts a wallet sign-in: it returns a one-time challenge for the wallet to sign. The challenge is good once and is tied to the site that asked for it, so a signature collected elsewhere cannot be replayed here.
+        Starts a wallet sign-in: it returns a one-time challenge for the wallet to sign. The challenge is good once and is tied to the site that asked for it, so a signature collected elsewhere cannot be replayed here. Pass your application's clientId and, from a page at one of its registered redirect origins, the challenge names that page's site, which is what the wallet shows the person.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

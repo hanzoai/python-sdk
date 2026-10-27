@@ -27,7 +27,7 @@ class LeaderboardBetaBoard(BaseModel):
     """
     LeaderboardBetaBoard
     """ # noqa: E501
-    of: Optional[StrictInt] = Field(default=None, description="Of is how many records are on the waitlist.")
+    of: Optional[StrictInt] = Field(default=None, description="Of is how many people are on the waitlist: every account that applied, and every lead that applied before it had an account.")
     referrals: Optional[StrictBool] = Field(default=None, description="Referrals is whether referrals were counted; false when the referral service did not answer, and no record's score has them then.")
     rows: Optional[List[LeaderboardBetaRow]] = Field(default=None, description="Rows are the top of the waitlist, best first.")
     tokens: Optional[StrictBool] = Field(default=None, description="Tokens is whether token usage was counted; false when the warehouse did not answer, and no record's score has it then.")
