@@ -40,8 +40,13 @@ class ProcessManager:
     _instance = None
     _processes: Dict[str, asyncio.subprocess.Process] = {}
     _logs: Dict[str, str] = {}
+    _completed: Dict[str, Dict[str, Any]] = {}
     _log_dir = Path(tempfile.gettempdir()) / "hanzo_mcp_logs"
     _initialized: bool = False
+
+    # Finished-process records kept so wait/logs/ps stay answerable after a
+    # background process exits. Bounded; oldest records are evicted first.
+    MAX_COMPLETED_RECORDS: int = 100
 
     def __new__(cls):
         if cls._instance is None:
@@ -75,7 +80,8 @@ class ProcessManager:
 
         Note: Uses list(items()) to create snapshot before cleanup,
         preventing RuntimeError from dict modification during iteration.
-        Completed processes are cleaned up after being reported.
+        Completed processes are reported once and moved into the completed
+        registry, so wait/logs/ps lookups keep working after they exit.
         """
         result = {}
         for pid, proc in list(self._processes.items()):
@@ -88,14 +94,48 @@ class ProcessManager:
                     "log_file": self._logs.get(pid),
                 }
             else:
-                result[pid] = {
-                    "pid": proc.pid,
-                    "running": False,
-                    "return_code": proc.returncode,
-                    "log_file": self._logs.get(pid),
-                }
-                self.remove_process(pid)
+                record = self._record_completed(pid, proc, proc.returncode, self._logs.get(pid))
+                result[pid] = record
         return result
+
+    def _record_completed(
+        self,
+        process_id: str,
+        process: asyncio.subprocess.Process,
+        return_code: Optional[int],
+        log_file: Optional[str],
+    ) -> Dict[str, Any]:
+        """Move a finished process into the bounded completed registry."""
+        self._processes.pop(process_id, None)
+        self._logs.pop(process_id, None)
+        record: Dict[str, Any] = {
+            "pid": process.pid,
+            "running": False,
+            "return_code": return_code,
+            "log_file": log_file,
+        }
+        self._completed[process_id] = record
+        while len(self._completed) > self.MAX_COMPLETED_RECORDS:
+            self._completed.pop(next(iter(self._completed)))
+        return record
+
+    def get_process_info(self, process_id: str) -> Optional[Dict[str, Any]]:
+        """Get live or completed info for a tracked process.
+
+        Returns None only when the process ID was never tracked (or its
+        completed record was evicted). Completed processes stay queryable so
+        exec wait/logs/ps keep working after a background process exits.
+        """
+        proc = self._processes.get(process_id)
+        if proc is not None:
+            if proc.returncode is None:
+                return {
+                    "pid": proc.pid,
+                    "running": True,
+                    "log_file": self._logs.get(process_id),
+                }
+            return self._record_completed(process_id, proc, proc.returncode, self._logs.get(process_id))
+        return self._completed.get(process_id)
 
     def get_log_file(self, process_id: str) -> Optional[Path]:
         """Get log file path for a process."""
@@ -115,8 +155,10 @@ class ProcessManager:
         return log_file
 
     def mark_completed(self, process_id: str, return_code: int) -> None:
-        """Mark a process as completed."""
-        self.remove_process(process_id)
+        """Mark a process as completed, retaining its record for lookups."""
+        process = self._processes.get(process_id)
+        if process is not None:
+            self._record_completed(process_id, process, return_code, self._logs.get(process_id))
 
 
 class AutoBackgroundExecutor:
