@@ -312,6 +312,7 @@ Apache 2.0 — see [LICENSE](LICENSE). Report vulnerabilities to security@hanzo.
 same client in other languages:
 [TypeScript](https://github.com/hanzoai/js-sdk) ·
 [Go](https://github.com/hanzoai/go-sdk) ·
-[Java](https://github.com/hanzoai/java-sdk) ·
+[Java](https://github.com/hanzo-java/sdk) ·
+[C#](https://github.com/hanzo-csharp/sdk) ·
 [Kotlin](https://github.com/hanzoai/kotlin-sdk) ·
 [umbrella](https://github.com/hanzoai/sdk)
