@@ -495,6 +495,7 @@ exclude = [
 
 [tool.uv.workspace]
 members = [
+    "pkg/hanzo-login",
     "pkg/hanzo-memory",
     "pkg/hanzo-s3",
     "pkg/hanzo-train",
@@ -522,6 +523,9 @@ members = [
 
 [tool.uv.sources]
 hanzo-memory = { workspace = true }
+# hanzo-tools resolves its credential through hanzo-login; the on-disk source, so a
+# workspace sync never waits on an index.
+hanzo-login = { workspace = true }
 # Canonical hanzo_tools.core (BaseTool, ToolImage, _result_to_mcp) lives in
 # hanzo-tools; hanzo-tools-core is the EMPTY shim (0.3.1+). Pin BOTH to the on-disk
 # source, never PyPI — the published hanzo-tools-core 0.3.0 still ships the duplicate

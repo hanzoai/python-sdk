@@ -5,16 +5,18 @@ benchmark arena (`/v1/benchmark`), with what it takes to believe or repeat it: t
 harness commit, the model and its weights' SHA-256, the host, CPU and GPU, the device and
 dtype, the Python and package versions, the date. The Python peer of the Rust crate
 `hanzo-research` (hanzoai/ml): the same wire records, the same RFC 8785 digests, the same
-lineage and WAL records. Standard library only.
+lineage and WAL records. Standard library only, plus `hanzo-login` (itself standard library
+only), the one place a Hanzo tool learns who it acts as.
 
 ```bash
 pip install hanzo-research        # or: uv run --with hanzo-research python measure.py
 ```
 
-The credential is `HANZO_API_KEY`, else what `hanzo auth token` prints (a CLI token is
-fetched again when it expires). Records land in the org the server reads from the token
-(a person's home org, the first of its signed `orgs`; a machine token's `owner`; an API
-key's own org) and in the token's project (its `project` claim, else `default`).
+The credential is `HANZO_API_KEY`, else what `hanzo auth token` prints (the CLI at
+`~/.local/bin/hanzo`, never one found on `PATH`; a CLI token is fetched again when it
+expires), else the legacy `apiKey` in `~/.hanzo/config.json`, last. Records land in the org
+the server reads from the token (a person's home org, the first of its signed `orgs`; a
+machine token's `owner`; an API key's own org) and in the token's project (its `project` claim, else `default`).
 `Research(org="lux")` acts in another org a person's token belongs to (`X-Org-Id`); a
 switch the server would not honour, where it would file under the home org instead, is
 refused before any request, as is a credential sent over plain http to another machine.

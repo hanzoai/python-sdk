@@ -84,6 +84,37 @@ different Rust binary from `hanzoai/node` — a private repo, so its release ass
 404 for anyone outside the org. Both READMEs say so rather than implying one
 product.
 
+## Who a tool acts as — `pkg/hanzo-login`, the one credential resolver
+
+A person signs in once, with the native `hanzo` CLI, and every Python tool follows. Order, in
+`hanzo_login.credential()` and nowhere else: `HANZO_API_KEY` → the CLI's login (`hanzo auth token`,
+or `--as <owner/name>`) → `apiKey` in `~/.hanzo/config.json` LAST (legacy). A stale `sk-` key for
+another account used to beat the login because the file was read before the CLI was asked.
+
+- The CLI is `~/.local/bin/hanzo`, never a lookup on PATH: Debian's hanzo-ide package puts a GUI at
+  `/usr/bin/hanzo` that opens a window on any arguments. The CLI owns its identity store and the
+  refresh; nothing here reads or writes `~/.hanzo/identities.json`. A login's JWT is kept 300 s per
+  identity (a failure 10 s), so a key pinned at construction is wrong for a long-lived tool: resolve
+  on each request (`HanzoCloud` does).
+- Naming an identity (`as` on a router call, `hanzo_login.use` for the process) always asks the
+  login, even with a key set, and never falls through to another account. `use` is this process
+  only; `switch` is `hanzo auth switch`, global to the machine. Identities are validated
+  (`valid()`) before they reach argv.
+- `hanzo(service="auth", action=whoami|list|use|switch)` answers locally through the CLI and never
+  returns a token or key (a key shows as its prefix). `as` and `org` (header `X-Org-Id`) ride on
+  every router call. `hanzo-research` and `hanzo-tools-auth` call the same resolver.
+- Stdlib only, on purpose: `hanzo-research` imports it and must stay importable with no
+  dependencies of its own. Tests for anything that resolves a credential point `hanzo_login.cli` at
+  a stub script and `HOME` at an empty directory; they must not read this machine's login.
+- Test a package before its siblings are on the index with `uv run --no-project --with-editable .
+  --with-editable ../hanzo-login --with-editable ../hanzo-tools --with pytest python -m pytest`.
+  Release order is the dependency order: `hanzo-login`, `hanzo-tools`, then the rest.
+- Not routed through it, on purpose: `pkg/hanzo` and `pkg/hanzo-cli` (the Python CLIs, `hanzo-py`
+  and `hanzo-cli`, own `~/.hanzo/auth.json` and the hanzo-iam store), `hanzo-tools-mcp`'s
+  `platform_auth` (a Platform API key for platform.hanzo.ai), `hanzo-tools-api`'s generic `api`
+  tool (its own per-provider store), and the SDK libraries that only read the key from the
+  environment (`hanzo-kai`, `hanzo-sandbox`, `hanzo-tasks`).
+
 ## Brand rules (hard — enforce in all docs)
 - Never "LLM gateway"; never position against LiteLLM. Hanzo is a full AI SDK / AI
   cloud, not a proxy.

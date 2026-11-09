@@ -5,7 +5,8 @@ clients (KMS, PaaS, IAM).
 
 Credential resolution order:
 1. HANZO_AUTH_TOKEN env var (explicit override)
-2. HANZO_API_KEY env var (opaque API key)
+2. hanzo_login: HANZO_API_KEY, else the `hanzo` CLI's login (`hanzo auth token`), the one
+   sign-in every Hanzo tool on the machine shares
 3. The token store (OS keyring, else ~/.hanzo/auth/token.json at 0600)
 """
 
@@ -18,6 +19,7 @@ import logging
 from typing import Any
 from pathlib import Path
 
+import hanzo_login as login
 from hanzo_iam import store
 from hanzo_iam.oauth import DEFAULT_CLIENT_ID, DEFAULT_IAM_URL, DEFAULT_ORG
 from hanzo_iam.models import OIDC_JWKS_PATH, OIDC_USERINFO_PATH
@@ -96,12 +98,13 @@ class HanzoSession:
             }
             return self._token_data
 
-        # 2. API key
-        api_key = os.getenv("HANZO_API_KEY")
-        if api_key:
+        # 2. The shared credential: the key in the environment, else the CLI's login.
+        # (hanzo_login's last resort, a stored apiKey, is legacy and not read here.)
+        cred = login.credential()
+        if cred.source in ("env", "login"):
             self._token_data = {
-                "access_token": api_key,
-                "source": "env:HANZO_API_KEY",
+                "access_token": cred.secret,
+                "source": "env:HANZO_API_KEY" if cred.source == "env" else "login:hanzo auth token",
             }
             return self._token_data
 
@@ -228,8 +231,12 @@ class HanzoSession:
     def refresh_token(self) -> bool:
         """Attempt to refresh an expired token.
 
-        Returns True if refresh succeeded.
+        Returns True if refresh succeeded. A CLI login is the CLI's to refresh: ask it again.
         """
+        if (self._token_data or {}).get("source", "").startswith("login:"):
+            login.forget()
+            self._token_data = None
+            return self.load_token() is not None
         token_data = self._load_token_from_disk()
         if not token_data or not token_data.get("refresh_token"):
             return False

@@ -19,6 +19,7 @@ import jwt
 import pytest
 from cryptography.hazmat.primitives.asymmetric import rsa
 
+import hanzo_login as login
 from hanzo_iam import store
 from hanzo_iam import tokens
 from hanzo_tools.auth.session import HanzoSession
@@ -58,6 +59,11 @@ def clean_session(tmp_path, monkeypatch):
     monkeypatch.setattr(store, "_keyring", lambda: None)
     monkeypatch.delenv("HANZO_AUTH_TOKEN", raising=False)
     monkeypatch.delenv("HANZO_API_KEY", raising=False)
+    monkeypatch.delenv("HANZO_KEY", raising=False)
+    # no test reads this machine's login: HOME is empty and there is no hanzo CLI
+    monkeypatch.setenv("HOME", str(tmp_path))
+    monkeypatch.setattr(login, "cli", lambda: tmp_path / "absent")
+    login.forget()
     tokens.reset_jwks_cache()
     HanzoSession.reset()
     yield
@@ -263,3 +269,46 @@ def test_login_refuses_to_store_a_token_it_cannot_verify(monkeypatch, keypair):
     with pytest.raises(RuntimeError, match="cannot verify"):
         HanzoSession.get().login()
     assert store.load() is None
+
+
+# --- The shared login -----------------------------------------------------
+
+
+def _cli(monkeypatch, tmp_path, answer: str):
+    """A stub `hanzo` that prints `answer` for `auth token` and refuses anything else."""
+    stub = tmp_path / "hanzo"
+    stub.write_text(f'#!/bin/sh\n[ "$*" = "auth token" ] && echo {answer} && exit 0\nexit 2\n')
+    stub.chmod(0o755)
+    monkeypatch.setattr(login, "cli", lambda: stub)
+
+
+def test_the_clis_login_is_the_session_and_beats_a_stored_python_login(monkeypatch, tmp_path):
+    _cli(monkeypatch, tmp_path, "from.the.cli")
+    _store("from.the.store")
+    data = HanzoSession.get().load_token()
+    assert data["access_token"] == "from.the.cli" and data["source"] == "login:hanzo auth token"
+
+
+def test_a_key_in_the_environment_beats_the_login(monkeypatch, tmp_path):
+    _cli(monkeypatch, tmp_path, "from.the.cli")
+    monkeypatch.setenv("HANZO_API_KEY", "sk-env")
+    data = HanzoSession.get().load_token()
+    assert (data["access_token"], data["source"]) == ("sk-env", "env:HANZO_API_KEY")
+
+
+def test_without_a_login_the_python_store_still_answers_and_a_stale_config_key_does_not(monkeypatch, tmp_path):
+    (tmp_path / ".hanzo").mkdir()
+    (tmp_path / ".hanzo" / "config.json").write_text('{"apiKey": "sk-stale-for-another-account"}')
+    assert HanzoSession.get().load_token() is None
+    _store("from.the.store")
+    HanzoSession.reset()
+    assert HanzoSession.get().load_token()["access_token"] == "from.the.store"
+
+
+def test_refresh_of_a_cli_login_asks_the_cli_again(monkeypatch, tmp_path):
+    _cli(monkeypatch, tmp_path, "first.cli.token")
+    session = HanzoSession.get()
+    assert session.load_token()["access_token"] == "first.cli.token"
+    _cli(monkeypatch, tmp_path, "second.cli.token")
+    assert session.refresh_token() is True
+    assert session.load_token()["access_token"] == "second.cli.token"

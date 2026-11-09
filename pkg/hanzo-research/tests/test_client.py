@@ -6,6 +6,7 @@ import json
 import base64
 
 import pytest
+import hanzo_login as login
 from fake import jwt
 from conftest import ATLAS, HANZO, SUPER
 from hanzo_research import (
@@ -178,7 +179,7 @@ def test_no_credential_says_how_to_get_one(server):
 def test_an_expired_cli_token_is_fetched_again(server, monkeypatch):
     server.fake.expired.add("old")
     fresh = iter(["old", HANZO])
-    monkeypatch.setattr(wire, "token", lambda: next(fresh))
+    monkeypatch.setattr(login, "credential", lambda identity=None: login.Credential("login", next(fresh)))
     r = Research(base=server.url, repo=".")
     assert r.runs().total == 0
     auths = [q["headers"].get("Authorization") for q in server.fake.requests]
@@ -362,7 +363,7 @@ def test_a_401_after_the_last_wait_refreshes_once(server, monkeypatch):
     server.fake.expired.add("old")
     server.fake.unavailable = 3
     fresh = iter(["old", HANZO])
-    monkeypatch.setattr(wire, "token", lambda: next(fresh))
+    monkeypatch.setattr(login, "credential", lambda identity=None: login.Credential("login", next(fresh)))
     assert Research(base=server.url, repo=".").runs().total == 0
     assert len(server.fake.requests) == 5
 
@@ -371,3 +372,15 @@ def test_a_bearer_token_never_crosses_a_network_in_the_clear():
     with pytest.raises(ValueError, match="neither https nor http on this machine"):
         Research(base="http://api.example.com", api_key=HANZO)
     assert Research(base="http://localhost:8080", api_key=HANZO).base == "http://localhost:8080"
+
+
+def test_a_login_beats_a_stale_stored_key_and_the_cli_is_never_found_on_path(server, monkeypatch, tmp_path):
+    stub = tmp_path / "hanzo"
+    stub.write_text(f'#!/bin/sh\n[ "$*" = "auth token" ] && echo {HANZO} && exit 0\nexit 2\n')
+    stub.chmod(0o755)
+    monkeypatch.setattr(login, "cli", lambda: stub)
+    (tmp_path / ".hanzo").mkdir()
+    (tmp_path / ".hanzo" / "config.json").write_text('{"apiKey": "sk-stale-for-another-account"}')
+    r = Research(base=server.url, repo=".")
+    assert r.runs().total == 0
+    assert server.fake.requests[-1]["headers"]["Authorization"] == f"Bearer {HANZO}"

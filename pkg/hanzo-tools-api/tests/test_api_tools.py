@@ -496,7 +496,7 @@ class TestHanzoTool:
         seen = {}
 
         class FakeCloud:
-            async def call(self, method, path, params=None, json_body=None):
+            async def call(self, method, path, params=None, json_body=None, identity=None, org=None):
                 seen.update(method=method, path=path, params=params, body=json_body)
                 return {"ok": True}
 
@@ -516,7 +516,7 @@ class TestHanzoTool:
         seen = {}
 
         class FakeCloud:
-            async def call(self, method, path, params=None, json_body=None):
+            async def call(self, method, path, params=None, json_body=None, identity=None, org=None):
                 seen.update(path=path, params=params)
                 return {}
 

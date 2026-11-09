@@ -11,21 +11,20 @@ pointer the server declares (`k`, `temperature`, `questions`, a measure's `lo`) 
 
 from __future__ import annotations
 
-import os
 import enum
 import json
 import math
 import types
-import base64
 import typing
 import decimal
 import hashlib
-import binascii
 import datetime
-import subprocess
 import dataclasses
 from typing import Any, Mapping, TypeVar, Iterator
 from dataclasses import field, dataclass
+
+import hanzo_login as login
+from hanzo_login import claims
 
 __all__ = [
     "Split",
@@ -538,28 +537,8 @@ def _in(tp: Any, v: Any) -> Any:
 
 
 def token() -> str:
-    """`HANZO_API_KEY`, else what `hanzo auth token` prints; "" when neither gives one."""
-    t = os.environ.get("HANZO_API_KEY", "").strip()
-    if t:
-        return t
-    try:
-        out = subprocess.run(["hanzo", "auth", "token"], capture_output=True, text=True, timeout=60)
-    except (OSError, subprocess.SubprocessError):
-        return ""
-    return out.stdout.strip() if out.returncode == 0 else ""
-
-
-def claims(tok: str) -> dict[str, Any] | None:
-    """A JWT's claims, read without verifying it (the server verifies); None for a token that is not a JWT."""
-    parts = tok.split(".")
-    if len(parts) != 3:
-        return None
-    body = parts[1]
-    try:
-        out = json.loads(base64.urlsafe_b64decode(body + "=" * (-len(body) % 4)))
-    except (ValueError, binascii.Error):
-        return None
-    return out if isinstance(out, dict) else None
+    """`HANZO_API_KEY`, else the CLI's login (`hanzo auth token`), else the legacy stored key; "" when none."""
+    return login.credential().secret
 
 
 def claimed(tok: str) -> str | None:

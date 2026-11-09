@@ -14,6 +14,8 @@ import urllib.request
 from typing import Any, Mapping
 from importlib import metadata
 
+import hanzo_login as login
+
 from . import wire
 from .errors import Error, Denied, Unavailable, refusal
 
@@ -40,13 +42,13 @@ class _NoRedirect(urllib.request.HTTPRedirectHandler):
 class Transport:
     """Base URL, credential, acting org and project, shared by `Research` and `Arena`.
 
-    `token` None resolves `HANZO_API_KEY`, else `hanzo auth token`, on the first call that
-    needs one; "" sends no credential. The org a call acts in is the server's rule, read
-    from the token: a person's home org is the first of its signed `orgs`, and `org`
-    switches to another of them (`X-Org-Id`), any org for a SuperAdmin (home `admin`); a
-    machine token acts in its `owner` alone; an API key in the org it was minted in. A
-    switch the server would not honour, where it would act in the home org instead, is
-    refused here. The project is the token's `project` claim, `default` for a key or a
+    `token` None resolves `hanzo_login`'s credential (`HANZO_API_KEY`, else `hanzo auth token`,
+    else the legacy stored key) on the first call that needs one; "" sends no credential.
+    The org a call acts in is the server's rule, read from the token: a person's home org is
+    the first of its signed `orgs`, and `org` switches to another of them (`X-Org-Id`), any org
+    for a SuperAdmin (home `admin`); a machine token acts in its `owner` alone; an API key in
+    the org it was minted in. A switch the server would not honour, where it would act in the
+    home org instead, is refused here. The project is the token's `project` claim, `default` for a key or a
     token naming none, and `project` (or RESEARCH_PROJECT) asking another is refused.
     """
 
@@ -76,9 +78,8 @@ class Transport:
     @property
     def token(self) -> str:
         if self._token is None:
-            env = os.environ.get("HANZO_API_KEY", "").strip()
-            self._token = env or wire.token()
-            self._cli = not env and bool(self._token)
+            cred = login.credential()
+            self._token, self._cli = cred.secret, cred.source == "login"
         if not self._checked:
             self._check()
         return self._token
@@ -143,7 +144,8 @@ class Transport:
                     continue
                 if e.code == 401 and auth and self._cli and not refreshed:
                     # a CLI token lives about an hour: fetch the current one and ask once more
-                    refreshed, self._token, self._checked = True, wire.token(), False
+                    login.forget()
+                    refreshed, self._token, self._checked = True, login.credential().secret, False
                     continue
                 err = refusal(e.code, raw, method, path, _retry(e.headers))
                 if isinstance(err, Denied) and auth and not self._token:

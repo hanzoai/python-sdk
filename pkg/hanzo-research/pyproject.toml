@@ -1,12 +1,12 @@
 [project]
 name = "hanzo-research"
-version = "0.3.0"
+version = "0.3.1"
 description = "File measurements to Hanzo's /v1/research and /v1/benchmark with their provenance: harness commit, model weights, host, device."
 readme = "README.md"
 license = "MIT"
 authors = [{ name = "Hanzo AI", email = "dev@hanzo.ai" }]
 requires-python = ">=3.10"
-dependencies = []  # stdlib only (urllib): importable in any zero-dependency harness
+dependencies = ["hanzo-login>=0.1.0"]  # itself stdlib only, so this stays importable in any harness with no dependencies of its own
 keywords = ["hanzo", "research", "benchmark", "provenance", "evaluation"]
 classifiers = [
     "Development Status :: 4 - Beta",

@@ -5,8 +5,11 @@ search, web search, research, vision — talks to it through this one client.
 There is exactly one place that knows the base URL, the auth header, and how to
 turn a non-2xx into a typed error; tools compose it, never re-implement it.
 
-Auth resolves in order: ``HANZO_API_KEY`` env, the ``apiKey`` in
-``~/.hanzo/config.json``, then the ``hanzo`` CLI's live IAM session.
+Auth resolves through ``hanzo_login`` (the one resolver every Hanzo tool shares):
+``HANZO_API_KEY`` env, then the ``hanzo`` CLI's login (``hanzo auth token``), then the
+legacy ``apiKey`` in ``~/.hanzo/config.json`` last. An identity named per call (``identity``)
+or for the process (``hanzo_login.use``) always asks the login. It is resolved on each
+request, not once: a login's token is short-lived and the CLI refreshes it.
 Base URL is ``https://api.hanzo.ai``, overridable via ``HANZO_API_BASE``.
 
 Reference: HIP-0300 unified tools; api.hanzo.ai /v1 surface.
@@ -14,12 +17,17 @@ Reference: HIP-0300 unified tools; api.hanzo.ai /v1 surface.
 
 import os
 import json
-import subprocess
-from typing import Any, ClassVar
-from pathlib import Path
+from typing import Any
+from importlib import metadata
 from collections.abc import Mapping, AsyncIterator
 
+import hanzo_login as login
+
 DEFAULT_BASE = "https://api.hanzo.ai"
+try:
+    USER_AGENT = f"hanzo-tools/{metadata.version('hanzo-tools')}"
+except metadata.PackageNotFoundError:
+    USER_AGENT = "hanzo-tools/source"
 
 #: What a cloud-backed tool says when no key resolved — one sentence in one
 #: place, so the shapes cannot drift apart tool by tool. ``pk-`` is the
@@ -27,62 +35,16 @@ DEFAULT_BASE = "https://api.hanzo.ai"
 #: ones you may not. ``isAPIKey`` in cloud's ``auth_identity.go`` is the
 #: authority — it admits ``hk-``, ``sk-``, ``pk-``, ``fw_`` and ``hz_``, and a
 #: token carrying no such prefix never reaches key validation at all.
-NO_KEY = "no API key: run `hanzo login` or set HANZO_API_KEY (hk-/sk-/pk-)"
+NO_KEY = "no API key: run `hanzo auth login` or set HANZO_API_KEY (hk-/sk-/pk-)"
 
 
-# Memo for cli_session_token: shelling out costs ~100ms and the token is stable
-# for the session, so resolve it at most once per process. `False` means "asked
-# and there was none", which is distinct from "not asked yet" (None).
-_cli_token: str | None | bool = None
+def cloud_api_key(identity: str | None = None) -> str | None:
+    """The bearer credential, or None. ``identity`` asks the login for that account.
 
-
-def cli_session_token() -> str | None:
-    """The bearer token held by the ``hanzo`` CLI's IAM session.
-
-    The CLI already owns interactive login against hanzo.id, so asking it for a
-    token means tools never prompt, never keep a second copy of the credential,
-    and never parse a secret out of a file themselves.
+    Raises ``hanzo_login.LoginError`` when an identity is named (here, or with
+    ``hanzo_login.use``) and the login will not give it.
     """
-    global _cli_token
-    if _cli_token is not None:
-        return _cli_token or None
-
-    try:
-        out = subprocess.run(
-            ["hanzo", "auth", "token"],
-            capture_output=True,
-            text=True,
-            timeout=15,
-        )
-    except (OSError, subprocess.SubprocessError):
-        _cli_token = False  # no CLI on PATH: do not retry on every call
-        return None
-
-    token = (out.stdout or "").strip()
-    _cli_token = token if out.returncode == 0 and token else False
-    return _cli_token or None
-
-
-def cloud_api_key() -> str | None:
-    """Resolve the bearer credential.
-
-    Order: ``HANZO_API_KEY`` env, then the key in ~/.hanzo/config.json, then
-    the CLI's live IAM session.
-    """
-    env = os.environ.get("HANZO_API_KEY") or os.environ.get("HANZO_KEY")
-    if env and env.strip():
-        return env.strip()
-
-    cfg = Path.home() / ".hanzo" / "config.json"
-    if cfg.exists():
-        try:
-            key = json.loads(cfg.read_text()).get("apiKey")
-            if key and str(key).strip():
-                return str(key).strip()
-        except (OSError, ValueError):
-            pass
-
-    return cli_session_token()
+    return login.credential(identity).secret or None
 
 
 def cloud_api_base() -> str:
@@ -122,11 +84,15 @@ class HanzoCloud:
     """Async client for the api.hanzo.ai /v1 surface.
 
     Lazily builds one ``httpx.AsyncClient`` (reused for the process lifetime,
-    mirroring the other network tools). ``configured()`` reports whether a key
-    is present so tools can fall back to a local path instead of failing.
-    """
+    mirroring the other network tools). ``configured()`` reports whether a
+    credential is present so tools can fall back to a local path instead of failing.
 
-    USER_AGENT: ClassVar[str] = "hanzo-tools/cloud"
+    ``key`` pins one credential for this client; left out, each request resolves it
+    (``cloud_api_key``), so a login that was refreshed or switched is followed.
+    ``identity`` on a request asks the login for that account instead, and ``org``
+    acts in another org the credential belongs to (``X-Org-Id``). ``agent`` is the
+    User-Agent, ``hanzo-tools/<version>`` by default.
+    """
 
     def __init__(
         self,
@@ -134,24 +100,37 @@ class HanzoCloud:
         base_url: str | None = None,
         key: str | None = None,
         timeout: float = 60.0,
+        agent: str | None = None,
     ):
         self.base_url = (base_url or cloud_api_base()).rstrip("/")
-        self.key = key if key is not None else cloud_api_key()
+        self.key = key
         self.timeout = timeout
+        self.agent = agent or USER_AGENT
         self._client: Any = None
 
-    def configured(self) -> bool:
-        """True when an API key is available."""
-        return bool(self.key)
+    def _secret(self, identity: str | None = None) -> str | None:
+        if not identity and self.key is not None:
+            return self.key or None
+        return cloud_api_key(identity)
 
-    def _headers(self) -> dict[str, str]:
+    def configured(self) -> bool:
+        """True when a credential is available."""
+        try:
+            return bool(self._secret())
+        except login.LoginError:
+            return False
+
+    def _headers(self, identity: str | None = None, org: str | None = None) -> dict[str, str]:
         headers = {
             "Content-Type": "application/json",
             "Accept": "application/json",
-            "User-Agent": self.USER_AGENT,
+            "User-Agent": self.agent,
         }
-        if self.key:
-            headers["Authorization"] = f"Bearer {self.key}"
+        secret = self._secret(identity)
+        if secret:
+            headers["Authorization"] = f"Bearer {secret}"
+        if org:
+            headers["X-Org-Id"] = login.valid_org(org)
         return headers
 
     async def _get_client(self):
@@ -167,19 +146,33 @@ class HanzoCloud:
             )
         return self._client
 
+    def _auth(self, method: str, path: str, identity: str | None, org: str | None) -> dict[str, str]:
+        try:
+            return self._headers(identity, org)
+        except login.LoginError as e:
+            raise CloudError(f"{method} {path}: {e}") from e
+
     async def send(
-        self, method: str, path: str, headers: dict[str, str] | None = None, **kw: Any
+        self,
+        method: str,
+        path: str,
+        headers: dict[str, str] | None = None,
+        identity: str | None = None,
+        org: str | None = None,
+        **kw: Any,
     ) -> tuple[Any, Mapping[str, str]]:
         """One request: the parsed JSON body and the answer's headers.
 
         For a route whose headers say something (the ``X-Hanzo-*`` usage
         headers on a priced call). ``kw`` passes to httpx (``params``,
-        ``json``). Raises CloudError on a transport failure or a non-2xx.
+        ``json``). Raises CloudError on a transport failure or a non-2xx, or when
+        ``identity`` is named and the login will not give it.
         """
+        base = self._auth(method, path, identity, org)
         client = await self._get_client()
         try:
             resp = await client.request(
-                method, path, headers={**self._headers(), **(headers or {})}, **kw
+                method, path, headers={**base, **(headers or {})}, **kw
             )
         except Exception as e:  # transport/DNS/timeout — no HTTP status
             raise CloudError(f"{method} {path} failed: {e}") from e
@@ -245,7 +238,7 @@ class HanzoCloud:
         legitimately outlives a request-shaped budget.
         """
         client = await self._get_client()
-        headers = {**self._headers(), "Accept": "text/event-stream"}
+        headers = {**self._auth("POST", path, None, None), "Accept": "text/event-stream"}
         try:
             async with client.stream(
                 "POST",
@@ -281,19 +274,22 @@ class HanzoCloud:
         path: str,
         params: dict[str, Any] | None = None,
         json_body: dict[str, Any] | None = None,
+        identity: str | None = None,
+        org: str | None = None,
     ) -> Any:
         """Any-method call, for callers driving routes from the OpenAPI spec.
 
         The spec names methods this client has no bespoke helper for (PUT,
         PATCH, DELETE), so it needs one generic entry rather than a helper per
         verb — the auth header and error mapping stay in this one place.
+        ``identity`` acts as that account for this call, ``org`` in that org.
         """
         kw: dict[str, Any] = {}
         if params:
             kw["params"] = {k: v for k, v in params.items() if v is not None}
         if json_body is not None:
             kw["json"] = json_body
-        return await self._request(method.upper(), path, **kw)
+        return await self._request(method.upper(), path, identity=identity, org=org, **kw)
 
     async def aclose(self) -> None:
         if self._client is not None:

@@ -7,13 +7,20 @@ and no list that silently drifts behind the platform.
 
 One tool, not one per service: agents degrade badly with hundreds of tools, and
 the spec already carries the routing information a dispatcher needs.
+
+Who it acts as is ``hanzo_login``'s answer, shared with every Hanzo tool on the machine:
+``HANZO_API_KEY``, then the ``hanzo`` CLI's login, then the legacy stored key. A call can
+name another account (``as``) or org (``org``), and ``service="auth"`` is answered locally.
 """
 
 from __future__ import annotations
 
+import functools
 import json
+from importlib import metadata
 from typing import Annotated, Any, final, override
 
+import hanzo_login as login
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 from pydantic import Field
@@ -22,9 +29,16 @@ from hanzo_tools.core import BaseTool, HanzoCloud, auto_timeout, create_tool_con
 
 from . import spec as openapi
 
+try:
+    AGENT = f"hanzo-tools-api/{metadata.version('hanzo-tools-api')}"
+except metadata.PackageNotFoundError:
+    AGENT = "hanzo-tools-api/source"
+
 # Names that address the catalog itself rather than a cloud service.
 CATALOG_SERVICES = frozenset({"services", "list"})
 REFRESH_SERVICES = frozenset({"refresh", "reload"})
+# Answered here, through the login, never sent to the cloud.
+AUTH_SERVICES = frozenset({"auth"})
 
 # Synonyms for a product tag that is not the obvious word. They may only point AT
 # a name the fleet serves — `platform -> paas` and `identity -> iam` pointed at
@@ -62,6 +76,13 @@ Parameters:
 - params: JSON object string; sent as the body for POST/PUT/PATCH, else as the
   query string. Values also fill {templated} path segments.
 - method: Override the HTTP method when an action serves several.
+- as: Act as this identity (owner or owner/name) for this call, whatever key is set.
+- org: Act in this org (sent as X-Org-Id); an operation's own `org` goes inside params.
+
+Who you are (answered locally): service="auth", action whoami | list | use | switch.
+  hanzo(service="auth", action="whoami")
+  hanzo(service="auth", action="use", params='{"identity":"lux/ops"}')     this process only
+  hanzo(service="auth", action="switch", params='{"identity":"lux/ops"}')  the whole machine
 
 Examples:
   hanzo(service="services")
@@ -80,7 +101,7 @@ Examples:
 
     def _get_cloud(self) -> HanzoCloud:
         if self._cloud is None:
-            self._cloud = HanzoCloud()
+            self._cloud = HanzoCloud(agent=AGENT)
         return self._cloud
 
     @staticmethod
@@ -109,13 +130,19 @@ Examples:
         action: str = "",
         params: str | dict[str, Any] | None = None,
         method: str | None = None,
+        org: str | None = None,
         **kwargs: Any,
     ) -> str:
         tool_ctx = create_tool_context(ctx)
         await tool_ctx.set_tool_info(self.name)
 
+        identity = kwargs.pop("as", None)
         key = self._normalize(service)
         try:
+            if key in AUTH_SERVICES:
+                supplied = params if isinstance(params, dict) else self._parse_params(params)
+                return self._dump(self._auth(action, supplied, identity))
+
             if key in REFRESH_SERVICES:
                 catalog = self._get_catalog(refresh=True)
                 return self._dump(
@@ -147,16 +174,52 @@ Examples:
 
             route = catalog.resolve(key, action, method, has_params=bool(supplied))
             query, body = openapi.split_params(route, supplied)
-            data = await self._get_cloud().call(route.method, route.path, query, body)
+            data = await self._get_cloud().call(
+                route.method, route.path, query, body, identity=identity, org=org
+            )
             return self._dump(
                 {"service": key, "request": f"{route.method} {route.path}", "data": data}
             )
         except Exception as exc:
             return self._dump(self._error(key, exc))
 
+    @staticmethod
+    def _auth(action: str, params: dict[str, Any], identity: str | None) -> dict[str, Any]:
+        """Who this process acts as. The CLI answers; no token or key is ever returned."""
+        what = (action or "whoami").strip().lower()
+        if what == "whoami":
+            return login.describe(identity)
+        if what == "list":
+            rows = login.identities()
+            active = next((r["key"] for r in rows if r.get("active")), None)
+            return {"identities": rows, "active": active, "using": login.using()}
+        if what == "use":
+            target = params.get("identity") or None
+            login.use(target)
+            if target is None:
+                return {"using": None, "message": "Cleared: this process acts as the CLI's active identity again."}
+            return {
+                "using": target,
+                "scope": "process",
+                "message": f"This process only: it now acts as {target}. Other Hanzo tools and sessions "
+                "on this machine are unchanged; `switch` changes the whole machine.",
+            }
+        if what == "switch":
+            target = params.get("identity")
+            if not target:
+                raise ValueError('switch needs params {"identity": "owner/name"}')
+            login.switch(target)
+            return {
+                "active": target,
+                "scope": "machine",
+                "message": f"GLOBAL: every Hanzo tool and session on this machine now acts as {target}, "
+                "the CLI's active identity (a running tool follows within 5 minutes).",
+            }
+        raise ValueError(f"unknown auth action {action!r}; use whoami, list, use or switch")
+
     def _error(self, service: str, exc: Exception) -> dict[str, Any]:
         out: dict[str, Any] = {"error": str(exc), "service": service}
-        if self._catalog is not None and service not in self._catalog.services:
+        if service not in AUTH_SERVICES and self._catalog is not None and service not in self._catalog.services:
             out["hint"] = 'call hanzo(service="services") to list services'
         return out
 
@@ -168,14 +231,14 @@ Examples:
         """Register the single unified hanzo tool."""
         tool_instance = self
 
-        @mcp_server.tool(name=self.name, description=self.description)
         async def hanzo(
             service: Annotated[
                 str,
                 Field(
                     description=(
                         "Product tag, e.g. billing, iam, kb, paas, git. "
-                        'Use "services" to list them, "refresh" to refetch the spec.'
+                        'Use "services" to list them, "refresh" to refetch the spec, '
+                        '"auth" for who you are (whoami, list, use, switch).'
                     )
                 ),
             ] = "services",
@@ -189,11 +252,11 @@ Examples:
                 ),
             ] = "",
             params: Annotated[
-                str | None,
+                str | dict[str, Any] | None,
                 Field(
                     description=(
-                        "JSON object string. Body for POST/PUT/PATCH, else query "
-                        'string. Example: "{\\"query\\":\\"oauth jwt\\"}"'
+                        "JSON object (or its string). Body for POST/PUT/PATCH, else "
+                        'query string. Example: {"query": "oauth jwt"}'
                     )
                 ),
             ] = None,
@@ -201,8 +264,29 @@ Examples:
                 str | None,
                 Field(description="Override HTTP method (GET/POST/PUT/PATCH/DELETE)."),
             ] = None,
+            as_: Annotated[
+                str | None,
+                Field(
+                    alias="as",
+                    description="Act as this identity (owner or owner/name) for this call.",
+                ),
+            ] = None,
+            org: Annotated[
+                str | None,
+                Field(
+                    description=(
+                        "Act in this org (X-Org-Id). An operation's own `org` "
+                        "parameter goes inside params."
+                    )
+                ),
+            ] = None,
             ctx: MCPContext = None,  # type: ignore[assignment]
-        ) -> str:
-            return await tool_instance.call(
-                ctx, service=service, action=action, params=params, method=method
-            )
+        ) -> str: ...
+
+        # `as` is a keyword, so `hanzo` declares the schema with `as_` aliased to "as"; the
+        # call arrives keyed "as" and is taken whole.
+        @functools.wraps(hanzo)
+        async def serve(**arguments: Any) -> str:
+            return await tool_instance.call(arguments.pop("ctx", None), **arguments)
+
+        mcp_server.tool(name=self.name, description=self.description)(serve)

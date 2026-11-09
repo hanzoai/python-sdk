@@ -1,0 +1,34 @@
+[project]
+name = "hanzo-login"
+version = "0.1.0"
+description = "Who a Hanzo tool acts as: one resolver for the key, the hanzo CLI's login and its identities. Standard library only."
+readme = "README.md"
+license = "MIT"
+authors = [{ name = "Hanzo AI", email = "dev@hanzo.ai" }]
+requires-python = ">=3.10"
+dependencies = []  # stdlib only: hanzo-research imports it and must stay importable in any zero-dependency harness
+keywords = ["hanzo", "login", "identity", "credential", "cli"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://hanzo.ai"
+Repository = "https://github.com/hanzoai/python-sdk"
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["hanzo_login"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
