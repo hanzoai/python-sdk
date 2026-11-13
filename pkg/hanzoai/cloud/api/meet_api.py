@@ -530,8 +530,8 @@ class MeetApi:
     @validate_call
     def meet_call(
         self,
-        space: Annotated[StrictStr, Field(description="Space is the space uuid holding the room, as GET /v1/team/rooms reports it. It is the segment the caller's membership is checked against.")],
-        room: Annotated[StrictStr, Field(description="Room is the room's own id within that space, as GET /v1/team/rooms reports it. It is opaque here: meet keeps no rooms and cannot say whether one exists, only whether this caller may be seated in the space holding it.")],
+        space: Annotated[StrictStr, Field(description="Space is the space uuid holding the channel, as GET /v1/team/channels reports it. It is the segment the caller's membership is checked against.")],
+        channel: Annotated[StrictStr, Field(description="Channel is the channel's own id within that space, as GET /v1/team/channels reports it. It is opaque here: meet keeps no channels and cannot say whether one exists, only whether this caller may be seated in the space holding it.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -547,12 +547,12 @@ class MeetApi:
     ) -> MeetVenue:
         """Where a room's call happens
 
-        Answers where a room's call happens, for a caller who may join it.  It is the \"resolved at render\" half of HIP-0523 §12: a surface showing a channel asks for the room's call at the moment it draws one, rather than reading a media room name someone stored on the room. Nothing here is persisted and nothing is created — a media room begins existing when the first participant connects and stops when the last leaves, so there is no call to create and none to clean up.  AUTHORIZATION IS THE JOIN DECISION, unchanged and shared. It delegates to state.admits, the same function POST /v1/meet/getToken and all three recording operations admit on, so a caller who is told where a call is, is a caller who could have joined it. Answering the address to someone who cannot join would make this a space-membership oracle for anyone who can guess a room id.  It deliberately does NOT report whether a call is in progress. That is a fact the media server holds and this binary would have to ask for it over the network, which is a different decision with a different failure mode — and reporting \"nobody is in this call\" when the question could not be asked would be exactly the unknown-rendered-as-zero this surface refuses elsewhere.
+        Answers where a channel's call happens, for a caller who may join it.  It is the \"resolved at render\" half of HIP-0523 §12: a surface showing a channel asks for the channel's call at the moment it draws one, rather than reading a media room name someone stored on the channel. Nothing here is persisted and nothing is created — a media room begins existing when the first participant connects and stops when the last leaves, so there is no call to create and none to clean up.  AUTHORIZATION IS THE JOIN DECISION, unchanged and shared. It delegates to state.admits, the same function POST /v1/meet/getToken and all three recording operations admit on, so a caller who is told where a call is, is a caller who could have joined it. Answering the address to someone who cannot join would make this a space-membership oracle for anyone who can guess a channel id.  It deliberately does NOT report whether a call is in progress. That is a fact the media server holds and this binary would have to ask for it over the network, which is a different decision with a different failure mode — and reporting \"nobody is in this call\" when the question could not be asked would be exactly the unknown-rendered-as-zero this surface refuses elsewhere.
 
-        :param space: Space is the space uuid holding the room, as GET /v1/team/rooms reports it. It is the segment the caller's membership is checked against. (required)
+        :param space: Space is the space uuid holding the channel, as GET /v1/team/channels reports it. It is the segment the caller's membership is checked against. (required)
         :type space: str
-        :param room: Room is the room's own id within that space, as GET /v1/team/rooms reports it. It is opaque here: meet keeps no rooms and cannot say whether one exists, only whether this caller may be seated in the space holding it. (required)
-        :type room: str
+        :param channel: Channel is the channel's own id within that space, as GET /v1/team/channels reports it. It is opaque here: meet keeps no channels and cannot say whether one exists, only whether this caller may be seated in the space holding it. (required)
+        :type channel: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -577,7 +577,7 @@ class MeetApi:
 
         _param = self._meet_call_serialize(
             space=space,
-            room=room,
+            channel=channel,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -601,8 +601,8 @@ class MeetApi:
     @validate_call
     def meet_call_with_http_info(
         self,
-        space: Annotated[StrictStr, Field(description="Space is the space uuid holding the room, as GET /v1/team/rooms reports it. It is the segment the caller's membership is checked against.")],
-        room: Annotated[StrictStr, Field(description="Room is the room's own id within that space, as GET /v1/team/rooms reports it. It is opaque here: meet keeps no rooms and cannot say whether one exists, only whether this caller may be seated in the space holding it.")],
+        space: Annotated[StrictStr, Field(description="Space is the space uuid holding the channel, as GET /v1/team/channels reports it. It is the segment the caller's membership is checked against.")],
+        channel: Annotated[StrictStr, Field(description="Channel is the channel's own id within that space, as GET /v1/team/channels reports it. It is opaque here: meet keeps no channels and cannot say whether one exists, only whether this caller may be seated in the space holding it.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -618,12 +618,12 @@ class MeetApi:
     ) -> ApiResponse[MeetVenue]:
         """Where a room's call happens
 
-        Answers where a room's call happens, for a caller who may join it.  It is the \"resolved at render\" half of HIP-0523 §12: a surface showing a channel asks for the room's call at the moment it draws one, rather than reading a media room name someone stored on the room. Nothing here is persisted and nothing is created — a media room begins existing when the first participant connects and stops when the last leaves, so there is no call to create and none to clean up.  AUTHORIZATION IS THE JOIN DECISION, unchanged and shared. It delegates to state.admits, the same function POST /v1/meet/getToken and all three recording operations admit on, so a caller who is told where a call is, is a caller who could have joined it. Answering the address to someone who cannot join would make this a space-membership oracle for anyone who can guess a room id.  It deliberately does NOT report whether a call is in progress. That is a fact the media server holds and this binary would have to ask for it over the network, which is a different decision with a different failure mode — and reporting \"nobody is in this call\" when the question could not be asked would be exactly the unknown-rendered-as-zero this surface refuses elsewhere.
+        Answers where a channel's call happens, for a caller who may join it.  It is the \"resolved at render\" half of HIP-0523 §12: a surface showing a channel asks for the channel's call at the moment it draws one, rather than reading a media room name someone stored on the channel. Nothing here is persisted and nothing is created — a media room begins existing when the first participant connects and stops when the last leaves, so there is no call to create and none to clean up.  AUTHORIZATION IS THE JOIN DECISION, unchanged and shared. It delegates to state.admits, the same function POST /v1/meet/getToken and all three recording operations admit on, so a caller who is told where a call is, is a caller who could have joined it. Answering the address to someone who cannot join would make this a space-membership oracle for anyone who can guess a channel id.  It deliberately does NOT report whether a call is in progress. That is a fact the media server holds and this binary would have to ask for it over the network, which is a different decision with a different failure mode — and reporting \"nobody is in this call\" when the question could not be asked would be exactly the unknown-rendered-as-zero this surface refuses elsewhere.
 
-        :param space: Space is the space uuid holding the room, as GET /v1/team/rooms reports it. It is the segment the caller's membership is checked against. (required)
+        :param space: Space is the space uuid holding the channel, as GET /v1/team/channels reports it. It is the segment the caller's membership is checked against. (required)
         :type space: str
-        :param room: Room is the room's own id within that space, as GET /v1/team/rooms reports it. It is opaque here: meet keeps no rooms and cannot say whether one exists, only whether this caller may be seated in the space holding it. (required)
-        :type room: str
+        :param channel: Channel is the channel's own id within that space, as GET /v1/team/channels reports it. It is opaque here: meet keeps no channels and cannot say whether one exists, only whether this caller may be seated in the space holding it. (required)
+        :type channel: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -648,7 +648,7 @@ class MeetApi:
 
         _param = self._meet_call_serialize(
             space=space,
-            room=room,
+            channel=channel,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -672,8 +672,8 @@ class MeetApi:
     @validate_call
     def meet_call_without_preload_content(
         self,
-        space: Annotated[StrictStr, Field(description="Space is the space uuid holding the room, as GET /v1/team/rooms reports it. It is the segment the caller's membership is checked against.")],
-        room: Annotated[StrictStr, Field(description="Room is the room's own id within that space, as GET /v1/team/rooms reports it. It is opaque here: meet keeps no rooms and cannot say whether one exists, only whether this caller may be seated in the space holding it.")],
+        space: Annotated[StrictStr, Field(description="Space is the space uuid holding the channel, as GET /v1/team/channels reports it. It is the segment the caller's membership is checked against.")],
+        channel: Annotated[StrictStr, Field(description="Channel is the channel's own id within that space, as GET /v1/team/channels reports it. It is opaque here: meet keeps no channels and cannot say whether one exists, only whether this caller may be seated in the space holding it.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -689,12 +689,12 @@ class MeetApi:
     ) -> RESTResponseType:
         """Where a room's call happens
 
-        Answers where a room's call happens, for a caller who may join it.  It is the \"resolved at render\" half of HIP-0523 §12: a surface showing a channel asks for the room's call at the moment it draws one, rather than reading a media room name someone stored on the room. Nothing here is persisted and nothing is created — a media room begins existing when the first participant connects and stops when the last leaves, so there is no call to create and none to clean up.  AUTHORIZATION IS THE JOIN DECISION, unchanged and shared. It delegates to state.admits, the same function POST /v1/meet/getToken and all three recording operations admit on, so a caller who is told where a call is, is a caller who could have joined it. Answering the address to someone who cannot join would make this a space-membership oracle for anyone who can guess a room id.  It deliberately does NOT report whether a call is in progress. That is a fact the media server holds and this binary would have to ask for it over the network, which is a different decision with a different failure mode — and reporting \"nobody is in this call\" when the question could not be asked would be exactly the unknown-rendered-as-zero this surface refuses elsewhere.
+        Answers where a channel's call happens, for a caller who may join it.  It is the \"resolved at render\" half of HIP-0523 §12: a surface showing a channel asks for the channel's call at the moment it draws one, rather than reading a media room name someone stored on the channel. Nothing here is persisted and nothing is created — a media room begins existing when the first participant connects and stops when the last leaves, so there is no call to create and none to clean up.  AUTHORIZATION IS THE JOIN DECISION, unchanged and shared. It delegates to state.admits, the same function POST /v1/meet/getToken and all three recording operations admit on, so a caller who is told where a call is, is a caller who could have joined it. Answering the address to someone who cannot join would make this a space-membership oracle for anyone who can guess a channel id.  It deliberately does NOT report whether a call is in progress. That is a fact the media server holds and this binary would have to ask for it over the network, which is a different decision with a different failure mode — and reporting \"nobody is in this call\" when the question could not be asked would be exactly the unknown-rendered-as-zero this surface refuses elsewhere.
 
-        :param space: Space is the space uuid holding the room, as GET /v1/team/rooms reports it. It is the segment the caller's membership is checked against. (required)
+        :param space: Space is the space uuid holding the channel, as GET /v1/team/channels reports it. It is the segment the caller's membership is checked against. (required)
         :type space: str
-        :param room: Room is the room's own id within that space, as GET /v1/team/rooms reports it. It is opaque here: meet keeps no rooms and cannot say whether one exists, only whether this caller may be seated in the space holding it. (required)
-        :type room: str
+        :param channel: Channel is the channel's own id within that space, as GET /v1/team/channels reports it. It is opaque here: meet keeps no channels and cannot say whether one exists, only whether this caller may be seated in the space holding it. (required)
+        :type channel: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -719,7 +719,7 @@ class MeetApi:
 
         _param = self._meet_call_serialize(
             space=space,
-            room=room,
+            channel=channel,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -739,7 +739,7 @@ class MeetApi:
     def _meet_call_serialize(
         self,
         space,
-        room,
+        channel,
         _request_auth,
         _content_type,
         _headers,
@@ -766,9 +766,9 @@ class MeetApi:
             
             _query_params.append(('space', space))
             
-        if room is not None:
+        if channel is not None:
             
-            _query_params.append(('room', room))
+            _query_params.append(('channel', channel))
             
         # process the header parameters
         # process the form parameters

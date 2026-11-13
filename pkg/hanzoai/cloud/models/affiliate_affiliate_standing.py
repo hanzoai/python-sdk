@@ -41,7 +41,7 @@ class AffiliateAffiliateStanding(BaseModel):
     rate_bps: Optional[StrictInt] = Field(default=None, description="RateBps is the affiliate's own direct commission rate, in basis points.", alias="rateBps")
     referred_count: Optional[StrictInt] = Field(default=None, description="ReferredCount is how many orgs this affiliate has referred.", alias="referredCount")
     requested_code: Optional[StrictStr] = Field(default=None, description="RequestedCode is the vanity code asked for at apply time — a request, not an allocation. Approval mints `code`, which may be a different slug if this one was already taken.", alias="requestedCode")
-    status: Optional[StrictStr] = Field(default=None, description="Status is \"applied\", \"approved\" or \"suspended\". Only an approved affiliate has a code that resolves for attribution and accrues commission; suspended keeps what it already earned but stops earning more.")
+    status: Optional[StrictStr] = Field(default=None, description="Status is \"applied\", \"approved\", \"suspended\" or \"declined\". Only an approved affiliate has a code that resolves for attribution and accrues commission; suspended keeps what it already earned but stops earning more.")
     __properties: ClassVar[List[str]] = ["accruedCents", "code", "defaultRateBps", "handle", "id", "isAffiliate", "link", "marginBps", "paidCents", "payouts", "pendingCents", "rateBps", "referredCount", "requestedCode", "status"]
 
     model_config = ConfigDict(

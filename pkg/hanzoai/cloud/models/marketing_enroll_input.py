@@ -27,7 +27,7 @@ class MarketingEnrollInput(BaseModel):
     MarketingEnrollInput
     """ # noqa: E501
     address: Optional[StrictStr] = Field(default=None, description="Address is a single recipient, normalized (lower-cased, trimmed) before use. Give this OR audienceId, never both and never neither.")
-    audience_id: Optional[StrictStr] = Field(default=None, description="AudienceID fans the sequence out over a saved audience, resolved live to the org's mailable customers. Email only.", alias="audienceId")
+    audience_id: Optional[StrictStr] = Field(default=None, description="AudienceID fans the sequence out over an audience: a saved cohort (aud_…), resolved live to the org's mailable customers, or a list (lst_…) or a saved segment of one (seg_…), resolved to its subscribed members. Email only.", alias="audienceId")
     channel: Optional[StrictStr] = Field(default=None, description="Channel is the delivery surface; empty means email. An audience resolves mailboxes, so an audience enroll must be email.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the sequence id from the path.")
     __properties: ClassVar[List[str]] = ["address", "audienceId", "channel", "id"]

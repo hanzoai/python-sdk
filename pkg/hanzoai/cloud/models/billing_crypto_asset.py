@@ -27,8 +27,8 @@ class BillingCryptoAsset(BaseModel):
     BillingCryptoAsset
     """ # noqa: E501
     amount_cents: Optional[StrictInt] = Field(default=None, description="AmountCents is what the payer intends to send, for the record. Optional — the credit is what actually arrives, never what was announced.", alias="amountCents")
-    chain: Optional[StrictStr] = Field(default=None, description="Chain is the network to receive on. Empty takes the rail's default.")
-    token: Optional[StrictStr] = Field(default=None, description="Token is the asset on that chain. Empty takes the chain's native one.")
+    chain: Optional[StrictStr] = Field(default=None, description="Chain is the network to receive on, one of GET /v1/billing/crypto/options chains. Empty takes the rail's default.")
+    token: Optional[StrictStr] = Field(default=None, description="Token is the asset on that chain, one of the options' tokens. Empty takes the rail's default.")
     __properties: ClassVar[List[str]] = ["amountCents", "chain", "token"]
 
     model_config = ConfigDict(

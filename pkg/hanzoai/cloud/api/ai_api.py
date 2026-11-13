@@ -27,12 +27,15 @@ from hanzoai.cloud.models.ai_decide_in import AiDecideIn
 from hanzoai.cloud.models.ai_decision import AiDecision
 from hanzoai.cloud.models.ai_decisions_request import AiDecisionsRequest
 from hanzoai.cloud.models.ai_decisions_response import AiDecisionsResponse
+from hanzoai.cloud.models.ai_frame_in import AiFrameIn
+from hanzoai.cloud.models.ai_frame_out import AiFrameOut
 from hanzoai.cloud.models.ai_limits import AiLimits
-from hanzoai.cloud.models.ai_limits_set import AiLimitsSet
 from hanzoai.cloud.models.ai_mcp_surface import AiMCPSurface
 from hanzoai.cloud.models.ai_model_list import AiModelList
 from hanzoai.cloud.models.ai_models import AiModels
 from hanzoai.cloud.models.ai_ranking import AiRanking
+from hanzoai.cloud.models.ai_rate import AiRate
+from hanzoai.cloud.models.ai_rate_in import AiRateIn
 from hanzoai.cloud.models.ai_response import AiResponse
 from hanzoai.cloud.models.ai_routing_edit import AiRoutingEdit
 from hanzoai.cloud.models.ai_routing_reward_request import AiRoutingRewardRequest
@@ -695,6 +698,556 @@ class AiApi:
 
 
     @validate_call
+    def ai_frame_edit(
+        self,
+        ai_frame_in: AiFrameIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AiFrameOut:
+        """Edits an existing Hyperframe composite or its layer stack (POST /v1/frame/edits): pass background_b64 and layers (or headline, layout, theme, terminal, instruction, or layer_patches) to redesign text, reposition panels, swap themes (light, glass, dark), or add custom card/HTML layers in ~15ms with zero diffusion cost; or set edit_background=true (with qwen-image-edit or iro) to redo the visual background while keeping all typography and UI layers intact.
+
+        Edits an existing Hyperframe composite or its layer stack (POST /v1/frame/edits): pass background_b64 and layers (or headline, layout, theme, terminal, instruction, or layer_patches) to redesign text, reposition panels, swap themes (light, glass, dark), or add custom card/HTML layers in ~15ms with zero diffusion cost; or set edit_background=true (with qwen-image-edit or iro) to redo the visual background while keeping all typography and UI layers intact.
+
+        :param ai_frame_in: (required)
+        :type ai_frame_in: AiFrameIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._ai_frame_edit_serialize(
+            ai_frame_in=ai_frame_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiFrameOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def ai_frame_edit_with_http_info(
+        self,
+        ai_frame_in: AiFrameIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AiFrameOut]:
+        """Edits an existing Hyperframe composite or its layer stack (POST /v1/frame/edits): pass background_b64 and layers (or headline, layout, theme, terminal, instruction, or layer_patches) to redesign text, reposition panels, swap themes (light, glass, dark), or add custom card/HTML layers in ~15ms with zero diffusion cost; or set edit_background=true (with qwen-image-edit or iro) to redo the visual background while keeping all typography and UI layers intact.
+
+        Edits an existing Hyperframe composite or its layer stack (POST /v1/frame/edits): pass background_b64 and layers (or headline, layout, theme, terminal, instruction, or layer_patches) to redesign text, reposition panels, swap themes (light, glass, dark), or add custom card/HTML layers in ~15ms with zero diffusion cost; or set edit_background=true (with qwen-image-edit or iro) to redo the visual background while keeping all typography and UI layers intact.
+
+        :param ai_frame_in: (required)
+        :type ai_frame_in: AiFrameIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._ai_frame_edit_serialize(
+            ai_frame_in=ai_frame_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiFrameOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def ai_frame_edit_without_preload_content(
+        self,
+        ai_frame_in: AiFrameIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Edits an existing Hyperframe composite or its layer stack (POST /v1/frame/edits): pass background_b64 and layers (or headline, layout, theme, terminal, instruction, or layer_patches) to redesign text, reposition panels, swap themes (light, glass, dark), or add custom card/HTML layers in ~15ms with zero diffusion cost; or set edit_background=true (with qwen-image-edit or iro) to redo the visual background while keeping all typography and UI layers intact.
+
+        Edits an existing Hyperframe composite or its layer stack (POST /v1/frame/edits): pass background_b64 and layers (or headline, layout, theme, terminal, instruction, or layer_patches) to redesign text, reposition panels, swap themes (light, glass, dark), or add custom card/HTML layers in ~15ms with zero diffusion cost; or set edit_background=true (with qwen-image-edit or iro) to redo the visual background while keeping all typography and UI layers intact.
+
+        :param ai_frame_in: (required)
+        :type ai_frame_in: AiFrameIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._ai_frame_edit_serialize(
+            ai_frame_in=ai_frame_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiFrameOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _ai_frame_edit_serialize(
+        self,
+        ai_frame_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if ai_frame_in is not None:
+            _body_params = ai_frame_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/frame/edits',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def ai_frame_generate(
+        self,
+        ai_frame_in: AiFrameIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AiFrameOut:
+        """Generates a Hyperframe graphic composite (POST /v1/frame/generations): strips all copy and text triggers from the diffusion prompt so the image model (iro, qwen-image, z-image-turbo, flux-3) renders a strictly text-free background, auto-detects the dark hardware/terminal surface bounding box, and layers pixel-perfect @hanzo/font (Zen + Zen Mono) typography and interactive HTML/UI elements on top.
+
+        Generates a Hyperframe graphic composite (POST /v1/frame/generations): strips all copy and text triggers from the diffusion prompt so the image model (iro, qwen-image, z-image-turbo, flux-3) renders a strictly text-free background, auto-detects the dark hardware/terminal surface bounding box, and layers pixel-perfect @hanzo/font (Zen + Zen Mono) typography and interactive HTML/UI elements on top. Returns the composited PNG (b64_json), the clean diffusion background (background_b64), self-contained Hyperframe HTML (html), and the editable layers stack (layers).
+
+        :param ai_frame_in: (required)
+        :type ai_frame_in: AiFrameIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._ai_frame_generate_serialize(
+            ai_frame_in=ai_frame_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiFrameOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def ai_frame_generate_with_http_info(
+        self,
+        ai_frame_in: AiFrameIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AiFrameOut]:
+        """Generates a Hyperframe graphic composite (POST /v1/frame/generations): strips all copy and text triggers from the diffusion prompt so the image model (iro, qwen-image, z-image-turbo, flux-3) renders a strictly text-free background, auto-detects the dark hardware/terminal surface bounding box, and layers pixel-perfect @hanzo/font (Zen + Zen Mono) typography and interactive HTML/UI elements on top.
+
+        Generates a Hyperframe graphic composite (POST /v1/frame/generations): strips all copy and text triggers from the diffusion prompt so the image model (iro, qwen-image, z-image-turbo, flux-3) renders a strictly text-free background, auto-detects the dark hardware/terminal surface bounding box, and layers pixel-perfect @hanzo/font (Zen + Zen Mono) typography and interactive HTML/UI elements on top. Returns the composited PNG (b64_json), the clean diffusion background (background_b64), self-contained Hyperframe HTML (html), and the editable layers stack (layers).
+
+        :param ai_frame_in: (required)
+        :type ai_frame_in: AiFrameIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._ai_frame_generate_serialize(
+            ai_frame_in=ai_frame_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiFrameOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def ai_frame_generate_without_preload_content(
+        self,
+        ai_frame_in: AiFrameIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Generates a Hyperframe graphic composite (POST /v1/frame/generations): strips all copy and text triggers from the diffusion prompt so the image model (iro, qwen-image, z-image-turbo, flux-3) renders a strictly text-free background, auto-detects the dark hardware/terminal surface bounding box, and layers pixel-perfect @hanzo/font (Zen + Zen Mono) typography and interactive HTML/UI elements on top.
+
+        Generates a Hyperframe graphic composite (POST /v1/frame/generations): strips all copy and text triggers from the diffusion prompt so the image model (iro, qwen-image, z-image-turbo, flux-3) renders a strictly text-free background, auto-detects the dark hardware/terminal surface bounding box, and layers pixel-perfect @hanzo/font (Zen + Zen Mono) typography and interactive HTML/UI elements on top. Returns the composited PNG (b64_json), the clean diffusion background (background_b64), self-contained Hyperframe HTML (html), and the editable layers stack (layers).
+
+        :param ai_frame_in: (required)
+        :type ai_frame_in: AiFrameIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._ai_frame_generate_serialize(
+            ai_frame_in=ai_frame_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiFrameOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _ai_frame_generate_serialize(
+        self,
+        ai_frame_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if ai_frame_in is not None:
+            _body_params = ai_frame_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/frame/generations',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def ai_limits(
         self,
         _request_timeout: Union[
@@ -1213,6 +1766,7 @@ class AiApi:
         family: Annotated[Optional[StrictStr], Field(description="Family keeps one Hanzo family: enso, zen, kai or zoo.")] = None,
         capability: Annotated[Optional[StrictStr], Field(description="Capability keeps the models that have it: tools, vision or reasoning, or a modality they take or give (text, image, audio, file, video, decision).")] = None,
         free: Annotated[Optional[StrictBool], Field(description="Free keeps the models a call to which bills nothing (bounded by the free allowances instead of a balance).")] = None,
+        zdr: Annotated[Optional[StrictBool], Field(description="ZDR keeps only models eligible for Zero Data Retention (excludes free and data-shared routes).")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit is the most models to answer, 1 to 500; 0 answers 50.")] = None,
         _request_timeout: Union[
             None,
@@ -1241,6 +1795,8 @@ class AiApi:
         :type capability: str
         :param free: Free keeps the models a call to which bills nothing (bounded by the free allowances instead of a balance).
         :type free: bool
+        :param zdr: ZDR keeps only models eligible for Zero Data Retention (excludes free and data-shared routes).
+        :type zdr: bool
         :param limit: Limit is the most models to answer, 1 to 500; 0 answers 50.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
@@ -1271,6 +1827,7 @@ class AiApi:
             family=family,
             capability=capability,
             free=free,
+            zdr=zdr,
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1300,6 +1857,7 @@ class AiApi:
         family: Annotated[Optional[StrictStr], Field(description="Family keeps one Hanzo family: enso, zen, kai or zoo.")] = None,
         capability: Annotated[Optional[StrictStr], Field(description="Capability keeps the models that have it: tools, vision or reasoning, or a modality they take or give (text, image, audio, file, video, decision).")] = None,
         free: Annotated[Optional[StrictBool], Field(description="Free keeps the models a call to which bills nothing (bounded by the free allowances instead of a balance).")] = None,
+        zdr: Annotated[Optional[StrictBool], Field(description="ZDR keeps only models eligible for Zero Data Retention (excludes free and data-shared routes).")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit is the most models to answer, 1 to 500; 0 answers 50.")] = None,
         _request_timeout: Union[
             None,
@@ -1328,6 +1886,8 @@ class AiApi:
         :type capability: str
         :param free: Free keeps the models a call to which bills nothing (bounded by the free allowances instead of a balance).
         :type free: bool
+        :param zdr: ZDR keeps only models eligible for Zero Data Retention (excludes free and data-shared routes).
+        :type zdr: bool
         :param limit: Limit is the most models to answer, 1 to 500; 0 answers 50.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
@@ -1358,6 +1918,7 @@ class AiApi:
             family=family,
             capability=capability,
             free=free,
+            zdr=zdr,
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1387,6 +1948,7 @@ class AiApi:
         family: Annotated[Optional[StrictStr], Field(description="Family keeps one Hanzo family: enso, zen, kai or zoo.")] = None,
         capability: Annotated[Optional[StrictStr], Field(description="Capability keeps the models that have it: tools, vision or reasoning, or a modality they take or give (text, image, audio, file, video, decision).")] = None,
         free: Annotated[Optional[StrictBool], Field(description="Free keeps the models a call to which bills nothing (bounded by the free allowances instead of a balance).")] = None,
+        zdr: Annotated[Optional[StrictBool], Field(description="ZDR keeps only models eligible for Zero Data Retention (excludes free and data-shared routes).")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit is the most models to answer, 1 to 500; 0 answers 50.")] = None,
         _request_timeout: Union[
             None,
@@ -1415,6 +1977,8 @@ class AiApi:
         :type capability: str
         :param free: Free keeps the models a call to which bills nothing (bounded by the free allowances instead of a balance).
         :type free: bool
+        :param zdr: ZDR keeps only models eligible for Zero Data Retention (excludes free and data-shared routes).
+        :type zdr: bool
         :param limit: Limit is the most models to answer, 1 to 500; 0 answers 50.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
@@ -1445,6 +2009,7 @@ class AiApi:
             family=family,
             capability=capability,
             free=free,
+            zdr=zdr,
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1469,6 +2034,7 @@ class AiApi:
         family,
         capability,
         free,
+        zdr,
         limit,
         _request_auth,
         _content_type,
@@ -1511,6 +2077,10 @@ class AiApi:
         if free is not None:
             
             _query_params.append(('free', free))
+            
+        if zdr is not None:
+            
+            _query_params.append(('zdr', zdr))
             
         if limit is not None:
             
@@ -1555,9 +2125,8 @@ class AiApi:
 
 
     @validate_call
-    def ai_set_limits(
+    def ai_rate_limit(
         self,
-        ai_limits_set: AiLimitsSet,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1570,13 +2139,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiLimits:
-        """Sets the payer's choice to keep using a model on credits once the plan's included usage of it is spent.
+    ) -> AiRate:
+        """Reads the per-minute limit as it governs the organization the caller acts in: the model requests one person may make in a minute on every surface — the API, chat, coding runs, bots and MCP — the platform's default, which is the most the organization may set, and the organization's own setting.
 
-        Sets the payer's choice to keep using a model on credits once the plan's included usage of it is spent. A pooled org wallet is its org admin's to set; a person's own wallet is theirs. Every change is on the audit trail, before and after; no trail, no change. Answers the limits as they read after it.
+        Reads the per-minute limit as it governs the organization the caller acts in: the model requests one person may make in a minute on every surface — the API, chat, coding runs, bots and MCP — the platform's default, which is the most the organization may set, and the organization's own setting. Any member may read it.
 
-        :param ai_limits_set: (required)
-        :type ai_limits_set: AiLimitsSet
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1599,8 +2166,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._ai_set_limits_serialize(
-            ai_limits_set=ai_limits_set,
+        _param = self._ai_rate_limit_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1608,7 +2174,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiLimits",
+            '200': "AiRate",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1622,9 +2188,8 @@ class AiApi:
 
 
     @validate_call
-    def ai_set_limits_with_http_info(
+    def ai_rate_limit_with_http_info(
         self,
-        ai_limits_set: AiLimitsSet,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1637,13 +2202,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiLimits]:
-        """Sets the payer's choice to keep using a model on credits once the plan's included usage of it is spent.
+    ) -> ApiResponse[AiRate]:
+        """Reads the per-minute limit as it governs the organization the caller acts in: the model requests one person may make in a minute on every surface — the API, chat, coding runs, bots and MCP — the platform's default, which is the most the organization may set, and the organization's own setting.
 
-        Sets the payer's choice to keep using a model on credits once the plan's included usage of it is spent. A pooled org wallet is its org admin's to set; a person's own wallet is theirs. Every change is on the audit trail, before and after; no trail, no change. Answers the limits as they read after it.
+        Reads the per-minute limit as it governs the organization the caller acts in: the model requests one person may make in a minute on every surface — the API, chat, coding runs, bots and MCP — the platform's default, which is the most the organization may set, and the organization's own setting. Any member may read it.
 
-        :param ai_limits_set: (required)
-        :type ai_limits_set: AiLimitsSet
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1666,8 +2229,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._ai_set_limits_serialize(
-            ai_limits_set=ai_limits_set,
+        _param = self._ai_rate_limit_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1675,7 +2237,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiLimits",
+            '200': "AiRate",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1689,9 +2251,8 @@ class AiApi:
 
 
     @validate_call
-    def ai_set_limits_without_preload_content(
+    def ai_rate_limit_without_preload_content(
         self,
-        ai_limits_set: AiLimitsSet,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1705,12 +2266,10 @@ class AiApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Sets the payer's choice to keep using a model on credits once the plan's included usage of it is spent.
+        """Reads the per-minute limit as it governs the organization the caller acts in: the model requests one person may make in a minute on every surface — the API, chat, coding runs, bots and MCP — the platform's default, which is the most the organization may set, and the organization's own setting.
 
-        Sets the payer's choice to keep using a model on credits once the plan's included usage of it is spent. A pooled org wallet is its org admin's to set; a person's own wallet is theirs. Every change is on the audit trail, before and after; no trail, no change. Answers the limits as they read after it.
+        Reads the per-minute limit as it governs the organization the caller acts in: the model requests one person may make in a minute on every surface — the API, chat, coding runs, bots and MCP — the platform's default, which is the most the organization may set, and the organization's own setting. Any member may read it.
 
-        :param ai_limits_set: (required)
-        :type ai_limits_set: AiLimitsSet
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1733,8 +2292,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._ai_set_limits_serialize(
-            ai_limits_set=ai_limits_set,
+        _param = self._ai_rate_limit_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1742,7 +2300,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiLimits",
+            '200': "AiRate",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1751,9 +2309,8 @@ class AiApi:
         return response_data.response
 
 
-    def _ai_set_limits_serialize(
+    def _ai_rate_limit_serialize(
         self,
-        ai_limits_set,
         _request_auth,
         _content_type,
         _headers,
@@ -1779,8 +2336,268 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if ai_limits_set is not None:
-            _body_params = ai_limits_set
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/ai/limits/rate',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def ai_set_rate_limit(
+        self,
+        ai_rate_in: AiRateIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AiRate:
+        """Sets the model requests one person may make in a minute acting in the organization the caller acts in, on every surface: 1 up to the platform's default, never more, or 0 to hold its people to the default.
+
+        Sets the model requests one person may make in a minute acting in the organization the caller acts in, on every surface: 1 up to the platform's default, never more, or 0 to hold its people to the default. An owner or admin of the organization, or a SuperAdmin, may; a member may not, and a shared sign-up org, which has no admin to speak for its people, is refused. A change a page made with the caller's cookie, not the caller (cloud.CSRF), is refused (403). Live at once for every model request. On the audit trail before the write (ai.limits.rate.attempt) and with its outcome (ai.limits.rate), the setting before and after; a trail that does not take the attempt refuses the change (503), and nothing moves.
+
+        :param ai_rate_in: (required)
+        :type ai_rate_in: AiRateIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._ai_set_rate_limit_serialize(
+            ai_rate_in=ai_rate_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiRate",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def ai_set_rate_limit_with_http_info(
+        self,
+        ai_rate_in: AiRateIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AiRate]:
+        """Sets the model requests one person may make in a minute acting in the organization the caller acts in, on every surface: 1 up to the platform's default, never more, or 0 to hold its people to the default.
+
+        Sets the model requests one person may make in a minute acting in the organization the caller acts in, on every surface: 1 up to the platform's default, never more, or 0 to hold its people to the default. An owner or admin of the organization, or a SuperAdmin, may; a member may not, and a shared sign-up org, which has no admin to speak for its people, is refused. A change a page made with the caller's cookie, not the caller (cloud.CSRF), is refused (403). Live at once for every model request. On the audit trail before the write (ai.limits.rate.attempt) and with its outcome (ai.limits.rate), the setting before and after; a trail that does not take the attempt refuses the change (503), and nothing moves.
+
+        :param ai_rate_in: (required)
+        :type ai_rate_in: AiRateIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._ai_set_rate_limit_serialize(
+            ai_rate_in=ai_rate_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiRate",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def ai_set_rate_limit_without_preload_content(
+        self,
+        ai_rate_in: AiRateIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Sets the model requests one person may make in a minute acting in the organization the caller acts in, on every surface: 1 up to the platform's default, never more, or 0 to hold its people to the default.
+
+        Sets the model requests one person may make in a minute acting in the organization the caller acts in, on every surface: 1 up to the platform's default, never more, or 0 to hold its people to the default. An owner or admin of the organization, or a SuperAdmin, may; a member may not, and a shared sign-up org, which has no admin to speak for its people, is refused. A change a page made with the caller's cookie, not the caller (cloud.CSRF), is refused (403). Live at once for every model request. On the audit trail before the write (ai.limits.rate.attempt) and with its outcome (ai.limits.rate), the setting before and after; a trail that does not take the attempt refuses the change (503), and nothing moves.
+
+        :param ai_rate_in: (required)
+        :type ai_rate_in: AiRateIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._ai_set_rate_limit_serialize(
+            ai_rate_in=ai_rate_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiRate",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _ai_set_rate_limit_serialize(
+        self,
+        ai_rate_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if ai_rate_in is not None:
+            _body_params = ai_rate_in
 
 
         # set the HTTP header `Accept`
@@ -1813,7 +2630,7 @@ class AiApi:
 
         return self.api_client.param_serialize(
             method='PUT',
-            resource_path='/v1/ai/limits',
+            resource_path='/v1/ai/limits/rate',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -40335,7 +41152,7 @@ class AiApi:
     ) -> AiModelList:
         """Returns the list of available models from the routing table.
 
-        Returns the list of available models from the routing table.  PUBLIC BY DESIGN, AND IT DOES NOT AUTHENTICATE — that is the whole contract, so it is stated here rather than left to be inferred. The catalogue is the same for everyone (listAvailableModels takes no principal), docs.hanzo.ai fetches it from the browser, and every policy layer around it says so: the authz filter lists \"models\" as public, filter_balance does not gate it, the rate limiter excludes it, and cloud's spend.Reachable carries /v1/models/ as \"the model catalog the shell reads for discovery\".  SO THE Authorization HEADER IS NOT AN ADMISSION CHECK HERE. It is read for ONE thing — annotating gated SKUs with the caller's own access standing — and annotation degrades to nothing when there is no verified principal.  A credential that is presented is verified, never merely shape-checked: a caller using /v1/models to ask \"is my key working?\" gets an honest answer, because a key that does not verify annotates nothing rather than reading as accepted.
+        Returns the list of available models from the routing table.  PUBLIC BY DESIGN, AND IT DOES NOT AUTHENTICATE — that is the whole contract, so it is stated here rather than left to be inferred. The catalogue is the same for everyone (listAvailableModels takes no principal), docs.hanzo.ai fetches it from the browser, and every policy layer around it says so: the authz filter lists \"models\" as public, filter_balance does not gate it, the rate limiter excludes it, and cloud's spend.Reachable carries /v1/models/ as \"the model catalog the shell reads for discovery\".  SO THE Authorization HEADER IS NOT AN ADMISSION CHECK HERE. It is read for ONE thing — annotating gated SKUs with the caller's own access standing — and annotation degrades to nothing when there is no verified principal.  A credential that is presented is verified, never merely shape-checked: a caller using /v1/models to ask \"is my key working?\" gets an honest answer, because a key that does not verify annotates nothing rather than reading as accepted.  ?id= narrows the listing to the models a page names, comma-separated and at most 100, in the listing's order; an id nothing lists is absent. Without it the listing is whole, which is what every OpenAI-compatible caller reads.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -40400,7 +41217,7 @@ class AiApi:
     ) -> ApiResponse[AiModelList]:
         """Returns the list of available models from the routing table.
 
-        Returns the list of available models from the routing table.  PUBLIC BY DESIGN, AND IT DOES NOT AUTHENTICATE — that is the whole contract, so it is stated here rather than left to be inferred. The catalogue is the same for everyone (listAvailableModels takes no principal), docs.hanzo.ai fetches it from the browser, and every policy layer around it says so: the authz filter lists \"models\" as public, filter_balance does not gate it, the rate limiter excludes it, and cloud's spend.Reachable carries /v1/models/ as \"the model catalog the shell reads for discovery\".  SO THE Authorization HEADER IS NOT AN ADMISSION CHECK HERE. It is read for ONE thing — annotating gated SKUs with the caller's own access standing — and annotation degrades to nothing when there is no verified principal.  A credential that is presented is verified, never merely shape-checked: a caller using /v1/models to ask \"is my key working?\" gets an honest answer, because a key that does not verify annotates nothing rather than reading as accepted.
+        Returns the list of available models from the routing table.  PUBLIC BY DESIGN, AND IT DOES NOT AUTHENTICATE — that is the whole contract, so it is stated here rather than left to be inferred. The catalogue is the same for everyone (listAvailableModels takes no principal), docs.hanzo.ai fetches it from the browser, and every policy layer around it says so: the authz filter lists \"models\" as public, filter_balance does not gate it, the rate limiter excludes it, and cloud's spend.Reachable carries /v1/models/ as \"the model catalog the shell reads for discovery\".  SO THE Authorization HEADER IS NOT AN ADMISSION CHECK HERE. It is read for ONE thing — annotating gated SKUs with the caller's own access standing — and annotation degrades to nothing when there is no verified principal.  A credential that is presented is verified, never merely shape-checked: a caller using /v1/models to ask \"is my key working?\" gets an honest answer, because a key that does not verify annotates nothing rather than reading as accepted.  ?id= narrows the listing to the models a page names, comma-separated and at most 100, in the listing's order; an id nothing lists is absent. Without it the listing is whole, which is what every OpenAI-compatible caller reads.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -40465,7 +41282,7 @@ class AiApi:
     ) -> RESTResponseType:
         """Returns the list of available models from the routing table.
 
-        Returns the list of available models from the routing table.  PUBLIC BY DESIGN, AND IT DOES NOT AUTHENTICATE — that is the whole contract, so it is stated here rather than left to be inferred. The catalogue is the same for everyone (listAvailableModels takes no principal), docs.hanzo.ai fetches it from the browser, and every policy layer around it says so: the authz filter lists \"models\" as public, filter_balance does not gate it, the rate limiter excludes it, and cloud's spend.Reachable carries /v1/models/ as \"the model catalog the shell reads for discovery\".  SO THE Authorization HEADER IS NOT AN ADMISSION CHECK HERE. It is read for ONE thing — annotating gated SKUs with the caller's own access standing — and annotation degrades to nothing when there is no verified principal.  A credential that is presented is verified, never merely shape-checked: a caller using /v1/models to ask \"is my key working?\" gets an honest answer, because a key that does not verify annotates nothing rather than reading as accepted.
+        Returns the list of available models from the routing table.  PUBLIC BY DESIGN, AND IT DOES NOT AUTHENTICATE — that is the whole contract, so it is stated here rather than left to be inferred. The catalogue is the same for everyone (listAvailableModels takes no principal), docs.hanzo.ai fetches it from the browser, and every policy layer around it says so: the authz filter lists \"models\" as public, filter_balance does not gate it, the rate limiter excludes it, and cloud's spend.Reachable carries /v1/models/ as \"the model catalog the shell reads for discovery\".  SO THE Authorization HEADER IS NOT AN ADMISSION CHECK HERE. It is read for ONE thing — annotating gated SKUs with the caller's own access standing — and annotation degrades to nothing when there is no verified principal.  A credential that is presented is verified, never merely shape-checked: a caller using /v1/models to ask \"is my key working?\" gets an honest answer, because a key that does not verify annotates nothing rather than reading as accepted.  ?id= narrows the listing to the models a page names, comma-separated and at most 100, in the listing's order; an id nothing lists is absent. Without it the listing is whole, which is what every OpenAI-compatible caller reads.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -51541,6 +52358,242 @@ class AiApi:
         return self.api_client.param_serialize(
             method='PATCH',
             resource_path='/v1/ai/workflows/{owner}/{name}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post3d_generations(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Implements POST /v1/3d/generations for Zen family 3D SKUs (mori, zen-3d).
+
+        Implements POST /v1/3d/generations for Zen family 3D SKUs (mori, zen-3d). Forwards to zen's /v1/3d/generations and bills per unit.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post3d_generations_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post3d_generations_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Implements POST /v1/3d/generations for Zen family 3D SKUs (mori, zen-3d).
+
+        Implements POST /v1/3d/generations for Zen family 3D SKUs (mori, zen-3d). Forwards to zen's /v1/3d/generations and bills per unit.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post3d_generations_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post3d_generations_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Implements POST /v1/3d/generations for Zen family 3D SKUs (mori, zen-3d).
+
+        Implements POST /v1/3d/generations for Zen family 3D SKUs (mori, zen-3d). Forwards to zen's /v1/3d/generations and bills per unit.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post3d_generations_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post3d_generations_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/3d/generations',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -71950,6 +73003,7 @@ class AiApi:
     def post_chat(
         self,
         openai_chat_completion_request: OpenaiChatCompletionRequest,
+        x_fast: Annotated[Optional[StrictStr], Field(description="Fast mode, as the body's `fast`: \"1\" or \"true\".")] = None,
         x_max_cost: Annotated[Optional[Union[Annotated[float, Field(strict=True, ge=0)], Annotated[int, Field(strict=True, ge=0)]]], Field(description="The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.")] = None,
         x_max_latency_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The slowest model this request accepts, in milliseconds.")] = None,
         _request_timeout: Union[
@@ -71967,10 +73021,12 @@ class AiApi:
     ) -> PostChat200Response:
         """Implements the OpenAI-compatible chat completions API
 
-        Implements the OpenAI-compatible chat completions API
+        Implements the OpenAI-compatible chat completions API  Reasoning effort is `reasoning_effort` (Responses: `reasoning.effort`). Send `auto`, or nothing, and enso-auto's router decides: it starts at Enso Flash and moves to a deeper tier only when the router or Kai judges the request needs it. The ladder: `instant` (no reasoning; `none` and `minimal` read instant) serves enso-flash with thinking off, `low` enso-flash, `medium` enso-pro, `high` enso-max, `max` enso-ultra (`xhigh` reads max). On a tier named outright the effort sets only how hard it thinks, and `instant` turns thinking off. Fast mode is `fast: true` (or `X-Fast: 1`): billed from prepaid balance on every plan at 2x the price on enso-auto and enso-flash, 3x on enso-pro and enso-max, 4x on enso-ultra, it asks prepaid rungs first, and a payer with no money of its own is refused prepaid_required.
 
         :param openai_chat_completion_request: (required)
         :type openai_chat_completion_request: OpenaiChatCompletionRequest
+        :param x_fast: Fast mode, as the body's `fast`: \"1\" or \"true\".
+        :type x_fast: str
         :param x_max_cost: The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.
         :type x_max_cost: float
         :param x_max_latency_ms: The slowest model this request accepts, in milliseconds.
@@ -71999,6 +73055,7 @@ class AiApi:
 
         _param = self._post_chat_serialize(
             openai_chat_completion_request=openai_chat_completion_request,
+            x_fast=x_fast,
             x_max_cost=x_max_cost,
             x_max_latency_ms=x_max_latency_ms,
             _request_auth=_request_auth,
@@ -72027,6 +73084,7 @@ class AiApi:
     def post_chat_with_http_info(
         self,
         openai_chat_completion_request: OpenaiChatCompletionRequest,
+        x_fast: Annotated[Optional[StrictStr], Field(description="Fast mode, as the body's `fast`: \"1\" or \"true\".")] = None,
         x_max_cost: Annotated[Optional[Union[Annotated[float, Field(strict=True, ge=0)], Annotated[int, Field(strict=True, ge=0)]]], Field(description="The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.")] = None,
         x_max_latency_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The slowest model this request accepts, in milliseconds.")] = None,
         _request_timeout: Union[
@@ -72044,10 +73102,12 @@ class AiApi:
     ) -> ApiResponse[PostChat200Response]:
         """Implements the OpenAI-compatible chat completions API
 
-        Implements the OpenAI-compatible chat completions API
+        Implements the OpenAI-compatible chat completions API  Reasoning effort is `reasoning_effort` (Responses: `reasoning.effort`). Send `auto`, or nothing, and enso-auto's router decides: it starts at Enso Flash and moves to a deeper tier only when the router or Kai judges the request needs it. The ladder: `instant` (no reasoning; `none` and `minimal` read instant) serves enso-flash with thinking off, `low` enso-flash, `medium` enso-pro, `high` enso-max, `max` enso-ultra (`xhigh` reads max). On a tier named outright the effort sets only how hard it thinks, and `instant` turns thinking off. Fast mode is `fast: true` (or `X-Fast: 1`): billed from prepaid balance on every plan at 2x the price on enso-auto and enso-flash, 3x on enso-pro and enso-max, 4x on enso-ultra, it asks prepaid rungs first, and a payer with no money of its own is refused prepaid_required.
 
         :param openai_chat_completion_request: (required)
         :type openai_chat_completion_request: OpenaiChatCompletionRequest
+        :param x_fast: Fast mode, as the body's `fast`: \"1\" or \"true\".
+        :type x_fast: str
         :param x_max_cost: The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.
         :type x_max_cost: float
         :param x_max_latency_ms: The slowest model this request accepts, in milliseconds.
@@ -72076,6 +73136,7 @@ class AiApi:
 
         _param = self._post_chat_serialize(
             openai_chat_completion_request=openai_chat_completion_request,
+            x_fast=x_fast,
             x_max_cost=x_max_cost,
             x_max_latency_ms=x_max_latency_ms,
             _request_auth=_request_auth,
@@ -72104,6 +73165,7 @@ class AiApi:
     def post_chat_without_preload_content(
         self,
         openai_chat_completion_request: OpenaiChatCompletionRequest,
+        x_fast: Annotated[Optional[StrictStr], Field(description="Fast mode, as the body's `fast`: \"1\" or \"true\".")] = None,
         x_max_cost: Annotated[Optional[Union[Annotated[float, Field(strict=True, ge=0)], Annotated[int, Field(strict=True, ge=0)]]], Field(description="The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.")] = None,
         x_max_latency_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The slowest model this request accepts, in milliseconds.")] = None,
         _request_timeout: Union[
@@ -72121,10 +73183,12 @@ class AiApi:
     ) -> RESTResponseType:
         """Implements the OpenAI-compatible chat completions API
 
-        Implements the OpenAI-compatible chat completions API
+        Implements the OpenAI-compatible chat completions API  Reasoning effort is `reasoning_effort` (Responses: `reasoning.effort`). Send `auto`, or nothing, and enso-auto's router decides: it starts at Enso Flash and moves to a deeper tier only when the router or Kai judges the request needs it. The ladder: `instant` (no reasoning; `none` and `minimal` read instant) serves enso-flash with thinking off, `low` enso-flash, `medium` enso-pro, `high` enso-max, `max` enso-ultra (`xhigh` reads max). On a tier named outright the effort sets only how hard it thinks, and `instant` turns thinking off. Fast mode is `fast: true` (or `X-Fast: 1`): billed from prepaid balance on every plan at 2x the price on enso-auto and enso-flash, 3x on enso-pro and enso-max, 4x on enso-ultra, it asks prepaid rungs first, and a payer with no money of its own is refused prepaid_required.
 
         :param openai_chat_completion_request: (required)
         :type openai_chat_completion_request: OpenaiChatCompletionRequest
+        :param x_fast: Fast mode, as the body's `fast`: \"1\" or \"true\".
+        :type x_fast: str
         :param x_max_cost: The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.
         :type x_max_cost: float
         :param x_max_latency_ms: The slowest model this request accepts, in milliseconds.
@@ -72153,6 +73217,7 @@ class AiApi:
 
         _param = self._post_chat_serialize(
             openai_chat_completion_request=openai_chat_completion_request,
+            x_fast=x_fast,
             x_max_cost=x_max_cost,
             x_max_latency_ms=x_max_latency_ms,
             _request_auth=_request_auth,
@@ -72176,6 +73241,7 @@ class AiApi:
     def _post_chat_serialize(
         self,
         openai_chat_completion_request,
+        x_fast,
         x_max_cost,
         x_max_latency_ms,
         _request_auth,
@@ -72201,6 +73267,8 @@ class AiApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
+        if x_fast is not None:
+            _header_params['X-Fast'] = x_fast
         if x_max_cost is not None:
             _header_params['X-Max-Cost'] = x_max_cost
         if x_max_latency_ms is not None:
@@ -72260,6 +73328,7 @@ class AiApi:
     def post_chat_completions(
         self,
         openai_chat_completion_request: OpenaiChatCompletionRequest,
+        x_fast: Annotated[Optional[StrictStr], Field(description="Fast mode, as the body's `fast`: \"1\" or \"true\".")] = None,
         x_max_cost: Annotated[Optional[Union[Annotated[float, Field(strict=True, ge=0)], Annotated[int, Field(strict=True, ge=0)]]], Field(description="The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.")] = None,
         x_max_latency_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The slowest model this request accepts, in milliseconds.")] = None,
         _request_timeout: Union[
@@ -72277,10 +73346,12 @@ class AiApi:
     ) -> PostChat200Response:
         """Implements the OpenAI-compatible chat completions API
 
-        Implements the OpenAI-compatible chat completions API
+        Implements the OpenAI-compatible chat completions API  Reasoning effort is `reasoning_effort` (Responses: `reasoning.effort`). Send `auto`, or nothing, and enso-auto's router decides: it starts at Enso Flash and moves to a deeper tier only when the router or Kai judges the request needs it. The ladder: `instant` (no reasoning; `none` and `minimal` read instant) serves enso-flash with thinking off, `low` enso-flash, `medium` enso-pro, `high` enso-max, `max` enso-ultra (`xhigh` reads max). On a tier named outright the effort sets only how hard it thinks, and `instant` turns thinking off. Fast mode is `fast: true` (or `X-Fast: 1`): billed from prepaid balance on every plan at 2x the price on enso-auto and enso-flash, 3x on enso-pro and enso-max, 4x on enso-ultra, it asks prepaid rungs first, and a payer with no money of its own is refused prepaid_required.
 
         :param openai_chat_completion_request: (required)
         :type openai_chat_completion_request: OpenaiChatCompletionRequest
+        :param x_fast: Fast mode, as the body's `fast`: \"1\" or \"true\".
+        :type x_fast: str
         :param x_max_cost: The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.
         :type x_max_cost: float
         :param x_max_latency_ms: The slowest model this request accepts, in milliseconds.
@@ -72309,6 +73380,7 @@ class AiApi:
 
         _param = self._post_chat_completions_serialize(
             openai_chat_completion_request=openai_chat_completion_request,
+            x_fast=x_fast,
             x_max_cost=x_max_cost,
             x_max_latency_ms=x_max_latency_ms,
             _request_auth=_request_auth,
@@ -72337,6 +73409,7 @@ class AiApi:
     def post_chat_completions_with_http_info(
         self,
         openai_chat_completion_request: OpenaiChatCompletionRequest,
+        x_fast: Annotated[Optional[StrictStr], Field(description="Fast mode, as the body's `fast`: \"1\" or \"true\".")] = None,
         x_max_cost: Annotated[Optional[Union[Annotated[float, Field(strict=True, ge=0)], Annotated[int, Field(strict=True, ge=0)]]], Field(description="The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.")] = None,
         x_max_latency_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The slowest model this request accepts, in milliseconds.")] = None,
         _request_timeout: Union[
@@ -72354,10 +73427,12 @@ class AiApi:
     ) -> ApiResponse[PostChat200Response]:
         """Implements the OpenAI-compatible chat completions API
 
-        Implements the OpenAI-compatible chat completions API
+        Implements the OpenAI-compatible chat completions API  Reasoning effort is `reasoning_effort` (Responses: `reasoning.effort`). Send `auto`, or nothing, and enso-auto's router decides: it starts at Enso Flash and moves to a deeper tier only when the router or Kai judges the request needs it. The ladder: `instant` (no reasoning; `none` and `minimal` read instant) serves enso-flash with thinking off, `low` enso-flash, `medium` enso-pro, `high` enso-max, `max` enso-ultra (`xhigh` reads max). On a tier named outright the effort sets only how hard it thinks, and `instant` turns thinking off. Fast mode is `fast: true` (or `X-Fast: 1`): billed from prepaid balance on every plan at 2x the price on enso-auto and enso-flash, 3x on enso-pro and enso-max, 4x on enso-ultra, it asks prepaid rungs first, and a payer with no money of its own is refused prepaid_required.
 
         :param openai_chat_completion_request: (required)
         :type openai_chat_completion_request: OpenaiChatCompletionRequest
+        :param x_fast: Fast mode, as the body's `fast`: \"1\" or \"true\".
+        :type x_fast: str
         :param x_max_cost: The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.
         :type x_max_cost: float
         :param x_max_latency_ms: The slowest model this request accepts, in milliseconds.
@@ -72386,6 +73461,7 @@ class AiApi:
 
         _param = self._post_chat_completions_serialize(
             openai_chat_completion_request=openai_chat_completion_request,
+            x_fast=x_fast,
             x_max_cost=x_max_cost,
             x_max_latency_ms=x_max_latency_ms,
             _request_auth=_request_auth,
@@ -72414,6 +73490,7 @@ class AiApi:
     def post_chat_completions_without_preload_content(
         self,
         openai_chat_completion_request: OpenaiChatCompletionRequest,
+        x_fast: Annotated[Optional[StrictStr], Field(description="Fast mode, as the body's `fast`: \"1\" or \"true\".")] = None,
         x_max_cost: Annotated[Optional[Union[Annotated[float, Field(strict=True, ge=0)], Annotated[int, Field(strict=True, ge=0)]]], Field(description="The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.")] = None,
         x_max_latency_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The slowest model this request accepts, in milliseconds.")] = None,
         _request_timeout: Union[
@@ -72431,10 +73508,12 @@ class AiApi:
     ) -> RESTResponseType:
         """Implements the OpenAI-compatible chat completions API
 
-        Implements the OpenAI-compatible chat completions API
+        Implements the OpenAI-compatible chat completions API  Reasoning effort is `reasoning_effort` (Responses: `reasoning.effort`). Send `auto`, or nothing, and enso-auto's router decides: it starts at Enso Flash and moves to a deeper tier only when the router or Kai judges the request needs it. The ladder: `instant` (no reasoning; `none` and `minimal` read instant) serves enso-flash with thinking off, `low` enso-flash, `medium` enso-pro, `high` enso-max, `max` enso-ultra (`xhigh` reads max). On a tier named outright the effort sets only how hard it thinks, and `instant` turns thinking off. Fast mode is `fast: true` (or `X-Fast: 1`): billed from prepaid balance on every plan at 2x the price on enso-auto and enso-flash, 3x on enso-pro and enso-max, 4x on enso-ultra, it asks prepaid rungs first, and a payer with no money of its own is refused prepaid_required.
 
         :param openai_chat_completion_request: (required)
         :type openai_chat_completion_request: OpenaiChatCompletionRequest
+        :param x_fast: Fast mode, as the body's `fast`: \"1\" or \"true\".
+        :type x_fast: str
         :param x_max_cost: The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.
         :type x_max_cost: float
         :param x_max_latency_ms: The slowest model this request accepts, in milliseconds.
@@ -72463,6 +73542,7 @@ class AiApi:
 
         _param = self._post_chat_completions_serialize(
             openai_chat_completion_request=openai_chat_completion_request,
+            x_fast=x_fast,
             x_max_cost=x_max_cost,
             x_max_latency_ms=x_max_latency_ms,
             _request_auth=_request_auth,
@@ -72486,6 +73566,7 @@ class AiApi:
     def _post_chat_completions_serialize(
         self,
         openai_chat_completion_request,
+        x_fast,
         x_max_cost,
         x_max_latency_ms,
         _request_auth,
@@ -72511,6 +73592,8 @@ class AiApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
+        if x_fast is not None:
+            _header_params['X-Fast'] = x_fast
         if x_max_cost is not None:
             _header_params['X-Max-Cost'] = x_max_cost
         if x_max_latency_ms is not None:
@@ -72850,6 +73933,7 @@ class AiApi:
     def post_completions(
         self,
         openai_chat_completion_request: OpenaiChatCompletionRequest,
+        x_fast: Annotated[Optional[StrictStr], Field(description="Fast mode, as the body's `fast`: \"1\" or \"true\".")] = None,
         x_max_cost: Annotated[Optional[Union[Annotated[float, Field(strict=True, ge=0)], Annotated[int, Field(strict=True, ge=0)]]], Field(description="The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.")] = None,
         x_max_latency_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The slowest model this request accepts, in milliseconds.")] = None,
         _request_timeout: Union[
@@ -72867,10 +73951,12 @@ class AiApi:
     ) -> PostChat200Response:
         """Implements the OpenAI-compatible chat completions API
 
-        Implements the OpenAI-compatible chat completions API
+        Implements the OpenAI-compatible chat completions API  Reasoning effort is `reasoning_effort` (Responses: `reasoning.effort`). Send `auto`, or nothing, and enso-auto's router decides: it starts at Enso Flash and moves to a deeper tier only when the router or Kai judges the request needs it. The ladder: `instant` (no reasoning; `none` and `minimal` read instant) serves enso-flash with thinking off, `low` enso-flash, `medium` enso-pro, `high` enso-max, `max` enso-ultra (`xhigh` reads max). On a tier named outright the effort sets only how hard it thinks, and `instant` turns thinking off. Fast mode is `fast: true` (or `X-Fast: 1`): billed from prepaid balance on every plan at 2x the price on enso-auto and enso-flash, 3x on enso-pro and enso-max, 4x on enso-ultra, it asks prepaid rungs first, and a payer with no money of its own is refused prepaid_required.
 
         :param openai_chat_completion_request: (required)
         :type openai_chat_completion_request: OpenaiChatCompletionRequest
+        :param x_fast: Fast mode, as the body's `fast`: \"1\" or \"true\".
+        :type x_fast: str
         :param x_max_cost: The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.
         :type x_max_cost: float
         :param x_max_latency_ms: The slowest model this request accepts, in milliseconds.
@@ -72899,6 +73985,7 @@ class AiApi:
 
         _param = self._post_completions_serialize(
             openai_chat_completion_request=openai_chat_completion_request,
+            x_fast=x_fast,
             x_max_cost=x_max_cost,
             x_max_latency_ms=x_max_latency_ms,
             _request_auth=_request_auth,
@@ -72927,6 +74014,7 @@ class AiApi:
     def post_completions_with_http_info(
         self,
         openai_chat_completion_request: OpenaiChatCompletionRequest,
+        x_fast: Annotated[Optional[StrictStr], Field(description="Fast mode, as the body's `fast`: \"1\" or \"true\".")] = None,
         x_max_cost: Annotated[Optional[Union[Annotated[float, Field(strict=True, ge=0)], Annotated[int, Field(strict=True, ge=0)]]], Field(description="The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.")] = None,
         x_max_latency_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The slowest model this request accepts, in milliseconds.")] = None,
         _request_timeout: Union[
@@ -72944,10 +74032,12 @@ class AiApi:
     ) -> ApiResponse[PostChat200Response]:
         """Implements the OpenAI-compatible chat completions API
 
-        Implements the OpenAI-compatible chat completions API
+        Implements the OpenAI-compatible chat completions API  Reasoning effort is `reasoning_effort` (Responses: `reasoning.effort`). Send `auto`, or nothing, and enso-auto's router decides: it starts at Enso Flash and moves to a deeper tier only when the router or Kai judges the request needs it. The ladder: `instant` (no reasoning; `none` and `minimal` read instant) serves enso-flash with thinking off, `low` enso-flash, `medium` enso-pro, `high` enso-max, `max` enso-ultra (`xhigh` reads max). On a tier named outright the effort sets only how hard it thinks, and `instant` turns thinking off. Fast mode is `fast: true` (or `X-Fast: 1`): billed from prepaid balance on every plan at 2x the price on enso-auto and enso-flash, 3x on enso-pro and enso-max, 4x on enso-ultra, it asks prepaid rungs first, and a payer with no money of its own is refused prepaid_required.
 
         :param openai_chat_completion_request: (required)
         :type openai_chat_completion_request: OpenaiChatCompletionRequest
+        :param x_fast: Fast mode, as the body's `fast`: \"1\" or \"true\".
+        :type x_fast: str
         :param x_max_cost: The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.
         :type x_max_cost: float
         :param x_max_latency_ms: The slowest model this request accepts, in milliseconds.
@@ -72976,6 +74066,7 @@ class AiApi:
 
         _param = self._post_completions_serialize(
             openai_chat_completion_request=openai_chat_completion_request,
+            x_fast=x_fast,
             x_max_cost=x_max_cost,
             x_max_latency_ms=x_max_latency_ms,
             _request_auth=_request_auth,
@@ -73004,6 +74095,7 @@ class AiApi:
     def post_completions_without_preload_content(
         self,
         openai_chat_completion_request: OpenaiChatCompletionRequest,
+        x_fast: Annotated[Optional[StrictStr], Field(description="Fast mode, as the body's `fast`: \"1\" or \"true\".")] = None,
         x_max_cost: Annotated[Optional[Union[Annotated[float, Field(strict=True, ge=0)], Annotated[int, Field(strict=True, ge=0)]]], Field(description="The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.")] = None,
         x_max_latency_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The slowest model this request accepts, in milliseconds.")] = None,
         _request_timeout: Union[
@@ -73021,10 +74113,12 @@ class AiApi:
     ) -> RESTResponseType:
         """Implements the OpenAI-compatible chat completions API
 
-        Implements the OpenAI-compatible chat completions API
+        Implements the OpenAI-compatible chat completions API  Reasoning effort is `reasoning_effort` (Responses: `reasoning.effort`). Send `auto`, or nothing, and enso-auto's router decides: it starts at Enso Flash and moves to a deeper tier only when the router or Kai judges the request needs it. The ladder: `instant` (no reasoning; `none` and `minimal` read instant) serves enso-flash with thinking off, `low` enso-flash, `medium` enso-pro, `high` enso-max, `max` enso-ultra (`xhigh` reads max). On a tier named outright the effort sets only how hard it thinks, and `instant` turns thinking off. Fast mode is `fast: true` (or `X-Fast: 1`): billed from prepaid balance on every plan at 2x the price on enso-auto and enso-flash, 3x on enso-pro and enso-max, 4x on enso-ultra, it asks prepaid rungs first, and a payer with no money of its own is refused prepaid_required.
 
         :param openai_chat_completion_request: (required)
         :type openai_chat_completion_request: OpenaiChatCompletionRequest
+        :param x_fast: Fast mode, as the body's `fast`: \"1\" or \"true\".
+        :type x_fast: str
         :param x_max_cost: The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.
         :type x_max_cost: float
         :param x_max_latency_ms: The slowest model this request accepts, in milliseconds.
@@ -73053,6 +74147,7 @@ class AiApi:
 
         _param = self._post_completions_serialize(
             openai_chat_completion_request=openai_chat_completion_request,
+            x_fast=x_fast,
             x_max_cost=x_max_cost,
             x_max_latency_ms=x_max_latency_ms,
             _request_auth=_request_auth,
@@ -73076,6 +74171,7 @@ class AiApi:
     def _post_completions_serialize(
         self,
         openai_chat_completion_request,
+        x_fast,
         x_max_cost,
         x_max_latency_ms,
         _request_auth,
@@ -73101,6 +74197,8 @@ class AiApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
+        if x_fast is not None:
+            _header_params['X-Fast'] = x_fast
         if x_max_cost is not None:
             _header_params['X-Max-Cost'] = x_max_cost
         if x_max_latency_ms is not None:
@@ -73722,6 +74820,242 @@ class AiApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/embeddings',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_foley_generations(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Serves the generative audio verbs — /v1/audio/voice (TTS), /music, /foley — that the Zen family serves natively.
+
+        Serves the generative audio verbs — /v1/audio/voice (TTS), /music, /foley — that the Zen family serves natively. It resolves the SKU and, for a Zen model, forwards to zen's matching verb billed per call at the discovered price. These verbs are Zen-native; a non-Zen model is rejected.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_foley_generations_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_foley_generations_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Serves the generative audio verbs — /v1/audio/voice (TTS), /music, /foley — that the Zen family serves natively.
+
+        Serves the generative audio verbs — /v1/audio/voice (TTS), /music, /foley — that the Zen family serves natively. It resolves the SKU and, for a Zen model, forwards to zen's matching verb billed per call at the discovered price. These verbs are Zen-native; a non-Zen model is rejected.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_foley_generations_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_foley_generations_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Serves the generative audio verbs — /v1/audio/voice (TTS), /music, /foley — that the Zen family serves natively.
+
+        Serves the generative audio verbs — /v1/audio/voice (TTS), /music, /foley — that the Zen family serves natively. It resolves the SKU and, for a Zen model, forwards to zen's matching verb billed per call at the discovered price. These verbs are Zen-native; a non-Zen model is rejected.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_foley_generations_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_foley_generations_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/foley/generations',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -74789,6 +76123,242 @@ class AiApi:
 
 
     @validate_call
+    def post_music_generations(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Serves the generative audio verbs — /v1/audio/voice (TTS), /music, /foley — that the Zen family serves natively.
+
+        Serves the generative audio verbs — /v1/audio/voice (TTS), /music, /foley — that the Zen family serves natively. It resolves the SKU and, for a Zen model, forwards to zen's matching verb billed per call at the discovered price. These verbs are Zen-native; a non-Zen model is rejected.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_music_generations_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_music_generations_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Serves the generative audio verbs — /v1/audio/voice (TTS), /music, /foley — that the Zen family serves natively.
+
+        Serves the generative audio verbs — /v1/audio/voice (TTS), /music, /foley — that the Zen family serves natively. It resolves the SKU and, for a Zen model, forwards to zen's matching verb billed per call at the discovered price. These verbs are Zen-native; a non-Zen model is rejected.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_music_generations_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_music_generations_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Serves the generative audio verbs — /v1/audio/voice (TTS), /music, /foley — that the Zen family serves natively.
+
+        Serves the generative audio verbs — /v1/audio/voice (TTS), /music, /foley — that the Zen family serves natively. It resolves the SKU and, for a Zen model, forwards to zen's matching verb billed per call at the discovered price. These verbs are Zen-native; a non-Zen model is rejected.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_music_generations_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_music_generations_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/music/generations',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def post_rerank(
         self,
         _request_timeout: Union[
@@ -75043,6 +76613,7 @@ class AiApi:
     @validate_call
     def post_responses(
         self,
+        x_fast: Annotated[Optional[StrictStr], Field(description="Fast mode, as the body's `fast`: \"1\" or \"true\".")] = None,
         x_max_cost: Annotated[Optional[Union[Annotated[float, Field(strict=True, ge=0)], Annotated[int, Field(strict=True, ge=0)]]], Field(description="The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.")] = None,
         x_max_latency_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The slowest model this request accepts, in milliseconds.")] = None,
         _request_timeout: Union[
@@ -75060,8 +76631,10 @@ class AiApi:
     ) -> PostResponses200Response:
         """Implements POST /v1/responses.
 
-        Implements POST /v1/responses. The converted request is completed by the chat path, which is handed a sink saying where the answer goes: a stream is translated as it is produced, a whole body is translated entire.
+        Implements POST /v1/responses. The converted request is completed by the chat path, which is handed a sink saying where the answer goes: a stream is translated as it is produced, a whole body is translated entire.  Reasoning effort is `reasoning_effort` (Responses: `reasoning.effort`). Send `auto`, or nothing, and enso-auto's router decides: it starts at Enso Flash and moves to a deeper tier only when the router or Kai judges the request needs it. The ladder: `instant` (no reasoning; `none` and `minimal` read instant) serves enso-flash with thinking off, `low` enso-flash, `medium` enso-pro, `high` enso-max, `max` enso-ultra (`xhigh` reads max). On a tier named outright the effort sets only how hard it thinks, and `instant` turns thinking off. Fast mode is `fast: true` (or `X-Fast: 1`): billed from prepaid balance on every plan at 2x the price on enso-auto and enso-flash, 3x on enso-pro and enso-max, 4x on enso-ultra, it asks prepaid rungs first, and a payer with no money of its own is refused prepaid_required.
 
+        :param x_fast: Fast mode, as the body's `fast`: \"1\" or \"true\".
+        :type x_fast: str
         :param x_max_cost: The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.
         :type x_max_cost: float
         :param x_max_latency_ms: The slowest model this request accepts, in milliseconds.
@@ -75089,6 +76662,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_responses_serialize(
+            x_fast=x_fast,
             x_max_cost=x_max_cost,
             x_max_latency_ms=x_max_latency_ms,
             _request_auth=_request_auth,
@@ -75116,6 +76690,7 @@ class AiApi:
     @validate_call
     def post_responses_with_http_info(
         self,
+        x_fast: Annotated[Optional[StrictStr], Field(description="Fast mode, as the body's `fast`: \"1\" or \"true\".")] = None,
         x_max_cost: Annotated[Optional[Union[Annotated[float, Field(strict=True, ge=0)], Annotated[int, Field(strict=True, ge=0)]]], Field(description="The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.")] = None,
         x_max_latency_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The slowest model this request accepts, in milliseconds.")] = None,
         _request_timeout: Union[
@@ -75133,8 +76708,10 @@ class AiApi:
     ) -> ApiResponse[PostResponses200Response]:
         """Implements POST /v1/responses.
 
-        Implements POST /v1/responses. The converted request is completed by the chat path, which is handed a sink saying where the answer goes: a stream is translated as it is produced, a whole body is translated entire.
+        Implements POST /v1/responses. The converted request is completed by the chat path, which is handed a sink saying where the answer goes: a stream is translated as it is produced, a whole body is translated entire.  Reasoning effort is `reasoning_effort` (Responses: `reasoning.effort`). Send `auto`, or nothing, and enso-auto's router decides: it starts at Enso Flash and moves to a deeper tier only when the router or Kai judges the request needs it. The ladder: `instant` (no reasoning; `none` and `minimal` read instant) serves enso-flash with thinking off, `low` enso-flash, `medium` enso-pro, `high` enso-max, `max` enso-ultra (`xhigh` reads max). On a tier named outright the effort sets only how hard it thinks, and `instant` turns thinking off. Fast mode is `fast: true` (or `X-Fast: 1`): billed from prepaid balance on every plan at 2x the price on enso-auto and enso-flash, 3x on enso-pro and enso-max, 4x on enso-ultra, it asks prepaid rungs first, and a payer with no money of its own is refused prepaid_required.
 
+        :param x_fast: Fast mode, as the body's `fast`: \"1\" or \"true\".
+        :type x_fast: str
         :param x_max_cost: The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.
         :type x_max_cost: float
         :param x_max_latency_ms: The slowest model this request accepts, in milliseconds.
@@ -75162,6 +76739,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_responses_serialize(
+            x_fast=x_fast,
             x_max_cost=x_max_cost,
             x_max_latency_ms=x_max_latency_ms,
             _request_auth=_request_auth,
@@ -75189,6 +76767,7 @@ class AiApi:
     @validate_call
     def post_responses_without_preload_content(
         self,
+        x_fast: Annotated[Optional[StrictStr], Field(description="Fast mode, as the body's `fast`: \"1\" or \"true\".")] = None,
         x_max_cost: Annotated[Optional[Union[Annotated[float, Field(strict=True, ge=0)], Annotated[int, Field(strict=True, ge=0)]]], Field(description="The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.")] = None,
         x_max_latency_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The slowest model this request accepts, in milliseconds.")] = None,
         _request_timeout: Union[
@@ -75206,8 +76785,10 @@ class AiApi:
     ) -> RESTResponseType:
         """Implements POST /v1/responses.
 
-        Implements POST /v1/responses. The converted request is completed by the chat path, which is handed a sink saying where the answer goes: a stream is translated as it is produced, a whole body is translated entire.
+        Implements POST /v1/responses. The converted request is completed by the chat path, which is handed a sink saying where the answer goes: a stream is translated as it is produced, a whole body is translated entire.  Reasoning effort is `reasoning_effort` (Responses: `reasoning.effort`). Send `auto`, or nothing, and enso-auto's router decides: it starts at Enso Flash and moves to a deeper tier only when the router or Kai judges the request needs it. The ladder: `instant` (no reasoning; `none` and `minimal` read instant) serves enso-flash with thinking off, `low` enso-flash, `medium` enso-pro, `high` enso-max, `max` enso-ultra (`xhigh` reads max). On a tier named outright the effort sets only how hard it thinks, and `instant` turns thinking off. Fast mode is `fast: true` (or `X-Fast: 1`): billed from prepaid balance on every plan at 2x the price on enso-auto and enso-flash, 3x on enso-pro and enso-max, 4x on enso-ultra, it asks prepaid rungs first, and a payer with no money of its own is refused prepaid_required.
 
+        :param x_fast: Fast mode, as the body's `fast`: \"1\" or \"true\".
+        :type x_fast: str
         :param x_max_cost: The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.
         :type x_max_cost: float
         :param x_max_latency_ms: The slowest model this request accepts, in milliseconds.
@@ -75235,6 +76816,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_responses_serialize(
+            x_fast=x_fast,
             x_max_cost=x_max_cost,
             x_max_latency_ms=x_max_latency_ms,
             _request_auth=_request_auth,
@@ -75257,6 +76839,7 @@ class AiApi:
 
     def _post_responses_serialize(
         self,
+        x_fast,
         x_max_cost,
         x_max_latency_ms,
         _request_auth,
@@ -75282,6 +76865,8 @@ class AiApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
+        if x_fast is not None:
+            _header_params['X-Fast'] = x_fast
         if x_max_cost is not None:
             _header_params['X-Max-Cost'] = x_max_cost
         if x_max_latency_ms is not None:

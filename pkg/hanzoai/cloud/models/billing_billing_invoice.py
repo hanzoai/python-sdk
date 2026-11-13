@@ -35,6 +35,7 @@ class BillingBillingInvoice(BaseModel):
     currency: Optional[StrictStr] = None
     customer_email: Optional[StrictStr] = Field(default=None, alias="customerEmail")
     discount: Optional[StrictInt] = None
+    discount_name: Optional[StrictStr] = Field(default=None, description="DiscountName names what Discount took off (\"Customer price: $195.00/month\", a promo, a coupon's month). Last, for the ZAP wire.", alias="discountName")
     due_date: Optional[StrictStr] = Field(default=None, alias="dueDate")
     id: Optional[StrictStr] = None
     line_items: Optional[List[BillingInvoiceLineItem]] = Field(default=None, description="LineItems carries no omitempty and is never allocated empty, because the wire it reproduces sends `null` for an invoice with no lines. An empty array there would be a different answer to \"were there lines\".", alias="lineItems")
@@ -52,7 +53,7 @@ class BillingBillingInvoice(BaseModel):
     updated_at: Optional[StrictStr] = Field(default=None, alias="updatedAt")
     user_id: Optional[StrictStr] = Field(default=None, alias="userId")
     voided_at: Optional[StrictStr] = Field(default=None, alias="voidedAt")
-    __properties: ClassVar[List[str]] = ["amountDue", "amountPaid", "attemptCount", "createdAt", "creditApplied", "currency", "customerEmail", "discount", "dueDate", "id", "lineItems", "number", "numberStr", "paidAt", "paymentMethod", "paymentRef", "periodEnd", "periodStart", "status", "subscriptionId", "subtotal", "tax", "updatedAt", "userId", "voidedAt"]
+    __properties: ClassVar[List[str]] = ["amountDue", "amountPaid", "attemptCount", "createdAt", "creditApplied", "currency", "customerEmail", "discount", "discountName", "dueDate", "id", "lineItems", "number", "numberStr", "paidAt", "paymentMethod", "paymentRef", "periodEnd", "periodStart", "status", "subscriptionId", "subtotal", "tax", "updatedAt", "userId", "voidedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -120,6 +121,7 @@ class BillingBillingInvoice(BaseModel):
             "currency": obj.get("currency"),
             "customerEmail": obj.get("customerEmail"),
             "discount": obj.get("discount"),
+            "discountName": obj.get("discountName"),
             "dueDate": obj.get("dueDate"),
             "id": obj.get("id"),
             "lineItems": [BillingInvoiceLineItem.from_dict(_item) for _item in obj["lineItems"]] if obj.get("lineItems") is not None else None,

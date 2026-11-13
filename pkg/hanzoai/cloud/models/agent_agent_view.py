@@ -27,6 +27,8 @@ class AgentAgentView(BaseModel):
     AgentAgentView
     """ # noqa: E501
     avatar: Optional[StrictStr] = Field(default=None, description="Avatar is an image the agent is drawn as — a link to one, or the bytes inline as a data URL, up to 96 KiB. Emoji is the one glyph a caller picked when they had no image. At most one is ever set; neither means the agent is drawn as its initial, the same way a person with no photo is. Both are iam/pkg/schema's Mark, so a face means the same thing on an agent as it does on a person or an org. Avatar is the agent's picture: an image URL, or the image itself inline as a data URL up to 96 KiB. Empty when the agent has no image.")
+    avatar_licence: Optional[StrictStr] = Field(default=None, description="AvatarLicence is the short name of the licence the avatar image is used under (\"Public domain\", \"CC0\"). Present only with an avatar image.")
+    avatar_source: Optional[StrictStr] = Field(default=None, description="AvatarSource is the page the avatar image is described on, where its author and licence can be read (a Wikimedia Commons file page, say). Present only with an avatar image.")
     cap_micro_usd: Optional[StrictInt] = Field(default=None, description="CapMicroUSD is the total this agent may spend within one Period, as an integer number of micro-USD (1,000,000 = $1). It is required at creation: a cap of zero would mean no limit and no per-agent spend record at all.")
     compute_ref: Optional[StrictStr] = Field(default=None, description="ComputeRef is the visor machine this bot is bound to, opaque here: this package stores and echoes it, and the binding's lifecycle belongs elsewhere. Empty means unbound, which is what every one-shot agent is.", alias="computeRef")
     consumed_micro_usd: Optional[StrictInt] = Field(default=None, description="ConsumedMicroUSD is what has been spent in the current period, in micro-USD. It is settled from what the gateway reported, not from the quote.")
@@ -44,10 +46,10 @@ class AgentAgentView(BaseModel):
     runs: Optional[StrictInt] = Field(default=None, description="Runs is how many executions the org has recorded against this agent, counted at read time. The list and update reads count the WHOLE history; the detail read reports the size of the RecentRuns page it carries, which stops at 20 — so a detail row saying 20 means \"at least 20\", not \"exactly 20\".")
     schedule: Optional[StrictStr] = Field(default=None, description="Schedule is the 5-field cron the scheduler fires a long-running agent on, evaluated once a minute. Required for long-running and DROPPED for one-shot — a one-shot agent's schedule is not stored, so absence here is the mode's answer rather than a value nobody set.")
     service_account_id: Optional[StrictStr] = Field(default=None, description="ServiceAccountID is the IAM agent service account (<org>-<agent>) a scheduled run is billed AS. It is what makes an autonomous run attributable to a principal rather than only to the org; empty means the org itself wears the spend.", alias="serviceAccountId")
-    status: Optional[StrictStr] = Field(default=None, description="Status is the agent's readiness, and today it is \"ready\" on every row: an agent is a definition rather than a provisioned thing, so nothing transitions it. Server-set at create; no route accepts it.")
+    status: Optional[StrictStr] = Field(default=None, description="Status is the agent's readiness: \"ready\", or \"retired\" for a built-in whose member has left Hanzo's team. A retired agent is left out of the list and still answers a get by its handle. Server-set; no route accepts it.")
     tools: Optional[List[StrictStr]] = Field(default=None, description="Tools are the tool names this agent may call, and the list IS the authority: an agent that declares none gets none. The single entry \"*\" means whatever the fleet's MCP server serves at the moment of the run, resolved per run rather than frozen here, which is how the default assistant reaches subsystems that shipped after it was defined. Empty array, never null.")
     updated_at: Optional[StrictStr] = Field(default=None, description="UpdatedAt is the last time any field above was written, same format. It moves on an update to the DEFINITION and never on a run, so a busy agent nobody has edited keeps an old one.", alias="updatedAt")
-    __properties: ClassVar[List[str]] = ["avatar", "cap_micro_usd", "computeRef", "consumed_micro_usd", "createdAt", "description", "emoji", "executionMode", "id", "lineage", "max_task_micro_usd", "model", "name", "parent", "period", "runs", "schedule", "serviceAccountId", "status", "tools", "updatedAt"]
+    __properties: ClassVar[List[str]] = ["avatar", "avatar_licence", "avatar_source", "cap_micro_usd", "computeRef", "consumed_micro_usd", "createdAt", "description", "emoji", "executionMode", "id", "lineage", "max_task_micro_usd", "model", "name", "parent", "period", "runs", "schedule", "serviceAccountId", "status", "tools", "updatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -101,6 +103,8 @@ class AgentAgentView(BaseModel):
 
         _obj = cls.model_validate({
             "avatar": obj.get("avatar"),
+            "avatar_licence": obj.get("avatar_licence"),
+            "avatar_source": obj.get("avatar_source"),
             "cap_micro_usd": obj.get("cap_micro_usd"),
             "computeRef": obj.get("computeRef"),
             "consumed_micro_usd": obj.get("consumed_micro_usd"),

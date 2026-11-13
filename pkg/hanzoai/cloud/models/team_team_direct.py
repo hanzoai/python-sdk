@@ -19,7 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.team_team_room import TeamTeamRoom
+from hanzoai.cloud.models.team_team_channel import TeamTeamChannel
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,9 +27,9 @@ class TeamTeamDirect(BaseModel):
     """
     TeamTeamDirect
     """ # noqa: E501
+    channel: Optional[TeamTeamChannel] = Field(default=None, description="Channel is the direct message, as the channel listing answers it.")
     created: Optional[StrictBool] = Field(default=None, description="Created is true when this call opened the conversation (201) and false when it already existed (200).")
-    room: Optional[TeamTeamRoom] = Field(default=None, description="Room is the direct message, as the room listing answers it.")
-    __properties: ClassVar[List[str]] = ["created", "room"]
+    __properties: ClassVar[List[str]] = ["channel", "created"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -70,9 +70,9 @@ class TeamTeamDirect(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of room
-        if self.room:
-            _dict['room'] = self.room.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of channel
+        if self.channel:
+            _dict['channel'] = self.channel.to_dict()
         return _dict
 
     @classmethod
@@ -85,8 +85,8 @@ class TeamTeamDirect(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "created": obj.get("created"),
-            "room": TeamTeamRoom.from_dict(obj["room"]) if obj.get("room") is not None else None
+            "channel": TeamTeamChannel.from_dict(obj["channel"]) if obj.get("channel") is not None else None,
+            "created": obj.get("created")
         })
         return _obj
 

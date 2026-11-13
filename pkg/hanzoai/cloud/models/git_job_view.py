@@ -27,9 +27,11 @@ class GitJobView(BaseModel):
     GitJobView
     """ # noqa: E501
     name: Optional[StrictStr] = Field(default=None, description="Name is the job's id in the workflow document.")
-    pool: Optional[StrictStr] = Field(default=None, description="Pool is the declared pool carrying every one of those labels, or empty when no pool does — which is the answer to \"why is nothing running\".")
+    needs: Optional[List[StrictStr]] = Field(default=None, description="Needs are the jobs this one waits for.")
+    pool: Optional[StrictStr] = Field(default=None, description="Pool is where the job would run. Here it is the declared pool carrying every one of those labels, or empty when no pool does — which is the answer to \"why is nothing running\". On the forge it is the label set, sorted and joined by \"+\", that the platform starts a runner for when the job queues, and empty when no node in the cluster can run it (macOS, Windows) or the job asks for nothing.")
     runs_on: Optional[List[StrictStr]] = Field(default=None, description="RunsOn is the labels the job asked for.", alias="runsOn")
-    __properties: ClassVar[List[str]] = ["name", "pool", "runsOn"]
+    uses: Optional[StrictStr] = Field(default=None, description="Uses is the reusable workflow the job calls instead of running steps of its own, such as hanzoai/ci/.github/workflows/build.yml@v2.1.21; its jobs run where that workflow says.")
+    __properties: ClassVar[List[str]] = ["name", "needs", "pool", "runsOn", "uses"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -83,8 +85,10 @@ class GitJobView(BaseModel):
 
         _obj = cls.model_validate({
             "name": obj.get("name"),
+            "needs": obj.get("needs"),
             "pool": obj.get("pool"),
-            "runsOn": obj.get("runsOn")
+            "runsOn": obj.get("runsOn"),
+            "uses": obj.get("uses")
         })
         return _obj
 

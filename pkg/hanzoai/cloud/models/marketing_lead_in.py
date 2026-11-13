@@ -45,16 +45,18 @@ class MarketingLeadIn(BaseModel):
     links: Optional[List[StrictStr]] = Field(default=None, description="Links are https addresses the applicant gave: a portfolio, a profile, a site. At most five, each at most 500 characters; any other value is dropped. Read only with Job.")
     name: Optional[StrictStr] = Field(default=None, description="Name is the person's name. Optional, and clipped at 200 characters, except for an investor, who must give it, in at most 200.")
     need: Optional[StrictStr] = Field(default=None, description="Need is what the person wants from sales, in their own words. Optional; clipped at 4 KiB.")
+    payment: Optional[StrictStr] = Field(default=None, description="Payment is how an order the form files would be paid: \"card\" or \"invoice\" (a bank transfer against an invoice sales sends). Empty is none; anything else is 400. An Enterprise inquiry asking to pay by invoice is stated on the event plane as invoice_requested beside its generate_lead.")
     phone: Optional[StrictStr] = Field(default=None, description="Phone is an investor's phone number: 3 to 20 digits, an optional leading +, and any spaces, dots, dashes or brackets between them. Optional.")
-    program: Optional[StrictStr] = Field(default=None, description="Program is the program the person applies to: beta, research or partner. Any other value is recorded as none. An application is mailed a code for 50% off the first three months, once per address (offer.go). Optional. \"investor\" is an investor's subscription (investor.go): it is mailed no code, it is sent a SAFE, and Name, Amount and Address are required.")
+    program: Optional[StrictStr] = Field(default=None, description="Program is the program the person applies to: beta, research or partner. Any other value is recorded as none. An application is mailed a code for 50% off the first three months, once per address (offer.go). Optional. \"enterprise\" is a sales inquiry about the Enterprise plan: recorded as the lead's program, offered the intro call as every inquiry is, and mailed no code. \"investor\" is an investor's subscription (investor.go): it is mailed no code, it is sent a SAFE, and Name, Amount and Address are required.")
     resume: Optional[StrictStr] = Field(default=None, description="Resume is an https address the applicant gave for their resume. Read only with Job; any other value is recorded as none.")
     resume_file: Optional[StrictStr] = Field(default=None, description="ResumeFile is the key POST /v1/marketing/leads/resume handed out for the resume the applicant uploaded. Any other value is recorded as none. Read only with Job.")
     role: Optional[StrictStr] = Field(default=None, description="Role is the person's job title. Optional; clipped at 200 characters.")
     size: Optional[StrictStr] = Field(default=None, description="Size is the company's headcount band: 1-49, 50-249, 250-999, 1000-4999 or 5000+. Any other value is recorded as unstated rather than refused.")
     source: Optional[StrictStr] = Field(default=None, description="Source is the page the form was filed from, such as hanzo.ai/contact-sales. Optional; clipped at 200 characters.")
     title: Optional[StrictStr] = Field(default=None, description="Title is the investor's title at Entity, as the SAFE's signature block names it. At most 200 characters; read only with Entity.")
+    upgrade: Optional[StrictStr] = Field(default=None, description="Upgrade is the handle of the organization an order upgrades. It is filed only for a person signed in, acting in that organization (X-Org-Id) as its owner or an admin, which the identity boundary attests from the token; any other caller naming one is 403. Empty is a new organization, or none.")
     visit: Optional[MarketingVisit] = Field(default=None, description="Visit is what the visitor's page knows about the ad click that brought them and the consent they gave, so the lead reaches the ad platforms matched to the click and under the visitor's own choice. Optional.")
-    __properties: ClassVar[List[str]] = ["address", "amount", "answers", "campaign", "company", "consent", "country", "coupon", "department", "email", "entity", "job", "links", "name", "need", "phone", "program", "resume", "resume_file", "role", "size", "source", "title", "visit"]
+    __properties: ClassVar[List[str]] = ["address", "amount", "answers", "campaign", "company", "consent", "country", "coupon", "department", "email", "entity", "job", "links", "name", "need", "payment", "phone", "program", "resume", "resume_file", "role", "size", "source", "title", "upgrade", "visit"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -143,6 +145,7 @@ class MarketingLeadIn(BaseModel):
             "links": obj.get("links"),
             "name": obj.get("name"),
             "need": obj.get("need"),
+            "payment": obj.get("payment"),
             "phone": obj.get("phone"),
             "program": obj.get("program"),
             "resume": obj.get("resume"),
@@ -151,6 +154,7 @@ class MarketingLeadIn(BaseModel):
             "size": obj.get("size"),
             "source": obj.get("source"),
             "title": obj.get("title"),
+            "upgrade": obj.get("upgrade"),
             "visit": MarketingVisit.from_dict(obj["visit"]) if obj.get("visit") is not None else None
         })
         return _obj

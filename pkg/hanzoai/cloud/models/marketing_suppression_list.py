@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.marketing_suppression import MarketingSuppression
 from typing import Optional, Set
@@ -28,7 +28,9 @@ class MarketingSuppressionList(BaseModel):
     MarketingSuppressionList
     """ # noqa: E501
     data: Optional[List[MarketingSuppression]] = Field(default=None, description="Data is the page: every (channel, address) this org's send gate refuses, newest opt-out first. Absence from it is not permission to mail someone — it only means no opt-out was recorded on that channel.")
-    __properties: ClassVar[List[str]] = ["data"]
+    next: Optional[StrictStr] = Field(default=None, description="Next is the opaque keyset cursor for the next page. Empty means this was the last page; pass it back as the `cursor` query to continue.")
+    total: Optional[StrictInt] = Field(default=None, description="Total is the true number of opt-outs the org has on this channel, across every page.")
+    __properties: ClassVar[List[str]] = ["data", "next", "total"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -88,7 +90,9 @@ class MarketingSuppressionList(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "data": [MarketingSuppression.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None
+            "data": [MarketingSuppression.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None,
+            "next": obj.get("next"),
+            "total": obj.get("total")
         })
         return _obj
 

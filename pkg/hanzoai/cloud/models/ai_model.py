@@ -39,7 +39,8 @@ class AiModel(BaseModel):
     name: Optional[StrictStr] = Field(default=None, description="Name is the model's display name.")
     outputs: Optional[List[StrictStr]] = Field(default=None, description="Outputs are the modalities the model writes.")
     pricing: Optional[AiPrice] = Field(default=None, description="Pricing is the model's list price.")
-    __properties: ClassVar[List[str]] = ["capabilities", "class", "context_window", "expires", "family", "free", "id", "inputs", "max_output_tokens", "name", "outputs", "pricing"]
+    zdr: Optional[StrictBool] = Field(default=None, description="ZDR is whether the model is eligible for Zero Data Retention (non-free, non-data-shared commercial route).")
+    __properties: ClassVar[List[str]] = ["capabilities", "class", "context_window", "expires", "family", "free", "id", "inputs", "max_output_tokens", "name", "outputs", "pricing", "zdr"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -106,7 +107,8 @@ class AiModel(BaseModel):
             "max_output_tokens": obj.get("max_output_tokens"),
             "name": obj.get("name"),
             "outputs": obj.get("outputs"),
-            "pricing": AiPrice.from_dict(obj["pricing"]) if obj.get("pricing") is not None else None
+            "pricing": AiPrice.from_dict(obj["pricing"]) if obj.get("pricing") is not None else None,
+            "zdr": obj.get("zdr")
         })
         return _obj
 

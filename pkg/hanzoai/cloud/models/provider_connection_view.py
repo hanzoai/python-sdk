@@ -31,10 +31,11 @@ class ProviderConnectionView(BaseModel):
     expires_at: Optional[StrictStr] = Field(default=None, description="ExpiresAt is when the access token expires, RFC 3339 UTC; empty for a credential that does not expire. Reading the token rotates it inside the window, so a reader never sees an expired one.", alias="expiresAt")
     external_id: Optional[StrictStr] = Field(default=None, description="ExternalID is the provider's own id for the account (Slack team.id, GitHub installation_id) — the value inbound webhooks are mapped back to this org by.", alias="externalId")
     id: Optional[StrictStr] = Field(default=None, description="ID is provider + \":\" + label, the address every connection route takes. Empty on the org plane, where a provider's connection is addressed by the provider alone.")
+    kind: Optional[StrictStr] = Field(default=None, description="Kind is personal or page for a social account that has one. Empty for every other connector.")
     label: Optional[StrictStr] = Field(default=None, description="Label is the caller's own name for this connection (\"default\", \"work\").")
     provider: Optional[StrictStr] = Field(default=None, description="Provider is the connected provider's registry id. Empty where the reader already knows it, which is every org-plane card.")
     scopes: Optional[List[StrictStr]] = Field(default=None, description="Scopes are the permissions the provider granted. Never null; [] when none.")
-    __properties: ClassVar[List[str]] = ["account", "connectedAt", "expiresAt", "externalId", "id", "label", "provider", "scopes"]
+    __properties: ClassVar[List[str]] = ["account", "connectedAt", "expiresAt", "externalId", "id", "kind", "label", "provider", "scopes"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -92,6 +93,7 @@ class ProviderConnectionView(BaseModel):
             "expiresAt": obj.get("expiresAt"),
             "externalId": obj.get("externalId"),
             "id": obj.get("id"),
+            "kind": obj.get("kind"),
             "label": obj.get("label"),
             "provider": obj.get("provider"),
             "scopes": obj.get("scopes")

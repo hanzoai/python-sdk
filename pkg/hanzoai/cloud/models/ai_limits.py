@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.ai_action import AiAction
 from hanzoai.cloud.models.ai_class import AiClass
@@ -33,17 +33,17 @@ class AiLimits(BaseModel):
     """ # noqa: E501
     actions: Optional[List[AiAction]] = Field(default=None, description="Actions are the ways on: upgrade, add prepaid credit.")
     classes: Optional[Dict[str, AiClass]] = Field(default=None, description="Classes are premium (third-party frontier models) and ours (Hanzo's), each present when the plan includes it.")
-    credits_after_allowance: Optional[StrictBool] = Field(default=None, description="CreditsAfterAllowance is the payer's choice to keep using a model on credits once the plan's included usage of it is spent (PUT /v1/ai/limits sets it).")
     day: Optional[AiWindow] = None
     limited: Optional[AiLimited] = Field(default=None, description="Limited is present in limited mode.")
     paused: Optional[List[AiPaused]] = Field(default=None, description="Paused are the models whose share of the plan is used for now: each is answered by its fallback in chat until its share resets.")
+    pays: Optional[Dict[str, StrictStr]] = Field(default=None, description="Pays is who pays for the next priced request of each class, on any plan or none: plan (its included usage), prepaid (funds the caller added), credits (granted credit, where it pays for the class) or none (nothing does: a request of the class is refused 402 insufficient_balance until funds are added, the `topup` action). It is the usage policy's own answer, so a picker shows Top up on `none` without knowing which credit pays for which class. A class is absent when the wallet could not be read.")
     period_end: Optional[StrictStr] = None
     period_start: Optional[StrictStr] = Field(default=None, description="PeriodStart and PeriodEnd bound the month the plan's usage renews over (RFC3339): the billing period, or one month of a yearly one.")
     plan: Optional[StrictStr] = Field(default=None, description="Plan is the plan the caller is served as (\"dev\", \"max-5x\", \"max-20x\", \"team\", \"agency\", \"advisory\", \"dedicated\", ...), \"free\" when none counts.")
     session: Optional[AiWindow] = Field(default=None, description="Session and Day are the request windows over every request the plan covers.")
     state: Optional[StrictStr] = Field(default=None, description="State is the worst class's: ok, near or limited.")
     upgrade: Optional[StrictStr] = Field(default=None, description="Upgrade is the plan that raises these limits, absent at the top.")
-    __properties: ClassVar[List[str]] = ["actions", "classes", "credits_after_allowance", "day", "limited", "paused", "period_end", "period_start", "plan", "session", "state", "upgrade"]
+    __properties: ClassVar[List[str]] = ["actions", "classes", "day", "limited", "paused", "pays", "period_end", "period_start", "plan", "session", "state", "upgrade"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -133,10 +133,10 @@ class AiLimits(BaseModel):
             )
             if obj.get("classes") is not None
             else None,
-            "credits_after_allowance": obj.get("credits_after_allowance"),
             "day": AiWindow.from_dict(obj["day"]) if obj.get("day") is not None else None,
             "limited": AiLimited.from_dict(obj["limited"]) if obj.get("limited") is not None else None,
             "paused": [AiPaused.from_dict(_item) for _item in obj["paused"]] if obj.get("paused") is not None else None,
+            "pays": obj.get("pays"),
             "period_end": obj.get("period_end"),
             "period_start": obj.get("period_start"),
             "plan": obj.get("plan"),

@@ -21,19 +21,25 @@ from typing import Optional, Tuple, Union
 from typing_extensions import Annotated
 from hanzoai.cloud.models.graph_graph_answer_in import GraphGraphAnswerIn
 from hanzoai.cloud.models.graph_graph_answer_out import GraphGraphAnswerOut
+from hanzoai.cloud.models.graph_graph_apple_in import GraphGraphAppleIn
 from hanzoai.cloud.models.graph_graph_assert_in import GraphGraphAssertIn
 from hanzoai.cloud.models.graph_graph_assert_out import GraphGraphAssertOut
 from hanzoai.cloud.models.graph_graph_communities_in import GraphGraphCommunitiesIn
 from hanzoai.cloud.models.graph_graph_communities_out import GraphGraphCommunitiesOut
+from hanzoai.cloud.models.graph_graph_convo_in import GraphGraphConvoIn
+from hanzoai.cloud.models.graph_graph_convo_out import GraphGraphConvoOut
 from hanzoai.cloud.models.graph_graph_derive_in import GraphGraphDeriveIn
 from hanzoai.cloud.models.graph_graph_derive_out import GraphGraphDeriveOut
 from hanzoai.cloud.models.graph_graph_diff_in import GraphGraphDiffIn
 from hanzoai.cloud.models.graph_graph_diff_out import GraphGraphDiffOut
+from hanzoai.cloud.models.graph_graph_entity_in import GraphGraphEntityIn
+from hanzoai.cloud.models.graph_graph_entity_out import GraphGraphEntityOut
 from hanzoai.cloud.models.graph_graph_erase_in import GraphGraphEraseIn
 from hanzoai.cloud.models.graph_graph_erase_out import GraphGraphEraseOut
 from hanzoai.cloud.models.graph_graph_extract_out import GraphGraphExtractOut
 from hanzoai.cloud.models.graph_graph_neighbors_in import GraphGraphNeighborsIn
 from hanzoai.cloud.models.graph_graph_neighbors_out import GraphGraphNeighborsOut
+from hanzoai.cloud.models.graph_graph_ontology_out import GraphGraphOntologyOut
 from hanzoai.cloud.models.graph_graph_path_in import GraphGraphPathIn
 from hanzoai.cloud.models.graph_graph_path_out import GraphGraphPathOut
 from hanzoai.cloud.models.graph_graph_read_out import GraphGraphReadOut
@@ -568,6 +574,281 @@ class GraphApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/graph/answer',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def graph_apple(
+        self,
+        graph_graph_apple_in: GraphGraphAppleIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> GraphGraphAssertOut:
+        """Ingests an Apple Personal Knowledge Graph snapshot — live stable_graph triples, withdrawn expired_stable_graph rows and entityTagging kinship scorecards — into the organization's assertion plane.
+
+        Ingests an Apple Personal Knowledge Graph snapshot — live stable_graph triples, withdrawn expired_stable_graph rows and entityTagging kinship scorecards — into the organization's assertion plane.  Two-row reified edges sharing a relationship_id (one naming a CS*/nm_* relationship type under PS1, the other pointing at the target entity) are collapsed into edges under their canonical relation names while preserving the raw Apple predicate and relationship class in evidence. Withdrawn rows in expired are recorded with until stamped so they remain inspectable in history without holding as live facts.  Time: at is the snapshot's valid instant, which an as_of read is bounded by; the server stamps knowable at the write, which an as_known read is bounded by.
+
+        :param graph_graph_apple_in: (required)
+        :type graph_graph_apple_in: GraphGraphAppleIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_apple_serialize(
+            graph_graph_apple_in=graph_graph_apple_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphAssertOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def graph_apple_with_http_info(
+        self,
+        graph_graph_apple_in: GraphGraphAppleIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[GraphGraphAssertOut]:
+        """Ingests an Apple Personal Knowledge Graph snapshot — live stable_graph triples, withdrawn expired_stable_graph rows and entityTagging kinship scorecards — into the organization's assertion plane.
+
+        Ingests an Apple Personal Knowledge Graph snapshot — live stable_graph triples, withdrawn expired_stable_graph rows and entityTagging kinship scorecards — into the organization's assertion plane.  Two-row reified edges sharing a relationship_id (one naming a CS*/nm_* relationship type under PS1, the other pointing at the target entity) are collapsed into edges under their canonical relation names while preserving the raw Apple predicate and relationship class in evidence. Withdrawn rows in expired are recorded with until stamped so they remain inspectable in history without holding as live facts.  Time: at is the snapshot's valid instant, which an as_of read is bounded by; the server stamps knowable at the write, which an as_known read is bounded by.
+
+        :param graph_graph_apple_in: (required)
+        :type graph_graph_apple_in: GraphGraphAppleIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_apple_serialize(
+            graph_graph_apple_in=graph_graph_apple_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphAssertOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def graph_apple_without_preload_content(
+        self,
+        graph_graph_apple_in: GraphGraphAppleIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Ingests an Apple Personal Knowledge Graph snapshot — live stable_graph triples, withdrawn expired_stable_graph rows and entityTagging kinship scorecards — into the organization's assertion plane.
+
+        Ingests an Apple Personal Knowledge Graph snapshot — live stable_graph triples, withdrawn expired_stable_graph rows and entityTagging kinship scorecards — into the organization's assertion plane.  Two-row reified edges sharing a relationship_id (one naming a CS*/nm_* relationship type under PS1, the other pointing at the target entity) are collapsed into edges under their canonical relation names while preserving the raw Apple predicate and relationship class in evidence. Withdrawn rows in expired are recorded with until stamped so they remain inspectable in history without holding as live facts.  Time: at is the snapshot's valid instant, which an as_of read is bounded by; the server stamps knowable at the write, which an as_known read is bounded by.
+
+        :param graph_graph_apple_in: (required)
+        :type graph_graph_apple_in: GraphGraphAppleIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_apple_serialize(
+            graph_graph_apple_in=graph_graph_apple_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphAssertOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _graph_apple_serialize(
+        self,
+        graph_graph_apple_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if graph_graph_apple_in is not None:
+            _body_params = graph_graph_apple_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/graph/apple',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1134,6 +1415,281 @@ class GraphApi:
 
 
     @validate_call
+    def graph_convo(
+        self,
+        graph_graph_convo_in: GraphGraphConvoIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> GraphGraphConvoOut:
+        """Extracts entity state and relationship assertions from conversation turns and updates the graph.
+
+        Extracts entity state and relationship assertions from conversation turns and updates the graph.  First-person statements bind to the turn's speaker, second-person statements to its partner, and named subjects to their entity keys. Questions are skipped. Single-valued state updates (such as moving cities or changing roles) supersede prior values at the turn's timestamp, and explicit departures (such as leaving an employer) file a retraction ending the prior claim. Set dry_run to inspect what the turns state without writing.  Time: each turn's at (or the batch's at when omitted) is the valid instant of the assertions extracted from it, which an as_of read is bounded by; each becomes knowable at the write, which an as_known read is bounded by.
+
+        :param graph_graph_convo_in: (required)
+        :type graph_graph_convo_in: GraphGraphConvoIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_convo_serialize(
+            graph_graph_convo_in=graph_graph_convo_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphConvoOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def graph_convo_with_http_info(
+        self,
+        graph_graph_convo_in: GraphGraphConvoIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[GraphGraphConvoOut]:
+        """Extracts entity state and relationship assertions from conversation turns and updates the graph.
+
+        Extracts entity state and relationship assertions from conversation turns and updates the graph.  First-person statements bind to the turn's speaker, second-person statements to its partner, and named subjects to their entity keys. Questions are skipped. Single-valued state updates (such as moving cities or changing roles) supersede prior values at the turn's timestamp, and explicit departures (such as leaving an employer) file a retraction ending the prior claim. Set dry_run to inspect what the turns state without writing.  Time: each turn's at (or the batch's at when omitted) is the valid instant of the assertions extracted from it, which an as_of read is bounded by; each becomes knowable at the write, which an as_known read is bounded by.
+
+        :param graph_graph_convo_in: (required)
+        :type graph_graph_convo_in: GraphGraphConvoIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_convo_serialize(
+            graph_graph_convo_in=graph_graph_convo_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphConvoOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def graph_convo_without_preload_content(
+        self,
+        graph_graph_convo_in: GraphGraphConvoIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Extracts entity state and relationship assertions from conversation turns and updates the graph.
+
+        Extracts entity state and relationship assertions from conversation turns and updates the graph.  First-person statements bind to the turn's speaker, second-person statements to its partner, and named subjects to their entity keys. Questions are skipped. Single-valued state updates (such as moving cities or changing roles) supersede prior values at the turn's timestamp, and explicit departures (such as leaving an employer) file a retraction ending the prior claim. Set dry_run to inspect what the turns state without writing.  Time: each turn's at (or the batch's at when omitted) is the valid instant of the assertions extracted from it, which an as_of read is bounded by; each becomes knowable at the write, which an as_known read is bounded by.
+
+        :param graph_graph_convo_in: (required)
+        :type graph_graph_convo_in: GraphGraphConvoIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_convo_serialize(
+            graph_graph_convo_in=graph_graph_convo_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphConvoOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _graph_convo_serialize(
+        self,
+        graph_graph_convo_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if graph_graph_convo_in is not None:
+            _body_params = graph_graph_convo_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/graph/convo',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def graph_derive(
         self,
         graph_graph_derive_in: GraphGraphDeriveIn,
@@ -1668,6 +2224,281 @@ class GraphApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/graph/diff',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def graph_entity(
+        self,
+        graph_graph_entity_in: GraphGraphEntityIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> GraphGraphEntityOut:
+        """Resolves the complete state of one entity at a point: its type, its holding properties and edges in both directions, its kinship scorecard and the expired statements it no longer holds.
+
+        Resolves the complete state of one entity at a point: its type, its holding properties and edges in both directions, its kinship scorecard and the expired statements it no longer holds.  Each (entity, relation) pair is settled by the same Resolve rule as graphResolve. Statements begun by the point that lost to a retraction, an until or a newer value are returned in expired rather than discarded.  Time: as_of is the instant of the world asked about and as_known how much this plane had heard by then; either absent is now.
+
+        :param graph_graph_entity_in: (required)
+        :type graph_graph_entity_in: GraphGraphEntityIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_entity_serialize(
+            graph_graph_entity_in=graph_graph_entity_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphEntityOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def graph_entity_with_http_info(
+        self,
+        graph_graph_entity_in: GraphGraphEntityIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[GraphGraphEntityOut]:
+        """Resolves the complete state of one entity at a point: its type, its holding properties and edges in both directions, its kinship scorecard and the expired statements it no longer holds.
+
+        Resolves the complete state of one entity at a point: its type, its holding properties and edges in both directions, its kinship scorecard and the expired statements it no longer holds.  Each (entity, relation) pair is settled by the same Resolve rule as graphResolve. Statements begun by the point that lost to a retraction, an until or a newer value are returned in expired rather than discarded.  Time: as_of is the instant of the world asked about and as_known how much this plane had heard by then; either absent is now.
+
+        :param graph_graph_entity_in: (required)
+        :type graph_graph_entity_in: GraphGraphEntityIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_entity_serialize(
+            graph_graph_entity_in=graph_graph_entity_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphEntityOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def graph_entity_without_preload_content(
+        self,
+        graph_graph_entity_in: GraphGraphEntityIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Resolves the complete state of one entity at a point: its type, its holding properties and edges in both directions, its kinship scorecard and the expired statements it no longer holds.
+
+        Resolves the complete state of one entity at a point: its type, its holding properties and edges in both directions, its kinship scorecard and the expired statements it no longer holds.  Each (entity, relation) pair is settled by the same Resolve rule as graphResolve. Statements begun by the point that lost to a retraction, an until or a newer value are returned in expired rather than discarded.  Time: as_of is the instant of the world asked about and as_known how much this plane had heard by then; either absent is now.
+
+        :param graph_graph_entity_in: (required)
+        :type graph_graph_entity_in: GraphGraphEntityIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_entity_serialize(
+            graph_graph_entity_in=graph_graph_entity_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphEntityOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _graph_entity_serialize(
+        self,
+        graph_graph_entity_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if graph_graph_entity_in is not None:
+            _body_params = graph_graph_entity_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/graph/entity',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -2768,6 +3599,287 @@ class GraphApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/graph/neighbors',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def graph_ontology(
+        self,
+        group: Annotated[Optional[StrictStr], Field(description="Group narrows classes or features to one group, such as core, person, activity, edge, identity, communication or photos. Absent returns every group.")] = None,
+        q: Annotated[Optional[StrictStr], Field(description="Q narrows classes, predicates and features to entries whose code, label, canonical relation or source contains this substring, case-insensitively. Absent returns the whole catalog.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> GraphGraphOntologyOut:
+        """Lists the entity classes, predicates, classifier features and kinship scorecard columns of the personal knowledge graph ontology.
+
+        Lists the entity classes, predicates, classifier features and kinship scorecard columns of the personal knowledge graph ontology.  Every code graph.db and entityTagging.db write on macOS and iOS is here with its plain-language reading and the canonical relation key graphApple maps it to. Filter by group or by substring q.  Time: it takes no as_of or as_known; the shipped catalog is static.
+
+        :param group: Group narrows classes or features to one group, such as core, person, activity, edge, identity, communication or photos. Absent returns every group.
+        :type group: str
+        :param q: Q narrows classes, predicates and features to entries whose code, label, canonical relation or source contains this substring, case-insensitively. Absent returns the whole catalog.
+        :type q: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_ontology_serialize(
+            group=group,
+            q=q,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphOntologyOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def graph_ontology_with_http_info(
+        self,
+        group: Annotated[Optional[StrictStr], Field(description="Group narrows classes or features to one group, such as core, person, activity, edge, identity, communication or photos. Absent returns every group.")] = None,
+        q: Annotated[Optional[StrictStr], Field(description="Q narrows classes, predicates and features to entries whose code, label, canonical relation or source contains this substring, case-insensitively. Absent returns the whole catalog.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[GraphGraphOntologyOut]:
+        """Lists the entity classes, predicates, classifier features and kinship scorecard columns of the personal knowledge graph ontology.
+
+        Lists the entity classes, predicates, classifier features and kinship scorecard columns of the personal knowledge graph ontology.  Every code graph.db and entityTagging.db write on macOS and iOS is here with its plain-language reading and the canonical relation key graphApple maps it to. Filter by group or by substring q.  Time: it takes no as_of or as_known; the shipped catalog is static.
+
+        :param group: Group narrows classes or features to one group, such as core, person, activity, edge, identity, communication or photos. Absent returns every group.
+        :type group: str
+        :param q: Q narrows classes, predicates and features to entries whose code, label, canonical relation or source contains this substring, case-insensitively. Absent returns the whole catalog.
+        :type q: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_ontology_serialize(
+            group=group,
+            q=q,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphOntologyOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def graph_ontology_without_preload_content(
+        self,
+        group: Annotated[Optional[StrictStr], Field(description="Group narrows classes or features to one group, such as core, person, activity, edge, identity, communication or photos. Absent returns every group.")] = None,
+        q: Annotated[Optional[StrictStr], Field(description="Q narrows classes, predicates and features to entries whose code, label, canonical relation or source contains this substring, case-insensitively. Absent returns the whole catalog.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Lists the entity classes, predicates, classifier features and kinship scorecard columns of the personal knowledge graph ontology.
+
+        Lists the entity classes, predicates, classifier features and kinship scorecard columns of the personal knowledge graph ontology.  Every code graph.db and entityTagging.db write on macOS and iOS is here with its plain-language reading and the canonical relation key graphApple maps it to. Filter by group or by substring q.  Time: it takes no as_of or as_known; the shipped catalog is static.
+
+        :param group: Group narrows classes or features to one group, such as core, person, activity, edge, identity, communication or photos. Absent returns every group.
+        :type group: str
+        :param q: Q narrows classes, predicates and features to entries whose code, label, canonical relation or source contains this substring, case-insensitively. Absent returns the whole catalog.
+        :type q: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_ontology_serialize(
+            group=group,
+            q=q,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphOntologyOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _graph_ontology_serialize(
+        self,
+        group,
+        q,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if group is not None:
+            
+            _query_params.append(('group', group))
+            
+        if q is not None:
+            
+            _query_params.append(('q', q))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/graph/ontology',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

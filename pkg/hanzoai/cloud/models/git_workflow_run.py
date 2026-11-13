@@ -17,8 +17,10 @@ import pprint
 import re  # noqa: F401
 import json
 
+from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.git_run_job import GitRunJob
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,17 +29,23 @@ class GitWorkflowRun(BaseModel):
     GitWorkflowRun
     """ # noqa: E501
     actor: Optional[StrictStr] = Field(default=None, description="Actor is who caused it.")
+    attempt: Optional[StrictInt] = Field(default=None, description="Attempt counts the forge's re-runs of this run, from 1.")
     commit: Optional[StrictStr] = Field(default=None, description="Commit is the commit being run, in full.")
     created_at: Optional[StrictInt] = Field(default=None, description="CreatedAt is when the run was opened, in unix seconds.", alias="createdAt")
+    ended_at: Optional[datetime] = Field(default=None, description="EndedAt is when it finished, RFC 3339; absent until it has.", alias="endedAt")
     event: Optional[StrictStr] = Field(default=None, description="Event is what caused the run, e.g. \"push\".")
     id: Optional[StrictStr] = Field(default=None, description="ID addresses this run.")
+    jobs: Optional[List[GitRunJob]] = Field(default=None, description="Jobs are the run's jobs in the order they were created, with their steps: answered by `runs get`, and by `runs list` when a ref names one commit.")
     number: Optional[StrictInt] = Field(default=None, description="Number is the run's position in its repository, counting from 1 — the handle a person uses (\"#4\").")
     ref: Optional[StrictStr] = Field(default=None, description="Ref is the full ref, e.g. \"refs/heads/main\".")
     repo: Optional[StrictStr] = Field(default=None, description="Repo is the repository the run is for.")
-    status: Optional[StrictStr] = Field(default=None, description="Status is waiting, running, success, failure, cancelled or skipped.")
+    started_at: Optional[datetime] = Field(default=None, description="StartedAt is when it started executing, RFC 3339; absent until it has.", alias="startedAt")
+    status: Optional[StrictStr] = Field(default=None, description="Status is waiting, running, success, failure, cancelled or skipped: waiting until a runner takes it (or, on the forge, while a job it needs is still going), running while it executes, and then how it ended.")
+    title: Optional[StrictStr] = Field(default=None, description="Title is the run's display title on the forge, usually its commit's subject.")
     updated_at: Optional[StrictInt] = Field(default=None, description="UpdatedAt is when its status last changed, in unix seconds.", alias="updatedAt")
+    url: Optional[StrictStr] = Field(default=None, description="URL is the run's page on the forge.")
     workflow: Optional[StrictStr] = Field(default=None, description="Workflow is the path of the document being run, e.g. \".hanzo/workflows/ci.yml\".")
-    __properties: ClassVar[List[str]] = ["actor", "commit", "createdAt", "event", "id", "number", "ref", "repo", "status", "updatedAt", "workflow"]
+    __properties: ClassVar[List[str]] = ["actor", "attempt", "commit", "createdAt", "endedAt", "event", "id", "jobs", "number", "ref", "repo", "startedAt", "status", "title", "updatedAt", "url", "workflow"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -78,6 +86,13 @@ class GitWorkflowRun(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in jobs (list)
+        _items = []
+        if self.jobs:
+            for _item_jobs in self.jobs:
+                if _item_jobs:
+                    _items.append(_item_jobs.to_dict())
+            _dict['jobs'] = _items
         return _dict
 
     @classmethod
@@ -91,15 +106,21 @@ class GitWorkflowRun(BaseModel):
 
         _obj = cls.model_validate({
             "actor": obj.get("actor"),
+            "attempt": obj.get("attempt"),
             "commit": obj.get("commit"),
             "createdAt": obj.get("createdAt"),
+            "endedAt": obj.get("endedAt"),
             "event": obj.get("event"),
             "id": obj.get("id"),
+            "jobs": [GitRunJob.from_dict(_item) for _item in obj["jobs"]] if obj.get("jobs") is not None else None,
             "number": obj.get("number"),
             "ref": obj.get("ref"),
             "repo": obj.get("repo"),
+            "startedAt": obj.get("startedAt"),
             "status": obj.get("status"),
+            "title": obj.get("title"),
             "updatedAt": obj.get("updatedAt"),
+            "url": obj.get("url"),
             "workflow": obj.get("workflow")
         })
         return _obj

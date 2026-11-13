@@ -29,9 +29,10 @@ class MarketingUnsubscribed(BaseModel):
     address: Optional[StrictStr] = Field(default=None, description="Address is the recipient now opted out, normalized (lower-cased, trimmed) to the form the send gate matches on — so it can differ in case from the address the link carried.")
     channel: Optional[StrictStr] = Field(default=None, description="Channel is the ONE surface opted out of: email, sms, social, meta, google or tiktok. The other channels are untouched, and so is this address in every other org.")
     company: Optional[StrictStr] = Field(default=None, description="Company is the domain opted out whole, when the link asked for it.")
+    list: Optional[StrictStr] = Field(default=None, description="List is the marketing list the address left, when the link was a list's.")
     offer: Optional[StrictStr] = Field(default=None, description="Offer is the domain the reader may opt out whole by asking again with company=true: the company's own domain, never a free mail provider's. Absent when the company is already out, or for free mail.")
     unsubscribed: Optional[StrictBool] = Field(default=None, description="Unsubscribed is always true here: the opt-out is idempotent, so a second click on the same link confirms the same thing rather than reporting nothing changed. A refused token never reaches this shape — it is a 403.")
-    __properties: ClassVar[List[str]] = ["address", "channel", "company", "offer", "unsubscribed"]
+    __properties: ClassVar[List[str]] = ["address", "channel", "company", "list", "offer", "unsubscribed"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -87,6 +88,7 @@ class MarketingUnsubscribed(BaseModel):
             "address": obj.get("address"),
             "channel": obj.get("channel"),
             "company": obj.get("company"),
+            "list": obj.get("list"),
             "offer": obj.get("offer"),
             "unsubscribed": obj.get("unsubscribed")
         })

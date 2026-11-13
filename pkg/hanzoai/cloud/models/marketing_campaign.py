@@ -26,6 +26,7 @@ class MarketingCampaign(BaseModel):
     """
     MarketingCampaign
     """ # noqa: E501
+    audience: Optional[StrictStr] = Field(default=None, description="Audience is who the campaign reaches: a saved cohort (aud_…), a mailing list (lst_…) or a saved segment of one (seg_…), as GET /v1/marketing/audiences lists them. Empty is none named; one the org does not have is refused.")
     budget: Optional[StrictInt] = Field(default=None, description="Budget is what the campaign is allowed to cost, in USD cents. A negative value is clamped to 0; nothing enforces the ceiling here.")
     channel: Optional[StrictStr] = Field(default=None, description="Channel is the delivery surface: email, sms, social, meta, google or tiktok. Empty means email.")
     created_at: Optional[StrictInt] = Field(default=None, description="CreatedAt is unix seconds when the campaign was registered. Server-assigned and never rewritten — an update leaves it as it was.", alias="createdAt")
@@ -36,7 +37,7 @@ class MarketingCampaign(BaseModel):
     spend: Optional[StrictInt] = Field(default=None, description="Spend is what the campaign has cost so far, in USD cents, clamped to >= 0. The CALLER owns it: no send, ad buy or invoice moves it, so it changes only when create or update carries a new value. It is summed across the org's campaigns into GET /v1/marketing/summary.")
     status: Optional[StrictStr] = Field(default=None, description="Status is the lifecycle: draft, scheduled, active, paused or completed. Empty means draft.")
     updated_at: Optional[StrictInt] = Field(default=None, description="UpdatedAt is unix seconds of the last write. Server-assigned on create and on every update or schedule change, and the campaign list is ordered by it, newest first.", alias="updatedAt")
-    __properties: ClassVar[List[str]] = ["budget", "channel", "createdAt", "id", "name", "objective", "scheduledAt", "spend", "status", "updatedAt"]
+    __properties: ClassVar[List[str]] = ["audience", "budget", "channel", "createdAt", "id", "name", "objective", "scheduledAt", "spend", "status", "updatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -89,6 +90,7 @@ class MarketingCampaign(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "audience": obj.get("audience"),
             "budget": obj.get("budget"),
             "channel": obj.get("channel"),
             "createdAt": obj.get("createdAt"),

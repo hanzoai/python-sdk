@@ -35,7 +35,7 @@ class AgentCodingChanges(BaseModel):
     head: Optional[StrictStr] = Field(default=None, description="Head is the run's own branch. Empty for a plan or a setup, which write none.")
     more_commits: Optional[StrictBool] = Field(default=None, description="MoreCommits says the branch carries more commits than the newest 250 that Commits lists.", alias="moreCommits")
     more_files: Optional[StrictBool] = Field(default=None, description="MoreFiles says the change is larger than one read answers — past 8 MiB of diff or 3000 files — so Files lists the files before that, and the last of them is marked truncated with the counts of the part read.", alias="moreFiles")
-    pull: Optional[AgentCodingPull] = Field(default=None, description="Pull is the run's pull request on the forge, or null while it has none — and for a run proposed somewhere else, a repository the forge only mirrors from GitHub.")
+    pull: Optional[AgentCodingPull] = Field(default=None, description="Pull is the run's pull request, or null while it has none. The forge's own is read whole; one proposed somewhere else — a repository the forge only mirrors from GitHub — is the address and number the run recorded, with its state, title and reviews empty.")
     repo: Optional[StrictStr] = Field(default=None, description="Repo is the run's repository on the forge, owner/name.")
     __properties: ClassVar[List[str]] = ["base", "commits", "files", "head", "moreCommits", "moreFiles", "pull", "repo"]
 

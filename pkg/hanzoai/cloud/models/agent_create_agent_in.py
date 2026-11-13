@@ -27,6 +27,8 @@ class AgentCreateAgentIn(BaseModel):
     AgentCreateAgentIn
     """ # noqa: E501
     avatar: Optional[StrictStr] = Field(default=None, description="Avatar and Emoji are how the agent APPEARS. An image wins when both are given — it is the thing somebody made — and both empty leaves the agent drawn as its initial. Validated by iam/pkg/schema, the same rule a person's avatar passes, so the 96 KiB bound and the accepted URL forms are stated once for every subject that has a face.")
+    avatar_licence: Optional[StrictStr] = Field(default=None, description="AvatarLicence is the licence's short name, one line of up to 128 characters (\"Public domain\"). Like avatar_source, it is not stored without an avatar.")
+    avatar_source: Optional[StrictStr] = Field(default=None, description="AvatarSource is the https page the avatar image is described on, up to 2048 characters. It belongs to the image: without an avatar it is not stored.")
     cap_micro_usd: Optional[StrictInt] = Field(default=None, description="The budget, required. An agent is not creatable without one: a zero cap would mean no limit and no record of its spend, which is what a budget exists to remove. Integer micro-USD; the CLI converts dollars before sending.")
     compute_ref: Optional[StrictStr] = Field(default=None, description="ComputeRef optionally binds this bot to a visor machine. Opaque here, bounded at 256 characters, and not resolved — this package stores the reference and the binding's lifecycle belongs elsewhere.", alias="computeRef")
     description: Optional[StrictStr] = Field(default=None, description="Description is the one line published as the description of the `agent_<name>` tool, which is how another agent decides whether to call this one. Optional, and worth writing for exactly that reason.")
@@ -41,7 +43,7 @@ class AgentCreateAgentIn(BaseModel):
     schedule: Optional[StrictStr] = Field(default=None, description="Schedule is the 5-field cron a long-running agent fires on, parsed here so a bad expression is a 400 and not an agent that silently never runs. Required with long-running; DISCARDED for one-shot rather than stored unused.")
     service_account_id: Optional[StrictStr] = Field(default=None, description="ServiceAccountID optionally names the IAM agent service account (<org>-<agent>) a scheduled run should be billed AS, so an autonomous run is attributable to a principal rather than only to the org. Same 256-character bound, also unresolved here.", alias="serviceAccountId")
     tools: Optional[List[StrictStr]] = Field(default=None, description="Tools are the tool names this agent may call. Omitted or empty grants NONE — that default is the agent's authority and is not widened anywhere. The single entry \"*\" means whatever the fleet's MCP server serves at the time of each run.")
-    __properties: ClassVar[List[str]] = ["avatar", "cap_micro_usd", "computeRef", "description", "emoji", "executionMode", "instructions", "max_task_micro_usd", "model", "name", "parent", "period", "schedule", "serviceAccountId", "tools"]
+    __properties: ClassVar[List[str]] = ["avatar", "avatar_licence", "avatar_source", "cap_micro_usd", "computeRef", "description", "emoji", "executionMode", "instructions", "max_task_micro_usd", "model", "name", "parent", "period", "schedule", "serviceAccountId", "tools"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -95,6 +97,8 @@ class AgentCreateAgentIn(BaseModel):
 
         _obj = cls.model_validate({
             "avatar": obj.get("avatar"),
+            "avatar_licence": obj.get("avatar_licence"),
+            "avatar_source": obj.get("avatar_source"),
             "cap_micro_usd": obj.get("cap_micro_usd"),
             "computeRef": obj.get("computeRef"),
             "description": obj.get("description"),

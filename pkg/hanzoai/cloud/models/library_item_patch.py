@@ -26,11 +26,12 @@ class LibraryItemPatch(BaseModel):
     """
     LibraryItemPatch
     """ # noqa: E501
+    commit: Optional[StrictBool] = Field(default=None, description="Commit finishes a reserved upload once its bytes have been PUT.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the item, from the path.")
     name: Optional[StrictStr] = Field(default=None, description="Name renames it.")
     project: Optional[StrictStr] = Field(default=None, description="Project moves it to one of the organization's projects; \"\" moves it out.")
     shared: Optional[StrictBool] = Field(default=None, description="Shared shows it to every member of your organization, or stops.")
-    __properties: ClassVar[List[str]] = ["id", "name", "project", "shared"]
+    __properties: ClassVar[List[str]] = ["commit", "id", "name", "project", "shared"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -83,6 +84,7 @@ class LibraryItemPatch(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "commit": obj.get("commit"),
             "id": obj.get("id"),
             "name": obj.get("name"),
             "project": obj.get("project"),

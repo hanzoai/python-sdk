@@ -32,7 +32,7 @@ class IamInput(BaseModel):
     domains: Optional[List[StrictStr]] = None
     is_enabled: Optional[StrictBool] = Field(default=None, alias="isEnabled")
     name: Optional[StrictStr] = Field(default=None, description="Name addresses the team on update and names it on create; every other field is content and binds from the BODY, never the URL.")
-    owner: Optional[StrictStr] = None
+    owner: Optional[StrictStr] = Field(default=None, description="Owner is the organization the team belongs to. Leave it out and it is yours, from your credentials; name another only if you administer it.")
     roles: Optional[List[StrictStr]] = None
     teams: Optional[List[StrictStr]] = None
     users: Optional[List[StrictStr]] = None

@@ -29,7 +29,7 @@ class MarketplaceDelivery(BaseModel):
     at: Optional[StrictInt] = Field(default=None, description="At is when, unix seconds.")
     hash: Optional[StrictStr] = Field(default=None, description="Hash commits to what was delivered: the seller's own 32-byte hash, or the SHA-256 of the note and URL. It is the escrow's delivery hash on chain.")
     note: Optional[StrictStr] = Field(default=None, description="Note says what was delivered.")
-    url: Optional[StrictStr] = Field(default=None, description="URL is where it is, https.")
+    url: Optional[StrictStr] = Field(default=None, description="URL is where it is, https. It is a KMS value (the row holds its path), so only the reads that serve a job to a party fill it.")
     __properties: ClassVar[List[str]] = ["at", "hash", "note", "url"]
 
     model_config = ConfigDict(

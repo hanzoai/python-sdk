@@ -27,15 +27,16 @@ class AllowanceAllowance(BaseModel):
     """
     AllowanceAllowance
     """ # noqa: E501
-    limit: Optional[StrictInt] = Field(default=None, description="calls the plan allows per period; 0 = unbounded")
+    limit: Optional[StrictInt] = Field(default=None, description="calls the plan allows in Window; 0 = unbounded")
     plan: Optional[StrictStr] = Field(default=None, description="the tier the limit came from")
     pool: Optional[AllowancePool] = Field(default=None, description="Pool is that shared pool's standing, where it could be read. Absent when the subject is not pooled, and when the process that holds it did not answer — never a guess.")
     pooled: Optional[StrictBool] = Field(default=None, description="Pooled says the calls counted here are served from the pool every free user shares — the platform's vendor accounts for free models — rather than from the subject's own plan. True exactly where a window bounds the subject.")
-    resets: Optional[StrictInt] = Field(default=None, description="unix seconds; when THAT window starts again")
+    resets: Optional[StrictInt] = Field(default=None, description="Resets is the instant THAT window reopens, unix seconds: the next UTC hour or midnight, or a session's start plus its length — exact, to the second, from the call that opened it. 0 for a session that is not running: it opens at the next call.")
     spent: Optional[StrictBool] = Field(default=None, description="Spent says the ceiling refuses: on a take, that THIS call was refused and nothing was counted; on a read, that the next call would be.")
-    used: Optional[StrictInt] = Field(default=None, description="Used is how many free calls this subject has been admitted in the period ending at Resets — the UTC calendar day. A call counts when it is admitted, whatever its upstream then does; a refused call counts nothing. It stops AT Limit rather than climbing past it, so Limit-Used is what remains and never goes negative.")
-    window: Optional[StrictStr] = Field(default=None, description="Window is which ceiling these numbers describe — \"hour\" or \"day\" — because a caller is held to both and only one of them is the answer. It is the window that REFUSED where one did, and otherwise the one with least left, so Limit-Used is always the number that will actually stop them next. Empty where no window bounds the subject at all.")
-    __properties: ClassVar[List[str]] = ["limit", "plan", "pool", "pooled", "resets", "spent", "used", "window"]
+    start: Optional[StrictInt] = Field(default=None, description="Start is when the session this answer counts in opened, unix seconds: on a take, the session the call was counted in, which a give names back (AllowanceIn.Start); on a read, the session running. 0 where no session bounds the subject or none runs.")
+    used: Optional[StrictInt] = Field(default=None, description="Used is how many free calls this subject has been admitted in the window ending at Resets. A call counts when it is admitted, whatever its upstream then does; a refused call counts nothing. It stops AT Limit rather than climbing past it, so Limit-Used is what remains and never goes negative.")
+    window: Optional[StrictStr] = Field(default=None, description="Window is which ceiling these numbers describe — \"hour\", \"session\" or \"day\" — because a caller can be held to more than one and only one of them is the answer. A session is the Free plan's: it opens at the subject's first call after the last one ended and runs five hours (ai_plan_session_hours). It is the window that REFUSED where one did, and otherwise the one with least left, so Limit-Used is always the number that will actually stop them next. Empty where no window bounds the subject at all.")
+    __properties: ClassVar[List[str]] = ["limit", "plan", "pool", "pooled", "resets", "spent", "start", "used", "window"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -97,6 +98,7 @@ class AllowanceAllowance(BaseModel):
             "pooled": obj.get("pooled"),
             "resets": obj.get("resets"),
             "spent": obj.get("spent"),
+            "start": obj.get("start"),
             "used": obj.get("used"),
             "window": obj.get("window")
         })

@@ -31,6 +31,7 @@ class IamRegistration(BaseModel):
     client_secret: Optional[StrictStr] = Field(default=None, alias="clientSecret")
     display_name: Optional[StrictStr] = Field(default=None, alias="displayName")
     enable_code_signin: Optional[StrictBool] = Field(default=None, description="EnableCodeSignin offers sign-in by an emailed or texted one-time code beside the password. A POINTER for the same reason as IsShared: a plain bool reads as false on every reconcile that says nothing and would switch the method off for every app whose caller never mentioned it.", alias="enableCodeSignin")
+    enable_sign_up: Optional[StrictBool] = Field(default=None, description="EnableSignUp opens the application to self-service registration (password, email code, OAuth federation, wallet) and identifier-first address lookup. A POINTER so a reconcile that omits it preserves the stored setting.", alias="enableSignUp")
     expire_in_hours: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="ExpireInHours and RefreshExpireInHours are the application's token lifetimes. They are the ONLY declarative way to say that a refresh token must OUTLIVE its access token: with neither stated, oidc.refreshTTL clamps the refresh lifetime to the access lifetime, so the refresh_token grant the registration advertises expires at the same instant as the token it was meant to renew and can never be exercised. `hanzo-cli` sat in exactly that state — a browser re-login every hour, and a live refresh returning 401.  POINTERS, for the same reason as IsShared: a plain float would read as 0 on every reconcile that says nothing and reset a deliberate lifetime back to the default. Nil means \"not stated, leave it\".", alias="expireInHours")
     grant_types: Optional[List[StrictStr]] = Field(default=None, alias="grantTypes")
     is_shared: Optional[StrictBool] = Field(default=None, description="IsShared declares that this application serves EVERY organization, not only the one named in Organization. It is the honest description of a brand app — hanzo-id, hanzo-chat, a brand console — whose customers each live in their own tenant: self-service onboarding moves a founder OUT of the brand org, so `user.Owner != app.Organization` is the steady state and the app really does serve every org. Application.ServesOrg reads it as one of the three ways to say yes.  A POINTER because omission must PRESERVE. This upsert is the operator's steady-state reconcile and most callers say nothing about sharing; a plain bool would read as false on every one of them and silently un-share an app — the same shape of accident that de-secreted apps through update-application. Nil means \"not stated, leave it\"; only an explicit true or false moves it.", alias="isShared")
@@ -39,7 +40,8 @@ class IamRegistration(BaseModel):
     public: Optional[StrictBool] = Field(default=None, description="Public declares a client that CANNOT hold a credential — a browser SPA, a CLI, a desktop app. It proves itself with PKCE instead, and the token endpoint treats \"no stored secret\" as exactly that (token.go: a secret is verified only when one is stored). Without this flag every upsert minted a secret, so a public client could never be registered at all and its browser code->token exchange 401'd `invalid_client` forever.")
     redirect_uris: Optional[List[StrictStr]] = Field(default=None, alias="redirectUris")
     refresh_expire_in_hours: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="refreshExpireInHours")
-    __properties: ClassVar[List[str]] = ["cert", "clientId", "clientSecret", "displayName", "enableCodeSignin", "expireInHours", "grantTypes", "isShared", "name", "organization", "public", "redirectUris", "refreshExpireInHours"]
+    signin_url: Optional[StrictStr] = Field(default=None, description="SigninUrl is where this application's people sign in, when that is not the issuer: the origin of the page IAM sends them to for the approval of a device sign-in, and the hosted login of an authorize request. An absolute https URL, or \"\" to say the issuer. A POINTER so a reconcile that omits it preserves what the application has. IAM prints it only for an origin the operator configured as a sign-in origin of the issuer (oidc verificationOrigin).", alias="signinUrl")
+    __properties: ClassVar[List[str]] = ["cert", "clientId", "clientSecret", "displayName", "enableCodeSignin", "enableSignUp", "expireInHours", "grantTypes", "isShared", "name", "organization", "public", "redirectUris", "refreshExpireInHours", "signinUrl"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -97,6 +99,7 @@ class IamRegistration(BaseModel):
             "clientSecret": obj.get("clientSecret"),
             "displayName": obj.get("displayName"),
             "enableCodeSignin": obj.get("enableCodeSignin"),
+            "enableSignUp": obj.get("enableSignUp"),
             "expireInHours": obj.get("expireInHours"),
             "grantTypes": obj.get("grantTypes"),
             "isShared": obj.get("isShared"),
@@ -104,7 +107,8 @@ class IamRegistration(BaseModel):
             "organization": obj.get("organization"),
             "public": obj.get("public"),
             "redirectUris": obj.get("redirectUris"),
-            "refreshExpireInHours": obj.get("refreshExpireInHours")
+            "refreshExpireInHours": obj.get("refreshExpireInHours"),
+            "signinUrl": obj.get("signinUrl")
         })
         return _obj
 

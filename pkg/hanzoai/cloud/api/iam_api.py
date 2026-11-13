@@ -21,6 +21,7 @@ from typing import Any, Optional
 from typing_extensions import Annotated
 from hanzoai.cloud.models.iam_accept_body import IamAcceptBody
 from hanzoai.cloud.models.iam_account_body import IamAccountBody
+from hanzoai.cloud.models.iam_address_body import IamAddressBody
 from hanzoai.cloud.models.iam_answer import IamAnswer
 from hanzoai.cloud.models.iam_application import IamApplication
 from hanzoai.cloud.models.iam_application_list_result import IamApplicationListResult
@@ -3705,7 +3706,7 @@ class IamApi:
     @validate_call
     def delete_iam_roles_by_owner_by_name(
         self,
-        owner: StrictStr,
+        owner: Annotated[StrictStr, Field(description="Owner is the organization the team belongs to: yours when left out.")],
         name: StrictStr,
         _request_timeout: Union[
             None,
@@ -3724,7 +3725,7 @@ class IamApi:
 
         Removes a role. Everyone in it loses the access it carried; their accounts, and any other role they hold, are untouched.
 
-        :param owner: (required)
+        :param owner: Owner is the organization the team belongs to: yours when left out. (required)
         :type owner: str
         :param name: (required)
         :type name: str
@@ -3777,7 +3778,7 @@ class IamApi:
     @validate_call
     def delete_iam_roles_by_owner_by_name_with_http_info(
         self,
-        owner: StrictStr,
+        owner: Annotated[StrictStr, Field(description="Owner is the organization the team belongs to: yours when left out.")],
         name: StrictStr,
         _request_timeout: Union[
             None,
@@ -3796,7 +3797,7 @@ class IamApi:
 
         Removes a role. Everyone in it loses the access it carried; their accounts, and any other role they hold, are untouched.
 
-        :param owner: (required)
+        :param owner: Owner is the organization the team belongs to: yours when left out. (required)
         :type owner: str
         :param name: (required)
         :type name: str
@@ -3849,7 +3850,7 @@ class IamApi:
     @validate_call
     def delete_iam_roles_by_owner_by_name_without_preload_content(
         self,
-        owner: StrictStr,
+        owner: Annotated[StrictStr, Field(description="Owner is the organization the team belongs to: yours when left out.")],
         name: StrictStr,
         _request_timeout: Union[
             None,
@@ -3868,7 +3869,7 @@ class IamApi:
 
         Removes a role. Everyone in it loses the access it carried; their accounts, and any other role they hold, are untouched.
 
-        :param owner: (required)
+        :param owner: Owner is the organization the team belongs to: yours when left out. (required)
         :type owner: str
         :param name: (required)
         :type name: str
@@ -4503,6 +4504,7 @@ class IamApi:
     def delete_iam_teams_by_name(
         self,
         name: StrictStr,
+        owner: Annotated[Optional[StrictStr], Field(description="Owner is the organization the team belongs to: yours when left out.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4522,6 +4524,8 @@ class IamApi:
 
         :param name: (required)
         :type name: str
+        :param owner: Owner is the organization the team belongs to: yours when left out.
+        :type owner: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4546,6 +4550,7 @@ class IamApi:
 
         _param = self._delete_iam_teams_by_name_serialize(
             name=name,
+            owner=owner,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4571,6 +4576,7 @@ class IamApi:
     def delete_iam_teams_by_name_with_http_info(
         self,
         name: StrictStr,
+        owner: Annotated[Optional[StrictStr], Field(description="Owner is the organization the team belongs to: yours when left out.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4590,6 +4596,8 @@ class IamApi:
 
         :param name: (required)
         :type name: str
+        :param owner: Owner is the organization the team belongs to: yours when left out.
+        :type owner: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4614,6 +4622,7 @@ class IamApi:
 
         _param = self._delete_iam_teams_by_name_serialize(
             name=name,
+            owner=owner,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4639,6 +4648,7 @@ class IamApi:
     def delete_iam_teams_by_name_without_preload_content(
         self,
         name: StrictStr,
+        owner: Annotated[Optional[StrictStr], Field(description="Owner is the organization the team belongs to: yours when left out.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4658,6 +4668,8 @@ class IamApi:
 
         :param name: (required)
         :type name: str
+        :param owner: Owner is the organization the team belongs to: yours when left out.
+        :type owner: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4682,6 +4694,7 @@ class IamApi:
 
         _param = self._delete_iam_teams_by_name_serialize(
             name=name,
+            owner=owner,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4702,6 +4715,7 @@ class IamApi:
     def _delete_iam_teams_by_name_serialize(
         self,
         name,
+        owner,
         _request_auth,
         _content_type,
         _headers,
@@ -4726,6 +4740,10 @@ class IamApi:
         if name is not None:
             _path_params['name'] = name
         # process the query parameters
+        if owner is not None:
+            
+            _query_params.append(('owner', owner))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -4767,7 +4785,7 @@ class IamApi:
     @validate_call
     def delete_iam_users_by_owner_by_name(
         self,
-        owner: StrictStr,
+        owner: Annotated[StrictStr, Field(description="Owner is the organization the team belongs to: yours when left out.")],
         name: StrictStr,
         _request_timeout: Union[
             None,
@@ -4786,7 +4804,7 @@ class IamApi:
 
         Removes a person from your organization. Their sessions stop working immediately and the account is gone rather than suspended — to keep the record and only stop sign-in, update the user instead.  A SuperAdmin's account is removed only by a SuperAdmin.
 
-        :param owner: (required)
+        :param owner: Owner is the organization the team belongs to: yours when left out. (required)
         :type owner: str
         :param name: (required)
         :type name: str
@@ -4839,7 +4857,7 @@ class IamApi:
     @validate_call
     def delete_iam_users_by_owner_by_name_with_http_info(
         self,
-        owner: StrictStr,
+        owner: Annotated[StrictStr, Field(description="Owner is the organization the team belongs to: yours when left out.")],
         name: StrictStr,
         _request_timeout: Union[
             None,
@@ -4858,7 +4876,7 @@ class IamApi:
 
         Removes a person from your organization. Their sessions stop working immediately and the account is gone rather than suspended — to keep the record and only stop sign-in, update the user instead.  A SuperAdmin's account is removed only by a SuperAdmin.
 
-        :param owner: (required)
+        :param owner: Owner is the organization the team belongs to: yours when left out. (required)
         :type owner: str
         :param name: (required)
         :type name: str
@@ -4911,7 +4929,7 @@ class IamApi:
     @validate_call
     def delete_iam_users_by_owner_by_name_without_preload_content(
         self,
-        owner: StrictStr,
+        owner: Annotated[StrictStr, Field(description="Owner is the organization the team belongs to: yours when left out.")],
         name: StrictStr,
         _request_timeout: Union[
             None,
@@ -4930,7 +4948,7 @@ class IamApi:
 
         Removes a person from your organization. Their sessions stop working immediately and the account is gone rather than suspended — to keep the record and only stop sign-in, update the user instead.  A SuperAdmin's account is removed only by a SuperAdmin.
 
-        :param owner: (required)
+        :param owner: Owner is the organization the team belongs to: yours when left out. (required)
         :type owner: str
         :param name: (required)
         :type name: str
@@ -12248,7 +12266,7 @@ class IamApi:
     ) -> None:
         """Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.
 
-        Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.  If the person is ALREADY signed in here, it does not ask them again: it returns them to the application with a one-time code and they never see this page. Otherwise it shows the right way to sign in for the application they are signing in to, or hands off to another identity provider if that is what they pick.  A client can say what it wants with `prompt`: `none` means answer without any screen at all — with the code if a session exists, with an error if not, but never with a page; `login` means ask for the password again even if a session exists; `select_account` means let the person choose among the accounts signed in on this browser, or sign in to another. `login_hint` names which of those accounts the request is for.  It returns only to an address the application has registered. That check happens before anything else, so a request naming an unregistered address is refused where the person can see it rather than being bounced onwards.
+        Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.  If the person is ALREADY signed in here, it does not ask them again: it returns them to the application with a one-time code and they never see this page. When SEVERAL people are signed in on the browser and the request names none of them, it asks which one, with the account chooser. Otherwise it shows the right way to sign in for the application they are signing in to, or hands off to another identity provider if that is what they pick.  A client can say what it wants with `prompt`: `none` means answer without any screen at all — with the code if a session exists, with an error if not (`account_selection_required` when several accounts are signed in and none is named), but never with a page; `login` means ask for the password again even if a session exists; `select_account` means let the person choose among the accounts signed in on this browser, or sign in to another. `login_hint` names which of those accounts the request is for.  It returns only to an address the application has registered. That check happens before anything else, so a request naming an unregistered address is refused where the person can see it rather than being bounced onwards.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -12310,7 +12328,7 @@ class IamApi:
     ) -> ApiResponse[None]:
         """Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.
 
-        Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.  If the person is ALREADY signed in here, it does not ask them again: it returns them to the application with a one-time code and they never see this page. Otherwise it shows the right way to sign in for the application they are signing in to, or hands off to another identity provider if that is what they pick.  A client can say what it wants with `prompt`: `none` means answer without any screen at all — with the code if a session exists, with an error if not, but never with a page; `login` means ask for the password again even if a session exists; `select_account` means let the person choose among the accounts signed in on this browser, or sign in to another. `login_hint` names which of those accounts the request is for.  It returns only to an address the application has registered. That check happens before anything else, so a request naming an unregistered address is refused where the person can see it rather than being bounced onwards.
+        Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.  If the person is ALREADY signed in here, it does not ask them again: it returns them to the application with a one-time code and they never see this page. When SEVERAL people are signed in on the browser and the request names none of them, it asks which one, with the account chooser. Otherwise it shows the right way to sign in for the application they are signing in to, or hands off to another identity provider if that is what they pick.  A client can say what it wants with `prompt`: `none` means answer without any screen at all — with the code if a session exists, with an error if not (`account_selection_required` when several accounts are signed in and none is named), but never with a page; `login` means ask for the password again even if a session exists; `select_account` means let the person choose among the accounts signed in on this browser, or sign in to another. `login_hint` names which of those accounts the request is for.  It returns only to an address the application has registered. That check happens before anything else, so a request naming an unregistered address is refused where the person can see it rather than being bounced onwards.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -12372,7 +12390,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.
 
-        Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.  If the person is ALREADY signed in here, it does not ask them again: it returns them to the application with a one-time code and they never see this page. Otherwise it shows the right way to sign in for the application they are signing in to, or hands off to another identity provider if that is what they pick.  A client can say what it wants with `prompt`: `none` means answer without any screen at all — with the code if a session exists, with an error if not, but never with a page; `login` means ask for the password again even if a session exists; `select_account` means let the person choose among the accounts signed in on this browser, or sign in to another. `login_hint` names which of those accounts the request is for.  It returns only to an address the application has registered. That check happens before anything else, so a request naming an unregistered address is refused where the person can see it rather than being bounced onwards.
+        Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.  If the person is ALREADY signed in here, it does not ask them again: it returns them to the application with a one-time code and they never see this page. When SEVERAL people are signed in on the browser and the request names none of them, it asks which one, with the account chooser. Otherwise it shows the right way to sign in for the application they are signing in to, or hands off to another identity provider if that is what they pick.  A client can say what it wants with `prompt`: `none` means answer without any screen at all — with the code if a session exists, with an error if not (`account_selection_required` when several accounts are signed in and none is named), but never with a page; `login` means ask for the password again even if a session exists; `select_account` means let the person choose among the accounts signed in on this browser, or sign in to another. `login_hint` names which of those accounts the request is for.  It returns only to an address the application has registered. That check happens before anything else, so a request naming an unregistered address is refused where the person can see it rather than being bounced onwards.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -12956,7 +12974,7 @@ class IamApi:
     ) -> None:
         """Ends a sign-in and sends the browser somewhere sensible.
 
-        Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out — worth stating, because a logout that computes a redirect and answers {\"status\":\"ok\"} while ending no session and revoking no token is worse than none: the person on the shared machine believes it worked. Three things happen here, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear). Server-side revocation is the load-bearing half: a copy     of the cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard: a redirect happens only when a VERIFIED id_token_hint (or client_id) identifies the application and that application has registered the target. Nobody can turn your logout link into a redirect to a site of their choosing.  A GET is the end-session navigation (OIDC RP-Initiated Logout 1.0 §2), so it always ends on a page: the registered address when one was asked for, else this issuer's sign-in page for the application being signed out of. A relying party therefore needs no configuration to sign someone out. A POST is also how a program signs out, so it keeps the JSON answer unless it asks for HTML.
+        Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out — worth stating, because a logout that computes a redirect and answers {\"status\":\"ok\"} while ending no session and revoking no token is worse than none: the person on the shared machine believes it worked. Four things happen here, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear), or, when `logout_hint` names one account, that account's     session alone (sessions.End), leaving everyone else signed in on the     browser. Server-side revocation is the load-bearing half: a copy of the     cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. A navigating sign-out visits each of the issuer's other sign-in origins and     ends the same sessions there (nextSignout), because each holds its own.  4. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard: a redirect happens only when a VERIFIED id_token_hint (or client_id) identifies the application and that application has registered the target. Nobody can turn your logout link into a redirect to a site of their choosing.  A GET is the end-session navigation (OIDC RP-Initiated Logout 1.0 §2), so it always ends on a page: the registered address when one was asked for, else this issuer's sign-in page for the application being signed out of. A relying party therefore needs no configuration to sign someone out. A POST is also how a program signs out, so it keeps the JSON answer unless it asks for HTML.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -13018,7 +13036,7 @@ class IamApi:
     ) -> ApiResponse[None]:
         """Ends a sign-in and sends the browser somewhere sensible.
 
-        Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out — worth stating, because a logout that computes a redirect and answers {\"status\":\"ok\"} while ending no session and revoking no token is worse than none: the person on the shared machine believes it worked. Three things happen here, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear). Server-side revocation is the load-bearing half: a copy     of the cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard: a redirect happens only when a VERIFIED id_token_hint (or client_id) identifies the application and that application has registered the target. Nobody can turn your logout link into a redirect to a site of their choosing.  A GET is the end-session navigation (OIDC RP-Initiated Logout 1.0 §2), so it always ends on a page: the registered address when one was asked for, else this issuer's sign-in page for the application being signed out of. A relying party therefore needs no configuration to sign someone out. A POST is also how a program signs out, so it keeps the JSON answer unless it asks for HTML.
+        Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out — worth stating, because a logout that computes a redirect and answers {\"status\":\"ok\"} while ending no session and revoking no token is worse than none: the person on the shared machine believes it worked. Four things happen here, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear), or, when `logout_hint` names one account, that account's     session alone (sessions.End), leaving everyone else signed in on the     browser. Server-side revocation is the load-bearing half: a copy of the     cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. A navigating sign-out visits each of the issuer's other sign-in origins and     ends the same sessions there (nextSignout), because each holds its own.  4. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard: a redirect happens only when a VERIFIED id_token_hint (or client_id) identifies the application and that application has registered the target. Nobody can turn your logout link into a redirect to a site of their choosing.  A GET is the end-session navigation (OIDC RP-Initiated Logout 1.0 §2), so it always ends on a page: the registered address when one was asked for, else this issuer's sign-in page for the application being signed out of. A relying party therefore needs no configuration to sign someone out. A POST is also how a program signs out, so it keeps the JSON answer unless it asks for HTML.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -13080,7 +13098,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Ends a sign-in and sends the browser somewhere sensible.
 
-        Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out — worth stating, because a logout that computes a redirect and answers {\"status\":\"ok\"} while ending no session and revoking no token is worse than none: the person on the shared machine believes it worked. Three things happen here, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear). Server-side revocation is the load-bearing half: a copy     of the cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard: a redirect happens only when a VERIFIED id_token_hint (or client_id) identifies the application and that application has registered the target. Nobody can turn your logout link into a redirect to a site of their choosing.  A GET is the end-session navigation (OIDC RP-Initiated Logout 1.0 §2), so it always ends on a page: the registered address when one was asked for, else this issuer's sign-in page for the application being signed out of. A relying party therefore needs no configuration to sign someone out. A POST is also how a program signs out, so it keeps the JSON answer unless it asks for HTML.
+        Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out — worth stating, because a logout that computes a redirect and answers {\"status\":\"ok\"} while ending no session and revoking no token is worse than none: the person on the shared machine believes it worked. Four things happen here, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear), or, when `logout_hint` names one account, that account's     session alone (sessions.End), leaving everyone else signed in on the     browser. Server-side revocation is the load-bearing half: a copy of the     cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. A navigating sign-out visits each of the issuer's other sign-in origins and     ends the same sessions there (nextSignout), because each holds its own.  4. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard: a redirect happens only when a VERIFIED id_token_hint (or client_id) identifies the application and that application has registered the target. Nobody can turn your logout link into a redirect to a site of their choosing.  A GET is the end-session navigation (OIDC RP-Initiated Logout 1.0 §2), so it always ends on a page: the registered address when one was asked for, else this issuer's sign-in page for the application being signed out of. A relying party therefore needs no configuration to sign someone out. A POST is also how a program signs out, so it keeps the JSON answer unless it asks for HTML.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -14979,7 +14997,7 @@ class IamApi:
     @validate_call
     def get_iam_roles(
         self,
-        owner: Optional[StrictStr] = None,
+        owner: Annotated[Optional[StrictStr], Field(description="Owner is the organization whose teams to list: yours when left out.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -14997,7 +15015,7 @@ class IamApi:
 
         Returns your organization's roles, newest first — each a named group of people that permissions are granted to.  You see your own organization's roles and no one else's; which organization that is comes from your credentials, not from the request.
 
-        :param owner:
+        :param owner: Owner is the organization whose teams to list: yours when left out.
         :type owner: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -15047,7 +15065,7 @@ class IamApi:
     @validate_call
     def get_iam_roles_with_http_info(
         self,
-        owner: Optional[StrictStr] = None,
+        owner: Annotated[Optional[StrictStr], Field(description="Owner is the organization whose teams to list: yours when left out.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -15065,7 +15083,7 @@ class IamApi:
 
         Returns your organization's roles, newest first — each a named group of people that permissions are granted to.  You see your own organization's roles and no one else's; which organization that is comes from your credentials, not from the request.
 
-        :param owner:
+        :param owner: Owner is the organization whose teams to list: yours when left out.
         :type owner: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -15115,7 +15133,7 @@ class IamApi:
     @validate_call
     def get_iam_roles_without_preload_content(
         self,
-        owner: Optional[StrictStr] = None,
+        owner: Annotated[Optional[StrictStr], Field(description="Owner is the organization whose teams to list: yours when left out.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -15133,7 +15151,7 @@ class IamApi:
 
         Returns your organization's roles, newest first — each a named group of people that permissions are granted to.  You see your own organization's roles and no one else's; which organization that is comes from your credentials, not from the request.
 
-        :param owner:
+        :param owner: Owner is the organization whose teams to list: yours when left out.
         :type owner: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -15246,7 +15264,7 @@ class IamApi:
     @validate_call
     def get_iam_roles_by_owner_by_name(
         self,
-        owner: StrictStr,
+        owner: Annotated[StrictStr, Field(description="Owner is the organization the team belongs to: yours when left out.")],
         name: StrictStr,
         _request_timeout: Union[
             None,
@@ -15265,7 +15283,7 @@ class IamApi:
 
         Returns one role: who is in it, and the roles it includes.
 
-        :param owner: (required)
+        :param owner: Owner is the organization the team belongs to: yours when left out. (required)
         :type owner: str
         :param name: (required)
         :type name: str
@@ -15318,7 +15336,7 @@ class IamApi:
     @validate_call
     def get_iam_roles_by_owner_by_name_with_http_info(
         self,
-        owner: StrictStr,
+        owner: Annotated[StrictStr, Field(description="Owner is the organization the team belongs to: yours when left out.")],
         name: StrictStr,
         _request_timeout: Union[
             None,
@@ -15337,7 +15355,7 @@ class IamApi:
 
         Returns one role: who is in it, and the roles it includes.
 
-        :param owner: (required)
+        :param owner: Owner is the organization the team belongs to: yours when left out. (required)
         :type owner: str
         :param name: (required)
         :type name: str
@@ -15390,7 +15408,7 @@ class IamApi:
     @validate_call
     def get_iam_roles_by_owner_by_name_without_preload_content(
         self,
-        owner: StrictStr,
+        owner: Annotated[StrictStr, Field(description="Owner is the organization the team belongs to: yours when left out.")],
         name: StrictStr,
         _request_timeout: Union[
             None,
@@ -15409,7 +15427,7 @@ class IamApi:
 
         Returns one role: who is in it, and the roles it includes.
 
-        :param owner: (required)
+        :param owner: Owner is the organization the team belongs to: yours when left out. (required)
         :type owner: str
         :param name: (required)
         :type name: str
@@ -17618,6 +17636,7 @@ class IamApi:
     @validate_call
     def get_iam_teams(
         self,
+        owner: Annotated[Optional[StrictStr], Field(description="Owner is the organization whose teams to list: yours when left out.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -17633,8 +17652,10 @@ class IamApi:
     ) -> IamTeamsListOutput:
         """Returns your organization's teams, newest first — each a named set of people that roles and permissions are granted to.
 
-        Returns your organization's teams, newest first — each a named set of people that roles and permissions are granted to.  You see your own organization's teams and no one else's; which organization that is comes from your credentials, not from the request.
+        Returns your organization's teams, newest first — each a named set of people that roles and permissions are granted to.  Name no organization and it is yours, from your credentials. Name one you belong to and you see its teams; any other is refused.
 
+        :param owner: Owner is the organization whose teams to list: yours when left out.
+        :type owner: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -17658,6 +17679,7 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._get_iam_teams_serialize(
+            owner=owner,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -17682,6 +17704,7 @@ class IamApi:
     @validate_call
     def get_iam_teams_with_http_info(
         self,
+        owner: Annotated[Optional[StrictStr], Field(description="Owner is the organization whose teams to list: yours when left out.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -17697,8 +17720,10 @@ class IamApi:
     ) -> ApiResponse[IamTeamsListOutput]:
         """Returns your organization's teams, newest first — each a named set of people that roles and permissions are granted to.
 
-        Returns your organization's teams, newest first — each a named set of people that roles and permissions are granted to.  You see your own organization's teams and no one else's; which organization that is comes from your credentials, not from the request.
+        Returns your organization's teams, newest first — each a named set of people that roles and permissions are granted to.  Name no organization and it is yours, from your credentials. Name one you belong to and you see its teams; any other is refused.
 
+        :param owner: Owner is the organization whose teams to list: yours when left out.
+        :type owner: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -17722,6 +17747,7 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._get_iam_teams_serialize(
+            owner=owner,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -17746,6 +17772,7 @@ class IamApi:
     @validate_call
     def get_iam_teams_without_preload_content(
         self,
+        owner: Annotated[Optional[StrictStr], Field(description="Owner is the organization whose teams to list: yours when left out.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -17761,8 +17788,10 @@ class IamApi:
     ) -> RESTResponseType:
         """Returns your organization's teams, newest first — each a named set of people that roles and permissions are granted to.
 
-        Returns your organization's teams, newest first — each a named set of people that roles and permissions are granted to.  You see your own organization's teams and no one else's; which organization that is comes from your credentials, not from the request.
+        Returns your organization's teams, newest first — each a named set of people that roles and permissions are granted to.  Name no organization and it is yours, from your credentials. Name one you belong to and you see its teams; any other is refused.
 
+        :param owner: Owner is the organization whose teams to list: yours when left out.
+        :type owner: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -17786,6 +17815,7 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._get_iam_teams_serialize(
+            owner=owner,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -17805,6 +17835,7 @@ class IamApi:
 
     def _get_iam_teams_serialize(
         self,
+        owner,
         _request_auth,
         _content_type,
         _headers,
@@ -17827,6 +17858,10 @@ class IamApi:
 
         # process the path parameters
         # process the query parameters
+        if owner is not None:
+            
+            _query_params.append(('owner', owner))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -17869,6 +17904,7 @@ class IamApi:
     def get_iam_teams_by_name(
         self,
         name: StrictStr,
+        owner: Annotated[Optional[StrictStr], Field(description="Owner is the organization the team belongs to: yours when left out.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -17888,6 +17924,8 @@ class IamApi:
 
         :param name: (required)
         :type name: str
+        :param owner: Owner is the organization the team belongs to: yours when left out.
+        :type owner: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -17912,6 +17950,7 @@ class IamApi:
 
         _param = self._get_iam_teams_by_name_serialize(
             name=name,
+            owner=owner,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -17937,6 +17976,7 @@ class IamApi:
     def get_iam_teams_by_name_with_http_info(
         self,
         name: StrictStr,
+        owner: Annotated[Optional[StrictStr], Field(description="Owner is the organization the team belongs to: yours when left out.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -17956,6 +17996,8 @@ class IamApi:
 
         :param name: (required)
         :type name: str
+        :param owner: Owner is the organization the team belongs to: yours when left out.
+        :type owner: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -17980,6 +18022,7 @@ class IamApi:
 
         _param = self._get_iam_teams_by_name_serialize(
             name=name,
+            owner=owner,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -18005,6 +18048,7 @@ class IamApi:
     def get_iam_teams_by_name_without_preload_content(
         self,
         name: StrictStr,
+        owner: Annotated[Optional[StrictStr], Field(description="Owner is the organization the team belongs to: yours when left out.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -18024,6 +18068,8 @@ class IamApi:
 
         :param name: (required)
         :type name: str
+        :param owner: Owner is the organization the team belongs to: yours when left out.
+        :type owner: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -18048,6 +18094,7 @@ class IamApi:
 
         _param = self._get_iam_teams_by_name_serialize(
             name=name,
+            owner=owner,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -18068,6 +18115,7 @@ class IamApi:
     def _get_iam_teams_by_name_serialize(
         self,
         name,
+        owner,
         _request_auth,
         _content_type,
         _headers,
@@ -18092,6 +18140,10 @@ class IamApi:
         if name is not None:
             _path_params['name'] = name
         # process the query parameters
+        if owner is not None:
+            
+            _query_params.append(('owner', owner))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -18133,7 +18185,7 @@ class IamApi:
     @validate_call
     def get_iam_users(
         self,
-        owner: Optional[StrictStr] = None,
+        owner: Annotated[Optional[StrictStr], Field(description="Owner is the organization whose teams to list: yours when left out.")] = None,
         email: Annotated[Optional[StrictStr], Field(description="Email narrows the page to the accounts carrying one address. Looking a person up by their address is a QUERY over the collection, not an item read: an address is not the natural key, two rows in one org can carry one, and a caller that gets a page SEES both — where a single-item read would have to choose, and choosing is how somebody joins a team under a colleague's identity.")] = None,
         limit: Optional[StrictInt] = None,
         offset: Optional[StrictInt] = None,
@@ -18154,7 +18206,7 @@ class IamApi:
 
         Returns a page of the people in an organization, with the total so you can page through the rest. Passwords, API secrets and MFA material are stripped from every entry.  Which organization comes from your credentials, not from the request: you read your own and no one else's, and a credential whose scope spans tenants reads the tenant it names — or, naming none, every one of them.
 
-        :param owner:
+        :param owner: Owner is the organization whose teams to list: yours when left out.
         :type owner: str
         :param email: Email narrows the page to the accounts carrying one address. Looking a person up by their address is a QUERY over the collection, not an item read: an address is not the natural key, two rows in one org can carry one, and a caller that gets a page SEES both — where a single-item read would have to choose, and choosing is how somebody joins a team under a colleague's identity.
         :type email: str
@@ -18213,7 +18265,7 @@ class IamApi:
     @validate_call
     def get_iam_users_with_http_info(
         self,
-        owner: Optional[StrictStr] = None,
+        owner: Annotated[Optional[StrictStr], Field(description="Owner is the organization whose teams to list: yours when left out.")] = None,
         email: Annotated[Optional[StrictStr], Field(description="Email narrows the page to the accounts carrying one address. Looking a person up by their address is a QUERY over the collection, not an item read: an address is not the natural key, two rows in one org can carry one, and a caller that gets a page SEES both — where a single-item read would have to choose, and choosing is how somebody joins a team under a colleague's identity.")] = None,
         limit: Optional[StrictInt] = None,
         offset: Optional[StrictInt] = None,
@@ -18234,7 +18286,7 @@ class IamApi:
 
         Returns a page of the people in an organization, with the total so you can page through the rest. Passwords, API secrets and MFA material are stripped from every entry.  Which organization comes from your credentials, not from the request: you read your own and no one else's, and a credential whose scope spans tenants reads the tenant it names — or, naming none, every one of them.
 
-        :param owner:
+        :param owner: Owner is the organization whose teams to list: yours when left out.
         :type owner: str
         :param email: Email narrows the page to the accounts carrying one address. Looking a person up by their address is a QUERY over the collection, not an item read: an address is not the natural key, two rows in one org can carry one, and a caller that gets a page SEES both — where a single-item read would have to choose, and choosing is how somebody joins a team under a colleague's identity.
         :type email: str
@@ -18293,7 +18345,7 @@ class IamApi:
     @validate_call
     def get_iam_users_without_preload_content(
         self,
-        owner: Optional[StrictStr] = None,
+        owner: Annotated[Optional[StrictStr], Field(description="Owner is the organization whose teams to list: yours when left out.")] = None,
         email: Annotated[Optional[StrictStr], Field(description="Email narrows the page to the accounts carrying one address. Looking a person up by their address is a QUERY over the collection, not an item read: an address is not the natural key, two rows in one org can carry one, and a caller that gets a page SEES both — where a single-item read would have to choose, and choosing is how somebody joins a team under a colleague's identity.")] = None,
         limit: Optional[StrictInt] = None,
         offset: Optional[StrictInt] = None,
@@ -18314,7 +18366,7 @@ class IamApi:
 
         Returns a page of the people in an organization, with the total so you can page through the rest. Passwords, API secrets and MFA material are stripped from every entry.  Which organization comes from your credentials, not from the request: you read your own and no one else's, and a credential whose scope spans tenants reads the tenant it names — or, naming none, every one of them.
 
-        :param owner:
+        :param owner: Owner is the organization whose teams to list: yours when left out.
         :type owner: str
         :param email: Email narrows the page to the accounts carrying one address. Looking a person up by their address is a QUERY over the collection, not an item read: an address is not the natural key, two rows in one org can carry one, and a caller that gets a page SEES both — where a single-item read would have to choose, and choosing is how somebody joins a team under a colleague's identity.
         :type email: str
@@ -28605,6 +28657,242 @@ class IamApi:
 
 
     @validate_call
+    def post_iam_oauth_agent_identity(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Registers an agent that acts for the person whose email it names.
+
+        Registers an agent that acts for the person whose email it names. Nothing is granted here: the answer is a code for that person to approve, and a claim token the agent polls with until they do.  It asks for no credential, so it is bounded: per address and per person named, an hour at a time, and what is refused is never written.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_iam_oauth_agent_identity_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_iam_oauth_agent_identity_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Registers an agent that acts for the person whose email it names.
+
+        Registers an agent that acts for the person whose email it names. Nothing is granted here: the answer is a code for that person to approve, and a claim token the agent polls with until they do.  It asks for no credential, so it is bounded: per address and per person named, an hour at a time, and what is refused is never written.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_iam_oauth_agent_identity_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_iam_oauth_agent_identity_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Registers an agent that acts for the person whose email it names.
+
+        Registers an agent that acts for the person whose email it names. Nothing is granted here: the answer is a code for that person to approve, and a claim token the agent polls with until they do.  It asks for no credential, so it is bounded: per address and per person named, an hour at a time, and what is refused is never written.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_iam_oauth_agent_identity_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_iam_oauth_agent_identity_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/iam/oauth/agent/identity',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def post_iam_oauth_authorize(
         self,
         _request_timeout: Union[
@@ -28622,7 +28910,7 @@ class IamApi:
     ) -> None:
         """Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.
 
-        Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.  If the person is ALREADY signed in here, it does not ask them again: it returns them to the application with a one-time code and they never see this page. Otherwise it shows the right way to sign in for the application they are signing in to, or hands off to another identity provider if that is what they pick.  A client can say what it wants with `prompt`: `none` means answer without any screen at all — with the code if a session exists, with an error if not, but never with a page; `login` means ask for the password again even if a session exists; `select_account` means let the person choose among the accounts signed in on this browser, or sign in to another. `login_hint` names which of those accounts the request is for.  It returns only to an address the application has registered. That check happens before anything else, so a request naming an unregistered address is refused where the person can see it rather than being bounced onwards.
+        Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.  If the person is ALREADY signed in here, it does not ask them again: it returns them to the application with a one-time code and they never see this page. When SEVERAL people are signed in on the browser and the request names none of them, it asks which one, with the account chooser. Otherwise it shows the right way to sign in for the application they are signing in to, or hands off to another identity provider if that is what they pick.  A client can say what it wants with `prompt`: `none` means answer without any screen at all — with the code if a session exists, with an error if not (`account_selection_required` when several accounts are signed in and none is named), but never with a page; `login` means ask for the password again even if a session exists; `select_account` means let the person choose among the accounts signed in on this browser, or sign in to another. `login_hint` names which of those accounts the request is for.  It returns only to an address the application has registered. That check happens before anything else, so a request naming an unregistered address is refused where the person can see it rather than being bounced onwards.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -28684,7 +28972,7 @@ class IamApi:
     ) -> ApiResponse[None]:
         """Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.
 
-        Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.  If the person is ALREADY signed in here, it does not ask them again: it returns them to the application with a one-time code and they never see this page. Otherwise it shows the right way to sign in for the application they are signing in to, or hands off to another identity provider if that is what they pick.  A client can say what it wants with `prompt`: `none` means answer without any screen at all — with the code if a session exists, with an error if not, but never with a page; `login` means ask for the password again even if a session exists; `select_account` means let the person choose among the accounts signed in on this browser, or sign in to another. `login_hint` names which of those accounts the request is for.  It returns only to an address the application has registered. That check happens before anything else, so a request naming an unregistered address is refused where the person can see it rather than being bounced onwards.
+        Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.  If the person is ALREADY signed in here, it does not ask them again: it returns them to the application with a one-time code and they never see this page. When SEVERAL people are signed in on the browser and the request names none of them, it asks which one, with the account chooser. Otherwise it shows the right way to sign in for the application they are signing in to, or hands off to another identity provider if that is what they pick.  A client can say what it wants with `prompt`: `none` means answer without any screen at all — with the code if a session exists, with an error if not (`account_selection_required` when several accounts are signed in and none is named), but never with a page; `login` means ask for the password again even if a session exists; `select_account` means let the person choose among the accounts signed in on this browser, or sign in to another. `login_hint` names which of those accounts the request is for.  It returns only to an address the application has registered. That check happens before anything else, so a request naming an unregistered address is refused where the person can see it rather than being bounced onwards.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -28746,7 +29034,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.
 
-        Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.  If the person is ALREADY signed in here, it does not ask them again: it returns them to the application with a one-time code and they never see this page. Otherwise it shows the right way to sign in for the application they are signing in to, or hands off to another identity provider if that is what they pick.  A client can say what it wants with `prompt`: `none` means answer without any screen at all — with the code if a session exists, with an error if not, but never with a page; `login` means ask for the password again even if a session exists; `select_account` means let the person choose among the accounts signed in on this browser, or sign in to another. `login_hint` names which of those accounts the request is for.  It returns only to an address the application has registered. That check happens before anything else, so a request naming an unregistered address is refused where the person can see it rather than being bounced onwards.
+        Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.  If the person is ALREADY signed in here, it does not ask them again: it returns them to the application with a one-time code and they never see this page. When SEVERAL people are signed in on the browser and the request names none of them, it asks which one, with the account chooser. Otherwise it shows the right way to sign in for the application they are signing in to, or hands off to another identity provider if that is what they pick.  A client can say what it wants with `prompt`: `none` means answer without any screen at all — with the code if a session exists, with an error if not (`account_selection_required` when several accounts are signed in and none is named), but never with a page; `login` means ask for the password again even if a session exists; `select_account` means let the person choose among the accounts signed in on this browser, or sign in to another. `login_hint` names which of those accounts the request is for.  It returns only to an address the application has registered. That check happens before anything else, so a request naming an unregistered address is refused where the person can see it rather than being bounced onwards.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -30038,7 +30326,7 @@ class IamApi:
     ) -> None:
         """Ends a sign-in and sends the browser somewhere sensible.
 
-        Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out — worth stating, because a logout that computes a redirect and answers {\"status\":\"ok\"} while ending no session and revoking no token is worse than none: the person on the shared machine believes it worked. Three things happen here, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear). Server-side revocation is the load-bearing half: a copy     of the cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard: a redirect happens only when a VERIFIED id_token_hint (or client_id) identifies the application and that application has registered the target. Nobody can turn your logout link into a redirect to a site of their choosing.  A GET is the end-session navigation (OIDC RP-Initiated Logout 1.0 §2), so it always ends on a page: the registered address when one was asked for, else this issuer's sign-in page for the application being signed out of. A relying party therefore needs no configuration to sign someone out. A POST is also how a program signs out, so it keeps the JSON answer unless it asks for HTML.
+        Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out — worth stating, because a logout that computes a redirect and answers {\"status\":\"ok\"} while ending no session and revoking no token is worse than none: the person on the shared machine believes it worked. Four things happen here, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear), or, when `logout_hint` names one account, that account's     session alone (sessions.End), leaving everyone else signed in on the     browser. Server-side revocation is the load-bearing half: a copy of the     cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. A navigating sign-out visits each of the issuer's other sign-in origins and     ends the same sessions there (nextSignout), because each holds its own.  4. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard: a redirect happens only when a VERIFIED id_token_hint (or client_id) identifies the application and that application has registered the target. Nobody can turn your logout link into a redirect to a site of their choosing.  A GET is the end-session navigation (OIDC RP-Initiated Logout 1.0 §2), so it always ends on a page: the registered address when one was asked for, else this issuer's sign-in page for the application being signed out of. A relying party therefore needs no configuration to sign someone out. A POST is also how a program signs out, so it keeps the JSON answer unless it asks for HTML.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -30100,7 +30388,7 @@ class IamApi:
     ) -> ApiResponse[None]:
         """Ends a sign-in and sends the browser somewhere sensible.
 
-        Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out — worth stating, because a logout that computes a redirect and answers {\"status\":\"ok\"} while ending no session and revoking no token is worse than none: the person on the shared machine believes it worked. Three things happen here, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear). Server-side revocation is the load-bearing half: a copy     of the cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard: a redirect happens only when a VERIFIED id_token_hint (or client_id) identifies the application and that application has registered the target. Nobody can turn your logout link into a redirect to a site of their choosing.  A GET is the end-session navigation (OIDC RP-Initiated Logout 1.0 §2), so it always ends on a page: the registered address when one was asked for, else this issuer's sign-in page for the application being signed out of. A relying party therefore needs no configuration to sign someone out. A POST is also how a program signs out, so it keeps the JSON answer unless it asks for HTML.
+        Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out — worth stating, because a logout that computes a redirect and answers {\"status\":\"ok\"} while ending no session and revoking no token is worse than none: the person on the shared machine believes it worked. Four things happen here, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear), or, when `logout_hint` names one account, that account's     session alone (sessions.End), leaving everyone else signed in on the     browser. Server-side revocation is the load-bearing half: a copy of the     cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. A navigating sign-out visits each of the issuer's other sign-in origins and     ends the same sessions there (nextSignout), because each holds its own.  4. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard: a redirect happens only when a VERIFIED id_token_hint (or client_id) identifies the application and that application has registered the target. Nobody can turn your logout link into a redirect to a site of their choosing.  A GET is the end-session navigation (OIDC RP-Initiated Logout 1.0 §2), so it always ends on a page: the registered address when one was asked for, else this issuer's sign-in page for the application being signed out of. A relying party therefore needs no configuration to sign someone out. A POST is also how a program signs out, so it keeps the JSON answer unless it asks for HTML.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -30162,7 +30450,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Ends a sign-in and sends the browser somewhere sensible.
 
-        Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out — worth stating, because a logout that computes a redirect and answers {\"status\":\"ok\"} while ending no session and revoking no token is worse than none: the person on the shared machine believes it worked. Three things happen here, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear). Server-side revocation is the load-bearing half: a copy     of the cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard: a redirect happens only when a VERIFIED id_token_hint (or client_id) identifies the application and that application has registered the target. Nobody can turn your logout link into a redirect to a site of their choosing.  A GET is the end-session navigation (OIDC RP-Initiated Logout 1.0 §2), so it always ends on a page: the registered address when one was asked for, else this issuer's sign-in page for the application being signed out of. A relying party therefore needs no configuration to sign someone out. A POST is also how a program signs out, so it keeps the JSON answer unless it asks for HTML.
+        Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out — worth stating, because a logout that computes a redirect and answers {\"status\":\"ok\"} while ending no session and revoking no token is worse than none: the person on the shared machine believes it worked. Four things happen here, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear), or, when `logout_hint` names one account, that account's     session alone (sessions.End), leaving everyone else signed in on the     browser. Server-side revocation is the load-bearing half: a copy of the     cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. A navigating sign-out visits each of the issuer's other sign-in origins and     ends the same sessions there (nextSignout), because each holds its own.  4. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard: a redirect happens only when a VERIFIED id_token_hint (or client_id) identifies the application and that application has registered the target. Nobody can turn your logout link into a redirect to a site of their choosing.  A GET is the end-session navigation (OIDC RP-Initiated Logout 1.0 §2), so it always ends on a page: the registered address when one was asked for, else this issuer's sign-in page for the application being signed out of. A relying party therefore needs no configuration to sign someone out. A POST is also how a program signs out, so it keeps the JSON answer unless it asks for HTML.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -35249,7 +35537,7 @@ class IamApi:
     ) -> None:
         """Validates the request and asks otp to get a code to the person.
 
-        Validates the request and asks otp to get a code to the person. The request fields are read via fiber's FormValue — the escape hatch zip exposes for form bodies (multipart or urlencoded) — since the typed JSON Bind does not apply here. v1 also accepts countryCode/method/checkUser/captchaType; iam ignores them (the captcha/forget/MFA flows those drive are not ported), and CAPTCHA verification is likewise not enforced — iam models no captcha provider — so the code is issued once the destination and application validate.  An email is the designed sign-in mail, a link beside the code and from the application's org as its reader knows it (otp.IssueLink), when the request's Origin is the origin of one of the application's redirect URIs ([landing]); otherwise it is the code alone.
+        Validates the request and asks otp to get a code to the person. The request fields are read via fiber's FormValue — the escape hatch zip exposes for form bodies (multipart or urlencoded) — since the typed JSON Bind does not apply here. v1 also accepts countryCode/method/checkUser/captchaType; iam ignores them (the captcha/forget/MFA flows those drive are not ported), and CAPTCHA verification is likewise not enforced — iam models no captcha provider — so the code is issued once the destination and application validate.  An email is the designed sign-in mail, a link beside the code and from the application's org as its reader knows it (otp.IssueLink), when the request's Origin is the origin of one of the application's redirect URIs ([Landing]); otherwise it is the code alone.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -35311,7 +35599,7 @@ class IamApi:
     ) -> ApiResponse[None]:
         """Validates the request and asks otp to get a code to the person.
 
-        Validates the request and asks otp to get a code to the person. The request fields are read via fiber's FormValue — the escape hatch zip exposes for form bodies (multipart or urlencoded) — since the typed JSON Bind does not apply here. v1 also accepts countryCode/method/checkUser/captchaType; iam ignores them (the captcha/forget/MFA flows those drive are not ported), and CAPTCHA verification is likewise not enforced — iam models no captcha provider — so the code is issued once the destination and application validate.  An email is the designed sign-in mail, a link beside the code and from the application's org as its reader knows it (otp.IssueLink), when the request's Origin is the origin of one of the application's redirect URIs ([landing]); otherwise it is the code alone.
+        Validates the request and asks otp to get a code to the person. The request fields are read via fiber's FormValue — the escape hatch zip exposes for form bodies (multipart or urlencoded) — since the typed JSON Bind does not apply here. v1 also accepts countryCode/method/checkUser/captchaType; iam ignores them (the captcha/forget/MFA flows those drive are not ported), and CAPTCHA verification is likewise not enforced — iam models no captcha provider — so the code is issued once the destination and application validate.  An email is the designed sign-in mail, a link beside the code and from the application's org as its reader knows it (otp.IssueLink), when the request's Origin is the origin of one of the application's redirect URIs ([Landing]); otherwise it is the code alone.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -35373,7 +35661,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Validates the request and asks otp to get a code to the person.
 
-        Validates the request and asks otp to get a code to the person. The request fields are read via fiber's FormValue — the escape hatch zip exposes for form bodies (multipart or urlencoded) — since the typed JSON Bind does not apply here. v1 also accepts countryCode/method/checkUser/captchaType; iam ignores them (the captcha/forget/MFA flows those drive are not ported), and CAPTCHA verification is likewise not enforced — iam models no captcha provider — so the code is issued once the destination and application validate.  An email is the designed sign-in mail, a link beside the code and from the application's org as its reader knows it (otp.IssueLink), when the request's Origin is the origin of one of the application's redirect URIs ([landing]); otherwise it is the code alone.
+        Validates the request and asks otp to get a code to the person. The request fields are read via fiber's FormValue — the escape hatch zip exposes for form bodies (multipart or urlencoded) — since the typed JSON Bind does not apply here. v1 also accepts countryCode/method/checkUser/captchaType; iam ignores them (the captcha/forget/MFA flows those drive are not ported), and CAPTCHA verification is likewise not enforced — iam models no captcha provider — so the code is issued once the destination and application validate.  An email is the designed sign-in mail, a link beside the code and from the application's org as its reader knows it (otp.IssueLink), when the request's Origin is the origin of one of the application's redirect URIs ([Landing]); otherwise it is the code alone.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -35485,7 +35773,7 @@ class IamApi:
     ) -> None:
         """Completes a wallet sign-in: it verifies the signed challenge and, if it holds, signs the wallet's owner in.
 
-        Completes a wallet sign-in: it verifies the signed challenge and, if it holds, signs the wallet's owner in.  This IS the login — it answers exactly as a password sign-in does, so the rest of your flow does not branch on how somebody arrived.
+        Completes a wallet sign-in: it verifies the signed challenge and, if it holds, signs the wallet's owner in.  This IS the login — it answers exactly as a password sign-in does, so the rest of your flow does not branch on how somebody arrived.  A wallet no account holds yet creates one, and one address or one network creates only so many in a window, a day by default. Past that the answer is 429 with Retry-After and code wallet_signup_capped; data names the bound (\"ip\" or \"subnet\"), its limit, and its window in seconds. A wallet already on file is never counted.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -35547,7 +35835,7 @@ class IamApi:
     ) -> ApiResponse[None]:
         """Completes a wallet sign-in: it verifies the signed challenge and, if it holds, signs the wallet's owner in.
 
-        Completes a wallet sign-in: it verifies the signed challenge and, if it holds, signs the wallet's owner in.  This IS the login — it answers exactly as a password sign-in does, so the rest of your flow does not branch on how somebody arrived.
+        Completes a wallet sign-in: it verifies the signed challenge and, if it holds, signs the wallet's owner in.  This IS the login — it answers exactly as a password sign-in does, so the rest of your flow does not branch on how somebody arrived.  A wallet no account holds yet creates one, and one address or one network creates only so many in a window, a day by default. Past that the answer is 429 with Retry-After and code wallet_signup_capped; data names the bound (\"ip\" or \"subnet\"), its limit, and its window in seconds. A wallet already on file is never counted.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -35609,7 +35897,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Completes a wallet sign-in: it verifies the signed challenge and, if it holds, signs the wallet's owner in.
 
-        Completes a wallet sign-in: it verifies the signed challenge and, if it holds, signs the wallet's owner in.  This IS the login — it answers exactly as a password sign-in does, so the rest of your flow does not branch on how somebody arrived.
+        Completes a wallet sign-in: it verifies the signed challenge and, if it holds, signs the wallet's owner in.  This IS the login — it answers exactly as a password sign-in does, so the rest of your flow does not branch on how somebody arrived.  A wallet no account holds yet creates one, and one address or one network creates only so many in a window, a day by default. Past that the answer is 429 with Retry-After and code wallet_signup_capped; data names the bound (\"ip\" or \"subnet\"), its limit, and its window in seconds. A wallet already on file is never counted.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -36809,6 +37097,616 @@ class IamApi:
         return self.api_client.param_serialize(
             method='PUT',
             resource_path='/v1/iam/account',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def put_iam_accounts(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Makes one of the accounts signed in on this browser the current one — the account an account menu switches to — and answers the list in its new order, current first.
+
+        Makes one of the accounts signed in on this browser the current one — the account an account menu switches to — and answers the list in its new order, current first.  Only an account ALREADY signed in here can be chosen, by the subject GET /v1/iam/accounts named it with; anything else is refused and the order is unchanged. Nobody is signed in or out, and nothing is granted: each account keeps resolving to its own row, its own org and its own roles, so switching cannot carry one account's standing to another. Like every write on the session cookie it is taken only from this site's own pages, as JSON.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_iam_accounts_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def put_iam_accounts_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Makes one of the accounts signed in on this browser the current one — the account an account menu switches to — and answers the list in its new order, current first.
+
+        Makes one of the accounts signed in on this browser the current one — the account an account menu switches to — and answers the list in its new order, current first.  Only an account ALREADY signed in here can be chosen, by the subject GET /v1/iam/accounts named it with; anything else is refused and the order is unchanged. Nobody is signed in or out, and nothing is granted: each account keeps resolving to its own row, its own org and its own roles, so switching cannot carry one account's standing to another. Like every write on the session cookie it is taken only from this site's own pages, as JSON.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_iam_accounts_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def put_iam_accounts_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Makes one of the accounts signed in on this browser the current one — the account an account menu switches to — and answers the list in its new order, current first.
+
+        Makes one of the accounts signed in on this browser the current one — the account an account menu switches to — and answers the list in its new order, current first.  Only an account ALREADY signed in here can be chosen, by the subject GET /v1/iam/accounts named it with; anything else is refused and the order is unchanged. Nobody is signed in or out, and nothing is granted: each account keeps resolving to its own row, its own org and its own roles, so switching cannot carry one account's standing to another. Like every write on the session cookie it is taken only from this site's own pages, as JSON.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_iam_accounts_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _put_iam_accounts_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/v1/iam/accounts',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def put_iam_address(
+        self,
+        iam_address_body: IamAddressBody,
+        cookie: Optional[StrictStr] = None,
+        authorization: Optional[StrictStr] = None,
+        sec_fetch_site: Optional[StrictStr] = None,
+        origin: Optional[StrictStr] = None,
+        host: Optional[StrictStr] = None,
+        content_type: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> IamAnswer:
+        """Adds an email address or a phone number to the calling person's own account, so they can sign in with it — by a code sent there, or to recover a password.
+
+        Adds an email address or a phone number to the calling person's own account, so they can sign in with it — by a code sent there, or to recover a password.  First ask POST /v1/iam/verification-codes to send a code to the new address, with the applicationId of the application you sign in at, then send that application's clientId, the address and the code here. Only the caller's own account is written; the request names nobody.  It adds and never replaces: an account that already has an email keeps it, and asking again with the same address answers ok. An address another account at that application already signs in with is refused with the same words a wrong code gets.
+
+        :param iam_address_body: (required)
+        :type iam_address_body: IamAddressBody
+        :param cookie:
+        :type cookie: str
+        :param authorization:
+        :type authorization: str
+        :param sec_fetch_site:
+        :type sec_fetch_site: str
+        :param origin:
+        :type origin: str
+        :param host:
+        :type host: str
+        :param content_type:
+        :type content_type: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_iam_address_serialize(
+            iam_address_body=iam_address_body,
+            cookie=cookie,
+            authorization=authorization,
+            sec_fetch_site=sec_fetch_site,
+            origin=origin,
+            host=host,
+            content_type=content_type,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamAnswer",
+            '400': "IamAnswer",
+            '403': "IamAnswer",
+            '409': "IamAnswer",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def put_iam_address_with_http_info(
+        self,
+        iam_address_body: IamAddressBody,
+        cookie: Optional[StrictStr] = None,
+        authorization: Optional[StrictStr] = None,
+        sec_fetch_site: Optional[StrictStr] = None,
+        origin: Optional[StrictStr] = None,
+        host: Optional[StrictStr] = None,
+        content_type: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[IamAnswer]:
+        """Adds an email address or a phone number to the calling person's own account, so they can sign in with it — by a code sent there, or to recover a password.
+
+        Adds an email address or a phone number to the calling person's own account, so they can sign in with it — by a code sent there, or to recover a password.  First ask POST /v1/iam/verification-codes to send a code to the new address, with the applicationId of the application you sign in at, then send that application's clientId, the address and the code here. Only the caller's own account is written; the request names nobody.  It adds and never replaces: an account that already has an email keeps it, and asking again with the same address answers ok. An address another account at that application already signs in with is refused with the same words a wrong code gets.
+
+        :param iam_address_body: (required)
+        :type iam_address_body: IamAddressBody
+        :param cookie:
+        :type cookie: str
+        :param authorization:
+        :type authorization: str
+        :param sec_fetch_site:
+        :type sec_fetch_site: str
+        :param origin:
+        :type origin: str
+        :param host:
+        :type host: str
+        :param content_type:
+        :type content_type: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_iam_address_serialize(
+            iam_address_body=iam_address_body,
+            cookie=cookie,
+            authorization=authorization,
+            sec_fetch_site=sec_fetch_site,
+            origin=origin,
+            host=host,
+            content_type=content_type,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamAnswer",
+            '400': "IamAnswer",
+            '403': "IamAnswer",
+            '409': "IamAnswer",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def put_iam_address_without_preload_content(
+        self,
+        iam_address_body: IamAddressBody,
+        cookie: Optional[StrictStr] = None,
+        authorization: Optional[StrictStr] = None,
+        sec_fetch_site: Optional[StrictStr] = None,
+        origin: Optional[StrictStr] = None,
+        host: Optional[StrictStr] = None,
+        content_type: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Adds an email address or a phone number to the calling person's own account, so they can sign in with it — by a code sent there, or to recover a password.
+
+        Adds an email address or a phone number to the calling person's own account, so they can sign in with it — by a code sent there, or to recover a password.  First ask POST /v1/iam/verification-codes to send a code to the new address, with the applicationId of the application you sign in at, then send that application's clientId, the address and the code here. Only the caller's own account is written; the request names nobody.  It adds and never replaces: an account that already has an email keeps it, and asking again with the same address answers ok. An address another account at that application already signs in with is refused with the same words a wrong code gets.
+
+        :param iam_address_body: (required)
+        :type iam_address_body: IamAddressBody
+        :param cookie:
+        :type cookie: str
+        :param authorization:
+        :type authorization: str
+        :param sec_fetch_site:
+        :type sec_fetch_site: str
+        :param origin:
+        :type origin: str
+        :param host:
+        :type host: str
+        :param content_type:
+        :type content_type: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_iam_address_serialize(
+            iam_address_body=iam_address_body,
+            cookie=cookie,
+            authorization=authorization,
+            sec_fetch_site=sec_fetch_site,
+            origin=origin,
+            host=host,
+            content_type=content_type,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamAnswer",
+            '400': "IamAnswer",
+            '403': "IamAnswer",
+            '409': "IamAnswer",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _put_iam_address_serialize(
+        self,
+        iam_address_body,
+        cookie,
+        authorization,
+        sec_fetch_site,
+        origin,
+        host,
+        content_type,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        if cookie is not None:
+            _header_params['Cookie'] = cookie
+        if authorization is not None:
+            _header_params['Authorization'] = authorization
+        if sec_fetch_site is not None:
+            _header_params['Sec-Fetch-Site'] = sec_fetch_site
+        if origin is not None:
+            _header_params['Origin'] = origin
+        if host is not None:
+            _header_params['Host'] = host
+        if content_type is not None:
+            _header_params['Content-Type'] = content_type
+        # process the form parameters
+        # process the body parameter
+        if iam_address_body is not None:
+            _body_params = iam_address_body
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/v1/iam/address',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -39590,7 +40488,7 @@ class IamApi:
     @validate_call
     def put_iam_roles_by_owner_by_name(
         self,
-        owner: StrictStr,
+        owner: Annotated[StrictStr, Field(description="Owner is the organization the team belongs to. Leave it out and it is yours, from your credentials; name another only if you administer it.")],
         name: Annotated[StrictStr, Field(description="Name addresses the team on update and names it on create; every other field is content and binds from the BODY, never the URL.")],
         iam_input: IamInput,
         _request_timeout: Union[
@@ -39610,7 +40508,7 @@ class IamApi:
 
         Changes who is in a role, or which roles it includes. Access changes for everyone in it as soon as the write lands. What the role is called does not change, and neither does when it was created.
 
-        :param owner: (required)
+        :param owner: Owner is the organization the team belongs to. Leave it out and it is yours, from your credentials; name another only if you administer it. (required)
         :type owner: str
         :param name: Name addresses the team on update and names it on create; every other field is content and binds from the BODY, never the URL. (required)
         :type name: str
@@ -39666,7 +40564,7 @@ class IamApi:
     @validate_call
     def put_iam_roles_by_owner_by_name_with_http_info(
         self,
-        owner: StrictStr,
+        owner: Annotated[StrictStr, Field(description="Owner is the organization the team belongs to. Leave it out and it is yours, from your credentials; name another only if you administer it.")],
         name: Annotated[StrictStr, Field(description="Name addresses the team on update and names it on create; every other field is content and binds from the BODY, never the URL.")],
         iam_input: IamInput,
         _request_timeout: Union[
@@ -39686,7 +40584,7 @@ class IamApi:
 
         Changes who is in a role, or which roles it includes. Access changes for everyone in it as soon as the write lands. What the role is called does not change, and neither does when it was created.
 
-        :param owner: (required)
+        :param owner: Owner is the organization the team belongs to. Leave it out and it is yours, from your credentials; name another only if you administer it. (required)
         :type owner: str
         :param name: Name addresses the team on update and names it on create; every other field is content and binds from the BODY, never the URL. (required)
         :type name: str
@@ -39742,7 +40640,7 @@ class IamApi:
     @validate_call
     def put_iam_roles_by_owner_by_name_without_preload_content(
         self,
-        owner: StrictStr,
+        owner: Annotated[StrictStr, Field(description="Owner is the organization the team belongs to. Leave it out and it is yours, from your credentials; name another only if you administer it.")],
         name: Annotated[StrictStr, Field(description="Name addresses the team on update and names it on create; every other field is content and binds from the BODY, never the URL.")],
         iam_input: IamInput,
         _request_timeout: Union[
@@ -39762,7 +40660,7 @@ class IamApi:
 
         Changes who is in a role, or which roles it includes. Access changes for everyone in it as soon as the write lands. What the role is called does not change, and neither does when it was created.
 
-        :param owner: (required)
+        :param owner: Owner is the organization the team belongs to. Leave it out and it is yours, from your credentials; name another only if you administer it. (required)
         :type owner: str
         :param name: Name addresses the team on update and names it on create; every other field is content and binds from the BODY, never the URL. (required)
         :type name: str

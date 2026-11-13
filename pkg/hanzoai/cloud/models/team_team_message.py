@@ -29,8 +29,9 @@ class TeamTeamMessage(BaseModel):
     TeamTeamMessage
     """ # noqa: E501
     author: Optional[StrictStr] = Field(default=None, description="Author is the team account uuid that wrote it. It is an ACCOUNT and not a display name: what to call somebody is the roster's answer (GET /v1/team/members), and copying it onto every message is how the two come to disagree. An agent's messages carry the account derived from its id, so the same field answers for both.")
+    channel: Optional[StrictStr] = Field(default=None, description="Channel is the channel it was said in — the same id the channel listing answers with, so a caller holding a message can name its channel without a second read. A reply names the channel its thread is in; a comment on a document has none.")
     created_on: Optional[StrictInt] = Field(default=None, description="CreatedOn is unix MILLIseconds, which is what the platform stamps.", alias="createdOn")
-    doc: Optional[StrictStr] = Field(default=None, description="Doc is the document this message is a comment on. Empty for a message in a room.")
+    doc: Optional[StrictStr] = Field(default=None, description="Doc is the document this message is a comment on. Empty for a message in a channel.")
     edited_on: Optional[StrictInt] = Field(default=None, description="EditedOn is when the author last edited the message, unix milliseconds. Absent for a message never edited.", alias="editedOn")
     files: Optional[List[TeamTeamFile]] = Field(default=None, description="Files are the files attached to the message.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the message document's own id.")
@@ -38,10 +39,9 @@ class TeamTeamMessage(BaseModel):
     mentions: Optional[List[StrictStr]] = Field(default=None, description="Mentions are the account uuids the message @-mentions — exactly the people notify.go told they were mentioned.")
     reactions: Optional[List[TeamTeamReaction]] = Field(default=None, description="Reactions are the emoji people reacted with, one entry per emoji, in the order each emoji was first used.")
     replies: Optional[StrictInt] = Field(default=None, description="Replies is how many replies the message's thread holds.")
-    room: Optional[StrictStr] = Field(default=None, description="Room is the room it was said in — the same id the room listing answers with, so a caller holding a message can name its room without a second read. A reply names the room its thread is in; a comment on a document has none.")
     text: Optional[StrictStr] = Field(default=None, description="Text is the message as PLAIN TEXT. The document stores markup; this is the same `plainText` reduction the agent responder reads a prompt with, so a caller never has to parse the client's markup to know what was said. A mention reads as \"@Name\" here and is listed by id in Mentions.")
     thread: Optional[StrictStr] = Field(default=None, description="Thread is the message this one replies to. Empty for a message that starts a conversation rather than answering one.")
-    __properties: ClassVar[List[str]] = ["author", "createdOn", "doc", "editedOn", "files", "id", "lastReply", "mentions", "reactions", "replies", "room", "text", "thread"]
+    __properties: ClassVar[List[str]] = ["author", "channel", "createdOn", "doc", "editedOn", "files", "id", "lastReply", "mentions", "reactions", "replies", "text", "thread"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -109,6 +109,7 @@ class TeamTeamMessage(BaseModel):
 
         _obj = cls.model_validate({
             "author": obj.get("author"),
+            "channel": obj.get("channel"),
             "createdOn": obj.get("createdOn"),
             "doc": obj.get("doc"),
             "editedOn": obj.get("editedOn"),
@@ -118,7 +119,6 @@ class TeamTeamMessage(BaseModel):
             "mentions": obj.get("mentions"),
             "reactions": [TeamTeamReaction.from_dict(_item) for _item in obj["reactions"]] if obj.get("reactions") is not None else None,
             "replies": obj.get("replies"),
-            "room": obj.get("room"),
             "text": obj.get("text"),
             "thread": obj.get("thread")
         })

@@ -27,18 +27,19 @@ class EmailSendMessageInput(BaseModel):
     EmailSendMessageInput
     """ # noqa: E501
     body: Optional[StrictStr] = Field(default=None, description="Body is an alias for Text for backward compatibility.")
-    var_from: Optional[StrictStr] = Field(default=None, description="From is the sender address. If empty, the org's provider default is used.", alias="from")
+    campaign: Optional[StrictStr] = Field(default=None, description="Campaign tags the messages: 1 to 128 letters, digits, '-' or '_', which is what an SES message tag may hold. Every link carries it as utm_campaign, the provider carries it back on every event, and the stats count by it.")
+    var_from: Optional[StrictStr] = Field(default=None, description="From is the sender address. If empty, the provider credential's from-email is used.", alias="from")
     headers: Optional[Dict[str, StrictStr]] = Field(default=None, description="Headers provides optional custom MIME headers.")
     html: Optional[StrictStr] = Field(default=None, description="HTML is the HTML body.")
-    idempotency_key: Optional[StrictStr] = Field(default=None, description="IdempotencyKey prevents duplicate message dispatches on network retries.")
-    provider: Optional[StrictStr] = Field(default=None, description="Provider optionally pins a provider (e.g. \"mail\", \"twilio_email\").")
+    idempotency_key: Optional[StrictStr] = Field(default=None, description="IdempotencyKey names the send, so a retried request sends each recipient's message once: the same key and recipient name the same message.")
+    provider: Optional[StrictStr] = Field(default=None, description="Provider pins the rail, ses or sendgrid. Empty is the org's default (PUT /v1/email/provider), else ses, else sendgrid, whichever the org holds credentials for.")
     subject: Optional[StrictStr] = Field(default=None, description="Subject is the message subject.")
     sync: Optional[StrictStr] = Field(default=None, description="Sync is accepted for backwards compatibility with notify sends.")
     template_id: Optional[StrictStr] = Field(default=None, description="TemplateID optionally references a built-in template.")
     template_vars: Optional[Any] = None
     text: Optional[StrictStr] = Field(default=None, description="Text is the plain text body.")
-    to: Optional[List[StrictStr]] = Field(default=None, description="To lists destination recipient addresses.")
-    __properties: ClassVar[List[str]] = ["body", "from", "headers", "html", "idempotency_key", "provider", "subject", "sync", "template_id", "template_vars", "text", "to"]
+    to: Optional[List[StrictStr]] = Field(default=None, description="To lists destination recipient addresses. Each gets a message of its own.")
+    __properties: ClassVar[List[str]] = ["body", "campaign", "from", "headers", "html", "idempotency_key", "provider", "subject", "sync", "template_id", "template_vars", "text", "to"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -97,6 +98,7 @@ class EmailSendMessageInput(BaseModel):
 
         _obj = cls.model_validate({
             "body": obj.get("body"),
+            "campaign": obj.get("campaign"),
             "from": obj.get("from"),
             "headers": obj.get("headers"),
             "html": obj.get("html"),

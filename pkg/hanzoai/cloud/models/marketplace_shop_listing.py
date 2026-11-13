@@ -19,6 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.marketplace_expert import MarketplaceExpert
 from hanzoai.cloud.models.marketplace_links import MarketplaceLinks
 from hanzoai.cloud.models.marketplace_reputation import MarketplaceReputation
 from hanzoai.cloud.models.marketplace_seller import MarketplaceSeller
@@ -34,8 +35,9 @@ class MarketplaceShopListing(BaseModel):
     currency: Optional[StrictStr] = Field(default=None, description="Currency labels Price.")
     description: Optional[StrictStr] = Field(default=None, description="Description is the long copy.")
     docs: Optional[StrictStr] = Field(default=None, description="Docs is where its documentation lives, when the seller said.")
+    expert: Optional[MarketplaceExpert] = Field(default=None, description="Expert is the person behind an expert listing — rate, areas, languages, skills, links, time zone, hours and whether staff verified them, and, where they can be told, their rewards standing and scores in products; absent on any other kind.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the listing.")
-    kind: Optional[StrictStr] = Field(default=None, description="Kind is what it sells: agent, persona, app, skill, mcp or tool.")
+    kind: Optional[StrictStr] = Field(default=None, description="Kind is what it sells: agent, persona, app, skill, mcp, tool or expert.")
     links: Optional[MarketplaceLinks] = Field(default=None, description="Links are the ways to act on it.")
     price: Optional[Any] = None
     public: Optional[StrictBool] = Field(default=None, description="Public is always true here.")
@@ -43,9 +45,9 @@ class MarketplaceShopListing(BaseModel):
     reputation: Optional[MarketplaceReputation] = Field(default=None, description="Reputation is what buyers made of this listing.")
     seller: Optional[MarketplaceSeller] = Field(default=None, description="Seller is what anyone may know about the seller.")
     title: Optional[StrictStr] = Field(default=None, description="Title is the shop-window name.")
-    tool: Optional[StrictStr] = Field(default=None, description="Tool names the thing sold, as the seller named it.")
+    tool: Optional[StrictStr] = Field(default=None, description="Tool names the thing sold, as the seller named it; empty for an expert, who is a person and not a thing.")
     updated_at: Optional[StrictInt] = Field(default=None, description="UpdatedAt is when it was last edited, unix seconds.", alias="updatedAt")
-    __properties: ClassVar[List[str]] = ["category", "createdAt", "currency", "description", "docs", "id", "kind", "links", "price", "public", "publisherOrg", "reputation", "seller", "title", "tool", "updatedAt"]
+    __properties: ClassVar[List[str]] = ["category", "createdAt", "currency", "description", "docs", "expert", "id", "kind", "links", "price", "public", "publisherOrg", "reputation", "seller", "title", "tool", "updatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -86,6 +88,9 @@ class MarketplaceShopListing(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of expert
+        if self.expert:
+            _dict['expert'] = self.expert.to_dict()
         # override the default output from pydantic by calling `to_dict()` of links
         if self.links:
             _dict['links'] = self.links.to_dict()
@@ -117,6 +122,7 @@ class MarketplaceShopListing(BaseModel):
             "currency": obj.get("currency"),
             "description": obj.get("description"),
             "docs": obj.get("docs"),
+            "expert": MarketplaceExpert.from_dict(obj["expert"]) if obj.get("expert") is not None else None,
             "id": obj.get("id"),
             "kind": obj.get("kind"),
             "links": MarketplaceLinks.from_dict(obj["links"]) if obj.get("links") is not None else None,

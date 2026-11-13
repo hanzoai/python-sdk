@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -27,12 +27,20 @@ class SocialSocialAccount(BaseModel):
     SocialSocialAccount
     """ # noqa: E501
     created_at: Optional[StrictInt] = Field(default=None, description="CreatedAt is when the account was connected, as a unix timestamp in seconds.", alias="createdAt")
+    disabled: Optional[StrictBool] = Field(default=None, description="Disabled is true when posting to this channel has been paused without disconnecting its stored credentials.")
+    external_id: Optional[StrictStr] = Field(default=None, description="ExternalID is the platform id the sealed token is stored under. Empty for an account recorded by hand, before a consent named one. A publish uses it to choose that token rather than another account on the same network.", alias="externalId")
+    group_id: Optional[StrictStr] = Field(default=None, description="GroupID is the deterministic identifier of the employee or brand channel group this channel is organized under. Optional.", alias="groupId")
+    group_name: Optional[StrictStr] = Field(default=None, description="GroupName is the employee or brand group label (for example \"Antje Worring\", \"Zach Kelling\", or \"Hanzo AI\") used to organize and fan out posts across a person's or team's channels. Optional.", alias="groupName")
     handle: Optional[StrictStr] = Field(default=None, description="Handle is the account's public name on the network, as the customer knows it. Trimmed and bounded at 1024 characters.  Example: \"@acme\"")
     id: Optional[StrictStr] = Field(default=None, description="ID is the account's identifier, minted on connect and the id every later call addresses it by.  Example: \"acct_7f3c1a\"")
+    name: Optional[StrictStr] = Field(default=None, description="Name is the channel's human-readable display name on the network (for example \"Antje Worring\" or \"Hanzo AI\"). Optional.")
+    picture: Optional[StrictStr] = Field(default=None, description="Picture is the avatar URL of the connected channel profile, when reported by the network. Optional.")
+    profile: Optional[StrictStr] = Field(default=None, description="Profile is the canonical profile identifier or URL slug on the network. Optional.")
     provider: Optional[StrictStr] = Field(default=None, description="Provider is the network this account is on: x, facebook, instagram, linkedin, tiktok, youtube or threads.  Example: \"x\"")
+    refresh_needed: Optional[StrictBool] = Field(default=None, description="RefreshNeeded is true when the upstream OAuth token has expired or requires interactive reconnection before publishing.", alias="refreshNeeded")
     status: Optional[StrictStr] = Field(default=None, description="Status is the connection lifecycle: connected, disconnected or error. Only a connected account is a publish target.")
     updated_at: Optional[StrictInt] = Field(default=None, description="UpdatedAt is when the account row last changed, as a unix timestamp in seconds. The listing is ordered by it, newest first.", alias="updatedAt")
-    __properties: ClassVar[List[str]] = ["createdAt", "handle", "id", "provider", "status", "updatedAt"]
+    __properties: ClassVar[List[str]] = ["createdAt", "disabled", "externalId", "groupId", "groupName", "handle", "id", "name", "picture", "profile", "provider", "refreshNeeded", "status", "updatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -86,9 +94,17 @@ class SocialSocialAccount(BaseModel):
 
         _obj = cls.model_validate({
             "createdAt": obj.get("createdAt"),
+            "disabled": obj.get("disabled"),
+            "externalId": obj.get("externalId"),
+            "groupId": obj.get("groupId"),
+            "groupName": obj.get("groupName"),
             "handle": obj.get("handle"),
             "id": obj.get("id"),
+            "name": obj.get("name"),
+            "picture": obj.get("picture"),
+            "profile": obj.get("profile"),
             "provider": obj.get("provider"),
+            "refreshNeeded": obj.get("refreshNeeded"),
             "status": obj.get("status"),
             "updatedAt": obj.get("updatedAt")
         })

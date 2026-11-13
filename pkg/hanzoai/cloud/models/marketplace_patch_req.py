@@ -19,6 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.marketplace_expert_in import MarketplaceExpertIn
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -30,12 +31,13 @@ class MarketplacePatchReq(BaseModel):
     currency: Optional[StrictStr] = Field(default=None, description="Currency denominates Price.")
     description: Optional[StrictStr] = Field(default=None, description="Description is the long copy, at most 4096 characters.")
     docs: Optional[StrictStr] = Field(default=None, description="Docs is where the listing's documentation lives; empty clears it.")
+    expert: Optional[MarketplaceExpertIn] = Field(default=None, description="Expert replaces an expert listing's whole profile — rate, areas, languages, time zone and weekly hours; absent keeps it. Refused on any other kind.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the listing to edit, from the path.")
     price: Optional[StrictStr] = Field(default=None, description="Price is the decimal USD price, exact to 18 places; \"0\" makes it free.")
     public: Optional[StrictBool] = Field(default=None, description="Public makes the listing discoverable by other orgs, or withdraws it.")
     recipient: Optional[StrictStr] = Field(default=None, description="Recipient is the payout wallet id, in the publishing org.")
     title: Optional[StrictStr] = Field(default=None, description="Title is the shop-window name, 1-200 characters.")
-    __properties: ClassVar[List[str]] = ["category", "currency", "description", "docs", "id", "price", "public", "recipient", "title"]
+    __properties: ClassVar[List[str]] = ["category", "currency", "description", "docs", "expert", "id", "price", "public", "recipient", "title"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -76,6 +78,9 @@ class MarketplacePatchReq(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of expert
+        if self.expert:
+            _dict['expert'] = self.expert.to_dict()
         return _dict
 
     @classmethod
@@ -92,6 +97,7 @@ class MarketplacePatchReq(BaseModel):
             "currency": obj.get("currency"),
             "description": obj.get("description"),
             "docs": obj.get("docs"),
+            "expert": MarketplaceExpertIn.from_dict(obj["expert"]) if obj.get("expert") is not None else None,
             "id": obj.get("id"),
             "price": obj.get("price"),
             "public": obj.get("public"),

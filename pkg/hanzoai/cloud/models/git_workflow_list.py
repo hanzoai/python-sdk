@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.git_workflow_view import GitWorkflowView
 from typing import Optional, Set
@@ -27,8 +27,9 @@ class GitWorkflowList(BaseModel):
     """
     GitWorkflowList
     """ # noqa: E501
+    commit: Optional[StrictStr] = Field(default=None, description="Commit is the commit the ref resolved to, which the documents were read at.")
     data: Optional[List[GitWorkflowView]] = Field(default=None, description="Data is the workflows the repository declares at the ref.")
-    __properties: ClassVar[List[str]] = ["data"]
+    __properties: ClassVar[List[str]] = ["commit", "data"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -88,6 +89,7 @@ class GitWorkflowList(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "commit": obj.get("commit"),
             "data": [GitWorkflowView.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None
         })
         return _obj

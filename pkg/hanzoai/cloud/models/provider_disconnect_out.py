@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,8 +26,10 @@ class ProviderDisconnectOut(BaseModel):
     """
     ProviderDisconnectOut
     """ # noqa: E501
+    accounts: Optional[List[StrictStr]] = Field(default=None, description="Accounts are the account labels this disconnect removed. Omitted when none was connected.")
     disconnected: Optional[StrictBool] = Field(default=None, description="Disconnected is always true — the org's secrets and connection row are gone.")
-    __properties: ClassVar[List[str]] = ["disconnected"]
+    uninstalled: Optional[List[StrictStr]] = Field(default=None, description="Uninstalled are the accounts whose provider installation was removed too, because no other org held them. An account another org still holds keeps its installation and is absent here.")
+    __properties: ClassVar[List[str]] = ["accounts", "disconnected", "uninstalled"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -80,7 +82,9 @@ class ProviderDisconnectOut(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "disconnected": obj.get("disconnected")
+            "accounts": obj.get("accounts"),
+            "disconnected": obj.get("disconnected"),
+            "uninstalled": obj.get("uninstalled")
         })
         return _obj
 

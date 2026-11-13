@@ -39,12 +39,15 @@ class IamToken(BaseModel):
     created_at: Optional[datetime] = Field(default=None, alias="createdAt")
     created_time: Optional[StrictStr] = Field(default=None, alias="createdTime")
     deleted: Optional[StrictBool] = None
+    denied: Optional[StrictBool] = Field(default=None, description="Denied records that the person a device authorization (UserCode set) was shown to refused it. The device's next poll is told access_denied once and the code is burned (device.go); until then it cannot be approved.")
     expires_in: Optional[StrictInt] = Field(default=None, alias="expiresIn")
     id: Optional[StrictStr] = Field(default=None, description="Persisted fields")
+    login_hint: Optional[StrictStr] = Field(default=None, description="LoginHint is the address an agent registration (internal/oidc agent.go) named as the person it acts for, normalized. Only the account whose VERIFIED email is this address may approve the registration; empty on every other row.", alias="loginHint")
     name: Optional[StrictStr] = None
     nonce: Optional[StrictStr] = Field(default=None, description="Nonce is the OIDC authorize nonce, stored on the code and echoed into the id_token minted at the exchange (OIDC Core §3.1.3.6) so a relying party binds the id_token to its own request and detects replay.")
     organization: Optional[StrictStr] = None
     owner: Optional[StrictStr] = None
+    polled: Optional[StrictInt] = None
     public_grant: Optional[StrictBool] = Field(default=None, description="PublicGrant records that this grant was established WITHOUT client authentication — a PKCE code exchange from a client that presented no secret. Whether a client is confidential is a property of the GRANT, not only of the registration: `hanzo-cli` and every @hanzo/iam SPA keep a registered secret for a BACKEND path while the surface that actually signs in is a public PKCE client that cannot hold one. authorizationCodeGrant already makes exactly that bounded relaxation; this is the same fact, recorded so refreshTokenGrant can honour it instead of demanding a secret the client never had (which 401s invalid_client and kills the session at the access token's expiry). Carried across rotation, so the second refresh behaves like the first.", alias="publicGrant")
     reason: Optional[StrictStr] = None
     redirect_uri: Optional[StrictStr] = Field(default=None, description="RedirectUri binds the authorization code to the exact redirect URI of the authorize request (RFC 6749 §4.1.3): the token endpoint refuses a code redeemed with a different redirect_uri, closing code-injection across a client's registered URIs.", alias="redirectUri")
@@ -53,13 +56,16 @@ class IamToken(BaseModel):
     refresh_family: Optional[StrictStr] = Field(default=None, description="Refresh-token rotation state (v2). Each refresh belongs to a family (the grant); rotation mints a new row in the same family and marks the prior one consumed. Presenting a consumed refresh is reuse — the whole family is revoked (RFC 9700 §4.14.2). RefreshExpireIn is the refresh token's own absolute expiry (unix), independent of the access token's shorter life.", alias="refreshFamily")
     refresh_token: Optional[StrictStr] = Field(default=None, alias="refreshToken")
     refresh_token_hash: Optional[StrictStr] = Field(default=None, alias="refreshTokenHash")
+    request_country: Optional[StrictStr] = Field(default=None, alias="requestCountry")
+    request_ip: Optional[StrictStr] = Field(default=None, description="Where and when a device authorization was STARTED, shown to the person asked to approve it: the device is the requester's, not theirs, and the one thing a stranger's request cannot hide is that it comes from somewhere else. RequestIp is the address the edge saw connect, RequestCountry the edge's two-letter answer for it, Requested the unix second. Polled is the last poll in unix milliseconds, which is what the interval of RFC 8628 §3.5 is held to.", alias="requestIp")
+    requested: Optional[StrictInt] = None
     resource: Optional[StrictStr] = Field(default=None, description="RFC 8707 resource indicator")
     scope: Optional[StrictStr] = None
     token_type: Optional[StrictStr] = Field(default=None, alias="tokenType")
     updated_at: Optional[datetime] = Field(default=None, alias="updatedAt")
     user: Optional[StrictStr] = None
     user_code: Optional[StrictStr] = Field(default=None, alias="userCode")
-    __properties: ClassVar[List[str]] = ["accessToken", "accessTokenHash", "actor", "application", "code", "codeChallenge", "codeChallengeMethod", "codeExpireIn", "codeIsUsed", "createdAt", "createdTime", "deleted", "expiresIn", "id", "name", "nonce", "organization", "owner", "publicGrant", "reason", "redirectUri", "refreshConsumed", "refreshExpireIn", "refreshFamily", "refreshToken", "refreshTokenHash", "resource", "scope", "tokenType", "updatedAt", "user", "userCode"]
+    __properties: ClassVar[List[str]] = ["accessToken", "accessTokenHash", "actor", "application", "code", "codeChallenge", "codeChallengeMethod", "codeExpireIn", "codeIsUsed", "createdAt", "createdTime", "deleted", "denied", "expiresIn", "id", "loginHint", "name", "nonce", "organization", "owner", "polled", "publicGrant", "reason", "redirectUri", "refreshConsumed", "refreshExpireIn", "refreshFamily", "refreshToken", "refreshTokenHash", "requestCountry", "requestIp", "requested", "resource", "scope", "tokenType", "updatedAt", "user", "userCode"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -124,12 +130,15 @@ class IamToken(BaseModel):
             "createdAt": obj.get("createdAt"),
             "createdTime": obj.get("createdTime"),
             "deleted": obj.get("deleted"),
+            "denied": obj.get("denied"),
             "expiresIn": obj.get("expiresIn"),
             "id": obj.get("id"),
+            "loginHint": obj.get("loginHint"),
             "name": obj.get("name"),
             "nonce": obj.get("nonce"),
             "organization": obj.get("organization"),
             "owner": obj.get("owner"),
+            "polled": obj.get("polled"),
             "publicGrant": obj.get("publicGrant"),
             "reason": obj.get("reason"),
             "redirectUri": obj.get("redirectUri"),
@@ -138,6 +147,9 @@ class IamToken(BaseModel):
             "refreshFamily": obj.get("refreshFamily"),
             "refreshToken": obj.get("refreshToken"),
             "refreshTokenHash": obj.get("refreshTokenHash"),
+            "requestCountry": obj.get("requestCountry"),
+            "requestIp": obj.get("requestIp"),
+            "requested": obj.get("requested"),
             "resource": obj.get("resource"),
             "scope": obj.get("scope"),
             "tokenType": obj.get("tokenType"),

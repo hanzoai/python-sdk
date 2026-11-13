@@ -17,8 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictFloat, StrictInt, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional, Union
 from hanzoai.cloud.models.email_sesdns_record import EmailSESDNSRecord
 from typing import Optional, Set
 from typing_extensions import Self
@@ -27,21 +27,24 @@ class EmailSESStatusResult(BaseModel):
     """
     EmailSESStatusResult
     """ # noqa: E501
-    active_provider: Optional[StrictStr] = Field(default=None, description="ActiveProvider names the active primary email provider resolved for the organization.")
-    configuration_set: Optional[StrictStr] = Field(default=None, description="ConfigurationSet is the Amazon SES v2 Configuration Set name used for open/click/bounce tracking.")
-    configured: Optional[StrictBool] = Field(default=None, description="Configured reports whether Amazon SES credentials are configured for the organization.")
+    active_provider: Optional[StrictStr] = Field(default=None, description="ActiveProvider is the provider the org's mail leaves by when a request pins none.")
+    configuration_set: Optional[StrictStr] = Field(default=None, description="ConfigurationSet is the SES configuration set messages go out under, whose event destination publishes their events (hanzo-crm-events unless the credential names another).")
+    configured: Optional[StrictBool] = Field(default=None, description="Configured reports whether the org holds the SES credentials a send needs (access-key-id, secret-access-key, from-email).")
     dns_records: Optional[List[EmailSESDNSRecord]] = Field(default=None, description="DNSRecords lists the Easy DKIM, SPF, MX, and DMARC records for the sending domain.")
     domain: Optional[StrictStr] = Field(default=None, description="Domain is the sending domain inspected.")
     from_email: Optional[StrictStr] = Field(default=None, description="FromEmail is the default verified sender address.")
     from_name: Optional[StrictStr] = Field(default=None, description="FromName is the default sender display name.")
     mail_from_domain: Optional[StrictStr] = Field(default=None, description="MailFromDomain is the custom MAIL FROM subdomain (bounce.<domain>).")
-    max_24_hour_send: Optional[StrictInt] = Field(default=None, description="Max24HourSend is the 24-hour sending quota for the SES account.")
-    max_send_rate: Optional[StrictInt] = Field(default=None, description="MaxSendRate is the maximum messages per second allowed by SES.")
+    max_24_hour_send: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Max24HourSend is the account's 24-hour sending quota, as SES answers it.")
+    max_send_rate: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="MaxSendRate is the account's most messages a second, as SES answers it.")
     org: Optional[StrictStr] = Field(default=None, description="Org is the organization identifier.")
+    provider_sent_last_24_hours: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="ProviderSentLast24Hours is what SES counts sent by the account in the last 24 hours, from anywhere.")
+    quota_error: Optional[StrictStr] = Field(default=None, description="QuotaError says why the account's limits could not be read; the limits are then 0.")
     region: Optional[StrictStr] = Field(default=None, description="Region is the configured Amazon SES AWS region (defaults to us-east-1).")
-    sandbox: Optional[StrictBool] = Field(default=None, description="Sandbox reports whether the account is in SES sandbox mode.")
-    sent_last_24_hours: Optional[StrictInt] = Field(default=None, description="SentLast24Hours is the count of messages dispatched in the trailing 24 hours.")
-    __properties: ClassVar[List[str]] = ["active_provider", "configuration_set", "configured", "dns_records", "domain", "from_email", "from_name", "mail_from_domain", "max_24_hour_send", "max_send_rate", "org", "region", "sandbox", "sent_last_24_hours"]
+    sandbox: Optional[StrictBool] = Field(default=None, description="Sandbox is whether SES says the account is still in its sandbox.")
+    sending_enabled: Optional[StrictBool] = Field(default=None, description="SendingEnabled is whether SES says the account may send.")
+    sent_last_24_hours: Optional[StrictInt] = Field(default=None, description="SentLast24Hours is what the org's ledger counts sent by SES in the last 24 hours: through POST /v1/email, and every message SES's events told of.")
+    __properties: ClassVar[List[str]] = ["active_provider", "configuration_set", "configured", "dns_records", "domain", "from_email", "from_name", "mail_from_domain", "max_24_hour_send", "max_send_rate", "org", "provider_sent_last_24_hours", "quota_error", "region", "sandbox", "sending_enabled", "sent_last_24_hours"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -112,8 +115,11 @@ class EmailSESStatusResult(BaseModel):
             "max_24_hour_send": obj.get("max_24_hour_send"),
             "max_send_rate": obj.get("max_send_rate"),
             "org": obj.get("org"),
+            "provider_sent_last_24_hours": obj.get("provider_sent_last_24_hours"),
+            "quota_error": obj.get("quota_error"),
             "region": obj.get("region"),
             "sandbox": obj.get("sandbox"),
+            "sending_enabled": obj.get("sending_enabled"),
             "sent_last_24_hours": obj.get("sent_last_24_hours")
         })
         return _obj

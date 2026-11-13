@@ -26,9 +26,10 @@ class AgentCodingInstruction(BaseModel):
     """
     AgentCodingInstruction
     """ # noqa: E501
+    request_id: Optional[StrictStr] = Field(default=None, description="RequestID deduplicates retries of the same steer request; optional.", alias="requestId")
     session: Optional[StrictStr] = Field(default=None, description="Session identifies the running or paused coding session from the path.")
-    text: Optional[StrictStr] = Field(default=None, description="Text is the new instruction to carry into the follow-up run.")
-    __properties: ClassVar[List[str]] = ["session", "text"]
+    text: Optional[StrictStr] = Field(default=None, description="Text is the new instruction to carry into the running turn or follow-up run.")
+    __properties: ClassVar[List[str]] = ["requestId", "session", "text"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -81,6 +82,7 @@ class AgentCodingInstruction(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "requestId": obj.get("requestId"),
             "session": obj.get("session"),
             "text": obj.get("text")
         })

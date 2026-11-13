@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
-from typing import Any, ClassVar, Dict, List
+from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -28,8 +28,9 @@ class PostChat200ResponseAllOfRoutingInputs(BaseModel):
     """ # noqa: E501
     depth: StrictStr = Field(description="The reasoning depth the request states; default when it states none.")
     key: StrictStr = Field(description="The table row that depth was read at.")
-    policy: StrictStr = Field(description="Whether the caller's plan or credit pays for the paid model at that depth.")
-    __properties: ClassVar[List[str]] = ["depth", "key", "policy"]
+    policy: StrictStr = Field(description="Whether the caller's plan or balance pays for the tier; unfunded is served on its no-cost rungs at no charge.")
+    task: Optional[StrictStr] = Field(default=None, description="The task the router read a request that left its effort to it as.")
+    __properties: ClassVar[List[str]] = ["depth", "key", "policy", "task"]
 
     @field_validator('policy')
     def policy_validate_enum(cls, value):
@@ -91,7 +92,8 @@ class PostChat200ResponseAllOfRoutingInputs(BaseModel):
         _obj = cls.model_validate({
             "depth": obj.get("depth"),
             "key": obj.get("key"),
-            "policy": obj.get("policy")
+            "policy": obj.get("policy"),
+            "task": obj.get("task")
         })
         return _obj
 

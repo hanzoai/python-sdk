@@ -30,14 +30,19 @@ class SocialSocialPost(BaseModel):
     channel: Optional[StrictStr] = Field(default=None, description="Channel is the network this post targets: x, facebook, instagram, linkedin, tiktok, youtube or threads. It is the channel whose CONNECTED accounts a publish fans out to.  Example: \"x\"")
     content: Optional[StrictStr] = Field(default=None, description="Content is the post's text, bounded at 8192 characters.  Example: \"Shipping today.\"")
     created_at: Optional[StrictInt] = Field(default=None, description="CreatedAt is when the post was created, as a unix timestamp in seconds.", alias="createdAt")
-    error: Optional[StrictStr] = Field(default=None, description="Error is why the last publish attempt failed, verbatim and bounded. Absent when no attempt has failed; cleared by a later success.")
+    error: Optional[StrictStr] = Field(default=None, description="Error is why the last publish attempt failed, verbatim and bounded. Absent when no attempt has failed; cleared by a later success. A post published to several accounts that only some took is published, and this names the rest.")
+    external_group: Optional[StrictStr] = Field(default=None, description="ExternalGroup is the Postiz group the post belongs to (optional).", alias="externalGroup")
     external_id: Optional[StrictStr] = Field(default=None, description="ExternalID is the id the network returned for the published post, which is what reconciles this row against the post on the network. Absent until a publish succeeds.", alias="externalId")
+    external_id_postiz: Optional[StrictStr] = Field(default=None, description="ExternalIDPostiz is the Postiz post id, set only for origin=postiz rows.", alias="externalIdPostiz")
+    external_integration_id: Optional[StrictStr] = Field(default=None, description="ExternalIntegrationId is the Postiz integration id that published it.", alias="externalIntegrationId")
     id: Optional[StrictStr] = Field(default=None, description="ID is the post's identifier, minted on create and the id every later call addresses it by.  Example: \"post_91ab20\"")
     media: Optional[List[StrictStr]] = Field(default=None, description="Media is the post's attached media as a list of URLs (images today; the composer's URL field now, an S3 picker later, populate it). Stored as a JSON array in the media TEXT column and ALWAYS serialized as an array (never null), so a client can rely on `media` being present. Bounded at the write layer (normMedia in social.go): each URL clipped to maxField, the list to maxMedia.")
+    origin: Optional[StrictStr] = Field(default=None, description="Origin is who owns the post: \"native\" (a Hanzo user created it) or \"postiz\" (mirrored from Postiz via ingest/poller). Mirrored posts are read-only — clients may not create, update, publish or schedule them.")
+    release_url: Optional[StrictStr] = Field(default=None, description="ReleaseURL is the live URL Postiz returned for the published post.", alias="releaseUrl")
     schedule_at: Optional[StrictInt] = Field(default=None, description="ScheduleAt is when the post is due, as a unix timestamp in SECONDS. 0 means unscheduled. It is meaningful only while the status is scheduled — a scheduled post whose time has arrived is published by the scheduler.", alias="scheduleAt")
     status: Optional[StrictStr] = Field(default=None, description="Status is the post's lifecycle state: draft, scheduled, published or failed. A fifth, transient publishing state exists while a publish attempt holds the claim; it is never settable from a request and a caller sees it only if it reads a post mid-attempt.")
     updated_at: Optional[StrictInt] = Field(default=None, description="UpdatedAt is when the post row last changed, as a unix timestamp in seconds. The listing is ordered by it, newest first.", alias="updatedAt")
-    __properties: ClassVar[List[str]] = ["accountId", "channel", "content", "createdAt", "error", "externalId", "id", "media", "scheduleAt", "status", "updatedAt"]
+    __properties: ClassVar[List[str]] = ["accountId", "channel", "content", "createdAt", "error", "externalGroup", "externalId", "externalIdPostiz", "externalIntegrationId", "id", "media", "origin", "releaseUrl", "scheduleAt", "status", "updatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -95,9 +100,14 @@ class SocialSocialPost(BaseModel):
             "content": obj.get("content"),
             "createdAt": obj.get("createdAt"),
             "error": obj.get("error"),
+            "externalGroup": obj.get("externalGroup"),
             "externalId": obj.get("externalId"),
+            "externalIdPostiz": obj.get("externalIdPostiz"),
+            "externalIntegrationId": obj.get("externalIntegrationId"),
             "id": obj.get("id"),
             "media": obj.get("media"),
+            "origin": obj.get("origin"),
+            "releaseUrl": obj.get("releaseUrl"),
             "scheduleAt": obj.get("scheduleAt"),
             "status": obj.get("status"),
             "updatedAt": obj.get("updatedAt")

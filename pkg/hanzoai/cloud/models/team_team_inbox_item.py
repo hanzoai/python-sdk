@@ -28,16 +28,16 @@ class TeamTeamInboxItem(BaseModel):
     TeamTeamInboxItem
     """ # noqa: E501
     archived: Optional[StrictBool] = Field(default=None, description="Archived reports that the caller archived it.")
+    channel: Optional[StrictStr] = Field(default=None, description="Channel is the channel it is about, when it is about a channel.")
     created_on: Optional[StrictInt] = Field(default=None, description="CreatedOn is when it was filed, unix milliseconds.", alias="createdOn")
     doc: Optional[StrictStr] = Field(default=None, description="Doc is the document it is about, when it is about a document.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the notification's own id — what read and archive address.")
-    message: Optional[TeamTeamMessage] = Field(default=None, description="Message is the message that caused it, as the message ops answer it. Absent when that message has since been deleted, or is in a room the caller can no longer see.")
+    message: Optional[TeamTeamMessage] = Field(default=None, description="Message is the message that caused it, as the message ops answer it. Absent when that message has since been deleted, or is in a channel the caller can no longer see.")
     read: Optional[StrictBool] = Field(default=None, description="Read reports that the caller has seen it.")
     reason: Optional[StrictStr] = Field(default=None, description="Reason is why it was filed: \"mention\", \"dm\" (a direct message), \"reply\" (in a thread the caller is in), \"comment\" (on something the caller follows), \"assigned\", or \"other\".")
-    room: Optional[StrictStr] = Field(default=None, description="Room is the room it is about, when it is about a room.")
     space: Optional[StrictStr] = Field(default=None, description="Space is the space uuid it was filed in.")
     thread: Optional[StrictStr] = Field(default=None, description="Thread is the message whose thread it is about, for a reply.")
-    __properties: ClassVar[List[str]] = ["archived", "createdOn", "doc", "id", "message", "read", "reason", "room", "space", "thread"]
+    __properties: ClassVar[List[str]] = ["archived", "channel", "createdOn", "doc", "id", "message", "read", "reason", "space", "thread"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -94,13 +94,13 @@ class TeamTeamInboxItem(BaseModel):
 
         _obj = cls.model_validate({
             "archived": obj.get("archived"),
+            "channel": obj.get("channel"),
             "createdOn": obj.get("createdOn"),
             "doc": obj.get("doc"),
             "id": obj.get("id"),
             "message": TeamTeamMessage.from_dict(obj["message"]) if obj.get("message") is not None else None,
             "read": obj.get("read"),
             "reason": obj.get("reason"),
-            "room": obj.get("room"),
             "space": obj.get("space"),
             "thread": obj.get("thread")
         })

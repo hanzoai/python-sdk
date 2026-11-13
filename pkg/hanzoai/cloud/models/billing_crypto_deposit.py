@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,14 +26,21 @@ class BillingCryptoDeposit(BaseModel):
     """
     BillingCryptoDeposit
     """ # noqa: E501
-    address_tag: Optional[StrictStr] = Field(default=None, alias="addressTag")
-    chain: Optional[StrictStr] = None
-    deposit_address: Optional[StrictStr] = Field(default=None, alias="depositAddress")
-    expires_at: Optional[StrictStr] = Field(default=None, alias="expiresAt")
-    id: Optional[StrictStr] = None
-    status: Optional[StrictStr] = None
-    token: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["addressTag", "chain", "depositAddress", "expiresAt", "id", "status", "token"]
+    address_tag: Optional[StrictStr] = Field(default=None, description="AddressTag is the destination tag the payment must carry, on a chain whose address is shared. Absent where the address alone names the payer.", alias="addressTag")
+    amount_cents: Optional[StrictInt] = Field(default=None, description="AmountCents is what the payer said they would send, in USD cents, when the address was asked for: a record of intent, not a quote. What is credited is what arrives. Absent when nothing was named.", alias="amountCents")
+    chain: Optional[StrictStr] = Field(default=None, description="Chain is the network to send on.")
+    confirmations: Optional[StrictInt] = Field(default=None, description="Confirmations is how deep the transfer being confirmed is now; zero until one is seen.")
+    credited_cents: Optional[StrictInt] = Field(default=None, description="CreditedCents is what the transfer this intent confirmed credited, in USD cents, once it succeeded. A later transfer to the same address is credited too, and shows in the balance rather than here.", alias="creditedCents")
+    deposit_address: Optional[StrictStr] = Field(default=None, description="DepositAddress is where to send it.", alias="depositAddress")
+    expires_at: Optional[StrictStr] = Field(default=None, description="ExpiresAt is when this address stops being handed out again (RFC3339). A transfer that arrives after it is still credited.", alias="expiresAt")
+    fee_cents: Optional[StrictInt] = Field(default=None, description="FeeCents is deducted from every deposit before it is credited: the cost of sweeping it out of the custody address. Absent deducts nothing.", alias="feeCents")
+    id: Optional[StrictStr] = Field(default=None, description="ID names the intent; read it back at GET /v1/billing/crypto/deposit/{id}.")
+    instructions: Optional[StrictStr] = Field(default=None, description="Instructions says, in one line, what to send where and when it is credited.")
+    minimum_cents: Optional[StrictInt] = Field(default=None, description="MinimumCents is the smallest deposit, in USD cents, that credits anything; less credits nothing. Absent when nothing is watching this asset now, and then nothing sent to it is credited.", alias="minimumCents")
+    required_confirmations: Optional[StrictInt] = Field(default=None, description="RequiredConfirmations is how many blocks deep the transfer must be before it is credited.", alias="requiredConfirmations")
+    status: Optional[StrictStr] = Field(default=None, description="Status is pending until a transfer to the address is seen, confirming while the chain buries it, and succeeded once it is credited as cash in the payer's balance (GET /v1/billing/balance, cash).")
+    token: Optional[StrictStr] = Field(default=None, description="Token is the asset to send; this intent credits that token alone.")
+    __properties: ClassVar[List[str]] = ["addressTag", "amountCents", "chain", "confirmations", "creditedCents", "depositAddress", "expiresAt", "feeCents", "id", "instructions", "minimumCents", "requiredConfirmations", "status", "token"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -87,10 +94,17 @@ class BillingCryptoDeposit(BaseModel):
 
         _obj = cls.model_validate({
             "addressTag": obj.get("addressTag"),
+            "amountCents": obj.get("amountCents"),
             "chain": obj.get("chain"),
+            "confirmations": obj.get("confirmations"),
+            "creditedCents": obj.get("creditedCents"),
             "depositAddress": obj.get("depositAddress"),
             "expiresAt": obj.get("expiresAt"),
+            "feeCents": obj.get("feeCents"),
             "id": obj.get("id"),
+            "instructions": obj.get("instructions"),
+            "minimumCents": obj.get("minimumCents"),
+            "requiredConfirmations": obj.get("requiredConfirmations"),
             "status": obj.get("status"),
             "token": obj.get("token")
         })

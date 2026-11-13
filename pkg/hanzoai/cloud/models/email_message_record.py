@@ -27,20 +27,27 @@ class EmailMessageRecord(BaseModel):
     """
     EmailMessageRecord
     """ # noqa: E501
-    created_at: Optional[datetime] = Field(default=None, description="CreatedAt is the timestamp when the message was accepted for delivery.")
-    error: Optional[StrictStr] = Field(default=None, description="Error carries the failure details when Status is failed.")
-    var_from: Optional[StrictStr] = Field(default=None, description="From is the sender email address used for delivery.", alias="from")
-    html: Optional[StrictStr] = Field(default=None, description="HTML is the HTML body.")
-    id: Optional[StrictStr] = Field(default=None, description="ID is the unique message identifier minted by the delivery service.")
-    idempotency_key: Optional[StrictStr] = Field(default=None, description="IdempotencyKey records the key used to deduplicate dispatch retries.")
+    bounce: Optional[StrictStr] = Field(default=None, description="Bounce is hard or soft, for a message that bounced.")
+    bounced_at: Optional[datetime] = Field(default=None, description="BouncedAt is when it bounced, and Bounce whether hard or soft.")
+    campaign: Optional[StrictStr] = Field(default=None, description="Campaign is the campaign the message was tagged with.")
+    clicked_at: Optional[datetime] = Field(default=None, description="ClickedAt is when a link in it was first clicked.")
+    complained_at: Optional[datetime] = Field(default=None, description="ComplainedAt is when its recipient reported it as spam.")
+    created_at: Optional[datetime] = Field(default=None, description="CreatedAt is when the message was sent, or accepted to be.")
+    delivered_at: Optional[datetime] = Field(default=None, description="DeliveredAt is when the receiving server first took it.")
+    error: Optional[StrictStr] = Field(default=None, description="Error says why it failed, bounced, was deferred or was rejected.")
+    var_from: Optional[StrictStr] = Field(default=None, description="From is the sender address, when known.", alias="from")
+    id: Optional[StrictStr] = Field(default=None, description="ID is our id for the message (msg_…): every link in it carries it as from=, and the event stream names it by it.")
+    idempotency_key: Optional[StrictStr] = Field(default=None, description="IdempotencyKey is the key the message was sent under.")
+    opened_at: Optional[datetime] = Field(default=None, description="OpenedAt is when it was first opened.")
     org: Optional[StrictStr] = Field(default=None, description="Org is the organization owning this message.")
-    provider: Optional[StrictStr] = Field(default=None, description="Provider is the delivery provider name that executed the dispatch.")
-    provider_id: Optional[StrictStr] = Field(default=None, description="ProviderID is the provider's own id for the message, which its delivery events name it by; empty for a provider that answers none.")
-    status: Optional[StrictStr] = Field(default=None, description="Status reports delivery status: queued, sent, delivered, or failed.")
-    subject: Optional[StrictStr] = Field(default=None, description="Subject is the message subject line.")
-    text: Optional[StrictStr] = Field(default=None, description="Text is the plain text body.")
-    to: Optional[List[StrictStr]] = Field(default=None, description="To lists recipient destination addresses.")
-    __properties: ClassVar[List[str]] = ["created_at", "error", "from", "html", "id", "idempotency_key", "org", "provider", "provider_id", "status", "subject", "text", "to"]
+    origin: Optional[StrictStr] = Field(default=None, description="Origin is api for a message POST /v1/email sent, provider for one the provider's events told of, sent from the org's own tools.")
+    provider: Optional[StrictStr] = Field(default=None, description="Provider is the rail it went by: ses or sendgrid.")
+    provider_id: Optional[StrictStr] = Field(default=None, description="ProviderID is the provider's own id for the message, which its events name it by; empty until the provider answers one.")
+    status: Optional[StrictStr] = Field(default=None, description="Status is queued, sent, failed, delivered, opened, clicked, bounced or complained.")
+    subject: Optional[StrictStr] = Field(default=None, description="Subject is the message subject line, when known.")
+    to: Optional[List[StrictStr]] = Field(default=None, description="To lists the recipients.")
+    unsubscribed_at: Optional[datetime] = Field(default=None, description="UnsubscribedAt is when its recipient unsubscribed from it.")
+    __properties: ClassVar[List[str]] = ["bounce", "bounced_at", "campaign", "clicked_at", "complained_at", "created_at", "delivered_at", "error", "from", "id", "idempotency_key", "opened_at", "org", "origin", "provider", "provider_id", "status", "subject", "to", "unsubscribed_at"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -93,19 +100,26 @@ class EmailMessageRecord(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "bounce": obj.get("bounce"),
+            "bounced_at": obj.get("bounced_at"),
+            "campaign": obj.get("campaign"),
+            "clicked_at": obj.get("clicked_at"),
+            "complained_at": obj.get("complained_at"),
             "created_at": obj.get("created_at"),
+            "delivered_at": obj.get("delivered_at"),
             "error": obj.get("error"),
             "from": obj.get("from"),
-            "html": obj.get("html"),
             "id": obj.get("id"),
             "idempotency_key": obj.get("idempotency_key"),
+            "opened_at": obj.get("opened_at"),
             "org": obj.get("org"),
+            "origin": obj.get("origin"),
             "provider": obj.get("provider"),
             "provider_id": obj.get("provider_id"),
             "status": obj.get("status"),
             "subject": obj.get("subject"),
-            "text": obj.get("text"),
-            "to": obj.get("to")
+            "to": obj.get("to"),
+            "unsubscribed_at": obj.get("unsubscribed_at")
         })
         return _obj
 

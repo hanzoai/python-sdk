@@ -29,6 +29,7 @@ class AgentRegisterReq(BaseModel):
     account: Optional[StrictStr] = Field(default=None, description="Account is which subscription or API account under that provider served the run, up to 256 characters. It is what lets a revoke of that login stop exactly the sessions it was paying for.")
     agent: Optional[StrictStr] = Field(default=None, description="Agent is the label the surface opening this session calls itself by (\"hanzo-dev\"). REQUIRED, up to 128 characters, and free text — nothing resolves it against a defined agent.")
     budget_micro_usd: Optional[StrictInt] = Field(default=None, description="BudgetMicroUSD caps what this session may spend, integer micro-USD. Zero means no cap; a cap can be raised or removed later, never added.")
+    channel: Optional[StrictStr] = Field(default=None, description="Channel is the collaborative channel this run was started in (HIP-0523), so a space view can list the sessions of one channel. It is PROVENANCE and is set only here: there is deliberately no way to move a session to another channel, so it is absent from the patch input and from UpdateSession's SET list.")
     cwd: Optional[StrictStr] = Field(default=None, description="Cwd is the directory the session starts in, up to 1024 characters. It can be moved later, because a linked shell walks around.")
     host: Optional[StrictStr] = Field(default=None, description="Execution context — where this session runs (all optional).")
     parent_session_id: Optional[StrictStr] = Field(default=None, description="ParentSessionID makes this a subagent of that session: it inherits the parent's root, so one flow stays one tree. The parent must exist IN THE SAME ORG — a foreign or unknown id is a 400, never a tree across tenants. Empty opens a root session.", alias="parentSessionId")
@@ -36,14 +37,13 @@ class AgentRegisterReq(BaseModel):
     provider: Optional[StrictStr] = Field(default=None, description="Account tag — the linked AI account this session ran under (login manager).")
     published: Optional[StrictBool] = Field(default=None, description="Published opens this session's story to the public build route. It is refused without a Project, because that route is keyed on (org, project) — a build with no product is not a story anyone can open. False keeps it org-only.")
     repo: Optional[StrictStr] = Field(default=None, description="Repo is the code being worked on, up to 512 characters. A label the surface states; nothing resolves it against the forge.")
-    room: Optional[StrictStr] = Field(default=None, description="Room is the collaborative room this run was started in (HIP-0523), so a space view can list the sessions of one room. It is PROVENANCE and is set only here: there is deliberately no way to move a session to another room, so it is absent from the patch input and from UpdateSession's SET list.")
     status: Optional[StrictStr] = Field(default=None, description="Status opens the session in one of running, paused, done or error. Empty means running. A TERMINAL status here (done, error) records a session that has already finished — its end time is stamped now — and nothing can move it afterwards.")
     target: Optional[StrictStr] = Field(default=None, description="Target names a run-target the org has registered. Unlike Host and Repo it IS resolved: a target that does not exist in this org is a 400, so a session can never claim to run on another tenant's machine. Empty names no machine.")
     task_run_id: Optional[StrictStr] = Field(default=None, description="TaskRunID is that workflow's particular run, same bound. Recorded, not resolved: this surface does not check the workflow exists.", alias="taskRunId")
     task_workflow_id: Optional[StrictStr] = Field(default=None, description="TaskWorkflowID links this session to the hanzoai/tasks workflow that executes it, up to 256 characters. Set it and control commands are forwarded to that engine; leave it and the running surface polls for them instead.", alias="taskWorkflowId")
     terminal: Optional[StrictStr] = Field(default=None, description="Terminal is the URL this session's live terminal is published at, so the console can watch it. Optional — a session that publishes nothing is still a session.")
     title: Optional[StrictStr] = Field(default=None, description="Title is the human line a card shows, up to 512 characters. Optional, and changeable later.")
-    __properties: ClassVar[List[str]] = ["account", "agent", "budget_micro_usd", "cwd", "host", "parentSessionId", "project", "provider", "published", "repo", "room", "status", "target", "taskRunId", "taskWorkflowId", "terminal", "title"]
+    __properties: ClassVar[List[str]] = ["account", "agent", "budget_micro_usd", "channel", "cwd", "host", "parentSessionId", "project", "provider", "published", "repo", "status", "target", "taskRunId", "taskWorkflowId", "terminal", "title"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -99,6 +99,7 @@ class AgentRegisterReq(BaseModel):
             "account": obj.get("account"),
             "agent": obj.get("agent"),
             "budget_micro_usd": obj.get("budget_micro_usd"),
+            "channel": obj.get("channel"),
             "cwd": obj.get("cwd"),
             "host": obj.get("host"),
             "parentSessionId": obj.get("parentSessionId"),
@@ -106,7 +107,6 @@ class AgentRegisterReq(BaseModel):
             "provider": obj.get("provider"),
             "published": obj.get("published"),
             "repo": obj.get("repo"),
-            "room": obj.get("room"),
             "status": obj.get("status"),
             "target": obj.get("target"),
             "taskRunId": obj.get("taskRunId"),

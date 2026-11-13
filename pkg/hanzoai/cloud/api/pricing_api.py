@@ -17,7 +17,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
 from pydantic import Field, StrictStr
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 from typing_extensions import Annotated
 from hanzoai.cloud.models.pricing_card import PricingCard
 from hanzoai.cloud.models.pricing_enablement_board import PricingEnablementBoard
@@ -4265,6 +4265,7 @@ class PricingApi:
     @validate_call
     def get_pricing_models(
         self,
+        id: Annotated[Optional[StrictStr], Field(description="ID is the models to answer, comma-separated: each matches a model whose id or name is exactly it, or whose id's last path segment is (`gpt-5.5` finds `openai/gpt-5.5`). A model the catalog lists without an id is identified by its name, so `kai` also finds `hanzo/kai`. Absent answers the whole catalog.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4280,8 +4281,10 @@ class PricingApi:
     ) -> PricingPricingModelList:
         """Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller may see.
 
-        Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller may see. A model an admin has disabled is absent; one in beta appears only for a caller the platform's `beta` switch is on for. A SuperAdmin sees every model, each annotated with its enablement state.
+        Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller may see. A model an admin has disabled is absent; one in beta appears only for a caller the platform's `beta` switch is on for. A SuperAdmin sees every model, each annotated with its enablement state.  ?id= narrows it to the models named, in the catalog's order, and `total` counts what is answered: a page that prices five models reads five, not the catalog.
 
+        :param id: ID is the models to answer, comma-separated: each matches a model whose id or name is exactly it, or whose id's last path segment is (`gpt-5.5` finds `openai/gpt-5.5`). A model the catalog lists without an id is identified by its name, so `kai` also finds `hanzo/kai`. Absent answers the whole catalog.
+        :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4305,6 +4308,7 @@ class PricingApi:
         """ # noqa: E501
 
         _param = self._get_pricing_models_serialize(
+            id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4328,6 +4332,7 @@ class PricingApi:
     @validate_call
     def get_pricing_models_with_http_info(
         self,
+        id: Annotated[Optional[StrictStr], Field(description="ID is the models to answer, comma-separated: each matches a model whose id or name is exactly it, or whose id's last path segment is (`gpt-5.5` finds `openai/gpt-5.5`). A model the catalog lists without an id is identified by its name, so `kai` also finds `hanzo/kai`. Absent answers the whole catalog.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4343,8 +4348,10 @@ class PricingApi:
     ) -> ApiResponse[PricingPricingModelList]:
         """Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller may see.
 
-        Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller may see. A model an admin has disabled is absent; one in beta appears only for a caller the platform's `beta` switch is on for. A SuperAdmin sees every model, each annotated with its enablement state.
+        Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller may see. A model an admin has disabled is absent; one in beta appears only for a caller the platform's `beta` switch is on for. A SuperAdmin sees every model, each annotated with its enablement state.  ?id= narrows it to the models named, in the catalog's order, and `total` counts what is answered: a page that prices five models reads five, not the catalog.
 
+        :param id: ID is the models to answer, comma-separated: each matches a model whose id or name is exactly it, or whose id's last path segment is (`gpt-5.5` finds `openai/gpt-5.5`). A model the catalog lists without an id is identified by its name, so `kai` also finds `hanzo/kai`. Absent answers the whole catalog.
+        :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4368,6 +4375,7 @@ class PricingApi:
         """ # noqa: E501
 
         _param = self._get_pricing_models_serialize(
+            id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4391,6 +4399,7 @@ class PricingApi:
     @validate_call
     def get_pricing_models_without_preload_content(
         self,
+        id: Annotated[Optional[StrictStr], Field(description="ID is the models to answer, comma-separated: each matches a model whose id or name is exactly it, or whose id's last path segment is (`gpt-5.5` finds `openai/gpt-5.5`). A model the catalog lists without an id is identified by its name, so `kai` also finds `hanzo/kai`. Absent answers the whole catalog.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4406,8 +4415,10 @@ class PricingApi:
     ) -> RESTResponseType:
         """Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller may see.
 
-        Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller may see. A model an admin has disabled is absent; one in beta appears only for a caller the platform's `beta` switch is on for. A SuperAdmin sees every model, each annotated with its enablement state.
+        Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller may see. A model an admin has disabled is absent; one in beta appears only for a caller the platform's `beta` switch is on for. A SuperAdmin sees every model, each annotated with its enablement state.  ?id= narrows it to the models named, in the catalog's order, and `total` counts what is answered: a page that prices five models reads five, not the catalog.
 
+        :param id: ID is the models to answer, comma-separated: each matches a model whose id or name is exactly it, or whose id's last path segment is (`gpt-5.5` finds `openai/gpt-5.5`). A model the catalog lists without an id is identified by its name, so `kai` also finds `hanzo/kai`. Absent answers the whole catalog.
+        :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4431,6 +4442,7 @@ class PricingApi:
         """ # noqa: E501
 
         _param = self._get_pricing_models_serialize(
+            id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4449,6 +4461,7 @@ class PricingApi:
 
     def _get_pricing_models_serialize(
         self,
+        id,
         _request_auth,
         _content_type,
         _headers,
@@ -4471,6 +4484,10 @@ class PricingApi:
 
         # process the path parameters
         # process the query parameters
+        if id is not None:
+            
+            _query_params.append(('id', id))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter

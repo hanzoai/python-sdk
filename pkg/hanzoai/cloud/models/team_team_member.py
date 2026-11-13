@@ -29,7 +29,7 @@ class TeamTeamMember(BaseModel):
     active: Optional[StrictBool] = Field(default=None, description="Active is false for an agent the org has retired: it stays in the roster so its past messages keep an author, and it no longer answers.")
     avatar: Optional[StrictStr] = Field(default=None, description="Avatar is the blob id of an uploaded picture, readable at GET /v1/team/files/{space}/avatar?file={avatar}. Empty when the person has none and the client draws initials.")
     bot: Optional[StrictBool] = Field(default=None, description="Bot reports that this member is one of the org's agents rather than a person. An agent answers when it is @-mentioned or messaged directly.")
-    id: Optional[StrictStr] = Field(default=None, description="ID is the account uuid — the value every message's author, every room's members list and every `<@id>` mention token names.")
+    id: Optional[StrictStr] = Field(default=None, description="ID is the account uuid — the value every message's author, every channel's members list and every `<@id>` mention token names.")
     name: Optional[StrictStr] = Field(default=None, description="Name is what to call them: the name IAM holds for a person, the agent's own name for an agent. Falls back to the id when neither has one.")
     person_ref: Optional[StrictStr] = Field(default=None, description="PersonRef is the member's Person document id, the reference a mention stores.", alias="personRef")
     presence: Optional[StrictStr] = Field(default=None, description="Presence is \"online\" while the member holds a live connection to this space (a Team client or an event stream), \"offline\" otherwise.")

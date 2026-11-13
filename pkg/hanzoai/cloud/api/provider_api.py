@@ -30,6 +30,7 @@ from hanzoai.cloud.models.provider_credential_out import ProviderCredentialOut
 from hanzoai.cloud.models.provider_device_poll_out import ProviderDevicePollOut
 from hanzoai.cloud.models.provider_device_start_in import ProviderDeviceStartIn
 from hanzoai.cloud.models.provider_device_start_out import ProviderDeviceStartOut
+from hanzoai.cloud.models.provider_disconnect_in import ProviderDisconnectIn
 from hanzoai.cloud.models.provider_disconnect_out import ProviderDisconnectOut
 from hanzoai.cloud.models.provider_github_backfill_in import ProviderGithubBackfillIn
 from hanzoai.cloud.models.provider_github_backfill_result import ProviderGithubBackfillResult
@@ -85,6 +86,8 @@ from hanzoai.cloud.models.provider_slack_update_message_out import ProviderSlack
 from hanzoai.cloud.models.provider_token_out import ProviderTokenOut
 from hanzoai.cloud.models.provider_user_catalog_out import ProviderUserCatalogOut
 from hanzoai.cloud.models.provider_verify_out import ProviderVerifyOut
+from hanzoai.cloud.models.provider_whatsapp_group_in import ProviderWhatsappGroupIn
+from hanzoai.cloud.models.provider_whatsapp_group_out import ProviderWhatsappGroupOut
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -2193,7 +2196,7 @@ class ProviderApi:
     ) -> None:
         """OAuth return for any connector
 
-        The single address every connector's OAuth flow returns to. It exchanges the authorization the provider granted, records the connection, and ALWAYS redirects the browser back to the console — on success and on every labeled failure alike, so a user never lands on a raw JSON dead end.  It is public and carries no principal, so the org is taken ONLY from the signed state minted when the flow began; no header is trusted here. That state is single-use and is burned BEFORE the exchange, so one authorization is one attempt and a replayed return fails instead of exchanging twice.  Tokens are sealed into the org's KMS namespace BEFORE the connection row is written, so a failure of the secret store leaves no half-connected integration advertising a credential that was never stored. Token values never appear in the redirect, in a log line or in an error.  One generalization is worth knowing: a GitHub App installation returns an installation identifier instead of an OAuth code, and it is accepted in the code's place so the App model needs no second address.
+        The single address every connector's OAuth flow returns to. It exchanges the authorization the provider granted, records the connection, and ALWAYS redirects the browser back to the console — on success and on every labeled failure alike, so a user never lands on a raw JSON dead end.  It is public and carries no principal, so the org is taken ONLY from the signed state minted when the flow began; no header is trusted here. That state is single-use and is burned BEFORE the exchange, so one authorization is one attempt and a replayed return fails instead of exchanging twice.  Tokens are sealed into the org's KMS namespace BEFORE the connection row is written, so a failure of the secret store leaves no half-connected integration advertising a credential that was never stored. Token values never appear in the redirect, in a log line or in an error.  One generalization is worth knowing: a GitHub App installation returns an installation identifier instead of an OAuth code, and it is accepted in the code's place so the App model needs no second address.  A GitHub connect that returns from GitHub's authorization page, rather than its install page, answers a short page instead of a redirect when the person already controls installations no organization holds: they choose which one to connect, or go on to install the app on another account. Nothing is bound until they choose.
 
         :param provider: (required)
         :type provider: str
@@ -2259,7 +2262,7 @@ class ProviderApi:
     ) -> ApiResponse[None]:
         """OAuth return for any connector
 
-        The single address every connector's OAuth flow returns to. It exchanges the authorization the provider granted, records the connection, and ALWAYS redirects the browser back to the console — on success and on every labeled failure alike, so a user never lands on a raw JSON dead end.  It is public and carries no principal, so the org is taken ONLY from the signed state minted when the flow began; no header is trusted here. That state is single-use and is burned BEFORE the exchange, so one authorization is one attempt and a replayed return fails instead of exchanging twice.  Tokens are sealed into the org's KMS namespace BEFORE the connection row is written, so a failure of the secret store leaves no half-connected integration advertising a credential that was never stored. Token values never appear in the redirect, in a log line or in an error.  One generalization is worth knowing: a GitHub App installation returns an installation identifier instead of an OAuth code, and it is accepted in the code's place so the App model needs no second address.
+        The single address every connector's OAuth flow returns to. It exchanges the authorization the provider granted, records the connection, and ALWAYS redirects the browser back to the console — on success and on every labeled failure alike, so a user never lands on a raw JSON dead end.  It is public and carries no principal, so the org is taken ONLY from the signed state minted when the flow began; no header is trusted here. That state is single-use and is burned BEFORE the exchange, so one authorization is one attempt and a replayed return fails instead of exchanging twice.  Tokens are sealed into the org's KMS namespace BEFORE the connection row is written, so a failure of the secret store leaves no half-connected integration advertising a credential that was never stored. Token values never appear in the redirect, in a log line or in an error.  One generalization is worth knowing: a GitHub App installation returns an installation identifier instead of an OAuth code, and it is accepted in the code's place so the App model needs no second address.  A GitHub connect that returns from GitHub's authorization page, rather than its install page, answers a short page instead of a redirect when the person already controls installations no organization holds: they choose which one to connect, or go on to install the app on another account. Nothing is bound until they choose.
 
         :param provider: (required)
         :type provider: str
@@ -2325,7 +2328,7 @@ class ProviderApi:
     ) -> RESTResponseType:
         """OAuth return for any connector
 
-        The single address every connector's OAuth flow returns to. It exchanges the authorization the provider granted, records the connection, and ALWAYS redirects the browser back to the console — on success and on every labeled failure alike, so a user never lands on a raw JSON dead end.  It is public and carries no principal, so the org is taken ONLY from the signed state minted when the flow began; no header is trusted here. That state is single-use and is burned BEFORE the exchange, so one authorization is one attempt and a replayed return fails instead of exchanging twice.  Tokens are sealed into the org's KMS namespace BEFORE the connection row is written, so a failure of the secret store leaves no half-connected integration advertising a credential that was never stored. Token values never appear in the redirect, in a log line or in an error.  One generalization is worth knowing: a GitHub App installation returns an installation identifier instead of an OAuth code, and it is accepted in the code's place so the App model needs no second address.
+        The single address every connector's OAuth flow returns to. It exchanges the authorization the provider granted, records the connection, and ALWAYS redirects the browser back to the console — on success and on every labeled failure alike, so a user never lands on a raw JSON dead end.  It is public and carries no principal, so the org is taken ONLY from the signed state minted when the flow began; no header is trusted here. That state is single-use and is burned BEFORE the exchange, so one authorization is one attempt and a replayed return fails instead of exchanging twice.  Tokens are sealed into the org's KMS namespace BEFORE the connection row is written, so a failure of the secret store leaves no half-connected integration advertising a credential that was never stored. Token values never appear in the redirect, in a log line or in an error.  One generalization is worth knowing: a GitHub App installation returns an installation identifier instead of an OAuth code, and it is accepted in the code's place so the App model needs no second address.  A GitHub connect that returns from GitHub's authorization page, rather than its install page, answers a short page instead of a redirect when the person already controls installations no organization holds: they choose which one to connect, or go on to install the app on another account. Nothing is bound until they choose.
 
         :param provider: (required)
         :type provider: str
@@ -8976,6 +8979,506 @@ class ProviderApi:
 
 
     @validate_call
+    def get_provider_twitter_callback(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Completes an X consent that arrived on the twitter spelling of the callback.
+
+        Completes an X consent that arrived on the twitter spelling of the callback. The consent URL this process sends is /v1/provider/x/callback. The X app is also registered at this address, so a browser sent there still finishes the same flow. State is signed for provider x, and the answer is a redirect.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_provider_twitter_callback_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_provider_twitter_callback_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Completes an X consent that arrived on the twitter spelling of the callback.
+
+        Completes an X consent that arrived on the twitter spelling of the callback. The consent URL this process sends is /v1/provider/x/callback. The X app is also registered at this address, so a browser sent there still finishes the same flow. State is signed for provider x, and the answer is a redirect.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_provider_twitter_callback_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_provider_twitter_callback_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Completes an X consent that arrived on the twitter spelling of the callback.
+
+        Completes an X consent that arrived on the twitter spelling of the callback. The consent URL this process sends is /v1/provider/x/callback. The X app is also registered at this address, so a browser sent there still finishes the same flow. State is signed for provider x, and the answer is a redirect.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_provider_twitter_callback_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_provider_twitter_callback_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/provider/twitter/callback',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_provider_whatsapp_groups(
+        self,
+        group: Annotated[Optional[StrictStr], Field(description="Group is the group id returned when the group was created.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ProviderWhatsappGroupOut:
+        """Reads the invite link of a group this org's number owns.
+
+        Reads the invite link of a group this org's number owns.  Org admin, for the same reason creating one is: the link admits anyone who holds it.
+
+        :param group: Group is the group id returned when the group was created.
+        :type group: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_provider_whatsapp_groups_serialize(
+            group=group,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderWhatsappGroupOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_provider_whatsapp_groups_with_http_info(
+        self,
+        group: Annotated[Optional[StrictStr], Field(description="Group is the group id returned when the group was created.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ProviderWhatsappGroupOut]:
+        """Reads the invite link of a group this org's number owns.
+
+        Reads the invite link of a group this org's number owns.  Org admin, for the same reason creating one is: the link admits anyone who holds it.
+
+        :param group: Group is the group id returned when the group was created.
+        :type group: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_provider_whatsapp_groups_serialize(
+            group=group,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderWhatsappGroupOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_provider_whatsapp_groups_without_preload_content(
+        self,
+        group: Annotated[Optional[StrictStr], Field(description="Group is the group id returned when the group was created.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Reads the invite link of a group this org's number owns.
+
+        Reads the invite link of a group this org's number owns.  Org admin, for the same reason creating one is: the link admits anyone who holds it.
+
+        :param group: Group is the group id returned when the group was created.
+        :type group: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_provider_whatsapp_groups_serialize(
+            group=group,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderWhatsappGroupOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_provider_whatsapp_groups_serialize(
+        self,
+        group,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if group is not None:
+            
+            _query_params.append(('group', group))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/provider/whatsapp/groups',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_provider_whatsapp_webhook(
         self,
         _request_timeout: Union[
@@ -10331,6 +10834,257 @@ class ProviderApi:
 
 
     @validate_call
+    def post_provider_by_provider_choose(
+        self,
+        provider: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Answer the connect's account chooser
+
+        The form the chooser page posts: `state` (the token the page was given), and either `account` (one of the accounts it offered) or `install` (go on to the provider's install page). It binds the chosen account to the organization that started the connect and redirects back to the page that asked, as the callback does.  It is public and carries no principal. Its authority is the token alone: signed like the callback's state, carrying the offered accounts under its signature, and single-use, so a page answers once and only with an account it offered.
+
+        :param provider: (required)
+        :type provider: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_provider_by_provider_choose_serialize(
+            provider=provider,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_provider_by_provider_choose_with_http_info(
+        self,
+        provider: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Answer the connect's account chooser
+
+        The form the chooser page posts: `state` (the token the page was given), and either `account` (one of the accounts it offered) or `install` (go on to the provider's install page). It binds the chosen account to the organization that started the connect and redirects back to the page that asked, as the callback does.  It is public and carries no principal. Its authority is the token alone: signed like the callback's state, carrying the offered accounts under its signature, and single-use, so a page answers once and only with an account it offered.
+
+        :param provider: (required)
+        :type provider: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_provider_by_provider_choose_serialize(
+            provider=provider,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_provider_by_provider_choose_without_preload_content(
+        self,
+        provider: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Answer the connect's account chooser
+
+        The form the chooser page posts: `state` (the token the page was given), and either `account` (one of the accounts it offered) or `install` (go on to the provider's install page). It binds the chosen account to the organization that started the connect and redirects back to the page that asked, as the callback does.  It is public and carries no principal. Its authority is the token alone: signed like the callback's state, carrying the offered accounts under its signature, and single-use, so a page answers once and only with an account it offered.
+
+        :param provider: (required)
+        :type provider: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_provider_by_provider_choose_serialize(
+            provider=provider,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_provider_by_provider_choose_serialize(
+        self,
+        provider,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if provider is not None:
+            _path_params['provider'] = provider
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/provider/{provider}/choose',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def post_provider_by_provider_connect(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the connector's registry id, from the :provider path segment.")],
@@ -10623,7 +11377,8 @@ class ProviderApi:
     @validate_call
     def post_provider_by_provider_disconnect(
         self,
-        provider: Annotated[StrictStr, Field(description="Provider is the registry id of the connector — \"slack\", \"github\", \"cloudflare\". Unknown ids are 404, as are the user-plane (/v1/connection) providers, which this surface never resolves.")],
+        provider: Annotated[StrictStr, Field(description="Provider is the connector's registry id, from the :provider path segment.")],
+        provider_disconnect_in: ProviderDisconnectIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10639,10 +11394,12 @@ class ProviderApi:
     ) -> ProviderDisconnectOut:
         """Revokes (best-effort) and forgets an org's connection: it deletes every custodied KMS secret and the connection row.
 
-        Revokes (best-effort) and forgets an org's connection: it deletes every custodied KMS secret and the connection row. Idempotent — disconnecting a provider that was never connected still returns {disconnected:true}. Symmetric with connect: an AdminOnly connector needs the caller's own-org admin bit.
+        Revokes (best-effort) and forgets an org's connection: it deletes every custodied KMS secret and the connection row. Idempotent — disconnecting a provider that was never connected still returns {disconnected:true}. Symmetric with connect: an AdminOnly connector needs the caller's own-org admin bit.  An `account` disconnects that one account and leaves the org's others; without it every account goes. A provider with an App installation (GitHub) also removes the installation at the provider for each account no other org still holds, so connecting that account again is a fresh install rather than GitHub's Configure page, which returns nothing the connect can bind.
 
-        :param provider: Provider is the registry id of the connector — \"slack\", \"github\", \"cloudflare\". Unknown ids are 404, as are the user-plane (/v1/connection) providers, which this surface never resolves. (required)
+        :param provider: Provider is the connector's registry id, from the :provider path segment. (required)
         :type provider: str
+        :param provider_disconnect_in: (required)
+        :type provider_disconnect_in: ProviderDisconnectIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10667,6 +11424,7 @@ class ProviderApi:
 
         _param = self._post_provider_by_provider_disconnect_serialize(
             provider=provider,
+            provider_disconnect_in=provider_disconnect_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10690,7 +11448,8 @@ class ProviderApi:
     @validate_call
     def post_provider_by_provider_disconnect_with_http_info(
         self,
-        provider: Annotated[StrictStr, Field(description="Provider is the registry id of the connector — \"slack\", \"github\", \"cloudflare\". Unknown ids are 404, as are the user-plane (/v1/connection) providers, which this surface never resolves.")],
+        provider: Annotated[StrictStr, Field(description="Provider is the connector's registry id, from the :provider path segment.")],
+        provider_disconnect_in: ProviderDisconnectIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10706,10 +11465,12 @@ class ProviderApi:
     ) -> ApiResponse[ProviderDisconnectOut]:
         """Revokes (best-effort) and forgets an org's connection: it deletes every custodied KMS secret and the connection row.
 
-        Revokes (best-effort) and forgets an org's connection: it deletes every custodied KMS secret and the connection row. Idempotent — disconnecting a provider that was never connected still returns {disconnected:true}. Symmetric with connect: an AdminOnly connector needs the caller's own-org admin bit.
+        Revokes (best-effort) and forgets an org's connection: it deletes every custodied KMS secret and the connection row. Idempotent — disconnecting a provider that was never connected still returns {disconnected:true}. Symmetric with connect: an AdminOnly connector needs the caller's own-org admin bit.  An `account` disconnects that one account and leaves the org's others; without it every account goes. A provider with an App installation (GitHub) also removes the installation at the provider for each account no other org still holds, so connecting that account again is a fresh install rather than GitHub's Configure page, which returns nothing the connect can bind.
 
-        :param provider: Provider is the registry id of the connector — \"slack\", \"github\", \"cloudflare\". Unknown ids are 404, as are the user-plane (/v1/connection) providers, which this surface never resolves. (required)
+        :param provider: Provider is the connector's registry id, from the :provider path segment. (required)
         :type provider: str
+        :param provider_disconnect_in: (required)
+        :type provider_disconnect_in: ProviderDisconnectIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10734,6 +11495,7 @@ class ProviderApi:
 
         _param = self._post_provider_by_provider_disconnect_serialize(
             provider=provider,
+            provider_disconnect_in=provider_disconnect_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10757,7 +11519,8 @@ class ProviderApi:
     @validate_call
     def post_provider_by_provider_disconnect_without_preload_content(
         self,
-        provider: Annotated[StrictStr, Field(description="Provider is the registry id of the connector — \"slack\", \"github\", \"cloudflare\". Unknown ids are 404, as are the user-plane (/v1/connection) providers, which this surface never resolves.")],
+        provider: Annotated[StrictStr, Field(description="Provider is the connector's registry id, from the :provider path segment.")],
+        provider_disconnect_in: ProviderDisconnectIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10773,10 +11536,12 @@ class ProviderApi:
     ) -> RESTResponseType:
         """Revokes (best-effort) and forgets an org's connection: it deletes every custodied KMS secret and the connection row.
 
-        Revokes (best-effort) and forgets an org's connection: it deletes every custodied KMS secret and the connection row. Idempotent — disconnecting a provider that was never connected still returns {disconnected:true}. Symmetric with connect: an AdminOnly connector needs the caller's own-org admin bit.
+        Revokes (best-effort) and forgets an org's connection: it deletes every custodied KMS secret and the connection row. Idempotent — disconnecting a provider that was never connected still returns {disconnected:true}. Symmetric with connect: an AdminOnly connector needs the caller's own-org admin bit.  An `account` disconnects that one account and leaves the org's others; without it every account goes. A provider with an App installation (GitHub) also removes the installation at the provider for each account no other org still holds, so connecting that account again is a fresh install rather than GitHub's Configure page, which returns nothing the connect can bind.
 
-        :param provider: Provider is the registry id of the connector — \"slack\", \"github\", \"cloudflare\". Unknown ids are 404, as are the user-plane (/v1/connection) providers, which this surface never resolves. (required)
+        :param provider: Provider is the connector's registry id, from the :provider path segment. (required)
         :type provider: str
+        :param provider_disconnect_in: (required)
+        :type provider_disconnect_in: ProviderDisconnectIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10801,6 +11566,7 @@ class ProviderApi:
 
         _param = self._post_provider_by_provider_disconnect_serialize(
             provider=provider,
+            provider_disconnect_in=provider_disconnect_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10820,6 +11586,7 @@ class ProviderApi:
     def _post_provider_by_provider_disconnect_serialize(
         self,
         provider,
+        provider_disconnect_in,
         _request_auth,
         _content_type,
         _headers,
@@ -10847,6 +11614,8 @@ class ProviderApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if provider_disconnect_in is not None:
+            _body_params = provider_disconnect_in
 
 
         # set the HTTP header `Accept`
@@ -10858,6 +11627,19 @@ class ProviderApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -13890,7 +14672,7 @@ class ProviderApi:
     ) -> ProviderGithubUserConnectOut:
         """Begins connecting the caller's own GitHub account: it answers the App's authorization page, carrying a state signed for this org and this person.
 
-        Begins connecting the caller's own GitHub account: it answers the App's authorization page, carrying a state signed for this org and this person. Every member may connect their own; it grants nothing the person does not already hold on GitHub.
+        Begins connecting the caller's own GitHub account: it answers the App's authorization page, carrying a state signed for this org and this person. Every member may connect their own; it grants nothing the person does not already hold on GitHub. The page shows GitHub's account picker (githubPick), so a connect after a Disconnect can choose another account: GitHub otherwise skips the page for anyone who authorized the App before.
 
         :param provider_github_user_connect_in: (required)
         :type provider_github_user_connect_in: ProviderGithubUserConnectIn
@@ -13957,7 +14739,7 @@ class ProviderApi:
     ) -> ApiResponse[ProviderGithubUserConnectOut]:
         """Begins connecting the caller's own GitHub account: it answers the App's authorization page, carrying a state signed for this org and this person.
 
-        Begins connecting the caller's own GitHub account: it answers the App's authorization page, carrying a state signed for this org and this person. Every member may connect their own; it grants nothing the person does not already hold on GitHub.
+        Begins connecting the caller's own GitHub account: it answers the App's authorization page, carrying a state signed for this org and this person. Every member may connect their own; it grants nothing the person does not already hold on GitHub. The page shows GitHub's account picker (githubPick), so a connect after a Disconnect can choose another account: GitHub otherwise skips the page for anyone who authorized the App before.
 
         :param provider_github_user_connect_in: (required)
         :type provider_github_user_connect_in: ProviderGithubUserConnectIn
@@ -14024,7 +14806,7 @@ class ProviderApi:
     ) -> RESTResponseType:
         """Begins connecting the caller's own GitHub account: it answers the App's authorization page, carrying a state signed for this org and this person.
 
-        Begins connecting the caller's own GitHub account: it answers the App's authorization page, carrying a state signed for this org and this person. Every member may connect their own; it grants nothing the person does not already hold on GitHub.
+        Begins connecting the caller's own GitHub account: it answers the App's authorization page, carrying a state signed for this org and this person. Every member may connect their own; it grants nothing the person does not already hold on GitHub. The page shows GitHub's account picker (githubPick), so a connect after a Disconnect can choose another account: GitHub otherwise skips the page for anyone who authorized the App before.
 
         :param provider_github_user_connect_in: (required)
         :type provider_github_user_connect_in: ProviderGithubUserConnectIn
@@ -19009,6 +19791,281 @@ class ProviderApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/provider/telegram/webhook',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_provider_whatsapp_groups(
+        self,
+        provider_whatsapp_group_in: ProviderWhatsappGroupIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ProviderWhatsappGroupOut:
+        """Creates a group on the org's WhatsApp number and returns its invite link.
+
+        Creates a group on the org's WhatsApp number and returns its invite link.  Org admin, because the group speaks as the org's number and the invite link admits anyone who holds it.
+
+        :param provider_whatsapp_group_in: (required)
+        :type provider_whatsapp_group_in: ProviderWhatsappGroupIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_provider_whatsapp_groups_serialize(
+            provider_whatsapp_group_in=provider_whatsapp_group_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "ProviderWhatsappGroupOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_provider_whatsapp_groups_with_http_info(
+        self,
+        provider_whatsapp_group_in: ProviderWhatsappGroupIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ProviderWhatsappGroupOut]:
+        """Creates a group on the org's WhatsApp number and returns its invite link.
+
+        Creates a group on the org's WhatsApp number and returns its invite link.  Org admin, because the group speaks as the org's number and the invite link admits anyone who holds it.
+
+        :param provider_whatsapp_group_in: (required)
+        :type provider_whatsapp_group_in: ProviderWhatsappGroupIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_provider_whatsapp_groups_serialize(
+            provider_whatsapp_group_in=provider_whatsapp_group_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "ProviderWhatsappGroupOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_provider_whatsapp_groups_without_preload_content(
+        self,
+        provider_whatsapp_group_in: ProviderWhatsappGroupIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Creates a group on the org's WhatsApp number and returns its invite link.
+
+        Creates a group on the org's WhatsApp number and returns its invite link.  Org admin, because the group speaks as the org's number and the invite link admits anyone who holds it.
+
+        :param provider_whatsapp_group_in: (required)
+        :type provider_whatsapp_group_in: ProviderWhatsappGroupIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_provider_whatsapp_groups_serialize(
+            provider_whatsapp_group_in=provider_whatsapp_group_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "ProviderWhatsappGroupOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_provider_whatsapp_groups_serialize(
+        self,
+        provider_whatsapp_group_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if provider_whatsapp_group_in is not None:
+            _body_params = provider_whatsapp_group_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/provider/whatsapp/groups',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

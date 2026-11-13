@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.git_workflow_run import GitWorkflowRun
 from typing import Optional, Set
@@ -27,8 +27,10 @@ class GitWorkflowRuns(BaseModel):
     """
     GitWorkflowRuns
     """ # noqa: E501
+    commit: Optional[StrictStr] = Field(default=None, description="Commit is the commit a ref named, when the listing asked for one: the runs are the ones on it, and a branch that moves does not move them.")
     data: Optional[List[GitWorkflowRun]] = Field(default=None, description="Data is the runs in scope, newest first.")
-    __properties: ClassVar[List[str]] = ["data"]
+    state: Optional[StrictStr] = Field(default=None, description="State answers \"is this ref green?\" when the listing named a forge ref: passed, failed, running, queued or none. It is read over the latest attempt of each workflow on the commit: any failed or cancelled run or job is failed; otherwise any still going is running, any waiting for a runner is queued, and when everything finished as success or skipped it is passed. none means nothing ran.")
+    __properties: ClassVar[List[str]] = ["commit", "data", "state"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -88,7 +90,9 @@ class GitWorkflowRuns(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "data": [GitWorkflowRun.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None
+            "commit": obj.get("commit"),
+            "data": [GitWorkflowRun.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None,
+            "state": obj.get("state")
         })
         return _obj
 

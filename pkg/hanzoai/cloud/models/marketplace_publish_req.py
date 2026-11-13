@@ -19,6 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.marketplace_expert_in import MarketplaceExpertIn
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -30,13 +31,14 @@ class MarketplacePublishReq(BaseModel):
     currency: Optional[StrictStr] = Field(default=None, description="Currency denominates Price.")
     description: Optional[StrictStr] = Field(default=None, description="Description is the long copy, at most 4096 characters.")
     docs: Optional[StrictStr] = Field(default=None, description="Docs is where the listing's documentation lives: an https URL or a path on docs.hanzo.ai.")
-    kind: Optional[StrictStr] = Field(default=None, description="Kind is what is sold: agent, persona, app, skill, mcp or tool (the default). A tool is a platform tool, sold per call by the platform alone.")
+    expert: Optional[MarketplaceExpertIn] = Field(default=None, description="Expert is the person behind a listing of kind expert — their hourly rate, areas, languages, time zone and weekly hours. Required for kind expert and refused for any other. The price is then the fixed engagement price; an expert sets a rate, a price or both.")
+    kind: Optional[StrictStr] = Field(default=None, description="Kind is what is sold: agent, persona, app, skill, mcp, tool (the default) or expert. A tool is a platform tool, sold per call by the platform alone; an expert is the caller, a person making their time available.")
     price: Optional[StrictStr] = Field(default=None, description="Price is the price as a decimal USD string, exact to 18 places — per call for a tool, what a job is offered at otherwise. \"0.0025\" is a quarter of a cent and stays one. Empty or \"0\" publishes it free; a positive price requires Recipient.")
     public: Optional[StrictBool] = Field(default=None, description="Public makes the listing discoverable by other orgs. Private otherwise.")
     recipient: Optional[StrictStr] = Field(default=None, description="Recipient is the seller's payout wallet id, in the publishing org — the wallet x402 pays. Required for a monetized listing.")
     title: Optional[StrictStr] = Field(default=None, description="Title is the shop-window name, 1-200 characters. Required.")
-    tool: Optional[StrictStr] = Field(default=None, description="Tool names the thing sold, in the seller's own org: an agent's name or id, an app's project slug or id, a skill's name or id, an MCP server's name or id registered by hand, or a platform tool's registry name. It must be the seller's — there are no phantom listings.")
-    __properties: ClassVar[List[str]] = ["category", "currency", "description", "docs", "kind", "price", "public", "recipient", "title", "tool"]
+    tool: Optional[StrictStr] = Field(default=None, description="Tool names the thing sold, in the seller's own org: an agent's name or id, an app's project slug or id, a skill's name or id, an MCP server's name or id registered by hand, or a platform tool's registry name. It must be the seller's — there are no phantom listings. An expert's is the caller's own IAM identity, and is left out.")
+    __properties: ClassVar[List[str]] = ["category", "currency", "description", "docs", "expert", "kind", "price", "public", "recipient", "title", "tool"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -77,6 +79,9 @@ class MarketplacePublishReq(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of expert
+        if self.expert:
+            _dict['expert'] = self.expert.to_dict()
         return _dict
 
     @classmethod
@@ -93,6 +98,7 @@ class MarketplacePublishReq(BaseModel):
             "currency": obj.get("currency"),
             "description": obj.get("description"),
             "docs": obj.get("docs"),
+            "expert": MarketplaceExpertIn.from_dict(obj["expert"]) if obj.get("expert") is not None else None,
             "kind": obj.get("kind"),
             "price": obj.get("price"),
             "public": obj.get("public"),

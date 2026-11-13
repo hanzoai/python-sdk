@@ -27,19 +27,23 @@ class EmailSendGridStatusResult(BaseModel):
     """
     EmailSendGridStatusResult
     """ # noqa: E501
-    active_provider: Optional[StrictStr] = Field(default=None, description="ActiveProvider is the highest-priority email provider currently configured for this organization.")
+    active_provider: Optional[StrictStr] = Field(default=None, description="ActiveProvider is the provider the org's mail leaves by when a request pins none.")
     asm_group_id: Optional[StrictStr] = Field(default=None, description="ASMGroupID is the optional SendGrid suppression group ID.")
-    configured: Optional[StrictBool] = Field(default=None, description="Configured reports whether SendGrid outreach credentials are set in KMS for this organization.")
+    configured: Optional[StrictBool] = Field(default=None, description="Configured reports whether the org holds the SendGrid credentials a send needs (api-key, from-email).")
+    credits_remaining: Optional[StrictInt] = Field(default=None, description="CreditsRemaining is the credits left in the period.")
+    credits_total: Optional[StrictInt] = Field(default=None, description="CreditsTotal, CreditsRemaining and CreditsUsed are the account's sending credits for the period, as SendGrid answers them.")
+    credits_used: Optional[StrictInt] = Field(default=None, description="CreditsUsed is the credits used in the period.")
     dns_records: Optional[List[EmailSESDNSRecord]] = Field(default=None, description="DNSRecords lists the required SendGrid Domain Authentication CNAME, Link Branding, SPF, and DMARC DNS records.")
     domain: Optional[StrictStr] = Field(default=None, description="Domain is the sending domain used for SendGrid Domain Authentication and DMARC.")
     from_email: Optional[StrictStr] = Field(default=None, description="FromEmail is the configured SendGrid outreach sender email address.")
     from_name: Optional[StrictStr] = Field(default=None, description="FromName is the configured SendGrid outreach sender display name.")
-    ip_pool: Optional[StrictStr] = Field(default=None, description="IPPool is the dedicated SendGrid IP pool name used to isolate cold outreach reputation.")
+    ip_pool: Optional[StrictStr] = Field(default=None, description="IPPool is the SendGrid IP pool the credential names, if any.")
     org: Optional[StrictStr] = Field(default=None, description="Org is the organization identifier.")
+    quota_error: Optional[StrictStr] = Field(default=None, description="QuotaError says why the account's credits could not be read; they are then 0.")
     reply_to: Optional[StrictStr] = Field(default=None, description="ReplyTo is the configured Reply-To address for outreach replies.")
-    sent_last_24_hours: Optional[StrictInt] = Field(default=None, description="SentLast24Hours is the count of emails sent by this organization in the past 24 hours.")
+    sent_last_24_hours: Optional[StrictInt] = Field(default=None, description="SentLast24Hours is what the org's ledger counts sent by SendGrid in the last 24 hours: through POST /v1/email, and every message SendGrid's events told of.")
     separate_from_twilio_notify: Optional[StrictBool] = Field(default=None, description="SeparateFromTwilioNotify confirms that SendGrid outreach uses its own dedicated API key, sender identity, and IP pool distinct from standard Twilio transactional notifications.")
-    __properties: ClassVar[List[str]] = ["active_provider", "asm_group_id", "configured", "dns_records", "domain", "from_email", "from_name", "ip_pool", "org", "reply_to", "sent_last_24_hours", "separate_from_twilio_notify"]
+    __properties: ClassVar[List[str]] = ["active_provider", "asm_group_id", "configured", "credits_remaining", "credits_total", "credits_used", "dns_records", "domain", "from_email", "from_name", "ip_pool", "org", "quota_error", "reply_to", "sent_last_24_hours", "separate_from_twilio_notify"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -102,12 +106,16 @@ class EmailSendGridStatusResult(BaseModel):
             "active_provider": obj.get("active_provider"),
             "asm_group_id": obj.get("asm_group_id"),
             "configured": obj.get("configured"),
+            "credits_remaining": obj.get("credits_remaining"),
+            "credits_total": obj.get("credits_total"),
+            "credits_used": obj.get("credits_used"),
             "dns_records": [EmailSESDNSRecord.from_dict(_item) for _item in obj["dns_records"]] if obj.get("dns_records") is not None else None,
             "domain": obj.get("domain"),
             "from_email": obj.get("from_email"),
             "from_name": obj.get("from_name"),
             "ip_pool": obj.get("ip_pool"),
             "org": obj.get("org"),
+            "quota_error": obj.get("quota_error"),
             "reply_to": obj.get("reply_to"),
             "sent_last_24_hours": obj.get("sent_last_24_hours"),
             "separate_from_twilio_notify": obj.get("separate_from_twilio_notify")

@@ -23,6 +23,8 @@ from hanzoai.cloud.models.kms_kms_config import KmsKmsConfig
 from hanzoai.cloud.models.kms_kms_health import KmsKmsHealth
 from hanzoai.cloud.models.kms_kms_login import KmsKmsLogin
 from hanzoai.cloud.models.kms_kms_put import KmsKmsPut
+from hanzoai.cloud.models.kms_kms_removed import KmsKmsRemoved
+from hanzoai.cloud.models.kms_kms_secret import KmsKmsSecret
 from hanzoai.cloud.models.kms_kms_secrets import KmsKmsSecrets
 from hanzoai.cloud.models.kms_kms_stored import KmsKmsStored
 from hanzoai.cloud.models.kms_kms_token import KmsKmsToken
@@ -43,6 +45,285 @@ class KmsApi:
         if api_client is None:
             api_client = ApiClient.get_default()
         self.api_client = api_client
+
+
+    @validate_call
+    def delete_kms_secrets_by_wildcard1(
+        self,
+        wildcard1: Annotated[StrictStr, Field(description="Secret is the coordinate beneath the caller's own org root: an optional `/`-separated subpath and then the name, such as `ci/deploy/token`. Over HTTP it is the trailing path itself, and the trailing path WINS over any other spelling sent with it. There is no org in it — the tenant comes from the validated claim — so another tenant's secret is not merely refused, it is unnameable. OMITTED is refused with a 400: there is no secret named \"everything\", and a blank address must not read as one.")],
+        env: Annotated[Optional[StrictStr], Field(description="Env selects the environment to resolve the secret in. It is part of the storage key, so one name in two environments is two secrets. OMITTED means the `default` environment — where a WRITE refuses to default, because a misplaced write strands a value no reader looks for, a read or a delete aimed at the wrong environment simply answers 404 and the caller learns.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> KmsKmsRemoved:
+        """Removes one secret from your org.
+
+        Removes one secret from your org.  Forgets one secret belonging to the caller's own org and confirms the name and environment that were removed. Deleting a secret that is not there is a 404, not a silent success, so a caller can tell a real deletion from a typo.  `secret` is the coordinate beneath the caller's org root, subpath and name together, and over HTTP it is the trailing path itself. `env` selects the environment and falls back to the default when omitted. The org comes from the validated claim, never from the request.  A delete is a WRITE to the grant rule, like the put: destroying a secret is as consequential as replacing it, and a credential distributed to READ one must not be able to remove it. It opens only for SuperAdmin holding an access token, audited, or for a holder a declared WRITE grant covers. Fail-closed admission, in order: a validated member, well-formed org, master key present, well-formed address, then the grant — 401/403, 400, 503, 400 and 403, all decided before any record is touched.  A value this deployment seals on the org's behalf is removed by the app that holds it, and never here for membership or org admin, whatever the grant declaration says about enforcement: deleting a wallet's signing key or an MCP server's credential destroys what the app acts with.
+
+        :param wildcard1: Secret is the coordinate beneath the caller's own org root: an optional `/`-separated subpath and then the name, such as `ci/deploy/token`. Over HTTP it is the trailing path itself, and the trailing path WINS over any other spelling sent with it. There is no org in it — the tenant comes from the validated claim — so another tenant's secret is not merely refused, it is unnameable. OMITTED is refused with a 400: there is no secret named \"everything\", and a blank address must not read as one. (required)
+        :type wildcard1: str
+        :param env: Env selects the environment to resolve the secret in. It is part of the storage key, so one name in two environments is two secrets. OMITTED means the `default` environment — where a WRITE refuses to default, because a misplaced write strands a value no reader looks for, a read or a delete aimed at the wrong environment simply answers 404 and the caller learns.
+        :type env: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_kms_secrets_by_wildcard1_serialize(
+            wildcard1=wildcard1,
+            env=env,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "KmsKmsRemoved",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def delete_kms_secrets_by_wildcard1_with_http_info(
+        self,
+        wildcard1: Annotated[StrictStr, Field(description="Secret is the coordinate beneath the caller's own org root: an optional `/`-separated subpath and then the name, such as `ci/deploy/token`. Over HTTP it is the trailing path itself, and the trailing path WINS over any other spelling sent with it. There is no org in it — the tenant comes from the validated claim — so another tenant's secret is not merely refused, it is unnameable. OMITTED is refused with a 400: there is no secret named \"everything\", and a blank address must not read as one.")],
+        env: Annotated[Optional[StrictStr], Field(description="Env selects the environment to resolve the secret in. It is part of the storage key, so one name in two environments is two secrets. OMITTED means the `default` environment — where a WRITE refuses to default, because a misplaced write strands a value no reader looks for, a read or a delete aimed at the wrong environment simply answers 404 and the caller learns.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[KmsKmsRemoved]:
+        """Removes one secret from your org.
+
+        Removes one secret from your org.  Forgets one secret belonging to the caller's own org and confirms the name and environment that were removed. Deleting a secret that is not there is a 404, not a silent success, so a caller can tell a real deletion from a typo.  `secret` is the coordinate beneath the caller's org root, subpath and name together, and over HTTP it is the trailing path itself. `env` selects the environment and falls back to the default when omitted. The org comes from the validated claim, never from the request.  A delete is a WRITE to the grant rule, like the put: destroying a secret is as consequential as replacing it, and a credential distributed to READ one must not be able to remove it. It opens only for SuperAdmin holding an access token, audited, or for a holder a declared WRITE grant covers. Fail-closed admission, in order: a validated member, well-formed org, master key present, well-formed address, then the grant — 401/403, 400, 503, 400 and 403, all decided before any record is touched.  A value this deployment seals on the org's behalf is removed by the app that holds it, and never here for membership or org admin, whatever the grant declaration says about enforcement: deleting a wallet's signing key or an MCP server's credential destroys what the app acts with.
+
+        :param wildcard1: Secret is the coordinate beneath the caller's own org root: an optional `/`-separated subpath and then the name, such as `ci/deploy/token`. Over HTTP it is the trailing path itself, and the trailing path WINS over any other spelling sent with it. There is no org in it — the tenant comes from the validated claim — so another tenant's secret is not merely refused, it is unnameable. OMITTED is refused with a 400: there is no secret named \"everything\", and a blank address must not read as one. (required)
+        :type wildcard1: str
+        :param env: Env selects the environment to resolve the secret in. It is part of the storage key, so one name in two environments is two secrets. OMITTED means the `default` environment — where a WRITE refuses to default, because a misplaced write strands a value no reader looks for, a read or a delete aimed at the wrong environment simply answers 404 and the caller learns.
+        :type env: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_kms_secrets_by_wildcard1_serialize(
+            wildcard1=wildcard1,
+            env=env,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "KmsKmsRemoved",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def delete_kms_secrets_by_wildcard1_without_preload_content(
+        self,
+        wildcard1: Annotated[StrictStr, Field(description="Secret is the coordinate beneath the caller's own org root: an optional `/`-separated subpath and then the name, such as `ci/deploy/token`. Over HTTP it is the trailing path itself, and the trailing path WINS over any other spelling sent with it. There is no org in it — the tenant comes from the validated claim — so another tenant's secret is not merely refused, it is unnameable. OMITTED is refused with a 400: there is no secret named \"everything\", and a blank address must not read as one.")],
+        env: Annotated[Optional[StrictStr], Field(description="Env selects the environment to resolve the secret in. It is part of the storage key, so one name in two environments is two secrets. OMITTED means the `default` environment — where a WRITE refuses to default, because a misplaced write strands a value no reader looks for, a read or a delete aimed at the wrong environment simply answers 404 and the caller learns.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Removes one secret from your org.
+
+        Removes one secret from your org.  Forgets one secret belonging to the caller's own org and confirms the name and environment that were removed. Deleting a secret that is not there is a 404, not a silent success, so a caller can tell a real deletion from a typo.  `secret` is the coordinate beneath the caller's org root, subpath and name together, and over HTTP it is the trailing path itself. `env` selects the environment and falls back to the default when omitted. The org comes from the validated claim, never from the request.  A delete is a WRITE to the grant rule, like the put: destroying a secret is as consequential as replacing it, and a credential distributed to READ one must not be able to remove it. It opens only for SuperAdmin holding an access token, audited, or for a holder a declared WRITE grant covers. Fail-closed admission, in order: a validated member, well-formed org, master key present, well-formed address, then the grant — 401/403, 400, 503, 400 and 403, all decided before any record is touched.  A value this deployment seals on the org's behalf is removed by the app that holds it, and never here for membership or org admin, whatever the grant declaration says about enforcement: deleting a wallet's signing key or an MCP server's credential destroys what the app acts with.
+
+        :param wildcard1: Secret is the coordinate beneath the caller's own org root: an optional `/`-separated subpath and then the name, such as `ci/deploy/token`. Over HTTP it is the trailing path itself, and the trailing path WINS over any other spelling sent with it. There is no org in it — the tenant comes from the validated claim — so another tenant's secret is not merely refused, it is unnameable. OMITTED is refused with a 400: there is no secret named \"everything\", and a blank address must not read as one. (required)
+        :type wildcard1: str
+        :param env: Env selects the environment to resolve the secret in. It is part of the storage key, so one name in two environments is two secrets. OMITTED means the `default` environment — where a WRITE refuses to default, because a misplaced write strands a value no reader looks for, a read or a delete aimed at the wrong environment simply answers 404 and the caller learns.
+        :type env: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_kms_secrets_by_wildcard1_serialize(
+            wildcard1=wildcard1,
+            env=env,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "KmsKmsRemoved",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _delete_kms_secrets_by_wildcard1_serialize(
+        self,
+        wildcard1,
+        env,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if wildcard1 is not None:
+            _path_params['wildcard1'] = wildcard1
+        # process the query parameters
+        if env is not None:
+            
+            _query_params.append(('env', env))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='DELETE',
+            resource_path='/v1/kms/secrets/{wildcard1}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
 
 
     @validate_call
@@ -858,6 +1139,285 @@ class KmsApi:
 
 
     @validate_call
+    def get_kms_secrets_by_wildcard1(
+        self,
+        wildcard1: Annotated[StrictStr, Field(description="Secret is the coordinate beneath the caller's own org root: an optional `/`-separated subpath and then the name, such as `ci/deploy/token`. Over HTTP it is the trailing path itself, and the trailing path WINS over any other spelling sent with it. There is no org in it — the tenant comes from the validated claim — so another tenant's secret is not merely refused, it is unnameable. OMITTED is refused with a 400: there is no secret named \"everything\", and a blank address must not read as one.")],
+        env: Annotated[Optional[StrictStr], Field(description="Env selects the environment to resolve the secret in. It is part of the storage key, so one name in two environments is two secrets. OMITTED means the `default` environment — where a WRITE refuses to default, because a misplaced write strands a value no reader looks for, a read or a delete aimed at the wrong environment simply answers 404 and the caller learns.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> KmsKmsSecret:
+        """Reads one secret's value from your org.
+
+        Reads one secret's value from your org.  Opens one sealed secret belonging to the caller's own org and returns its value, with the name and environment it was resolved under. This is the broker's purpose, and the response body is the ONLY place the value appears — it is not logged, and it is never carried in an error.  `secret` is the coordinate beneath the caller's org root, subpath and name together, and over HTTP it is the trailing path itself. `env` selects the environment and falls back to the default when omitted. A secret that is not there is a plain 404 that names nothing about the store.  Scoped to the caller's own org and nothing else: there is no org in the address, so another tenant's secret is not merely refused, it is unnameable. Within that org the value opens only for SuperAdmin holding an access token, audited, or for a holder a declared READ grant covers at this exact path, key and environment; membership and org admin alone open nothing. Admission is fail-closed and in order — a validated member, an org that is a DNS-1123 label, a store holding a master key, a well-formed address, then the grant — 401/403, 400, 503, 400 and 403, all decided before any record is touched, so a refused caller learns nothing about whether the secret exists.  A value this deployment seals on the org's behalf — an MCP server's credential, a repository's environment secret, a connected account's token — is read by the app that sealed it, and never opens here for membership or org admin, whatever the grant declaration says about enforcement. A deployed app's or a validator's own folder also opens for the org's KMS-sync identity, which projects it into the org's namespace.
+
+        :param wildcard1: Secret is the coordinate beneath the caller's own org root: an optional `/`-separated subpath and then the name, such as `ci/deploy/token`. Over HTTP it is the trailing path itself, and the trailing path WINS over any other spelling sent with it. There is no org in it — the tenant comes from the validated claim — so another tenant's secret is not merely refused, it is unnameable. OMITTED is refused with a 400: there is no secret named \"everything\", and a blank address must not read as one. (required)
+        :type wildcard1: str
+        :param env: Env selects the environment to resolve the secret in. It is part of the storage key, so one name in two environments is two secrets. OMITTED means the `default` environment — where a WRITE refuses to default, because a misplaced write strands a value no reader looks for, a read or a delete aimed at the wrong environment simply answers 404 and the caller learns.
+        :type env: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_kms_secrets_by_wildcard1_serialize(
+            wildcard1=wildcard1,
+            env=env,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "KmsKmsSecret",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_kms_secrets_by_wildcard1_with_http_info(
+        self,
+        wildcard1: Annotated[StrictStr, Field(description="Secret is the coordinate beneath the caller's own org root: an optional `/`-separated subpath and then the name, such as `ci/deploy/token`. Over HTTP it is the trailing path itself, and the trailing path WINS over any other spelling sent with it. There is no org in it — the tenant comes from the validated claim — so another tenant's secret is not merely refused, it is unnameable. OMITTED is refused with a 400: there is no secret named \"everything\", and a blank address must not read as one.")],
+        env: Annotated[Optional[StrictStr], Field(description="Env selects the environment to resolve the secret in. It is part of the storage key, so one name in two environments is two secrets. OMITTED means the `default` environment — where a WRITE refuses to default, because a misplaced write strands a value no reader looks for, a read or a delete aimed at the wrong environment simply answers 404 and the caller learns.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[KmsKmsSecret]:
+        """Reads one secret's value from your org.
+
+        Reads one secret's value from your org.  Opens one sealed secret belonging to the caller's own org and returns its value, with the name and environment it was resolved under. This is the broker's purpose, and the response body is the ONLY place the value appears — it is not logged, and it is never carried in an error.  `secret` is the coordinate beneath the caller's org root, subpath and name together, and over HTTP it is the trailing path itself. `env` selects the environment and falls back to the default when omitted. A secret that is not there is a plain 404 that names nothing about the store.  Scoped to the caller's own org and nothing else: there is no org in the address, so another tenant's secret is not merely refused, it is unnameable. Within that org the value opens only for SuperAdmin holding an access token, audited, or for a holder a declared READ grant covers at this exact path, key and environment; membership and org admin alone open nothing. Admission is fail-closed and in order — a validated member, an org that is a DNS-1123 label, a store holding a master key, a well-formed address, then the grant — 401/403, 400, 503, 400 and 403, all decided before any record is touched, so a refused caller learns nothing about whether the secret exists.  A value this deployment seals on the org's behalf — an MCP server's credential, a repository's environment secret, a connected account's token — is read by the app that sealed it, and never opens here for membership or org admin, whatever the grant declaration says about enforcement. A deployed app's or a validator's own folder also opens for the org's KMS-sync identity, which projects it into the org's namespace.
+
+        :param wildcard1: Secret is the coordinate beneath the caller's own org root: an optional `/`-separated subpath and then the name, such as `ci/deploy/token`. Over HTTP it is the trailing path itself, and the trailing path WINS over any other spelling sent with it. There is no org in it — the tenant comes from the validated claim — so another tenant's secret is not merely refused, it is unnameable. OMITTED is refused with a 400: there is no secret named \"everything\", and a blank address must not read as one. (required)
+        :type wildcard1: str
+        :param env: Env selects the environment to resolve the secret in. It is part of the storage key, so one name in two environments is two secrets. OMITTED means the `default` environment — where a WRITE refuses to default, because a misplaced write strands a value no reader looks for, a read or a delete aimed at the wrong environment simply answers 404 and the caller learns.
+        :type env: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_kms_secrets_by_wildcard1_serialize(
+            wildcard1=wildcard1,
+            env=env,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "KmsKmsSecret",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_kms_secrets_by_wildcard1_without_preload_content(
+        self,
+        wildcard1: Annotated[StrictStr, Field(description="Secret is the coordinate beneath the caller's own org root: an optional `/`-separated subpath and then the name, such as `ci/deploy/token`. Over HTTP it is the trailing path itself, and the trailing path WINS over any other spelling sent with it. There is no org in it — the tenant comes from the validated claim — so another tenant's secret is not merely refused, it is unnameable. OMITTED is refused with a 400: there is no secret named \"everything\", and a blank address must not read as one.")],
+        env: Annotated[Optional[StrictStr], Field(description="Env selects the environment to resolve the secret in. It is part of the storage key, so one name in two environments is two secrets. OMITTED means the `default` environment — where a WRITE refuses to default, because a misplaced write strands a value no reader looks for, a read or a delete aimed at the wrong environment simply answers 404 and the caller learns.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Reads one secret's value from your org.
+
+        Reads one secret's value from your org.  Opens one sealed secret belonging to the caller's own org and returns its value, with the name and environment it was resolved under. This is the broker's purpose, and the response body is the ONLY place the value appears — it is not logged, and it is never carried in an error.  `secret` is the coordinate beneath the caller's org root, subpath and name together, and over HTTP it is the trailing path itself. `env` selects the environment and falls back to the default when omitted. A secret that is not there is a plain 404 that names nothing about the store.  Scoped to the caller's own org and nothing else: there is no org in the address, so another tenant's secret is not merely refused, it is unnameable. Within that org the value opens only for SuperAdmin holding an access token, audited, or for a holder a declared READ grant covers at this exact path, key and environment; membership and org admin alone open nothing. Admission is fail-closed and in order — a validated member, an org that is a DNS-1123 label, a store holding a master key, a well-formed address, then the grant — 401/403, 400, 503, 400 and 403, all decided before any record is touched, so a refused caller learns nothing about whether the secret exists.  A value this deployment seals on the org's behalf — an MCP server's credential, a repository's environment secret, a connected account's token — is read by the app that sealed it, and never opens here for membership or org admin, whatever the grant declaration says about enforcement. A deployed app's or a validator's own folder also opens for the org's KMS-sync identity, which projects it into the org's namespace.
+
+        :param wildcard1: Secret is the coordinate beneath the caller's own org root: an optional `/`-separated subpath and then the name, such as `ci/deploy/token`. Over HTTP it is the trailing path itself, and the trailing path WINS over any other spelling sent with it. There is no org in it — the tenant comes from the validated claim — so another tenant's secret is not merely refused, it is unnameable. OMITTED is refused with a 400: there is no secret named \"everything\", and a blank address must not read as one. (required)
+        :type wildcard1: str
+        :param env: Env selects the environment to resolve the secret in. It is part of the storage key, so one name in two environments is two secrets. OMITTED means the `default` environment — where a WRITE refuses to default, because a misplaced write strands a value no reader looks for, a read or a delete aimed at the wrong environment simply answers 404 and the caller learns.
+        :type env: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_kms_secrets_by_wildcard1_serialize(
+            wildcard1=wildcard1,
+            env=env,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "KmsKmsSecret",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_kms_secrets_by_wildcard1_serialize(
+        self,
+        wildcard1,
+        env,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if wildcard1 is not None:
+            _path_params['wildcard1'] = wildcard1
+        # process the query parameters
+        if env is not None:
+            
+            _query_params.append(('env', env))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/kms/secrets/{wildcard1}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def post_kms_auth_login(
         self,
         kms_kms_login: KmsKmsLogin,
@@ -1151,7 +1711,7 @@ class KmsApi:
     ) -> KmsKmsStored:
         """Stores or replaces one secret in your org.
 
-        Stores or replaces one secret in your org.  Upserts one secret under the caller's own org. The value is sealed before it is written — a fresh per-secret data key, itself wrapped by the master key — so plaintext never reaches disk. The receipt confirms the name and environment that were written and does not echo the value.  `env` is REQUIRED on a write and has no default, which is the rule most easily got wrong here: reads and deletes still fall back to the default environment for older callers, but a write must not, because the environment is part of the storage key. A silently defaulted write lands in a bucket the readers that resolve project, environment and path never look in, and the stale value keeps being served — so the write fails loudly instead.  `name` is required, `path` is an optional subpath beneath the org root, and the org is taken from the validated claim rather than the body.  Opens only for SuperAdmin holding an access token, audited, or for a holder a declared WRITE grant covers at this exact path, key and environment. Org admin confers nothing here. Fail-closed admission, in order: a validated member, well-formed org, master key present, well-formed input, then the grant — 401/403, 400, 503, 400 and 403, all decided before any record is touched.  A value this deployment seals on the org's behalf — an MCP server's credential, a wallet's signing key, a delivery provider's token — is written by the app that holds it, through that app's own operation, and is never replaced here for membership or org admin, whatever the grant declaration says about enforcement.
+        Stores or replaces one secret in your org.  Upserts one secret under the caller's own org. The value is sealed before it is written — a fresh per-secret data key, itself wrapped by the master key — so plaintext never reaches disk. The receipt confirms the name and environment that were written and does not echo the value.  `env` is REQUIRED on a write and has no default, which is the rule most easily got wrong here: reads and deletes still fall back to the default environment for older callers, but a write must not, because the environment is part of the storage key. A silently defaulted write lands in a bucket the readers that resolve project, environment and path never look in, and the stale value keeps being served — so the write fails loudly instead.  `name` is required, `path` is an optional subpath beneath the org root, and the org is taken from the validated claim rather than the body. A `path` that starts with `/orgs/` is refused with a 400 that names where it would have landed: the root is already `/orgs/<org>`, so `/orgs/hanzo` written in org admin is stored at `/orgs/admin/orgs/hanzo`, which no reader of org hanzo looks in. The org is chosen with the credential (the CLI's `--as`).  Opens only for SuperAdmin holding an access token, audited, or for a holder a declared WRITE grant covers at this exact path, key and environment. Org admin confers nothing here. Fail-closed admission, in order: a validated member, well-formed org, master key present, well-formed input, then the grant — 401/403, 400, 503, 400 and 403, all decided before any record is touched.  A value this deployment seals on the org's behalf — an MCP server's credential, a wallet's signing key, a delivery provider's token — is written by the app that holds it, through that app's own operation, and is never replaced here for membership or org admin, whatever the grant declaration says about enforcement.
 
         :param kms_kms_put: (required)
         :type kms_kms_put: KmsKmsPut
@@ -1218,7 +1778,7 @@ class KmsApi:
     ) -> ApiResponse[KmsKmsStored]:
         """Stores or replaces one secret in your org.
 
-        Stores or replaces one secret in your org.  Upserts one secret under the caller's own org. The value is sealed before it is written — a fresh per-secret data key, itself wrapped by the master key — so plaintext never reaches disk. The receipt confirms the name and environment that were written and does not echo the value.  `env` is REQUIRED on a write and has no default, which is the rule most easily got wrong here: reads and deletes still fall back to the default environment for older callers, but a write must not, because the environment is part of the storage key. A silently defaulted write lands in a bucket the readers that resolve project, environment and path never look in, and the stale value keeps being served — so the write fails loudly instead.  `name` is required, `path` is an optional subpath beneath the org root, and the org is taken from the validated claim rather than the body.  Opens only for SuperAdmin holding an access token, audited, or for a holder a declared WRITE grant covers at this exact path, key and environment. Org admin confers nothing here. Fail-closed admission, in order: a validated member, well-formed org, master key present, well-formed input, then the grant — 401/403, 400, 503, 400 and 403, all decided before any record is touched.  A value this deployment seals on the org's behalf — an MCP server's credential, a wallet's signing key, a delivery provider's token — is written by the app that holds it, through that app's own operation, and is never replaced here for membership or org admin, whatever the grant declaration says about enforcement.
+        Stores or replaces one secret in your org.  Upserts one secret under the caller's own org. The value is sealed before it is written — a fresh per-secret data key, itself wrapped by the master key — so plaintext never reaches disk. The receipt confirms the name and environment that were written and does not echo the value.  `env` is REQUIRED on a write and has no default, which is the rule most easily got wrong here: reads and deletes still fall back to the default environment for older callers, but a write must not, because the environment is part of the storage key. A silently defaulted write lands in a bucket the readers that resolve project, environment and path never look in, and the stale value keeps being served — so the write fails loudly instead.  `name` is required, `path` is an optional subpath beneath the org root, and the org is taken from the validated claim rather than the body. A `path` that starts with `/orgs/` is refused with a 400 that names where it would have landed: the root is already `/orgs/<org>`, so `/orgs/hanzo` written in org admin is stored at `/orgs/admin/orgs/hanzo`, which no reader of org hanzo looks in. The org is chosen with the credential (the CLI's `--as`).  Opens only for SuperAdmin holding an access token, audited, or for a holder a declared WRITE grant covers at this exact path, key and environment. Org admin confers nothing here. Fail-closed admission, in order: a validated member, well-formed org, master key present, well-formed input, then the grant — 401/403, 400, 503, 400 and 403, all decided before any record is touched.  A value this deployment seals on the org's behalf — an MCP server's credential, a wallet's signing key, a delivery provider's token — is written by the app that holds it, through that app's own operation, and is never replaced here for membership or org admin, whatever the grant declaration says about enforcement.
 
         :param kms_kms_put: (required)
         :type kms_kms_put: KmsKmsPut
@@ -1285,7 +1845,7 @@ class KmsApi:
     ) -> RESTResponseType:
         """Stores or replaces one secret in your org.
 
-        Stores or replaces one secret in your org.  Upserts one secret under the caller's own org. The value is sealed before it is written — a fresh per-secret data key, itself wrapped by the master key — so plaintext never reaches disk. The receipt confirms the name and environment that were written and does not echo the value.  `env` is REQUIRED on a write and has no default, which is the rule most easily got wrong here: reads and deletes still fall back to the default environment for older callers, but a write must not, because the environment is part of the storage key. A silently defaulted write lands in a bucket the readers that resolve project, environment and path never look in, and the stale value keeps being served — so the write fails loudly instead.  `name` is required, `path` is an optional subpath beneath the org root, and the org is taken from the validated claim rather than the body.  Opens only for SuperAdmin holding an access token, audited, or for a holder a declared WRITE grant covers at this exact path, key and environment. Org admin confers nothing here. Fail-closed admission, in order: a validated member, well-formed org, master key present, well-formed input, then the grant — 401/403, 400, 503, 400 and 403, all decided before any record is touched.  A value this deployment seals on the org's behalf — an MCP server's credential, a wallet's signing key, a delivery provider's token — is written by the app that holds it, through that app's own operation, and is never replaced here for membership or org admin, whatever the grant declaration says about enforcement.
+        Stores or replaces one secret in your org.  Upserts one secret under the caller's own org. The value is sealed before it is written — a fresh per-secret data key, itself wrapped by the master key — so plaintext never reaches disk. The receipt confirms the name and environment that were written and does not echo the value.  `env` is REQUIRED on a write and has no default, which is the rule most easily got wrong here: reads and deletes still fall back to the default environment for older callers, but a write must not, because the environment is part of the storage key. A silently defaulted write lands in a bucket the readers that resolve project, environment and path never look in, and the stale value keeps being served — so the write fails loudly instead.  `name` is required, `path` is an optional subpath beneath the org root, and the org is taken from the validated claim rather than the body. A `path` that starts with `/orgs/` is refused with a 400 that names where it would have landed: the root is already `/orgs/<org>`, so `/orgs/hanzo` written in org admin is stored at `/orgs/admin/orgs/hanzo`, which no reader of org hanzo looks in. The org is chosen with the credential (the CLI's `--as`).  Opens only for SuperAdmin holding an access token, audited, or for a holder a declared WRITE grant covers at this exact path, key and environment. Org admin confers nothing here. Fail-closed admission, in order: a validated member, well-formed org, master key present, well-formed input, then the grant — 401/403, 400, 503, 400 and 403, all decided before any record is touched.  A value this deployment seals on the org's behalf — an MCP server's credential, a wallet's signing key, a delivery provider's token — is written by the app that holds it, through that app's own operation, and is never replaced here for membership or org admin, whatever the grant declaration says about enforcement.
 
         :param kms_kms_put: (required)
         :type kms_kms_put: KmsKmsPut

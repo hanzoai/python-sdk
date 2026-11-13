@@ -26,14 +26,14 @@ class TeamListed(BaseModel):
     """
     TeamListed
     """ # noqa: E501
-    members: Optional[StrictInt] = Field(default=None, description="Members counts the room, and never names anybody in it.")
+    channel: Optional[StrictStr] = Field(default=None, description="Channel addresses it in the owning store — what a join is called with.")
+    members: Optional[StrictInt] = Field(default=None, description="Members counts the channel, and never names anybody in it.")
     name: Optional[StrictStr] = Field(default=None, description="Name is what a person sees, without the sigil a client draws.")
-    org: Optional[StrictStr] = Field(default=None, description="Org owns the room. It is also what a caller filters by to browse one org.")
-    room: Optional[StrictStr] = Field(default=None, description="Room addresses it in the owning store — what a join is called with.")
-    space: Optional[StrictStr] = Field(default=None, description="Space is where the room lives inside that org.")
-    topic: Optional[StrictStr] = Field(default=None, description="Topic is the room's one-line subject, empty when it has none.")
+    org: Optional[StrictStr] = Field(default=None, description="Org owns the channel. It is also what a caller filters by to browse one org.")
+    space: Optional[StrictStr] = Field(default=None, description="Space is where the channel lives inside that org.")
+    topic: Optional[StrictStr] = Field(default=None, description="Topic is the channel's one-line subject, empty when it has none.")
     updated: Optional[StrictInt] = Field(default=None, description="Updated is when this row was last written, unix seconds.")
-    __properties: ClassVar[List[str]] = ["members", "name", "org", "room", "space", "topic", "updated"]
+    __properties: ClassVar[List[str]] = ["channel", "members", "name", "org", "space", "topic", "updated"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -86,10 +86,10 @@ class TeamListed(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "channel": obj.get("channel"),
             "members": obj.get("members"),
             "name": obj.get("name"),
             "org": obj.get("org"),
-            "room": obj.get("room"),
             "space": obj.get("space"),
             "topic": obj.get("topic"),
             "updated": obj.get("updated")

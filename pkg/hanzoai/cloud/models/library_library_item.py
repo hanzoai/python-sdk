@@ -19,6 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictFloat, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
+from hanzoai.cloud.models.library_library_upload import LibraryLibraryUpload
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -47,9 +48,10 @@ class LibraryLibraryItem(BaseModel):
     shared: Optional[StrictBool] = None
     source: Optional[StrictStr] = None
     updated: Optional[StrictStr] = None
+    upload: Optional[LibraryLibraryUpload] = Field(default=None, description="Upload is where a reserved item's bytes go, on the reservation response before it is committed.")
     url: Optional[StrictStr] = None
     width: Optional[StrictInt] = None
-    __properties: ClassVar[List[str]] = ["by", "bytes", "created", "download", "expires", "height", "id", "kind", "mime", "mine", "name", "origin", "owner", "pages", "preview", "project", "ref", "seconds", "shared", "source", "updated", "url", "width"]
+    __properties: ClassVar[List[str]] = ["by", "bytes", "created", "download", "expires", "height", "id", "kind", "mime", "mine", "name", "origin", "owner", "pages", "preview", "project", "ref", "seconds", "shared", "source", "updated", "upload", "url", "width"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -90,6 +92,9 @@ class LibraryLibraryItem(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of upload
+        if self.upload:
+            _dict['upload'] = self.upload.to_dict()
         return _dict
 
     @classmethod
@@ -123,6 +128,7 @@ class LibraryLibraryItem(BaseModel):
             "shared": obj.get("shared"),
             "source": obj.get("source"),
             "updated": obj.get("updated"),
+            "upload": LibraryLibraryUpload.from_dict(obj["upload"]) if obj.get("upload") is not None else None,
             "url": obj.get("url"),
             "width": obj.get("width")
         })

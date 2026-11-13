@@ -17,8 +17,9 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
 from pydantic import Field, StrictBool, StrictInt, StrictStr
-from typing import Optional
+from typing import Any, Dict, Optional
 from typing_extensions import Annotated
+from hanzoai.cloud.models.marketing_added import MarketingAdded
 from hanzoai.cloud.models.marketing_audience import MarketingAudience
 from hanzoai.cloud.models.marketing_audience_list import MarketingAudienceList
 from hanzoai.cloud.models.marketing_audience_preview import MarketingAudiencePreview
@@ -31,15 +32,31 @@ from hanzoai.cloud.models.marketing_beta_invite_rows import MarketingBetaInviteR
 from hanzoai.cloud.models.marketing_beta_invite_sent_in import MarketingBetaInviteSentIn
 from hanzoai.cloud.models.marketing_beta_invites import MarketingBetaInvites
 from hanzoai.cloud.models.marketing_beta_request import MarketingBetaRequest
+from hanzoai.cloud.models.marketing_broadcast import MarketingBroadcast
+from hanzoai.cloud.models.marketing_broadcast_in import MarketingBroadcastIn
+from hanzoai.cloud.models.marketing_broadcast_page import MarketingBroadcastPage
+from hanzoai.cloud.models.marketing_broadcast_stats import MarketingBroadcastStats
+from hanzoai.cloud.models.marketing_bulk_in import MarketingBulkIn
+from hanzoai.cloud.models.marketing_bulk_out import MarketingBulkOut
 from hanzoai.cloud.models.marketing_calendar_post import MarketingCalendarPost
 from hanzoai.cloud.models.marketing_campaign import MarketingCampaign
 from hanzoai.cloud.models.marketing_campaign_list import MarketingCampaignList
+from hanzoai.cloud.models.marketing_confirm_in import MarketingConfirmIn
+from hanzoai.cloud.models.marketing_created import MarketingCreated
 from hanzoai.cloud.models.marketing_enroll_input import MarketingEnrollInput
 from hanzoai.cloud.models.marketing_enroll_result import MarketingEnrollResult
 from hanzoai.cloud.models.marketing_enrollment_list import MarketingEnrollmentList
 from hanzoai.cloud.models.marketing_esign_event import MarketingEsignEvent
+from hanzoai.cloud.models.marketing_field_set import MarketingFieldSet
+from hanzoai.cloud.models.marketing_import import MarketingImport
+from hanzoai.cloud.models.marketing_import_in import MarketingImportIn
+from hanzoai.cloud.models.marketing_import_page import MarketingImportPage
 from hanzoai.cloud.models.marketing_lead import MarketingLead
 from hanzoai.cloud.models.marketing_lead_in import MarketingLeadIn
+from hanzoai.cloud.models.marketing_list import MarketingList
+from hanzoai.cloud.models.marketing_list_in import MarketingListIn
+from hanzoai.cloud.models.marketing_list_page import MarketingListPage
+from hanzoai.cloud.models.marketing_list_stats import MarketingListStats
 from hanzoai.cloud.models.marketing_mail_in import MarketingMailIn
 from hanzoai.cloud.models.marketing_mail_out import MarketingMailOut
 from hanzoai.cloud.models.marketing_post_list import MarketingPostList
@@ -51,6 +68,11 @@ from hanzoai.cloud.models.marketing_redemption import MarketingRedemption
 from hanzoai.cloud.models.marketing_resume_form import MarketingResumeForm
 from hanzoai.cloud.models.marketing_resume_in import MarketingResumeIn
 from hanzoai.cloud.models.marketing_schedule_input import MarketingScheduleInput
+from hanzoai.cloud.models.marketing_segment import MarketingSegment
+from hanzoai.cloud.models.marketing_segment_in import MarketingSegmentIn
+from hanzoai.cloud.models.marketing_segment_page import MarketingSegmentPage
+from hanzoai.cloud.models.marketing_send_in import MarketingSendIn
+from hanzoai.cloud.models.marketing_sender import MarketingSender
 from hanzoai.cloud.models.marketing_sequence import MarketingSequence
 from hanzoai.cloud.models.marketing_sequence_list import MarketingSequenceList
 from hanzoai.cloud.models.marketing_sequence_status import MarketingSequenceStatus
@@ -59,10 +81,17 @@ from hanzoai.cloud.models.marketing_signing import MarketingSigning
 from hanzoai.cloud.models.marketing_step import MarketingStep
 from hanzoai.cloud.models.marketing_step_input import MarketingStepInput
 from hanzoai.cloud.models.marketing_step_list import MarketingStepList
+from hanzoai.cloud.models.marketing_subscribe_in import MarketingSubscribeIn
+from hanzoai.cloud.models.marketing_subscriber import MarketingSubscriber
+from hanzoai.cloud.models.marketing_subscriber_in import MarketingSubscriberIn
+from hanzoai.cloud.models.marketing_subscriber_page import MarketingSubscriberPage
+from hanzoai.cloud.models.marketing_subscription import MarketingSubscription
 from hanzoai.cloud.models.marketing_summary import MarketingSummary
 from hanzoai.cloud.models.marketing_suppression import MarketingSuppression
 from hanzoai.cloud.models.marketing_suppression_check import MarketingSuppressionCheck
 from hanzoai.cloud.models.marketing_suppression_list import MarketingSuppressionList
+from hanzoai.cloud.models.marketing_test_in import MarketingTestIn
+from hanzoai.cloud.models.marketing_test_out import MarketingTestOut
 from hanzoai.cloud.models.marketing_unsubscribed import MarketingUnsubscribed
 from hanzoai.cloud.models.problem_details import ProblemDetails
 
@@ -330,6 +359,268 @@ class MarketingApi:
         return self.api_client.param_serialize(
             method='DELETE',
             resource_path='/v1/marketing/audiences/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def delete_marketing_broadcasts_by_id(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the broadcast's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> object:
+        """Deletes a broadcast that is not sending, with its record of who it went to, and answers 204.
+
+        Deletes a broadcast that is not sending, with its record of who it went to, and answers 204. One that is sending is 409; cancel it first.  Org admin only.
+
+        :param id: ID is the broadcast's id. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_marketing_broadcasts_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def delete_marketing_broadcasts_by_id_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the broadcast's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[object]:
+        """Deletes a broadcast that is not sending, with its record of who it went to, and answers 204.
+
+        Deletes a broadcast that is not sending, with its record of who it went to, and answers 204. One that is sending is 409; cancel it first.  Org admin only.
+
+        :param id: ID is the broadcast's id. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_marketing_broadcasts_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def delete_marketing_broadcasts_by_id_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the broadcast's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Deletes a broadcast that is not sending, with its record of who it went to, and answers 204.
+
+        Deletes a broadcast that is not sending, with its record of who it went to, and answers 204. One that is sending is 409; cancel it first.  Org admin only.
+
+        :param id: ID is the broadcast's id. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_marketing_broadcasts_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _delete_marketing_broadcasts_by_id_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='DELETE',
+            resource_path='/v1/marketing/broadcasts/{id}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -868,6 +1159,822 @@ class MarketingApi:
 
 
     @validate_call
+    def delete_marketing_lists_by_id(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list's id or its slug.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> object:
+        """Deletes one of the org's lists with every subscriber, segment, import and broadcast it has, and answers 204.
+
+        Deletes one of the org's lists with every subscriber, segment, import and broadcast it has, and answers 204. A list with a broadcast sending is 409; cancel it first.  Org admin only.
+
+        :param id: ID is the list's id or its slug. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_marketing_lists_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def delete_marketing_lists_by_id_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list's id or its slug.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[object]:
+        """Deletes one of the org's lists with every subscriber, segment, import and broadcast it has, and answers 204.
+
+        Deletes one of the org's lists with every subscriber, segment, import and broadcast it has, and answers 204. A list with a broadcast sending is 409; cancel it first.  Org admin only.
+
+        :param id: ID is the list's id or its slug. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_marketing_lists_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def delete_marketing_lists_by_id_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list's id or its slug.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Deletes one of the org's lists with every subscriber, segment, import and broadcast it has, and answers 204.
+
+        Deletes one of the org's lists with every subscriber, segment, import and broadcast it has, and answers 204. A list with a broadcast sending is 409; cancel it first.  Org admin only.
+
+        :param id: ID is the list's id or its slug. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_marketing_lists_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _delete_marketing_lists_by_id_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='DELETE',
+            resource_path='/v1/marketing/lists/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def delete_marketing_lists_by_id_segments_by_sid(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug.")],
+        sid: Annotated[StrictStr, Field(description="SID is the segment's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> object:
+        """Deletes a saved segment and answers 204.
+
+        Deletes a saved segment and answers 204. A scheduled broadcast to it is 409; change or cancel the broadcast first.  Org admin only.
+
+        :param id: ID is the list, by id or slug. (required)
+        :type id: str
+        :param sid: SID is the segment's id. (required)
+        :type sid: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_marketing_lists_by_id_segments_by_sid_serialize(
+            id=id,
+            sid=sid,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def delete_marketing_lists_by_id_segments_by_sid_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug.")],
+        sid: Annotated[StrictStr, Field(description="SID is the segment's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[object]:
+        """Deletes a saved segment and answers 204.
+
+        Deletes a saved segment and answers 204. A scheduled broadcast to it is 409; change or cancel the broadcast first.  Org admin only.
+
+        :param id: ID is the list, by id or slug. (required)
+        :type id: str
+        :param sid: SID is the segment's id. (required)
+        :type sid: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_marketing_lists_by_id_segments_by_sid_serialize(
+            id=id,
+            sid=sid,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def delete_marketing_lists_by_id_segments_by_sid_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug.")],
+        sid: Annotated[StrictStr, Field(description="SID is the segment's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Deletes a saved segment and answers 204.
+
+        Deletes a saved segment and answers 204. A scheduled broadcast to it is 409; change or cancel the broadcast first.  Org admin only.
+
+        :param id: ID is the list, by id or slug. (required)
+        :type id: str
+        :param sid: SID is the segment's id. (required)
+        :type sid: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_marketing_lists_by_id_segments_by_sid_serialize(
+            id=id,
+            sid=sid,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _delete_marketing_lists_by_id_segments_by_sid_serialize(
+        self,
+        id,
+        sid,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        if sid is not None:
+            _path_params['sid'] = sid
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='DELETE',
+            resource_path='/v1/marketing/lists/{id}/segments/{sid}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def delete_marketing_lists_by_id_subscribers_by_sid(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug.")],
+        sid: Annotated[StrictInt, Field(description="SID is the subscriber's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> object:
+        """Removes one subscriber from one of the org's lists and answers 204.
+
+        Removes one subscriber from one of the org's lists and answers 204. The row and its evidence are gone; to keep the record of someone leaving, set their status to unsubscribed instead.  Org admin only.
+
+        :param id: ID is the list, by id or slug. (required)
+        :type id: str
+        :param sid: SID is the subscriber's id. (required)
+        :type sid: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_marketing_lists_by_id_subscribers_by_sid_serialize(
+            id=id,
+            sid=sid,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def delete_marketing_lists_by_id_subscribers_by_sid_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug.")],
+        sid: Annotated[StrictInt, Field(description="SID is the subscriber's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[object]:
+        """Removes one subscriber from one of the org's lists and answers 204.
+
+        Removes one subscriber from one of the org's lists and answers 204. The row and its evidence are gone; to keep the record of someone leaving, set their status to unsubscribed instead.  Org admin only.
+
+        :param id: ID is the list, by id or slug. (required)
+        :type id: str
+        :param sid: SID is the subscriber's id. (required)
+        :type sid: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_marketing_lists_by_id_subscribers_by_sid_serialize(
+            id=id,
+            sid=sid,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def delete_marketing_lists_by_id_subscribers_by_sid_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug.")],
+        sid: Annotated[StrictInt, Field(description="SID is the subscriber's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Removes one subscriber from one of the org's lists and answers 204.
+
+        Removes one subscriber from one of the org's lists and answers 204. The row and its evidence are gone; to keep the record of someone leaving, set their status to unsubscribed instead.  Org admin only.
+
+        :param id: ID is the list, by id or slug. (required)
+        :type id: str
+        :param sid: SID is the subscriber's id. (required)
+        :type sid: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_marketing_lists_by_id_subscribers_by_sid_serialize(
+            id=id,
+            sid=sid,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _delete_marketing_lists_by_id_subscribers_by_sid_serialize(
+        self,
+        id,
+        sid,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        if sid is not None:
+            _path_params['sid'] = sid
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='DELETE',
+            resource_path='/v1/marketing/lists/{id}/subscribers/{sid}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def delete_marketing_suppressions(
         self,
         channel: Annotated[Optional[StrictStr], Field(description="Channel is the surface the entry opts out of; empty is email.")] = None,
@@ -1151,6 +2258,8 @@ class MarketingApi:
     def get_marketing_audiences(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.")] = None,
+        cursor: Annotated[Optional[StrictStr], Field(description="Cursor is an opaque keyset cursor from a previous page's `next`. Empty means the first page.")] = None,
+        prefix: Annotated[Optional[StrictStr], Field(description="Prefix, when set, filters rows whose address begins with it (case-insensitive, on the normalized form). Suppression list only.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1164,12 +2273,16 @@ class MarketingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> MarketingAudienceList:
-        """Returns the org's saved audiences, most recently updated first.
+        """Returns every audience the org can send to: its saved cohorts, most recently updated first, then its mailing lists and their saved segments, newest first, each list with its subscribed count.
 
-        Returns the org's saved audiences, most recently updated first.
+        Returns every audience the org can send to: its saved cohorts, most recently updated first, then its mailing lists and their saved segments, newest first, each list with its subscribed count. A list or a segment is an audience as a cohort is: a sequence enrolls any of them by id.
 
         :param limit: Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.
         :type limit: int
+        :param cursor: Cursor is an opaque keyset cursor from a previous page's `next`. Empty means the first page.
+        :type cursor: str
+        :param prefix: Prefix, when set, filters rows whose address begins with it (case-insensitive, on the normalized form). Suppression list only.
+        :type prefix: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1194,6 +2307,8 @@ class MarketingApi:
 
         _param = self._get_marketing_audiences_serialize(
             limit=limit,
+            cursor=cursor,
+            prefix=prefix,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1218,6 +2333,8 @@ class MarketingApi:
     def get_marketing_audiences_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.")] = None,
+        cursor: Annotated[Optional[StrictStr], Field(description="Cursor is an opaque keyset cursor from a previous page's `next`. Empty means the first page.")] = None,
+        prefix: Annotated[Optional[StrictStr], Field(description="Prefix, when set, filters rows whose address begins with it (case-insensitive, on the normalized form). Suppression list only.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1231,12 +2348,16 @@ class MarketingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[MarketingAudienceList]:
-        """Returns the org's saved audiences, most recently updated first.
+        """Returns every audience the org can send to: its saved cohorts, most recently updated first, then its mailing lists and their saved segments, newest first, each list with its subscribed count.
 
-        Returns the org's saved audiences, most recently updated first.
+        Returns every audience the org can send to: its saved cohorts, most recently updated first, then its mailing lists and their saved segments, newest first, each list with its subscribed count. A list or a segment is an audience as a cohort is: a sequence enrolls any of them by id.
 
         :param limit: Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.
         :type limit: int
+        :param cursor: Cursor is an opaque keyset cursor from a previous page's `next`. Empty means the first page.
+        :type cursor: str
+        :param prefix: Prefix, when set, filters rows whose address begins with it (case-insensitive, on the normalized form). Suppression list only.
+        :type prefix: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1261,6 +2382,8 @@ class MarketingApi:
 
         _param = self._get_marketing_audiences_serialize(
             limit=limit,
+            cursor=cursor,
+            prefix=prefix,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1285,6 +2408,8 @@ class MarketingApi:
     def get_marketing_audiences_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.")] = None,
+        cursor: Annotated[Optional[StrictStr], Field(description="Cursor is an opaque keyset cursor from a previous page's `next`. Empty means the first page.")] = None,
+        prefix: Annotated[Optional[StrictStr], Field(description="Prefix, when set, filters rows whose address begins with it (case-insensitive, on the normalized form). Suppression list only.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1298,12 +2423,16 @@ class MarketingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns the org's saved audiences, most recently updated first.
+        """Returns every audience the org can send to: its saved cohorts, most recently updated first, then its mailing lists and their saved segments, newest first, each list with its subscribed count.
 
-        Returns the org's saved audiences, most recently updated first.
+        Returns every audience the org can send to: its saved cohorts, most recently updated first, then its mailing lists and their saved segments, newest first, each list with its subscribed count. A list or a segment is an audience as a cohort is: a sequence enrolls any of them by id.
 
         :param limit: Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.
         :type limit: int
+        :param cursor: Cursor is an opaque keyset cursor from a previous page's `next`. Empty means the first page.
+        :type cursor: str
+        :param prefix: Prefix, when set, filters rows whose address begins with it (case-insensitive, on the normalized form). Suppression list only.
+        :type prefix: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1328,6 +2457,8 @@ class MarketingApi:
 
         _param = self._get_marketing_audiences_serialize(
             limit=limit,
+            cursor=cursor,
+            prefix=prefix,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1347,6 +2478,8 @@ class MarketingApi:
     def _get_marketing_audiences_serialize(
         self,
         limit,
+        cursor,
+        prefix,
         _request_auth,
         _content_type,
         _headers,
@@ -1372,6 +2505,14 @@ class MarketingApi:
         if limit is not None:
             
             _query_params.append(('limit', limit))
+            
+        if cursor is not None:
+            
+            _query_params.append(('cursor', cursor))
+            
+        if prefix is not None:
+            
+            _query_params.append(('prefix', prefix))
             
         # process the header parameters
         # process the form parameters
@@ -2414,6 +3555,828 @@ class MarketingApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/marketing/beta/invites',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_marketing_broadcasts(
+        self,
+        list: Annotated[Optional[StrictStr], Field(description="List keeps one list's broadcasts, by id or slug.")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Status keeps broadcasts in one status.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is the page size, 50 by default and at most 200.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingBroadcastPage:
+        """Returns the org's broadcasts, newest first.
+
+        Returns the org's broadcasts, newest first.
+
+        :param list: List keeps one list's broadcasts, by id or slug.
+        :type list: str
+        :param status: Status keeps broadcasts in one status.
+        :type status: str
+        :param limit: Limit is the page size, 50 by default and at most 200.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_broadcasts_serialize(
+            list=list,
+            status=status,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingBroadcastPage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_marketing_broadcasts_with_http_info(
+        self,
+        list: Annotated[Optional[StrictStr], Field(description="List keeps one list's broadcasts, by id or slug.")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Status keeps broadcasts in one status.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is the page size, 50 by default and at most 200.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingBroadcastPage]:
+        """Returns the org's broadcasts, newest first.
+
+        Returns the org's broadcasts, newest first.
+
+        :param list: List keeps one list's broadcasts, by id or slug.
+        :type list: str
+        :param status: Status keeps broadcasts in one status.
+        :type status: str
+        :param limit: Limit is the page size, 50 by default and at most 200.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_broadcasts_serialize(
+            list=list,
+            status=status,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingBroadcastPage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_marketing_broadcasts_without_preload_content(
+        self,
+        list: Annotated[Optional[StrictStr], Field(description="List keeps one list's broadcasts, by id or slug.")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Status keeps broadcasts in one status.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is the page size, 50 by default and at most 200.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns the org's broadcasts, newest first.
+
+        Returns the org's broadcasts, newest first.
+
+        :param list: List keeps one list's broadcasts, by id or slug.
+        :type list: str
+        :param status: Status keeps broadcasts in one status.
+        :type status: str
+        :param limit: Limit is the page size, 50 by default and at most 200.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_broadcasts_serialize(
+            list=list,
+            status=status,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingBroadcastPage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_marketing_broadcasts_serialize(
+        self,
+        list,
+        status,
+        limit,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if list is not None:
+            
+            _query_params.append(('list', list))
+            
+        if status is not None:
+            
+            _query_params.append(('status', status))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/marketing/broadcasts',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_marketing_broadcasts_by_id(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the broadcast's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingBroadcast:
+        """Returns one of the org's broadcasts.
+
+        Returns one of the org's broadcasts.
+
+        :param id: ID is the broadcast's id. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_broadcasts_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingBroadcast",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_marketing_broadcasts_by_id_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the broadcast's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingBroadcast]:
+        """Returns one of the org's broadcasts.
+
+        Returns one of the org's broadcasts.
+
+        :param id: ID is the broadcast's id. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_broadcasts_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingBroadcast",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_marketing_broadcasts_by_id_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the broadcast's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns one of the org's broadcasts.
+
+        Returns one of the org's broadcasts.
+
+        :param id: ID is the broadcast's id. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_broadcasts_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingBroadcast",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_marketing_broadcasts_by_id_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/marketing/broadcasts/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_marketing_broadcasts_by_id_stats(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the broadcast's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingBroadcastStats:
+        """Returns one broadcast's numbers: audience, sent, refused, failed, and what the email plane reported (delivered, opened, clicked, bounced, complained, unsubscribed), each counted once per message, with open and click rates.
+
+        Returns one broadcast's numbers: audience, sent, refused, failed, and what the email plane reported (delivered, opened, clicked, bounced, complained, unsubscribed), each counted once per message, with open and click rates.
+
+        :param id: ID is the broadcast's id. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_broadcasts_by_id_stats_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingBroadcastStats",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_marketing_broadcasts_by_id_stats_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the broadcast's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingBroadcastStats]:
+        """Returns one broadcast's numbers: audience, sent, refused, failed, and what the email plane reported (delivered, opened, clicked, bounced, complained, unsubscribed), each counted once per message, with open and click rates.
+
+        Returns one broadcast's numbers: audience, sent, refused, failed, and what the email plane reported (delivered, opened, clicked, bounced, complained, unsubscribed), each counted once per message, with open and click rates.
+
+        :param id: ID is the broadcast's id. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_broadcasts_by_id_stats_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingBroadcastStats",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_marketing_broadcasts_by_id_stats_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the broadcast's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns one broadcast's numbers: audience, sent, refused, failed, and what the email plane reported (delivered, opened, clicked, bounced, complained, unsubscribed), each counted once per message, with open and click rates.
+
+        Returns one broadcast's numbers: audience, sent, refused, failed, and what the email plane reported (delivered, opened, clicked, bounced, complained, unsubscribed), each counted once per message, with open and click rates.
+
+        :param id: ID is the broadcast's id. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_broadcasts_by_id_stats_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingBroadcastStats",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_marketing_broadcasts_by_id_stats_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/marketing/broadcasts/{id}/stats',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -3793,6 +5756,2993 @@ class MarketingApi:
 
 
     @validate_call
+    def get_marketing_fields(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingFieldSet:
+        """Returns the custom fields the org defined for its subscribers.
+
+        Returns the custom fields the org defined for its subscribers.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_fields_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingFieldSet",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_marketing_fields_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingFieldSet]:
+        """Returns the custom fields the org defined for its subscribers.
+
+        Returns the custom fields the org defined for its subscribers.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_fields_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingFieldSet",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_marketing_fields_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns the custom fields the org defined for its subscribers.
+
+        Returns the custom fields the org defined for its subscribers.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_fields_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingFieldSet",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_marketing_fields_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/marketing/fields',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_marketing_imports(
+        self,
+        list: Annotated[Optional[StrictStr], Field(description="List keeps one list's imports, by id or slug.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is the page size, 50 by default and at most 200.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingImportPage:
+        """Returns the org's imports, newest first, each with its report.
+
+        Returns the org's imports, newest first, each with its report.
+
+        :param list: List keeps one list's imports, by id or slug.
+        :type list: str
+        :param limit: Limit is the page size, 50 by default and at most 200.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_imports_serialize(
+            list=list,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingImportPage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_marketing_imports_with_http_info(
+        self,
+        list: Annotated[Optional[StrictStr], Field(description="List keeps one list's imports, by id or slug.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is the page size, 50 by default and at most 200.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingImportPage]:
+        """Returns the org's imports, newest first, each with its report.
+
+        Returns the org's imports, newest first, each with its report.
+
+        :param list: List keeps one list's imports, by id or slug.
+        :type list: str
+        :param limit: Limit is the page size, 50 by default and at most 200.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_imports_serialize(
+            list=list,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingImportPage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_marketing_imports_without_preload_content(
+        self,
+        list: Annotated[Optional[StrictStr], Field(description="List keeps one list's imports, by id or slug.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is the page size, 50 by default and at most 200.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns the org's imports, newest first, each with its report.
+
+        Returns the org's imports, newest first, each with its report.
+
+        :param list: List keeps one list's imports, by id or slug.
+        :type list: str
+        :param limit: Limit is the page size, 50 by default and at most 200.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_imports_serialize(
+            list=list,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingImportPage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_marketing_imports_serialize(
+        self,
+        list,
+        limit,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if list is not None:
+            
+            _query_params.append(('list', list))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/marketing/imports',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_marketing_imports_by_id(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the import's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingImport:
+        """Returns one of the org's imports: its state, how far its bytes and its reading have come, and its report so far.
+
+        Returns one of the org's imports: its state, how far its bytes and its reading have come, and its report so far.
+
+        :param id: ID is the import's id. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_imports_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingImport",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_marketing_imports_by_id_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the import's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingImport]:
+        """Returns one of the org's imports: its state, how far its bytes and its reading have come, and its report so far.
+
+        Returns one of the org's imports: its state, how far its bytes and its reading have come, and its report so far.
+
+        :param id: ID is the import's id. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_imports_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingImport",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_marketing_imports_by_id_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the import's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns one of the org's imports: its state, how far its bytes and its reading have come, and its report so far.
+
+        Returns one of the org's imports: its state, how far its bytes and its reading have come, and its report so far.
+
+        :param id: ID is the import's id. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_imports_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingImport",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_marketing_imports_by_id_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/marketing/imports/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_marketing_lists(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingListPage:
+        """Returns the org's lists, newest first, each with its subscribers counted by status.
+
+        Returns the org's lists, newest first, each with its subscribers counted by status.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_lists_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingListPage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_marketing_lists_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingListPage]:
+        """Returns the org's lists, newest first, each with its subscribers counted by status.
+
+        Returns the org's lists, newest first, each with its subscribers counted by status.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_lists_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingListPage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_marketing_lists_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns the org's lists, newest first, each with its subscribers counted by status.
+
+        Returns the org's lists, newest first, each with its subscribers counted by status.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_lists_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingListPage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_marketing_lists_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/marketing/lists',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_marketing_lists_by_id(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list's id or its slug.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingList:
+        """Returns one of the org's lists, by id or slug, with its subscribers counted by status.
+
+        Returns one of the org's lists, by id or slug, with its subscribers counted by status.
+
+        :param id: ID is the list's id or its slug. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_lists_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingList",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_marketing_lists_by_id_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list's id or its slug.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingList]:
+        """Returns one of the org's lists, by id or slug, with its subscribers counted by status.
+
+        Returns one of the org's lists, by id or slug, with its subscribers counted by status.
+
+        :param id: ID is the list's id or its slug. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_lists_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingList",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_marketing_lists_by_id_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list's id or its slug.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns one of the org's lists, by id or slug, with its subscribers counted by status.
+
+        Returns one of the org's lists, by id or slug, with its subscribers counted by status.
+
+        :param id: ID is the list's id or its slug. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_lists_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingList",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_marketing_lists_by_id_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/marketing/lists/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_marketing_lists_by_id_export(
+        self,
+        id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Streams a selection of one list as CSV (format=csv, the default) or as a JSON array (format=json), every subscriber with their consent evidence, engagement and custom fields.
+
+        Streams a selection of one list as CSV (format=csv, the default) or as a JSON array (format=json), every subscriber with their consent evidence, engagement and custom fields. The selection takes the same query fields as the subscriber list (status, tag, source, ref, basis, q, field, value, the date ranges and segment). The answer streams as it is read, so a list of millions exports in bounded memory.  Org admin only.
+
+        :param id: (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_lists_by_id_export_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_marketing_lists_by_id_export_with_http_info(
+        self,
+        id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Streams a selection of one list as CSV (format=csv, the default) or as a JSON array (format=json), every subscriber with their consent evidence, engagement and custom fields.
+
+        Streams a selection of one list as CSV (format=csv, the default) or as a JSON array (format=json), every subscriber with their consent evidence, engagement and custom fields. The selection takes the same query fields as the subscriber list (status, tag, source, ref, basis, q, field, value, the date ranges and segment). The answer streams as it is read, so a list of millions exports in bounded memory.  Org admin only.
+
+        :param id: (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_lists_by_id_export_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_marketing_lists_by_id_export_without_preload_content(
+        self,
+        id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Streams a selection of one list as CSV (format=csv, the default) or as a JSON array (format=json), every subscriber with their consent evidence, engagement and custom fields.
+
+        Streams a selection of one list as CSV (format=csv, the default) or as a JSON array (format=json), every subscriber with their consent evidence, engagement and custom fields. The selection takes the same query fields as the subscriber list (status, tag, source, ref, basis, q, field, value, the date ranges and segment). The answer streams as it is read, so a list of millions exports in bounded memory.  Org admin only.
+
+        :param id: (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_lists_by_id_export_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_marketing_lists_by_id_export_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/marketing/lists/{id}/export',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_marketing_lists_by_id_segments(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list's id or its slug.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingSegmentPage:
+        """Returns one list's saved segments, newest first.
+
+        Returns one list's saved segments, newest first.
+
+        :param id: ID is the list's id or its slug. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_lists_by_id_segments_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingSegmentPage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_marketing_lists_by_id_segments_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list's id or its slug.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingSegmentPage]:
+        """Returns one list's saved segments, newest first.
+
+        Returns one list's saved segments, newest first.
+
+        :param id: ID is the list's id or its slug. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_lists_by_id_segments_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingSegmentPage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_marketing_lists_by_id_segments_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list's id or its slug.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns one list's saved segments, newest first.
+
+        Returns one list's saved segments, newest first.
+
+        :param id: ID is the list's id or its slug. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_lists_by_id_segments_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingSegmentPage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_marketing_lists_by_id_segments_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/marketing/lists/{id}/segments',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_marketing_lists_by_id_stats(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug, from the path.")],
+        var_from: Annotated[Optional[StrictStr], Field(description="From is the first day, YYYY-MM-DD (UTC); 30 days before To by default.")] = None,
+        to: Annotated[Optional[StrictStr], Field(description="To is the last day, YYYY-MM-DD (UTC); today by default. At most 366 days after From.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingListStats:
+        """Returns one list's numbers for charting: subscribers by status, source and consent basis, and over a range of days, what happened each day, the net growth, the confirmation rate and the unsubscribe rate.
+
+        Returns one list's numbers for charting: subscribers by status, source and consent basis, and over a range of days, what happened each day, the net growth, the confirmation rate and the unsubscribe rate. Every number is read from kept counts, never by reading the list.
+
+        :param id: ID is the list, by id or slug, from the path. (required)
+        :type id: str
+        :param var_from: From is the first day, YYYY-MM-DD (UTC); 30 days before To by default.
+        :type var_from: str
+        :param to: To is the last day, YYYY-MM-DD (UTC); today by default. At most 366 days after From.
+        :type to: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_lists_by_id_stats_serialize(
+            id=id,
+            var_from=var_from,
+            to=to,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingListStats",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_marketing_lists_by_id_stats_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug, from the path.")],
+        var_from: Annotated[Optional[StrictStr], Field(description="From is the first day, YYYY-MM-DD (UTC); 30 days before To by default.")] = None,
+        to: Annotated[Optional[StrictStr], Field(description="To is the last day, YYYY-MM-DD (UTC); today by default. At most 366 days after From.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingListStats]:
+        """Returns one list's numbers for charting: subscribers by status, source and consent basis, and over a range of days, what happened each day, the net growth, the confirmation rate and the unsubscribe rate.
+
+        Returns one list's numbers for charting: subscribers by status, source and consent basis, and over a range of days, what happened each day, the net growth, the confirmation rate and the unsubscribe rate. Every number is read from kept counts, never by reading the list.
+
+        :param id: ID is the list, by id or slug, from the path. (required)
+        :type id: str
+        :param var_from: From is the first day, YYYY-MM-DD (UTC); 30 days before To by default.
+        :type var_from: str
+        :param to: To is the last day, YYYY-MM-DD (UTC); today by default. At most 366 days after From.
+        :type to: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_lists_by_id_stats_serialize(
+            id=id,
+            var_from=var_from,
+            to=to,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingListStats",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_marketing_lists_by_id_stats_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug, from the path.")],
+        var_from: Annotated[Optional[StrictStr], Field(description="From is the first day, YYYY-MM-DD (UTC); 30 days before To by default.")] = None,
+        to: Annotated[Optional[StrictStr], Field(description="To is the last day, YYYY-MM-DD (UTC); today by default. At most 366 days after From.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns one list's numbers for charting: subscribers by status, source and consent basis, and over a range of days, what happened each day, the net growth, the confirmation rate and the unsubscribe rate.
+
+        Returns one list's numbers for charting: subscribers by status, source and consent basis, and over a range of days, what happened each day, the net growth, the confirmation rate and the unsubscribe rate. Every number is read from kept counts, never by reading the list.
+
+        :param id: ID is the list, by id or slug, from the path. (required)
+        :type id: str
+        :param var_from: From is the first day, YYYY-MM-DD (UTC); 30 days before To by default.
+        :type var_from: str
+        :param to: To is the last day, YYYY-MM-DD (UTC); today by default. At most 366 days after From.
+        :type to: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_lists_by_id_stats_serialize(
+            id=id,
+            var_from=var_from,
+            to=to,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingListStats",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_marketing_lists_by_id_stats_serialize(
+        self,
+        id,
+        var_from,
+        to,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        if var_from is not None:
+            
+            _query_params.append(('from', var_from))
+            
+        if to is not None:
+            
+            _query_params.append(('to', to))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/marketing/lists/{id}/stats',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_marketing_lists_by_id_subscribers(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug, from the path.")],
+        status: Annotated[Optional[StrictStr], Field(description="Status is one status or several, comma-separated: pending, subscribed, unsubscribed, bounced, complained, cleaned.")] = None,
+        tag: Annotated[Optional[StrictStr], Field(description="Tag keeps subscribers carrying this tag.")] = None,
+        source: Annotated[Optional[StrictStr], Field(description="Source keeps subscribers that came from this kind of source: form, page, api, import or commerce.")] = None,
+        ref: Annotated[Optional[StrictStr], Field(description="Ref keeps subscribers from one source instance: a form id, a page, an import batch id.")] = None,
+        basis: Annotated[Optional[StrictStr], Field(description="Basis keeps subscribers by the consent basis recorded for them: explicit, legitimate_interest or unverified.")] = None,
+        q: Annotated[Optional[StrictStr], Field(description="Q keeps subscribers whose address or name begins with it, case-insensitively. A search is ordered by address.")] = None,
+        var_field: Annotated[Optional[StrictStr], Field(description="Field names a custom field, and Value keeps subscribers whose value for it is exactly this.")] = None,
+        value: Annotated[Optional[StrictStr], Field(description="Value is the custom field's value Field keeps.")] = None,
+        created_after: Annotated[Optional[StrictInt], Field(description="CreatedAfter and CreatedBefore bound when the subscriber joined the list, unix seconds, inclusive. Zero is unbounded.")] = None,
+        created_before: Annotated[Optional[StrictInt], Field(description="CreatedBefore is the upper bound of CreatedAfter's range.")] = None,
+        confirmed_after: Annotated[Optional[StrictInt], Field(description="ConfirmedAfter and ConfirmedBefore bound when the subscription was confirmed, unix seconds, inclusive.")] = None,
+        confirmed_before: Annotated[Optional[StrictInt], Field(description="ConfirmedBefore is the upper bound of ConfirmedAfter's range.")] = None,
+        opened_after: Annotated[Optional[StrictInt], Field(description="OpenedAfter keeps subscribers who opened a broadcast at or after this time.")] = None,
+        not_opened_since: Annotated[Optional[StrictInt], Field(description="NotOpenedSince keeps subscribers who have opened nothing since this time, including those who never opened anything.")] = None,
+        clicked_after: Annotated[Optional[StrictInt], Field(description="ClickedAfter keeps subscribers who clicked a link at or after this time.")] = None,
+        segment: Annotated[Optional[StrictStr], Field(description="Segment applies a saved segment of the list; the filter fields narrow it further.")] = None,
+        sort: Annotated[Optional[StrictStr], Field(description="Sort is created (the default), email, name, confirmed or opened. A search (q) is always by address.")] = None,
+        order: Annotated[Optional[StrictStr], Field(description="Order is desc (the default) or asc.")] = None,
+        cursor: Annotated[Optional[StrictStr], Field(description="Cursor continues from where the previous page ended.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is the page size, 50 by default and at most 500.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingSubscriberPage:
+        """Returns a page of one list's subscribers, newest first unless asked otherwise.
+
+        Returns a page of one list's subscribers, newest first unless asked otherwise. Every filter (status, tag, source, ref, consent basis, a prefix of the address or name, a custom field's value, ranges of when they joined and confirmed, and whether they opened or clicked since a time) walks an index of its own, so a page costs the same on a list of ten rows or ten million. Continue with next.
+
+        :param id: ID is the list, by id or slug, from the path. (required)
+        :type id: str
+        :param status: Status is one status or several, comma-separated: pending, subscribed, unsubscribed, bounced, complained, cleaned.
+        :type status: str
+        :param tag: Tag keeps subscribers carrying this tag.
+        :type tag: str
+        :param source: Source keeps subscribers that came from this kind of source: form, page, api, import or commerce.
+        :type source: str
+        :param ref: Ref keeps subscribers from one source instance: a form id, a page, an import batch id.
+        :type ref: str
+        :param basis: Basis keeps subscribers by the consent basis recorded for them: explicit, legitimate_interest or unverified.
+        :type basis: str
+        :param q: Q keeps subscribers whose address or name begins with it, case-insensitively. A search is ordered by address.
+        :type q: str
+        :param var_field: Field names a custom field, and Value keeps subscribers whose value for it is exactly this.
+        :type var_field: str
+        :param value: Value is the custom field's value Field keeps.
+        :type value: str
+        :param created_after: CreatedAfter and CreatedBefore bound when the subscriber joined the list, unix seconds, inclusive. Zero is unbounded.
+        :type created_after: int
+        :param created_before: CreatedBefore is the upper bound of CreatedAfter's range.
+        :type created_before: int
+        :param confirmed_after: ConfirmedAfter and ConfirmedBefore bound when the subscription was confirmed, unix seconds, inclusive.
+        :type confirmed_after: int
+        :param confirmed_before: ConfirmedBefore is the upper bound of ConfirmedAfter's range.
+        :type confirmed_before: int
+        :param opened_after: OpenedAfter keeps subscribers who opened a broadcast at or after this time.
+        :type opened_after: int
+        :param not_opened_since: NotOpenedSince keeps subscribers who have opened nothing since this time, including those who never opened anything.
+        :type not_opened_since: int
+        :param clicked_after: ClickedAfter keeps subscribers who clicked a link at or after this time.
+        :type clicked_after: int
+        :param segment: Segment applies a saved segment of the list; the filter fields narrow it further.
+        :type segment: str
+        :param sort: Sort is created (the default), email, name, confirmed or opened. A search (q) is always by address.
+        :type sort: str
+        :param order: Order is desc (the default) or asc.
+        :type order: str
+        :param cursor: Cursor continues from where the previous page ended.
+        :type cursor: str
+        :param limit: Limit is the page size, 50 by default and at most 500.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_lists_by_id_subscribers_serialize(
+            id=id,
+            status=status,
+            tag=tag,
+            source=source,
+            ref=ref,
+            basis=basis,
+            q=q,
+            var_field=var_field,
+            value=value,
+            created_after=created_after,
+            created_before=created_before,
+            confirmed_after=confirmed_after,
+            confirmed_before=confirmed_before,
+            opened_after=opened_after,
+            not_opened_since=not_opened_since,
+            clicked_after=clicked_after,
+            segment=segment,
+            sort=sort,
+            order=order,
+            cursor=cursor,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingSubscriberPage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_marketing_lists_by_id_subscribers_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug, from the path.")],
+        status: Annotated[Optional[StrictStr], Field(description="Status is one status or several, comma-separated: pending, subscribed, unsubscribed, bounced, complained, cleaned.")] = None,
+        tag: Annotated[Optional[StrictStr], Field(description="Tag keeps subscribers carrying this tag.")] = None,
+        source: Annotated[Optional[StrictStr], Field(description="Source keeps subscribers that came from this kind of source: form, page, api, import or commerce.")] = None,
+        ref: Annotated[Optional[StrictStr], Field(description="Ref keeps subscribers from one source instance: a form id, a page, an import batch id.")] = None,
+        basis: Annotated[Optional[StrictStr], Field(description="Basis keeps subscribers by the consent basis recorded for them: explicit, legitimate_interest or unverified.")] = None,
+        q: Annotated[Optional[StrictStr], Field(description="Q keeps subscribers whose address or name begins with it, case-insensitively. A search is ordered by address.")] = None,
+        var_field: Annotated[Optional[StrictStr], Field(description="Field names a custom field, and Value keeps subscribers whose value for it is exactly this.")] = None,
+        value: Annotated[Optional[StrictStr], Field(description="Value is the custom field's value Field keeps.")] = None,
+        created_after: Annotated[Optional[StrictInt], Field(description="CreatedAfter and CreatedBefore bound when the subscriber joined the list, unix seconds, inclusive. Zero is unbounded.")] = None,
+        created_before: Annotated[Optional[StrictInt], Field(description="CreatedBefore is the upper bound of CreatedAfter's range.")] = None,
+        confirmed_after: Annotated[Optional[StrictInt], Field(description="ConfirmedAfter and ConfirmedBefore bound when the subscription was confirmed, unix seconds, inclusive.")] = None,
+        confirmed_before: Annotated[Optional[StrictInt], Field(description="ConfirmedBefore is the upper bound of ConfirmedAfter's range.")] = None,
+        opened_after: Annotated[Optional[StrictInt], Field(description="OpenedAfter keeps subscribers who opened a broadcast at or after this time.")] = None,
+        not_opened_since: Annotated[Optional[StrictInt], Field(description="NotOpenedSince keeps subscribers who have opened nothing since this time, including those who never opened anything.")] = None,
+        clicked_after: Annotated[Optional[StrictInt], Field(description="ClickedAfter keeps subscribers who clicked a link at or after this time.")] = None,
+        segment: Annotated[Optional[StrictStr], Field(description="Segment applies a saved segment of the list; the filter fields narrow it further.")] = None,
+        sort: Annotated[Optional[StrictStr], Field(description="Sort is created (the default), email, name, confirmed or opened. A search (q) is always by address.")] = None,
+        order: Annotated[Optional[StrictStr], Field(description="Order is desc (the default) or asc.")] = None,
+        cursor: Annotated[Optional[StrictStr], Field(description="Cursor continues from where the previous page ended.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is the page size, 50 by default and at most 500.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingSubscriberPage]:
+        """Returns a page of one list's subscribers, newest first unless asked otherwise.
+
+        Returns a page of one list's subscribers, newest first unless asked otherwise. Every filter (status, tag, source, ref, consent basis, a prefix of the address or name, a custom field's value, ranges of when they joined and confirmed, and whether they opened or clicked since a time) walks an index of its own, so a page costs the same on a list of ten rows or ten million. Continue with next.
+
+        :param id: ID is the list, by id or slug, from the path. (required)
+        :type id: str
+        :param status: Status is one status or several, comma-separated: pending, subscribed, unsubscribed, bounced, complained, cleaned.
+        :type status: str
+        :param tag: Tag keeps subscribers carrying this tag.
+        :type tag: str
+        :param source: Source keeps subscribers that came from this kind of source: form, page, api, import or commerce.
+        :type source: str
+        :param ref: Ref keeps subscribers from one source instance: a form id, a page, an import batch id.
+        :type ref: str
+        :param basis: Basis keeps subscribers by the consent basis recorded for them: explicit, legitimate_interest or unverified.
+        :type basis: str
+        :param q: Q keeps subscribers whose address or name begins with it, case-insensitively. A search is ordered by address.
+        :type q: str
+        :param var_field: Field names a custom field, and Value keeps subscribers whose value for it is exactly this.
+        :type var_field: str
+        :param value: Value is the custom field's value Field keeps.
+        :type value: str
+        :param created_after: CreatedAfter and CreatedBefore bound when the subscriber joined the list, unix seconds, inclusive. Zero is unbounded.
+        :type created_after: int
+        :param created_before: CreatedBefore is the upper bound of CreatedAfter's range.
+        :type created_before: int
+        :param confirmed_after: ConfirmedAfter and ConfirmedBefore bound when the subscription was confirmed, unix seconds, inclusive.
+        :type confirmed_after: int
+        :param confirmed_before: ConfirmedBefore is the upper bound of ConfirmedAfter's range.
+        :type confirmed_before: int
+        :param opened_after: OpenedAfter keeps subscribers who opened a broadcast at or after this time.
+        :type opened_after: int
+        :param not_opened_since: NotOpenedSince keeps subscribers who have opened nothing since this time, including those who never opened anything.
+        :type not_opened_since: int
+        :param clicked_after: ClickedAfter keeps subscribers who clicked a link at or after this time.
+        :type clicked_after: int
+        :param segment: Segment applies a saved segment of the list; the filter fields narrow it further.
+        :type segment: str
+        :param sort: Sort is created (the default), email, name, confirmed or opened. A search (q) is always by address.
+        :type sort: str
+        :param order: Order is desc (the default) or asc.
+        :type order: str
+        :param cursor: Cursor continues from where the previous page ended.
+        :type cursor: str
+        :param limit: Limit is the page size, 50 by default and at most 500.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_lists_by_id_subscribers_serialize(
+            id=id,
+            status=status,
+            tag=tag,
+            source=source,
+            ref=ref,
+            basis=basis,
+            q=q,
+            var_field=var_field,
+            value=value,
+            created_after=created_after,
+            created_before=created_before,
+            confirmed_after=confirmed_after,
+            confirmed_before=confirmed_before,
+            opened_after=opened_after,
+            not_opened_since=not_opened_since,
+            clicked_after=clicked_after,
+            segment=segment,
+            sort=sort,
+            order=order,
+            cursor=cursor,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingSubscriberPage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_marketing_lists_by_id_subscribers_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug, from the path.")],
+        status: Annotated[Optional[StrictStr], Field(description="Status is one status or several, comma-separated: pending, subscribed, unsubscribed, bounced, complained, cleaned.")] = None,
+        tag: Annotated[Optional[StrictStr], Field(description="Tag keeps subscribers carrying this tag.")] = None,
+        source: Annotated[Optional[StrictStr], Field(description="Source keeps subscribers that came from this kind of source: form, page, api, import or commerce.")] = None,
+        ref: Annotated[Optional[StrictStr], Field(description="Ref keeps subscribers from one source instance: a form id, a page, an import batch id.")] = None,
+        basis: Annotated[Optional[StrictStr], Field(description="Basis keeps subscribers by the consent basis recorded for them: explicit, legitimate_interest or unverified.")] = None,
+        q: Annotated[Optional[StrictStr], Field(description="Q keeps subscribers whose address or name begins with it, case-insensitively. A search is ordered by address.")] = None,
+        var_field: Annotated[Optional[StrictStr], Field(description="Field names a custom field, and Value keeps subscribers whose value for it is exactly this.")] = None,
+        value: Annotated[Optional[StrictStr], Field(description="Value is the custom field's value Field keeps.")] = None,
+        created_after: Annotated[Optional[StrictInt], Field(description="CreatedAfter and CreatedBefore bound when the subscriber joined the list, unix seconds, inclusive. Zero is unbounded.")] = None,
+        created_before: Annotated[Optional[StrictInt], Field(description="CreatedBefore is the upper bound of CreatedAfter's range.")] = None,
+        confirmed_after: Annotated[Optional[StrictInt], Field(description="ConfirmedAfter and ConfirmedBefore bound when the subscription was confirmed, unix seconds, inclusive.")] = None,
+        confirmed_before: Annotated[Optional[StrictInt], Field(description="ConfirmedBefore is the upper bound of ConfirmedAfter's range.")] = None,
+        opened_after: Annotated[Optional[StrictInt], Field(description="OpenedAfter keeps subscribers who opened a broadcast at or after this time.")] = None,
+        not_opened_since: Annotated[Optional[StrictInt], Field(description="NotOpenedSince keeps subscribers who have opened nothing since this time, including those who never opened anything.")] = None,
+        clicked_after: Annotated[Optional[StrictInt], Field(description="ClickedAfter keeps subscribers who clicked a link at or after this time.")] = None,
+        segment: Annotated[Optional[StrictStr], Field(description="Segment applies a saved segment of the list; the filter fields narrow it further.")] = None,
+        sort: Annotated[Optional[StrictStr], Field(description="Sort is created (the default), email, name, confirmed or opened. A search (q) is always by address.")] = None,
+        order: Annotated[Optional[StrictStr], Field(description="Order is desc (the default) or asc.")] = None,
+        cursor: Annotated[Optional[StrictStr], Field(description="Cursor continues from where the previous page ended.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is the page size, 50 by default and at most 500.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns a page of one list's subscribers, newest first unless asked otherwise.
+
+        Returns a page of one list's subscribers, newest first unless asked otherwise. Every filter (status, tag, source, ref, consent basis, a prefix of the address or name, a custom field's value, ranges of when they joined and confirmed, and whether they opened or clicked since a time) walks an index of its own, so a page costs the same on a list of ten rows or ten million. Continue with next.
+
+        :param id: ID is the list, by id or slug, from the path. (required)
+        :type id: str
+        :param status: Status is one status or several, comma-separated: pending, subscribed, unsubscribed, bounced, complained, cleaned.
+        :type status: str
+        :param tag: Tag keeps subscribers carrying this tag.
+        :type tag: str
+        :param source: Source keeps subscribers that came from this kind of source: form, page, api, import or commerce.
+        :type source: str
+        :param ref: Ref keeps subscribers from one source instance: a form id, a page, an import batch id.
+        :type ref: str
+        :param basis: Basis keeps subscribers by the consent basis recorded for them: explicit, legitimate_interest or unverified.
+        :type basis: str
+        :param q: Q keeps subscribers whose address or name begins with it, case-insensitively. A search is ordered by address.
+        :type q: str
+        :param var_field: Field names a custom field, and Value keeps subscribers whose value for it is exactly this.
+        :type var_field: str
+        :param value: Value is the custom field's value Field keeps.
+        :type value: str
+        :param created_after: CreatedAfter and CreatedBefore bound when the subscriber joined the list, unix seconds, inclusive. Zero is unbounded.
+        :type created_after: int
+        :param created_before: CreatedBefore is the upper bound of CreatedAfter's range.
+        :type created_before: int
+        :param confirmed_after: ConfirmedAfter and ConfirmedBefore bound when the subscription was confirmed, unix seconds, inclusive.
+        :type confirmed_after: int
+        :param confirmed_before: ConfirmedBefore is the upper bound of ConfirmedAfter's range.
+        :type confirmed_before: int
+        :param opened_after: OpenedAfter keeps subscribers who opened a broadcast at or after this time.
+        :type opened_after: int
+        :param not_opened_since: NotOpenedSince keeps subscribers who have opened nothing since this time, including those who never opened anything.
+        :type not_opened_since: int
+        :param clicked_after: ClickedAfter keeps subscribers who clicked a link at or after this time.
+        :type clicked_after: int
+        :param segment: Segment applies a saved segment of the list; the filter fields narrow it further.
+        :type segment: str
+        :param sort: Sort is created (the default), email, name, confirmed or opened. A search (q) is always by address.
+        :type sort: str
+        :param order: Order is desc (the default) or asc.
+        :type order: str
+        :param cursor: Cursor continues from where the previous page ended.
+        :type cursor: str
+        :param limit: Limit is the page size, 50 by default and at most 500.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_lists_by_id_subscribers_serialize(
+            id=id,
+            status=status,
+            tag=tag,
+            source=source,
+            ref=ref,
+            basis=basis,
+            q=q,
+            var_field=var_field,
+            value=value,
+            created_after=created_after,
+            created_before=created_before,
+            confirmed_after=confirmed_after,
+            confirmed_before=confirmed_before,
+            opened_after=opened_after,
+            not_opened_since=not_opened_since,
+            clicked_after=clicked_after,
+            segment=segment,
+            sort=sort,
+            order=order,
+            cursor=cursor,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingSubscriberPage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_marketing_lists_by_id_subscribers_serialize(
+        self,
+        id,
+        status,
+        tag,
+        source,
+        ref,
+        basis,
+        q,
+        var_field,
+        value,
+        created_after,
+        created_before,
+        confirmed_after,
+        confirmed_before,
+        opened_after,
+        not_opened_since,
+        clicked_after,
+        segment,
+        sort,
+        order,
+        cursor,
+        limit,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        if status is not None:
+            
+            _query_params.append(('status', status))
+            
+        if tag is not None:
+            
+            _query_params.append(('tag', tag))
+            
+        if source is not None:
+            
+            _query_params.append(('source', source))
+            
+        if ref is not None:
+            
+            _query_params.append(('ref', ref))
+            
+        if basis is not None:
+            
+            _query_params.append(('basis', basis))
+            
+        if q is not None:
+            
+            _query_params.append(('q', q))
+            
+        if var_field is not None:
+            
+            _query_params.append(('field', var_field))
+            
+        if value is not None:
+            
+            _query_params.append(('value', value))
+            
+        if created_after is not None:
+            
+            _query_params.append(('createdAfter', created_after))
+            
+        if created_before is not None:
+            
+            _query_params.append(('createdBefore', created_before))
+            
+        if confirmed_after is not None:
+            
+            _query_params.append(('confirmedAfter', confirmed_after))
+            
+        if confirmed_before is not None:
+            
+            _query_params.append(('confirmedBefore', confirmed_before))
+            
+        if opened_after is not None:
+            
+            _query_params.append(('openedAfter', opened_after))
+            
+        if not_opened_since is not None:
+            
+            _query_params.append(('notOpenedSince', not_opened_since))
+            
+        if clicked_after is not None:
+            
+            _query_params.append(('clickedAfter', clicked_after))
+            
+        if segment is not None:
+            
+            _query_params.append(('segment', segment))
+            
+        if sort is not None:
+            
+            _query_params.append(('sort', sort))
+            
+        if order is not None:
+            
+            _query_params.append(('order', order))
+            
+        if cursor is not None:
+            
+            _query_params.append(('cursor', cursor))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/marketing/lists/{id}/subscribers',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_marketing_lists_by_id_subscribers_by_sid(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug.")],
+        sid: Annotated[StrictInt, Field(description="SID is the subscriber's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingSubscriber:
+        """Returns one subscriber of one of the org's lists, with their consent evidence and engagement.
+
+        Returns one subscriber of one of the org's lists, with their consent evidence and engagement.
+
+        :param id: ID is the list, by id or slug. (required)
+        :type id: str
+        :param sid: SID is the subscriber's id. (required)
+        :type sid: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_lists_by_id_subscribers_by_sid_serialize(
+            id=id,
+            sid=sid,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingSubscriber",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_marketing_lists_by_id_subscribers_by_sid_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug.")],
+        sid: Annotated[StrictInt, Field(description="SID is the subscriber's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingSubscriber]:
+        """Returns one subscriber of one of the org's lists, with their consent evidence and engagement.
+
+        Returns one subscriber of one of the org's lists, with their consent evidence and engagement.
+
+        :param id: ID is the list, by id or slug. (required)
+        :type id: str
+        :param sid: SID is the subscriber's id. (required)
+        :type sid: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_lists_by_id_subscribers_by_sid_serialize(
+            id=id,
+            sid=sid,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingSubscriber",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_marketing_lists_by_id_subscribers_by_sid_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug.")],
+        sid: Annotated[StrictInt, Field(description="SID is the subscriber's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns one subscriber of one of the org's lists, with their consent evidence and engagement.
+
+        Returns one subscriber of one of the org's lists, with their consent evidence and engagement.
+
+        :param id: ID is the list, by id or slug. (required)
+        :type id: str
+        :param sid: SID is the subscriber's id. (required)
+        :type sid: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_lists_by_id_subscribers_by_sid_serialize(
+            id=id,
+            sid=sid,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingSubscriber",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_marketing_lists_by_id_subscribers_by_sid_serialize(
+        self,
+        id,
+        sid,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        if sid is not None:
+            _path_params['sid'] = sid
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/marketing/lists/{id}/subscribers/{sid}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_marketing_promos(
         self,
         _request_timeout: Union[
@@ -4598,9 +9548,258 @@ class MarketingApi:
 
 
     @validate_call
+    def get_marketing_sender(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingSender:
+        """Returns the org's sender: the provider and the from, reply and footer fields every list takes when it leaves its own empty.
+
+        Returns the org's sender: the provider and the from, reply and footer fields every list takes when it leaves its own empty.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_sender_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingSender",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_marketing_sender_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingSender]:
+        """Returns the org's sender: the provider and the from, reply and footer fields every list takes when it leaves its own empty.
+
+        Returns the org's sender: the provider and the from, reply and footer fields every list takes when it leaves its own empty.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_sender_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingSender",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_marketing_sender_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns the org's sender: the provider and the from, reply and footer fields every list takes when it leaves its own empty.
+
+        Returns the org's sender: the provider and the from, reply and footer fields every list takes when it leaves its own empty.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketing_sender_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingSender",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_marketing_sender_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/marketing/sender',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_marketing_sequences(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.")] = None,
+        cursor: Annotated[Optional[StrictStr], Field(description="Cursor is an opaque keyset cursor from a previous page's `next`. Empty means the first page.")] = None,
+        prefix: Annotated[Optional[StrictStr], Field(description="Prefix, when set, filters rows whose address begins with it (case-insensitive, on the normalized form). Suppression list only.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4620,6 +9819,10 @@ class MarketingApi:
 
         :param limit: Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.
         :type limit: int
+        :param cursor: Cursor is an opaque keyset cursor from a previous page's `next`. Empty means the first page.
+        :type cursor: str
+        :param prefix: Prefix, when set, filters rows whose address begins with it (case-insensitive, on the normalized form). Suppression list only.
+        :type prefix: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4644,6 +9847,8 @@ class MarketingApi:
 
         _param = self._get_marketing_sequences_serialize(
             limit=limit,
+            cursor=cursor,
+            prefix=prefix,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4668,6 +9873,8 @@ class MarketingApi:
     def get_marketing_sequences_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.")] = None,
+        cursor: Annotated[Optional[StrictStr], Field(description="Cursor is an opaque keyset cursor from a previous page's `next`. Empty means the first page.")] = None,
+        prefix: Annotated[Optional[StrictStr], Field(description="Prefix, when set, filters rows whose address begins with it (case-insensitive, on the normalized form). Suppression list only.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4687,6 +9894,10 @@ class MarketingApi:
 
         :param limit: Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.
         :type limit: int
+        :param cursor: Cursor is an opaque keyset cursor from a previous page's `next`. Empty means the first page.
+        :type cursor: str
+        :param prefix: Prefix, when set, filters rows whose address begins with it (case-insensitive, on the normalized form). Suppression list only.
+        :type prefix: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4711,6 +9922,8 @@ class MarketingApi:
 
         _param = self._get_marketing_sequences_serialize(
             limit=limit,
+            cursor=cursor,
+            prefix=prefix,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4735,6 +9948,8 @@ class MarketingApi:
     def get_marketing_sequences_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.")] = None,
+        cursor: Annotated[Optional[StrictStr], Field(description="Cursor is an opaque keyset cursor from a previous page's `next`. Empty means the first page.")] = None,
+        prefix: Annotated[Optional[StrictStr], Field(description="Prefix, when set, filters rows whose address begins with it (case-insensitive, on the normalized form). Suppression list only.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4754,6 +9969,10 @@ class MarketingApi:
 
         :param limit: Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.
         :type limit: int
+        :param cursor: Cursor is an opaque keyset cursor from a previous page's `next`. Empty means the first page.
+        :type cursor: str
+        :param prefix: Prefix, when set, filters rows whose address begins with it (case-insensitive, on the normalized form). Suppression list only.
+        :type prefix: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4778,6 +9997,8 @@ class MarketingApi:
 
         _param = self._get_marketing_sequences_serialize(
             limit=limit,
+            cursor=cursor,
+            prefix=prefix,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4797,6 +10018,8 @@ class MarketingApi:
     def _get_marketing_sequences_serialize(
         self,
         limit,
+        cursor,
+        prefix,
         _request_auth,
         _content_type,
         _headers,
@@ -4822,6 +10045,14 @@ class MarketingApi:
         if limit is not None:
             
             _query_params.append(('limit', limit))
+            
+        if cursor is not None:
+            
+            _query_params.append(('cursor', cursor))
+            
+        if prefix is not None:
+            
+            _query_params.append(('prefix', prefix))
             
         # process the header parameters
         # process the form parameters
@@ -5915,6 +11146,8 @@ class MarketingApi:
     def get_marketing_suppressions(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.")] = None,
+        cursor: Annotated[Optional[StrictStr], Field(description="Cursor is an opaque keyset cursor from a previous page's `next`. Empty means the first page.")] = None,
+        prefix: Annotated[Optional[StrictStr], Field(description="Prefix, when set, filters rows whose address begins with it (case-insensitive, on the normalized form). Suppression list only.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5930,10 +11163,14 @@ class MarketingApi:
     ) -> MarketingSuppressionList:
         """Returns the org's opt-out list, newest first — everyone the send gate will refuse to deliver to.
 
-        Returns the org's opt-out list, newest first — everyone the send gate will refuse to deliver to.
+        Returns the org's opt-out list, newest first — everyone the send gate will refuse to deliver to. The page carries `next` (an opaque cursor for the following page, empty on the last) and `total` (the true count of this org's opt-outs on this channel, across every page).
 
         :param limit: Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.
         :type limit: int
+        :param cursor: Cursor is an opaque keyset cursor from a previous page's `next`. Empty means the first page.
+        :type cursor: str
+        :param prefix: Prefix, when set, filters rows whose address begins with it (case-insensitive, on the normalized form). Suppression list only.
+        :type prefix: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5958,6 +11195,8 @@ class MarketingApi:
 
         _param = self._get_marketing_suppressions_serialize(
             limit=limit,
+            cursor=cursor,
+            prefix=prefix,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5982,6 +11221,8 @@ class MarketingApi:
     def get_marketing_suppressions_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.")] = None,
+        cursor: Annotated[Optional[StrictStr], Field(description="Cursor is an opaque keyset cursor from a previous page's `next`. Empty means the first page.")] = None,
+        prefix: Annotated[Optional[StrictStr], Field(description="Prefix, when set, filters rows whose address begins with it (case-insensitive, on the normalized form). Suppression list only.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5997,10 +11238,14 @@ class MarketingApi:
     ) -> ApiResponse[MarketingSuppressionList]:
         """Returns the org's opt-out list, newest first — everyone the send gate will refuse to deliver to.
 
-        Returns the org's opt-out list, newest first — everyone the send gate will refuse to deliver to.
+        Returns the org's opt-out list, newest first — everyone the send gate will refuse to deliver to. The page carries `next` (an opaque cursor for the following page, empty on the last) and `total` (the true count of this org's opt-outs on this channel, across every page).
 
         :param limit: Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.
         :type limit: int
+        :param cursor: Cursor is an opaque keyset cursor from a previous page's `next`. Empty means the first page.
+        :type cursor: str
+        :param prefix: Prefix, when set, filters rows whose address begins with it (case-insensitive, on the normalized form). Suppression list only.
+        :type prefix: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6025,6 +11270,8 @@ class MarketingApi:
 
         _param = self._get_marketing_suppressions_serialize(
             limit=limit,
+            cursor=cursor,
+            prefix=prefix,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6049,6 +11296,8 @@ class MarketingApi:
     def get_marketing_suppressions_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.")] = None,
+        cursor: Annotated[Optional[StrictStr], Field(description="Cursor is an opaque keyset cursor from a previous page's `next`. Empty means the first page.")] = None,
+        prefix: Annotated[Optional[StrictStr], Field(description="Prefix, when set, filters rows whose address begins with it (case-insensitive, on the normalized form). Suppression list only.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6064,10 +11313,14 @@ class MarketingApi:
     ) -> RESTResponseType:
         """Returns the org's opt-out list, newest first — everyone the send gate will refuse to deliver to.
 
-        Returns the org's opt-out list, newest first — everyone the send gate will refuse to deliver to.
+        Returns the org's opt-out list, newest first — everyone the send gate will refuse to deliver to. The page carries `next` (an opaque cursor for the following page, empty on the last) and `total` (the true count of this org's opt-outs on this channel, across every page).
 
         :param limit: Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.
         :type limit: int
+        :param cursor: Cursor is an opaque keyset cursor from a previous page's `next`. Empty means the first page.
+        :type cursor: str
+        :param prefix: Prefix, when set, filters rows whose address begins with it (case-insensitive, on the normalized form). Suppression list only.
+        :type prefix: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6092,6 +11345,8 @@ class MarketingApi:
 
         _param = self._get_marketing_suppressions_serialize(
             limit=limit,
+            cursor=cursor,
+            prefix=prefix,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6111,6 +11366,8 @@ class MarketingApi:
     def _get_marketing_suppressions_serialize(
         self,
         limit,
+        cursor,
+        prefix,
         _request_auth,
         _content_type,
         _headers,
@@ -6136,6 +11393,14 @@ class MarketingApi:
         if limit is not None:
             
             _query_params.append(('limit', limit))
+            
+        if cursor is not None:
+            
+            _query_params.append(('cursor', cursor))
+            
+        if prefix is not None:
+            
+            _query_params.append(('prefix', prefix))
             
         # process the header parameters
         # process the form parameters
@@ -6464,6 +11729,7 @@ class MarketingApi:
         address: Annotated[Optional[StrictStr], Field(description="Address is the recipient to opt out.")] = None,
         token: Annotated[Optional[StrictStr], Field(description="Token is the HMAC over (org, channel, address). It is the ONLY authority here — there is no principal — so it binds the request to one tuple and nothing else.")] = None,
         company: Annotated[Optional[StrictBool], Field(description="Company opts out everyone at the address's domain as well, in this org alone: a company's unsubscribe. An address at a free mail provider is a person's and is refused 422.")] = None,
+        list: Annotated[Optional[StrictStr], Field(description="List is the marketing list a broadcast's link leaves; with it the token is the list's, the address leaves that list alone, and the org's other mail still reaches it.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6491,6 +11757,8 @@ class MarketingApi:
         :type token: str
         :param company: Company opts out everyone at the address's domain as well, in this org alone: a company's unsubscribe. An address at a free mail provider is a person's and is refused 422.
         :type company: bool
+        :param list: List is the marketing list a broadcast's link leaves; with it the token is the list's, the address leaves that list alone, and the org's other mail still reaches it.
+        :type list: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6519,6 +11787,7 @@ class MarketingApi:
             address=address,
             token=token,
             company=company,
+            list=list,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6547,6 +11816,7 @@ class MarketingApi:
         address: Annotated[Optional[StrictStr], Field(description="Address is the recipient to opt out.")] = None,
         token: Annotated[Optional[StrictStr], Field(description="Token is the HMAC over (org, channel, address). It is the ONLY authority here — there is no principal — so it binds the request to one tuple and nothing else.")] = None,
         company: Annotated[Optional[StrictBool], Field(description="Company opts out everyone at the address's domain as well, in this org alone: a company's unsubscribe. An address at a free mail provider is a person's and is refused 422.")] = None,
+        list: Annotated[Optional[StrictStr], Field(description="List is the marketing list a broadcast's link leaves; with it the token is the list's, the address leaves that list alone, and the org's other mail still reaches it.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6574,6 +11844,8 @@ class MarketingApi:
         :type token: str
         :param company: Company opts out everyone at the address's domain as well, in this org alone: a company's unsubscribe. An address at a free mail provider is a person's and is refused 422.
         :type company: bool
+        :param list: List is the marketing list a broadcast's link leaves; with it the token is the list's, the address leaves that list alone, and the org's other mail still reaches it.
+        :type list: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6602,6 +11874,7 @@ class MarketingApi:
             address=address,
             token=token,
             company=company,
+            list=list,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6630,6 +11903,7 @@ class MarketingApi:
         address: Annotated[Optional[StrictStr], Field(description="Address is the recipient to opt out.")] = None,
         token: Annotated[Optional[StrictStr], Field(description="Token is the HMAC over (org, channel, address). It is the ONLY authority here — there is no principal — so it binds the request to one tuple and nothing else.")] = None,
         company: Annotated[Optional[StrictBool], Field(description="Company opts out everyone at the address's domain as well, in this org alone: a company's unsubscribe. An address at a free mail provider is a person's and is refused 422.")] = None,
+        list: Annotated[Optional[StrictStr], Field(description="List is the marketing list a broadcast's link leaves; with it the token is the list's, the address leaves that list alone, and the org's other mail still reaches it.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6657,6 +11931,8 @@ class MarketingApi:
         :type token: str
         :param company: Company opts out everyone at the address's domain as well, in this org alone: a company's unsubscribe. An address at a free mail provider is a person's and is refused 422.
         :type company: bool
+        :param list: List is the marketing list a broadcast's link leaves; with it the token is the list's, the address leaves that list alone, and the org's other mail still reaches it.
+        :type list: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6685,6 +11961,7 @@ class MarketingApi:
             address=address,
             token=token,
             company=company,
+            list=list,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6708,6 +11985,7 @@ class MarketingApi:
         address,
         token,
         company,
+        list,
         _request_auth,
         _content_type,
         _headers,
@@ -6750,6 +12028,10 @@ class MarketingApi:
             
             _query_params.append(('company', company))
             
+        if list is not None:
+            
+            _query_params.append(('list', list))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -6772,6 +12054,891 @@ class MarketingApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/marketing/unsubscribe',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def patch_marketing_broadcasts_by_id(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the broadcast to change, from the path; ignored on create.")],
+        marketing_broadcast_in: MarketingBroadcastIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingBroadcast:
+        """Changes the fields the body names on a draft or scheduled broadcast and answers it.
+
+        Changes the fields the body names on a draft or scheduled broadcast and answers it. One that is sending or done is 409.  Org admin only.
+
+        :param id: ID is the broadcast to change, from the path; ignored on create. (required)
+        :type id: str
+        :param marketing_broadcast_in: (required)
+        :type marketing_broadcast_in: MarketingBroadcastIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._patch_marketing_broadcasts_by_id_serialize(
+            id=id,
+            marketing_broadcast_in=marketing_broadcast_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingBroadcast",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def patch_marketing_broadcasts_by_id_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the broadcast to change, from the path; ignored on create.")],
+        marketing_broadcast_in: MarketingBroadcastIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingBroadcast]:
+        """Changes the fields the body names on a draft or scheduled broadcast and answers it.
+
+        Changes the fields the body names on a draft or scheduled broadcast and answers it. One that is sending or done is 409.  Org admin only.
+
+        :param id: ID is the broadcast to change, from the path; ignored on create. (required)
+        :type id: str
+        :param marketing_broadcast_in: (required)
+        :type marketing_broadcast_in: MarketingBroadcastIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._patch_marketing_broadcasts_by_id_serialize(
+            id=id,
+            marketing_broadcast_in=marketing_broadcast_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingBroadcast",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def patch_marketing_broadcasts_by_id_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the broadcast to change, from the path; ignored on create.")],
+        marketing_broadcast_in: MarketingBroadcastIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Changes the fields the body names on a draft or scheduled broadcast and answers it.
+
+        Changes the fields the body names on a draft or scheduled broadcast and answers it. One that is sending or done is 409.  Org admin only.
+
+        :param id: ID is the broadcast to change, from the path; ignored on create. (required)
+        :type id: str
+        :param marketing_broadcast_in: (required)
+        :type marketing_broadcast_in: MarketingBroadcastIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._patch_marketing_broadcasts_by_id_serialize(
+            id=id,
+            marketing_broadcast_in=marketing_broadcast_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingBroadcast",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _patch_marketing_broadcasts_by_id_serialize(
+        self,
+        id,
+        marketing_broadcast_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if marketing_broadcast_in is not None:
+            _body_params = marketing_broadcast_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PATCH',
+            resource_path='/v1/marketing/broadcasts/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def patch_marketing_lists_by_id(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list to change, from the path; ignored on create.")],
+        marketing_list_in: MarketingListIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingList:
+        """Changes the fields the body names on one of the org's lists and answers the list.
+
+        Changes the fields the body names on one of the org's lists and answers the list. A field left out keeps its value; an empty string clears a sender field back to the org's.  Org admin only.
+
+        :param id: ID is the list to change, from the path; ignored on create. (required)
+        :type id: str
+        :param marketing_list_in: (required)
+        :type marketing_list_in: MarketingListIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._patch_marketing_lists_by_id_serialize(
+            id=id,
+            marketing_list_in=marketing_list_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingList",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def patch_marketing_lists_by_id_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list to change, from the path; ignored on create.")],
+        marketing_list_in: MarketingListIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingList]:
+        """Changes the fields the body names on one of the org's lists and answers the list.
+
+        Changes the fields the body names on one of the org's lists and answers the list. A field left out keeps its value; an empty string clears a sender field back to the org's.  Org admin only.
+
+        :param id: ID is the list to change, from the path; ignored on create. (required)
+        :type id: str
+        :param marketing_list_in: (required)
+        :type marketing_list_in: MarketingListIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._patch_marketing_lists_by_id_serialize(
+            id=id,
+            marketing_list_in=marketing_list_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingList",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def patch_marketing_lists_by_id_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list to change, from the path; ignored on create.")],
+        marketing_list_in: MarketingListIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Changes the fields the body names on one of the org's lists and answers the list.
+
+        Changes the fields the body names on one of the org's lists and answers the list. A field left out keeps its value; an empty string clears a sender field back to the org's.  Org admin only.
+
+        :param id: ID is the list to change, from the path; ignored on create. (required)
+        :type id: str
+        :param marketing_list_in: (required)
+        :type marketing_list_in: MarketingListIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._patch_marketing_lists_by_id_serialize(
+            id=id,
+            marketing_list_in=marketing_list_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingList",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _patch_marketing_lists_by_id_serialize(
+        self,
+        id,
+        marketing_list_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if marketing_list_in is not None:
+            _body_params = marketing_list_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PATCH',
+            resource_path='/v1/marketing/lists/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def patch_marketing_lists_by_id_subscribers_by_sid(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug, from the path.")],
+        sid: Annotated[StrictInt, Field(description="SID is the subscriber to change, from the path; ignored on add.")],
+        marketing_subscriber_in: MarketingSubscriberIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingSubscriber:
+        """Changes the fields the body names on one subscriber and answers the row.
+
+        Changes the fields the body names on one subscriber and answers the row. A status change follows the same rule as add: an address that unsubscribed or complained is not put back by the org.  Org admin only.
+
+        :param id: ID is the list, by id or slug, from the path. (required)
+        :type id: str
+        :param sid: SID is the subscriber to change, from the path; ignored on add. (required)
+        :type sid: int
+        :param marketing_subscriber_in: (required)
+        :type marketing_subscriber_in: MarketingSubscriberIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._patch_marketing_lists_by_id_subscribers_by_sid_serialize(
+            id=id,
+            sid=sid,
+            marketing_subscriber_in=marketing_subscriber_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingSubscriber",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def patch_marketing_lists_by_id_subscribers_by_sid_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug, from the path.")],
+        sid: Annotated[StrictInt, Field(description="SID is the subscriber to change, from the path; ignored on add.")],
+        marketing_subscriber_in: MarketingSubscriberIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingSubscriber]:
+        """Changes the fields the body names on one subscriber and answers the row.
+
+        Changes the fields the body names on one subscriber and answers the row. A status change follows the same rule as add: an address that unsubscribed or complained is not put back by the org.  Org admin only.
+
+        :param id: ID is the list, by id or slug, from the path. (required)
+        :type id: str
+        :param sid: SID is the subscriber to change, from the path; ignored on add. (required)
+        :type sid: int
+        :param marketing_subscriber_in: (required)
+        :type marketing_subscriber_in: MarketingSubscriberIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._patch_marketing_lists_by_id_subscribers_by_sid_serialize(
+            id=id,
+            sid=sid,
+            marketing_subscriber_in=marketing_subscriber_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingSubscriber",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def patch_marketing_lists_by_id_subscribers_by_sid_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug, from the path.")],
+        sid: Annotated[StrictInt, Field(description="SID is the subscriber to change, from the path; ignored on add.")],
+        marketing_subscriber_in: MarketingSubscriberIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Changes the fields the body names on one subscriber and answers the row.
+
+        Changes the fields the body names on one subscriber and answers the row. A status change follows the same rule as add: an address that unsubscribed or complained is not put back by the org.  Org admin only.
+
+        :param id: ID is the list, by id or slug, from the path. (required)
+        :type id: str
+        :param sid: SID is the subscriber to change, from the path; ignored on add. (required)
+        :type sid: int
+        :param marketing_subscriber_in: (required)
+        :type marketing_subscriber_in: MarketingSubscriberIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._patch_marketing_lists_by_id_subscribers_by_sid_serialize(
+            id=id,
+            sid=sid,
+            marketing_subscriber_in=marketing_subscriber_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingSubscriber",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _patch_marketing_lists_by_id_subscribers_by_sid_serialize(
+        self,
+        id,
+        sid,
+        marketing_subscriber_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        if sid is not None:
+            _path_params['sid'] = sid
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if marketing_subscriber_in is not None:
+            _body_params = marketing_subscriber_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PATCH',
+            resource_path='/v1/marketing/lists/{id}/subscribers/{sid}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -8163,6 +14330,1123 @@ class MarketingApi:
 
 
     @validate_call
+    def post_marketing_broadcasts(
+        self,
+        marketing_broadcast_in: MarketingBroadcastIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingBroadcast:
+        """Composes a broadcast to one of the org's lists, or a segment of it, and answers 201 with it.
+
+        Composes a broadcast to one of the org's lists, or a segment of it, and answers 201 with it. With scheduledAt it is scheduled; without, a draft until sent.  Org admin only.
+
+        :param marketing_broadcast_in: (required)
+        :type marketing_broadcast_in: MarketingBroadcastIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_broadcasts_serialize(
+            marketing_broadcast_in=marketing_broadcast_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "MarketingBroadcast",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketing_broadcasts_with_http_info(
+        self,
+        marketing_broadcast_in: MarketingBroadcastIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingBroadcast]:
+        """Composes a broadcast to one of the org's lists, or a segment of it, and answers 201 with it.
+
+        Composes a broadcast to one of the org's lists, or a segment of it, and answers 201 with it. With scheduledAt it is scheduled; without, a draft until sent.  Org admin only.
+
+        :param marketing_broadcast_in: (required)
+        :type marketing_broadcast_in: MarketingBroadcastIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_broadcasts_serialize(
+            marketing_broadcast_in=marketing_broadcast_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "MarketingBroadcast",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketing_broadcasts_without_preload_content(
+        self,
+        marketing_broadcast_in: MarketingBroadcastIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Composes a broadcast to one of the org's lists, or a segment of it, and answers 201 with it.
+
+        Composes a broadcast to one of the org's lists, or a segment of it, and answers 201 with it. With scheduledAt it is scheduled; without, a draft until sent.  Org admin only.
+
+        :param marketing_broadcast_in: (required)
+        :type marketing_broadcast_in: MarketingBroadcastIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_broadcasts_serialize(
+            marketing_broadcast_in=marketing_broadcast_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "MarketingBroadcast",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketing_broadcasts_serialize(
+        self,
+        marketing_broadcast_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if marketing_broadcast_in is not None:
+            _body_params = marketing_broadcast_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketing/broadcasts',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_marketing_broadcasts_by_id_cancel(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the broadcast's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingBroadcast:
+        """Stops a scheduled or sending broadcast and answers it.
+
+        Stops a scheduled or sending broadcast and answers it. Who it already reached stays recorded.  Org admin only.
+
+        :param id: ID is the broadcast's id. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_broadcasts_by_id_cancel_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingBroadcast",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketing_broadcasts_by_id_cancel_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the broadcast's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingBroadcast]:
+        """Stops a scheduled or sending broadcast and answers it.
+
+        Stops a scheduled or sending broadcast and answers it. Who it already reached stays recorded.  Org admin only.
+
+        :param id: ID is the broadcast's id. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_broadcasts_by_id_cancel_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingBroadcast",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketing_broadcasts_by_id_cancel_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the broadcast's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Stops a scheduled or sending broadcast and answers it.
+
+        Stops a scheduled or sending broadcast and answers it. Who it already reached stays recorded.  Org admin only.
+
+        :param id: ID is the broadcast's id. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_broadcasts_by_id_cancel_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingBroadcast",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketing_broadcasts_by_id_cancel_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketing/broadcasts/{id}/cancel',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_marketing_broadcasts_by_id_send(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the broadcast, from the path.")],
+        marketing_send_in: MarketingSendIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingBroadcast:
+        """Sends a draft or scheduled broadcast now, or schedules it for at, and answers 202 with it.
+
+        Sends a draft or scheduled broadcast now, or schedules it for at, and answers 202 with it. The list's sender must carry a postal address, which every commercial mail states (CAN-SPAM); without one it is 422.  Org admin only.
+
+        :param id: ID is the broadcast, from the path. (required)
+        :type id: str
+        :param marketing_send_in: (required)
+        :type marketing_send_in: MarketingSendIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_broadcasts_by_id_send_serialize(
+            id=id,
+            marketing_send_in=marketing_send_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "MarketingBroadcast",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketing_broadcasts_by_id_send_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the broadcast, from the path.")],
+        marketing_send_in: MarketingSendIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingBroadcast]:
+        """Sends a draft or scheduled broadcast now, or schedules it for at, and answers 202 with it.
+
+        Sends a draft or scheduled broadcast now, or schedules it for at, and answers 202 with it. The list's sender must carry a postal address, which every commercial mail states (CAN-SPAM); without one it is 422.  Org admin only.
+
+        :param id: ID is the broadcast, from the path. (required)
+        :type id: str
+        :param marketing_send_in: (required)
+        :type marketing_send_in: MarketingSendIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_broadcasts_by_id_send_serialize(
+            id=id,
+            marketing_send_in=marketing_send_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "MarketingBroadcast",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketing_broadcasts_by_id_send_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the broadcast, from the path.")],
+        marketing_send_in: MarketingSendIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Sends a draft or scheduled broadcast now, or schedules it for at, and answers 202 with it.
+
+        Sends a draft or scheduled broadcast now, or schedules it for at, and answers 202 with it. The list's sender must carry a postal address, which every commercial mail states (CAN-SPAM); without one it is 422.  Org admin only.
+
+        :param id: ID is the broadcast, from the path. (required)
+        :type id: str
+        :param marketing_send_in: (required)
+        :type marketing_send_in: MarketingSendIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_broadcasts_by_id_send_serialize(
+            id=id,
+            marketing_send_in=marketing_send_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "MarketingBroadcast",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketing_broadcasts_by_id_send_serialize(
+        self,
+        id,
+        marketing_send_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if marketing_send_in is not None:
+            _body_params = marketing_send_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketing/broadcasts/{id}/send',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_marketing_broadcasts_by_id_test(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the broadcast, from the path.")],
+        marketing_test_in: MarketingTestIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingTestOut:
+        """Sends the broadcast as it stands to up to five addresses, its subject marked [Test], through the same rail and footer the real send takes.
+
+        Sends the broadcast as it stands to up to five addresses, its subject marked [Test], through the same rail and footer the real send takes.  Org admin only.
+
+        :param id: ID is the broadcast, from the path. (required)
+        :type id: str
+        :param marketing_test_in: (required)
+        :type marketing_test_in: MarketingTestIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_broadcasts_by_id_test_serialize(
+            id=id,
+            marketing_test_in=marketing_test_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingTestOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketing_broadcasts_by_id_test_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the broadcast, from the path.")],
+        marketing_test_in: MarketingTestIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingTestOut]:
+        """Sends the broadcast as it stands to up to five addresses, its subject marked [Test], through the same rail and footer the real send takes.
+
+        Sends the broadcast as it stands to up to five addresses, its subject marked [Test], through the same rail and footer the real send takes.  Org admin only.
+
+        :param id: ID is the broadcast, from the path. (required)
+        :type id: str
+        :param marketing_test_in: (required)
+        :type marketing_test_in: MarketingTestIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_broadcasts_by_id_test_serialize(
+            id=id,
+            marketing_test_in=marketing_test_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingTestOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketing_broadcasts_by_id_test_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the broadcast, from the path.")],
+        marketing_test_in: MarketingTestIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Sends the broadcast as it stands to up to five addresses, its subject marked [Test], through the same rail and footer the real send takes.
+
+        Sends the broadcast as it stands to up to five addresses, its subject marked [Test], through the same rail and footer the real send takes.  Org admin only.
+
+        :param id: ID is the broadcast, from the path. (required)
+        :type id: str
+        :param marketing_test_in: (required)
+        :type marketing_test_in: MarketingTestIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_broadcasts_by_id_test_serialize(
+            id=id,
+            marketing_test_in=marketing_test_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingTestOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketing_broadcasts_by_id_test_serialize(
+        self,
+        id,
+        marketing_test_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if marketing_test_in is not None:
+            _body_params = marketing_test_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketing/broadcasts/{id}/test',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def post_marketing_calendar(
         self,
         marketing_calendar_post: MarketingCalendarPost,
@@ -9003,6 +16287,808 @@ class MarketingApi:
 
 
     @validate_call
+    def post_marketing_imports(
+        self,
+        marketing_import_in: MarketingImportIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingCreated:
+        """Creates an import into one of the org's lists and answers it.
+
+        Creates an import into one of the org's lists and answers it. For a file the import waits in state receiving for its bytes (PUT /v1/marketing/imports/{id}/data); for a source (from: commerce) it is queued at once. A key makes the call idempotent: a second create with it answers the first import. The rows are stamped with the import's id as their source ref, so a filter on ref selects the batch.  Org admin only.
+
+        :param marketing_import_in: (required)
+        :type marketing_import_in: MarketingImportIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_imports_serialize(
+            marketing_import_in=marketing_import_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingCreated",
+            '201': "MarketingCreated",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketing_imports_with_http_info(
+        self,
+        marketing_import_in: MarketingImportIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingCreated]:
+        """Creates an import into one of the org's lists and answers it.
+
+        Creates an import into one of the org's lists and answers it. For a file the import waits in state receiving for its bytes (PUT /v1/marketing/imports/{id}/data); for a source (from: commerce) it is queued at once. A key makes the call idempotent: a second create with it answers the first import. The rows are stamped with the import's id as their source ref, so a filter on ref selects the batch.  Org admin only.
+
+        :param marketing_import_in: (required)
+        :type marketing_import_in: MarketingImportIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_imports_serialize(
+            marketing_import_in=marketing_import_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingCreated",
+            '201': "MarketingCreated",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketing_imports_without_preload_content(
+        self,
+        marketing_import_in: MarketingImportIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Creates an import into one of the org's lists and answers it.
+
+        Creates an import into one of the org's lists and answers it. For a file the import waits in state receiving for its bytes (PUT /v1/marketing/imports/{id}/data); for a source (from: commerce) it is queued at once. A key makes the call idempotent: a second create with it answers the first import. The rows are stamped with the import's id as their source ref, so a filter on ref selects the batch.  Org admin only.
+
+        :param marketing_import_in: (required)
+        :type marketing_import_in: MarketingImportIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_imports_serialize(
+            marketing_import_in=marketing_import_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingCreated",
+            '201': "MarketingCreated",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketing_imports_serialize(
+        self,
+        marketing_import_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if marketing_import_in is not None:
+            _body_params = marketing_import_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketing/imports',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_marketing_imports_by_id_cancel(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the import's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingImport:
+        """Stops an import that has not finished and answers it.
+
+        Stops an import that has not finished and answers it. The rows it already wrote stay; a filter on its id as ref selects them.  Org admin only.
+
+        :param id: ID is the import's id. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_imports_by_id_cancel_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingImport",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketing_imports_by_id_cancel_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the import's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingImport]:
+        """Stops an import that has not finished and answers it.
+
+        Stops an import that has not finished and answers it. The rows it already wrote stay; a filter on its id as ref selects them.  Org admin only.
+
+        :param id: ID is the import's id. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_imports_by_id_cancel_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingImport",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketing_imports_by_id_cancel_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the import's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Stops an import that has not finished and answers it.
+
+        Stops an import that has not finished and answers it. The rows it already wrote stay; a filter on its id as ref selects them.  Org admin only.
+
+        :param id: ID is the import's id. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_imports_by_id_cancel_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingImport",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketing_imports_by_id_cancel_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketing/imports/{id}/cancel',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_marketing_imports_by_id_start(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the import's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingImport:
+        """Queues an import whose bytes have all arrived and answers 202 with it; a worker reads it from there.
+
+        Queues an import whose bytes have all arrived and answers 202 with it; a worker reads it from there. An import with no bytes is 409.  Org admin only.
+
+        :param id: ID is the import's id. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_imports_by_id_start_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "MarketingImport",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketing_imports_by_id_start_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the import's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingImport]:
+        """Queues an import whose bytes have all arrived and answers 202 with it; a worker reads it from there.
+
+        Queues an import whose bytes have all arrived and answers 202 with it; a worker reads it from there. An import with no bytes is 409.  Org admin only.
+
+        :param id: ID is the import's id. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_imports_by_id_start_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "MarketingImport",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketing_imports_by_id_start_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the import's id.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Queues an import whose bytes have all arrived and answers 202 with it; a worker reads it from there.
+
+        Queues an import whose bytes have all arrived and answers 202 with it; a worker reads it from there. An import with no bytes is 409.  Org admin only.
+
+        :param id: ID is the import's id. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_imports_by_id_start_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "MarketingImport",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketing_imports_by_id_start_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketing/imports/{id}/start',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def post_marketing_leads(
         self,
         marketing_lead_in: MarketingLeadIn,
@@ -9021,7 +17107,7 @@ class MarketingApi:
     ) -> MarketingLead:
         """Files one public form in the deployment's own CRM.
 
-        Files one public form in the deployment's own CRM. A sales inquiry or a program application becomes a lead: the person, and the form on their timeline with every answer, the campaign and coupon its page carried; it is stated on the event plane and mailed to the brand's sales mailbox. A body naming a job opening becomes a candidate and its form, mailed to the brand's careers mailbox and stated nowhere. Program investor is an investor and their form at status submitted, stated nowhere, mailed to nobody, and sent a SAFE to sign (`sent` says whether it went). No account is needed: every record lands in the brand's org. A person signed in who applies to the beta also opens the products in beta (the CRM) for the org they act in. Answers 201 with an opaque reference.  A brand org whose Base cannot hold the CRM answers 503, a caller past ten forms in an hour 429, a body over 16 KiB 413, and a missing or malformed email 400 — in that order; an investor's form then answers 400 for its name, its amount (\"The minimum investment is $25,000.\"), its address, entity, title and phone, in that order.
+        Files one public form in the deployment's own CRM. A sales inquiry or a program application becomes a lead: the person, and the form on their timeline with every answer, the campaign and coupon its page carried; it is stated on the event plane and mailed to the brand's sales mailbox. A body naming a job opening becomes a candidate and its form, mailed to the brand's careers mailbox and stated nowhere. Program investor is an investor and their form at status submitted, stated nowhere, mailed to nobody, and sent a SAFE to sign (`sent` says whether it went). No account is needed: every record lands in the brand's org. A person signed in who applies to the beta also opens the products in beta (the CRM) for the org they act in. Answers 201 with an opaque reference.  A person signed in files under the address their token was issued to: a body naming another address is 400, and so is a sign-in issued with no address. An order that upgrades an organization names it in `upgrade`, sent signed in and acting in that organization (X-Org-Id) as its owner or an admin, and the lead records that verified handle; anyone else naming one is 403. `payment` is card or invoice, and an Enterprise inquiry paying by invoice is also stated as invoice_requested. X-Idempotency-Key makes a retry safe: the same key from the same address answers the same reference, and files, mails and states nothing twice; the same key sent with another form is 409. The sales mail states the payment and the verified organization to upgrade beside the answers.  A brand org whose Base cannot hold the CRM answers 503, a caller past ten forms in an hour 429, a body over 16 KiB 413, and a missing or malformed email 400 — in that order; an investor's form then answers 400 for its name, its amount (\"The minimum investment is $25,000.\"), its address, entity, title and phone, in that order.
 
         :param marketing_lead_in: (required)
         :type marketing_lead_in: MarketingLeadIn
@@ -9088,7 +17174,7 @@ class MarketingApi:
     ) -> ApiResponse[MarketingLead]:
         """Files one public form in the deployment's own CRM.
 
-        Files one public form in the deployment's own CRM. A sales inquiry or a program application becomes a lead: the person, and the form on their timeline with every answer, the campaign and coupon its page carried; it is stated on the event plane and mailed to the brand's sales mailbox. A body naming a job opening becomes a candidate and its form, mailed to the brand's careers mailbox and stated nowhere. Program investor is an investor and their form at status submitted, stated nowhere, mailed to nobody, and sent a SAFE to sign (`sent` says whether it went). No account is needed: every record lands in the brand's org. A person signed in who applies to the beta also opens the products in beta (the CRM) for the org they act in. Answers 201 with an opaque reference.  A brand org whose Base cannot hold the CRM answers 503, a caller past ten forms in an hour 429, a body over 16 KiB 413, and a missing or malformed email 400 — in that order; an investor's form then answers 400 for its name, its amount (\"The minimum investment is $25,000.\"), its address, entity, title and phone, in that order.
+        Files one public form in the deployment's own CRM. A sales inquiry or a program application becomes a lead: the person, and the form on their timeline with every answer, the campaign and coupon its page carried; it is stated on the event plane and mailed to the brand's sales mailbox. A body naming a job opening becomes a candidate and its form, mailed to the brand's careers mailbox and stated nowhere. Program investor is an investor and their form at status submitted, stated nowhere, mailed to nobody, and sent a SAFE to sign (`sent` says whether it went). No account is needed: every record lands in the brand's org. A person signed in who applies to the beta also opens the products in beta (the CRM) for the org they act in. Answers 201 with an opaque reference.  A person signed in files under the address their token was issued to: a body naming another address is 400, and so is a sign-in issued with no address. An order that upgrades an organization names it in `upgrade`, sent signed in and acting in that organization (X-Org-Id) as its owner or an admin, and the lead records that verified handle; anyone else naming one is 403. `payment` is card or invoice, and an Enterprise inquiry paying by invoice is also stated as invoice_requested. X-Idempotency-Key makes a retry safe: the same key from the same address answers the same reference, and files, mails and states nothing twice; the same key sent with another form is 409. The sales mail states the payment and the verified organization to upgrade beside the answers.  A brand org whose Base cannot hold the CRM answers 503, a caller past ten forms in an hour 429, a body over 16 KiB 413, and a missing or malformed email 400 — in that order; an investor's form then answers 400 for its name, its amount (\"The minimum investment is $25,000.\"), its address, entity, title and phone, in that order.
 
         :param marketing_lead_in: (required)
         :type marketing_lead_in: MarketingLeadIn
@@ -9155,7 +17241,7 @@ class MarketingApi:
     ) -> RESTResponseType:
         """Files one public form in the deployment's own CRM.
 
-        Files one public form in the deployment's own CRM. A sales inquiry or a program application becomes a lead: the person, and the form on their timeline with every answer, the campaign and coupon its page carried; it is stated on the event plane and mailed to the brand's sales mailbox. A body naming a job opening becomes a candidate and its form, mailed to the brand's careers mailbox and stated nowhere. Program investor is an investor and their form at status submitted, stated nowhere, mailed to nobody, and sent a SAFE to sign (`sent` says whether it went). No account is needed: every record lands in the brand's org. A person signed in who applies to the beta also opens the products in beta (the CRM) for the org they act in. Answers 201 with an opaque reference.  A brand org whose Base cannot hold the CRM answers 503, a caller past ten forms in an hour 429, a body over 16 KiB 413, and a missing or malformed email 400 — in that order; an investor's form then answers 400 for its name, its amount (\"The minimum investment is $25,000.\"), its address, entity, title and phone, in that order.
+        Files one public form in the deployment's own CRM. A sales inquiry or a program application becomes a lead: the person, and the form on their timeline with every answer, the campaign and coupon its page carried; it is stated on the event plane and mailed to the brand's sales mailbox. A body naming a job opening becomes a candidate and its form, mailed to the brand's careers mailbox and stated nowhere. Program investor is an investor and their form at status submitted, stated nowhere, mailed to nobody, and sent a SAFE to sign (`sent` says whether it went). No account is needed: every record lands in the brand's org. A person signed in who applies to the beta also opens the products in beta (the CRM) for the org they act in. Answers 201 with an opaque reference.  A person signed in files under the address their token was issued to: a body naming another address is 400, and so is a sign-in issued with no address. An order that upgrades an organization names it in `upgrade`, sent signed in and acting in that organization (X-Org-Id) as its owner or an admin, and the lead records that verified handle; anyone else naming one is 403. `payment` is card or invoice, and an Enterprise inquiry paying by invoice is also stated as invoice_requested. X-Idempotency-Key makes a retry safe: the same key from the same address answers the same reference, and files, mails and states nothing twice; the same key sent with another form is 409. The sales mail states the payment and the verified organization to upgrade beside the answers.  A brand org whose Base cannot hold the CRM answers 503, a caller past ten forms in an hour 429, a body over 16 KiB 413, and a missing or malformed email 400 — in that order; an investor's form then answers 400 for its name, its amount (\"The minimum investment is $25,000.\"), its address, entity, title and phone, in that order.
 
         :param marketing_lead_in: (required)
         :type marketing_lead_in: MarketingLeadIn
@@ -9812,6 +17898,1154 @@ class MarketingApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/marketing/leads/resume',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_marketing_lists(
+        self,
+        marketing_list_in: MarketingListIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingList:
+        """Creates a list in the org and answers 201 with it.
+
+        Creates a list in the org and answers 201 with it. Name is required; a new list is private, asks public subscribers to confirm, and takes the org's sender for every sender field it leaves empty. A slug the org already uses is 409.  Org admin only.
+
+        :param marketing_list_in: (required)
+        :type marketing_list_in: MarketingListIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_lists_serialize(
+            marketing_list_in=marketing_list_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "MarketingList",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketing_lists_with_http_info(
+        self,
+        marketing_list_in: MarketingListIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingList]:
+        """Creates a list in the org and answers 201 with it.
+
+        Creates a list in the org and answers 201 with it. Name is required; a new list is private, asks public subscribers to confirm, and takes the org's sender for every sender field it leaves empty. A slug the org already uses is 409.  Org admin only.
+
+        :param marketing_list_in: (required)
+        :type marketing_list_in: MarketingListIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_lists_serialize(
+            marketing_list_in=marketing_list_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "MarketingList",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketing_lists_without_preload_content(
+        self,
+        marketing_list_in: MarketingListIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Creates a list in the org and answers 201 with it.
+
+        Creates a list in the org and answers 201 with it. Name is required; a new list is private, asks public subscribers to confirm, and takes the org's sender for every sender field it leaves empty. A slug the org already uses is 409.  Org admin only.
+
+        :param marketing_list_in: (required)
+        :type marketing_list_in: MarketingListIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_lists_serialize(
+            marketing_list_in=marketing_list_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "MarketingList",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketing_lists_serialize(
+        self,
+        marketing_list_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if marketing_list_in is not None:
+            _body_params = marketing_list_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketing/lists',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_marketing_lists_by_id_segments(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug, from the path.")],
+        marketing_segment_in: MarketingSegmentIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingSegment:
+        """Saves a filter over one list as a segment and answers 201 with it and how many subscribers it selects now.
+
+        Saves a filter over one list as a segment and answers 201 with it and how many subscribers it selects now.  Org admin only.
+
+        :param id: ID is the list, by id or slug, from the path. (required)
+        :type id: str
+        :param marketing_segment_in: (required)
+        :type marketing_segment_in: MarketingSegmentIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_lists_by_id_segments_serialize(
+            id=id,
+            marketing_segment_in=marketing_segment_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "MarketingSegment",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketing_lists_by_id_segments_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug, from the path.")],
+        marketing_segment_in: MarketingSegmentIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingSegment]:
+        """Saves a filter over one list as a segment and answers 201 with it and how many subscribers it selects now.
+
+        Saves a filter over one list as a segment and answers 201 with it and how many subscribers it selects now.  Org admin only.
+
+        :param id: ID is the list, by id or slug, from the path. (required)
+        :type id: str
+        :param marketing_segment_in: (required)
+        :type marketing_segment_in: MarketingSegmentIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_lists_by_id_segments_serialize(
+            id=id,
+            marketing_segment_in=marketing_segment_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "MarketingSegment",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketing_lists_by_id_segments_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug, from the path.")],
+        marketing_segment_in: MarketingSegmentIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Saves a filter over one list as a segment and answers 201 with it and how many subscribers it selects now.
+
+        Saves a filter over one list as a segment and answers 201 with it and how many subscribers it selects now.  Org admin only.
+
+        :param id: ID is the list, by id or slug, from the path. (required)
+        :type id: str
+        :param marketing_segment_in: (required)
+        :type marketing_segment_in: MarketingSegmentIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_lists_by_id_segments_serialize(
+            id=id,
+            marketing_segment_in=marketing_segment_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "MarketingSegment",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketing_lists_by_id_segments_serialize(
+        self,
+        id,
+        marketing_segment_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if marketing_segment_in is not None:
+            _body_params = marketing_segment_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketing/lists/{id}/segments',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_marketing_lists_by_id_subscribers(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug, from the path.")],
+        marketing_subscriber_in: MarketingSubscriberIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingAdded:
+        """Adds an address to one of the org's lists, or updates it when it is already there, and answers 201 or 200 with the row.
+
+        Adds an address to one of the org's lists, or updates it when it is already there, and answers 201 or 200 with the row. Pending mails the address a link to confirm. An address that unsubscribed or complained cannot be put back by the org: it is 409, and the person rejoins by subscribing and confirming again.  Org admin only.
+
+        :param id: ID is the list, by id or slug, from the path. (required)
+        :type id: str
+        :param marketing_subscriber_in: (required)
+        :type marketing_subscriber_in: MarketingSubscriberIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_lists_by_id_subscribers_serialize(
+            id=id,
+            marketing_subscriber_in=marketing_subscriber_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingAdded",
+            '201': "MarketingAdded",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketing_lists_by_id_subscribers_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug, from the path.")],
+        marketing_subscriber_in: MarketingSubscriberIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingAdded]:
+        """Adds an address to one of the org's lists, or updates it when it is already there, and answers 201 or 200 with the row.
+
+        Adds an address to one of the org's lists, or updates it when it is already there, and answers 201 or 200 with the row. Pending mails the address a link to confirm. An address that unsubscribed or complained cannot be put back by the org: it is 409, and the person rejoins by subscribing and confirming again.  Org admin only.
+
+        :param id: ID is the list, by id or slug, from the path. (required)
+        :type id: str
+        :param marketing_subscriber_in: (required)
+        :type marketing_subscriber_in: MarketingSubscriberIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_lists_by_id_subscribers_serialize(
+            id=id,
+            marketing_subscriber_in=marketing_subscriber_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingAdded",
+            '201': "MarketingAdded",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketing_lists_by_id_subscribers_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug, from the path.")],
+        marketing_subscriber_in: MarketingSubscriberIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Adds an address to one of the org's lists, or updates it when it is already there, and answers 201 or 200 with the row.
+
+        Adds an address to one of the org's lists, or updates it when it is already there, and answers 201 or 200 with the row. Pending mails the address a link to confirm. An address that unsubscribed or complained cannot be put back by the org: it is 409, and the person rejoins by subscribing and confirming again.  Org admin only.
+
+        :param id: ID is the list, by id or slug, from the path. (required)
+        :type id: str
+        :param marketing_subscriber_in: (required)
+        :type marketing_subscriber_in: MarketingSubscriberIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_lists_by_id_subscribers_serialize(
+            id=id,
+            marketing_subscriber_in=marketing_subscriber_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingAdded",
+            '201': "MarketingAdded",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketing_lists_by_id_subscribers_serialize(
+        self,
+        id,
+        marketing_subscriber_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if marketing_subscriber_in is not None:
+            _body_params = marketing_subscriber_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketing/lists/{id}/subscribers',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_marketing_lists_by_id_subscribers_bulk(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug, from the path.")],
+        marketing_bulk_in: MarketingBulkIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingBulkOut:
+        """Applies one action to a selection of a list and answers how many rows it matched and changed.
+
+        Applies one action to a selection of a list and answers how many rows it matched and changed. The selection is ids, a saved segment, a filter, or the whole list. It walks the selection in batches of a thousand, one transaction each, so millions of rows move in bounded memory: tag and untag add or remove a tag; move moves the rows to another list of the org; unsubscribe and clean set those statuses on every row that is pending or subscribed, each telling the CRM and the event stream; delete removes the rows and their evidence.  Org admin only.
+
+        :param id: ID is the list, by id or slug, from the path. (required)
+        :type id: str
+        :param marketing_bulk_in: (required)
+        :type marketing_bulk_in: MarketingBulkIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_lists_by_id_subscribers_bulk_serialize(
+            id=id,
+            marketing_bulk_in=marketing_bulk_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingBulkOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketing_lists_by_id_subscribers_bulk_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug, from the path.")],
+        marketing_bulk_in: MarketingBulkIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingBulkOut]:
+        """Applies one action to a selection of a list and answers how many rows it matched and changed.
+
+        Applies one action to a selection of a list and answers how many rows it matched and changed. The selection is ids, a saved segment, a filter, or the whole list. It walks the selection in batches of a thousand, one transaction each, so millions of rows move in bounded memory: tag and untag add or remove a tag; move moves the rows to another list of the org; unsubscribe and clean set those statuses on every row that is pending or subscribed, each telling the CRM and the event stream; delete removes the rows and their evidence.  Org admin only.
+
+        :param id: ID is the list, by id or slug, from the path. (required)
+        :type id: str
+        :param marketing_bulk_in: (required)
+        :type marketing_bulk_in: MarketingBulkIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_lists_by_id_subscribers_bulk_serialize(
+            id=id,
+            marketing_bulk_in=marketing_bulk_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingBulkOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketing_lists_by_id_subscribers_bulk_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug, from the path.")],
+        marketing_bulk_in: MarketingBulkIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Applies one action to a selection of a list and answers how many rows it matched and changed.
+
+        Applies one action to a selection of a list and answers how many rows it matched and changed. The selection is ids, a saved segment, a filter, or the whole list. It walks the selection in batches of a thousand, one transaction each, so millions of rows move in bounded memory: tag and untag add or remove a tag; move moves the rows to another list of the org; unsubscribe and clean set those statuses on every row that is pending or subscribed, each telling the CRM and the event stream; delete removes the rows and their evidence.  Org admin only.
+
+        :param id: ID is the list, by id or slug, from the path. (required)
+        :type id: str
+        :param marketing_bulk_in: (required)
+        :type marketing_bulk_in: MarketingBulkIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_lists_by_id_subscribers_bulk_serialize(
+            id=id,
+            marketing_bulk_in=marketing_bulk_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingBulkOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketing_lists_by_id_subscribers_bulk_serialize(
+        self,
+        id,
+        marketing_bulk_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if marketing_bulk_in is not None:
+            _body_params = marketing_bulk_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketing/lists/{id}/subscribers/bulk',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -11814,6 +21048,554 @@ class MarketingApi:
 
 
     @validate_call
+    def post_marketing_subscribe(
+        self,
+        marketing_subscribe_in: MarketingSubscribeIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingSubscription:
+        """Asks for the brand's newsletter for an address and answers 202 pending.
+
+        Asks for the brand's newsletter for an address and answers 202 pending. Nothing is recorded: the address is mailed a link to confirm, good for seven days, and only a press on it subscribes. The answer is the same for an address that is new, already subscribed or unsubscribed, and each is mailed alike, so the answer says nothing about the address; one that unsubscribed gets the link too, which is how it comes back. No account is needed, and nothing is told to the sales mailbox or stated to an ad platform.  A deployment whose brand cannot hold the newsletter answers 503, a caller past ten requests in an hour 429, a body over 4 KiB 413, a missing or malformed email 400, and an address already sent three links today, or a deployment past its hourly ceiling, 429, in that order.
+
+        :param marketing_subscribe_in: (required)
+        :type marketing_subscribe_in: MarketingSubscribeIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_subscribe_serialize(
+            marketing_subscribe_in=marketing_subscribe_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "MarketingSubscription",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketing_subscribe_with_http_info(
+        self,
+        marketing_subscribe_in: MarketingSubscribeIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingSubscription]:
+        """Asks for the brand's newsletter for an address and answers 202 pending.
+
+        Asks for the brand's newsletter for an address and answers 202 pending. Nothing is recorded: the address is mailed a link to confirm, good for seven days, and only a press on it subscribes. The answer is the same for an address that is new, already subscribed or unsubscribed, and each is mailed alike, so the answer says nothing about the address; one that unsubscribed gets the link too, which is how it comes back. No account is needed, and nothing is told to the sales mailbox or stated to an ad platform.  A deployment whose brand cannot hold the newsletter answers 503, a caller past ten requests in an hour 429, a body over 4 KiB 413, a missing or malformed email 400, and an address already sent three links today, or a deployment past its hourly ceiling, 429, in that order.
+
+        :param marketing_subscribe_in: (required)
+        :type marketing_subscribe_in: MarketingSubscribeIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_subscribe_serialize(
+            marketing_subscribe_in=marketing_subscribe_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "MarketingSubscription",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketing_subscribe_without_preload_content(
+        self,
+        marketing_subscribe_in: MarketingSubscribeIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Asks for the brand's newsletter for an address and answers 202 pending.
+
+        Asks for the brand's newsletter for an address and answers 202 pending. Nothing is recorded: the address is mailed a link to confirm, good for seven days, and only a press on it subscribes. The answer is the same for an address that is new, already subscribed or unsubscribed, and each is mailed alike, so the answer says nothing about the address; one that unsubscribed gets the link too, which is how it comes back. No account is needed, and nothing is told to the sales mailbox or stated to an ad platform.  A deployment whose brand cannot hold the newsletter answers 503, a caller past ten requests in an hour 429, a body over 4 KiB 413, a missing or malformed email 400, and an address already sent three links today, or a deployment past its hourly ceiling, 429, in that order.
+
+        :param marketing_subscribe_in: (required)
+        :type marketing_subscribe_in: MarketingSubscribeIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_subscribe_serialize(
+            marketing_subscribe_in=marketing_subscribe_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "MarketingSubscription",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketing_subscribe_serialize(
+        self,
+        marketing_subscribe_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if marketing_subscribe_in is not None:
+            _body_params = marketing_subscribe_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketing/subscribe',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_marketing_subscribe_confirm(
+        self,
+        marketing_confirm_in: MarketingConfirmIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingSubscription:
+        """Subscribes the address a confirmation link names and answers 200 confirmed.
+
+        Subscribes the address a confirmation link names and answers 200 confirmed. The token is the t value in the link's fragment, and it is the only authority. The subscriber is filed in the brand's CRM: the person, their place on the Newsletter list, and the confirmation on their timeline with the page and language it came from, when it was asked for, and when and from which address it was confirmed (double opt-in). The brand's opt-out for that address is lifted, since the person asked to come back. Pressing the same link again answers 200 and changes nothing.  A caller past thirty presses in an hour answers 429, a link that is missing, malformed, altered or signed elsewhere 400, one older than seven days 410, and a deployment whose brand cannot hold the CRM 503.
+
+        :param marketing_confirm_in: (required)
+        :type marketing_confirm_in: MarketingConfirmIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_subscribe_confirm_serialize(
+            marketing_confirm_in=marketing_confirm_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingSubscription",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketing_subscribe_confirm_with_http_info(
+        self,
+        marketing_confirm_in: MarketingConfirmIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingSubscription]:
+        """Subscribes the address a confirmation link names and answers 200 confirmed.
+
+        Subscribes the address a confirmation link names and answers 200 confirmed. The token is the t value in the link's fragment, and it is the only authority. The subscriber is filed in the brand's CRM: the person, their place on the Newsletter list, and the confirmation on their timeline with the page and language it came from, when it was asked for, and when and from which address it was confirmed (double opt-in). The brand's opt-out for that address is lifted, since the person asked to come back. Pressing the same link again answers 200 and changes nothing.  A caller past thirty presses in an hour answers 429, a link that is missing, malformed, altered or signed elsewhere 400, one older than seven days 410, and a deployment whose brand cannot hold the CRM 503.
+
+        :param marketing_confirm_in: (required)
+        :type marketing_confirm_in: MarketingConfirmIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_subscribe_confirm_serialize(
+            marketing_confirm_in=marketing_confirm_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingSubscription",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketing_subscribe_confirm_without_preload_content(
+        self,
+        marketing_confirm_in: MarketingConfirmIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Subscribes the address a confirmation link names and answers 200 confirmed.
+
+        Subscribes the address a confirmation link names and answers 200 confirmed. The token is the t value in the link's fragment, and it is the only authority. The subscriber is filed in the brand's CRM: the person, their place on the Newsletter list, and the confirmation on their timeline with the page and language it came from, when it was asked for, and when and from which address it was confirmed (double opt-in). The brand's opt-out for that address is lifted, since the person asked to come back. Pressing the same link again answers 200 and changes nothing.  A caller past thirty presses in an hour answers 429, a link that is missing, malformed, altered or signed elsewhere 400, one older than seven days 410, and a deployment whose brand cannot hold the CRM 503.
+
+        :param marketing_confirm_in: (required)
+        :type marketing_confirm_in: MarketingConfirmIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_subscribe_confirm_serialize(
+            marketing_confirm_in=marketing_confirm_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingSubscription",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketing_subscribe_confirm_serialize(
+        self,
+        marketing_confirm_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if marketing_confirm_in is not None:
+            _body_params = marketing_confirm_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketing/subscribe/confirm',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def post_marketing_suppressions(
         self,
         marketing_suppression: MarketingSuppression,
@@ -12095,6 +21877,7 @@ class MarketingApi:
         channel: Annotated[Optional[StrictStr], Field(description="Channel is the surface to opt out of.")] = None,
         address: Annotated[Optional[StrictStr], Field(description="Address is the recipient to opt out.")] = None,
         token: Annotated[Optional[StrictStr], Field(description="Token is the HMAC over (org, channel, address), the only authority here.")] = None,
+        list: Annotated[Optional[StrictStr], Field(description="List is the marketing list the link leaves, as on the signed link.")] = None,
         list_unsubscribe: Annotated[Optional[StrictStr], Field(description="OneClick is the form's List-Unsubscribe field, \\\"One-Click\\\" from a mail client. The token decides; this field only names the form.")] = None,
         _request_timeout: Union[
             None,
@@ -12121,6 +21904,8 @@ class MarketingApi:
         :type address: str
         :param token: Token is the HMAC over (org, channel, address), the only authority here.
         :type token: str
+        :param list: List is the marketing list the link leaves, as on the signed link.
+        :type list: str
         :param list_unsubscribe: OneClick is the form's List-Unsubscribe field, \\\"One-Click\\\" from a mail client. The token decides; this field only names the form.
         :type list_unsubscribe: str
         :param _request_timeout: timeout setting for this request. If one
@@ -12150,6 +21935,7 @@ class MarketingApi:
             channel=channel,
             address=address,
             token=token,
+            list=list,
             list_unsubscribe=list_unsubscribe,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -12178,6 +21964,7 @@ class MarketingApi:
         channel: Annotated[Optional[StrictStr], Field(description="Channel is the surface to opt out of.")] = None,
         address: Annotated[Optional[StrictStr], Field(description="Address is the recipient to opt out.")] = None,
         token: Annotated[Optional[StrictStr], Field(description="Token is the HMAC over (org, channel, address), the only authority here.")] = None,
+        list: Annotated[Optional[StrictStr], Field(description="List is the marketing list the link leaves, as on the signed link.")] = None,
         list_unsubscribe: Annotated[Optional[StrictStr], Field(description="OneClick is the form's List-Unsubscribe field, \\\"One-Click\\\" from a mail client. The token decides; this field only names the form.")] = None,
         _request_timeout: Union[
             None,
@@ -12204,6 +21991,8 @@ class MarketingApi:
         :type address: str
         :param token: Token is the HMAC over (org, channel, address), the only authority here.
         :type token: str
+        :param list: List is the marketing list the link leaves, as on the signed link.
+        :type list: str
         :param list_unsubscribe: OneClick is the form's List-Unsubscribe field, \\\"One-Click\\\" from a mail client. The token decides; this field only names the form.
         :type list_unsubscribe: str
         :param _request_timeout: timeout setting for this request. If one
@@ -12233,6 +22022,7 @@ class MarketingApi:
             channel=channel,
             address=address,
             token=token,
+            list=list,
             list_unsubscribe=list_unsubscribe,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -12261,6 +22051,7 @@ class MarketingApi:
         channel: Annotated[Optional[StrictStr], Field(description="Channel is the surface to opt out of.")] = None,
         address: Annotated[Optional[StrictStr], Field(description="Address is the recipient to opt out.")] = None,
         token: Annotated[Optional[StrictStr], Field(description="Token is the HMAC over (org, channel, address), the only authority here.")] = None,
+        list: Annotated[Optional[StrictStr], Field(description="List is the marketing list the link leaves, as on the signed link.")] = None,
         list_unsubscribe: Annotated[Optional[StrictStr], Field(description="OneClick is the form's List-Unsubscribe field, \\\"One-Click\\\" from a mail client. The token decides; this field only names the form.")] = None,
         _request_timeout: Union[
             None,
@@ -12287,6 +22078,8 @@ class MarketingApi:
         :type address: str
         :param token: Token is the HMAC over (org, channel, address), the only authority here.
         :type token: str
+        :param list: List is the marketing list the link leaves, as on the signed link.
+        :type list: str
         :param list_unsubscribe: OneClick is the form's List-Unsubscribe field, \\\"One-Click\\\" from a mail client. The token decides; this field only names the form.
         :type list_unsubscribe: str
         :param _request_timeout: timeout setting for this request. If one
@@ -12316,6 +22109,7 @@ class MarketingApi:
             channel=channel,
             address=address,
             token=token,
+            list=list,
             list_unsubscribe=list_unsubscribe,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -12339,6 +22133,7 @@ class MarketingApi:
         channel,
         address,
         token,
+        list,
         list_unsubscribe,
         _request_auth,
         _content_type,
@@ -12377,6 +22172,10 @@ class MarketingApi:
         if token is not None:
             
             _query_params.append(('token', token))
+            
+        if list is not None:
+            
+            _query_params.append(('list', list))
             
         # process the header parameters
         # process the form parameters
@@ -13272,6 +23071,1112 @@ class MarketingApi:
         return self.api_client.param_serialize(
             method='PUT',
             resource_path='/v1/marketing/campaigns/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def put_marketing_fields(
+        self,
+        marketing_field_set: MarketingFieldSet,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingFieldSet:
+        """Replaces the org's custom fields with the set the body carries and answers it.
+
+        Replaces the org's custom fields with the set the body carries and answers it. A field dropped from the set is removed from every subscriber; a field kept keeps its values when its type does not change, and a changed type is 409 while any subscriber has a value for it.  Org admin only.
+
+        :param marketing_field_set: (required)
+        :type marketing_field_set: MarketingFieldSet
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_marketing_fields_serialize(
+            marketing_field_set=marketing_field_set,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingFieldSet",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def put_marketing_fields_with_http_info(
+        self,
+        marketing_field_set: MarketingFieldSet,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingFieldSet]:
+        """Replaces the org's custom fields with the set the body carries and answers it.
+
+        Replaces the org's custom fields with the set the body carries and answers it. A field dropped from the set is removed from every subscriber; a field kept keeps its values when its type does not change, and a changed type is 409 while any subscriber has a value for it.  Org admin only.
+
+        :param marketing_field_set: (required)
+        :type marketing_field_set: MarketingFieldSet
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_marketing_fields_serialize(
+            marketing_field_set=marketing_field_set,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingFieldSet",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def put_marketing_fields_without_preload_content(
+        self,
+        marketing_field_set: MarketingFieldSet,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Replaces the org's custom fields with the set the body carries and answers it.
+
+        Replaces the org's custom fields with the set the body carries and answers it. A field dropped from the set is removed from every subscriber; a field kept keeps its values when its type does not change, and a changed type is 409 while any subscriber has a value for it.  Org admin only.
+
+        :param marketing_field_set: (required)
+        :type marketing_field_set: MarketingFieldSet
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_marketing_fields_serialize(
+            marketing_field_set=marketing_field_set,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingFieldSet",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _put_marketing_fields_serialize(
+        self,
+        marketing_field_set,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if marketing_field_set is not None:
+            _body_params = marketing_field_set
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/v1/marketing/fields',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def put_marketing_imports_by_id_data(
+        self,
+        id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Takes a piece of an import's file at the offset the query names and answers how many bytes the import now holds.
+
+        Takes a piece of an import's file at the offset the query names and answers how many bytes the import now holds. A piece at an offset the import has passed is taken only past what it holds, so a retried piece writes nothing twice; a piece past the end is 409 naming the offset to resume from. Send the file in order, in pieces of any size up to the request limit, then start it.  Org admin only.
+
+        :param id: (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_marketing_imports_by_id_data_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def put_marketing_imports_by_id_data_with_http_info(
+        self,
+        id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Takes a piece of an import's file at the offset the query names and answers how many bytes the import now holds.
+
+        Takes a piece of an import's file at the offset the query names and answers how many bytes the import now holds. A piece at an offset the import has passed is taken only past what it holds, so a retried piece writes nothing twice; a piece past the end is 409 naming the offset to resume from. Send the file in order, in pieces of any size up to the request limit, then start it.  Org admin only.
+
+        :param id: (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_marketing_imports_by_id_data_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def put_marketing_imports_by_id_data_without_preload_content(
+        self,
+        id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Takes a piece of an import's file at the offset the query names and answers how many bytes the import now holds.
+
+        Takes a piece of an import's file at the offset the query names and answers how many bytes the import now holds. A piece at an offset the import has passed is taken only past what it holds, so a retried piece writes nothing twice; a piece past the end is 409 naming the offset to resume from. Send the file in order, in pieces of any size up to the request limit, then start it.  Org admin only.
+
+        :param id: (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_marketing_imports_by_id_data_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _put_marketing_imports_by_id_data_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/v1/marketing/imports/{id}/data',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def put_marketing_lists_by_id_segments_by_sid(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug, from the path.")],
+        sid: Annotated[StrictStr, Field(description="SID is the segment to change, from the path; ignored on create.")],
+        marketing_segment_in: MarketingSegmentIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingSegment:
+        """Replaces a segment's name and filter and answers it with how many subscribers it selects now.
+
+        Replaces a segment's name and filter and answers it with how many subscribers it selects now.  Org admin only.
+
+        :param id: ID is the list, by id or slug, from the path. (required)
+        :type id: str
+        :param sid: SID is the segment to change, from the path; ignored on create. (required)
+        :type sid: str
+        :param marketing_segment_in: (required)
+        :type marketing_segment_in: MarketingSegmentIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_marketing_lists_by_id_segments_by_sid_serialize(
+            id=id,
+            sid=sid,
+            marketing_segment_in=marketing_segment_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingSegment",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def put_marketing_lists_by_id_segments_by_sid_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug, from the path.")],
+        sid: Annotated[StrictStr, Field(description="SID is the segment to change, from the path; ignored on create.")],
+        marketing_segment_in: MarketingSegmentIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingSegment]:
+        """Replaces a segment's name and filter and answers it with how many subscribers it selects now.
+
+        Replaces a segment's name and filter and answers it with how many subscribers it selects now.  Org admin only.
+
+        :param id: ID is the list, by id or slug, from the path. (required)
+        :type id: str
+        :param sid: SID is the segment to change, from the path; ignored on create. (required)
+        :type sid: str
+        :param marketing_segment_in: (required)
+        :type marketing_segment_in: MarketingSegmentIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_marketing_lists_by_id_segments_by_sid_serialize(
+            id=id,
+            sid=sid,
+            marketing_segment_in=marketing_segment_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingSegment",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def put_marketing_lists_by_id_segments_by_sid_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the list, by id or slug, from the path.")],
+        sid: Annotated[StrictStr, Field(description="SID is the segment to change, from the path; ignored on create.")],
+        marketing_segment_in: MarketingSegmentIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Replaces a segment's name and filter and answers it with how many subscribers it selects now.
+
+        Replaces a segment's name and filter and answers it with how many subscribers it selects now.  Org admin only.
+
+        :param id: ID is the list, by id or slug, from the path. (required)
+        :type id: str
+        :param sid: SID is the segment to change, from the path; ignored on create. (required)
+        :type sid: str
+        :param marketing_segment_in: (required)
+        :type marketing_segment_in: MarketingSegmentIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_marketing_lists_by_id_segments_by_sid_serialize(
+            id=id,
+            sid=sid,
+            marketing_segment_in=marketing_segment_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingSegment",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _put_marketing_lists_by_id_segments_by_sid_serialize(
+        self,
+        id,
+        sid,
+        marketing_segment_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        if sid is not None:
+            _path_params['sid'] = sid
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if marketing_segment_in is not None:
+            _body_params = marketing_segment_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/v1/marketing/lists/{id}/segments/{sid}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def put_marketing_sender(
+        self,
+        marketing_sender: MarketingSender,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingSender:
+        """Replaces the org's sender and answers it.
+
+        Replaces the org's sender and answers it. Every field is written; one left out is cleared.  Org admin only.
+
+        :param marketing_sender: (required)
+        :type marketing_sender: MarketingSender
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_marketing_sender_serialize(
+            marketing_sender=marketing_sender,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingSender",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def put_marketing_sender_with_http_info(
+        self,
+        marketing_sender: MarketingSender,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingSender]:
+        """Replaces the org's sender and answers it.
+
+        Replaces the org's sender and answers it. Every field is written; one left out is cleared.  Org admin only.
+
+        :param marketing_sender: (required)
+        :type marketing_sender: MarketingSender
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_marketing_sender_serialize(
+            marketing_sender=marketing_sender,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingSender",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def put_marketing_sender_without_preload_content(
+        self,
+        marketing_sender: MarketingSender,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Replaces the org's sender and answers it.
+
+        Replaces the org's sender and answers it. Every field is written; one left out is cleared.  Org admin only.
+
+        :param marketing_sender: (required)
+        :type marketing_sender: MarketingSender
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_marketing_sender_serialize(
+            marketing_sender=marketing_sender,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketingSender",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _put_marketing_sender_serialize(
+        self,
+        marketing_sender,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if marketing_sender is not None:
+            _body_params = marketing_sender
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/v1/marketing/sender',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

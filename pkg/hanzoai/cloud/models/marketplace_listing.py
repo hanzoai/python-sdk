@@ -19,6 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.marketplace_expert import MarketplaceExpert
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -31,17 +32,18 @@ class MarketplaceListing(BaseModel):
     currency: Optional[StrictStr] = Field(default=None, description="Currency is the ISO 4217 code Price is quoted in; Create defaults it to \"USD\" when the publisher names none. It is a LABEL that travels to the shop window: publish parses Price with money.ParseUSD and the x402 terms carry no currency, so another code here changes what is displayed, not what is charged.")
     description: Optional[StrictStr] = Field(default=None, description="Description is the long copy. Publish REFUSES one past 4096 bytes rather than truncating it, so what is stored is what was sent; empty is allowed.")
     docs: Optional[StrictStr] = Field(default=None, description="Docs is where the listing's documentation lives: an https URL, or a path on docs.hanzo.ai. Empty when the seller named none.")
+    expert: Optional[MarketplaceExpert] = Field(default=None, description="Expert is the person behind a listing of kind expert (expert.go); absent on every other kind.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the listing's id, minted here as \"lst_\" + 16 hex characters. A publisher cannot choose it: Create overwrites whatever arrives. It is unique within PublisherOrg (the primary key is the pair), and it is the path segment DELETE /v1/marketplace/listings/:id takes.")
-    kind: Optional[StrictStr] = Field(default=None, description="Kind is what the listing sells: agent, persona, app, skill, mcp or tool. Listings published before kinds existed sold tools, and read as tool.")
+    kind: Optional[StrictStr] = Field(default=None, description="Kind is what the listing sells: agent, persona, app, skill, mcp, tool or expert. Listings published before kinds existed sold tools, and read as tool.")
     price: Optional[Any] = None
     public: Optional[StrictBool] = Field(default=None, description="Public is whether other orgs can discover the listing. It also decides ENFORCEMENT: only public rows reach the price table, so a private listing with a price charges nobody. False leaves the row visible to its publisher alone.")
     publisher_org: Optional[StrictStr] = Field(default=None, description="PublisherOrg is the org that published the listing, taken from the validated principal and never off the wire. It is also the PAYEE org — Recipient is resolved inside it — and the isolation key: a publisher reads and deletes only rows carrying its own org.", alias="publisherOrg")
     recipient: Optional[StrictStr] = Field(default=None, description="Recipient is the seller's payout WALLET id in PublisherOrg: the wallet x402 pays for a call or a job bought through this listing.")
     ref: Optional[StrictStr] = Field(default=None, description="Ref is the id the thing's owning app knows it by, resolved when the listing was published — the agent id for an agent named by its name. A tool's is the x402 resource a dispatch of it is priced by: the source it resolves from and its name, so a price follows the tool that runs and not a name another org's own row may share.")
     title: Optional[StrictStr] = Field(default=None, description="Title is the shop-window name, required and refused past 200 bytes. It is what discovery paints over the tool's registry name.")
-    tool: Optional[StrictStr] = Field(default=None, description="Tool names the thing sold, as the seller named it: the agent, app, skill or MCP server's name or id, or the tool's registry name. It was proved the seller's own when the listing was published. For a tool it is what install switches on.")
+    tool: Optional[StrictStr] = Field(default=None, description="Tool names the thing sold, as the seller named it: the agent, app, skill or MCP server's name or id, or the tool's registry name. It was proved the seller's own when the listing was published. For a tool it is what install switches on. For an expert it is the person's IAM identity.")
     updated_at: Optional[StrictInt] = Field(default=None, description="UpdatedAt is when the listing was last edited, unix seconds; its creation when it never was.", alias="updatedAt")
-    __properties: ClassVar[List[str]] = ["category", "createdAt", "currency", "description", "docs", "id", "kind", "price", "public", "publisherOrg", "recipient", "ref", "title", "tool", "updatedAt"]
+    __properties: ClassVar[List[str]] = ["category", "createdAt", "currency", "description", "docs", "expert", "id", "kind", "price", "public", "publisherOrg", "recipient", "ref", "title", "tool", "updatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -82,6 +84,9 @@ class MarketplaceListing(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of expert
+        if self.expert:
+            _dict['expert'] = self.expert.to_dict()
         # set to None if price (nullable) is None
         # and model_fields_set contains the field
         if self.price is None and "price" in self.model_fields_set:
@@ -104,6 +109,7 @@ class MarketplaceListing(BaseModel):
             "currency": obj.get("currency"),
             "description": obj.get("description"),
             "docs": obj.get("docs"),
+            "expert": MarketplaceExpert.from_dict(obj["expert"]) if obj.get("expert") is not None else None,
             "id": obj.get("id"),
             "kind": obj.get("kind"),
             "price": obj.get("price"),

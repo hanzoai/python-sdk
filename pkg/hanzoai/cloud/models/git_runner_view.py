@@ -26,14 +26,17 @@ class GitRunnerView(BaseModel):
     """
     GitRunnerView
     """ # noqa: E501
+    busy: Optional[StrictBool] = Field(default=None, description="Busy is whether it is executing a job now. Known for a forge runner only.")
     ephemeral: Optional[StrictBool] = Field(default=None, description="Ephemeral means the daemon takes ONE job and exits, so it is not expected back and its absence is not a fault.")
+    forge: Optional[StrictBool] = Field(default=None, description="Forge is true for a runner registered on the forge (git.hanzo.ai), which runs the repositories whose home is there, and false for a daemon in one of this org's declared pools.")
     labels: Optional[List[StrictStr]] = Field(default=None, description="Labels are what the daemon last said it can do.")
     last_active: Optional[StrictInt] = Field(default=None, description="LastActive is when it was last EXECUTING a job, in unix seconds. It lags LastOnline on an idle daemon, which is how the two differ.", alias="lastActive")
     last_online: Optional[StrictInt] = Field(default=None, description="LastOnline is when it last called at all, in unix seconds.", alias="lastOnline")
     name: Optional[StrictStr] = Field(default=None, description="Name is what the daemon called itself when it registered.")
-    pool: Optional[StrictStr] = Field(default=None, description="Pool is the declared capacity it entered.")
+    online: Optional[StrictBool] = Field(default=None, description="Online is whether it was heard from lately: within the forge's offline window for a forge runner, within a minute for a daemon here.")
+    pool: Optional[StrictStr] = Field(default=None, description="Pool is the declared capacity it entered; for a runner on the forge, the label set it answers to, sorted and joined by \"+\".")
     version: Optional[StrictStr] = Field(default=None, description="Version is the runner build the daemon last reported.")
-    __properties: ClassVar[List[str]] = ["ephemeral", "labels", "lastActive", "lastOnline", "name", "pool", "version"]
+    __properties: ClassVar[List[str]] = ["busy", "ephemeral", "forge", "labels", "lastActive", "lastOnline", "name", "online", "pool", "version"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -86,11 +89,14 @@ class GitRunnerView(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "busy": obj.get("busy"),
             "ephemeral": obj.get("ephemeral"),
+            "forge": obj.get("forge"),
             "labels": obj.get("labels"),
             "lastActive": obj.get("lastActive"),
             "lastOnline": obj.get("lastOnline"),
             "name": obj.get("name"),
+            "online": obj.get("online"),
             "pool": obj.get("pool"),
             "version": obj.get("version")
         })

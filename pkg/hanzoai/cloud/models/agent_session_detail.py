@@ -35,18 +35,21 @@ class AgentSessionDetail(BaseModel):
     agent: Optional[StrictStr] = Field(default=None, description="Agent is the label the surface running this session calls itself by (\"hanzo-dev\"), up to 128 characters. Required at register. It is free text, not a reference: it need not name a defined agent, and nothing resolves it.")
     base: Optional[StrictStr] = Field(default=None, description="Base is the branch the run started from. Empty when it took the repository's default and did not say which.")
     branch: Optional[StrictStr] = Field(default=None, description="Branch is the branch the run pushes its work to, and the only one it may write.")
+    channel: Optional[StrictStr] = Field(default=None, description="Channel is the collaborative channel this run was started in (HIP-0523), empty when it came from anywhere else — a CLI, a schedule, an API call. It is what lets a space view show the runs of one channel beside its messages.")
     child_sessions: Optional[List[AgentSessionView]] = Field(default=None, description="Children is the session's DIRECT children, one level down, each with its own counts. The promoted `children` integer beside it is how many there are; this is who they are. For the whole subtree, read the tree.", alias="childSessions")
     children: Optional[StrictInt] = Field(default=None, description="Children is the DIRECT fan-out — how many sessions name this one as parent — and not the size of the subtree. Read the tree for that.")
     created_at: Optional[StrictStr] = Field(default=None, description="CreatedAt is when the row was written, same format. Every path that opens a session stamps it and StartedAt from one clock reading, so the two are equal on every session this surface has ever produced.", alias="createdAt")
     cwd: Optional[StrictStr] = Field(default=None, description="Cwd is the directory the session is working in NOW, not the one it started in: a linked shell moves around, and a card showing where `hanzo link` was run answers \"which work is this\" with something that was true once.")
     ended_at: Optional[StrictStr] = Field(default=None, description="EndedAt is when it reached done or error, same format. Empty while it is still running or paused, which is how absence reads here: not over yet.", alias="endedAt")
     environment: Optional[StrictStr] = Field(default=None, description="Environment is where the run executes: \"sandbox\" for a Hanzo sandbox, or the id of the org's machine it was routed to (the same id Target carries).")
+    error: Optional[StrictStr] = Field(default=None, description="Error explains why the session ended in error, when it did. Empty for any other status.")
     events: Optional[StrictInt] = Field(default=None, description="Events is how many turns the session's log holds, counted at read time. It is the whole log, however few of them RecentEvents carries.")
     host: Optional[StrictStr] = Field(default=None, description="Execution context (mission-control): the machine/repo/cwd a card shows and the run-target a session is dispatched to. Omitted when a surface didn't report it.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the session's handle, minted here as \"sess_\" + 32 hex characters. Every later read, patch, event append and control command is addressed with it, and a caller cannot choose it.")
     kind: Optional[StrictStr] = Field(default=None, description="Kind is what sort of run this session is the view of — \"coding\" for a coding run. Empty for a session no run tagged.")
     last_event: Optional[AgentLastEventView] = Field(default=None, description="LastEvent is the compact latest-activity line for the list projection (nil in register/patch/tree responses; set by list + detail). It lets a swipe card show a live one-line preview without fetching full detail.", alias="lastEvent")
     mode: Optional[StrictStr] = Field(default=None, description="Mode is what the run may do to its repository: \"build\" edits, commits and pushes its branch; \"plan\" reads and answers with a plan, writing nothing. Empty for a session no run tagged.")
+    next: Optional[StrictInt] = Field(default=None, description="Next is the seq cursor to pass as `after` when more events follow a forward page; omitted on tail reads and when the page reached the end of the log.")
     org: Optional[StrictStr] = Field(default=None, description="Org is the caller's OWN tenant, echoed so a client can build the public build URL (/builds/:org/:project) without a second call or a guess. It is never another tenant's — every read is org-scoped before it gets here.")
     parent_session_id: Optional[StrictStr] = Field(default=None, description="ParentSessionID is the session that spawned this one, making this a subagent of it. Empty means this session is a root — a flow of its own. A parent always belongs to the same org, so a tree never crosses a tenant.", alias="parentSessionId")
     pr: Optional[StrictStr] = Field(default=None, description="PR is the address of the pull request the run proposed. Empty until it proposes one, and for a run that changed nothing.")
@@ -54,9 +57,8 @@ class AgentSessionDetail(BaseModel):
     project: Optional[StrictStr] = Field(default=None, description="The readable build: the product this session built and whether its story is public (provenance.go).")
     provider: Optional[StrictStr] = Field(default=None, description="Provider is the linked AI account's provider (claude | codex | hanzo | …) that served this run. Empty when the surface did not say.")
     published: Optional[StrictBool] = Field(default=None, description="Published is the author's decision to let anyone read this session's story at the public build route. It only ever widens READ access to a session that already exists and grants nothing else; false, an unpublished session is invisible there no matter who asks. It cannot be true without a Project, because that route is keyed on (org, project).")
-    recent_events: Optional[List[AgentEventView]] = Field(default=None, description="RecentEvents is the 50 most recent turns, OLDEST of those first — a transcript to read down, not a feed. The promoted `events` integer says how many the log holds in total; page the rest from a seq.", alias="recentEvents")
+    recent_events: Optional[List[AgentEventView]] = Field(default=None, description="RecentEvents is the page of turns returned for this read, OLDEST of those first — 50 from the tail by default, up to `limit` (1000 max), or forward from `after` when paging through the log. The promoted `events` integer says how many the log holds in total.", alias="recentEvents")
     repo: Optional[StrictStr] = Field(default=None, description="Repo is the code the session is working on, as the surface reported it. It is truth the SURFACE states, so it is a label rather than something resolved here.")
-    room: Optional[StrictStr] = Field(default=None, description="Room is the collaborative room this run was started in (HIP-0523), empty when it came from anywhere else — a CLI, a schedule, an API call. It is what lets a space view show the runs of one room beside its messages.")
     root_session_id: Optional[StrictStr] = Field(default=None, description="RootSessionID is the top of this session's tree, inherited from the parent and shared by every node in one flow. A root session's own id, when it has no parent. It is the key one indexed read pulls a whole flow by, and what ?root= narrows a list or a stream to.", alias="rootSessionId")
     sandbox: Optional[StrictStr] = Field(default=None, description="Sandbox is the id of the sandbox the run works in (\"m_\" and 24 hex), the handle its terminal and its screen are opened with (/v1/sandbox/{id}/terminal, /screen). Set when the run leases it, and kept once the run gives it back, when the id opens nothing. Empty for a run that never leased one — a routed run, or a turn that only talked.")
     started_at: Optional[StrictStr] = Field(default=None, description="StartedAt is when the session opened, RFC 3339 in UTC to the second.", alias="startedAt")
@@ -67,7 +69,7 @@ class AgentSessionDetail(BaseModel):
     terminal: Optional[StrictStr] = Field(default=None, description="Terminal is where this session can be WATCHED — the URL the machine published for its live terminal. Omitted when it publishes none.")
     title: Optional[StrictStr] = Field(default=None, description="Title is the human line a card shows (\"ship the landing page\"), up to 512 characters. Free text, and the one field a surface may rewrite as the work turns out to be something else.")
     updated_at: Optional[StrictStr] = Field(default=None, description="UpdatedAt is the session's last-activity clock, same format. It moves on a write to the row — a status, a title, a re-dispatch — AND on every appended turn, because the append bumps it in the same transaction. The list is ordered on CreatedAt, so this is the field that says whether a session is still saying anything.", alias="updatedAt")
-    __properties: ClassVar[List[str]] = ["account", "actor", "agent", "base", "branch", "childSessions", "children", "createdAt", "cwd", "endedAt", "environment", "events", "host", "id", "kind", "lastEvent", "mode", "org", "parentSessionId", "pr", "progress", "project", "provider", "published", "recentEvents", "repo", "room", "rootSessionId", "sandbox", "startedAt", "status", "target", "taskRunId", "taskWorkflowId", "terminal", "title", "updatedAt"]
+    __properties: ClassVar[List[str]] = ["account", "actor", "agent", "base", "branch", "channel", "childSessions", "children", "createdAt", "cwd", "endedAt", "environment", "error", "events", "host", "id", "kind", "lastEvent", "mode", "next", "org", "parentSessionId", "pr", "progress", "project", "provider", "published", "recentEvents", "repo", "rootSessionId", "sandbox", "startedAt", "status", "target", "taskRunId", "taskWorkflowId", "terminal", "title", "updatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -145,18 +147,21 @@ class AgentSessionDetail(BaseModel):
             "agent": obj.get("agent"),
             "base": obj.get("base"),
             "branch": obj.get("branch"),
+            "channel": obj.get("channel"),
             "childSessions": [AgentSessionView.from_dict(_item) for _item in obj["childSessions"]] if obj.get("childSessions") is not None else None,
             "children": obj.get("children"),
             "createdAt": obj.get("createdAt"),
             "cwd": obj.get("cwd"),
             "endedAt": obj.get("endedAt"),
             "environment": obj.get("environment"),
+            "error": obj.get("error"),
             "events": obj.get("events"),
             "host": obj.get("host"),
             "id": obj.get("id"),
             "kind": obj.get("kind"),
             "lastEvent": AgentLastEventView.from_dict(obj["lastEvent"]) if obj.get("lastEvent") is not None else None,
             "mode": obj.get("mode"),
+            "next": obj.get("next"),
             "org": obj.get("org"),
             "parentSessionId": obj.get("parentSessionId"),
             "pr": obj.get("pr"),
@@ -166,7 +171,6 @@ class AgentSessionDetail(BaseModel):
             "published": obj.get("published"),
             "recentEvents": [AgentEventView.from_dict(_item) for _item in obj["recentEvents"]] if obj.get("recentEvents") is not None else None,
             "repo": obj.get("repo"),
-            "room": obj.get("room"),
             "rootSessionId": obj.get("rootSessionId"),
             "sandbox": obj.get("sandbox"),
             "startedAt": obj.get("startedAt"),

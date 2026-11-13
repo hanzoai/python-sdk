@@ -19,6 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.billing_pay_pal_public_config import BillingPayPalPublicConfig
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -30,8 +31,9 @@ class BillingPaymentConfig(BaseModel):
     environment: Optional[StrictStr] = None
     live: Optional[StrictBool] = None
     location_id: Optional[StrictStr] = Field(default=None, alias="locationId")
+    paypal: Optional[BillingPayPalPublicConfig] = Field(default=None, description="PayPal is the public PayPal REST v2 posture alongside Square (or in place of Square in countries Square does not serve). Appended last for ZAP wire.")
     provider: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["applicationId", "environment", "live", "locationId", "provider"]
+    __properties: ClassVar[List[str]] = ["applicationId", "environment", "live", "locationId", "paypal", "provider"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -72,6 +74,9 @@ class BillingPaymentConfig(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of paypal
+        if self.paypal:
+            _dict['paypal'] = self.paypal.to_dict()
         return _dict
 
     @classmethod
@@ -88,6 +93,7 @@ class BillingPaymentConfig(BaseModel):
             "environment": obj.get("environment"),
             "live": obj.get("live"),
             "locationId": obj.get("locationId"),
+            "paypal": BillingPayPalPublicConfig.from_dict(obj["paypal"]) if obj.get("paypal") is not None else None,
             "provider": obj.get("provider")
         })
         return _obj

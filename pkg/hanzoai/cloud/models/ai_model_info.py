@@ -36,6 +36,7 @@ class AiModelInfo(BaseModel):
     context_window: Optional[StrictInt] = None
     created: Optional[StrictInt] = None
     description: Optional[StrictStr] = None
+    endpoint: Optional[StrictStr] = None
     expires: Optional[StrictStr] = None
     family: Optional[StrictStr] = None
     free: Optional[StrictBool] = None
@@ -54,7 +55,7 @@ class AiModelInfo(BaseModel):
     supports_vision: Optional[StrictBool] = None
     video: Optional[AiVideoSpec] = None
     voice: Optional[AiVoiceSpec] = None
-    __properties: ClassVar[List[str]] = ["access", "canonical_slug", "class", "context_window", "created", "description", "expires", "family", "free", "id", "inputs", "max_output_tokens", "name", "object", "outputs", "owned_by", "premium", "pricing", "provider", "supports_reasoning", "supports_tools", "supports_vision", "video", "voice"]
+    __properties: ClassVar[List[str]] = ["access", "canonical_slug", "class", "context_window", "created", "description", "endpoint", "expires", "family", "free", "id", "inputs", "max_output_tokens", "name", "object", "outputs", "owned_by", "premium", "pricing", "provider", "supports_reasoning", "supports_tools", "supports_vision", "video", "voice"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -125,6 +126,7 @@ class AiModelInfo(BaseModel):
             "context_window": obj.get("context_window"),
             "created": obj.get("created"),
             "description": obj.get("description"),
+            "endpoint": obj.get("endpoint"),
             "expires": obj.get("expires"),
             "family": obj.get("family"),
             "free": obj.get("free"),

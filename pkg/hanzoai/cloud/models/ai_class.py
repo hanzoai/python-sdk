@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.ai_window import AiWindow
 from typing import Optional, Set
@@ -31,8 +31,9 @@ class AiClass(BaseModel):
     percent: Optional[StrictInt] = None
     resets_at: Optional[StrictStr] = None
     state: Optional[StrictStr] = Field(default=None, description="State is ok, near, or limited when the class is used up and nothing else pays.")
+    unbounded: Optional[StrictBool] = Field(default=None, description="Unbounded says the plan includes all of this class's use: there is no share to use up, and Percent is 0.")
     window: Optional[AiWindow] = None
-    __properties: ClassVar[List[str]] = ["paying", "percent", "resets_at", "state", "window"]
+    __properties: ClassVar[List[str]] = ["paying", "percent", "resets_at", "state", "unbounded", "window"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -92,6 +93,7 @@ class AiClass(BaseModel):
             "percent": obj.get("percent"),
             "resets_at": obj.get("resets_at"),
             "state": obj.get("state"),
+            "unbounded": obj.get("unbounded"),
             "window": AiWindow.from_dict(obj["window"]) if obj.get("window") is not None else None
         })
         return _obj

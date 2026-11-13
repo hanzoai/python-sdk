@@ -26,7 +26,8 @@ class LibraryKeepIn(BaseModel):
     """
     LibraryKeepIn
     """ # noqa: E501
-    data: Optional[StrictStr] = Field(default=None, description="Data is the bytes, base64, at most 10 MiB. Required.")
+    bytes: Optional[StrictInt] = Field(default=None, description="Bytes reserves an upload of this size, at most 2 GiB, when data is empty, and returns a signed PUT in upload.")
+    data: Optional[StrictStr] = Field(default=None, description="Data is the bytes, base64, at most 10 MiB; omit when reserving with bytes.")
     height: Optional[StrictInt] = None
     key: Optional[StrictStr] = Field(default=None, description="Key makes the save idempotent: the same source and key answer the item already kept.")
     kind: Optional[StrictStr] = Field(default=None, description="Kind is image, video, audio, document, slides, type, model, code or file; absent derives it from mime.")
@@ -40,7 +41,7 @@ class LibraryKeepIn(BaseModel):
     seconds: Optional[Union[StrictFloat, StrictInt]] = None
     source: Optional[StrictStr] = Field(default=None, description="Source is the product it came from: chat, dev, studio or workflow. Required.")
     width: Optional[StrictInt] = Field(default=None, description="Width, Height, Seconds and Pages describe it when known.")
-    __properties: ClassVar[List[str]] = ["data", "height", "key", "kind", "mime", "name", "origin", "pages", "preview", "project", "ref", "seconds", "source", "width"]
+    __properties: ClassVar[List[str]] = ["bytes", "data", "height", "key", "kind", "mime", "name", "origin", "pages", "preview", "project", "ref", "seconds", "source", "width"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -93,6 +94,7 @@ class LibraryKeepIn(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "bytes": obj.get("bytes"),
             "data": obj.get("data"),
             "height": obj.get("height"),
             "key": obj.get("key"),

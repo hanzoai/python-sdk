@@ -16,7 +16,8 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictStr
+from pydantic import Field, StrictInt, StrictStr
+from typing import Optional
 from typing_extensions import Annotated
 from hanzoai.cloud.models.deploy_argo_app import DeployArgoApp
 from hanzoai.cloud.models.deploy_argo_app_list import DeployArgoAppList
@@ -26,6 +27,8 @@ from hanzoai.cloud.models.deploy_argo_revision_metadata import DeployArgoRevisio
 from hanzoai.cloud.models.deploy_argo_sync_windows import DeployArgoSyncWindows
 from hanzoai.cloud.models.deploy_argo_tree import DeployArgoTree
 from hanzoai.cloud.models.deploy_deploy_health import DeployDeployHealth
+from hanzoai.cloud.models.deploy_live import DeployLive
+from hanzoai.cloud.models.deploy_release import DeployRelease
 from hanzoai.cloud.models.deploy_session_ended import DeploySessionEnded
 from hanzoai.cloud.models.deploy_session_user import DeploySessionUser
 
@@ -1855,6 +1858,287 @@ class DeployApi:
 
 
     @validate_call
+    def get_deploy_live(
+        self,
+        service: Annotated[Optional[StrictStr], Field(description="Service lists one service, by the name it is listed under. Empty lists them all.")] = None,
+        commit: Annotated[Optional[StrictStr], Field(description="Commit asks whether the listed services run an image built from this source commit: at least seven hex characters of its sha, matched as a prefix.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DeployLive:
+        """Answers, for each service, what it is running and whether that is what universe says it should run.
+
+        Answers, for each service, what it is running and whether that is what universe says it should run.  For every Hanzo CD Application the caller may see: the images its live pods run (tag, digest, and the source commit and repository each was built from where the registry answers it), the universe commit CD last applied, CD's sync and health verdicts, when it last synced, the image its values files pin at that commit, whether the two agree and which of them does not, and the image CD deployed before this one.  `service` lists one service. `commit` — at least seven hex characters of a sha — adds a top-level `live`: whether any listed service runs an image built from that commit. Together they answer \"is commit X live for service Y\", and a service's `previous` is where to roll back to.  It reads CD's own state and derives nothing CD already says. The declared image is read from the universe files the Application names, at the commits CD names. A value the registry or the repository has not yet answered is left out of this answer and read again on the next. Read-only, and scoped exactly as /v1/deploy/gitops is: a SuperAdmin sees every Application, a validated org member only its own org's, anyone else 403s.  installed is false — with a reason and an empty list — when the CD CRD is not served in this cluster.
+
+        :param service: Service lists one service, by the name it is listed under. Empty lists them all.
+        :type service: str
+        :param commit: Commit asks whether the listed services run an image built from this source commit: at least seven hex characters of its sha, matched as a prefix.
+        :type commit: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_deploy_live_serialize(
+            service=service,
+            commit=commit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "DeployLive",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_deploy_live_with_http_info(
+        self,
+        service: Annotated[Optional[StrictStr], Field(description="Service lists one service, by the name it is listed under. Empty lists them all.")] = None,
+        commit: Annotated[Optional[StrictStr], Field(description="Commit asks whether the listed services run an image built from this source commit: at least seven hex characters of its sha, matched as a prefix.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DeployLive]:
+        """Answers, for each service, what it is running and whether that is what universe says it should run.
+
+        Answers, for each service, what it is running and whether that is what universe says it should run.  For every Hanzo CD Application the caller may see: the images its live pods run (tag, digest, and the source commit and repository each was built from where the registry answers it), the universe commit CD last applied, CD's sync and health verdicts, when it last synced, the image its values files pin at that commit, whether the two agree and which of them does not, and the image CD deployed before this one.  `service` lists one service. `commit` — at least seven hex characters of a sha — adds a top-level `live`: whether any listed service runs an image built from that commit. Together they answer \"is commit X live for service Y\", and a service's `previous` is where to roll back to.  It reads CD's own state and derives nothing CD already says. The declared image is read from the universe files the Application names, at the commits CD names. A value the registry or the repository has not yet answered is left out of this answer and read again on the next. Read-only, and scoped exactly as /v1/deploy/gitops is: a SuperAdmin sees every Application, a validated org member only its own org's, anyone else 403s.  installed is false — with a reason and an empty list — when the CD CRD is not served in this cluster.
+
+        :param service: Service lists one service, by the name it is listed under. Empty lists them all.
+        :type service: str
+        :param commit: Commit asks whether the listed services run an image built from this source commit: at least seven hex characters of its sha, matched as a prefix.
+        :type commit: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_deploy_live_serialize(
+            service=service,
+            commit=commit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "DeployLive",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_deploy_live_without_preload_content(
+        self,
+        service: Annotated[Optional[StrictStr], Field(description="Service lists one service, by the name it is listed under. Empty lists them all.")] = None,
+        commit: Annotated[Optional[StrictStr], Field(description="Commit asks whether the listed services run an image built from this source commit: at least seven hex characters of its sha, matched as a prefix.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Answers, for each service, what it is running and whether that is what universe says it should run.
+
+        Answers, for each service, what it is running and whether that is what universe says it should run.  For every Hanzo CD Application the caller may see: the images its live pods run (tag, digest, and the source commit and repository each was built from where the registry answers it), the universe commit CD last applied, CD's sync and health verdicts, when it last synced, the image its values files pin at that commit, whether the two agree and which of them does not, and the image CD deployed before this one.  `service` lists one service. `commit` — at least seven hex characters of a sha — adds a top-level `live`: whether any listed service runs an image built from that commit. Together they answer \"is commit X live for service Y\", and a service's `previous` is where to roll back to.  It reads CD's own state and derives nothing CD already says. The declared image is read from the universe files the Application names, at the commits CD names. A value the registry or the repository has not yet answered is left out of this answer and read again on the next. Read-only, and scoped exactly as /v1/deploy/gitops is: a SuperAdmin sees every Application, a validated org member only its own org's, anyone else 403s.  installed is false — with a reason and an empty list — when the CD CRD is not served in this cluster.
+
+        :param service: Service lists one service, by the name it is listed under. Empty lists them all.
+        :type service: str
+        :param commit: Commit asks whether the listed services run an image built from this source commit: at least seven hex characters of its sha, matched as a prefix.
+        :type commit: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_deploy_live_serialize(
+            service=service,
+            commit=commit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "DeployLive",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_deploy_live_serialize(
+        self,
+        service,
+        commit,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if service is not None:
+            
+            _query_params.append(('service', service))
+            
+        if commit is not None:
+            
+            _query_params.append(('commit', commit))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/deploy/live',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_deploy_login(
         self,
         _request_timeout: Union[
@@ -2322,6 +2606,304 @@ class DeployApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/deploy/projects',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_deploy_release(
+        self,
+        service: Annotated[Optional[StrictStr], Field(description="Service is the service, by the name live lists it under, such as hanzo-cloud.")] = None,
+        repo: Annotated[Optional[StrictStr], Field(description="Repo is the forge repository the service is built from, owner/name. Empty reads it off the image the service runs.")] = None,
+        versions: Annotated[Optional[StrictInt], Field(description="Versions is how many of the newest claimed versions to read; 0 is 3, and 10 is the ceiling. The pinned and the live version are read as well.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DeployRelease:
+        """Answers why a service is, or is not, live: for the newest versions claimed in its source repository, the commit each names, whether the pipeline's runs on it passed and which jobs failed with the lines that say why, whether an image of it was smoked, whether universe pins it, and whether it is what the pods run — and stuck, one sentence saying where the newest version stopped.
+
+        Answers why a service is, or is not, live: for the newest versions claimed in its source repository, the commit each names, whether the pipeline's runs on it passed and which jobs failed with the lines that say why, whether an image of it was smoked, whether universe pins it, and whether it is what the pods run — and stuck, one sentence saying where the newest version stopped.  The service is scoped exactly as live is; its source repository is read off the image it runs unless repo names it, and is read from the forge as the caller, in a namespace the caller's org owns.
+
+        :param service: Service is the service, by the name live lists it under, such as hanzo-cloud.
+        :type service: str
+        :param repo: Repo is the forge repository the service is built from, owner/name. Empty reads it off the image the service runs.
+        :type repo: str
+        :param versions: Versions is how many of the newest claimed versions to read; 0 is 3, and 10 is the ceiling. The pinned and the live version are read as well.
+        :type versions: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_deploy_release_serialize(
+            service=service,
+            repo=repo,
+            versions=versions,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "DeployRelease",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_deploy_release_with_http_info(
+        self,
+        service: Annotated[Optional[StrictStr], Field(description="Service is the service, by the name live lists it under, such as hanzo-cloud.")] = None,
+        repo: Annotated[Optional[StrictStr], Field(description="Repo is the forge repository the service is built from, owner/name. Empty reads it off the image the service runs.")] = None,
+        versions: Annotated[Optional[StrictInt], Field(description="Versions is how many of the newest claimed versions to read; 0 is 3, and 10 is the ceiling. The pinned and the live version are read as well.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DeployRelease]:
+        """Answers why a service is, or is not, live: for the newest versions claimed in its source repository, the commit each names, whether the pipeline's runs on it passed and which jobs failed with the lines that say why, whether an image of it was smoked, whether universe pins it, and whether it is what the pods run — and stuck, one sentence saying where the newest version stopped.
+
+        Answers why a service is, or is not, live: for the newest versions claimed in its source repository, the commit each names, whether the pipeline's runs on it passed and which jobs failed with the lines that say why, whether an image of it was smoked, whether universe pins it, and whether it is what the pods run — and stuck, one sentence saying where the newest version stopped.  The service is scoped exactly as live is; its source repository is read off the image it runs unless repo names it, and is read from the forge as the caller, in a namespace the caller's org owns.
+
+        :param service: Service is the service, by the name live lists it under, such as hanzo-cloud.
+        :type service: str
+        :param repo: Repo is the forge repository the service is built from, owner/name. Empty reads it off the image the service runs.
+        :type repo: str
+        :param versions: Versions is how many of the newest claimed versions to read; 0 is 3, and 10 is the ceiling. The pinned and the live version are read as well.
+        :type versions: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_deploy_release_serialize(
+            service=service,
+            repo=repo,
+            versions=versions,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "DeployRelease",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_deploy_release_without_preload_content(
+        self,
+        service: Annotated[Optional[StrictStr], Field(description="Service is the service, by the name live lists it under, such as hanzo-cloud.")] = None,
+        repo: Annotated[Optional[StrictStr], Field(description="Repo is the forge repository the service is built from, owner/name. Empty reads it off the image the service runs.")] = None,
+        versions: Annotated[Optional[StrictInt], Field(description="Versions is how many of the newest claimed versions to read; 0 is 3, and 10 is the ceiling. The pinned and the live version are read as well.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Answers why a service is, or is not, live: for the newest versions claimed in its source repository, the commit each names, whether the pipeline's runs on it passed and which jobs failed with the lines that say why, whether an image of it was smoked, whether universe pins it, and whether it is what the pods run — and stuck, one sentence saying where the newest version stopped.
+
+        Answers why a service is, or is not, live: for the newest versions claimed in its source repository, the commit each names, whether the pipeline's runs on it passed and which jobs failed with the lines that say why, whether an image of it was smoked, whether universe pins it, and whether it is what the pods run — and stuck, one sentence saying where the newest version stopped.  The service is scoped exactly as live is; its source repository is read off the image it runs unless repo names it, and is read from the forge as the caller, in a namespace the caller's org owns.
+
+        :param service: Service is the service, by the name live lists it under, such as hanzo-cloud.
+        :type service: str
+        :param repo: Repo is the forge repository the service is built from, owner/name. Empty reads it off the image the service runs.
+        :type repo: str
+        :param versions: Versions is how many of the newest claimed versions to read; 0 is 3, and 10 is the ceiling. The pinned and the live version are read as well.
+        :type versions: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_deploy_release_serialize(
+            service=service,
+            repo=repo,
+            versions=versions,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "DeployRelease",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_deploy_release_serialize(
+        self,
+        service,
+        repo,
+        versions,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if service is not None:
+            
+            _query_params.append(('service', service))
+            
+        if repo is not None:
+            
+            _query_params.append(('repo', repo))
+            
+        if versions is not None:
+            
+            _query_params.append(('versions', versions))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/deploy/release',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -3056,268 +3638,6 @@ class DeployApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/deploy/stream/applications/{name}/resource-tree',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def post_deploy_applications_by_name_rollback(
-        self,
-        name: Annotated[StrictStr, Field(description="Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR's metadata.name satisfies that, and anything else is a 400 rather than a lookup.")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DeployArgoApp:
-        """Serves the console's rollback control, and today it requests a reconcile and nothing more.
-
-        Serves the console's rollback control, and today it requests a reconcile and nothing more.  The opening verb is not style. zipdoc drops a leading CamelCase symbol only when a plain verb follows it and never before a copula (internal/zipdoc/ extract.go:811-824, \"CompleteDeployment IS the CI completion hook\" would otherwise become \"Is the CI completion hook\") — so \"RollbackDeployApplication is …\" would publish a Go symbol no caller can see into the summary an SDK docstring, an MCP tool list and a CLI help line all show.  It performs exactly what the sync action performs — the same stamp on the same App CR, the same application re-projected — and it does NOT select, pin or revert to a prior image tag. That is the one thing to know before wiring anything to it: the name is the console's, the behaviour is the sync. Pinning a previous release rides the release client, which this address does not call yet.  Same gate, same refusals and the same absent request body as the sync it shares a core with.
-
-        :param name: Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR's metadata.name satisfies that, and anything else is a 400 rather than a lookup. (required)
-        :type name: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_deploy_applications_by_name_rollback_serialize(
-            name=name,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeployArgoApp",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def post_deploy_applications_by_name_rollback_with_http_info(
-        self,
-        name: Annotated[StrictStr, Field(description="Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR's metadata.name satisfies that, and anything else is a 400 rather than a lookup.")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DeployArgoApp]:
-        """Serves the console's rollback control, and today it requests a reconcile and nothing more.
-
-        Serves the console's rollback control, and today it requests a reconcile and nothing more.  The opening verb is not style. zipdoc drops a leading CamelCase symbol only when a plain verb follows it and never before a copula (internal/zipdoc/ extract.go:811-824, \"CompleteDeployment IS the CI completion hook\" would otherwise become \"Is the CI completion hook\") — so \"RollbackDeployApplication is …\" would publish a Go symbol no caller can see into the summary an SDK docstring, an MCP tool list and a CLI help line all show.  It performs exactly what the sync action performs — the same stamp on the same App CR, the same application re-projected — and it does NOT select, pin or revert to a prior image tag. That is the one thing to know before wiring anything to it: the name is the console's, the behaviour is the sync. Pinning a previous release rides the release client, which this address does not call yet.  Same gate, same refusals and the same absent request body as the sync it shares a core with.
-
-        :param name: Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR's metadata.name satisfies that, and anything else is a 400 rather than a lookup. (required)
-        :type name: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_deploy_applications_by_name_rollback_serialize(
-            name=name,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeployArgoApp",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def post_deploy_applications_by_name_rollback_without_preload_content(
-        self,
-        name: Annotated[StrictStr, Field(description="Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR's metadata.name satisfies that, and anything else is a 400 rather than a lookup.")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Serves the console's rollback control, and today it requests a reconcile and nothing more.
-
-        Serves the console's rollback control, and today it requests a reconcile and nothing more.  The opening verb is not style. zipdoc drops a leading CamelCase symbol only when a plain verb follows it and never before a copula (internal/zipdoc/ extract.go:811-824, \"CompleteDeployment IS the CI completion hook\" would otherwise become \"Is the CI completion hook\") — so \"RollbackDeployApplication is …\" would publish a Go symbol no caller can see into the summary an SDK docstring, an MCP tool list and a CLI help line all show.  It performs exactly what the sync action performs — the same stamp on the same App CR, the same application re-projected — and it does NOT select, pin or revert to a prior image tag. That is the one thing to know before wiring anything to it: the name is the console's, the behaviour is the sync. Pinning a previous release rides the release client, which this address does not call yet.  Same gate, same refusals and the same absent request body as the sync it shares a core with.
-
-        :param name: Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR's metadata.name satisfies that, and anything else is a 400 rather than a lookup. (required)
-        :type name: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_deploy_applications_by_name_rollback_serialize(
-            name=name,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeployArgoApp",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _post_deploy_applications_by_name_rollback_serialize(
-        self,
-        name,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if name is not None:
-            _path_params['name'] = name
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json', 
-                    'application/problem+json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/deploy/applications/{name}/rollback',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

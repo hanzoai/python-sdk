@@ -19,20 +19,20 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.approval_batch import ApprovalBatch
-from hanzoai.cloud.models.approvals_out import ApprovalsOut
-from hanzoai.cloud.models.disclosure_batch import DisclosureBatch
-from hanzoai.cloud.models.discs_out import DiscsOut
-from hanzoai.cloud.models.grant_in import GrantIn
-from hanzoai.cloud.models.idea_batch import IdeaBatch
-from hanzoai.cloud.models.ideas_out import IdeasOut
-from hanzoai.cloud.models.impl_batch import ImplBatch
-from hanzoai.cloud.models.impls_out import ImplsOut
-from hanzoai.cloud.models.patent_grant_out import PatentGrantOut
-from hanzoai.cloud.models.patent_health import PatentHealth
-from hanzoai.cloud.models.patent_proof import PatentProof
-from hanzoai.cloud.models.patent_timeline import PatentTimeline
-from hanzoai.cloud.models.patent_write_out import PatentWriteOut
+from hanzoai.cloud.models.patent_approval_batch import PatentApprovalBatch
+from hanzoai.cloud.models.patent_approvals_out import PatentApprovalsOut
+from hanzoai.cloud.models.patent_disclosure_batch import PatentDisclosureBatch
+from hanzoai.cloud.models.patent_discs_out import PatentDiscsOut
+from hanzoai.cloud.models.patent_grant_in import PatentGrantIn
+from hanzoai.cloud.models.patent_idea_batch import PatentIdeaBatch
+from hanzoai.cloud.models.patent_ideas_out import PatentIdeasOut
+from hanzoai.cloud.models.patent_impl_batch import PatentImplBatch
+from hanzoai.cloud.models.patent_impls_out import PatentImplsOut
+from hanzoai.cloud.models.patent_patent_grant_out import PatentPatentGrantOut
+from hanzoai.cloud.models.patent_patent_health import PatentPatentHealth
+from hanzoai.cloud.models.patent_patent_proof import PatentPatentProof
+from hanzoai.cloud.models.patent_patent_timeline import PatentPatentTimeline
+from hanzoai.cloud.models.patent_patent_write_out import PatentPatentWriteOut
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -69,7 +69,7 @@ class PatentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApprovalsOut:
+    ) -> PatentApprovalsOut:
         """Returns the decision trail — each person's current word on each disclosure.
 
         Returns the decision trail — each person's current word on each disclosure. ?disclosure= narrows to one document.
@@ -110,7 +110,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ApprovalsOut",
+            '200': "PatentApprovalsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -140,7 +140,7 @@ class PatentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ApprovalsOut]:
+    ) -> ApiResponse[PatentApprovalsOut]:
         """Returns the decision trail — each person's current word on each disclosure.
 
         Returns the decision trail — each person's current word on each disclosure. ?disclosure= narrows to one document.
@@ -181,7 +181,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ApprovalsOut",
+            '200': "PatentApprovalsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -252,7 +252,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ApprovalsOut",
+            '200': "PatentApprovalsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -304,7 +304,8 @@ class PatentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -350,7 +351,7 @@ class PatentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DiscsOut:
+    ) -> PatentDiscsOut:
         """Returns the canonical disclosures, each carrying its current approvals.
 
         Returns the canonical disclosures, each carrying its current approvals.
@@ -394,7 +395,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DiscsOut",
+            '200': "PatentDiscsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -425,7 +426,7 @@ class PatentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DiscsOut]:
+    ) -> ApiResponse[PatentDiscsOut]:
         """Returns the canonical disclosures, each carrying its current approvals.
 
         Returns the canonical disclosures, each carrying its current approvals.
@@ -469,7 +470,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DiscsOut",
+            '200': "PatentDiscsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -544,7 +545,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DiscsOut",
+            '200': "PatentDiscsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -601,7 +602,8 @@ class PatentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -644,7 +646,7 @@ class PatentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatentHealth:
+    ) -> PatentPatentHealth:
         """Reports what this deployment actually guarantees about the records it keeps, in honest states.
 
         Reports what this deployment actually guarantees about the records it keeps, in honest states. Anchored and durable are the two that change what a record is worth, and an unwired one reads as unwired rather than as a green light.
@@ -679,7 +681,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatentHealth",
+            '200': "PatentPatentHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -707,7 +709,7 @@ class PatentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatentHealth]:
+    ) -> ApiResponse[PatentPatentHealth]:
         """Reports what this deployment actually guarantees about the records it keeps, in honest states.
 
         Reports what this deployment actually guarantees about the records it keeps, in honest states. Anchored and durable are the two that change what a record is worth, and an unwired one reads as unwired rather than as a green light.
@@ -742,7 +744,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatentHealth",
+            '200': "PatentPatentHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -805,7 +807,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatentHealth",
+            '200': "PatentPatentHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -847,7 +849,8 @@ class PatentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -893,7 +896,7 @@ class PatentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IdeasOut:
+    ) -> PatentIdeasOut:
         """Returns the caller org's canonical conception entries, oldest appended first, which is the order the log says they were thought.
 
         Returns the caller org's canonical conception entries, oldest appended first, which is the order the log says they were thought. ?id= narrows to one, ?kind= to one kind, ?project= to one project.
@@ -937,7 +940,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IdeasOut",
+            '200': "PatentIdeasOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -968,7 +971,7 @@ class PatentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IdeasOut]:
+    ) -> ApiResponse[PatentIdeasOut]:
         """Returns the caller org's canonical conception entries, oldest appended first, which is the order the log says they were thought.
 
         Returns the caller org's canonical conception entries, oldest appended first, which is the order the log says they were thought. ?id= narrows to one, ?kind= to one kind, ?project= to one project.
@@ -1012,7 +1015,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IdeasOut",
+            '200': "PatentIdeasOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1087,7 +1090,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IdeasOut",
+            '200': "PatentIdeasOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1144,7 +1147,8 @@ class PatentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1190,7 +1194,7 @@ class PatentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ImplsOut:
+    ) -> PatentImplsOut:
         """Returns the canonical implementation records with their citations.
 
         Returns the canonical implementation records with their citations. ?idea= is the query the record exists to answer: which artifacts rest on this one conception entry.
@@ -1234,7 +1238,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ImplsOut",
+            '200': "PatentImplsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1265,7 +1269,7 @@ class PatentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ImplsOut]:
+    ) -> ApiResponse[PatentImplsOut]:
         """Returns the canonical implementation records with their citations.
 
         Returns the canonical implementation records with their citations. ?idea= is the query the record exists to answer: which artifacts rest on this one conception entry.
@@ -1309,7 +1313,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ImplsOut",
+            '200': "PatentImplsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1384,7 +1388,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ImplsOut",
+            '200': "PatentImplsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1441,7 +1445,8 @@ class PatentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1487,7 +1492,7 @@ class PatentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatentProof:
+    ) -> PatentPatentProof:
         """Folds the caller's record set and answers the ordering question over it.
 
         Folds the caller's record set and answers the ordering question over it.  ?disclosure= proves one document's set, ?idea= proves one entry and everything citing it, and neither proves the whole org. The answer is computed per request and writes nothing.
@@ -1531,7 +1536,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatentProof",
+            '200': "PatentPatentProof",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1562,7 +1567,7 @@ class PatentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatentProof]:
+    ) -> ApiResponse[PatentPatentProof]:
         """Folds the caller's record set and answers the ordering question over it.
 
         Folds the caller's record set and answers the ordering question over it.  ?disclosure= proves one document's set, ?idea= proves one entry and everything citing it, and neither proves the whole org. The answer is computed per request and writes nothing.
@@ -1606,7 +1611,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatentProof",
+            '200': "PatentPatentProof",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1681,7 +1686,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatentProof",
+            '200': "PatentPatentProof",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1738,7 +1743,8 @@ class PatentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1784,7 +1790,7 @@ class PatentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatentTimeline:
+    ) -> PatentPatentTimeline:
         """Returns every retained version of one entry, in append order.
 
         Returns every retained version of one entry, in append order. ?id= names it and ?kind= says which log; a retraction is shown as the withdrawal it is rather than hidden.
@@ -1828,7 +1834,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatentTimeline",
+            '200': "PatentPatentTimeline",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1859,7 +1865,7 @@ class PatentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatentTimeline]:
+    ) -> ApiResponse[PatentPatentTimeline]:
         """Returns every retained version of one entry, in append order.
 
         Returns every retained version of one entry, in append order. ?id= names it and ?kind= says which log; a retraction is shown as the withdrawal it is rather than hidden.
@@ -1903,7 +1909,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatentTimeline",
+            '200': "PatentPatentTimeline",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1978,7 +1984,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatentTimeline",
+            '200': "PatentPatentTimeline",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2035,7 +2041,8 @@ class PatentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2066,7 +2073,7 @@ class PatentApi:
     @validate_call
     def post_patent_approvals(
         self,
-        approval_batch: ApprovalBatch,
+        patent_approval_batch: PatentApprovalBatch,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2079,13 +2086,13 @@ class PatentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatentWriteOut:
+    ) -> PatentPatentWriteOut:
         """Appends one person's decision about one disclosure.
 
         Appends one person's decision about one disclosure. The approver is the validated principal and nothing else, so no caller records a sign-off on someone else's behalf — which is the only way this field would be worth reading.
 
-        :param approval_batch: (required)
-        :type approval_batch: ApprovalBatch
+        :param patent_approval_batch: (required)
+        :type patent_approval_batch: PatentApprovalBatch
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2109,7 +2116,7 @@ class PatentApi:
         """ # noqa: E501
 
         _param = self._post_patent_approvals_serialize(
-            approval_batch=approval_batch,
+            patent_approval_batch=patent_approval_batch,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2117,7 +2124,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatentWriteOut",
+            '200': "PatentPatentWriteOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2133,7 +2140,7 @@ class PatentApi:
     @validate_call
     def post_patent_approvals_with_http_info(
         self,
-        approval_batch: ApprovalBatch,
+        patent_approval_batch: PatentApprovalBatch,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2146,13 +2153,13 @@ class PatentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatentWriteOut]:
+    ) -> ApiResponse[PatentPatentWriteOut]:
         """Appends one person's decision about one disclosure.
 
         Appends one person's decision about one disclosure. The approver is the validated principal and nothing else, so no caller records a sign-off on someone else's behalf — which is the only way this field would be worth reading.
 
-        :param approval_batch: (required)
-        :type approval_batch: ApprovalBatch
+        :param patent_approval_batch: (required)
+        :type patent_approval_batch: PatentApprovalBatch
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2176,7 +2183,7 @@ class PatentApi:
         """ # noqa: E501
 
         _param = self._post_patent_approvals_serialize(
-            approval_batch=approval_batch,
+            patent_approval_batch=patent_approval_batch,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2184,7 +2191,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatentWriteOut",
+            '200': "PatentPatentWriteOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2200,7 +2207,7 @@ class PatentApi:
     @validate_call
     def post_patent_approvals_without_preload_content(
         self,
-        approval_batch: ApprovalBatch,
+        patent_approval_batch: PatentApprovalBatch,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2218,8 +2225,8 @@ class PatentApi:
 
         Appends one person's decision about one disclosure. The approver is the validated principal and nothing else, so no caller records a sign-off on someone else's behalf — which is the only way this field would be worth reading.
 
-        :param approval_batch: (required)
-        :type approval_batch: ApprovalBatch
+        :param patent_approval_batch: (required)
+        :type patent_approval_batch: PatentApprovalBatch
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2243,7 +2250,7 @@ class PatentApi:
         """ # noqa: E501
 
         _param = self._post_patent_approvals_serialize(
-            approval_batch=approval_batch,
+            patent_approval_batch=patent_approval_batch,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2251,7 +2258,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatentWriteOut",
+            '200': "PatentPatentWriteOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2262,7 +2269,7 @@ class PatentApi:
 
     def _post_patent_approvals_serialize(
         self,
-        approval_batch,
+        patent_approval_batch,
         _request_auth,
         _content_type,
         _headers,
@@ -2288,15 +2295,16 @@ class PatentApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if approval_batch is not None:
-            _body_params = approval_batch
+        if patent_approval_batch is not None:
+            _body_params = patent_approval_batch
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2340,7 +2348,7 @@ class PatentApi:
     @validate_call
     def post_patent_disclosures(
         self,
-        disclosure_batch: DisclosureBatch,
+        patent_disclosure_batch: PatentDisclosureBatch,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2353,13 +2361,13 @@ class PatentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatentWriteOut:
+    ) -> PatentPatentWriteOut:
         """Appends the assembled document and the record ids it rests on.
 
         Appends the assembled document and the record ids it rests on. The document is a rendering of what the log already holds, and its citations are what let a reader check it instead of taking it.
 
-        :param disclosure_batch: (required)
-        :type disclosure_batch: DisclosureBatch
+        :param patent_disclosure_batch: (required)
+        :type patent_disclosure_batch: PatentDisclosureBatch
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2383,7 +2391,7 @@ class PatentApi:
         """ # noqa: E501
 
         _param = self._post_patent_disclosures_serialize(
-            disclosure_batch=disclosure_batch,
+            patent_disclosure_batch=patent_disclosure_batch,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2391,7 +2399,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatentWriteOut",
+            '200': "PatentPatentWriteOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2407,7 +2415,7 @@ class PatentApi:
     @validate_call
     def post_patent_disclosures_with_http_info(
         self,
-        disclosure_batch: DisclosureBatch,
+        patent_disclosure_batch: PatentDisclosureBatch,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2420,13 +2428,13 @@ class PatentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatentWriteOut]:
+    ) -> ApiResponse[PatentPatentWriteOut]:
         """Appends the assembled document and the record ids it rests on.
 
         Appends the assembled document and the record ids it rests on. The document is a rendering of what the log already holds, and its citations are what let a reader check it instead of taking it.
 
-        :param disclosure_batch: (required)
-        :type disclosure_batch: DisclosureBatch
+        :param patent_disclosure_batch: (required)
+        :type patent_disclosure_batch: PatentDisclosureBatch
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2450,7 +2458,7 @@ class PatentApi:
         """ # noqa: E501
 
         _param = self._post_patent_disclosures_serialize(
-            disclosure_batch=disclosure_batch,
+            patent_disclosure_batch=patent_disclosure_batch,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2458,7 +2466,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatentWriteOut",
+            '200': "PatentPatentWriteOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2474,7 +2482,7 @@ class PatentApi:
     @validate_call
     def post_patent_disclosures_without_preload_content(
         self,
-        disclosure_batch: DisclosureBatch,
+        patent_disclosure_batch: PatentDisclosureBatch,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2492,8 +2500,8 @@ class PatentApi:
 
         Appends the assembled document and the record ids it rests on. The document is a rendering of what the log already holds, and its citations are what let a reader check it instead of taking it.
 
-        :param disclosure_batch: (required)
-        :type disclosure_batch: DisclosureBatch
+        :param patent_disclosure_batch: (required)
+        :type patent_disclosure_batch: PatentDisclosureBatch
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2517,7 +2525,7 @@ class PatentApi:
         """ # noqa: E501
 
         _param = self._post_patent_disclosures_serialize(
-            disclosure_batch=disclosure_batch,
+            patent_disclosure_batch=patent_disclosure_batch,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2525,7 +2533,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatentWriteOut",
+            '200': "PatentPatentWriteOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2536,7 +2544,7 @@ class PatentApi:
 
     def _post_patent_disclosures_serialize(
         self,
-        disclosure_batch,
+        patent_disclosure_batch,
         _request_auth,
         _content_type,
         _headers,
@@ -2562,15 +2570,16 @@ class PatentApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if disclosure_batch is not None:
-            _body_params = disclosure_batch
+        if patent_disclosure_batch is not None:
+            _body_params = patent_disclosure_batch
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2614,7 +2623,7 @@ class PatentApi:
     @validate_call
     def post_patent_grants(
         self,
-        grant_in: GrantIn,
+        patent_grant_in: PatentGrantIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2627,13 +2636,13 @@ class PatentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatentGrantOut:
+    ) -> PatentPatentGrantOut:
         """Makes the decision a recording never implied: whether an idea, implementation or disclosure stays private to its author's project, opens to the org, or goes public.
 
         Makes the decision a recording never implied: whether an idea, implementation or disclosure stays private to its author's project, opens to the org, or goes public. Publication of a conception entry is a disclosure under 35 U.S.C. §102 in every jurisdiction that reads it that way, so it is always a separate call and never a side effect of writing one down.
 
-        :param grant_in: (required)
-        :type grant_in: GrantIn
+        :param patent_grant_in: (required)
+        :type patent_grant_in: PatentGrantIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2657,7 +2666,7 @@ class PatentApi:
         """ # noqa: E501
 
         _param = self._post_patent_grants_serialize(
-            grant_in=grant_in,
+            patent_grant_in=patent_grant_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2665,7 +2674,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatentGrantOut",
+            '200': "PatentPatentGrantOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2681,7 +2690,7 @@ class PatentApi:
     @validate_call
     def post_patent_grants_with_http_info(
         self,
-        grant_in: GrantIn,
+        patent_grant_in: PatentGrantIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2694,13 +2703,13 @@ class PatentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatentGrantOut]:
+    ) -> ApiResponse[PatentPatentGrantOut]:
         """Makes the decision a recording never implied: whether an idea, implementation or disclosure stays private to its author's project, opens to the org, or goes public.
 
         Makes the decision a recording never implied: whether an idea, implementation or disclosure stays private to its author's project, opens to the org, or goes public. Publication of a conception entry is a disclosure under 35 U.S.C. §102 in every jurisdiction that reads it that way, so it is always a separate call and never a side effect of writing one down.
 
-        :param grant_in: (required)
-        :type grant_in: GrantIn
+        :param patent_grant_in: (required)
+        :type patent_grant_in: PatentGrantIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2724,7 +2733,7 @@ class PatentApi:
         """ # noqa: E501
 
         _param = self._post_patent_grants_serialize(
-            grant_in=grant_in,
+            patent_grant_in=patent_grant_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2732,7 +2741,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatentGrantOut",
+            '200': "PatentPatentGrantOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2748,7 +2757,7 @@ class PatentApi:
     @validate_call
     def post_patent_grants_without_preload_content(
         self,
-        grant_in: GrantIn,
+        patent_grant_in: PatentGrantIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2766,8 +2775,8 @@ class PatentApi:
 
         Makes the decision a recording never implied: whether an idea, implementation or disclosure stays private to its author's project, opens to the org, or goes public. Publication of a conception entry is a disclosure under 35 U.S.C. §102 in every jurisdiction that reads it that way, so it is always a separate call and never a side effect of writing one down.
 
-        :param grant_in: (required)
-        :type grant_in: GrantIn
+        :param patent_grant_in: (required)
+        :type patent_grant_in: PatentGrantIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2791,7 +2800,7 @@ class PatentApi:
         """ # noqa: E501
 
         _param = self._post_patent_grants_serialize(
-            grant_in=grant_in,
+            patent_grant_in=patent_grant_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2799,7 +2808,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatentGrantOut",
+            '200': "PatentPatentGrantOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2810,7 +2819,7 @@ class PatentApi:
 
     def _post_patent_grants_serialize(
         self,
-        grant_in,
+        patent_grant_in,
         _request_auth,
         _content_type,
         _headers,
@@ -2836,15 +2845,16 @@ class PatentApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if grant_in is not None:
-            _body_params = grant_in
+        if patent_grant_in is not None:
+            _body_params = patent_grant_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2888,7 +2898,7 @@ class PatentApi:
     @validate_call
     def post_patent_ideas(
         self,
-        idea_batch: IdeaBatch,
+        patent_idea_batch: PatentIdeaBatch,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2901,13 +2911,13 @@ class PatentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatentWriteOut:
+    ) -> PatentPatentWriteOut:
         """Appends conception entries.
 
         Appends conception entries. A write states the idea and nothing else: the project, the author, the clock, the append order and the content digest are all the server's, and a correction appends a version rather than editing the entry — which is the property that makes any of it usable as evidence at all.
 
-        :param idea_batch: (required)
-        :type idea_batch: IdeaBatch
+        :param patent_idea_batch: (required)
+        :type patent_idea_batch: PatentIdeaBatch
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2931,7 +2941,7 @@ class PatentApi:
         """ # noqa: E501
 
         _param = self._post_patent_ideas_serialize(
-            idea_batch=idea_batch,
+            patent_idea_batch=patent_idea_batch,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2939,7 +2949,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatentWriteOut",
+            '200': "PatentPatentWriteOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2955,7 +2965,7 @@ class PatentApi:
     @validate_call
     def post_patent_ideas_with_http_info(
         self,
-        idea_batch: IdeaBatch,
+        patent_idea_batch: PatentIdeaBatch,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2968,13 +2978,13 @@ class PatentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatentWriteOut]:
+    ) -> ApiResponse[PatentPatentWriteOut]:
         """Appends conception entries.
 
         Appends conception entries. A write states the idea and nothing else: the project, the author, the clock, the append order and the content digest are all the server's, and a correction appends a version rather than editing the entry — which is the property that makes any of it usable as evidence at all.
 
-        :param idea_batch: (required)
-        :type idea_batch: IdeaBatch
+        :param patent_idea_batch: (required)
+        :type patent_idea_batch: PatentIdeaBatch
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2998,7 +3008,7 @@ class PatentApi:
         """ # noqa: E501
 
         _param = self._post_patent_ideas_serialize(
-            idea_batch=idea_batch,
+            patent_idea_batch=patent_idea_batch,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3006,7 +3016,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatentWriteOut",
+            '200': "PatentPatentWriteOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3022,7 +3032,7 @@ class PatentApi:
     @validate_call
     def post_patent_ideas_without_preload_content(
         self,
-        idea_batch: IdeaBatch,
+        patent_idea_batch: PatentIdeaBatch,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3040,8 +3050,8 @@ class PatentApi:
 
         Appends conception entries. A write states the idea and nothing else: the project, the author, the clock, the append order and the content digest are all the server's, and a correction appends a version rather than editing the entry — which is the property that makes any of it usable as evidence at all.
 
-        :param idea_batch: (required)
-        :type idea_batch: IdeaBatch
+        :param patent_idea_batch: (required)
+        :type patent_idea_batch: PatentIdeaBatch
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3065,7 +3075,7 @@ class PatentApi:
         """ # noqa: E501
 
         _param = self._post_patent_ideas_serialize(
-            idea_batch=idea_batch,
+            patent_idea_batch=patent_idea_batch,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3073,7 +3083,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatentWriteOut",
+            '200': "PatentPatentWriteOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3084,7 +3094,7 @@ class PatentApi:
 
     def _post_patent_ideas_serialize(
         self,
-        idea_batch,
+        patent_idea_batch,
         _request_auth,
         _content_type,
         _headers,
@@ -3110,15 +3120,16 @@ class PatentApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if idea_batch is not None:
-            _body_params = idea_batch
+        if patent_idea_batch is not None:
+            _body_params = patent_idea_batch
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3162,7 +3173,7 @@ class PatentApi:
     @validate_call
     def post_patent_implementations(
         self,
-        impl_batch: ImplBatch,
+        patent_impl_batch: PatentImplBatch,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3175,13 +3186,13 @@ class PatentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatentWriteOut:
+    ) -> PatentPatentWriteOut:
         """Appends the machine's half of the record, and the idea citation is the load-bearing field: it is what lets a reader see that the conception came first.
 
         Appends the machine's half of the record, and the idea citation is the load-bearing field: it is what lets a reader see that the conception came first. An entry citing no idea is refused rather than filed.
 
-        :param impl_batch: (required)
-        :type impl_batch: ImplBatch
+        :param patent_impl_batch: (required)
+        :type patent_impl_batch: PatentImplBatch
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3205,7 +3216,7 @@ class PatentApi:
         """ # noqa: E501
 
         _param = self._post_patent_implementations_serialize(
-            impl_batch=impl_batch,
+            patent_impl_batch=patent_impl_batch,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3213,7 +3224,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatentWriteOut",
+            '200': "PatentPatentWriteOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3229,7 +3240,7 @@ class PatentApi:
     @validate_call
     def post_patent_implementations_with_http_info(
         self,
-        impl_batch: ImplBatch,
+        patent_impl_batch: PatentImplBatch,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3242,13 +3253,13 @@ class PatentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatentWriteOut]:
+    ) -> ApiResponse[PatentPatentWriteOut]:
         """Appends the machine's half of the record, and the idea citation is the load-bearing field: it is what lets a reader see that the conception came first.
 
         Appends the machine's half of the record, and the idea citation is the load-bearing field: it is what lets a reader see that the conception came first. An entry citing no idea is refused rather than filed.
 
-        :param impl_batch: (required)
-        :type impl_batch: ImplBatch
+        :param patent_impl_batch: (required)
+        :type patent_impl_batch: PatentImplBatch
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3272,7 +3283,7 @@ class PatentApi:
         """ # noqa: E501
 
         _param = self._post_patent_implementations_serialize(
-            impl_batch=impl_batch,
+            patent_impl_batch=patent_impl_batch,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3280,7 +3291,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatentWriteOut",
+            '200': "PatentPatentWriteOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3296,7 +3307,7 @@ class PatentApi:
     @validate_call
     def post_patent_implementations_without_preload_content(
         self,
-        impl_batch: ImplBatch,
+        patent_impl_batch: PatentImplBatch,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3314,8 +3325,8 @@ class PatentApi:
 
         Appends the machine's half of the record, and the idea citation is the load-bearing field: it is what lets a reader see that the conception came first. An entry citing no idea is refused rather than filed.
 
-        :param impl_batch: (required)
-        :type impl_batch: ImplBatch
+        :param patent_impl_batch: (required)
+        :type patent_impl_batch: PatentImplBatch
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3339,7 +3350,7 @@ class PatentApi:
         """ # noqa: E501
 
         _param = self._post_patent_implementations_serialize(
-            impl_batch=impl_batch,
+            patent_impl_batch=patent_impl_batch,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3347,7 +3358,7 @@ class PatentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatentWriteOut",
+            '200': "PatentPatentWriteOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3358,7 +3369,7 @@ class PatentApi:
 
     def _post_patent_implementations_serialize(
         self,
-        impl_batch,
+        patent_impl_batch,
         _request_auth,
         _content_type,
         _headers,
@@ -3384,15 +3395,16 @@ class PatentApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if impl_batch is not None:
-            _body_params = impl_batch
+        if patent_impl_batch is not None:
+            _body_params = patent_impl_batch
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

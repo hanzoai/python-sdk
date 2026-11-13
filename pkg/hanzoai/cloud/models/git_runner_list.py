@@ -17,8 +17,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.git_pool_health import GitPoolHealth
 from hanzoai.cloud.models.git_runner_view import GitRunnerView
 from typing import Optional, Set
 from typing_extensions import Self
@@ -27,8 +28,10 @@ class GitRunnerList(BaseModel):
     """
     GitRunnerList
     """ # noqa: E501
-    data: Optional[List[GitRunnerView]] = Field(default=None, description="Data is the daemons registered into this org's pools, newest first.")
-    __properties: ClassVar[List[str]] = ["data"]
+    data: Optional[List[GitRunnerView]] = Field(default=None, description="Data is the runners that can run the caller's work: the forge's, then the daemons registered into this org's pools, newest first.")
+    fault: Optional[StrictStr] = Field(default=None, description="Fault says why the forge's runners are missing from this answer, when the forge could not be read; the daemons here are listed either way.")
+    pools: Optional[List[GitPoolHealth]] = Field(default=None, description="Pools is each label set a forge runner answers to or a queued job asks for, with how many runners carry it, how many of those are online, and how many of the caller's jobs wait on it. A pool with jobs queued and no runner online is a dead pool.")
+    __properties: ClassVar[List[str]] = ["data", "fault", "pools"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -76,6 +79,13 @@ class GitRunnerList(BaseModel):
                 if _item_data:
                     _items.append(_item_data.to_dict())
             _dict['data'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in pools (list)
+        _items = []
+        if self.pools:
+            for _item_pools in self.pools:
+                if _item_pools:
+                    _items.append(_item_pools.to_dict())
+            _dict['pools'] = _items
         return _dict
 
     @classmethod
@@ -88,7 +98,9 @@ class GitRunnerList(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "data": [GitRunnerView.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None
+            "data": [GitRunnerView.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None,
+            "fault": obj.get("fault"),
+            "pools": [GitPoolHealth.from_dict(_item) for _item in obj["pools"]] if obj.get("pools") is not None else None
         })
         return _obj
 

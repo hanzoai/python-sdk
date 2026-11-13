@@ -315,6 +315,282 @@ class S3Api:
 
 
     @validate_call
+    def delete_s3_buckets_by_bucket_objects_by_wildcard1(
+        self,
+        bucket: Annotated[StrictStr, Field(description="Bucket is the bucket's friendly name, from the path.")],
+        wildcard1: Annotated[StrictStr, Field(description="Key is the object's key within the bucket — everything after that bucket's /objects/. It MAY contain \"/\", because a key is a path and this segment is captured whole: \"2019/summer/a.jpg\" is one key, not three. It is path-cleaned before use, so \"../\" reaches nothing outside the bucket, and a key that is empty, absolute or a bare folder marker is refused 400.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Removes one object and answers 204.
+
+        Removes one object and answers 204.  It removes ONE object and never a prefix: a key that looks like a folder deletes the placeholder at that key, not the objects beneath it. The key is path-cleaned first, so the delete cannot reach outside the bucket it names, and a bucket the caller's org does not own is the same 404 an unknown name gives.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing deleted, and the debit lands only once the object is gone.
+
+        :param bucket: Bucket is the bucket's friendly name, from the path. (required)
+        :type bucket: str
+        :param wildcard1: Key is the object's key within the bucket — everything after that bucket's /objects/. It MAY contain \"/\", because a key is a path and this segment is captured whole: \"2019/summer/a.jpg\" is one key, not three. It is path-cleaned before use, so \"../\" reaches nothing outside the bucket, and a key that is empty, absolute or a bare folder marker is refused 400. (required)
+        :type wildcard1: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_s3_buckets_by_bucket_objects_by_wildcard1_serialize(
+            bucket=bucket,
+            wildcard1=wildcard1,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def delete_s3_buckets_by_bucket_objects_by_wildcard1_with_http_info(
+        self,
+        bucket: Annotated[StrictStr, Field(description="Bucket is the bucket's friendly name, from the path.")],
+        wildcard1: Annotated[StrictStr, Field(description="Key is the object's key within the bucket — everything after that bucket's /objects/. It MAY contain \"/\", because a key is a path and this segment is captured whole: \"2019/summer/a.jpg\" is one key, not three. It is path-cleaned before use, so \"../\" reaches nothing outside the bucket, and a key that is empty, absolute or a bare folder marker is refused 400.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Removes one object and answers 204.
+
+        Removes one object and answers 204.  It removes ONE object and never a prefix: a key that looks like a folder deletes the placeholder at that key, not the objects beneath it. The key is path-cleaned first, so the delete cannot reach outside the bucket it names, and a bucket the caller's org does not own is the same 404 an unknown name gives.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing deleted, and the debit lands only once the object is gone.
+
+        :param bucket: Bucket is the bucket's friendly name, from the path. (required)
+        :type bucket: str
+        :param wildcard1: Key is the object's key within the bucket — everything after that bucket's /objects/. It MAY contain \"/\", because a key is a path and this segment is captured whole: \"2019/summer/a.jpg\" is one key, not three. It is path-cleaned before use, so \"../\" reaches nothing outside the bucket, and a key that is empty, absolute or a bare folder marker is refused 400. (required)
+        :type wildcard1: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_s3_buckets_by_bucket_objects_by_wildcard1_serialize(
+            bucket=bucket,
+            wildcard1=wildcard1,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def delete_s3_buckets_by_bucket_objects_by_wildcard1_without_preload_content(
+        self,
+        bucket: Annotated[StrictStr, Field(description="Bucket is the bucket's friendly name, from the path.")],
+        wildcard1: Annotated[StrictStr, Field(description="Key is the object's key within the bucket — everything after that bucket's /objects/. It MAY contain \"/\", because a key is a path and this segment is captured whole: \"2019/summer/a.jpg\" is one key, not three. It is path-cleaned before use, so \"../\" reaches nothing outside the bucket, and a key that is empty, absolute or a bare folder marker is refused 400.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Removes one object and answers 204.
+
+        Removes one object and answers 204.  It removes ONE object and never a prefix: a key that looks like a folder deletes the placeholder at that key, not the objects beneath it. The key is path-cleaned first, so the delete cannot reach outside the bucket it names, and a bucket the caller's org does not own is the same 404 an unknown name gives.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing deleted, and the debit lands only once the object is gone.
+
+        :param bucket: Bucket is the bucket's friendly name, from the path. (required)
+        :type bucket: str
+        :param wildcard1: Key is the object's key within the bucket — everything after that bucket's /objects/. It MAY contain \"/\", because a key is a path and this segment is captured whole: \"2019/summer/a.jpg\" is one key, not three. It is path-cleaned before use, so \"../\" reaches nothing outside the bucket, and a key that is empty, absolute or a bare folder marker is refused 400. (required)
+        :type wildcard1: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_s3_buckets_by_bucket_objects_by_wildcard1_serialize(
+            bucket=bucket,
+            wildcard1=wildcard1,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _delete_s3_buckets_by_bucket_objects_by_wildcard1_serialize(
+        self,
+        bucket,
+        wildcard1,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if bucket is not None:
+            _path_params['bucket'] = bucket
+        if wildcard1 is not None:
+            _path_params['wildcard1'] = wildcard1
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='DELETE',
+            resource_path='/v1/s3/buckets/{bucket}/objects/{wildcard1}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def delete_s3_buckets_by_bucket_uploads_by_upload(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
@@ -1136,6 +1412,283 @@ class S3Api:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/s3/buckets/{bucket}/objects',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_s3_buckets_by_bucket_objects_by_wildcard1(
+        self,
+        bucket: Annotated[StrictStr, Field(description="Bucket is the bucket's friendly name, from the path.")],
+        wildcard1: Annotated[StrictStr, Field(description="Key is the object's key within the bucket — everything after that bucket's /objects/. It MAY contain \"/\", because a key is a path and this segment is captured whole: \"2019/summer/a.jpg\" is one key, not three. It is path-cleaned before use, so \"../\" reaches nothing outside the bucket, and a key that is empty, absolute or a bare folder marker is refused 400.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> S3PresignResponse:
+        """Mints a presigned GET URL the caller downloads from DIRECTLY.
+
+        Mints a presigned GET URL the caller downloads from DIRECTLY.  The bytes never pass through this binary and the admin credential never leaves the server: the URL is signed against the PUBLIC host, scoped to exactly this bucket and key, and expires. It carries a content disposition of attachment naming the object's file name, so a browser following it saves the object rather than rendering it in place. A deployment with no public endpoint configured cannot mint one and answers 503 rather than a URL that will not work.  Billed per call — for MINTING the URL, which is the work this operation does; the download that follows it comes straight from the store and is not seen here. The balance is checked BEFORE anything is touched, so an unfunded org is refused with no URL issued.
+
+        :param bucket: Bucket is the bucket's friendly name, from the path. (required)
+        :type bucket: str
+        :param wildcard1: Key is the object's key within the bucket — everything after that bucket's /objects/. It MAY contain \"/\", because a key is a path and this segment is captured whole: \"2019/summer/a.jpg\" is one key, not three. It is path-cleaned before use, so \"../\" reaches nothing outside the bucket, and a key that is empty, absolute or a bare folder marker is refused 400. (required)
+        :type wildcard1: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_s3_buckets_by_bucket_objects_by_wildcard1_serialize(
+            bucket=bucket,
+            wildcard1=wildcard1,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "S3PresignResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_s3_buckets_by_bucket_objects_by_wildcard1_with_http_info(
+        self,
+        bucket: Annotated[StrictStr, Field(description="Bucket is the bucket's friendly name, from the path.")],
+        wildcard1: Annotated[StrictStr, Field(description="Key is the object's key within the bucket — everything after that bucket's /objects/. It MAY contain \"/\", because a key is a path and this segment is captured whole: \"2019/summer/a.jpg\" is one key, not three. It is path-cleaned before use, so \"../\" reaches nothing outside the bucket, and a key that is empty, absolute or a bare folder marker is refused 400.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[S3PresignResponse]:
+        """Mints a presigned GET URL the caller downloads from DIRECTLY.
+
+        Mints a presigned GET URL the caller downloads from DIRECTLY.  The bytes never pass through this binary and the admin credential never leaves the server: the URL is signed against the PUBLIC host, scoped to exactly this bucket and key, and expires. It carries a content disposition of attachment naming the object's file name, so a browser following it saves the object rather than rendering it in place. A deployment with no public endpoint configured cannot mint one and answers 503 rather than a URL that will not work.  Billed per call — for MINTING the URL, which is the work this operation does; the download that follows it comes straight from the store and is not seen here. The balance is checked BEFORE anything is touched, so an unfunded org is refused with no URL issued.
+
+        :param bucket: Bucket is the bucket's friendly name, from the path. (required)
+        :type bucket: str
+        :param wildcard1: Key is the object's key within the bucket — everything after that bucket's /objects/. It MAY contain \"/\", because a key is a path and this segment is captured whole: \"2019/summer/a.jpg\" is one key, not three. It is path-cleaned before use, so \"../\" reaches nothing outside the bucket, and a key that is empty, absolute or a bare folder marker is refused 400. (required)
+        :type wildcard1: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_s3_buckets_by_bucket_objects_by_wildcard1_serialize(
+            bucket=bucket,
+            wildcard1=wildcard1,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "S3PresignResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_s3_buckets_by_bucket_objects_by_wildcard1_without_preload_content(
+        self,
+        bucket: Annotated[StrictStr, Field(description="Bucket is the bucket's friendly name, from the path.")],
+        wildcard1: Annotated[StrictStr, Field(description="Key is the object's key within the bucket — everything after that bucket's /objects/. It MAY contain \"/\", because a key is a path and this segment is captured whole: \"2019/summer/a.jpg\" is one key, not three. It is path-cleaned before use, so \"../\" reaches nothing outside the bucket, and a key that is empty, absolute or a bare folder marker is refused 400.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Mints a presigned GET URL the caller downloads from DIRECTLY.
+
+        Mints a presigned GET URL the caller downloads from DIRECTLY.  The bytes never pass through this binary and the admin credential never leaves the server: the URL is signed against the PUBLIC host, scoped to exactly this bucket and key, and expires. It carries a content disposition of attachment naming the object's file name, so a browser following it saves the object rather than rendering it in place. A deployment with no public endpoint configured cannot mint one and answers 503 rather than a URL that will not work.  Billed per call — for MINTING the URL, which is the work this operation does; the download that follows it comes straight from the store and is not seen here. The balance is checked BEFORE anything is touched, so an unfunded org is refused with no URL issued.
+
+        :param bucket: Bucket is the bucket's friendly name, from the path. (required)
+        :type bucket: str
+        :param wildcard1: Key is the object's key within the bucket — everything after that bucket's /objects/. It MAY contain \"/\", because a key is a path and this segment is captured whole: \"2019/summer/a.jpg\" is one key, not three. It is path-cleaned before use, so \"../\" reaches nothing outside the bucket, and a key that is empty, absolute or a bare folder marker is refused 400. (required)
+        :type wildcard1: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_s3_buckets_by_bucket_objects_by_wildcard1_serialize(
+            bucket=bucket,
+            wildcard1=wildcard1,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "S3PresignResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_s3_buckets_by_bucket_objects_by_wildcard1_serialize(
+        self,
+        bucket,
+        wildcard1,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if bucket is not None:
+            _path_params['bucket'] = bucket
+        if wildcard1 is not None:
+            _path_params['wildcard1'] = wildcard1
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/s3/buckets/{bucket}/objects/{wildcard1}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

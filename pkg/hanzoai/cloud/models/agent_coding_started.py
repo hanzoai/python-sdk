@@ -27,11 +27,12 @@ class AgentCodingStarted(BaseModel):
     AgentCodingStarted
     """ # noqa: E501
     branch: Optional[StrictStr] = Field(default=None, description="Branch is the ref the run will push its work to, and the ONLY ref it is permitted to write. It exists before the work does, so it is safe to tell somebody where to look while the run is still going.")
+    pull: Optional[StrictStr] = Field(default=None, description="Pull is the CLI command or instruction to pull this run locally, e.g. `hanzo pull <sessionId>`.")
     repo: Optional[StrictStr] = Field(default=None, description="Repo is the repository the run was admitted against, echoed back as the engine resolved it.")
     routed: Optional[StrictBool] = Field(default=None, description="Routed says the run went to one of the org's own registered machines rather than to a sandbox in our cluster. False is the ordinary case.")
     session_id: Optional[StrictStr] = Field(default=None, description="SessionID is the run's handle: its durable record, and the root its live progress streams under at /v1/agent/sessions/stream?root=<sessionId>. Every later question about this run is asked with it.", alias="sessionId")
     target_id: Optional[StrictStr] = Field(default=None, description="TargetID names that machine when Routed is true, and is empty otherwise.", alias="targetId")
-    __properties: ClassVar[List[str]] = ["branch", "repo", "routed", "sessionId", "targetId"]
+    __properties: ClassVar[List[str]] = ["branch", "pull", "repo", "routed", "sessionId", "targetId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -85,6 +86,7 @@ class AgentCodingStarted(BaseModel):
 
         _obj = cls.model_validate({
             "branch": obj.get("branch"),
+            "pull": obj.get("pull"),
             "repo": obj.get("repo"),
             "routed": obj.get("routed"),
             "sessionId": obj.get("sessionId"),

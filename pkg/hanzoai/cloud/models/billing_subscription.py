@@ -37,10 +37,12 @@ class BillingSubscription(BaseModel):
     created_at: Optional[StrictStr] = Field(default=None, description="CreatedAt is when the row was written, RFC 3339.", alias="createdAt")
     current_period_end: Optional[StrictStr] = Field(default=None, description="CurrentPeriodEnd is when it ends, RFC 3339. The plan is paid through it.", alias="currentPeriodEnd")
     current_period_start: Optional[StrictStr] = Field(default=None, description="CurrentPeriodStart is when the period in hand began, RFC 3339.", alias="currentPeriodStart")
+    customer_cents: Optional[StrictInt] = Field(default=None, description="CustomerCents is the price staff agreed this subscriber pays for one seat each period, below the plan's list price; absent when none was. Every invoice bills the plan at list and the difference as the customer's discount. After LastPaid, for the ZAP wire.", alias="customerCents")
     default_payment_method: Optional[StrictStr] = Field(default=None, description="DefaultPaymentMethod is the saved method a renewal would use. Empty means there is none, so nothing can charge the plan.", alias="defaultPaymentMethod")
     ended_at: Optional[StrictStr] = Field(default=None, description="EndedAt is when it ended; absent while it runs.", alias="endedAt")
     held: Optional[StrictBool] = Field(default=None, description="Held reports that this row is the subject's one paid plan: while it stands, commerce refuses a second paid sale (409).")
     id: Optional[StrictStr] = Field(default=None, description="ID is the subscription's own id, the one cancel and reactivate take.")
+    last_paid: Optional[StrictStr] = Field(default=None, description="LastPaid is when the latest payment for this subscription arrived, RFC 3339: its latest paid invoice's paid time, or, for a period recorded as collected outside commerce, which keeps no time of its own record, the start of the latest period recorded — whichever is later. Any period, not only the one in hand: a plan past due still says when it was last paid. Empty when nothing was, or when the invoices did not read. Last, so every field before it keeps its place on the ZAP wire.", alias="lastPaid")
     lines: Optional[List[BillingSubscriptionLine]] = Field(default=None, description="Lines are a team's other seat types beside Plan (a team of standard and premium seats is Plan \"team\" and one line of \"team-premium\"), each with the seats of it the period in hand was paid for. Seats above counts them too. After Held, so the fields before them keep their places on the ZAP wire.")
     mrr_cents: Optional[StrictInt] = Field(default=None, description="MRRCents is what this subscription contributes per month — commerce's own figure, interval-normalized and multiplied by its seats, so no reader re-derives it from price and interval.", alias="mrrCents")
     plan: Optional[BillingSubscriptionPlan] = Field(default=None, description="Plan is the plan as this subscription snapshotted it.")
@@ -55,7 +57,7 @@ class BillingSubscription(BaseModel):
     trial_start: Optional[StrictStr] = Field(default=None, description="TrialStart is when a trial began; absent when there was none.", alias="trialStart")
     updated_at: Optional[StrictStr] = Field(default=None, description="UpdatedAt is when the row last changed, RFC 3339.", alias="updatedAt")
     user_id: Optional[StrictStr] = Field(default=None, description="UserID is the billing account that holds it: the org slug for an org's own plan, \"<org>/<name>\" for a member's.", alias="userId")
-    __properties: ClassVar[List[str]] = ["assigned", "cancelAtPeriodEnd", "canceledAt", "chargedCents", "coupon", "createdAt", "currentPeriodEnd", "currentPeriodStart", "defaultPaymentMethod", "endedAt", "held", "id", "lines", "mrrCents", "plan", "planId", "providerType", "quantity", "seats", "settled", "status", "test", "trialEnd", "trialStart", "updatedAt", "userId"]
+    __properties: ClassVar[List[str]] = ["assigned", "cancelAtPeriodEnd", "canceledAt", "chargedCents", "coupon", "createdAt", "currentPeriodEnd", "currentPeriodStart", "customerCents", "defaultPaymentMethod", "endedAt", "held", "id", "lastPaid", "lines", "mrrCents", "plan", "planId", "providerType", "quantity", "seats", "settled", "status", "test", "trialEnd", "trialStart", "updatedAt", "userId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -133,10 +135,12 @@ class BillingSubscription(BaseModel):
             "createdAt": obj.get("createdAt"),
             "currentPeriodEnd": obj.get("currentPeriodEnd"),
             "currentPeriodStart": obj.get("currentPeriodStart"),
+            "customerCents": obj.get("customerCents"),
             "defaultPaymentMethod": obj.get("defaultPaymentMethod"),
             "endedAt": obj.get("endedAt"),
             "held": obj.get("held"),
             "id": obj.get("id"),
+            "lastPaid": obj.get("lastPaid"),
             "lines": [BillingSubscriptionLine.from_dict(_item) for _item in obj["lines"]] if obj.get("lines") is not None else None,
             "mrrCents": obj.get("mrrCents"),
             "plan": BillingSubscriptionPlan.from_dict(obj["plan"]) if obj.get("plan") is not None else None,

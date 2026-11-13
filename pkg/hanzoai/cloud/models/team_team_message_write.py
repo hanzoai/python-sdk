@@ -28,8 +28,8 @@ class TeamTeamMessageWrite(BaseModel):
     TeamTeamMessageWrite
     """ # noqa: E501
     files: Optional[List[TeamTeamFileIn]] = Field(default=None, description="Files attaches blobs already uploaded to the space. A message may be files alone, with no text.")
-    id: Optional[StrictStr] = Field(default=None, description="ID is the room to say it in, from the path.")
-    space: Optional[StrictStr] = Field(default=None, description="Space names the space holding the room. Body-only: a query string may not redirect a write.")
+    id: Optional[StrictStr] = Field(default=None, description="ID is the channel to say it in, from the path.")
+    space: Optional[StrictStr] = Field(default=None, description="Space names the space holding the channel. Body-only: a query string may not redirect a write.")
     text: Optional[StrictStr] = Field(default=None, description="Text is what to say, as plain text. It is wrapped in the client's markup on the way in, so a caller writes words rather than HTML. `<@account-uuid>` mentions a member of the space: it is stored as the platform's mention, so they are notified, and an agent mentioned this way answers.")
     __properties: ClassVar[List[str]] = ["files", "id", "space", "text"]
 

@@ -16,7 +16,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictInt, StrictStr
+from pydantic import Field, StrictBool, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
 from hanzoai.cloud.models.marketplace_decline_in import MarketplaceDeclineIn
@@ -41,6 +41,7 @@ from hanzoai.cloud.models.marketplace_publish_req import MarketplacePublishReq
 from hanzoai.cloud.models.marketplace_shop import MarketplaceShop
 from hanzoai.cloud.models.marketplace_shop_listing import MarketplaceShopListing
 from hanzoai.cloud.models.marketplace_verify_in import MarketplaceVerifyIn
+from hanzoai.cloud.models.marketplace_verify_req import MarketplaceVerifyReq
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -79,7 +80,7 @@ class MarketplaceApi:
     ) -> None:
         """Withdraws one of the caller org's listings from the marketplace and answers 204.
 
-        Withdraws one of the caller org's listings from the marketplace and answers 204. Only the publishing org can remove its own listing; an id that is unknown, or belongs to another org, is the same 404, so a probe learns nothing about what exists. Removing a listing removes its price from per-call enforcement; it does not uninstall the tool for anyone who already installed it, and a job already opened through it runs to its end. An org admin unpublishes.
+        Withdraws one of the caller org's listings from the marketplace and answers 204. Only the publishing org can remove its own listing; an id that is unknown, or belongs to another org, is the same 404, so a probe learns nothing about what exists. Removing a listing removes its price from per-call enforcement; it does not uninstall the tool for anyone who already installed it, and a job already opened through it runs to its end. An org admin unpublishes, and an expert unpublishes their own listing.
 
         :param id: ID is the listing, from the path. (required)
         :type id: str
@@ -146,7 +147,7 @@ class MarketplaceApi:
     ) -> ApiResponse[None]:
         """Withdraws one of the caller org's listings from the marketplace and answers 204.
 
-        Withdraws one of the caller org's listings from the marketplace and answers 204. Only the publishing org can remove its own listing; an id that is unknown, or belongs to another org, is the same 404, so a probe learns nothing about what exists. Removing a listing removes its price from per-call enforcement; it does not uninstall the tool for anyone who already installed it, and a job already opened through it runs to its end. An org admin unpublishes.
+        Withdraws one of the caller org's listings from the marketplace and answers 204. Only the publishing org can remove its own listing; an id that is unknown, or belongs to another org, is the same 404, so a probe learns nothing about what exists. Removing a listing removes its price from per-call enforcement; it does not uninstall the tool for anyone who already installed it, and a job already opened through it runs to its end. An org admin unpublishes, and an expert unpublishes their own listing.
 
         :param id: ID is the listing, from the path. (required)
         :type id: str
@@ -213,7 +214,7 @@ class MarketplaceApi:
     ) -> RESTResponseType:
         """Withdraws one of the caller org's listings from the marketplace and answers 204.
 
-        Withdraws one of the caller org's listings from the marketplace and answers 204. Only the publishing org can remove its own listing; an id that is unknown, or belongs to another org, is the same 404, so a probe learns nothing about what exists. Removing a listing removes its price from per-call enforcement; it does not uninstall the tool for anyone who already installed it, and a job already opened through it runs to its end. An org admin unpublishes.
+        Withdraws one of the caller org's listings from the marketplace and answers 204. Only the publishing org can remove its own listing; an id that is unknown, or belongs to another org, is the same 404, so a probe learns nothing about what exists. Removing a listing removes its price from per-call enforcement; it does not uninstall the tool for anyone who already installed it, and a job already opened through it runs to its end. An org admin unpublishes, and an expert unpublishes their own listing.
 
         :param id: ID is the listing, from the path. (required)
         :type id: str
@@ -1114,6 +1115,7 @@ class MarketplaceApi:
     @validate_call
     def get_marketplace_listings(
         self,
+        kind: Annotated[Optional[StrictStr], Field(description="Kind keeps one kind: agent, persona, app, skill, mcp, tool or expert.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1127,10 +1129,12 @@ class MarketplaceApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> MarketplaceListingPage:
-        """Returns the listings the caller's own org has published — what this org is offering, not what it can buy.
+        """Returns the listings the caller's own org has published — what this org is offering, not what it can buy — optionally of one kind.
 
-        Returns the listings the caller's own org has published — what this org is offering, not what it can buy. A publisher only ever sees its own rows.
+        Returns the listings the caller's own org has published — what this org is offering, not what it can buy — optionally of one kind. A publisher only ever sees its own rows.
 
+        :param kind: Kind keeps one kind: agent, persona, app, skill, mcp, tool or expert.
+        :type kind: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1154,6 +1158,7 @@ class MarketplaceApi:
         """ # noqa: E501
 
         _param = self._get_marketplace_listings_serialize(
+            kind=kind,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1177,6 +1182,7 @@ class MarketplaceApi:
     @validate_call
     def get_marketplace_listings_with_http_info(
         self,
+        kind: Annotated[Optional[StrictStr], Field(description="Kind keeps one kind: agent, persona, app, skill, mcp, tool or expert.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1190,10 +1196,12 @@ class MarketplaceApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[MarketplaceListingPage]:
-        """Returns the listings the caller's own org has published — what this org is offering, not what it can buy.
+        """Returns the listings the caller's own org has published — what this org is offering, not what it can buy — optionally of one kind.
 
-        Returns the listings the caller's own org has published — what this org is offering, not what it can buy. A publisher only ever sees its own rows.
+        Returns the listings the caller's own org has published — what this org is offering, not what it can buy — optionally of one kind. A publisher only ever sees its own rows.
 
+        :param kind: Kind keeps one kind: agent, persona, app, skill, mcp, tool or expert.
+        :type kind: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1217,6 +1225,7 @@ class MarketplaceApi:
         """ # noqa: E501
 
         _param = self._get_marketplace_listings_serialize(
+            kind=kind,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1240,6 +1249,7 @@ class MarketplaceApi:
     @validate_call
     def get_marketplace_listings_without_preload_content(
         self,
+        kind: Annotated[Optional[StrictStr], Field(description="Kind keeps one kind: agent, persona, app, skill, mcp, tool or expert.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1253,10 +1263,12 @@ class MarketplaceApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns the listings the caller's own org has published — what this org is offering, not what it can buy.
+        """Returns the listings the caller's own org has published — what this org is offering, not what it can buy — optionally of one kind.
 
-        Returns the listings the caller's own org has published — what this org is offering, not what it can buy. A publisher only ever sees its own rows.
+        Returns the listings the caller's own org has published — what this org is offering, not what it can buy — optionally of one kind. A publisher only ever sees its own rows.
 
+        :param kind: Kind keeps one kind: agent, persona, app, skill, mcp, tool or expert.
+        :type kind: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1280,6 +1292,7 @@ class MarketplaceApi:
         """ # noqa: E501
 
         _param = self._get_marketplace_listings_serialize(
+            kind=kind,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1298,6 +1311,7 @@ class MarketplaceApi:
 
     def _get_marketplace_listings_serialize(
         self,
+        kind,
         _request_auth,
         _content_type,
         _headers,
@@ -1320,6 +1334,10 @@ class MarketplaceApi:
 
         # process the path parameters
         # process the query parameters
+        if kind is not None:
+            
+            _query_params.append(('kind', kind))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -1626,13 +1644,24 @@ class MarketplaceApi:
     def get_marketplace_shop(
         self,
         q: Annotated[Optional[StrictStr], Field(description="Q keeps listings whose title, description, category, thing or seller contains every word of it, case-insensitively.")] = None,
-        kind: Annotated[Optional[StrictStr], Field(description="Kind keeps one kind: agent, persona, app, skill, mcp or tool.")] = None,
+        kind: Annotated[Optional[StrictStr], Field(description="Kind keeps one kind: agent, persona, app, skill, mcp, tool or expert.")] = None,
         category: Annotated[Optional[StrictStr], Field(description="Category keeps one category, exactly.")] = None,
         price: Annotated[Optional[StrictStr], Field(description="Price keeps free listings or priced ones.")] = None,
         rating: Annotated[Optional[StrictInt], Field(description="Rating keeps listings rated at least this many stars, 1 to 5.")] = None,
         seller: Annotated[Optional[StrictStr], Field(description="Seller keeps one seller org's listings.")] = None,
+        area: Annotated[Optional[StrictStr], Field(description="Area keeps the experts who work on one area: configure, base, commerce, bot, agents, cloud, models, creative or freelance.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit is the page size: 48 by default, 200 at most.")] = None,
         offset: Annotated[Optional[StrictInt], Field(description="Offset is where the page starts.")] = None,
+        sort: Annotated[Optional[StrictStr], Field(description="Sort orders experts, with kind=expert: tokens (the token tier), level, points (the rewards program's, put last for an expert whose reward profile is not public), rating (unrated last), jobs (jobs completed), rate (the hourly rate, none last) or newest. It is newest by default.")] = None,
+        dir: Annotated[Optional[StrictStr], Field(description="Dir is the direction of Sort: desc by default, or asc. An expert the order cannot place stays last either way.")] = None,
+        language: Annotated[Optional[StrictStr], Field(description="Language keeps the experts who work in a language, a BCP 47 tag such as en, es or zh-cn; zh keeps zh-cn and zh-tw as well. With kind=expert.")] = None,
+        verified: Annotated[Optional[StrictBool], Field(description="Verified, true, keeps the experts staff verified; false keeps everyone. With kind=expert.")] = None,
+        min_level: Annotated[Optional[StrictInt], Field(description="MinLevel keeps the experts whose public reward profile shows this level or higher; 0 keeps everyone. With kind=expert.")] = None,
+        badge: Annotated[Optional[StrictStr], Field(description="Badge keeps the experts whose public reward profile holds a badge, by id such as first-merge. With kind=expert.")] = None,
+        token_tier: Annotated[Optional[StrictStr], Field(description="TokenTier keeps the experts whose token tier is at least this: 100k, 1m, 5m, 10m, 100m, 1b, 10b, 100b or 1t. With kind=expert.")] = None,
+        rate_min: Annotated[Optional[StrictStr], Field(description="RateMin keeps the experts whose hourly rate is at least this decimal USD amount; an expert with no hourly rate is kept by neither RateMin nor RateMax. With kind=expert.")] = None,
+        rate_max: Annotated[Optional[StrictStr], Field(description="RateMax keeps the experts whose hourly rate is at most this decimal USD amount. With kind=expert.")] = None,
+        product: Annotated[Optional[StrictStr], Field(description="Product orders the experts by their score in a product, best first, those with none last: dev, bot, team, base, commerce, cloud, agents, kai, enso, zen or creative. It is the order, so it is not given with Sort. With kind=expert.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1648,11 +1677,11 @@ class MarketplaceApi:
     ) -> MarketplaceShop:
         """Searches every public listing of every kind — agents and personas to hire, apps, skills, MCP servers and tools — newest first, with facets by kind, category, price and rating, paged.
 
-        Searches every public listing of every kind — agents and personas to hire, apps, skills, MCP servers and tools — newest first, with facets by kind, category, price and rating, paged. Each listing carries its seller's public face, its reputation from settled jobs and installs, and the command and MCP operation that buy it. It needs no credential and answers the same to everyone.
+        Searches every public listing of every kind — agents and personas to hire, apps, skills, MCP servers and tools — newest first, with facets by kind, category, price and rating, paged. Each listing carries its seller's public face, its reputation from settled jobs and installs, and the command and MCP operation that buy it. It needs no credential and answers the same to everyone.  With kind=expert it also takes sort and dir, language, verified, minLevel, badge, tokenTier, rateMin and rateMax, and product: the experts the ordinary filters match are kept by these, ordered and paged, and total is how many were kept (facets stay the ordinary filters'). An expert whose reward profile is public shows it — level, points, the three rarest badges, the token tier — and each shows the products it scores highest in with the parts of the score, and those it ranks among the best three of all experts in. A private profile shows nothing of the rewards program and is put last by an order that reads it. A value a parameter cannot take, and any of these without kind=expert, is a 400.
 
         :param q: Q keeps listings whose title, description, category, thing or seller contains every word of it, case-insensitively.
         :type q: str
-        :param kind: Kind keeps one kind: agent, persona, app, skill, mcp or tool.
+        :param kind: Kind keeps one kind: agent, persona, app, skill, mcp, tool or expert.
         :type kind: str
         :param category: Category keeps one category, exactly.
         :type category: str
@@ -1662,10 +1691,32 @@ class MarketplaceApi:
         :type rating: int
         :param seller: Seller keeps one seller org's listings.
         :type seller: str
+        :param area: Area keeps the experts who work on one area: configure, base, commerce, bot, agents, cloud, models, creative or freelance.
+        :type area: str
         :param limit: Limit is the page size: 48 by default, 200 at most.
         :type limit: int
         :param offset: Offset is where the page starts.
         :type offset: int
+        :param sort: Sort orders experts, with kind=expert: tokens (the token tier), level, points (the rewards program's, put last for an expert whose reward profile is not public), rating (unrated last), jobs (jobs completed), rate (the hourly rate, none last) or newest. It is newest by default.
+        :type sort: str
+        :param dir: Dir is the direction of Sort: desc by default, or asc. An expert the order cannot place stays last either way.
+        :type dir: str
+        :param language: Language keeps the experts who work in a language, a BCP 47 tag such as en, es or zh-cn; zh keeps zh-cn and zh-tw as well. With kind=expert.
+        :type language: str
+        :param verified: Verified, true, keeps the experts staff verified; false keeps everyone. With kind=expert.
+        :type verified: bool
+        :param min_level: MinLevel keeps the experts whose public reward profile shows this level or higher; 0 keeps everyone. With kind=expert.
+        :type min_level: int
+        :param badge: Badge keeps the experts whose public reward profile holds a badge, by id such as first-merge. With kind=expert.
+        :type badge: str
+        :param token_tier: TokenTier keeps the experts whose token tier is at least this: 100k, 1m, 5m, 10m, 100m, 1b, 10b, 100b or 1t. With kind=expert.
+        :type token_tier: str
+        :param rate_min: RateMin keeps the experts whose hourly rate is at least this decimal USD amount; an expert with no hourly rate is kept by neither RateMin nor RateMax. With kind=expert.
+        :type rate_min: str
+        :param rate_max: RateMax keeps the experts whose hourly rate is at most this decimal USD amount. With kind=expert.
+        :type rate_max: str
+        :param product: Product orders the experts by their score in a product, best first, those with none last: dev, bot, team, base, commerce, cloud, agents, kai, enso, zen or creative. It is the order, so it is not given with Sort. With kind=expert.
+        :type product: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1695,8 +1746,19 @@ class MarketplaceApi:
             price=price,
             rating=rating,
             seller=seller,
+            area=area,
             limit=limit,
             offset=offset,
+            sort=sort,
+            dir=dir,
+            language=language,
+            verified=verified,
+            min_level=min_level,
+            badge=badge,
+            token_tier=token_tier,
+            rate_min=rate_min,
+            rate_max=rate_max,
+            product=product,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1721,13 +1783,24 @@ class MarketplaceApi:
     def get_marketplace_shop_with_http_info(
         self,
         q: Annotated[Optional[StrictStr], Field(description="Q keeps listings whose title, description, category, thing or seller contains every word of it, case-insensitively.")] = None,
-        kind: Annotated[Optional[StrictStr], Field(description="Kind keeps one kind: agent, persona, app, skill, mcp or tool.")] = None,
+        kind: Annotated[Optional[StrictStr], Field(description="Kind keeps one kind: agent, persona, app, skill, mcp, tool or expert.")] = None,
         category: Annotated[Optional[StrictStr], Field(description="Category keeps one category, exactly.")] = None,
         price: Annotated[Optional[StrictStr], Field(description="Price keeps free listings or priced ones.")] = None,
         rating: Annotated[Optional[StrictInt], Field(description="Rating keeps listings rated at least this many stars, 1 to 5.")] = None,
         seller: Annotated[Optional[StrictStr], Field(description="Seller keeps one seller org's listings.")] = None,
+        area: Annotated[Optional[StrictStr], Field(description="Area keeps the experts who work on one area: configure, base, commerce, bot, agents, cloud, models, creative or freelance.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit is the page size: 48 by default, 200 at most.")] = None,
         offset: Annotated[Optional[StrictInt], Field(description="Offset is where the page starts.")] = None,
+        sort: Annotated[Optional[StrictStr], Field(description="Sort orders experts, with kind=expert: tokens (the token tier), level, points (the rewards program's, put last for an expert whose reward profile is not public), rating (unrated last), jobs (jobs completed), rate (the hourly rate, none last) or newest. It is newest by default.")] = None,
+        dir: Annotated[Optional[StrictStr], Field(description="Dir is the direction of Sort: desc by default, or asc. An expert the order cannot place stays last either way.")] = None,
+        language: Annotated[Optional[StrictStr], Field(description="Language keeps the experts who work in a language, a BCP 47 tag such as en, es or zh-cn; zh keeps zh-cn and zh-tw as well. With kind=expert.")] = None,
+        verified: Annotated[Optional[StrictBool], Field(description="Verified, true, keeps the experts staff verified; false keeps everyone. With kind=expert.")] = None,
+        min_level: Annotated[Optional[StrictInt], Field(description="MinLevel keeps the experts whose public reward profile shows this level or higher; 0 keeps everyone. With kind=expert.")] = None,
+        badge: Annotated[Optional[StrictStr], Field(description="Badge keeps the experts whose public reward profile holds a badge, by id such as first-merge. With kind=expert.")] = None,
+        token_tier: Annotated[Optional[StrictStr], Field(description="TokenTier keeps the experts whose token tier is at least this: 100k, 1m, 5m, 10m, 100m, 1b, 10b, 100b or 1t. With kind=expert.")] = None,
+        rate_min: Annotated[Optional[StrictStr], Field(description="RateMin keeps the experts whose hourly rate is at least this decimal USD amount; an expert with no hourly rate is kept by neither RateMin nor RateMax. With kind=expert.")] = None,
+        rate_max: Annotated[Optional[StrictStr], Field(description="RateMax keeps the experts whose hourly rate is at most this decimal USD amount. With kind=expert.")] = None,
+        product: Annotated[Optional[StrictStr], Field(description="Product orders the experts by their score in a product, best first, those with none last: dev, bot, team, base, commerce, cloud, agents, kai, enso, zen or creative. It is the order, so it is not given with Sort. With kind=expert.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1743,11 +1816,11 @@ class MarketplaceApi:
     ) -> ApiResponse[MarketplaceShop]:
         """Searches every public listing of every kind — agents and personas to hire, apps, skills, MCP servers and tools — newest first, with facets by kind, category, price and rating, paged.
 
-        Searches every public listing of every kind — agents and personas to hire, apps, skills, MCP servers and tools — newest first, with facets by kind, category, price and rating, paged. Each listing carries its seller's public face, its reputation from settled jobs and installs, and the command and MCP operation that buy it. It needs no credential and answers the same to everyone.
+        Searches every public listing of every kind — agents and personas to hire, apps, skills, MCP servers and tools — newest first, with facets by kind, category, price and rating, paged. Each listing carries its seller's public face, its reputation from settled jobs and installs, and the command and MCP operation that buy it. It needs no credential and answers the same to everyone.  With kind=expert it also takes sort and dir, language, verified, minLevel, badge, tokenTier, rateMin and rateMax, and product: the experts the ordinary filters match are kept by these, ordered and paged, and total is how many were kept (facets stay the ordinary filters'). An expert whose reward profile is public shows it — level, points, the three rarest badges, the token tier — and each shows the products it scores highest in with the parts of the score, and those it ranks among the best three of all experts in. A private profile shows nothing of the rewards program and is put last by an order that reads it. A value a parameter cannot take, and any of these without kind=expert, is a 400.
 
         :param q: Q keeps listings whose title, description, category, thing or seller contains every word of it, case-insensitively.
         :type q: str
-        :param kind: Kind keeps one kind: agent, persona, app, skill, mcp or tool.
+        :param kind: Kind keeps one kind: agent, persona, app, skill, mcp, tool or expert.
         :type kind: str
         :param category: Category keeps one category, exactly.
         :type category: str
@@ -1757,10 +1830,32 @@ class MarketplaceApi:
         :type rating: int
         :param seller: Seller keeps one seller org's listings.
         :type seller: str
+        :param area: Area keeps the experts who work on one area: configure, base, commerce, bot, agents, cloud, models, creative or freelance.
+        :type area: str
         :param limit: Limit is the page size: 48 by default, 200 at most.
         :type limit: int
         :param offset: Offset is where the page starts.
         :type offset: int
+        :param sort: Sort orders experts, with kind=expert: tokens (the token tier), level, points (the rewards program's, put last for an expert whose reward profile is not public), rating (unrated last), jobs (jobs completed), rate (the hourly rate, none last) or newest. It is newest by default.
+        :type sort: str
+        :param dir: Dir is the direction of Sort: desc by default, or asc. An expert the order cannot place stays last either way.
+        :type dir: str
+        :param language: Language keeps the experts who work in a language, a BCP 47 tag such as en, es or zh-cn; zh keeps zh-cn and zh-tw as well. With kind=expert.
+        :type language: str
+        :param verified: Verified, true, keeps the experts staff verified; false keeps everyone. With kind=expert.
+        :type verified: bool
+        :param min_level: MinLevel keeps the experts whose public reward profile shows this level or higher; 0 keeps everyone. With kind=expert.
+        :type min_level: int
+        :param badge: Badge keeps the experts whose public reward profile holds a badge, by id such as first-merge. With kind=expert.
+        :type badge: str
+        :param token_tier: TokenTier keeps the experts whose token tier is at least this: 100k, 1m, 5m, 10m, 100m, 1b, 10b, 100b or 1t. With kind=expert.
+        :type token_tier: str
+        :param rate_min: RateMin keeps the experts whose hourly rate is at least this decimal USD amount; an expert with no hourly rate is kept by neither RateMin nor RateMax. With kind=expert.
+        :type rate_min: str
+        :param rate_max: RateMax keeps the experts whose hourly rate is at most this decimal USD amount. With kind=expert.
+        :type rate_max: str
+        :param product: Product orders the experts by their score in a product, best first, those with none last: dev, bot, team, base, commerce, cloud, agents, kai, enso, zen or creative. It is the order, so it is not given with Sort. With kind=expert.
+        :type product: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1790,8 +1885,19 @@ class MarketplaceApi:
             price=price,
             rating=rating,
             seller=seller,
+            area=area,
             limit=limit,
             offset=offset,
+            sort=sort,
+            dir=dir,
+            language=language,
+            verified=verified,
+            min_level=min_level,
+            badge=badge,
+            token_tier=token_tier,
+            rate_min=rate_min,
+            rate_max=rate_max,
+            product=product,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1816,13 +1922,24 @@ class MarketplaceApi:
     def get_marketplace_shop_without_preload_content(
         self,
         q: Annotated[Optional[StrictStr], Field(description="Q keeps listings whose title, description, category, thing or seller contains every word of it, case-insensitively.")] = None,
-        kind: Annotated[Optional[StrictStr], Field(description="Kind keeps one kind: agent, persona, app, skill, mcp or tool.")] = None,
+        kind: Annotated[Optional[StrictStr], Field(description="Kind keeps one kind: agent, persona, app, skill, mcp, tool or expert.")] = None,
         category: Annotated[Optional[StrictStr], Field(description="Category keeps one category, exactly.")] = None,
         price: Annotated[Optional[StrictStr], Field(description="Price keeps free listings or priced ones.")] = None,
         rating: Annotated[Optional[StrictInt], Field(description="Rating keeps listings rated at least this many stars, 1 to 5.")] = None,
         seller: Annotated[Optional[StrictStr], Field(description="Seller keeps one seller org's listings.")] = None,
+        area: Annotated[Optional[StrictStr], Field(description="Area keeps the experts who work on one area: configure, base, commerce, bot, agents, cloud, models, creative or freelance.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit is the page size: 48 by default, 200 at most.")] = None,
         offset: Annotated[Optional[StrictInt], Field(description="Offset is where the page starts.")] = None,
+        sort: Annotated[Optional[StrictStr], Field(description="Sort orders experts, with kind=expert: tokens (the token tier), level, points (the rewards program's, put last for an expert whose reward profile is not public), rating (unrated last), jobs (jobs completed), rate (the hourly rate, none last) or newest. It is newest by default.")] = None,
+        dir: Annotated[Optional[StrictStr], Field(description="Dir is the direction of Sort: desc by default, or asc. An expert the order cannot place stays last either way.")] = None,
+        language: Annotated[Optional[StrictStr], Field(description="Language keeps the experts who work in a language, a BCP 47 tag such as en, es or zh-cn; zh keeps zh-cn and zh-tw as well. With kind=expert.")] = None,
+        verified: Annotated[Optional[StrictBool], Field(description="Verified, true, keeps the experts staff verified; false keeps everyone. With kind=expert.")] = None,
+        min_level: Annotated[Optional[StrictInt], Field(description="MinLevel keeps the experts whose public reward profile shows this level or higher; 0 keeps everyone. With kind=expert.")] = None,
+        badge: Annotated[Optional[StrictStr], Field(description="Badge keeps the experts whose public reward profile holds a badge, by id such as first-merge. With kind=expert.")] = None,
+        token_tier: Annotated[Optional[StrictStr], Field(description="TokenTier keeps the experts whose token tier is at least this: 100k, 1m, 5m, 10m, 100m, 1b, 10b, 100b or 1t. With kind=expert.")] = None,
+        rate_min: Annotated[Optional[StrictStr], Field(description="RateMin keeps the experts whose hourly rate is at least this decimal USD amount; an expert with no hourly rate is kept by neither RateMin nor RateMax. With kind=expert.")] = None,
+        rate_max: Annotated[Optional[StrictStr], Field(description="RateMax keeps the experts whose hourly rate is at most this decimal USD amount. With kind=expert.")] = None,
+        product: Annotated[Optional[StrictStr], Field(description="Product orders the experts by their score in a product, best first, those with none last: dev, bot, team, base, commerce, cloud, agents, kai, enso, zen or creative. It is the order, so it is not given with Sort. With kind=expert.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1838,11 +1955,11 @@ class MarketplaceApi:
     ) -> RESTResponseType:
         """Searches every public listing of every kind — agents and personas to hire, apps, skills, MCP servers and tools — newest first, with facets by kind, category, price and rating, paged.
 
-        Searches every public listing of every kind — agents and personas to hire, apps, skills, MCP servers and tools — newest first, with facets by kind, category, price and rating, paged. Each listing carries its seller's public face, its reputation from settled jobs and installs, and the command and MCP operation that buy it. It needs no credential and answers the same to everyone.
+        Searches every public listing of every kind — agents and personas to hire, apps, skills, MCP servers and tools — newest first, with facets by kind, category, price and rating, paged. Each listing carries its seller's public face, its reputation from settled jobs and installs, and the command and MCP operation that buy it. It needs no credential and answers the same to everyone.  With kind=expert it also takes sort and dir, language, verified, minLevel, badge, tokenTier, rateMin and rateMax, and product: the experts the ordinary filters match are kept by these, ordered and paged, and total is how many were kept (facets stay the ordinary filters'). An expert whose reward profile is public shows it — level, points, the three rarest badges, the token tier — and each shows the products it scores highest in with the parts of the score, and those it ranks among the best three of all experts in. A private profile shows nothing of the rewards program and is put last by an order that reads it. A value a parameter cannot take, and any of these without kind=expert, is a 400.
 
         :param q: Q keeps listings whose title, description, category, thing or seller contains every word of it, case-insensitively.
         :type q: str
-        :param kind: Kind keeps one kind: agent, persona, app, skill, mcp or tool.
+        :param kind: Kind keeps one kind: agent, persona, app, skill, mcp, tool or expert.
         :type kind: str
         :param category: Category keeps one category, exactly.
         :type category: str
@@ -1852,10 +1969,32 @@ class MarketplaceApi:
         :type rating: int
         :param seller: Seller keeps one seller org's listings.
         :type seller: str
+        :param area: Area keeps the experts who work on one area: configure, base, commerce, bot, agents, cloud, models, creative or freelance.
+        :type area: str
         :param limit: Limit is the page size: 48 by default, 200 at most.
         :type limit: int
         :param offset: Offset is where the page starts.
         :type offset: int
+        :param sort: Sort orders experts, with kind=expert: tokens (the token tier), level, points (the rewards program's, put last for an expert whose reward profile is not public), rating (unrated last), jobs (jobs completed), rate (the hourly rate, none last) or newest. It is newest by default.
+        :type sort: str
+        :param dir: Dir is the direction of Sort: desc by default, or asc. An expert the order cannot place stays last either way.
+        :type dir: str
+        :param language: Language keeps the experts who work in a language, a BCP 47 tag such as en, es or zh-cn; zh keeps zh-cn and zh-tw as well. With kind=expert.
+        :type language: str
+        :param verified: Verified, true, keeps the experts staff verified; false keeps everyone. With kind=expert.
+        :type verified: bool
+        :param min_level: MinLevel keeps the experts whose public reward profile shows this level or higher; 0 keeps everyone. With kind=expert.
+        :type min_level: int
+        :param badge: Badge keeps the experts whose public reward profile holds a badge, by id such as first-merge. With kind=expert.
+        :type badge: str
+        :param token_tier: TokenTier keeps the experts whose token tier is at least this: 100k, 1m, 5m, 10m, 100m, 1b, 10b, 100b or 1t. With kind=expert.
+        :type token_tier: str
+        :param rate_min: RateMin keeps the experts whose hourly rate is at least this decimal USD amount; an expert with no hourly rate is kept by neither RateMin nor RateMax. With kind=expert.
+        :type rate_min: str
+        :param rate_max: RateMax keeps the experts whose hourly rate is at most this decimal USD amount. With kind=expert.
+        :type rate_max: str
+        :param product: Product orders the experts by their score in a product, best first, those with none last: dev, bot, team, base, commerce, cloud, agents, kai, enso, zen or creative. It is the order, so it is not given with Sort. With kind=expert.
+        :type product: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1885,8 +2024,19 @@ class MarketplaceApi:
             price=price,
             rating=rating,
             seller=seller,
+            area=area,
             limit=limit,
             offset=offset,
+            sort=sort,
+            dir=dir,
+            language=language,
+            verified=verified,
+            min_level=min_level,
+            badge=badge,
+            token_tier=token_tier,
+            rate_min=rate_min,
+            rate_max=rate_max,
+            product=product,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1911,8 +2061,19 @@ class MarketplaceApi:
         price,
         rating,
         seller,
+        area,
         limit,
         offset,
+        sort,
+        dir,
+        language,
+        verified,
+        min_level,
+        badge,
+        token_tier,
+        rate_min,
+        rate_max,
+        product,
         _request_auth,
         _content_type,
         _headers,
@@ -1959,6 +2120,10 @@ class MarketplaceApi:
             
             _query_params.append(('seller', seller))
             
+        if area is not None:
+            
+            _query_params.append(('area', area))
+            
         if limit is not None:
             
             _query_params.append(('limit', limit))
@@ -1966,6 +2131,46 @@ class MarketplaceApi:
         if offset is not None:
             
             _query_params.append(('offset', offset))
+            
+        if sort is not None:
+            
+            _query_params.append(('sort', sort))
+            
+        if dir is not None:
+            
+            _query_params.append(('dir', dir))
+            
+        if language is not None:
+            
+            _query_params.append(('language', language))
+            
+        if verified is not None:
+            
+            _query_params.append(('verified', verified))
+            
+        if min_level is not None:
+            
+            _query_params.append(('minLevel', min_level))
+            
+        if badge is not None:
+            
+            _query_params.append(('badge', badge))
+            
+        if token_tier is not None:
+            
+            _query_params.append(('tokenTier', token_tier))
+            
+        if rate_min is not None:
+            
+            _query_params.append(('rateMin', rate_min))
+            
+        if rate_max is not None:
+            
+            _query_params.append(('rateMax', rate_max))
+            
+        if product is not None:
+            
+            _query_params.append(('product', product))
             
         # process the header parameters
         # process the form parameters
@@ -2283,9 +2488,9 @@ class MarketplaceApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> MarketplaceListing:
-        """Edits one of the caller org's listings — its copy, price, payout wallet, visibility and documentation — under the same rules publish applies, and answers the listing as it now stands.
+        """Edits one of the caller org's listings — its copy, price, payout wallet, visibility and documentation, and an expert's profile — under the same rules publish applies, and answers the listing as it now stands.
 
-        Edits one of the caller org's listings — its copy, price, payout wallet, visibility and documentation — under the same rules publish applies, and answers the listing as it now stands. Another org's listing and one that does not exist are the same 404. An org admin edits.
+        Edits one of the caller org's listings — its copy, price, payout wallet, visibility and documentation, and an expert's profile — under the same rules publish applies, and answers the listing as it now stands. Another org's listing and one that does not exist are the same 404. An org admin edits, and an expert edits their own listing.
 
         :param id: ID is the listing to edit, from the path. (required)
         :type id: str
@@ -2354,9 +2559,9 @@ class MarketplaceApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[MarketplaceListing]:
-        """Edits one of the caller org's listings — its copy, price, payout wallet, visibility and documentation — under the same rules publish applies, and answers the listing as it now stands.
+        """Edits one of the caller org's listings — its copy, price, payout wallet, visibility and documentation, and an expert's profile — under the same rules publish applies, and answers the listing as it now stands.
 
-        Edits one of the caller org's listings — its copy, price, payout wallet, visibility and documentation — under the same rules publish applies, and answers the listing as it now stands. Another org's listing and one that does not exist are the same 404. An org admin edits.
+        Edits one of the caller org's listings — its copy, price, payout wallet, visibility and documentation, and an expert's profile — under the same rules publish applies, and answers the listing as it now stands. Another org's listing and one that does not exist are the same 404. An org admin edits, and an expert edits their own listing.
 
         :param id: ID is the listing to edit, from the path. (required)
         :type id: str
@@ -2425,9 +2630,9 @@ class MarketplaceApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Edits one of the caller org's listings — its copy, price, payout wallet, visibility and documentation — under the same rules publish applies, and answers the listing as it now stands.
+        """Edits one of the caller org's listings — its copy, price, payout wallet, visibility and documentation, and an expert's profile — under the same rules publish applies, and answers the listing as it now stands.
 
-        Edits one of the caller org's listings — its copy, price, payout wallet, visibility and documentation — under the same rules publish applies, and answers the listing as it now stands. Another org's listing and one that does not exist are the same 404. An org admin edits.
+        Edits one of the caller org's listings — its copy, price, payout wallet, visibility and documentation, and an expert's profile — under the same rules publish applies, and answers the listing as it now stands. Another org's listing and one that does not exist are the same 404. An org admin edits, and an expert edits their own listing.
 
         :param id: ID is the listing to edit, from the path. (required)
         :type id: str
@@ -5332,7 +5537,7 @@ class MarketplaceApi:
     ) -> MarketplaceListing:
         """Offers one thing the caller's org owns on the marketplace — an agent, persona, app, skill or MCP server, or, for the platform, a tool sold per call — optionally monetized.
 
-        Offers one thing the caller's org owns on the marketplace — an agent, persona, app, skill or MCP server, or, for the platform, a tool sold per call — optionally monetized. The owning app is asked, as the org, whether the thing is the org's, so a listing never sells something that does not exist or belongs to someone else: a tool every org reaches is the platform's, and a server enabled off the public shelf is the shelf's. A monetized listing names a payout wallet of the org's own, which wallets confirms, so a price is never unpayable. The price is exact to 18 decimal places, so a per-call price below a cent is a real price and not a rounded-away zero. An org admin publishes, at most 1000 listings an org; it answers 201 with the created row.
+        Offers one thing the caller's org owns on the marketplace — an agent, persona, app, skill or MCP server, or, for the platform, a tool sold per call — optionally monetized. An expert is the exception to the org's admin: any member lists themself, once, as a person (kind expert), and is the listing's owner beside the org's admins. The owning app is asked, as the org, whether the thing is the org's, so a listing never sells something that does not exist or belongs to someone else: a tool every org reaches is the platform's, and a server enabled off the public shelf is the shelf's. A monetized listing names a payout wallet of the org's own, which wallets confirms, so a price is never unpayable. The price is exact to 18 decimal places, so a per-call price below a cent is a real price and not a rounded-away zero. An org admin publishes, at most 1000 listings an org; it answers 201 with the created row.
 
         :param marketplace_publish_req: (required)
         :type marketplace_publish_req: MarketplacePublishReq
@@ -5399,7 +5604,7 @@ class MarketplaceApi:
     ) -> ApiResponse[MarketplaceListing]:
         """Offers one thing the caller's org owns on the marketplace — an agent, persona, app, skill or MCP server, or, for the platform, a tool sold per call — optionally monetized.
 
-        Offers one thing the caller's org owns on the marketplace — an agent, persona, app, skill or MCP server, or, for the platform, a tool sold per call — optionally monetized. The owning app is asked, as the org, whether the thing is the org's, so a listing never sells something that does not exist or belongs to someone else: a tool every org reaches is the platform's, and a server enabled off the public shelf is the shelf's. A monetized listing names a payout wallet of the org's own, which wallets confirms, so a price is never unpayable. The price is exact to 18 decimal places, so a per-call price below a cent is a real price and not a rounded-away zero. An org admin publishes, at most 1000 listings an org; it answers 201 with the created row.
+        Offers one thing the caller's org owns on the marketplace — an agent, persona, app, skill or MCP server, or, for the platform, a tool sold per call — optionally monetized. An expert is the exception to the org's admin: any member lists themself, once, as a person (kind expert), and is the listing's owner beside the org's admins. The owning app is asked, as the org, whether the thing is the org's, so a listing never sells something that does not exist or belongs to someone else: a tool every org reaches is the platform's, and a server enabled off the public shelf is the shelf's. A monetized listing names a payout wallet of the org's own, which wallets confirms, so a price is never unpayable. The price is exact to 18 decimal places, so a per-call price below a cent is a real price and not a rounded-away zero. An org admin publishes, at most 1000 listings an org; it answers 201 with the created row.
 
         :param marketplace_publish_req: (required)
         :type marketplace_publish_req: MarketplacePublishReq
@@ -5466,7 +5671,7 @@ class MarketplaceApi:
     ) -> RESTResponseType:
         """Offers one thing the caller's org owns on the marketplace — an agent, persona, app, skill or MCP server, or, for the platform, a tool sold per call — optionally monetized.
 
-        Offers one thing the caller's org owns on the marketplace — an agent, persona, app, skill or MCP server, or, for the platform, a tool sold per call — optionally monetized. The owning app is asked, as the org, whether the thing is the org's, so a listing never sells something that does not exist or belongs to someone else: a tool every org reaches is the platform's, and a server enabled off the public shelf is the shelf's. A monetized listing names a payout wallet of the org's own, which wallets confirms, so a price is never unpayable. The price is exact to 18 decimal places, so a per-call price below a cent is a real price and not a rounded-away zero. An org admin publishes, at most 1000 listings an org; it answers 201 with the created row.
+        Offers one thing the caller's org owns on the marketplace — an agent, persona, app, skill or MCP server, or, for the platform, a tool sold per call — optionally monetized. An expert is the exception to the org's admin: any member lists themself, once, as a person (kind expert), and is the listing's owner beside the org's admins. The owning app is asked, as the org, whether the thing is the org's, so a listing never sells something that does not exist or belongs to someone else: a tool every org reaches is the platform's, and a server enabled off the public shelf is the shelf's. A monetized listing names a payout wallet of the org's own, which wallets confirms, so a price is never unpayable. The price is exact to 18 decimal places, so a per-call price below a cent is a real price and not a rounded-away zero. An org admin publishes, at most 1000 listings an org; it answers 201 with the created row.
 
         :param marketplace_publish_req: (required)
         :type marketplace_publish_req: MarketplacePublishReq
@@ -5573,6 +5778,296 @@ class MarketplaceApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/marketplace/listings',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_marketplace_listings_by_id_verify(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the expert listing, from the path.")],
+        marketplace_verify_req: MarketplaceVerifyReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketplaceListing:
+        """Marks an expert listing verified, or takes the mark away, whichever org published it.
+
+        Marks an expert listing verified, or takes the mark away, whichever org published it. Verified is staff's word that the person is who the listing says and does what it says: only a SuperAdmin (an owner of the reserved admin org) gives it, never an org admin and never the expert, and each change is on the audit trail with who made it. It answers the listing as it now stands. A listing that is not an expert's is a 404.
+
+        :param id: ID is the expert listing, from the path. (required)
+        :type id: str
+        :param marketplace_verify_req: (required)
+        :type marketplace_verify_req: MarketplaceVerifyReq
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_listings_by_id_verify_serialize(
+            id=id,
+            marketplace_verify_req=marketplace_verify_req,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceListing",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketplace_listings_by_id_verify_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the expert listing, from the path.")],
+        marketplace_verify_req: MarketplaceVerifyReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketplaceListing]:
+        """Marks an expert listing verified, or takes the mark away, whichever org published it.
+
+        Marks an expert listing verified, or takes the mark away, whichever org published it. Verified is staff's word that the person is who the listing says and does what it says: only a SuperAdmin (an owner of the reserved admin org) gives it, never an org admin and never the expert, and each change is on the audit trail with who made it. It answers the listing as it now stands. A listing that is not an expert's is a 404.
+
+        :param id: ID is the expert listing, from the path. (required)
+        :type id: str
+        :param marketplace_verify_req: (required)
+        :type marketplace_verify_req: MarketplaceVerifyReq
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_listings_by_id_verify_serialize(
+            id=id,
+            marketplace_verify_req=marketplace_verify_req,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceListing",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketplace_listings_by_id_verify_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the expert listing, from the path.")],
+        marketplace_verify_req: MarketplaceVerifyReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Marks an expert listing verified, or takes the mark away, whichever org published it.
+
+        Marks an expert listing verified, or takes the mark away, whichever org published it. Verified is staff's word that the person is who the listing says and does what it says: only a SuperAdmin (an owner of the reserved admin org) gives it, never an org admin and never the expert, and each change is on the audit trail with who made it. It answers the listing as it now stands. A listing that is not an expert's is a 404.
+
+        :param id: ID is the expert listing, from the path. (required)
+        :type id: str
+        :param marketplace_verify_req: (required)
+        :type marketplace_verify_req: MarketplaceVerifyReq
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_listings_by_id_verify_serialize(
+            id=id,
+            marketplace_verify_req=marketplace_verify_req,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceListing",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketplace_listings_by_id_verify_serialize(
+        self,
+        id,
+        marketplace_verify_req,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if marketplace_verify_req is not None:
+            _body_params = marketplace_verify_req
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketplace/listings/{id}/verify',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

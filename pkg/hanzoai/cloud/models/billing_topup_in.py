@@ -29,8 +29,9 @@ class BillingTopupIn(BaseModel):
     amount_cents: Optional[StrictInt] = Field(default=None, description="AmountCents is how much to charge, in cents of Currency. Required.", alias="amountCents")
     currency: Optional[StrictStr] = Field(default=None, description="Currency is the ISO-4217 code to charge in. Empty takes the deployment's own default.")
     payment_method_id: Optional[StrictStr] = Field(default=None, description="MethodID names a card the subject already saved, for the saved-card endpoint.", alias="paymentMethodId")
+    provider: Optional[StrictStr] = Field(default=None, description="Provider names the explicit payment processor (\"square\" or \"paypal\") when SourceID is a provider-specific order/token (e.g. a PayPal v2 Order ID).")
     source_id: Optional[StrictStr] = Field(default=None, description="SourceID is a single-use card token from the payment form, for the token endpoint. It is vaulted as part of the charge, so a caller never holds card numbers and this service never sees one.", alias="sourceId")
-    __properties: ClassVar[List[str]] = ["amountCents", "currency", "paymentMethodId", "sourceId"]
+    __properties: ClassVar[List[str]] = ["amountCents", "currency", "paymentMethodId", "provider", "sourceId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -86,6 +87,7 @@ class BillingTopupIn(BaseModel):
             "amountCents": obj.get("amountCents"),
             "currency": obj.get("currency"),
             "paymentMethodId": obj.get("paymentMethodId"),
+            "provider": obj.get("provider"),
             "sourceId": obj.get("sourceId")
         })
         return _obj

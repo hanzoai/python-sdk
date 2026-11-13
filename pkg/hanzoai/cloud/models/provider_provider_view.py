@@ -29,13 +29,14 @@ class ProviderProviderView(BaseModel):
     """
     ProviderProviderView
     """ # noqa: E501
+    accounts: Optional[List[ProviderConnectionView]] = Field(default=None, description="Accounts is every account this org has connected for the provider, each with its own platform id. Tokens never appear here.")
     actions: Optional[List[ProviderOpView]] = Field(default=None, description="Actions are what the connector can be asked to do, by a flow step or an agent (POST /v1/provider/{provider}/run when Runnable).")
     app: Optional[StrictStr] = Field(default=None, description="App names the OAuth app registration its sign-in uses (\"GOOGLE\"), for a connector whose sign-in awaits one.")
     available: Optional[StrictBool] = Field(default=None, description="Available is whether THIS DEPLOYMENT has the provider's app credentials, so connect can succeed. False renders the card without a working Connect button.")
     category: Optional[StrictStr] = Field(default=None, description="Category groups the card (\"Communication\", \"Developer\", \"Marketing\").")
     checks: Optional[StrictBool] = Field(default=None, description="Checks is whether a pasted credential is checked with the provider before it is stored. False means it is sealed on its shape and checked on use.")
     connected: Optional[StrictBool] = Field(default=None, description="Connected is whether this org has a live connection to the provider.")
-    connection: Optional[ProviderConnectionView] = Field(default=None, description="Connection is the connected account's non-secret detail. Absent when the org has no connection; tokens NEVER appear here (they live only in KMS).")
+    connection: Optional[ProviderConnectionView] = Field(default=None, description="Connection is the connected account's non-secret detail. Absent when the org has no connection; tokens NEVER appear here (they live only in KMS). When the org holds several accounts, this is the first and Accounts is every one of them.")
     description: Optional[StrictStr] = Field(default=None, description="Description is the one-line pitch the console card shows.")
     fields: Optional[List[ProviderField]] = Field(default=None, description="Fields is the form a credential connector asks for. Absent otherwise.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the provider's registry id and the :provider path segment (\"slack\").")
@@ -47,7 +48,7 @@ class ProviderProviderView(BaseModel):
     runnable: Optional[StrictBool] = Field(default=None, description="Runnable is whether its actions run on this deployment.")
     scopes: Optional[List[StrictStr]] = Field(default=None, description="Scopes are the permissions a connection will ask for. Never null.")
     triggers: Optional[List[ProviderOpView]] = Field(default=None, description="Triggers are the events a flow can start on.")
-    __properties: ClassVar[List[str]] = ["actions", "app", "available", "category", "checks", "connected", "connection", "description", "fields", "id", "kind", "logo", "modes", "name", "note", "runnable", "scopes", "triggers"]
+    __properties: ClassVar[List[str]] = ["accounts", "actions", "app", "available", "category", "checks", "connected", "connection", "description", "fields", "id", "kind", "logo", "modes", "name", "note", "runnable", "scopes", "triggers"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -88,6 +89,13 @@ class ProviderProviderView(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in accounts (list)
+        _items = []
+        if self.accounts:
+            for _item_accounts in self.accounts:
+                if _item_accounts:
+                    _items.append(_item_accounts.to_dict())
+            _dict['accounts'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in actions (list)
         _items = []
         if self.actions:
@@ -124,6 +132,7 @@ class ProviderProviderView(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "accounts": [ProviderConnectionView.from_dict(_item) for _item in obj["accounts"]] if obj.get("accounts") is not None else None,
             "actions": [ProviderOpView.from_dict(_item) for _item in obj["actions"]] if obj.get("actions") is not None else None,
             "app": obj.get("app"),
             "available": obj.get("available"),

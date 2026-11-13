@@ -20,13 +20,13 @@ from pydantic import Field, StrictBool, StrictInt, StrictStr
 from typing import List, Optional
 from typing_extensions import Annotated
 from hanzoai.cloud.models.task_board_view import TaskBoardView
+from hanzoai.cloud.models.task_channel_work import TaskChannelWork
 from hanzoai.cloud.models.task_comment_list import TaskCommentList
 from hanzoai.cloud.models.task_issue_edit import TaskIssueEdit
 from hanzoai.cloud.models.task_issue_hit import TaskIssueHit
 from hanzoai.cloud.models.task_issue_hits import TaskIssueHits
 from hanzoai.cloud.models.task_issue_view import TaskIssueView
 from hanzoai.cloud.models.task_new_issue import TaskNewIssue
-from hanzoai.cloud.models.task_room_work import TaskRoomWork
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -664,6 +664,268 @@ class TaskApi:
 
 
     @validate_call
+    def get_task_channels_by_channel(
+        self,
+        channel: Annotated[StrictStr, Field(description="Channel is the channel, spelled \"<space>_<channel>\" — the same value GET /v1/meet/call answers with, so a channel's call and its work name the channel identically. From the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TaskChannelWork:
+        """Summarises one channel's work.
+
+        Summarises one channel's work.  The channel is opaque here and is deliberately not resolved: this package cannot say whether a channel exists — apps/team owns that document — so an unknown channel answers an EMPTY board rather than a 404. That is the honest answer and the useful one: a channel that has never had an item filed in it and a channel id that was mistyped both have no work, and inventing a distinction would require this surface to hold a second copy of the channel list (HIP-0523 §2 forbids it, and it would drift the first time a channel was renamed).  Tenancy is the validated principal's org and nothing else, so a caller cannot read another tenant's channel by naming its channel.
+
+        :param channel: Channel is the channel, spelled \"<space>_<channel>\" — the same value GET /v1/meet/call answers with, so a channel's call and its work name the channel identically. From the path. (required)
+        :type channel: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_task_channels_by_channel_serialize(
+            channel=channel,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TaskChannelWork",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_task_channels_by_channel_with_http_info(
+        self,
+        channel: Annotated[StrictStr, Field(description="Channel is the channel, spelled \"<space>_<channel>\" — the same value GET /v1/meet/call answers with, so a channel's call and its work name the channel identically. From the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TaskChannelWork]:
+        """Summarises one channel's work.
+
+        Summarises one channel's work.  The channel is opaque here and is deliberately not resolved: this package cannot say whether a channel exists — apps/team owns that document — so an unknown channel answers an EMPTY board rather than a 404. That is the honest answer and the useful one: a channel that has never had an item filed in it and a channel id that was mistyped both have no work, and inventing a distinction would require this surface to hold a second copy of the channel list (HIP-0523 §2 forbids it, and it would drift the first time a channel was renamed).  Tenancy is the validated principal's org and nothing else, so a caller cannot read another tenant's channel by naming its channel.
+
+        :param channel: Channel is the channel, spelled \"<space>_<channel>\" — the same value GET /v1/meet/call answers with, so a channel's call and its work name the channel identically. From the path. (required)
+        :type channel: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_task_channels_by_channel_serialize(
+            channel=channel,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TaskChannelWork",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_task_channels_by_channel_without_preload_content(
+        self,
+        channel: Annotated[StrictStr, Field(description="Channel is the channel, spelled \"<space>_<channel>\" — the same value GET /v1/meet/call answers with, so a channel's call and its work name the channel identically. From the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Summarises one channel's work.
+
+        Summarises one channel's work.  The channel is opaque here and is deliberately not resolved: this package cannot say whether a channel exists — apps/team owns that document — so an unknown channel answers an EMPTY board rather than a 404. That is the honest answer and the useful one: a channel that has never had an item filed in it and a channel id that was mistyped both have no work, and inventing a distinction would require this surface to hold a second copy of the channel list (HIP-0523 §2 forbids it, and it would drift the first time a channel was renamed).  Tenancy is the validated principal's org and nothing else, so a caller cannot read another tenant's channel by naming its channel.
+
+        :param channel: Channel is the channel, spelled \"<space>_<channel>\" — the same value GET /v1/meet/call answers with, so a channel's call and its work name the channel identically. From the path. (required)
+        :type channel: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_task_channels_by_channel_serialize(
+            channel=channel,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TaskChannelWork",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_task_channels_by_channel_serialize(
+        self,
+        channel,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if channel is not None:
+            _path_params['channel'] = channel
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/task/channels/{channel}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_task_issues(
         self,
         q: Annotated[Optional[StrictStr], Field(description="Q matches an issue's title or description. A word from the issue, which is what someone remembers — not its number, which is what they are looking up.")] = None,
@@ -671,7 +933,7 @@ class TaskApi:
         status: Annotated[Optional[StrictStr], Field(description="Status keeps one board column: backlog, todo, in_progress, done, canceled.")] = None,
         kind: Annotated[Optional[StrictStr], Field(description="Kind keeps one shape: issue, pr, epic.")] = None,
         repo: Annotated[Optional[StrictStr], Field(description="Repo keeps issues bound to one git repository.")] = None,
-        room: Annotated[Optional[StrictStr], Field(description="Room keeps issues bound to one collaboration room, spelled \"<space>_<room>\" — the exact value GET /v1/meet/call answers with, so a channel's call and its task list name the room the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board.")] = None,
+        channel: Annotated[Optional[StrictStr], Field(description="Channel keeps issues bound to one collaboration channel, spelled \"<space>_<channel>\" — the exact value GET /v1/meet/call answers with, so a channel's call and its task list name the channel the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board.")] = None,
         source: Annotated[Optional[StrictStr], Field(description="Source keeps one origin: team, git, crm, helpdesk, cms, agent. \"git\" is how you ask for the mirrored GitHub issues specifically.")] = None,
         assignee: Annotated[Optional[StrictStr], Field(description="Assignee keeps issues held by one person. Pass \"me\" for yourself.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the answer; 0 means the default, and anything above the ceiling is clamped rather than refused — a search that errors on being too broad teaches people to guess.")] = None,
@@ -702,8 +964,8 @@ class TaskApi:
         :type kind: str
         :param repo: Repo keeps issues bound to one git repository.
         :type repo: str
-        :param room: Room keeps issues bound to one collaboration room, spelled \"<space>_<room>\" — the exact value GET /v1/meet/call answers with, so a channel's call and its task list name the room the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board.
-        :type room: str
+        :param channel: Channel keeps issues bound to one collaboration channel, spelled \"<space>_<channel>\" — the exact value GET /v1/meet/call answers with, so a channel's call and its task list name the channel the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board.
+        :type channel: str
         :param source: Source keeps one origin: team, git, crm, helpdesk, cms, agent. \"git\" is how you ask for the mirrored GitHub issues specifically.
         :type source: str
         :param assignee: Assignee keeps issues held by one person. Pass \"me\" for yourself.
@@ -738,7 +1000,7 @@ class TaskApi:
             status=status,
             kind=kind,
             repo=repo,
-            room=room,
+            channel=channel,
             source=source,
             assignee=assignee,
             limit=limit,
@@ -770,7 +1032,7 @@ class TaskApi:
         status: Annotated[Optional[StrictStr], Field(description="Status keeps one board column: backlog, todo, in_progress, done, canceled.")] = None,
         kind: Annotated[Optional[StrictStr], Field(description="Kind keeps one shape: issue, pr, epic.")] = None,
         repo: Annotated[Optional[StrictStr], Field(description="Repo keeps issues bound to one git repository.")] = None,
-        room: Annotated[Optional[StrictStr], Field(description="Room keeps issues bound to one collaboration room, spelled \"<space>_<room>\" — the exact value GET /v1/meet/call answers with, so a channel's call and its task list name the room the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board.")] = None,
+        channel: Annotated[Optional[StrictStr], Field(description="Channel keeps issues bound to one collaboration channel, spelled \"<space>_<channel>\" — the exact value GET /v1/meet/call answers with, so a channel's call and its task list name the channel the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board.")] = None,
         source: Annotated[Optional[StrictStr], Field(description="Source keeps one origin: team, git, crm, helpdesk, cms, agent. \"git\" is how you ask for the mirrored GitHub issues specifically.")] = None,
         assignee: Annotated[Optional[StrictStr], Field(description="Assignee keeps issues held by one person. Pass \"me\" for yourself.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the answer; 0 means the default, and anything above the ceiling is clamped rather than refused — a search that errors on being too broad teaches people to guess.")] = None,
@@ -801,8 +1063,8 @@ class TaskApi:
         :type kind: str
         :param repo: Repo keeps issues bound to one git repository.
         :type repo: str
-        :param room: Room keeps issues bound to one collaboration room, spelled \"<space>_<room>\" — the exact value GET /v1/meet/call answers with, so a channel's call and its task list name the room the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board.
-        :type room: str
+        :param channel: Channel keeps issues bound to one collaboration channel, spelled \"<space>_<channel>\" — the exact value GET /v1/meet/call answers with, so a channel's call and its task list name the channel the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board.
+        :type channel: str
         :param source: Source keeps one origin: team, git, crm, helpdesk, cms, agent. \"git\" is how you ask for the mirrored GitHub issues specifically.
         :type source: str
         :param assignee: Assignee keeps issues held by one person. Pass \"me\" for yourself.
@@ -837,7 +1099,7 @@ class TaskApi:
             status=status,
             kind=kind,
             repo=repo,
-            room=room,
+            channel=channel,
             source=source,
             assignee=assignee,
             limit=limit,
@@ -869,7 +1131,7 @@ class TaskApi:
         status: Annotated[Optional[StrictStr], Field(description="Status keeps one board column: backlog, todo, in_progress, done, canceled.")] = None,
         kind: Annotated[Optional[StrictStr], Field(description="Kind keeps one shape: issue, pr, epic.")] = None,
         repo: Annotated[Optional[StrictStr], Field(description="Repo keeps issues bound to one git repository.")] = None,
-        room: Annotated[Optional[StrictStr], Field(description="Room keeps issues bound to one collaboration room, spelled \"<space>_<room>\" — the exact value GET /v1/meet/call answers with, so a channel's call and its task list name the room the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board.")] = None,
+        channel: Annotated[Optional[StrictStr], Field(description="Channel keeps issues bound to one collaboration channel, spelled \"<space>_<channel>\" — the exact value GET /v1/meet/call answers with, so a channel's call and its task list name the channel the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board.")] = None,
         source: Annotated[Optional[StrictStr], Field(description="Source keeps one origin: team, git, crm, helpdesk, cms, agent. \"git\" is how you ask for the mirrored GitHub issues specifically.")] = None,
         assignee: Annotated[Optional[StrictStr], Field(description="Assignee keeps issues held by one person. Pass \"me\" for yourself.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the answer; 0 means the default, and anything above the ceiling is clamped rather than refused — a search that errors on being too broad teaches people to guess.")] = None,
@@ -900,8 +1162,8 @@ class TaskApi:
         :type kind: str
         :param repo: Repo keeps issues bound to one git repository.
         :type repo: str
-        :param room: Room keeps issues bound to one collaboration room, spelled \"<space>_<room>\" — the exact value GET /v1/meet/call answers with, so a channel's call and its task list name the room the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board.
-        :type room: str
+        :param channel: Channel keeps issues bound to one collaboration channel, spelled \"<space>_<channel>\" — the exact value GET /v1/meet/call answers with, so a channel's call and its task list name the channel the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board.
+        :type channel: str
         :param source: Source keeps one origin: team, git, crm, helpdesk, cms, agent. \"git\" is how you ask for the mirrored GitHub issues specifically.
         :type source: str
         :param assignee: Assignee keeps issues held by one person. Pass \"me\" for yourself.
@@ -936,7 +1198,7 @@ class TaskApi:
             status=status,
             kind=kind,
             repo=repo,
-            room=room,
+            channel=channel,
             source=source,
             assignee=assignee,
             limit=limit,
@@ -963,7 +1225,7 @@ class TaskApi:
         status,
         kind,
         repo,
-        room,
+        channel,
         source,
         assignee,
         limit,
@@ -1009,9 +1271,9 @@ class TaskApi:
             
             _query_params.append(('repo', repo))
             
-        if room is not None:
+        if channel is not None:
             
-            _query_params.append(('room', room))
+            _query_params.append(('channel', channel))
             
         if source is not None:
             
@@ -2491,268 +2753,6 @@ class TaskApi:
 
 
     @validate_call
-    def get_task_rooms_by_room(
-        self,
-        room: Annotated[StrictStr, Field(description="Room is the room, spelled \"<space>_<room>\" — the same value GET /v1/meet/call answers with, so a channel's call and its work name the room identically. From the path.")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TaskRoomWork:
-        """Summarises one room's work.
-
-        Summarises one room's work.  The room is opaque here and is deliberately not resolved: this package cannot say whether a room exists — apps/team owns that document — so an unknown room answers an EMPTY board rather than a 404. That is the honest answer and the useful one: a channel that has never had an item filed in it and a channel id that was mistyped both have no work, and inventing a distinction would require this surface to hold a second copy of the room list (HIP-0523 §2 forbids it, and it would drift the first time a room was renamed).  Tenancy is the validated principal's org and nothing else, so a caller cannot read another tenant's channel by naming its room.
-
-        :param room: Room is the room, spelled \"<space>_<room>\" — the same value GET /v1/meet/call answers with, so a channel's call and its work name the room identically. From the path. (required)
-        :type room: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_task_rooms_by_room_serialize(
-            room=room,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TaskRoomWork",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_task_rooms_by_room_with_http_info(
-        self,
-        room: Annotated[StrictStr, Field(description="Room is the room, spelled \"<space>_<room>\" — the same value GET /v1/meet/call answers with, so a channel's call and its work name the room identically. From the path.")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TaskRoomWork]:
-        """Summarises one room's work.
-
-        Summarises one room's work.  The room is opaque here and is deliberately not resolved: this package cannot say whether a room exists — apps/team owns that document — so an unknown room answers an EMPTY board rather than a 404. That is the honest answer and the useful one: a channel that has never had an item filed in it and a channel id that was mistyped both have no work, and inventing a distinction would require this surface to hold a second copy of the room list (HIP-0523 §2 forbids it, and it would drift the first time a room was renamed).  Tenancy is the validated principal's org and nothing else, so a caller cannot read another tenant's channel by naming its room.
-
-        :param room: Room is the room, spelled \"<space>_<room>\" — the same value GET /v1/meet/call answers with, so a channel's call and its work name the room identically. From the path. (required)
-        :type room: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_task_rooms_by_room_serialize(
-            room=room,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TaskRoomWork",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_task_rooms_by_room_without_preload_content(
-        self,
-        room: Annotated[StrictStr, Field(description="Room is the room, spelled \"<space>_<room>\" — the same value GET /v1/meet/call answers with, so a channel's call and its work name the room identically. From the path.")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Summarises one room's work.
-
-        Summarises one room's work.  The room is opaque here and is deliberately not resolved: this package cannot say whether a room exists — apps/team owns that document — so an unknown room answers an EMPTY board rather than a 404. That is the honest answer and the useful one: a channel that has never had an item filed in it and a channel id that was mistyped both have no work, and inventing a distinction would require this surface to hold a second copy of the room list (HIP-0523 §2 forbids it, and it would drift the first time a room was renamed).  Tenancy is the validated principal's org and nothing else, so a caller cannot read another tenant's channel by naming its room.
-
-        :param room: Room is the room, spelled \"<space>_<room>\" — the same value GET /v1/meet/call answers with, so a channel's call and its work name the room identically. From the path. (required)
-        :type room: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_task_rooms_by_room_serialize(
-            room=room,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TaskRoomWork",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_task_rooms_by_room_serialize(
-        self,
-        room,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if room is not None:
-            _path_params['room'] = room
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json', 
-                    'application/problem+json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/task/rooms/{room}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
     def patch_task_projects_by_key(
         self,
         key: StrictStr,
@@ -3564,7 +3564,7 @@ class TaskApi:
     ) -> TaskIssueView:
         """Opens a work item on the board, filed as YOU, where the repository lives: an issue on the deployment's forge, or on GitHub for a repository the forge mirrors from there or does not hold at all.
 
-        Opens a work item on the board, filed as YOU, where the repository lives: an issue on the deployment's forge, or on GitHub for a repository the forge mirrors from there or does not hold at all. Answers the card with the issue's address as `url`.  The column and priority are written as LABELS, which is what makes the card and the issue the same object: someone relabelling in the web UI has moved your card.  Asked for in a chat thread, the issue is bound to that thread, and what happens to it on GitHub is said there.
+        Opens a work item on the board, filed as YOU, where the repository lives: an issue on the deployment's forge, or on GitHub for a repository the forge mirrors from there or does not hold at all. Answers 201 with the card: its `number`, its `id`, and the issue's address as `url`. A create that cannot say what it made answers 502, never an empty 2xx.  The column and priority are written as LABELS, which is what makes the card and the issue the same object: someone relabelling in the web UI has moved your card.  Asked for in a chat thread, the issue is bound to that thread, and what happens to it on GitHub is said there.
 
         :param key: Key is the board — the repository name, from the path. `owner/name`, or `github.com/owner/name`, names a repository on GitHub that no board on the forge stands for. (required)
         :type key: str
@@ -3602,7 +3602,7 @@ class TaskApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TaskIssueView",
+            '201': "TaskIssueView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3635,7 +3635,7 @@ class TaskApi:
     ) -> ApiResponse[TaskIssueView]:
         """Opens a work item on the board, filed as YOU, where the repository lives: an issue on the deployment's forge, or on GitHub for a repository the forge mirrors from there or does not hold at all.
 
-        Opens a work item on the board, filed as YOU, where the repository lives: an issue on the deployment's forge, or on GitHub for a repository the forge mirrors from there or does not hold at all. Answers the card with the issue's address as `url`.  The column and priority are written as LABELS, which is what makes the card and the issue the same object: someone relabelling in the web UI has moved your card.  Asked for in a chat thread, the issue is bound to that thread, and what happens to it on GitHub is said there.
+        Opens a work item on the board, filed as YOU, where the repository lives: an issue on the deployment's forge, or on GitHub for a repository the forge mirrors from there or does not hold at all. Answers 201 with the card: its `number`, its `id`, and the issue's address as `url`. A create that cannot say what it made answers 502, never an empty 2xx.  The column and priority are written as LABELS, which is what makes the card and the issue the same object: someone relabelling in the web UI has moved your card.  Asked for in a chat thread, the issue is bound to that thread, and what happens to it on GitHub is said there.
 
         :param key: Key is the board — the repository name, from the path. `owner/name`, or `github.com/owner/name`, names a repository on GitHub that no board on the forge stands for. (required)
         :type key: str
@@ -3673,7 +3673,7 @@ class TaskApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TaskIssueView",
+            '201': "TaskIssueView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3706,7 +3706,7 @@ class TaskApi:
     ) -> RESTResponseType:
         """Opens a work item on the board, filed as YOU, where the repository lives: an issue on the deployment's forge, or on GitHub for a repository the forge mirrors from there or does not hold at all.
 
-        Opens a work item on the board, filed as YOU, where the repository lives: an issue on the deployment's forge, or on GitHub for a repository the forge mirrors from there or does not hold at all. Answers the card with the issue's address as `url`.  The column and priority are written as LABELS, which is what makes the card and the issue the same object: someone relabelling in the web UI has moved your card.  Asked for in a chat thread, the issue is bound to that thread, and what happens to it on GitHub is said there.
+        Opens a work item on the board, filed as YOU, where the repository lives: an issue on the deployment's forge, or on GitHub for a repository the forge mirrors from there or does not hold at all. Answers 201 with the card: its `number`, its `id`, and the issue's address as `url`. A create that cannot say what it made answers 502, never an empty 2xx.  The column and priority are written as LABELS, which is what makes the card and the issue the same object: someone relabelling in the web UI has moved your card.  Asked for in a chat thread, the issue is bound to that thread, and what happens to it on GitHub is said there.
 
         :param key: Key is the board — the repository name, from the path. `owner/name`, or `github.com/owner/name`, names a repository on GitHub that no board on the forge stands for. (required)
         :type key: str
@@ -3744,7 +3744,7 @@ class TaskApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TaskIssueView",
+            '201': "TaskIssueView",
         }
         response_data = self.api_client.call_api(
             *_param,

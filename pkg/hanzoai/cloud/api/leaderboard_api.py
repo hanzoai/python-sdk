@@ -16,15 +16,19 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictInt, StrictStr
-from typing import Optional
+from pydantic import Field, StrictBytes, StrictInt, StrictStr
+from typing import Optional, Tuple, Union
 from typing_extensions import Annotated
 from hanzoai.cloud.models.leaderboard_activity_view import LeaderboardActivityView
 from hanzoai.cloud.models.leaderboard_beta_board import LeaderboardBetaBoard
+from hanzoai.cloud.models.leaderboard_bounty_board import LeaderboardBountyBoard
+from hanzoai.cloud.models.leaderboard_galaxy_view import LeaderboardGalaxyView
 from hanzoai.cloud.models.leaderboard_leaderboard_view import LeaderboardLeaderboardView
 from hanzoai.cloud.models.leaderboard_optin_view import LeaderboardOptinView
 from hanzoai.cloud.models.leaderboard_org_optin_req import LeaderboardOrgOptinReq
 from hanzoai.cloud.models.leaderboard_org_optin_view import LeaderboardOrgOptinView
+from hanzoai.cloud.models.leaderboard_pulse_view import LeaderboardPulseView
+from hanzoai.cloud.models.leaderboard_standing_view import LeaderboardStandingView
 from hanzoai.cloud.models.leaderboard_user_optin_req import LeaderboardUserOptinReq
 from hanzoai.cloud.models.leaderboard_user_optin_view import LeaderboardUserOptinView
 
@@ -693,9 +697,9 @@ class LeaderboardApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> LeaderboardBetaBoard:
-        """Ranks everyone on the hanzo.ai/beta waitlist by one score: the record's verified-action points, plus 1 per org that signed up with its referral code, plus 20 per such org that has made metered spend, plus 1 per 100,000 tokens the person used, all time.
+        """Ranks everyone on the hanzo.ai/beta waitlist by one score: 1 per star on GitHub verified for the record and 1 per founder link followed, plus 1 per org that signed up with its referral code, plus 20 per such org that has made metered spend, plus 1 per 100,000 tokens the person used, all time.
 
-        Ranks everyone on the hanzo.ai/beta waitlist by one score: the record's verified-action points, plus 1 per org that signed up with its referral code, plus 20 per such org that has made metered spend, plus 1 per 100,000 tokens the person used, all time. Ties go to the earlier application. Share clicks count for nothing.  Everyone who ever applied is on it. A form filed before the person had an account is a row of its own (no name, score 0, the day it was filed) until their account's record claims it, and the record then begins when the form did.  A row is named only for a person who opted into the public board (PUT /v1/leaderboard/optin); the caller always sees their own row named. Tokens are a range on every row and exact on a named row and the caller's. `tokens` and `referrals` say whether the warehouse and the referral service answered; a term that did not is left out of every score alike.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Ranks everyone on the hanzo.ai/beta waitlist by one score: 1 per star on GitHub verified for the record and 1 per founder link followed, plus 1 per org that signed up with its referral code, plus 20 per such org that has made metered spend, plus 1 per 100,000 tokens the person used, all time. Ties go to the earlier application. Share clicks count for nothing.  Everyone who ever applied is on it. A form filed before the person had an account is a row of its own (no name, score 0, the day it was filed) until their account's record claims it, and the record then begins when the form did.  A row is named only for a person who opted into the public board (PUT /v1/leaderboard/optin); the caller always sees their own row named. Tokens are a range on every row and exact on a named row and the caller's. `tokens` and `referrals` say whether the warehouse and the referral service answered; a term that did not is left out of every score alike.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param limit: Limit caps the rows, clamped to 1..100. Defaults to 25, which is also what a non-positive value takes.
         :type limit: int
@@ -760,9 +764,9 @@ class LeaderboardApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[LeaderboardBetaBoard]:
-        """Ranks everyone on the hanzo.ai/beta waitlist by one score: the record's verified-action points, plus 1 per org that signed up with its referral code, plus 20 per such org that has made metered spend, plus 1 per 100,000 tokens the person used, all time.
+        """Ranks everyone on the hanzo.ai/beta waitlist by one score: 1 per star on GitHub verified for the record and 1 per founder link followed, plus 1 per org that signed up with its referral code, plus 20 per such org that has made metered spend, plus 1 per 100,000 tokens the person used, all time.
 
-        Ranks everyone on the hanzo.ai/beta waitlist by one score: the record's verified-action points, plus 1 per org that signed up with its referral code, plus 20 per such org that has made metered spend, plus 1 per 100,000 tokens the person used, all time. Ties go to the earlier application. Share clicks count for nothing.  Everyone who ever applied is on it. A form filed before the person had an account is a row of its own (no name, score 0, the day it was filed) until their account's record claims it, and the record then begins when the form did.  A row is named only for a person who opted into the public board (PUT /v1/leaderboard/optin); the caller always sees their own row named. Tokens are a range on every row and exact on a named row and the caller's. `tokens` and `referrals` say whether the warehouse and the referral service answered; a term that did not is left out of every score alike.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Ranks everyone on the hanzo.ai/beta waitlist by one score: 1 per star on GitHub verified for the record and 1 per founder link followed, plus 1 per org that signed up with its referral code, plus 20 per such org that has made metered spend, plus 1 per 100,000 tokens the person used, all time. Ties go to the earlier application. Share clicks count for nothing.  Everyone who ever applied is on it. A form filed before the person had an account is a row of its own (no name, score 0, the day it was filed) until their account's record claims it, and the record then begins when the form did.  A row is named only for a person who opted into the public board (PUT /v1/leaderboard/optin); the caller always sees their own row named. Tokens are a range on every row and exact on a named row and the caller's. `tokens` and `referrals` say whether the warehouse and the referral service answered; a term that did not is left out of every score alike.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param limit: Limit caps the rows, clamped to 1..100. Defaults to 25, which is also what a non-positive value takes.
         :type limit: int
@@ -827,9 +831,9 @@ class LeaderboardApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Ranks everyone on the hanzo.ai/beta waitlist by one score: the record's verified-action points, plus 1 per org that signed up with its referral code, plus 20 per such org that has made metered spend, plus 1 per 100,000 tokens the person used, all time.
+        """Ranks everyone on the hanzo.ai/beta waitlist by one score: 1 per star on GitHub verified for the record and 1 per founder link followed, plus 1 per org that signed up with its referral code, plus 20 per such org that has made metered spend, plus 1 per 100,000 tokens the person used, all time.
 
-        Ranks everyone on the hanzo.ai/beta waitlist by one score: the record's verified-action points, plus 1 per org that signed up with its referral code, plus 20 per such org that has made metered spend, plus 1 per 100,000 tokens the person used, all time. Ties go to the earlier application. Share clicks count for nothing.  Everyone who ever applied is on it. A form filed before the person had an account is a row of its own (no name, score 0, the day it was filed) until their account's record claims it, and the record then begins when the form did.  A row is named only for a person who opted into the public board (PUT /v1/leaderboard/optin); the caller always sees their own row named. Tokens are a range on every row and exact on a named row and the caller's. `tokens` and `referrals` say whether the warehouse and the referral service answered; a term that did not is left out of every score alike.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Ranks everyone on the hanzo.ai/beta waitlist by one score: 1 per star on GitHub verified for the record and 1 per founder link followed, plus 1 per org that signed up with its referral code, plus 20 per such org that has made metered spend, plus 1 per 100,000 tokens the person used, all time. Ties go to the earlier application. Share clicks count for nothing.  Everyone who ever applied is on it. A form filed before the person had an account is a row of its own (no name, score 0, the day it was filed) until their account's record claims it, and the record then begins when the form did.  A row is named only for a person who opted into the public board (PUT /v1/leaderboard/optin); the caller always sees their own row named. Tokens are a range on every row and exact on a named row and the caller's. `tokens` and `referrals` say whether the warehouse and the referral service answered; a term that did not is left out of every score alike.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param limit: Limit caps the rows, clamped to 1..100. Defaults to 25, which is also what a non-positive value takes.
         :type limit: int
@@ -925,6 +929,763 @@ class LeaderboardApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/leaderboard/beta',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_leaderboard_bounty(
+        self,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the hunter and award rows returned, clamped to 1..100. Defaults to 25.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> LeaderboardBountyBoard:
+        """Returns the ranked bug hunters and bounty contributors, and the recent bug and bounty awards.
+
+        Returns the ranked bug hunters and bounty contributors, and the recent bug and bounty awards.
+
+        :param limit: Limit caps the hunter and award rows returned, clamped to 1..100. Defaults to 25.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_leaderboard_bounty_serialize(
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "LeaderboardBountyBoard",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_leaderboard_bounty_with_http_info(
+        self,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the hunter and award rows returned, clamped to 1..100. Defaults to 25.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[LeaderboardBountyBoard]:
+        """Returns the ranked bug hunters and bounty contributors, and the recent bug and bounty awards.
+
+        Returns the ranked bug hunters and bounty contributors, and the recent bug and bounty awards.
+
+        :param limit: Limit caps the hunter and award rows returned, clamped to 1..100. Defaults to 25.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_leaderboard_bounty_serialize(
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "LeaderboardBountyBoard",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_leaderboard_bounty_without_preload_content(
+        self,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the hunter and award rows returned, clamped to 1..100. Defaults to 25.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns the ranked bug hunters and bounty contributors, and the recent bug and bounty awards.
+
+        Returns the ranked bug hunters and bounty contributors, and the recent bug and bounty awards.
+
+        :param limit: Limit caps the hunter and award rows returned, clamped to 1..100. Defaults to 25.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_leaderboard_bounty_serialize(
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "LeaderboardBountyBoard",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_leaderboard_bounty_serialize(
+        self,
+        limit,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/leaderboard/bounty',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_leaderboard_feed(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> bytearray:
+        """Stream the board's live lines to anyone as Server-Sent Events
+
+        Holds one text/event-stream open and pushes a `message` frame for each line as it happens, after replaying the last 20. `data` is `{id, kind, at, handle, detail}`, where kind is joined, referred, tried, milestone, hour, bounty, level or expert. `handle` is masked in the middle, whole for an org that listed itself and empty for one that withdrew. At most 30 lines a minute. A `: ping` comment is written every 25 seconds. There is no resume: a reader that reconnects is replayed the last 20. No credential is needed to read it.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_leaderboard_feed_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "bytearray",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_leaderboard_feed_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[bytearray]:
+        """Stream the board's live lines to anyone as Server-Sent Events
+
+        Holds one text/event-stream open and pushes a `message` frame for each line as it happens, after replaying the last 20. `data` is `{id, kind, at, handle, detail}`, where kind is joined, referred, tried, milestone, hour, bounty, level or expert. `handle` is masked in the middle, whole for an org that listed itself and empty for one that withdrew. At most 30 lines a minute. A `: ping` comment is written every 25 seconds. There is no resume: a reader that reconnects is replayed the last 20. No credential is needed to read it.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_leaderboard_feed_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "bytearray",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_leaderboard_feed_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Stream the board's live lines to anyone as Server-Sent Events
+
+        Holds one text/event-stream open and pushes a `message` frame for each line as it happens, after replaying the last 20. `data` is `{id, kind, at, handle, detail}`, where kind is joined, referred, tried, milestone, hour, bounty, level or expert. `handle` is masked in the middle, whole for an org that listed itself and empty for one that withdrew. At most 30 lines a minute. A `: ping` comment is written every 25 seconds. There is no resume: a reader that reconnects is replayed the last 20. No credential is needed to read it.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_leaderboard_feed_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "bytearray",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_leaderboard_feed_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'text/event-stream'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/leaderboard/feed',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_leaderboard_galaxy(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> LeaderboardGalaxyView:
+        """Returns every ranked org as a star, for a page to draw the community as a galaxy: each star holds its band in the reward program's level table, a coarse size (a factor of two), the star of the org that referred it, if any, and, only for the ranks the reader has earned a view of, its exact points and the name the standing shows for it.
+
+        Returns every ranked org as a star, for a page to draw the community as a galaxy: each star holds its band in the reward program's level table, a coarse size (a factor of two), the star of the org that referred it, if any, and, only for the ranks the reader has earned a view of, its exact points and the name the standing shows for it. The window is the standing's: a signed-in reader sees their own star, five ranks below it and as many above as their points have earned; a reader who is not signed in sees the last ranks, where a newcomer starts. Every other star has `points` of -1 and no name, and is still drawn. The stars are columns of equal length, best first, and `center` is the tokens used and the orgs active in the last 24 hours. A star's id is opaque: it is the same wherever this answer mentions that star, names no org, and is replaced on the next read, about a minute later. A signed-in reader gets `self`, the id of their own star. Names are the standing's: masked in the middle, whole where the org listed itself, empty where it withdrew. No org id, handle or email is sent. No credential is needed to read it.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_leaderboard_galaxy_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "LeaderboardGalaxyView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_leaderboard_galaxy_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[LeaderboardGalaxyView]:
+        """Returns every ranked org as a star, for a page to draw the community as a galaxy: each star holds its band in the reward program's level table, a coarse size (a factor of two), the star of the org that referred it, if any, and, only for the ranks the reader has earned a view of, its exact points and the name the standing shows for it.
+
+        Returns every ranked org as a star, for a page to draw the community as a galaxy: each star holds its band in the reward program's level table, a coarse size (a factor of two), the star of the org that referred it, if any, and, only for the ranks the reader has earned a view of, its exact points and the name the standing shows for it. The window is the standing's: a signed-in reader sees their own star, five ranks below it and as many above as their points have earned; a reader who is not signed in sees the last ranks, where a newcomer starts. Every other star has `points` of -1 and no name, and is still drawn. The stars are columns of equal length, best first, and `center` is the tokens used and the orgs active in the last 24 hours. A star's id is opaque: it is the same wherever this answer mentions that star, names no org, and is replaced on the next read, about a minute later. A signed-in reader gets `self`, the id of their own star. Names are the standing's: masked in the middle, whole where the org listed itself, empty where it withdrew. No org id, handle or email is sent. No credential is needed to read it.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_leaderboard_galaxy_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "LeaderboardGalaxyView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_leaderboard_galaxy_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns every ranked org as a star, for a page to draw the community as a galaxy: each star holds its band in the reward program's level table, a coarse size (a factor of two), the star of the org that referred it, if any, and, only for the ranks the reader has earned a view of, its exact points and the name the standing shows for it.
+
+        Returns every ranked org as a star, for a page to draw the community as a galaxy: each star holds its band in the reward program's level table, a coarse size (a factor of two), the star of the org that referred it, if any, and, only for the ranks the reader has earned a view of, its exact points and the name the standing shows for it. The window is the standing's: a signed-in reader sees their own star, five ranks below it and as many above as their points have earned; a reader who is not signed in sees the last ranks, where a newcomer starts. Every other star has `points` of -1 and no name, and is still drawn. The stars are columns of equal length, best first, and `center` is the tokens used and the orgs active in the last 24 hours. A star's id is opaque: it is the same wherever this answer mentions that star, names no org, and is replaced on the next read, about a minute later. A signed-in reader gets `self`, the id of their own star. Names are the standing's: masked in the middle, whole where the org listed itself, empty where it withdrew. No org id, handle or email is sent. No credential is needed to read it.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_leaderboard_galaxy_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "LeaderboardGalaxyView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_leaderboard_galaxy_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/leaderboard/galaxy',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1172,6 +1933,500 @@ class LeaderboardApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/leaderboard/optin',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_leaderboard_pulse(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> LeaderboardPulseView:
+        """Returns how fast the platform is being used and is spreading, as counts by day for thirty days and by hour for the last day: tokens used, orgs active, orgs signed up, orgs that came through a referral link, orgs using a model for the first time (with the models most tried), and how many different models were in use (variety).
+
+        Returns how fast the platform is being used and is spreading, as counts by day for thirty days and by hour for the last day: tokens used, orgs active, orgs signed up, orgs that came through a referral link, orgs using a model for the first time (with the models most tried), and how many different models were in use (variety). Every series is read from where cloud records it; one that cannot be read is left out and named in `missing`, and the ones nothing records today (orgs trying a product, shares) are always named there. Counts only: no org, no name. No credential is needed to read it.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_leaderboard_pulse_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "LeaderboardPulseView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_leaderboard_pulse_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[LeaderboardPulseView]:
+        """Returns how fast the platform is being used and is spreading, as counts by day for thirty days and by hour for the last day: tokens used, orgs active, orgs signed up, orgs that came through a referral link, orgs using a model for the first time (with the models most tried), and how many different models were in use (variety).
+
+        Returns how fast the platform is being used and is spreading, as counts by day for thirty days and by hour for the last day: tokens used, orgs active, orgs signed up, orgs that came through a referral link, orgs using a model for the first time (with the models most tried), and how many different models were in use (variety). Every series is read from where cloud records it; one that cannot be read is left out and named in `missing`, and the ones nothing records today (orgs trying a product, shares) are always named there. Counts only: no org, no name. No credential is needed to read it.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_leaderboard_pulse_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "LeaderboardPulseView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_leaderboard_pulse_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns how fast the platform is being used and is spreading, as counts by day for thirty days and by hour for the last day: tokens used, orgs active, orgs signed up, orgs that came through a referral link, orgs using a model for the first time (with the models most tried), and how many different models were in use (variety).
+
+        Returns how fast the platform is being used and is spreading, as counts by day for thirty days and by hour for the last day: tokens used, orgs active, orgs signed up, orgs that came through a referral link, orgs using a model for the first time (with the models most tried), and how many different models were in use (variety). Every series is read from where cloud records it; one that cannot be read is left out and named in `missing`, and the ones nothing records today (orgs trying a product, shares) are always named there. Counts only: no org, no name. No credential is needed to read it.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_leaderboard_pulse_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "LeaderboardPulseView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_leaderboard_pulse_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/leaderboard/pulse',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_leaderboard_standing(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> LeaderboardStandingView:
+        """Returns the public board of who has used and built the most on Hanzo, shown as a window around the reader.
+
+        Returns the public board of who has used and built the most on Hanzo, shown as a window around the reader. Every org IAM holds is ranked, by points: tokens used, referrals, verified stars, follows and bounty awards. A signed-in reader sees their own rank, the ranks just below it and as many above it as their points have earned; the rest are counted in `locked` and never sent. A reader who is not signed in sees the last ranks, where a newcomer starts. Names are masked in the middle; the reader's own is whole, an org that listed itself is whole, and one that withdrew has none. No credential is needed to read it.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_leaderboard_standing_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "LeaderboardStandingView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_leaderboard_standing_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[LeaderboardStandingView]:
+        """Returns the public board of who has used and built the most on Hanzo, shown as a window around the reader.
+
+        Returns the public board of who has used and built the most on Hanzo, shown as a window around the reader. Every org IAM holds is ranked, by points: tokens used, referrals, verified stars, follows and bounty awards. A signed-in reader sees their own rank, the ranks just below it and as many above it as their points have earned; the rest are counted in `locked` and never sent. A reader who is not signed in sees the last ranks, where a newcomer starts. Names are masked in the middle; the reader's own is whole, an org that listed itself is whole, and one that withdrew has none. No credential is needed to read it.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_leaderboard_standing_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "LeaderboardStandingView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_leaderboard_standing_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns the public board of who has used and built the most on Hanzo, shown as a window around the reader.
+
+        Returns the public board of who has used and built the most on Hanzo, shown as a window around the reader. Every org IAM holds is ranked, by points: tokens used, referrals, verified stars, follows and bounty awards. A signed-in reader sees their own rank, the ranks just below it and as many above it as their points have earned; the rest are counted in `locked` and never sent. A reader who is not signed in sees the last ranks, where a newcomer starts. Names are masked in the middle; the reader's own is whole, an org that listed itself is whole, and one that withdrew has none. No credential is needed to read it.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_leaderboard_standing_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "LeaderboardStandingView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_leaderboard_standing_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/leaderboard/standing',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

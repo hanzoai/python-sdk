@@ -27,6 +27,8 @@ class AgentUpdateAgentIn(BaseModel):
     AgentUpdateAgentIn
     """ # noqa: E501
     avatar: Optional[StrictStr] = Field(default=None, description="Avatar and Emoji re-draw the agent. Sending either replaces the pair, so setting an image clears a glyph and \"\" for both goes back to the initial — there is no state where a row holds two answers.")
+    avatar_licence: Optional[StrictStr] = Field(default=None, description="AvatarLicence is the licence's short name. Sending avatar or avatar_source without it clears it, so a replaced image never keeps the old one's licence.")
+    avatar_source: Optional[StrictStr] = Field(default=None, description="AvatarSource and AvatarLicence say where the avatar image came from. They move with the image: sending avatar replaces both, so an image sent without them has none, and sending either replaces the pair.")
     cap_micro_usd: Optional[StrictInt] = Field(default=None, description="The budget, any part of it. Changing the period opens a new window.")
     compute_ref: Optional[StrictStr] = Field(default=None, description="ComputeRef re-binds (or, with \"\", unbinds) the visor machine. Opaque here.", alias="computeRef")
     description: Optional[StrictStr] = Field(default=None, description="Description replaces the line other agents read in the tool catalogue.")
@@ -40,7 +42,7 @@ class AgentUpdateAgentIn(BaseModel):
     schedule: Optional[StrictStr] = Field(default=None, description="Schedule replaces the cron. It is validated against the mode this update leaves behind, and dropped if that mode is one-shot.")
     service_account_id: Optional[StrictStr] = Field(default=None, description="ServiceAccountID re-points (or, with \"\", clears) the IAM service account a scheduled run is billed as. Clearing it puts that spend back on the org.", alias="serviceAccountId")
     tools: Optional[List[StrictStr]] = Field(default=None, description="Tools replaces the whole allow-list, it does not add to it. Sending [] takes every tool away, which is the only way to say that.")
-    __properties: ClassVar[List[str]] = ["avatar", "cap_micro_usd", "computeRef", "description", "emoji", "executionMode", "instructions", "max_task_micro_usd", "model", "period", "ref", "schedule", "serviceAccountId", "tools"]
+    __properties: ClassVar[List[str]] = ["avatar", "avatar_licence", "avatar_source", "cap_micro_usd", "computeRef", "description", "emoji", "executionMode", "instructions", "max_task_micro_usd", "model", "period", "ref", "schedule", "serviceAccountId", "tools"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -94,6 +96,8 @@ class AgentUpdateAgentIn(BaseModel):
 
         _obj = cls.model_validate({
             "avatar": obj.get("avatar"),
+            "avatar_licence": obj.get("avatar_licence"),
+            "avatar_source": obj.get("avatar_source"),
             "cap_micro_usd": obj.get("cap_micro_usd"),
             "computeRef": obj.get("computeRef"),
             "description": obj.get("description"),

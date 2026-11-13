@@ -37,18 +37,23 @@ from hanzoai.cloud.models.billing_crypto_deposit import BillingCryptoDeposit
 from hanzoai.cloud.models.billing_crypto_options import BillingCryptoOptions
 from hanzoai.cloud.models.billing_detachment import BillingDetachment
 from hanzoai.cloud.models.billing_finance_ledger_entry import BillingFinanceLedgerEntry
+from hanzoai.cloud.models.billing_gateway_payment import BillingGatewayPayment
+from hanzoai.cloud.models.billing_gateway_terms import BillingGatewayTerms
 from hanzoai.cloud.models.billing_holder import BillingHolder
 from hanzoai.cloud.models.billing_invoice import BillingInvoice
 from hanzoai.cloud.models.billing_invoice_ref import BillingInvoiceRef
 from hanzoai.cloud.models.billing_invoices import BillingInvoices
 from hanzoai.cloud.models.billing_mode import BillingMode
 from hanzoai.cloud.models.billing_mode_in import BillingModeIn
+from hanzoai.cloud.models.billing_pay_pal_order_out import BillingPayPalOrderOut
 from hanzoai.cloud.models.billing_payment_config import BillingPaymentConfig
 from hanzoai.cloud.models.billing_payout import BillingPayout
+from hanzoai.cloud.models.billing_paypal_order_in import BillingPaypalOrderIn
 from hanzoai.cloud.models.billing_raise_in import BillingRaiseIn
 from hanzoai.cloud.models.billing_recharge import BillingRecharge
 from hanzoai.cloud.models.billing_resize import BillingResize
 from hanzoai.cloud.models.billing_rollup import BillingRollup
+from hanzoai.cloud.models.billing_signed_payment import BillingSignedPayment
 from hanzoai.cloud.models.billing_subscription import BillingSubscription
 from hanzoai.cloud.models.billing_subscription_act import BillingSubscriptionAct
 from hanzoai.cloud.models.billing_subscriptions import BillingSubscriptions
@@ -2822,7 +2827,7 @@ class BillingApi:
     ) -> None:
         """Prepaid credit the caller's org can still spend
 
-        Answers the spendable prepaid balance of the wallet this caller bills from — the same wallet the AI prepaid gate reads before admitting a paid request, the edge meter debits, and a top-up credits.  The wallet is an ADDRESS, not an org: `account` echoes the key resolved within the ledger — the org's shared pool for a tenant org, a personal account for a member of the shared signup org. The echo is the point. A browser could only GUESS its own payer by decoding its own token, and a guess that disagrees with the server is how money lands in an account the gate never reads.  `balance`, `holds` and `available` are whole USD cents, ROUNDED from the ledger's exact 18-decimal value. On the co-resident ledger `holds` is 0 and `available` equals `balance`: the gate's reservations live in its own pod and are never posted, so the settled balance IS the spendable one.  `cash`, `line` and `credit` say where `available` came from, and add up to it. `cash` is money the customer paid — a settled card payment or a recorded wire. `credit` is money Hanzo minted: signup and promotional credit, admin grants. `line` is what is left of the org's postpaid credit line (`creditLimit`), and `due` what the account owes on it: usage the line paid for, invoiced, and paid down first by the next payment. A debit draws cash, then the line, then credit; granted credit never pays what is due. The three line fields are absent when the ledger did not report them.  The ledger is the caller's own org, taken from the VALIDATED IAM owner claim and never from a client header. No validated principal is 401. A balance that cannot be READ is 502, never 0: unknown is not broke.
+        Answers the spendable prepaid balance of the wallet this caller bills from — the same wallet the AI prepaid gate reads before admitting a paid request, the edge meter debits, and a top-up credits.  The wallet is an ADDRESS, not an org: `account` echoes the key resolved within the ledger — the org's shared pool for a tenant org, a personal account for a member of the shared signup org. The echo is the point. A browser could only GUESS its own payer by decoding its own token, and a guess that disagrees with the server is how money lands in an account the gate never reads.  `balance`, `holds` and `available` are whole USD cents, ROUNDED from the ledger's exact 18-decimal value. On the co-resident ledger `holds` is 0 and `available` equals `balance`: the gate's reservations live in its own pod and are never posted, so the settled balance IS the spendable one.  `cash`, `line` and `credit` say where `available` came from, and add up to it. `cash` is money the customer paid — a settled card payment or a recorded wire. `credit` is money Hanzo minted: signup and promotional credit, admin grants. `line` is what is left of the org's postpaid credit line (`creditLimit`), and `due` what the account owes on it: usage the line paid for, invoiced, and paid down first by the next payment. A debit draws cash, then the line, then credit; granted credit never pays what is due. The three line fields are absent when the ledger did not report them.  `prepaid` is `cash` plus `line`: what pays for a model of another maker (OpenAI, Anthropic, Google and the rest). Granted `credit` does not, unless the usage policy says so, so a picker that shows Top up on those models shows it when `prepaid` is 0 and never reads the credit rule itself; `GET /v1/ai/limits` `pays` is the policy's own answer, per class.  The ledger is the caller's own org, taken from the VALIDATED IAM owner claim and never from a client header. No validated principal is 401. A balance that cannot be READ is 502, never 0: unknown is not broke.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2884,7 +2889,7 @@ class BillingApi:
     ) -> ApiResponse[None]:
         """Prepaid credit the caller's org can still spend
 
-        Answers the spendable prepaid balance of the wallet this caller bills from — the same wallet the AI prepaid gate reads before admitting a paid request, the edge meter debits, and a top-up credits.  The wallet is an ADDRESS, not an org: `account` echoes the key resolved within the ledger — the org's shared pool for a tenant org, a personal account for a member of the shared signup org. The echo is the point. A browser could only GUESS its own payer by decoding its own token, and a guess that disagrees with the server is how money lands in an account the gate never reads.  `balance`, `holds` and `available` are whole USD cents, ROUNDED from the ledger's exact 18-decimal value. On the co-resident ledger `holds` is 0 and `available` equals `balance`: the gate's reservations live in its own pod and are never posted, so the settled balance IS the spendable one.  `cash`, `line` and `credit` say where `available` came from, and add up to it. `cash` is money the customer paid — a settled card payment or a recorded wire. `credit` is money Hanzo minted: signup and promotional credit, admin grants. `line` is what is left of the org's postpaid credit line (`creditLimit`), and `due` what the account owes on it: usage the line paid for, invoiced, and paid down first by the next payment. A debit draws cash, then the line, then credit; granted credit never pays what is due. The three line fields are absent when the ledger did not report them.  The ledger is the caller's own org, taken from the VALIDATED IAM owner claim and never from a client header. No validated principal is 401. A balance that cannot be READ is 502, never 0: unknown is not broke.
+        Answers the spendable prepaid balance of the wallet this caller bills from — the same wallet the AI prepaid gate reads before admitting a paid request, the edge meter debits, and a top-up credits.  The wallet is an ADDRESS, not an org: `account` echoes the key resolved within the ledger — the org's shared pool for a tenant org, a personal account for a member of the shared signup org. The echo is the point. A browser could only GUESS its own payer by decoding its own token, and a guess that disagrees with the server is how money lands in an account the gate never reads.  `balance`, `holds` and `available` are whole USD cents, ROUNDED from the ledger's exact 18-decimal value. On the co-resident ledger `holds` is 0 and `available` equals `balance`: the gate's reservations live in its own pod and are never posted, so the settled balance IS the spendable one.  `cash`, `line` and `credit` say where `available` came from, and add up to it. `cash` is money the customer paid — a settled card payment or a recorded wire. `credit` is money Hanzo minted: signup and promotional credit, admin grants. `line` is what is left of the org's postpaid credit line (`creditLimit`), and `due` what the account owes on it: usage the line paid for, invoiced, and paid down first by the next payment. A debit draws cash, then the line, then credit; granted credit never pays what is due. The three line fields are absent when the ledger did not report them.  `prepaid` is `cash` plus `line`: what pays for a model of another maker (OpenAI, Anthropic, Google and the rest). Granted `credit` does not, unless the usage policy says so, so a picker that shows Top up on those models shows it when `prepaid` is 0 and never reads the credit rule itself; `GET /v1/ai/limits` `pays` is the policy's own answer, per class.  The ledger is the caller's own org, taken from the VALIDATED IAM owner claim and never from a client header. No validated principal is 401. A balance that cannot be READ is 502, never 0: unknown is not broke.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2946,7 +2951,7 @@ class BillingApi:
     ) -> RESTResponseType:
         """Prepaid credit the caller's org can still spend
 
-        Answers the spendable prepaid balance of the wallet this caller bills from — the same wallet the AI prepaid gate reads before admitting a paid request, the edge meter debits, and a top-up credits.  The wallet is an ADDRESS, not an org: `account` echoes the key resolved within the ledger — the org's shared pool for a tenant org, a personal account for a member of the shared signup org. The echo is the point. A browser could only GUESS its own payer by decoding its own token, and a guess that disagrees with the server is how money lands in an account the gate never reads.  `balance`, `holds` and `available` are whole USD cents, ROUNDED from the ledger's exact 18-decimal value. On the co-resident ledger `holds` is 0 and `available` equals `balance`: the gate's reservations live in its own pod and are never posted, so the settled balance IS the spendable one.  `cash`, `line` and `credit` say where `available` came from, and add up to it. `cash` is money the customer paid — a settled card payment or a recorded wire. `credit` is money Hanzo minted: signup and promotional credit, admin grants. `line` is what is left of the org's postpaid credit line (`creditLimit`), and `due` what the account owes on it: usage the line paid for, invoiced, and paid down first by the next payment. A debit draws cash, then the line, then credit; granted credit never pays what is due. The three line fields are absent when the ledger did not report them.  The ledger is the caller's own org, taken from the VALIDATED IAM owner claim and never from a client header. No validated principal is 401. A balance that cannot be READ is 502, never 0: unknown is not broke.
+        Answers the spendable prepaid balance of the wallet this caller bills from — the same wallet the AI prepaid gate reads before admitting a paid request, the edge meter debits, and a top-up credits.  The wallet is an ADDRESS, not an org: `account` echoes the key resolved within the ledger — the org's shared pool for a tenant org, a personal account for a member of the shared signup org. The echo is the point. A browser could only GUESS its own payer by decoding its own token, and a guess that disagrees with the server is how money lands in an account the gate never reads.  `balance`, `holds` and `available` are whole USD cents, ROUNDED from the ledger's exact 18-decimal value. On the co-resident ledger `holds` is 0 and `available` equals `balance`: the gate's reservations live in its own pod and are never posted, so the settled balance IS the spendable one.  `cash`, `line` and `credit` say where `available` came from, and add up to it. `cash` is money the customer paid — a settled card payment or a recorded wire. `credit` is money Hanzo minted: signup and promotional credit, admin grants. `line` is what is left of the org's postpaid credit line (`creditLimit`), and `due` what the account owes on it: usage the line paid for, invoiced, and paid down first by the next payment. A debit draws cash, then the line, then credit; granted credit never pays what is due. The three line fields are absent when the ledger did not report them.  `prepaid` is `cash` plus `line`: what pays for a model of another maker (OpenAI, Anthropic, Google and the rest). Granted `credit` does not, unless the usage policy says so, so a picker that shows Top up on those models shows it when `prepaid` is 0 and never reads the credit rule itself; `GET /v1/ai/limits` `pays` is the policy's own answer, per class.  The ledger is the caller's own org, taken from the VALIDATED IAM owner claim and never from a client header. No validated principal is 401. A balance that cannot be READ is 502, never 0: unknown is not broke.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3800,7 +3805,7 @@ class BillingApi:
     ) -> BillingCryptoDeposit:
         """Reads one of the caller's own deposit intents back — pending, confirming, or succeeded.
 
-        Reads one of the caller's own deposit intents back — pending, confirming, or succeeded.  An intent belonging to another payer answers 404, exactly as an id that names nothing, so a guessed id cannot confirm that somebody else's deposit exists.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Reads one of the caller's own deposit intents back — pending, confirming, or succeeded.  status is pending until a transfer to the address is seen, confirming while the chain buries it (confirmations counts up to requiredConfirmations), and succeeded once it is credited: creditedCents is then in the caller's balance as cash (GET /v1/billing/balance, cash). The answer is the same shape the mint returned, terms and instructions included, so polling it is all an agent needs.  An intent belonging to another payer answers 404, exactly as an id that names nothing, so a guessed id cannot confirm that somebody else's deposit exists.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param id: ID is the deposit intent id. (required)
         :type id: str
@@ -3867,7 +3872,7 @@ class BillingApi:
     ) -> ApiResponse[BillingCryptoDeposit]:
         """Reads one of the caller's own deposit intents back — pending, confirming, or succeeded.
 
-        Reads one of the caller's own deposit intents back — pending, confirming, or succeeded.  An intent belonging to another payer answers 404, exactly as an id that names nothing, so a guessed id cannot confirm that somebody else's deposit exists.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Reads one of the caller's own deposit intents back — pending, confirming, or succeeded.  status is pending until a transfer to the address is seen, confirming while the chain buries it (confirmations counts up to requiredConfirmations), and succeeded once it is credited: creditedCents is then in the caller's balance as cash (GET /v1/billing/balance, cash). The answer is the same shape the mint returned, terms and instructions included, so polling it is all an agent needs.  An intent belonging to another payer answers 404, exactly as an id that names nothing, so a guessed id cannot confirm that somebody else's deposit exists.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param id: ID is the deposit intent id. (required)
         :type id: str
@@ -3934,7 +3939,7 @@ class BillingApi:
     ) -> RESTResponseType:
         """Reads one of the caller's own deposit intents back — pending, confirming, or succeeded.
 
-        Reads one of the caller's own deposit intents back — pending, confirming, or succeeded.  An intent belonging to another payer answers 404, exactly as an id that names nothing, so a guessed id cannot confirm that somebody else's deposit exists.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Reads one of the caller's own deposit intents back — pending, confirming, or succeeded.  status is pending until a transfer to the address is seen, confirming while the chain buries it (confirmations counts up to requiredConfirmations), and succeeded once it is credited: creditedCents is then in the caller's balance as cash (GET /v1/billing/balance, cash). The answer is the same shape the mint returned, terms and instructions included, so polling it is all an agent needs.  An intent belonging to another payer answers 404, exactly as an id that names nothing, so a guessed id cannot confirm that somebody else's deposit exists.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param id: ID is the deposit intent id. (required)
         :type id: str
@@ -4044,6 +4049,515 @@ class BillingApi:
 
 
     @validate_call
+    def get_billing_crypto_gateway(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> BillingGatewayTerms:
+        """Answers the terms to sign a USDC top-up against, for an agent or a person paying from a wallet: the treasury to pay, the networks and USDC contracts, the EIP-712 domain and types, the limits, and a nonce issued to the caller.
+
+        Answers the terms to sign a USDC top-up against, for an agent or a person paying from a wallet: the treasury to pay, the networks and USDC contracts, the EIP-712 domain and types, the limits, and a nonce issued to the caller.  Sign TransferWithAuthorization {from, to: payTo, value, validAfter, validBefore, nonce} under one network's domain, then POST it here with the salt. The nonce is the caller's own: a payment signed against it credits the caller and cannot be presented by anyone else.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_billing_crypto_gateway_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BillingGatewayTerms",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_billing_crypto_gateway_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[BillingGatewayTerms]:
+        """Answers the terms to sign a USDC top-up against, for an agent or a person paying from a wallet: the treasury to pay, the networks and USDC contracts, the EIP-712 domain and types, the limits, and a nonce issued to the caller.
+
+        Answers the terms to sign a USDC top-up against, for an agent or a person paying from a wallet: the treasury to pay, the networks and USDC contracts, the EIP-712 domain and types, the limits, and a nonce issued to the caller.  Sign TransferWithAuthorization {from, to: payTo, value, validAfter, validBefore, nonce} under one network's domain, then POST it here with the salt. The nonce is the caller's own: a payment signed against it credits the caller and cannot be presented by anyone else.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_billing_crypto_gateway_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BillingGatewayTerms",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_billing_crypto_gateway_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Answers the terms to sign a USDC top-up against, for an agent or a person paying from a wallet: the treasury to pay, the networks and USDC contracts, the EIP-712 domain and types, the limits, and a nonce issued to the caller.
+
+        Answers the terms to sign a USDC top-up against, for an agent or a person paying from a wallet: the treasury to pay, the networks and USDC contracts, the EIP-712 domain and types, the limits, and a nonce issued to the caller.  Sign TransferWithAuthorization {from, to: payTo, value, validAfter, validBefore, nonce} under one network's domain, then POST it here with the salt. The nonce is the caller's own: a payment signed against it credits the caller and cannot be presented by anyone else.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_billing_crypto_gateway_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BillingGatewayTerms",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_billing_crypto_gateway_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/billing/crypto/gateway',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_billing_crypto_gateway_by_id(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the top-up's id, from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> BillingGatewayPayment:
+        """Reads one of the caller's own USDC top-ups back: pending, accepted (credited or deferred), settled, failed or refused.
+
+        Reads one of the caller's own USDC top-ups back: pending, accepted (credited or deferred), settled, failed or refused.  A payment belonging to another payer answers 404, exactly as an id that names nothing, so a guessed id cannot confirm somebody else's payment exists.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param id: ID is the top-up's id, from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_billing_crypto_gateway_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BillingGatewayPayment",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_billing_crypto_gateway_by_id_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the top-up's id, from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[BillingGatewayPayment]:
+        """Reads one of the caller's own USDC top-ups back: pending, accepted (credited or deferred), settled, failed or refused.
+
+        Reads one of the caller's own USDC top-ups back: pending, accepted (credited or deferred), settled, failed or refused.  A payment belonging to another payer answers 404, exactly as an id that names nothing, so a guessed id cannot confirm somebody else's payment exists.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param id: ID is the top-up's id, from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_billing_crypto_gateway_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BillingGatewayPayment",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_billing_crypto_gateway_by_id_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the top-up's id, from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Reads one of the caller's own USDC top-ups back: pending, accepted (credited or deferred), settled, failed or refused.
+
+        Reads one of the caller's own USDC top-ups back: pending, accepted (credited or deferred), settled, failed or refused.  A payment belonging to another payer answers 404, exactly as an id that names nothing, so a guessed id cannot confirm somebody else's payment exists.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param id: ID is the top-up's id, from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_billing_crypto_gateway_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BillingGatewayPayment",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_billing_crypto_gateway_by_id_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/billing/crypto/gateway/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_billing_crypto_options(
         self,
         _request_timeout: Union[
@@ -4059,9 +4573,9 @@ class BillingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> BillingCryptoOptions:
-        """Answers which chains and tokens the crypto rail accepts — what an asset picker renders.
+        """Answers which chains and tokens the crypto rail accepts — what an asset picker renders — and the pairs themselves in assets: a chain and a token each on offer are not a pair on offer.
 
-        Answers which chains and tokens the crypto rail accepts — what an asset picker renders.  It is the intersection of two live facts rather than a configured list: an asset appears only if something is WATCHING it and the custody processor supports it. An address nobody watches credits nobody, so offering one would take a customer's money and lose it. A rail with nothing armed answers 503, not an empty menu — \"no rail\" and \"no assets\" are different, and only one of them means try again later.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Answers which chains and tokens the crypto rail accepts — what an asset picker renders — and the pairs themselves in assets: a chain and a token each on offer are not a pair on offer.  It is the intersection of two live facts rather than a configured list: an asset appears only if something is WATCHING it and the custody processor supports it. An address nobody watches credits nobody, so offering one would take a customer's money and lose it. A rail with nothing armed answers 503, not an empty menu — \"no rail\" and \"no assets\" are different, and only one of them means try again later.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4122,9 +4636,9 @@ class BillingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[BillingCryptoOptions]:
-        """Answers which chains and tokens the crypto rail accepts — what an asset picker renders.
+        """Answers which chains and tokens the crypto rail accepts — what an asset picker renders — and the pairs themselves in assets: a chain and a token each on offer are not a pair on offer.
 
-        Answers which chains and tokens the crypto rail accepts — what an asset picker renders.  It is the intersection of two live facts rather than a configured list: an asset appears only if something is WATCHING it and the custody processor supports it. An address nobody watches credits nobody, so offering one would take a customer's money and lose it. A rail with nothing armed answers 503, not an empty menu — \"no rail\" and \"no assets\" are different, and only one of them means try again later.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Answers which chains and tokens the crypto rail accepts — what an asset picker renders — and the pairs themselves in assets: a chain and a token each on offer are not a pair on offer.  It is the intersection of two live facts rather than a configured list: an asset appears only if something is WATCHING it and the custody processor supports it. An address nobody watches credits nobody, so offering one would take a customer's money and lose it. A rail with nothing armed answers 503, not an empty menu — \"no rail\" and \"no assets\" are different, and only one of them means try again later.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4185,9 +4699,9 @@ class BillingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Answers which chains and tokens the crypto rail accepts — what an asset picker renders.
+        """Answers which chains and tokens the crypto rail accepts — what an asset picker renders — and the pairs themselves in assets: a chain and a token each on offer are not a pair on offer.
 
-        Answers which chains and tokens the crypto rail accepts — what an asset picker renders.  It is the intersection of two live facts rather than a configured list: an asset appears only if something is WATCHING it and the custody processor supports it. An address nobody watches credits nobody, so offering one would take a customer's money and lose it. A rail with nothing armed answers 503, not an empty menu — \"no rail\" and \"no assets\" are different, and only one of them means try again later.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Answers which chains and tokens the crypto rail accepts — what an asset picker renders — and the pairs themselves in assets: a chain and a token each on offer are not a pair on offer.  It is the intersection of two live facts rather than a configured list: an asset appears only if something is WATCHING it and the custody processor supports it. An address nobody watches credits nobody, so offering one would take a customer's money and lose it. A rail with nothing armed answers 503, not an empty menu — \"no rail\" and \"no assets\" are different, and only one of them means try again later.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4858,6 +5372,508 @@ class BillingApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/billing/invoices/{id}/pdf',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_billing_invoices_hosted_by_link(
+        self,
+        link: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Is the order invoice a link shows, read on the brand of the host it is asked on: a link read on another brand's host is a miss.
+
+        Is the order invoice a link shows, read on the brand of the host it is asked on: a link read on another brand's host is a miss.
+
+        :param link: (required)
+        :type link: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_billing_invoices_hosted_by_link_serialize(
+            link=link,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_billing_invoices_hosted_by_link_with_http_info(
+        self,
+        link: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Is the order invoice a link shows, read on the brand of the host it is asked on: a link read on another brand's host is a miss.
+
+        Is the order invoice a link shows, read on the brand of the host it is asked on: a link read on another brand's host is a miss.
+
+        :param link: (required)
+        :type link: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_billing_invoices_hosted_by_link_serialize(
+            link=link,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_billing_invoices_hosted_by_link_without_preload_content(
+        self,
+        link: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Is the order invoice a link shows, read on the brand of the host it is asked on: a link read on another brand's host is a miss.
+
+        Is the order invoice a link shows, read on the brand of the host it is asked on: a link read on another brand's host is a miss.
+
+        :param link: (required)
+        :type link: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_billing_invoices_hosted_by_link_serialize(
+            link=link,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_billing_invoices_hosted_by_link_serialize(
+        self,
+        link,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if link is not None:
+            _path_params['link'] = link
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/billing/invoices/hosted/{link}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_billing_invoices_hosted_by_link_pdf(
+        self,
+        link: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Is the order invoice a link shows, as a PDF to print or save.
+
+        Is the order invoice a link shows, as a PDF to print or save.
+
+        :param link: (required)
+        :type link: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_billing_invoices_hosted_by_link_pdf_serialize(
+            link=link,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_billing_invoices_hosted_by_link_pdf_with_http_info(
+        self,
+        link: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Is the order invoice a link shows, as a PDF to print or save.
+
+        Is the order invoice a link shows, as a PDF to print or save.
+
+        :param link: (required)
+        :type link: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_billing_invoices_hosted_by_link_pdf_serialize(
+            link=link,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_billing_invoices_hosted_by_link_pdf_without_preload_content(
+        self,
+        link: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Is the order invoice a link shows, as a PDF to print or save.
+
+        Is the order invoice a link shows, as a PDF to print or save.
+
+        :param link: (required)
+        :type link: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_billing_invoices_hosted_by_link_pdf_serialize(
+            link=link,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_billing_invoices_hosted_by_link_pdf_serialize(
+        self,
+        link,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if link is not None:
+            _path_params['link'] = link
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/billing/invoices/hosted/{link}/pdf',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -6108,9 +7124,9 @@ class BillingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> BillingAutoRecharge:
-        """Reads the org's auto-reload rule: top the balance up by `amountCents` whenever it falls below `thresholdCents`, charging the card on file off-session, at most `perDay` times in a UTC day.
+        """Reads the auto-reload rule of the wallet the caller pays from — the org's own account, or a person's wallet in the signup org: top that balance up by `amountCents` whenever it falls below `thresholdCents`, charging that payer's card on file off-session, at most `perDay` times in a UTC day (0 is no daily limit, which the payer's plan sets).
 
-        Reads the org's auto-reload rule: top the balance up by `amountCents` whenever it falls below `thresholdCents`, charging the card on file off-session, at most `perDay` times in a UTC day. It is the same setting every prepaid AI account calls auto-reload.  An org that has never set one reads as disabled with zeroes rather than as an error — \"no rule\" answers the question — and `stored` is how a caller tells never-configured from deliberately-off.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Reads the auto-reload rule of the wallet the caller pays from — the org's own account, or a person's wallet in the signup org: top that balance up by `amountCents` whenever it falls below `thresholdCents`, charging that payer's card on file off-session, at most `perDay` times in a UTC day (0 is no daily limit, which the payer's plan sets). It is the same setting every prepaid AI account calls auto-reload.  An org that has never set one reads as disabled with zeroes rather than as an error — \"no rule\" answers the question — and `stored` is how a caller tells never-configured from deliberately-off.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6171,9 +7187,9 @@ class BillingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[BillingAutoRecharge]:
-        """Reads the org's auto-reload rule: top the balance up by `amountCents` whenever it falls below `thresholdCents`, charging the card on file off-session, at most `perDay` times in a UTC day.
+        """Reads the auto-reload rule of the wallet the caller pays from — the org's own account, or a person's wallet in the signup org: top that balance up by `amountCents` whenever it falls below `thresholdCents`, charging that payer's card on file off-session, at most `perDay` times in a UTC day (0 is no daily limit, which the payer's plan sets).
 
-        Reads the org's auto-reload rule: top the balance up by `amountCents` whenever it falls below `thresholdCents`, charging the card on file off-session, at most `perDay` times in a UTC day. It is the same setting every prepaid AI account calls auto-reload.  An org that has never set one reads as disabled with zeroes rather than as an error — \"no rule\" answers the question — and `stored` is how a caller tells never-configured from deliberately-off.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Reads the auto-reload rule of the wallet the caller pays from — the org's own account, or a person's wallet in the signup org: top that balance up by `amountCents` whenever it falls below `thresholdCents`, charging that payer's card on file off-session, at most `perDay` times in a UTC day (0 is no daily limit, which the payer's plan sets). It is the same setting every prepaid AI account calls auto-reload.  An org that has never set one reads as disabled with zeroes rather than as an error — \"no rule\" answers the question — and `stored` is how a caller tells never-configured from deliberately-off.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6234,9 +7250,9 @@ class BillingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Reads the org's auto-reload rule: top the balance up by `amountCents` whenever it falls below `thresholdCents`, charging the card on file off-session, at most `perDay` times in a UTC day.
+        """Reads the auto-reload rule of the wallet the caller pays from — the org's own account, or a person's wallet in the signup org: top that balance up by `amountCents` whenever it falls below `thresholdCents`, charging that payer's card on file off-session, at most `perDay` times in a UTC day (0 is no daily limit, which the payer's plan sets).
 
-        Reads the org's auto-reload rule: top the balance up by `amountCents` whenever it falls below `thresholdCents`, charging the card on file off-session, at most `perDay` times in a UTC day. It is the same setting every prepaid AI account calls auto-reload.  An org that has never set one reads as disabled with zeroes rather than as an error — \"no rule\" answers the question — and `stored` is how a caller tells never-configured from deliberately-off.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Reads the auto-reload rule of the wallet the caller pays from — the org's own account, or a person's wallet in the signup org: top that balance up by `amountCents` whenever it falls below `thresholdCents`, charging that payer's card on file off-session, at most `perDay` times in a UTC day (0 is no daily limit, which the payer's plan sets). It is the same setting every prepaid AI account calls auto-reload.  An org that has never set one reads as disabled with zeroes rather than as an error — \"no rule\" answers the question — and `stored` is how a caller tells never-configured from deliberately-off.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -9770,7 +10786,7 @@ class BillingApi:
     ) -> BillingCryptoDeposit:
         """Issues a deposit address the caller can send crypto to, on the asset they ask for.
 
-        Issues a deposit address the caller can send crypto to, on the asset they ask for.  The address credits the CALLER'S own wallet and nobody else's: the payer is the validated principal, never a body value. Asking again reuses the caller's open intent rather than minting a second address, so a refresh cannot spray key generations — and a payer who sent to the address they saw earlier is still credited.  No balance moves here. The chain watcher credits on real confirmations, so what comes back is an address and a status, not a receipt.  An asset this rail cannot mint on is 400 — ask for another. A rail that is shut for that asset is 503 — nothing sent now can be credited.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Issues a deposit address the caller can send crypto to, on the asset they ask for.  The address credits the CALLER'S own wallet and nobody else's: the payer is the validated principal, never a body value. Asking again reuses the caller's open intent rather than minting a second address, so a refresh cannot spray key generations — and a payer who sent to the address they saw earlier is still credited.  No balance moves here. The chain watcher credits on real confirmations, so what comes back is an address, a status and the terms: the minimum that credits, any fee, the confirmations required, and one line of instructions. Once the transfer is that deep the deposit is credited as cash to the caller's balance (GET /v1/billing/balance, cash) and its status is succeeded.  The asset is checked against GET /v1/billing/crypto/options before anything is minted. A chain, a token or a pair the rail does not accept is 400, and the answer lists the accepted chains, tokens and assets. A deposit rail with nothing watched is 503 — nothing sent now can be credited, and the Gateway rail or a card is the way to pay until it reopens.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param billing_crypto_asset: (required)
         :type billing_crypto_asset: BillingCryptoAsset
@@ -9837,7 +10853,7 @@ class BillingApi:
     ) -> ApiResponse[BillingCryptoDeposit]:
         """Issues a deposit address the caller can send crypto to, on the asset they ask for.
 
-        Issues a deposit address the caller can send crypto to, on the asset they ask for.  The address credits the CALLER'S own wallet and nobody else's: the payer is the validated principal, never a body value. Asking again reuses the caller's open intent rather than minting a second address, so a refresh cannot spray key generations — and a payer who sent to the address they saw earlier is still credited.  No balance moves here. The chain watcher credits on real confirmations, so what comes back is an address and a status, not a receipt.  An asset this rail cannot mint on is 400 — ask for another. A rail that is shut for that asset is 503 — nothing sent now can be credited.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Issues a deposit address the caller can send crypto to, on the asset they ask for.  The address credits the CALLER'S own wallet and nobody else's: the payer is the validated principal, never a body value. Asking again reuses the caller's open intent rather than minting a second address, so a refresh cannot spray key generations — and a payer who sent to the address they saw earlier is still credited.  No balance moves here. The chain watcher credits on real confirmations, so what comes back is an address, a status and the terms: the minimum that credits, any fee, the confirmations required, and one line of instructions. Once the transfer is that deep the deposit is credited as cash to the caller's balance (GET /v1/billing/balance, cash) and its status is succeeded.  The asset is checked against GET /v1/billing/crypto/options before anything is minted. A chain, a token or a pair the rail does not accept is 400, and the answer lists the accepted chains, tokens and assets. A deposit rail with nothing watched is 503 — nothing sent now can be credited, and the Gateway rail or a card is the way to pay until it reopens.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param billing_crypto_asset: (required)
         :type billing_crypto_asset: BillingCryptoAsset
@@ -9904,7 +10920,7 @@ class BillingApi:
     ) -> RESTResponseType:
         """Issues a deposit address the caller can send crypto to, on the asset they ask for.
 
-        Issues a deposit address the caller can send crypto to, on the asset they ask for.  The address credits the CALLER'S own wallet and nobody else's: the payer is the validated principal, never a body value. Asking again reuses the caller's open intent rather than minting a second address, so a refresh cannot spray key generations — and a payer who sent to the address they saw earlier is still credited.  No balance moves here. The chain watcher credits on real confirmations, so what comes back is an address and a status, not a receipt.  An asset this rail cannot mint on is 400 — ask for another. A rail that is shut for that asset is 503 — nothing sent now can be credited.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Issues a deposit address the caller can send crypto to, on the asset they ask for.  The address credits the CALLER'S own wallet and nobody else's: the payer is the validated principal, never a body value. Asking again reuses the caller's open intent rather than minting a second address, so a refresh cannot spray key generations — and a payer who sent to the address they saw earlier is still credited.  No balance moves here. The chain watcher credits on real confirmations, so what comes back is an address, a status and the terms: the minimum that credits, any fee, the confirmations required, and one line of instructions. Once the transfer is that deep the deposit is credited as cash to the caller's balance (GET /v1/billing/balance, cash) and its status is succeeded.  The asset is checked against GET /v1/billing/crypto/options before anything is minted. A chain, a token or a pair the rail does not accept is 400, and the answer lists the accepted chains, tokens and assets. A deposit rail with nothing watched is 503 — nothing sent now can be credited, and the Gateway rail or a card is the way to pay until it reopens.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param billing_crypto_asset: (required)
         :type billing_crypto_asset: BillingCryptoAsset
@@ -10011,6 +11027,281 @@ class BillingApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/billing/crypto/deposit',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_billing_crypto_gateway(
+        self,
+        billing_signed_payment: BillingSignedPayment,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> BillingGatewayPayment:
+        """Takes a signed USDC payment from the caller's Circle Gateway balance to the treasury, and answers what became of it.
+
+        Takes a signed USDC payment from the caller's Circle Gateway balance to the treasury, and answers what became of it.  accepted: Circle Gateway LOCKED the USDC and the caller is credited — or, once the caller holds $1,000 of credit Gateway has not confirmed, credited when Gateway confirms this payment (deferred). pending: the outcome is not known yet; read it back or present the same payment again — it resolves to one credit either way. A refusal is 4xx with Gateway's reason (insufficient_balance, invalid_signature, …) or ours (nonce_not_issued, recipient_mismatch, amount_below_minimum, …); 503 means the rail is shut.  Who is credited is the caller, never a body value: the payer is resolved server-side, and the payment's own nonce must be the one issued to it.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param billing_signed_payment: (required)
+        :type billing_signed_payment: BillingSignedPayment
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_billing_crypto_gateway_serialize(
+            billing_signed_payment=billing_signed_payment,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BillingGatewayPayment",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_billing_crypto_gateway_with_http_info(
+        self,
+        billing_signed_payment: BillingSignedPayment,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[BillingGatewayPayment]:
+        """Takes a signed USDC payment from the caller's Circle Gateway balance to the treasury, and answers what became of it.
+
+        Takes a signed USDC payment from the caller's Circle Gateway balance to the treasury, and answers what became of it.  accepted: Circle Gateway LOCKED the USDC and the caller is credited — or, once the caller holds $1,000 of credit Gateway has not confirmed, credited when Gateway confirms this payment (deferred). pending: the outcome is not known yet; read it back or present the same payment again — it resolves to one credit either way. A refusal is 4xx with Gateway's reason (insufficient_balance, invalid_signature, …) or ours (nonce_not_issued, recipient_mismatch, amount_below_minimum, …); 503 means the rail is shut.  Who is credited is the caller, never a body value: the payer is resolved server-side, and the payment's own nonce must be the one issued to it.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param billing_signed_payment: (required)
+        :type billing_signed_payment: BillingSignedPayment
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_billing_crypto_gateway_serialize(
+            billing_signed_payment=billing_signed_payment,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BillingGatewayPayment",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_billing_crypto_gateway_without_preload_content(
+        self,
+        billing_signed_payment: BillingSignedPayment,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Takes a signed USDC payment from the caller's Circle Gateway balance to the treasury, and answers what became of it.
+
+        Takes a signed USDC payment from the caller's Circle Gateway balance to the treasury, and answers what became of it.  accepted: Circle Gateway LOCKED the USDC and the caller is credited — or, once the caller holds $1,000 of credit Gateway has not confirmed, credited when Gateway confirms this payment (deferred). pending: the outcome is not known yet; read it back or present the same payment again — it resolves to one credit either way. A refusal is 4xx with Gateway's reason (insufficient_balance, invalid_signature, …) or ours (nonce_not_issued, recipient_mismatch, amount_below_minimum, …); 503 means the rail is shut.  Who is credited is the caller, never a body value: the payer is resolved server-side, and the payment's own nonce must be the one issued to it.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param billing_signed_payment: (required)
+        :type billing_signed_payment: BillingSignedPayment
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_billing_crypto_gateway_serialize(
+            billing_signed_payment=billing_signed_payment,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BillingGatewayPayment",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_billing_crypto_gateway_serialize(
+        self,
+        billing_signed_payment,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if billing_signed_payment is not None:
+            _body_params = billing_signed_payment
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/billing/crypto/gateway',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -10538,6 +11829,296 @@ class BillingApi:
 
 
     @validate_call
+    def post_billing_paypal_order(
+        self,
+        billing_paypal_order_in: BillingPaypalOrderIn,
+        x_idempotency_key: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> BillingPayPalOrderOut:
+        """Opens a server-priced PayPal REST v2 order for either a bounded credit top-up (intent CAPTURE) or a plan purchase's first period (intent AUTHORIZE).
+
+        Opens a server-priced PayPal REST v2 order for either a bounded credit top-up (intent CAPTURE) or a plan purchase's first period (intent AUTHORIZE).  No balance or subscription row is minted here: the browser hands the returned `orderId` to the PayPal Smart Buttons SDK for buyer approval, then settles the payment through POST /v1/billing/topup/token or POST /v1/billing/subscribe/card with `provider: \"paypal\"`.
+
+        :param billing_paypal_order_in: (required)
+        :type billing_paypal_order_in: BillingPaypalOrderIn
+        :param x_idempotency_key:
+        :type x_idempotency_key: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_billing_paypal_order_serialize(
+            billing_paypal_order_in=billing_paypal_order_in,
+            x_idempotency_key=x_idempotency_key,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BillingPayPalOrderOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_billing_paypal_order_with_http_info(
+        self,
+        billing_paypal_order_in: BillingPaypalOrderIn,
+        x_idempotency_key: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[BillingPayPalOrderOut]:
+        """Opens a server-priced PayPal REST v2 order for either a bounded credit top-up (intent CAPTURE) or a plan purchase's first period (intent AUTHORIZE).
+
+        Opens a server-priced PayPal REST v2 order for either a bounded credit top-up (intent CAPTURE) or a plan purchase's first period (intent AUTHORIZE).  No balance or subscription row is minted here: the browser hands the returned `orderId` to the PayPal Smart Buttons SDK for buyer approval, then settles the payment through POST /v1/billing/topup/token or POST /v1/billing/subscribe/card with `provider: \"paypal\"`.
+
+        :param billing_paypal_order_in: (required)
+        :type billing_paypal_order_in: BillingPaypalOrderIn
+        :param x_idempotency_key:
+        :type x_idempotency_key: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_billing_paypal_order_serialize(
+            billing_paypal_order_in=billing_paypal_order_in,
+            x_idempotency_key=x_idempotency_key,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BillingPayPalOrderOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_billing_paypal_order_without_preload_content(
+        self,
+        billing_paypal_order_in: BillingPaypalOrderIn,
+        x_idempotency_key: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Opens a server-priced PayPal REST v2 order for either a bounded credit top-up (intent CAPTURE) or a plan purchase's first period (intent AUTHORIZE).
+
+        Opens a server-priced PayPal REST v2 order for either a bounded credit top-up (intent CAPTURE) or a plan purchase's first period (intent AUTHORIZE).  No balance or subscription row is minted here: the browser hands the returned `orderId` to the PayPal Smart Buttons SDK for buyer approval, then settles the payment through POST /v1/billing/topup/token or POST /v1/billing/subscribe/card with `provider: \"paypal\"`.
+
+        :param billing_paypal_order_in: (required)
+        :type billing_paypal_order_in: BillingPaypalOrderIn
+        :param x_idempotency_key:
+        :type x_idempotency_key: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_billing_paypal_order_serialize(
+            billing_paypal_order_in=billing_paypal_order_in,
+            x_idempotency_key=x_idempotency_key,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BillingPayPalOrderOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_billing_paypal_order_serialize(
+        self,
+        billing_paypal_order_in,
+        x_idempotency_key,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        if x_idempotency_key is not None:
+            _header_params['X-Idempotency-Key'] = x_idempotency_key
+        # process the form parameters
+        # process the body parameter
+        if billing_paypal_order_in is not None:
+            _body_params = billing_paypal_order_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/billing/paypal/order',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def post_billing_portal_methods(
         self,
         _request_timeout: Union[
@@ -11038,7 +12619,7 @@ class BillingApi:
     ) -> None:
         """Buy a plan with a card
 
-        Vaults the card (or reuses one already on file), charges the plan's FIRST period at the catalog price, and opens the subscription — one act, all of it server-side.  There is NO AMOUNT in the request. `level` picks which of the plan's published prices to buy at — an index, never a number — so what the card is charged is decided by the catalog and underpaying cannot be expressed.  `interval` picks the term: \"month\" (the default) or \"year\", which charges the plan's annual total now and renews yearly. A plan with no annual price refuses \"year\".  `lines` are a team's other seat types, bought on the same subscription: `[{\"planId\":\"team-premium\",\"quantity\":1}]` beside `planId` \"team\" and `quantity` 1 is a team of one standard and one premium seat, charged both seats' prices. A team is at least two members across every seat type and at most 100; a line of a plan that is not a seat type of the team is 400 before any card is charged.  `coupon` is a plan coupon code (case-insensitive) for a percent off the FIRST month only; renewals bill the catalog price. It is a code, never an amount. A code that is unknown, expired, used up, not for this plan, or sent with annual billing or prepaid credit is 400, and one this org or this card has already redeemed is 409 — before any card is charged, never a silent full-price sale. The receipt names the coupon and its percent.  `wallet: true` says `sourceId` is a wallet's single-use token (Apple Pay, Google Pay, Cash App Pay). The first period is authorized on the wallet, any coupon is held against the org and the card behind it, and only then is the payment captured; a coupon already used by either voids the hold and is 409. Cash App Pay names no card, so a coupon with it is 400. The token is kept nowhere: renewals are drawn from the prepaid balance.  `consent` is the choice the checkout page holds, as @hanzo/event spells it (\"analytics,marketing,ads\"). The sale reaches an ad platform only under it. It counts only from a browser (a request with Sec-Fetch-Site), and a browser that sends GPC or DNT has allowed nothing, whatever the page says.  A fresh sale answers 201 with the receipt. An identical retry answers 200 with the FIRST sale's body, byte for byte, so a client cannot read a replay as a second subscription having been opened. A caller already on a paid plan is 409 rather than charged again.  The org's plan is bought only by an admin of the org or the platform: a member billed from the org's account is refused 403, before any card is charged, with a sentence naming who to ask. A member billed from a wallet of their own buys a plan for that wallet.
+        Vaults the card (or reuses one already on file), charges the plan's FIRST period at the catalog price, and opens the subscription — one act, all of it server-side.  There is NO AMOUNT in the request. `level` picks which of the plan's published prices to buy at — an index, never a number — so what the card is charged is decided by the catalog and underpaying cannot be expressed.  `interval` picks the term: \"month\" (the default) or \"year\", which charges the plan's annual total now and renews yearly. A plan with no annual price refuses \"year\".  `lines` are a team's other seat types, bought on the same subscription: `[{\"planId\":\"team-premium\",\"quantity\":1}]` beside `planId` \"team\" and `quantity` 1 is a team of one standard and one premium seat, charged both seats' prices. A team is at least two members across every seat type and at most 100; a line of a plan that is not a seat type of the team is 400 before any card is charged.  `coupon` is a plan coupon code (case-insensitive) for a percent off the FIRST month only; renewals bill the catalog price. It is a code, never an amount. A code that is unknown, expired, used up, not for this plan, or sent with annual billing or prepaid credit is 400, and one this org or this card has already redeemed is 409 — before any card is charged, never a silent full-price sale. The receipt names the coupon and its percent.  `wallet: true` says `sourceId` is a wallet's single-use token (Apple Pay, Google Pay, Cash App Pay). The first period is authorized on the wallet, any coupon is held against the org and the card behind it, and only then is the payment captured; a coupon already used by either voids the hold and is 409. Cash App Pay names no card, so a coupon with it is 400. The token is kept nowhere, so the plan renews only once a card plan follows it: a plan's period is charged to a card on file, never to the prepaid balance, which pays for usage. A `sourceId` of \"balance\" or \"credits\" is 400 `plan_needs_card`.  Bought while the account holds a plan paid outside checkout (a wire, a comp) or one the balance used to renew, the card plan starts when that plan ends: the card is kept now and charged then, nothing is charged today, and the receipt states `startsAt`, `startsCents` and `follows`.  `balanceCents` is an organization's starting usage balance, bought in the same payment as the seats: `amountCents` is seats x price plus it, the invoice holds the seats and the balance is credited to the organization's prepaid balance (`balanceCents`, `balanceId` on the receipt). It is whole dollars and at most the plan's `limits.balanceCeiling`; one that is not, a plan that states no ceiling, or a balance sent with a wallet token or on a plan that starts later is 400 before any card is charged. A plan whose limits state how an organization orders it (spend limits, balance months, a ceiling) is bought only for the organization, by its admin, on a request that selects it with X-Org-Id; one that selects none is 400 (\"choose the organization to buy for\") before any card is charged. Whether the buyer administers it is asked of IAM at the sale, not read off the token: 403 when IAM no longer names them an admin, 503 when it cannot answer.  `consent` is the choice the checkout page holds, as @hanzo/event spells it (\"analytics,marketing,ads\"). The sale reaches an ad platform only under it. It counts only from a browser (a request with Sec-Fetch-Site), and a browser that sends GPC or DNT has allowed nothing, whatever the page says.  A fresh sale answers 201 with the receipt. An identical retry answers 200 with the FIRST sale's body, byte for byte, so a client cannot read a replay as a second subscription having been opened. A caller already on a paid plan is 409 rather than charged again.  The org's plan is bought only by an admin of the org or the platform: a member billed from the org's account is refused 403, before any card is charged, with a sentence naming who to ask. A member billed from a wallet of their own buys a plan for that wallet.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -11100,7 +12681,7 @@ class BillingApi:
     ) -> ApiResponse[None]:
         """Buy a plan with a card
 
-        Vaults the card (or reuses one already on file), charges the plan's FIRST period at the catalog price, and opens the subscription — one act, all of it server-side.  There is NO AMOUNT in the request. `level` picks which of the plan's published prices to buy at — an index, never a number — so what the card is charged is decided by the catalog and underpaying cannot be expressed.  `interval` picks the term: \"month\" (the default) or \"year\", which charges the plan's annual total now and renews yearly. A plan with no annual price refuses \"year\".  `lines` are a team's other seat types, bought on the same subscription: `[{\"planId\":\"team-premium\",\"quantity\":1}]` beside `planId` \"team\" and `quantity` 1 is a team of one standard and one premium seat, charged both seats' prices. A team is at least two members across every seat type and at most 100; a line of a plan that is not a seat type of the team is 400 before any card is charged.  `coupon` is a plan coupon code (case-insensitive) for a percent off the FIRST month only; renewals bill the catalog price. It is a code, never an amount. A code that is unknown, expired, used up, not for this plan, or sent with annual billing or prepaid credit is 400, and one this org or this card has already redeemed is 409 — before any card is charged, never a silent full-price sale. The receipt names the coupon and its percent.  `wallet: true` says `sourceId` is a wallet's single-use token (Apple Pay, Google Pay, Cash App Pay). The first period is authorized on the wallet, any coupon is held against the org and the card behind it, and only then is the payment captured; a coupon already used by either voids the hold and is 409. Cash App Pay names no card, so a coupon with it is 400. The token is kept nowhere: renewals are drawn from the prepaid balance.  `consent` is the choice the checkout page holds, as @hanzo/event spells it (\"analytics,marketing,ads\"). The sale reaches an ad platform only under it. It counts only from a browser (a request with Sec-Fetch-Site), and a browser that sends GPC or DNT has allowed nothing, whatever the page says.  A fresh sale answers 201 with the receipt. An identical retry answers 200 with the FIRST sale's body, byte for byte, so a client cannot read a replay as a second subscription having been opened. A caller already on a paid plan is 409 rather than charged again.  The org's plan is bought only by an admin of the org or the platform: a member billed from the org's account is refused 403, before any card is charged, with a sentence naming who to ask. A member billed from a wallet of their own buys a plan for that wallet.
+        Vaults the card (or reuses one already on file), charges the plan's FIRST period at the catalog price, and opens the subscription — one act, all of it server-side.  There is NO AMOUNT in the request. `level` picks which of the plan's published prices to buy at — an index, never a number — so what the card is charged is decided by the catalog and underpaying cannot be expressed.  `interval` picks the term: \"month\" (the default) or \"year\", which charges the plan's annual total now and renews yearly. A plan with no annual price refuses \"year\".  `lines` are a team's other seat types, bought on the same subscription: `[{\"planId\":\"team-premium\",\"quantity\":1}]` beside `planId` \"team\" and `quantity` 1 is a team of one standard and one premium seat, charged both seats' prices. A team is at least two members across every seat type and at most 100; a line of a plan that is not a seat type of the team is 400 before any card is charged.  `coupon` is a plan coupon code (case-insensitive) for a percent off the FIRST month only; renewals bill the catalog price. It is a code, never an amount. A code that is unknown, expired, used up, not for this plan, or sent with annual billing or prepaid credit is 400, and one this org or this card has already redeemed is 409 — before any card is charged, never a silent full-price sale. The receipt names the coupon and its percent.  `wallet: true` says `sourceId` is a wallet's single-use token (Apple Pay, Google Pay, Cash App Pay). The first period is authorized on the wallet, any coupon is held against the org and the card behind it, and only then is the payment captured; a coupon already used by either voids the hold and is 409. Cash App Pay names no card, so a coupon with it is 400. The token is kept nowhere, so the plan renews only once a card plan follows it: a plan's period is charged to a card on file, never to the prepaid balance, which pays for usage. A `sourceId` of \"balance\" or \"credits\" is 400 `plan_needs_card`.  Bought while the account holds a plan paid outside checkout (a wire, a comp) or one the balance used to renew, the card plan starts when that plan ends: the card is kept now and charged then, nothing is charged today, and the receipt states `startsAt`, `startsCents` and `follows`.  `balanceCents` is an organization's starting usage balance, bought in the same payment as the seats: `amountCents` is seats x price plus it, the invoice holds the seats and the balance is credited to the organization's prepaid balance (`balanceCents`, `balanceId` on the receipt). It is whole dollars and at most the plan's `limits.balanceCeiling`; one that is not, a plan that states no ceiling, or a balance sent with a wallet token or on a plan that starts later is 400 before any card is charged. A plan whose limits state how an organization orders it (spend limits, balance months, a ceiling) is bought only for the organization, by its admin, on a request that selects it with X-Org-Id; one that selects none is 400 (\"choose the organization to buy for\") before any card is charged. Whether the buyer administers it is asked of IAM at the sale, not read off the token: 403 when IAM no longer names them an admin, 503 when it cannot answer.  `consent` is the choice the checkout page holds, as @hanzo/event spells it (\"analytics,marketing,ads\"). The sale reaches an ad platform only under it. It counts only from a browser (a request with Sec-Fetch-Site), and a browser that sends GPC or DNT has allowed nothing, whatever the page says.  A fresh sale answers 201 with the receipt. An identical retry answers 200 with the FIRST sale's body, byte for byte, so a client cannot read a replay as a second subscription having been opened. A caller already on a paid plan is 409 rather than charged again.  The org's plan is bought only by an admin of the org or the platform: a member billed from the org's account is refused 403, before any card is charged, with a sentence naming who to ask. A member billed from a wallet of their own buys a plan for that wallet.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -11162,7 +12743,7 @@ class BillingApi:
     ) -> RESTResponseType:
         """Buy a plan with a card
 
-        Vaults the card (or reuses one already on file), charges the plan's FIRST period at the catalog price, and opens the subscription — one act, all of it server-side.  There is NO AMOUNT in the request. `level` picks which of the plan's published prices to buy at — an index, never a number — so what the card is charged is decided by the catalog and underpaying cannot be expressed.  `interval` picks the term: \"month\" (the default) or \"year\", which charges the plan's annual total now and renews yearly. A plan with no annual price refuses \"year\".  `lines` are a team's other seat types, bought on the same subscription: `[{\"planId\":\"team-premium\",\"quantity\":1}]` beside `planId` \"team\" and `quantity` 1 is a team of one standard and one premium seat, charged both seats' prices. A team is at least two members across every seat type and at most 100; a line of a plan that is not a seat type of the team is 400 before any card is charged.  `coupon` is a plan coupon code (case-insensitive) for a percent off the FIRST month only; renewals bill the catalog price. It is a code, never an amount. A code that is unknown, expired, used up, not for this plan, or sent with annual billing or prepaid credit is 400, and one this org or this card has already redeemed is 409 — before any card is charged, never a silent full-price sale. The receipt names the coupon and its percent.  `wallet: true` says `sourceId` is a wallet's single-use token (Apple Pay, Google Pay, Cash App Pay). The first period is authorized on the wallet, any coupon is held against the org and the card behind it, and only then is the payment captured; a coupon already used by either voids the hold and is 409. Cash App Pay names no card, so a coupon with it is 400. The token is kept nowhere: renewals are drawn from the prepaid balance.  `consent` is the choice the checkout page holds, as @hanzo/event spells it (\"analytics,marketing,ads\"). The sale reaches an ad platform only under it. It counts only from a browser (a request with Sec-Fetch-Site), and a browser that sends GPC or DNT has allowed nothing, whatever the page says.  A fresh sale answers 201 with the receipt. An identical retry answers 200 with the FIRST sale's body, byte for byte, so a client cannot read a replay as a second subscription having been opened. A caller already on a paid plan is 409 rather than charged again.  The org's plan is bought only by an admin of the org or the platform: a member billed from the org's account is refused 403, before any card is charged, with a sentence naming who to ask. A member billed from a wallet of their own buys a plan for that wallet.
+        Vaults the card (or reuses one already on file), charges the plan's FIRST period at the catalog price, and opens the subscription — one act, all of it server-side.  There is NO AMOUNT in the request. `level` picks which of the plan's published prices to buy at — an index, never a number — so what the card is charged is decided by the catalog and underpaying cannot be expressed.  `interval` picks the term: \"month\" (the default) or \"year\", which charges the plan's annual total now and renews yearly. A plan with no annual price refuses \"year\".  `lines` are a team's other seat types, bought on the same subscription: `[{\"planId\":\"team-premium\",\"quantity\":1}]` beside `planId` \"team\" and `quantity` 1 is a team of one standard and one premium seat, charged both seats' prices. A team is at least two members across every seat type and at most 100; a line of a plan that is not a seat type of the team is 400 before any card is charged.  `coupon` is a plan coupon code (case-insensitive) for a percent off the FIRST month only; renewals bill the catalog price. It is a code, never an amount. A code that is unknown, expired, used up, not for this plan, or sent with annual billing or prepaid credit is 400, and one this org or this card has already redeemed is 409 — before any card is charged, never a silent full-price sale. The receipt names the coupon and its percent.  `wallet: true` says `sourceId` is a wallet's single-use token (Apple Pay, Google Pay, Cash App Pay). The first period is authorized on the wallet, any coupon is held against the org and the card behind it, and only then is the payment captured; a coupon already used by either voids the hold and is 409. Cash App Pay names no card, so a coupon with it is 400. The token is kept nowhere, so the plan renews only once a card plan follows it: a plan's period is charged to a card on file, never to the prepaid balance, which pays for usage. A `sourceId` of \"balance\" or \"credits\" is 400 `plan_needs_card`.  Bought while the account holds a plan paid outside checkout (a wire, a comp) or one the balance used to renew, the card plan starts when that plan ends: the card is kept now and charged then, nothing is charged today, and the receipt states `startsAt`, `startsCents` and `follows`.  `balanceCents` is an organization's starting usage balance, bought in the same payment as the seats: `amountCents` is seats x price plus it, the invoice holds the seats and the balance is credited to the organization's prepaid balance (`balanceCents`, `balanceId` on the receipt). It is whole dollars and at most the plan's `limits.balanceCeiling`; one that is not, a plan that states no ceiling, or a balance sent with a wallet token or on a plan that starts later is 400 before any card is charged. A plan whose limits state how an organization orders it (spend limits, balance months, a ceiling) is bought only for the organization, by its admin, on a request that selects it with X-Org-Id; one that selects none is 400 (\"choose the organization to buy for\") before any card is charged. Whether the buyer administers it is asked of IAM at the sale, not read off the token: 403 when IAM no longer names them an admin, 503 when it cannot answer.  `consent` is the choice the checkout page holds, as @hanzo/event spells it (\"analytics,marketing,ads\"). The sale reaches an ad platform only under it. It counts only from a browser (a request with Sec-Fetch-Site), and a browser that sends GPC or DNT has allowed nothing, whatever the page says.  A fresh sale answers 201 with the receipt. An identical retry answers 200 with the FIRST sale's body, byte for byte, so a client cannot read a replay as a second subscription having been opened. A caller already on a paid plan is 409 rather than charged again.  The org's plan is bought only by an admin of the org or the platform: a member billed from the org's account is refused 403, before any card is charged, with a sentence naming who to ask. A member billed from a wallet of their own buys a plan for that wallet.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -11257,6 +12838,242 @@ class BillingApi:
 
 
     @validate_call
+    def post_billing_subscribe_invoice(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Order a plan by invoice, paid by wire
+
+        Raises an OPEN invoice for an organization's order — the seats at the plan's price and the starting balance — and sends it to the buyer. NOTHING STARTS until it is paid: \"Your plan starts when we confirm your payment.\"  The body is a card sale's less the card and the coupon: `planId`, `quantity`, `lines`, `interval`, `balanceCents`. The organization is the one chosen with X-Org-Id (none chosen is 400), and only its admin, as IAM says now, orders (403). The answer carries the invoice, the amount due, the due date (the plan's `limits.invoiceDays`), when it is voided if unpaid (`limits.graceDays` later), the receiving bank with the reference to send exactly, the same as `howToPay` steps one field to a line, and `hostedUrl` and `pdfUrl`. A plan already paid for, or one with an invoice still open, is 409; a site that takes no order by invoice is 503. A retry under the same X-Idempotency-Key answers the same order as it stands at 200, with a new link and the bank read again; nothing is mailed again.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_billing_subscribe_invoice_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_billing_subscribe_invoice_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Order a plan by invoice, paid by wire
+
+        Raises an OPEN invoice for an organization's order — the seats at the plan's price and the starting balance — and sends it to the buyer. NOTHING STARTS until it is paid: \"Your plan starts when we confirm your payment.\"  The body is a card sale's less the card and the coupon: `planId`, `quantity`, `lines`, `interval`, `balanceCents`. The organization is the one chosen with X-Org-Id (none chosen is 400), and only its admin, as IAM says now, orders (403). The answer carries the invoice, the amount due, the due date (the plan's `limits.invoiceDays`), when it is voided if unpaid (`limits.graceDays` later), the receiving bank with the reference to send exactly, the same as `howToPay` steps one field to a line, and `hostedUrl` and `pdfUrl`. A plan already paid for, or one with an invoice still open, is 409; a site that takes no order by invoice is 503. A retry under the same X-Idempotency-Key answers the same order as it stands at 200, with a new link and the bank read again; nothing is mailed again.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_billing_subscribe_invoice_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_billing_subscribe_invoice_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Order a plan by invoice, paid by wire
+
+        Raises an OPEN invoice for an organization's order — the seats at the plan's price and the starting balance — and sends it to the buyer. NOTHING STARTS until it is paid: \"Your plan starts when we confirm your payment.\"  The body is a card sale's less the card and the coupon: `planId`, `quantity`, `lines`, `interval`, `balanceCents`. The organization is the one chosen with X-Org-Id (none chosen is 400), and only its admin, as IAM says now, orders (403). The answer carries the invoice, the amount due, the due date (the plan's `limits.invoiceDays`), when it is voided if unpaid (`limits.graceDays` later), the receiving bank with the reference to send exactly, the same as `howToPay` steps one field to a line, and `hostedUrl` and `pdfUrl`. A plan already paid for, or one with an invoice still open, is 409; a site that takes no order by invoice is 503. A retry under the same X-Idempotency-Key answers the same order as it stands at 200, with a new link and the bank read again; nothing is mailed again.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_billing_subscribe_invoice_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_billing_subscribe_invoice_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/billing/subscribe/invoice',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def post_billing_topup(
         self,
         billing_topup_in: BillingTopupIn,
@@ -11276,7 +13093,7 @@ class BillingApi:
     ) -> BillingCharged:
         """Charges a card the caller already saved and credits the balance.
 
-        Charges a card the caller already saved and credits the balance. Same receipt and the same retry safety as the token endpoint; the only difference is which card, so a caller topping up from a saved method never re-enters one.  The org's card on file is charged only by an admin of the org or the platform; a member is refused with 403 and told to ask an admin. A member billed from a wallet of their own charges that wallet's card.
+        Charges a card the caller already saved and credits the balance. Same receipt and the same retry safety as the token endpoint; the only difference is which card, so a caller topping up from a saved method never re-enters one.  The org's card on file is charged only by an admin of the org or the platform; a member is refused with 403 and told to ask an admin. A member billed from a wallet of their own charges that wallet's card. An org selected with X-Org-Id that the sign-in does not list is 409, and nothing is charged.
 
         :param billing_topup_in: (required)
         :type billing_topup_in: BillingTopupIn
@@ -11347,7 +13164,7 @@ class BillingApi:
     ) -> ApiResponse[BillingCharged]:
         """Charges a card the caller already saved and credits the balance.
 
-        Charges a card the caller already saved and credits the balance. Same receipt and the same retry safety as the token endpoint; the only difference is which card, so a caller topping up from a saved method never re-enters one.  The org's card on file is charged only by an admin of the org or the platform; a member is refused with 403 and told to ask an admin. A member billed from a wallet of their own charges that wallet's card.
+        Charges a card the caller already saved and credits the balance. Same receipt and the same retry safety as the token endpoint; the only difference is which card, so a caller topping up from a saved method never re-enters one.  The org's card on file is charged only by an admin of the org or the platform; a member is refused with 403 and told to ask an admin. A member billed from a wallet of their own charges that wallet's card. An org selected with X-Org-Id that the sign-in does not list is 409, and nothing is charged.
 
         :param billing_topup_in: (required)
         :type billing_topup_in: BillingTopupIn
@@ -11418,7 +13235,7 @@ class BillingApi:
     ) -> RESTResponseType:
         """Charges a card the caller already saved and credits the balance.
 
-        Charges a card the caller already saved and credits the balance. Same receipt and the same retry safety as the token endpoint; the only difference is which card, so a caller topping up from a saved method never re-enters one.  The org's card on file is charged only by an admin of the org or the platform; a member is refused with 403 and told to ask an admin. A member billed from a wallet of their own charges that wallet's card.
+        Charges a card the caller already saved and credits the balance. Same receipt and the same retry safety as the token endpoint; the only difference is which card, so a caller topping up from a saved method never re-enters one.  The org's card on file is charged only by an admin of the org or the platform; a member is refused with 403 and told to ask an admin. A member billed from a wallet of their own charges that wallet's card. An org selected with X-Org-Id that the sign-in does not list is 409, and nothing is charged.
 
         :param billing_topup_in: (required)
         :type billing_topup_in: BillingTopupIn
@@ -11566,7 +13383,7 @@ class BillingApi:
     ) -> BillingCharged:
         """Charges a single-use card token and credits the caller's balance.
 
-        Charges a single-use card token and credits the caller's balance.  The token comes from the payment form and is vaulted as part of the charge, so no card number reaches this service and none is stored here. The receipt names the ledger entry, the new balance, and the PROCESSOR's own reference — which is the only field that proves money moved at the gateway rather than only in our ledger.  Retry-safe on X-Idempotency-Key: the same key settles one charge and returns the first receipt.
+        Charges a single-use card token and credits the caller's balance.  The token comes from the payment form and is vaulted as part of the charge, so no card number reaches this service and none is stored here. The receipt names the ledger entry, the new balance, and the PROCESSOR's own reference — which is the only field that proves money moved at the gateway rather than only in our ledger.  Retry-safe on X-Idempotency-Key: the same key settles one charge and returns the first receipt. An org selected with X-Org-Id that the sign-in does not list is 409, and nothing is charged.
 
         :param billing_topup_in: (required)
         :type billing_topup_in: BillingTopupIn
@@ -11637,7 +13454,7 @@ class BillingApi:
     ) -> ApiResponse[BillingCharged]:
         """Charges a single-use card token and credits the caller's balance.
 
-        Charges a single-use card token and credits the caller's balance.  The token comes from the payment form and is vaulted as part of the charge, so no card number reaches this service and none is stored here. The receipt names the ledger entry, the new balance, and the PROCESSOR's own reference — which is the only field that proves money moved at the gateway rather than only in our ledger.  Retry-safe on X-Idempotency-Key: the same key settles one charge and returns the first receipt.
+        Charges a single-use card token and credits the caller's balance.  The token comes from the payment form and is vaulted as part of the charge, so no card number reaches this service and none is stored here. The receipt names the ledger entry, the new balance, and the PROCESSOR's own reference — which is the only field that proves money moved at the gateway rather than only in our ledger.  Retry-safe on X-Idempotency-Key: the same key settles one charge and returns the first receipt. An org selected with X-Org-Id that the sign-in does not list is 409, and nothing is charged.
 
         :param billing_topup_in: (required)
         :type billing_topup_in: BillingTopupIn
@@ -11708,7 +13525,7 @@ class BillingApi:
     ) -> RESTResponseType:
         """Charges a single-use card token and credits the caller's balance.
 
-        Charges a single-use card token and credits the caller's balance.  The token comes from the payment form and is vaulted as part of the charge, so no card number reaches this service and none is stored here. The receipt names the ledger entry, the new balance, and the PROCESSOR's own reference — which is the only field that proves money moved at the gateway rather than only in our ledger.  Retry-safe on X-Idempotency-Key: the same key settles one charge and returns the first receipt.
+        Charges a single-use card token and credits the caller's balance.  The token comes from the payment form and is vaulted as part of the charge, so no card number reaches this service and none is stored here. The receipt names the ledger entry, the new balance, and the PROCESSOR's own reference — which is the only field that proves money moved at the gateway rather than only in our ledger.  Retry-safe on X-Idempotency-Key: the same key settles one charge and returns the first receipt. An org selected with X-Org-Id that the sign-in does not list is 409, and nothing is charged.
 
         :param billing_topup_in: (required)
         :type billing_topup_in: BillingTopupIn
@@ -12128,9 +13945,9 @@ class BillingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> BillingAutoRecharge:
-        """Sets the org's auto-reload rule, and answers with the rule as stored.
+        """Sets the auto-reload rule of the wallet the caller pays from, and answers with the rule as stored.
 
-        Sets the org's auto-reload rule, and answers with the rule as stored.  ONLY AN ADMIN OF THE ORG, or the platform, may (403 otherwise, with the plain sentence \"Only an admin of <org> can change its auto-reload. Ask an admin to do it.\"): the sweep charges the org's default card with nobody there.  ENABLING REQUIRES A CARD ON FILE (400), because the sweep charges off-session: a rule naming no chargeable method is a promise the schedule cannot keep. The amount is a top-up's own range, $5 to $5,000, and the balance it reloads below is $0 to $5,000; a value outside either is refused the same way, the range in the sentence. The sweep reloads at most `perDay` times in a UTC day.  The rule is the org's OWN. The org comes from the validated principal and the body names none, so there is no field a write could be steered through onto another tenant's schedule.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Sets the auto-reload rule of the wallet the caller pays from, and answers with the rule as stored.  The org's own account's rule is its admins' to change, and the platform's; a member billed from a wallet of their own (a person in the signup org) changes that wallet's rule and no other (403 otherwise, with the plain sentence \"Only an admin of <org> can change its auto-reload. Ask an admin to do it.\"): the sweep charges the payer's default card with nobody there.  ENABLING REQUIRES A CARD ON FILE (400), because the sweep charges off-session: a rule naming no chargeable method is a promise the schedule cannot keep. The amount is a top-up's own range, $5 to $5,000, and the balance it reloads below is $0 to $5,000; a value outside either is refused the same way, the range in the sentence. The sweep reloads at most `perDay` times in a UTC day.  The rule is the payer's OWN. The org and the wallet come from the validated principal and the body names neither, so there is no field a write could be steered through onto another payer's schedule.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param billing_auto_recharge_edit: (required)
         :type billing_auto_recharge_edit: BillingAutoRechargeEdit
@@ -12195,9 +14012,9 @@ class BillingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[BillingAutoRecharge]:
-        """Sets the org's auto-reload rule, and answers with the rule as stored.
+        """Sets the auto-reload rule of the wallet the caller pays from, and answers with the rule as stored.
 
-        Sets the org's auto-reload rule, and answers with the rule as stored.  ONLY AN ADMIN OF THE ORG, or the platform, may (403 otherwise, with the plain sentence \"Only an admin of <org> can change its auto-reload. Ask an admin to do it.\"): the sweep charges the org's default card with nobody there.  ENABLING REQUIRES A CARD ON FILE (400), because the sweep charges off-session: a rule naming no chargeable method is a promise the schedule cannot keep. The amount is a top-up's own range, $5 to $5,000, and the balance it reloads below is $0 to $5,000; a value outside either is refused the same way, the range in the sentence. The sweep reloads at most `perDay` times in a UTC day.  The rule is the org's OWN. The org comes from the validated principal and the body names none, so there is no field a write could be steered through onto another tenant's schedule.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Sets the auto-reload rule of the wallet the caller pays from, and answers with the rule as stored.  The org's own account's rule is its admins' to change, and the platform's; a member billed from a wallet of their own (a person in the signup org) changes that wallet's rule and no other (403 otherwise, with the plain sentence \"Only an admin of <org> can change its auto-reload. Ask an admin to do it.\"): the sweep charges the payer's default card with nobody there.  ENABLING REQUIRES A CARD ON FILE (400), because the sweep charges off-session: a rule naming no chargeable method is a promise the schedule cannot keep. The amount is a top-up's own range, $5 to $5,000, and the balance it reloads below is $0 to $5,000; a value outside either is refused the same way, the range in the sentence. The sweep reloads at most `perDay` times in a UTC day.  The rule is the payer's OWN. The org and the wallet come from the validated principal and the body names neither, so there is no field a write could be steered through onto another payer's schedule.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param billing_auto_recharge_edit: (required)
         :type billing_auto_recharge_edit: BillingAutoRechargeEdit
@@ -12262,9 +14079,9 @@ class BillingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Sets the org's auto-reload rule, and answers with the rule as stored.
+        """Sets the auto-reload rule of the wallet the caller pays from, and answers with the rule as stored.
 
-        Sets the org's auto-reload rule, and answers with the rule as stored.  ONLY AN ADMIN OF THE ORG, or the platform, may (403 otherwise, with the plain sentence \"Only an admin of <org> can change its auto-reload. Ask an admin to do it.\"): the sweep charges the org's default card with nobody there.  ENABLING REQUIRES A CARD ON FILE (400), because the sweep charges off-session: a rule naming no chargeable method is a promise the schedule cannot keep. The amount is a top-up's own range, $5 to $5,000, and the balance it reloads below is $0 to $5,000; a value outside either is refused the same way, the range in the sentence. The sweep reloads at most `perDay` times in a UTC day.  The rule is the org's OWN. The org comes from the validated principal and the body names none, so there is no field a write could be steered through onto another tenant's schedule.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Sets the auto-reload rule of the wallet the caller pays from, and answers with the rule as stored.  The org's own account's rule is its admins' to change, and the platform's; a member billed from a wallet of their own (a person in the signup org) changes that wallet's rule and no other (403 otherwise, with the plain sentence \"Only an admin of <org> can change its auto-reload. Ask an admin to do it.\"): the sweep charges the payer's default card with nobody there.  ENABLING REQUIRES A CARD ON FILE (400), because the sweep charges off-session: a rule naming no chargeable method is a promise the schedule cannot keep. The amount is a top-up's own range, $5 to $5,000, and the balance it reloads below is $0 to $5,000; a value outside either is refused the same way, the range in the sentence. The sweep reloads at most `perDay` times in a UTC day.  The rule is the payer's OWN. The org and the wallet come from the validated principal and the body names neither, so there is no field a write could be steered through onto another payer's schedule.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param billing_auto_recharge_edit: (required)
         :type billing_auto_recharge_edit: BillingAutoRechargeEdit

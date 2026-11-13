@@ -29,10 +29,13 @@ class MarketingAudience(BaseModel):
     created_at: Optional[StrictInt] = Field(default=None, description="CreatedAt is unix seconds when the filter was saved, server-assigned.", alias="createdAt")
     event: Optional[StrictStr] = Field(default=None, description="Event is the analytics event a member must have fired. EMPTY MEANS NO FILTER: the audience is then every mailable customer in the org, and no warehouse is consulted.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the server-assigned audience id (\"aud_\" + 128 random bits).")
+    kind: Optional[StrictStr] = Field(default=None, description="Kind is what the audience is: cohort, a saved filter over the org's customers and their events; list, a mailing list's subscribed members; or segment, a saved filter over one list. Server-assigned; a create is a cohort.")
+    list: Optional[StrictStr] = Field(default=None, description="List is the list a list or a segment audience belongs to.")
     name: Optional[StrictStr] = Field(default=None, description="Name is the audience's label. Required, trimmed, capped at 1024 bytes.")
+    subscribed: Optional[StrictInt] = Field(default=None, description="Subscribed is how many subscribed members a list audience has, from the list's kept counts.")
     updated_at: Optional[StrictInt] = Field(default=None, description="UpdatedAt is unix seconds of the last write, server-assigned, and the key the audience list is ordered by (newest first). A saved audience has no update route, so in practice it stays equal to CreatedAt: to change a filter you save another one.", alias="updatedAt")
     window_days: Optional[StrictInt] = Field(default=None, description="WindowDays is how far back the event counts, ending now. 0 means 30 and nothing above 3650 is honoured. Ignored when Event is empty.", alias="windowDays")
-    __properties: ClassVar[List[str]] = ["createdAt", "event", "id", "name", "updatedAt", "windowDays"]
+    __properties: ClassVar[List[str]] = ["createdAt", "event", "id", "kind", "list", "name", "subscribed", "updatedAt", "windowDays"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -88,7 +91,10 @@ class MarketingAudience(BaseModel):
             "createdAt": obj.get("createdAt"),
             "event": obj.get("event"),
             "id": obj.get("id"),
+            "kind": obj.get("kind"),
+            "list": obj.get("list"),
             "name": obj.get("name"),
+            "subscribed": obj.get("subscribed"),
             "updatedAt": obj.get("updatedAt"),
             "windowDays": obj.get("windowDays")
         })

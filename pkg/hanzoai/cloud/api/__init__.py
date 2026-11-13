@@ -21,7 +21,6 @@ from hanzoai.cloud.api.bot_api import BotApi
 from hanzoai.cloud.api.campaign_api import CampaignApi
 from hanzoai.cloud.api.captable_api import CaptableApi
 from hanzoai.cloud.api.catalog_api import CatalogApi
-from hanzoai.cloud.api.channel_api import ChannelApi
 from hanzoai.cloud.api.ci_api import CiApi
 from hanzoai.cloud.api.cloudflare_api import CloudflareApi
 from hanzoai.cloud.api.code_api import CodeApi
@@ -49,6 +48,7 @@ from hanzoai.cloud.api.experiment_api import ExperimentApi
 from hanzoai.cloud.api.explorer_api import ExplorerApi
 from hanzoai.cloud.api.flag_api import FlagApi
 from hanzoai.cloud.api.flow_api import FlowApi
+from hanzoai.cloud.api.form_api import FormApi
 from hanzoai.cloud.api.framework_api import FrameworkApi
 from hanzoai.cloud.api.function_api import FunctionApi
 from hanzoai.cloud.api.gateway_api import GatewayApi
@@ -96,6 +96,7 @@ from hanzoai.cloud.api.pubsub_api import PubsubApi
 from hanzoai.cloud.api.reference_api import ReferenceApi
 from hanzoai.cloud.api.referral_api import ReferralApi
 from hanzoai.cloud.api.registry_api import RegistryApi
+from hanzoai.cloud.api.reward_api import RewardApi
 from hanzoai.cloud.api.risk_api import RiskApi
 from hanzoai.cloud.api.s3_api import S3Api
 from hanzoai.cloud.api.sandbox_api import SandboxApi
@@ -119,6 +120,7 @@ from hanzoai.cloud.api.template_api import TemplateApi
 from hanzoai.cloud.api.tool_api import ToolApi
 from hanzoai.cloud.api.train_api import TrainApi
 from hanzoai.cloud.api.translate_api import TranslateApi
+from hanzoai.cloud.api.transport_api import TransportApi
 from hanzoai.cloud.api.treasury_api import TreasuryApi
 from hanzoai.cloud.api.trust_api import TrustApi
 from hanzoai.cloud.api.usage_api import UsageApi

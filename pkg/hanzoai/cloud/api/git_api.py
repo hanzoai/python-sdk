@@ -19,6 +19,7 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictBytes, StrictInt, StrictStr
 from typing import Optional, Tuple, Union
 from typing_extensions import Annotated
+from hanzoai.cloud.models.git_activity_out import GitActivityOut
 from hanzoai.cloud.models.git_blob_json import GitBlobJSON
 from hanzoai.cloud.models.git_commits_json import GitCommitsJSON
 from hanzoai.cloud.models.git_create_req import GitCreateReq
@@ -43,6 +44,7 @@ from hanzoai.cloud.models.git_readme_json import GitReadmeJSON
 from hanzoai.cloud.models.git_refs_json import GitRefsJSON
 from hanzoai.cloud.models.git_repo_list import GitRepoList
 from hanzoai.cloud.models.git_repo_view import GitRepoView
+from hanzoai.cloud.models.git_run_logs import GitRunLogs
 from hanzoai.cloud.models.git_run_start import GitRunStart
 from hanzoai.cloud.models.git_runner_list import GitRunnerList
 from hanzoai.cloud.models.git_subscribe_req import GitSubscribeReq
@@ -102,7 +104,7 @@ class GitApi:
     ) -> None:
         """Removes a repo's metadata and purges its storage.
 
-        Removes a repo's metadata and purges its storage. Answers 204 with no body. The metadata row is the source of truth for existence, so a storage purge that fails is logged and the delete still succeeds — and a second call is a 404, not a second delete.
+        Removes a repo's metadata and purges its storage. Answers 204 with no body. The metadata row is the source of truth for existence, so a storage purge that fails is logged and the delete still succeeds — and a second call is a 404, not a second delete. A repository this app does not hold is looked for where getRepo looks next, the org's made workspace on the forge, so a customer's own repository (or the copy a GitHub link made there) is one a delete can reach, as their list already shows it.
 
         :param name: Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped. (required)
         :type name: str
@@ -169,7 +171,7 @@ class GitApi:
     ) -> ApiResponse[None]:
         """Removes a repo's metadata and purges its storage.
 
-        Removes a repo's metadata and purges its storage. Answers 204 with no body. The metadata row is the source of truth for existence, so a storage purge that fails is logged and the delete still succeeds — and a second call is a 404, not a second delete.
+        Removes a repo's metadata and purges its storage. Answers 204 with no body. The metadata row is the source of truth for existence, so a storage purge that fails is logged and the delete still succeeds — and a second call is a 404, not a second delete. A repository this app does not hold is looked for where getRepo looks next, the org's made workspace on the forge, so a customer's own repository (or the copy a GitHub link made there) is one a delete can reach, as their list already shows it.
 
         :param name: Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped. (required)
         :type name: str
@@ -236,7 +238,7 @@ class GitApi:
     ) -> RESTResponseType:
         """Removes a repo's metadata and purges its storage.
 
-        Removes a repo's metadata and purges its storage. Answers 204 with no body. The metadata row is the source of truth for existence, so a storage purge that fails is logged and the delete still succeeds — and a second call is a 404, not a second delete.
+        Removes a repo's metadata and purges its storage. Answers 204 with no body. The metadata row is the source of truth for existence, so a storage purge that fails is logged and the delete still succeeds — and a second call is a 404, not a second delete. A repository this app does not hold is looked for where getRepo looks next, the org's made workspace on the forge, so a customer's own repository (or the copy a GitHub link made there) is one a delete can reach, as their list already shows it.
 
         :param name: Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped. (required)
         :type name: str
@@ -899,6 +901,7 @@ class GitApi:
     @validate_call
     def get_git(
         self,
+        owner: Annotated[Optional[StrictStr], Field(description="Owner lists one forge namespace of the caller's org, such as hanzo-inc. Empty lists every namespace the org owns.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -911,11 +914,13 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Browse your org's repositories
+    ) -> GitRepoList:
+        """Returns the repositories on the forge (git.hanzo.ai) the caller can read, in every forge namespace their org owns or in the one named, most recently updated first.
 
-        The repository list for the signed-in caller's org — each repo with its description, default branch, size and last update. SIGNED OUT it renders the public explore page instead of refusing, because most Hanzo repos are open source and the open face is the default one; signed in, the caller's own org shows its private repositories alongside its public ones. This is a server-rendered browser page, not JSON — the console repo-browser reads the same repository through the JSON ops under /v1/git/repos. Repository names, paths and file contents all render through auto-escaping templates rather than being concatenated into HTML.
+        Returns the repositories on the forge (git.hanzo.ai) the caller can read, in every forge namespace their org owns or in the one named, most recently updated first.  Each is named owner/name, the coordinate `repos get`, `runs`, `workflows` and the browse reads take. The read is the caller's own forge login, so a private repository they are not given on the forge is not listed. The repositories this app holds are `repos list`.
 
+        :param owner: Owner lists one forge namespace of the caller's org, such as hanzo-inc. Empty lists every namespace the org owns.
+        :type owner: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -939,6 +944,7 @@ class GitApi:
         """ # noqa: E501
 
         _param = self._get_git_serialize(
+            owner=owner,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -946,6 +952,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GitRepoList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -961,6 +968,7 @@ class GitApi:
     @validate_call
     def get_git_with_http_info(
         self,
+        owner: Annotated[Optional[StrictStr], Field(description="Owner lists one forge namespace of the caller's org, such as hanzo-inc. Empty lists every namespace the org owns.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -973,11 +981,13 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Browse your org's repositories
+    ) -> ApiResponse[GitRepoList]:
+        """Returns the repositories on the forge (git.hanzo.ai) the caller can read, in every forge namespace their org owns or in the one named, most recently updated first.
 
-        The repository list for the signed-in caller's org — each repo with its description, default branch, size and last update. SIGNED OUT it renders the public explore page instead of refusing, because most Hanzo repos are open source and the open face is the default one; signed in, the caller's own org shows its private repositories alongside its public ones. This is a server-rendered browser page, not JSON — the console repo-browser reads the same repository through the JSON ops under /v1/git/repos. Repository names, paths and file contents all render through auto-escaping templates rather than being concatenated into HTML.
+        Returns the repositories on the forge (git.hanzo.ai) the caller can read, in every forge namespace their org owns or in the one named, most recently updated first.  Each is named owner/name, the coordinate `repos get`, `runs`, `workflows` and the browse reads take. The read is the caller's own forge login, so a private repository they are not given on the forge is not listed. The repositories this app holds are `repos list`.
 
+        :param owner: Owner lists one forge namespace of the caller's org, such as hanzo-inc. Empty lists every namespace the org owns.
+        :type owner: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1001,6 +1011,7 @@ class GitApi:
         """ # noqa: E501
 
         _param = self._get_git_serialize(
+            owner=owner,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1008,6 +1019,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GitRepoList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1023,6 +1035,7 @@ class GitApi:
     @validate_call
     def get_git_without_preload_content(
         self,
+        owner: Annotated[Optional[StrictStr], Field(description="Owner lists one forge namespace of the caller's org, such as hanzo-inc. Empty lists every namespace the org owns.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1036,10 +1049,12 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Browse your org's repositories
+        """Returns the repositories on the forge (git.hanzo.ai) the caller can read, in every forge namespace their org owns or in the one named, most recently updated first.
 
-        The repository list for the signed-in caller's org — each repo with its description, default branch, size and last update. SIGNED OUT it renders the public explore page instead of refusing, because most Hanzo repos are open source and the open face is the default one; signed in, the caller's own org shows its private repositories alongside its public ones. This is a server-rendered browser page, not JSON — the console repo-browser reads the same repository through the JSON ops under /v1/git/repos. Repository names, paths and file contents all render through auto-escaping templates rather than being concatenated into HTML.
+        Returns the repositories on the forge (git.hanzo.ai) the caller can read, in every forge namespace their org owns or in the one named, most recently updated first.  Each is named owner/name, the coordinate `repos get`, `runs`, `workflows` and the browse reads take. The read is the caller's own forge login, so a private repository they are not given on the forge is not listed. The repositories this app holds are `repos list`.
 
+        :param owner: Owner lists one forge namespace of the caller's org, such as hanzo-inc. Empty lists every namespace the org owns.
+        :type owner: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1063,6 +1078,7 @@ class GitApi:
         """ # noqa: E501
 
         _param = self._get_git_serialize(
+            owner=owner,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1070,6 +1086,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GitRepoList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1080,6 +1097,7 @@ class GitApi:
 
     def _get_git_serialize(
         self,
+        owner,
         _request_auth,
         _content_type,
         _headers,
@@ -1102,11 +1120,23 @@ class GitApi:
 
         # process the path parameters
         # process the query parameters
+        if owner is not None:
+            
+            _query_params.append(('owner', owner))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -1117,6 +1147,321 @@ class GitApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/git',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_git_activity(
+        self,
+        org: Annotated[Optional[StrictStr], Field(description="Org lists one org's repositories; empty lists every org's.")] = None,
+        group: Annotated[Optional[StrictStr], Field(description="Group lists one group's repositories (hanzo, lux, zoo); empty lists every group's.")] = None,
+        page: Annotated[Optional[StrictInt], Field(description="Page is the repository page, from 1. Anything not positive means 1.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is the page size. Anything not positive means 50; the cap is 200.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> GitActivityOut:
+        """Answers the estate's last 365 days: distinct commits, merges, active repositories and contributors, for the whole estate, each group and each org, a commit count per day, the newest public commits, and one page of public repositories.
+
+        Answers the estate's last 365 days: distinct commits, merges, active repositories and contributors, for the whole estate, each group and each org, a commit count per day, the newest public commits, and one page of public repositories. Public: private repositories are counted and never named.
+
+        :param org: Org lists one org's repositories; empty lists every org's.
+        :type org: str
+        :param group: Group lists one group's repositories (hanzo, lux, zoo); empty lists every group's.
+        :type group: str
+        :param page: Page is the repository page, from 1. Anything not positive means 1.
+        :type page: int
+        :param limit: Limit is the page size. Anything not positive means 50; the cap is 200.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_git_activity_serialize(
+            org=org,
+            group=group,
+            page=page,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GitActivityOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_git_activity_with_http_info(
+        self,
+        org: Annotated[Optional[StrictStr], Field(description="Org lists one org's repositories; empty lists every org's.")] = None,
+        group: Annotated[Optional[StrictStr], Field(description="Group lists one group's repositories (hanzo, lux, zoo); empty lists every group's.")] = None,
+        page: Annotated[Optional[StrictInt], Field(description="Page is the repository page, from 1. Anything not positive means 1.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is the page size. Anything not positive means 50; the cap is 200.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[GitActivityOut]:
+        """Answers the estate's last 365 days: distinct commits, merges, active repositories and contributors, for the whole estate, each group and each org, a commit count per day, the newest public commits, and one page of public repositories.
+
+        Answers the estate's last 365 days: distinct commits, merges, active repositories and contributors, for the whole estate, each group and each org, a commit count per day, the newest public commits, and one page of public repositories. Public: private repositories are counted and never named.
+
+        :param org: Org lists one org's repositories; empty lists every org's.
+        :type org: str
+        :param group: Group lists one group's repositories (hanzo, lux, zoo); empty lists every group's.
+        :type group: str
+        :param page: Page is the repository page, from 1. Anything not positive means 1.
+        :type page: int
+        :param limit: Limit is the page size. Anything not positive means 50; the cap is 200.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_git_activity_serialize(
+            org=org,
+            group=group,
+            page=page,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GitActivityOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_git_activity_without_preload_content(
+        self,
+        org: Annotated[Optional[StrictStr], Field(description="Org lists one org's repositories; empty lists every org's.")] = None,
+        group: Annotated[Optional[StrictStr], Field(description="Group lists one group's repositories (hanzo, lux, zoo); empty lists every group's.")] = None,
+        page: Annotated[Optional[StrictInt], Field(description="Page is the repository page, from 1. Anything not positive means 1.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is the page size. Anything not positive means 50; the cap is 200.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Answers the estate's last 365 days: distinct commits, merges, active repositories and contributors, for the whole estate, each group and each org, a commit count per day, the newest public commits, and one page of public repositories.
+
+        Answers the estate's last 365 days: distinct commits, merges, active repositories and contributors, for the whole estate, each group and each org, a commit count per day, the newest public commits, and one page of public repositories. Public: private repositories are counted and never named.
+
+        :param org: Org lists one org's repositories; empty lists every org's.
+        :type org: str
+        :param group: Group lists one group's repositories (hanzo, lux, zoo); empty lists every group's.
+        :type group: str
+        :param page: Page is the repository page, from 1. Anything not positive means 1.
+        :type page: int
+        :param limit: Limit is the page size. Anything not positive means 50; the cap is 200.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_git_activity_serialize(
+            org=org,
+            group=group,
+            page=page,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GitActivityOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_git_activity_serialize(
+        self,
+        org,
+        group,
+        page,
+        limit,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if org is not None:
+            
+            _query_params.append(('org', org))
+            
+        if group is not None:
+            
+            _query_params.append(('group', group))
+            
+        if page is not None:
+            
+            _query_params.append(('page', page))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/git/activity',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1414,538 +1759,6 @@ class GitApi:
 
 
     @validate_call
-    def get_git_by_org_by_repo(
-        self,
-        org: StrictStr,
-        repo: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Open a repository's home page
-
-        A repository at a glance: its branches, the tree at the tip, its most recent commits, its README rendered, and the HTTPS and SSH clone URLs. `?ref=` selects a branch, tag or commit; the default branch is used when it is omitted. A repository with no commits yet renders its clone instructions rather than an error, which is what a caller who has just created one needs to see. A public repository is readable by anyone; a private one only by its own org. A repository that does not exist and one belonging to another org answer the SAME 404, so the page is never an existence oracle. This is a server-rendered browser page, not JSON — the console repo-browser reads the same repository through the JSON ops under /v1/git/repos. Repository names, paths and file contents all render through auto-escaping templates rather than being concatenated into HTML.
-
-        :param org: (required)
-        :type org: str
-        :param repo: (required)
-        :type repo: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_git_by_org_by_repo_serialize(
-            org=org,
-            repo=repo,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_git_by_org_by_repo_with_http_info(
-        self,
-        org: StrictStr,
-        repo: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Open a repository's home page
-
-        A repository at a glance: its branches, the tree at the tip, its most recent commits, its README rendered, and the HTTPS and SSH clone URLs. `?ref=` selects a branch, tag or commit; the default branch is used when it is omitted. A repository with no commits yet renders its clone instructions rather than an error, which is what a caller who has just created one needs to see. A public repository is readable by anyone; a private one only by its own org. A repository that does not exist and one belonging to another org answer the SAME 404, so the page is never an existence oracle. This is a server-rendered browser page, not JSON — the console repo-browser reads the same repository through the JSON ops under /v1/git/repos. Repository names, paths and file contents all render through auto-escaping templates rather than being concatenated into HTML.
-
-        :param org: (required)
-        :type org: str
-        :param repo: (required)
-        :type repo: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_git_by_org_by_repo_serialize(
-            org=org,
-            repo=repo,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_git_by_org_by_repo_without_preload_content(
-        self,
-        org: StrictStr,
-        repo: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Open a repository's home page
-
-        A repository at a glance: its branches, the tree at the tip, its most recent commits, its README rendered, and the HTTPS and SSH clone URLs. `?ref=` selects a branch, tag or commit; the default branch is used when it is omitted. A repository with no commits yet renders its clone instructions rather than an error, which is what a caller who has just created one needs to see. A public repository is readable by anyone; a private one only by its own org. A repository that does not exist and one belonging to another org answer the SAME 404, so the page is never an existence oracle. This is a server-rendered browser page, not JSON — the console repo-browser reads the same repository through the JSON ops under /v1/git/repos. Repository names, paths and file contents all render through auto-escaping templates rather than being concatenated into HTML.
-
-        :param org: (required)
-        :type org: str
-        :param repo: (required)
-        :type repo: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_git_by_org_by_repo_serialize(
-            org=org,
-            repo=repo,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_git_by_org_by_repo_serialize(
-        self,
-        org,
-        repo,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if org is not None:
-            _path_params['org'] = org
-        if repo is not None:
-            _path_params['repo'] = repo
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/git/{org}/{repo}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def get_git_by_org_by_repo_commits(
-        self,
-        org: StrictStr,
-        repo: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Read a repository's commit log
-
-        The hundred most recent commits on one ref, each with its author, message and date. `?ref=` selects the branch, tag or commit, defaulting to the repository's default branch; an unknown one is 404. A public repository is readable by anyone; a private one only by its own org. A repository that does not exist and one belonging to another org answer the SAME 404, so the page is never an existence oracle. This is a server-rendered browser page, not JSON — the console repo-browser reads the same repository through the JSON ops under /v1/git/repos. Repository names, paths and file contents all render through auto-escaping templates rather than being concatenated into HTML.
-
-        :param org: (required)
-        :type org: str
-        :param repo: (required)
-        :type repo: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_git_by_org_by_repo_commits_serialize(
-            org=org,
-            repo=repo,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_git_by_org_by_repo_commits_with_http_info(
-        self,
-        org: StrictStr,
-        repo: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Read a repository's commit log
-
-        The hundred most recent commits on one ref, each with its author, message and date. `?ref=` selects the branch, tag or commit, defaulting to the repository's default branch; an unknown one is 404. A public repository is readable by anyone; a private one only by its own org. A repository that does not exist and one belonging to another org answer the SAME 404, so the page is never an existence oracle. This is a server-rendered browser page, not JSON — the console repo-browser reads the same repository through the JSON ops under /v1/git/repos. Repository names, paths and file contents all render through auto-escaping templates rather than being concatenated into HTML.
-
-        :param org: (required)
-        :type org: str
-        :param repo: (required)
-        :type repo: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_git_by_org_by_repo_commits_serialize(
-            org=org,
-            repo=repo,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_git_by_org_by_repo_commits_without_preload_content(
-        self,
-        org: StrictStr,
-        repo: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Read a repository's commit log
-
-        The hundred most recent commits on one ref, each with its author, message and date. `?ref=` selects the branch, tag or commit, defaulting to the repository's default branch; an unknown one is 404. A public repository is readable by anyone; a private one only by its own org. A repository that does not exist and one belonging to another org answer the SAME 404, so the page is never an existence oracle. This is a server-rendered browser page, not JSON — the console repo-browser reads the same repository through the JSON ops under /v1/git/repos. Repository names, paths and file contents all render through auto-escaping templates rather than being concatenated into HTML.
-
-        :param org: (required)
-        :type org: str
-        :param repo: (required)
-        :type repo: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_git_by_org_by_repo_commits_serialize(
-            org=org,
-            repo=repo,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_git_by_org_by_repo_commits_serialize(
-        self,
-        org,
-        repo,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if org is not None:
-            _path_params['org'] = org
-        if repo is not None:
-            _path_params['repo'] = repo
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/git/{org}/{repo}/commits',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
     def get_git_by_org_by_repo_info_refs(
         self,
         org: StrictStr,
@@ -2196,242 +2009,6 @@ class GitApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/git/{org}/{repo}/info/refs',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def get_git_explore(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Discover public repositories across every org
-
-        The open, unauthenticated face of the git host: every PUBLIC repository in the fleet, org-qualified, so a project can be found and cloned with no account at all — signing in is for private repos and for writes. Repositories live in per-org stores with no global index, so this unions each org's public rows and is bounded to a fixed number of stores per request, keeping discovery quick however many orgs exist. A fleet with no orgs yet is an empty page, not an error. This is a server-rendered browser page, not JSON — the console repo-browser reads the same repository through the JSON ops under /v1/git/repos. Repository names, paths and file contents all render through auto-escaping templates rather than being concatenated into HTML.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_git_explore_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_git_explore_with_http_info(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Discover public repositories across every org
-
-        The open, unauthenticated face of the git host: every PUBLIC repository in the fleet, org-qualified, so a project can be found and cloned with no account at all — signing in is for private repos and for writes. Repositories live in per-org stores with no global index, so this unions each org's public rows and is bounded to a fixed number of stores per request, keeping discovery quick however many orgs exist. A fleet with no orgs yet is an empty page, not an error. This is a server-rendered browser page, not JSON — the console repo-browser reads the same repository through the JSON ops under /v1/git/repos. Repository names, paths and file contents all render through auto-escaping templates rather than being concatenated into HTML.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_git_explore_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_git_explore_without_preload_content(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Discover public repositories across every org
-
-        The open, unauthenticated face of the git host: every PUBLIC repository in the fleet, org-qualified, so a project can be found and cloned with no account at all — signing in is for private repos and for writes. Repositories live in per-org stores with no global index, so this unions each org's public rows and is bounded to a fixed number of stores per request, keeping discovery quick however many orgs exist. A fleet with no orgs yet is an empty page, not an error. This is a server-rendered browser page, not JSON — the console repo-browser reads the same repository through the JSON ops under /v1/git/repos. Repository names, paths and file contents all render through auto-escaping templates rather than being concatenated into HTML.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_git_explore_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_git_explore_serialize(
-        self,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/git/explore',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -2960,7 +2537,7 @@ class GitApi:
     ) -> GitRepoView:
         """Returns one repo with its live ref state: every branch name and the resolved HEAD commit.
 
-        Returns one repo with its live ref state: every branch name and the resolved HEAD commit. Both are read from the object store on each call, so an empty repo reports no branches and an empty head rather than failing. A repo outside the caller's scope is not found.
+        Returns one repo with its live ref state: every branch name and the resolved HEAD commit. Both are read from the object store on each call, so an empty repo reports no branches and an empty head rather than failing. A repo outside the caller's scope is not found.  A name with an owner, hanzo-inc/cloud, is the repository on the forge (git.hanzo.ai), its one home, read there as the caller in a forge namespace their org owns; the tree and blob reads take the same coordinate.
 
         :param name: Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped. (required)
         :type name: str
@@ -3027,7 +2604,7 @@ class GitApi:
     ) -> ApiResponse[GitRepoView]:
         """Returns one repo with its live ref state: every branch name and the resolved HEAD commit.
 
-        Returns one repo with its live ref state: every branch name and the resolved HEAD commit. Both are read from the object store on each call, so an empty repo reports no branches and an empty head rather than failing. A repo outside the caller's scope is not found.
+        Returns one repo with its live ref state: every branch name and the resolved HEAD commit. Both are read from the object store on each call, so an empty repo reports no branches and an empty head rather than failing. A repo outside the caller's scope is not found.  A name with an owner, hanzo-inc/cloud, is the repository on the forge (git.hanzo.ai), its one home, read there as the caller in a forge namespace their org owns; the tree and blob reads take the same coordinate.
 
         :param name: Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped. (required)
         :type name: str
@@ -3094,7 +2671,7 @@ class GitApi:
     ) -> RESTResponseType:
         """Returns one repo with its live ref state: every branch name and the resolved HEAD commit.
 
-        Returns one repo with its live ref state: every branch name and the resolved HEAD commit. Both are read from the object store on each call, so an empty repo reports no branches and an empty head rather than failing. A repo outside the caller's scope is not found.
+        Returns one repo with its live ref state: every branch name and the resolved HEAD commit. Both are read from the object store on each call, so an empty repo reports no branches and an empty head rather than failing. A repo outside the caller's scope is not found.  A name with an owner, hanzo-inc/cloud, is the repository on the forge (git.hanzo.ai), its one home, read there as the caller in a forge namespace their org owns; the tree and blob reads take the same coordinate.
 
         :param name: Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped. (required)
         :type name: str
@@ -6041,9 +5618,9 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> GitRunnerList:
-        """Returns the daemons registered into this org's pools, newest first, with when each was last heard from.
+        """Returns the runners that can run the caller's work, each with when it was last heard from, and the health of every pool.
 
-        Returns the daemons registered into this org's pools, newest first, with when each was last heard from.
+        Returns the runners that can run the caller's work, each with when it was last heard from, and the health of every pool.  First the forge's: the runners registered on git.hanzo.ai, which run every repository whose home is there — the platform starts one for each job the forge queues, labelled as the job asked. Then the daemons registered into this org's own declared pools. Pools groups the forge's by label set, with the caller's jobs queued on each, so a label set with work waiting and no runner online — a dead pool — is visible.  The forge's runners serve every tenant and are named for the repository whose job they took, so they are listed by name to a SuperAdmin; anyone else sees the pools their own queued jobs wait on — the jobs of repositories the forge lets them read — with how many runners carry each and when one was last heard.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6104,9 +5681,9 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[GitRunnerList]:
-        """Returns the daemons registered into this org's pools, newest first, with when each was last heard from.
+        """Returns the runners that can run the caller's work, each with when it was last heard from, and the health of every pool.
 
-        Returns the daemons registered into this org's pools, newest first, with when each was last heard from.
+        Returns the runners that can run the caller's work, each with when it was last heard from, and the health of every pool.  First the forge's: the runners registered on git.hanzo.ai, which run every repository whose home is there — the platform starts one for each job the forge queues, labelled as the job asked. Then the daemons registered into this org's own declared pools. Pools groups the forge's by label set, with the caller's jobs queued on each, so a label set with work waiting and no runner online — a dead pool — is visible.  The forge's runners serve every tenant and are named for the repository whose job they took, so they are listed by name to a SuperAdmin; anyone else sees the pools their own queued jobs wait on — the jobs of repositories the forge lets them read — with how many runners carry each and when one was last heard.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6167,9 +5744,9 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns the daemons registered into this org's pools, newest first, with when each was last heard from.
+        """Returns the runners that can run the caller's work, each with when it was last heard from, and the health of every pool.
 
-        Returns the daemons registered into this org's pools, newest first, with when each was last heard from.
+        Returns the runners that can run the caller's work, each with when it was last heard from, and the health of every pool.  First the forge's: the runners registered on git.hanzo.ai, which run every repository whose home is there — the platform starts one for each job the forge queues, labelled as the job asked. Then the daemons registered into this org's own declared pools. Pools groups the forge's by label set, with the caller's jobs queued on each, so a label set with work waiting and no runner online — a dead pool — is visible.  The forge's runners serve every tenant and are named for the repository whose job they took, so they are listed by name to a SuperAdmin; anyone else sees the pools their own queued jobs wait on — the jobs of repositories the forge lets them read — with how many runners carry each and when one was last heard.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6275,7 +5852,8 @@ class GitApi:
     @validate_call
     def get_git_runs(
         self,
-        repo: Annotated[Optional[StrictStr], Field(description="Repo restricts the listing to one repository. Empty lists the whole org.")] = None,
+        repo: Annotated[Optional[StrictStr], Field(description="Repo restricts the listing to one repository. owner/name, such as hanzo-inc/cloud, is a repository on the forge, and its runs are the forge's; a bare name is one this app holds. Empty lists the whole org's runs here.")] = None,
+        ref: Annotated[Optional[StrictStr], Field(description="Ref keeps one branch, tag or commit. On the forge it is resolved to its commit and every run on that commit is answered with its jobs, and State says whether the ref is green; here it keeps the runs of that branch.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the answer; 0 means the default of 50, and 200 is the ceiling.")] = None,
         _request_timeout: Union[
             None,
@@ -6292,10 +5870,12 @@ class GitApi:
     ) -> GitWorkflowRuns:
         """Returns this org's runs, newest first.
 
-        Returns this org's runs, newest first.
+        Returns this org's runs, newest first.  A repository named owner/name is on the forge, and its runs are the forge's: the newest, or, when a ref is named, every run on the commit it resolves to, each with its jobs and steps and the ref's verdict in State.
 
-        :param repo: Repo restricts the listing to one repository. Empty lists the whole org.
+        :param repo: Repo restricts the listing to one repository. owner/name, such as hanzo-inc/cloud, is a repository on the forge, and its runs are the forge's; a bare name is one this app holds. Empty lists the whole org's runs here.
         :type repo: str
+        :param ref: Ref keeps one branch, tag or commit. On the forge it is resolved to its commit and every run on that commit is answered with its jobs, and State says whether the ref is green; here it keeps the runs of that branch.
+        :type ref: str
         :param limit: Limit caps the answer; 0 means the default of 50, and 200 is the ceiling.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
@@ -6322,6 +5902,7 @@ class GitApi:
 
         _param = self._get_git_runs_serialize(
             repo=repo,
+            ref=ref,
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6346,7 +5927,8 @@ class GitApi:
     @validate_call
     def get_git_runs_with_http_info(
         self,
-        repo: Annotated[Optional[StrictStr], Field(description="Repo restricts the listing to one repository. Empty lists the whole org.")] = None,
+        repo: Annotated[Optional[StrictStr], Field(description="Repo restricts the listing to one repository. owner/name, such as hanzo-inc/cloud, is a repository on the forge, and its runs are the forge's; a bare name is one this app holds. Empty lists the whole org's runs here.")] = None,
+        ref: Annotated[Optional[StrictStr], Field(description="Ref keeps one branch, tag or commit. On the forge it is resolved to its commit and every run on that commit is answered with its jobs, and State says whether the ref is green; here it keeps the runs of that branch.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the answer; 0 means the default of 50, and 200 is the ceiling.")] = None,
         _request_timeout: Union[
             None,
@@ -6363,10 +5945,12 @@ class GitApi:
     ) -> ApiResponse[GitWorkflowRuns]:
         """Returns this org's runs, newest first.
 
-        Returns this org's runs, newest first.
+        Returns this org's runs, newest first.  A repository named owner/name is on the forge, and its runs are the forge's: the newest, or, when a ref is named, every run on the commit it resolves to, each with its jobs and steps and the ref's verdict in State.
 
-        :param repo: Repo restricts the listing to one repository. Empty lists the whole org.
+        :param repo: Repo restricts the listing to one repository. owner/name, such as hanzo-inc/cloud, is a repository on the forge, and its runs are the forge's; a bare name is one this app holds. Empty lists the whole org's runs here.
         :type repo: str
+        :param ref: Ref keeps one branch, tag or commit. On the forge it is resolved to its commit and every run on that commit is answered with its jobs, and State says whether the ref is green; here it keeps the runs of that branch.
+        :type ref: str
         :param limit: Limit caps the answer; 0 means the default of 50, and 200 is the ceiling.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
@@ -6393,6 +5977,7 @@ class GitApi:
 
         _param = self._get_git_runs_serialize(
             repo=repo,
+            ref=ref,
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6417,7 +6002,8 @@ class GitApi:
     @validate_call
     def get_git_runs_without_preload_content(
         self,
-        repo: Annotated[Optional[StrictStr], Field(description="Repo restricts the listing to one repository. Empty lists the whole org.")] = None,
+        repo: Annotated[Optional[StrictStr], Field(description="Repo restricts the listing to one repository. owner/name, such as hanzo-inc/cloud, is a repository on the forge, and its runs are the forge's; a bare name is one this app holds. Empty lists the whole org's runs here.")] = None,
+        ref: Annotated[Optional[StrictStr], Field(description="Ref keeps one branch, tag or commit. On the forge it is resolved to its commit and every run on that commit is answered with its jobs, and State says whether the ref is green; here it keeps the runs of that branch.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the answer; 0 means the default of 50, and 200 is the ceiling.")] = None,
         _request_timeout: Union[
             None,
@@ -6434,10 +6020,12 @@ class GitApi:
     ) -> RESTResponseType:
         """Returns this org's runs, newest first.
 
-        Returns this org's runs, newest first.
+        Returns this org's runs, newest first.  A repository named owner/name is on the forge, and its runs are the forge's: the newest, or, when a ref is named, every run on the commit it resolves to, each with its jobs and steps and the ref's verdict in State.
 
-        :param repo: Repo restricts the listing to one repository. Empty lists the whole org.
+        :param repo: Repo restricts the listing to one repository. owner/name, such as hanzo-inc/cloud, is a repository on the forge, and its runs are the forge's; a bare name is one this app holds. Empty lists the whole org's runs here.
         :type repo: str
+        :param ref: Ref keeps one branch, tag or commit. On the forge it is resolved to its commit and every run on that commit is answered with its jobs, and State says whether the ref is green; here it keeps the runs of that branch.
+        :type ref: str
         :param limit: Limit caps the answer; 0 means the default of 50, and 200 is the ceiling.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
@@ -6464,6 +6052,7 @@ class GitApi:
 
         _param = self._get_git_runs_serialize(
             repo=repo,
+            ref=ref,
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6484,6 +6073,7 @@ class GitApi:
     def _get_git_runs_serialize(
         self,
         repo,
+        ref,
         limit,
         _request_auth,
         _content_type,
@@ -6510,6 +6100,10 @@ class GitApi:
         if repo is not None:
             
             _query_params.append(('repo', repo))
+            
+        if ref is not None:
+            
+            _query_params.append(('ref', ref))
             
         if limit is not None:
             
@@ -6557,6 +6151,7 @@ class GitApi:
     def get_git_runs_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the run to read, from the :id path segment.")],
+        repo: Annotated[Optional[StrictStr], Field(description="Repo is the forge repository the run belongs to, owner/name; empty for a run this app scheduled.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6570,12 +6165,14 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> GitWorkflowRun:
-        """Returns one run.
+        """Returns one run with its jobs and their steps.
 
-        Returns one run.
+        Returns one run with its jobs and their steps.  A run of a forge repository is addressed by its id on the forge and the repository, owner/name; one this app scheduled by its id alone.
 
         :param id: ID is the run to read, from the :id path segment. (required)
         :type id: str
+        :param repo: Repo is the forge repository the run belongs to, owner/name; empty for a run this app scheduled.
+        :type repo: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6600,6 +6197,7 @@ class GitApi:
 
         _param = self._get_git_runs_by_id_serialize(
             id=id,
+            repo=repo,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6624,6 +6222,7 @@ class GitApi:
     def get_git_runs_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the run to read, from the :id path segment.")],
+        repo: Annotated[Optional[StrictStr], Field(description="Repo is the forge repository the run belongs to, owner/name; empty for a run this app scheduled.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6637,12 +6236,14 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[GitWorkflowRun]:
-        """Returns one run.
+        """Returns one run with its jobs and their steps.
 
-        Returns one run.
+        Returns one run with its jobs and their steps.  A run of a forge repository is addressed by its id on the forge and the repository, owner/name; one this app scheduled by its id alone.
 
         :param id: ID is the run to read, from the :id path segment. (required)
         :type id: str
+        :param repo: Repo is the forge repository the run belongs to, owner/name; empty for a run this app scheduled.
+        :type repo: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6667,6 +6268,7 @@ class GitApi:
 
         _param = self._get_git_runs_by_id_serialize(
             id=id,
+            repo=repo,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6691,6 +6293,7 @@ class GitApi:
     def get_git_runs_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the run to read, from the :id path segment.")],
+        repo: Annotated[Optional[StrictStr], Field(description="Repo is the forge repository the run belongs to, owner/name; empty for a run this app scheduled.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6704,12 +6307,14 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns one run.
+        """Returns one run with its jobs and their steps.
 
-        Returns one run.
+        Returns one run with its jobs and their steps.  A run of a forge repository is addressed by its id on the forge and the repository, owner/name; one this app scheduled by its id alone.
 
         :param id: ID is the run to read, from the :id path segment. (required)
         :type id: str
+        :param repo: Repo is the forge repository the run belongs to, owner/name; empty for a run this app scheduled.
+        :type repo: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6734,6 +6339,7 @@ class GitApi:
 
         _param = self._get_git_runs_by_id_serialize(
             id=id,
+            repo=repo,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6753,6 +6359,7 @@ class GitApi:
     def _get_git_runs_by_id_serialize(
         self,
         id,
+        repo,
         _request_auth,
         _content_type,
         _headers,
@@ -6777,6 +6384,10 @@ class GitApi:
         if id is not None:
             _path_params['id'] = id
         # process the query parameters
+        if repo is not None:
+            
+            _query_params.append(('repo', repo))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -6800,6 +6411,302 @@ class GitApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/git/runs/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_git_runs_by_id_logs(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the run, from the :id path segment: its id on the forge for a forge repository, or the id this app gave it.")],
+        repo: Annotated[Optional[StrictStr], Field(description="Repo is the forge repository the run belongs to, owner/name; empty for a run this app scheduled.")] = None,
+        job: Annotated[Optional[StrictStr], Field(description="Job is one job of the run, by its id or its name. Empty reads every job that failed.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> GitRunLogs:
+        """Returns what a run's jobs wrote: one job's log, named by its id or its name, or by default the log of every job that failed, with the lines in each that say what failed picked out.
+
+        Returns what a run's jobs wrote: one job's log, named by its id or its name, or by default the log of every job that failed, with the lines in each that say what failed picked out.  A run of a forge repository is addressed by its id on the forge and the repository, owner/name; one this app scheduled by its id alone.
+
+        :param id: ID is the run, from the :id path segment: its id on the forge for a forge repository, or the id this app gave it. (required)
+        :type id: str
+        :param repo: Repo is the forge repository the run belongs to, owner/name; empty for a run this app scheduled.
+        :type repo: str
+        :param job: Job is one job of the run, by its id or its name. Empty reads every job that failed.
+        :type job: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_git_runs_by_id_logs_serialize(
+            id=id,
+            repo=repo,
+            job=job,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GitRunLogs",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_git_runs_by_id_logs_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the run, from the :id path segment: its id on the forge for a forge repository, or the id this app gave it.")],
+        repo: Annotated[Optional[StrictStr], Field(description="Repo is the forge repository the run belongs to, owner/name; empty for a run this app scheduled.")] = None,
+        job: Annotated[Optional[StrictStr], Field(description="Job is one job of the run, by its id or its name. Empty reads every job that failed.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[GitRunLogs]:
+        """Returns what a run's jobs wrote: one job's log, named by its id or its name, or by default the log of every job that failed, with the lines in each that say what failed picked out.
+
+        Returns what a run's jobs wrote: one job's log, named by its id or its name, or by default the log of every job that failed, with the lines in each that say what failed picked out.  A run of a forge repository is addressed by its id on the forge and the repository, owner/name; one this app scheduled by its id alone.
+
+        :param id: ID is the run, from the :id path segment: its id on the forge for a forge repository, or the id this app gave it. (required)
+        :type id: str
+        :param repo: Repo is the forge repository the run belongs to, owner/name; empty for a run this app scheduled.
+        :type repo: str
+        :param job: Job is one job of the run, by its id or its name. Empty reads every job that failed.
+        :type job: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_git_runs_by_id_logs_serialize(
+            id=id,
+            repo=repo,
+            job=job,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GitRunLogs",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_git_runs_by_id_logs_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the run, from the :id path segment: its id on the forge for a forge repository, or the id this app gave it.")],
+        repo: Annotated[Optional[StrictStr], Field(description="Repo is the forge repository the run belongs to, owner/name; empty for a run this app scheduled.")] = None,
+        job: Annotated[Optional[StrictStr], Field(description="Job is one job of the run, by its id or its name. Empty reads every job that failed.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns what a run's jobs wrote: one job's log, named by its id or its name, or by default the log of every job that failed, with the lines in each that say what failed picked out.
+
+        Returns what a run's jobs wrote: one job's log, named by its id or its name, or by default the log of every job that failed, with the lines in each that say what failed picked out.  A run of a forge repository is addressed by its id on the forge and the repository, owner/name; one this app scheduled by its id alone.
+
+        :param id: ID is the run, from the :id path segment: its id on the forge for a forge repository, or the id this app gave it. (required)
+        :type id: str
+        :param repo: Repo is the forge repository the run belongs to, owner/name; empty for a run this app scheduled.
+        :type repo: str
+        :param job: Job is one job of the run, by its id or its name. Empty reads every job that failed.
+        :type job: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_git_runs_by_id_logs_serialize(
+            id=id,
+            repo=repo,
+            job=job,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GitRunLogs",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_git_runs_by_id_logs_serialize(
+        self,
+        id,
+        repo,
+        job,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        if repo is not None:
+            
+            _query_params.append(('repo', repo))
+            
+        if job is not None:
+            
+            _query_params.append(('job', job))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/git/runs/{id}/logs',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -7065,7 +6972,7 @@ class GitApi:
     @validate_call
     def get_git_workflows(
         self,
-        repo: Annotated[Optional[StrictStr], Field(description="Repo is the repository whose workflows to read.")] = None,
+        repo: Annotated[Optional[StrictStr], Field(description="Repo is the repository whose workflows to read: owner/name on the forge, such as hanzo-inc/cloud, or a bare name this app holds.")] = None,
         ref: Annotated[Optional[StrictStr], Field(description="Ref is the branch to read them at; empty means the default.")] = None,
         _request_timeout: Union[
             None,
@@ -7082,9 +6989,9 @@ class GitApi:
     ) -> GitWorkflowList:
         """Reports the workflows a repository declares at a ref and which declared pool would execute each job — the answer to \"would a push here run, and where\".
 
-        Reports the workflows a repository declares at a ref and which declared pool would execute each job — the answer to \"would a push here run, and where\".
+        Reports the workflows a repository declares at a ref and which declared pool would execute each job — the answer to \"would a push here run, and where\".  A repository named owner/name is read from the forge, at the commit the ref resolves to, in the same two directories the forge reads (.hanzo/workflows, then .github/workflows).
 
-        :param repo: Repo is the repository whose workflows to read.
+        :param repo: Repo is the repository whose workflows to read: owner/name on the forge, such as hanzo-inc/cloud, or a bare name this app holds.
         :type repo: str
         :param ref: Ref is the branch to read them at; empty means the default.
         :type ref: str
@@ -7136,7 +7043,7 @@ class GitApi:
     @validate_call
     def get_git_workflows_with_http_info(
         self,
-        repo: Annotated[Optional[StrictStr], Field(description="Repo is the repository whose workflows to read.")] = None,
+        repo: Annotated[Optional[StrictStr], Field(description="Repo is the repository whose workflows to read: owner/name on the forge, such as hanzo-inc/cloud, or a bare name this app holds.")] = None,
         ref: Annotated[Optional[StrictStr], Field(description="Ref is the branch to read them at; empty means the default.")] = None,
         _request_timeout: Union[
             None,
@@ -7153,9 +7060,9 @@ class GitApi:
     ) -> ApiResponse[GitWorkflowList]:
         """Reports the workflows a repository declares at a ref and which declared pool would execute each job — the answer to \"would a push here run, and where\".
 
-        Reports the workflows a repository declares at a ref and which declared pool would execute each job — the answer to \"would a push here run, and where\".
+        Reports the workflows a repository declares at a ref and which declared pool would execute each job — the answer to \"would a push here run, and where\".  A repository named owner/name is read from the forge, at the commit the ref resolves to, in the same two directories the forge reads (.hanzo/workflows, then .github/workflows).
 
-        :param repo: Repo is the repository whose workflows to read.
+        :param repo: Repo is the repository whose workflows to read: owner/name on the forge, such as hanzo-inc/cloud, or a bare name this app holds.
         :type repo: str
         :param ref: Ref is the branch to read them at; empty means the default.
         :type ref: str
@@ -7207,7 +7114,7 @@ class GitApi:
     @validate_call
     def get_git_workflows_without_preload_content(
         self,
-        repo: Annotated[Optional[StrictStr], Field(description="Repo is the repository whose workflows to read.")] = None,
+        repo: Annotated[Optional[StrictStr], Field(description="Repo is the repository whose workflows to read: owner/name on the forge, such as hanzo-inc/cloud, or a bare name this app holds.")] = None,
         ref: Annotated[Optional[StrictStr], Field(description="Ref is the branch to read them at; empty means the default.")] = None,
         _request_timeout: Union[
             None,
@@ -7224,9 +7131,9 @@ class GitApi:
     ) -> RESTResponseType:
         """Reports the workflows a repository declares at a ref and which declared pool would execute each job — the answer to \"would a push here run, and where\".
 
-        Reports the workflows a repository declares at a ref and which declared pool would execute each job — the answer to \"would a push here run, and where\".
+        Reports the workflows a repository declares at a ref and which declared pool would execute each job — the answer to \"would a push here run, and where\".  A repository named owner/name is read from the forge, at the commit the ref resolves to, in the same two directories the forge reads (.hanzo/workflows, then .github/workflows).
 
-        :param repo: Repo is the repository whose workflows to read.
+        :param repo: Repo is the repository whose workflows to read: owner/name on the forge, such as hanzo-inc/cloud, or a bare name this app holds.
         :type repo: str
         :param ref: Ref is the branch to read them at; empty means the default.
         :type ref: str

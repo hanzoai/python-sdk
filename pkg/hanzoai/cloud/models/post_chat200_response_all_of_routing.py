@@ -17,8 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict, List
+from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
+from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.post_chat200_response_all_of_routing_candidates_inner import PostChat200ResponseAllOfRoutingCandidatesInner
 from hanzoai.cloud.models.post_chat200_response_all_of_routing_inputs import PostChat200ResponseAllOfRoutingInputs
 from typing import Optional, Set
@@ -28,12 +28,23 @@ class PostChat200ResponseAllOfRouting(BaseModel):
     """
     What the router decided for this request and why, present when one routed it (a model Enso routes by reasoning depth). Every field is one the router read or wrote; it reports no score, expected cost or latency because it weighs none.
     """ # noqa: E501
+    by: Optional[StrictStr] = Field(default=None, description="What chose the tier: the request's effort, the router's start, its table for the task, or Kai's effort decision.")
     candidates: List[PostChat200ResponseAllOfRoutingCandidatesInner] = Field(description="Each model the router's table names, with the reasoning depths that read it, shallow to deep.")
     chosen: StrictStr = Field(description="The model the request is served at.")
     inputs: PostChat200ResponseAllOfRoutingInputs
     reason: StrictStr = Field(description="How the inputs led to chosen, in a sentence.")
     router: StrictStr = Field(description="The router that decided: enso.")
-    __properties: ClassVar[List[str]] = ["candidates", "chosen", "inputs", "reason", "router"]
+    __properties: ClassVar[List[str]] = ["by", "candidates", "chosen", "inputs", "reason", "router"]
+
+    @field_validator('by')
+    def by_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set(['effort', 'default', 'router', 'kai']):
+            raise ValueError("must be one of enum values ('effort', 'default', 'router', 'kai')")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -96,6 +107,7 @@ class PostChat200ResponseAllOfRouting(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "by": obj.get("by"),
             "candidates": [PostChat200ResponseAllOfRoutingCandidatesInner.from_dict(_item) for _item in obj["candidates"]] if obj.get("candidates") is not None else None,
             "chosen": obj.get("chosen"),
             "inputs": PostChat200ResponseAllOfRoutingInputs.from_dict(obj["inputs"]) if obj.get("inputs") is not None else None,

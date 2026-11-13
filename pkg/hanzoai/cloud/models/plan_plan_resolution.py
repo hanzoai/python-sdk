@@ -30,7 +30,7 @@ class PlanPlanResolution(BaseModel):
     id: Optional[StrictStr] = Field(default=None, description="ID is the plan's catalog id.")
     license_features: Optional[List[StrictStr]] = Field(default=None, description="LicenseFeatures is the flat, sorted feature list a signed license carries, derived from the entitlements — \"ai.premium\", \"licensing.product:team\".")
     price_ref: Optional[Any] = None
-    tenant_id: Optional[StrictStr] = Field(default=None, description="TenantID is the catalog the record came from: \"hanzo\" for the canonical catalog, a reseller org for that reseller's override.")
+    tenant_id: Optional[StrictStr] = Field(default=None, description="TenantID is the catalog the record came from: \"hanzo\", the platform's.")
     __properties: ClassVar[List[str]] = ["entitlements", "id", "license_features", "price_ref", "tenant_id"]
 
     model_config = ConfigDict(

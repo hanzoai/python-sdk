@@ -590,6 +590,7 @@ class FrameworkApi:
         fields: Annotated[Optional[StrictStr], Field(description="Fields projects the response to a subset — a JSON array [\"a\",\"b\"] or a comma list \"a,b\". The envelope keys are always returned.")] = None,
         order_by: Annotated[Optional[StrictStr], Field(description="OrderBy is \"<field> [asc|desc]\". Empty means most-recently-updated first.")] = None,
         limit: Annotated[Optional[StrictStr], Field(description="Limit caps the rows returned. Anything that is not a positive integer leaves the engine's default in place.")] = None,
+        cursor: Annotated[Optional[StrictStr], Field(description="Cursor is an opaque keyset cursor from a previous page's `next`. Empty means the first page.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -617,6 +618,8 @@ class FrameworkApi:
         :type order_by: str
         :param limit: Limit caps the rows returned. Anything that is not a positive integer leaves the engine's default in place.
         :type limit: str
+        :param cursor: Cursor is an opaque keyset cursor from a previous page's `next`. Empty means the first page.
+        :type cursor: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -645,6 +648,7 @@ class FrameworkApi:
             fields=fields,
             order_by=order_by,
             limit=limit,
+            cursor=cursor,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -673,6 +677,7 @@ class FrameworkApi:
         fields: Annotated[Optional[StrictStr], Field(description="Fields projects the response to a subset — a JSON array [\"a\",\"b\"] or a comma list \"a,b\". The envelope keys are always returned.")] = None,
         order_by: Annotated[Optional[StrictStr], Field(description="OrderBy is \"<field> [asc|desc]\". Empty means most-recently-updated first.")] = None,
         limit: Annotated[Optional[StrictStr], Field(description="Limit caps the rows returned. Anything that is not a positive integer leaves the engine's default in place.")] = None,
+        cursor: Annotated[Optional[StrictStr], Field(description="Cursor is an opaque keyset cursor from a previous page's `next`. Empty means the first page.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -700,6 +705,8 @@ class FrameworkApi:
         :type order_by: str
         :param limit: Limit caps the rows returned. Anything that is not a positive integer leaves the engine's default in place.
         :type limit: str
+        :param cursor: Cursor is an opaque keyset cursor from a previous page's `next`. Empty means the first page.
+        :type cursor: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -728,6 +735,7 @@ class FrameworkApi:
             fields=fields,
             order_by=order_by,
             limit=limit,
+            cursor=cursor,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -756,6 +764,7 @@ class FrameworkApi:
         fields: Annotated[Optional[StrictStr], Field(description="Fields projects the response to a subset — a JSON array [\"a\",\"b\"] or a comma list \"a,b\". The envelope keys are always returned.")] = None,
         order_by: Annotated[Optional[StrictStr], Field(description="OrderBy is \"<field> [asc|desc]\". Empty means most-recently-updated first.")] = None,
         limit: Annotated[Optional[StrictStr], Field(description="Limit caps the rows returned. Anything that is not a positive integer leaves the engine's default in place.")] = None,
+        cursor: Annotated[Optional[StrictStr], Field(description="Cursor is an opaque keyset cursor from a previous page's `next`. Empty means the first page.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -783,6 +792,8 @@ class FrameworkApi:
         :type order_by: str
         :param limit: Limit caps the rows returned. Anything that is not a positive integer leaves the engine's default in place.
         :type limit: str
+        :param cursor: Cursor is an opaque keyset cursor from a previous page's `next`. Empty means the first page.
+        :type cursor: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -811,6 +822,7 @@ class FrameworkApi:
             fields=fields,
             order_by=order_by,
             limit=limit,
+            cursor=cursor,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -834,6 +846,7 @@ class FrameworkApi:
         fields,
         order_by,
         limit,
+        cursor,
         _request_auth,
         _content_type,
         _headers,
@@ -873,6 +886,10 @@ class FrameworkApi:
         if limit is not None:
             
             _query_params.append(('limit', limit))
+            
+        if cursor is not None:
+            
+            _query_params.append(('cursor', cursor))
             
         # process the header parameters
         # process the form parameters

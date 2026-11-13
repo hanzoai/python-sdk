@@ -19,12 +19,14 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
+from hanzoai.cloud.models.email_choice import EmailChoice
 from hanzoai.cloud.models.email_dispatch import EmailDispatch
 from hanzoai.cloud.models.email_list_messages_result import EmailListMessagesResult
 from hanzoai.cloud.models.email_message_record import EmailMessageRecord
 from hanzoai.cloud.models.email_ses_status_result import EmailSESStatusResult
 from hanzoai.cloud.models.email_send_grid_status_result import EmailSendGridStatusResult
 from hanzoai.cloud.models.email_send_message_input import EmailSendMessageInput
+from hanzoai.cloud.models.email_stats import EmailStats
 from hanzoai.cloud.models.email_verification_input import EmailVerificationInput
 from hanzoai.cloud.models.email_verification_result import EmailVerificationResult
 
@@ -49,8 +51,13 @@ class EmailApi:
     @validate_call
     def get_email(
         self,
-        limit: Annotated[Optional[StrictInt], Field(description="Limit is the maximum number of messages to return (default 50, max 200).")] = None,
-        status: Annotated[Optional[StrictStr], Field(description="Status filters messages by delivery status.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is the most messages on the page (default 50, max 200).")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Status is one status to list: queued, sent, failed, delivered, opened, clicked, bounced or complained.")] = None,
+        provider: Annotated[Optional[StrictStr], Field(description="Provider is ses or sendgrid.")] = None,
+        since: Annotated[Optional[StrictStr], Field(description="Since is the earliest send time listed, RFC 3339.")] = None,
+        until: Annotated[Optional[StrictStr], Field(description="Until is the send time listing stops before, RFC 3339.")] = None,
+        recipient: Annotated[Optional[StrictStr], Field(description="Recipient lists the messages to one address.")] = None,
+        cursor: Annotated[Optional[StrictStr], Field(description="Cursor is the next of the page before; empty is the newest page.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -64,14 +71,24 @@ class EmailApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> EmailListMessagesResult:
-        """Retrieves sent email messages for the authenticated organization.
+        """Reads a page of the org's ledger, newest first: every message sent through POST /v1/email, and every message SES or SendGrid told of by its events, sent from anywhere on the org's account.
 
-        Retrieves sent email messages for the authenticated organization.  GET /v1/email
+        Reads a page of the org's ledger, newest first: every message sent through POST /v1/email, and every message SES or SendGrid told of by its events, sent from anywhere on the org's account. It narrows by status, provider, a range of send time (since, until) and one recipient, and pages by cursor: pass the answer's next to read the page after.  GET /v1/email
 
-        :param limit: Limit is the maximum number of messages to return (default 50, max 200).
+        :param limit: Limit is the most messages on the page (default 50, max 200).
         :type limit: int
-        :param status: Status filters messages by delivery status.
+        :param status: Status is one status to list: queued, sent, failed, delivered, opened, clicked, bounced or complained.
         :type status: str
+        :param provider: Provider is ses or sendgrid.
+        :type provider: str
+        :param since: Since is the earliest send time listed, RFC 3339.
+        :type since: str
+        :param until: Until is the send time listing stops before, RFC 3339.
+        :type until: str
+        :param recipient: Recipient lists the messages to one address.
+        :type recipient: str
+        :param cursor: Cursor is the next of the page before; empty is the newest page.
+        :type cursor: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -97,6 +114,11 @@ class EmailApi:
         _param = self._get_email_serialize(
             limit=limit,
             status=status,
+            provider=provider,
+            since=since,
+            until=until,
+            recipient=recipient,
+            cursor=cursor,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -120,8 +142,13 @@ class EmailApi:
     @validate_call
     def get_email_with_http_info(
         self,
-        limit: Annotated[Optional[StrictInt], Field(description="Limit is the maximum number of messages to return (default 50, max 200).")] = None,
-        status: Annotated[Optional[StrictStr], Field(description="Status filters messages by delivery status.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is the most messages on the page (default 50, max 200).")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Status is one status to list: queued, sent, failed, delivered, opened, clicked, bounced or complained.")] = None,
+        provider: Annotated[Optional[StrictStr], Field(description="Provider is ses or sendgrid.")] = None,
+        since: Annotated[Optional[StrictStr], Field(description="Since is the earliest send time listed, RFC 3339.")] = None,
+        until: Annotated[Optional[StrictStr], Field(description="Until is the send time listing stops before, RFC 3339.")] = None,
+        recipient: Annotated[Optional[StrictStr], Field(description="Recipient lists the messages to one address.")] = None,
+        cursor: Annotated[Optional[StrictStr], Field(description="Cursor is the next of the page before; empty is the newest page.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -135,14 +162,24 @@ class EmailApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[EmailListMessagesResult]:
-        """Retrieves sent email messages for the authenticated organization.
+        """Reads a page of the org's ledger, newest first: every message sent through POST /v1/email, and every message SES or SendGrid told of by its events, sent from anywhere on the org's account.
 
-        Retrieves sent email messages for the authenticated organization.  GET /v1/email
+        Reads a page of the org's ledger, newest first: every message sent through POST /v1/email, and every message SES or SendGrid told of by its events, sent from anywhere on the org's account. It narrows by status, provider, a range of send time (since, until) and one recipient, and pages by cursor: pass the answer's next to read the page after.  GET /v1/email
 
-        :param limit: Limit is the maximum number of messages to return (default 50, max 200).
+        :param limit: Limit is the most messages on the page (default 50, max 200).
         :type limit: int
-        :param status: Status filters messages by delivery status.
+        :param status: Status is one status to list: queued, sent, failed, delivered, opened, clicked, bounced or complained.
         :type status: str
+        :param provider: Provider is ses or sendgrid.
+        :type provider: str
+        :param since: Since is the earliest send time listed, RFC 3339.
+        :type since: str
+        :param until: Until is the send time listing stops before, RFC 3339.
+        :type until: str
+        :param recipient: Recipient lists the messages to one address.
+        :type recipient: str
+        :param cursor: Cursor is the next of the page before; empty is the newest page.
+        :type cursor: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -168,6 +205,11 @@ class EmailApi:
         _param = self._get_email_serialize(
             limit=limit,
             status=status,
+            provider=provider,
+            since=since,
+            until=until,
+            recipient=recipient,
+            cursor=cursor,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -191,8 +233,13 @@ class EmailApi:
     @validate_call
     def get_email_without_preload_content(
         self,
-        limit: Annotated[Optional[StrictInt], Field(description="Limit is the maximum number of messages to return (default 50, max 200).")] = None,
-        status: Annotated[Optional[StrictStr], Field(description="Status filters messages by delivery status.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is the most messages on the page (default 50, max 200).")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Status is one status to list: queued, sent, failed, delivered, opened, clicked, bounced or complained.")] = None,
+        provider: Annotated[Optional[StrictStr], Field(description="Provider is ses or sendgrid.")] = None,
+        since: Annotated[Optional[StrictStr], Field(description="Since is the earliest send time listed, RFC 3339.")] = None,
+        until: Annotated[Optional[StrictStr], Field(description="Until is the send time listing stops before, RFC 3339.")] = None,
+        recipient: Annotated[Optional[StrictStr], Field(description="Recipient lists the messages to one address.")] = None,
+        cursor: Annotated[Optional[StrictStr], Field(description="Cursor is the next of the page before; empty is the newest page.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -206,14 +253,24 @@ class EmailApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Retrieves sent email messages for the authenticated organization.
+        """Reads a page of the org's ledger, newest first: every message sent through POST /v1/email, and every message SES or SendGrid told of by its events, sent from anywhere on the org's account.
 
-        Retrieves sent email messages for the authenticated organization.  GET /v1/email
+        Reads a page of the org's ledger, newest first: every message sent through POST /v1/email, and every message SES or SendGrid told of by its events, sent from anywhere on the org's account. It narrows by status, provider, a range of send time (since, until) and one recipient, and pages by cursor: pass the answer's next to read the page after.  GET /v1/email
 
-        :param limit: Limit is the maximum number of messages to return (default 50, max 200).
+        :param limit: Limit is the most messages on the page (default 50, max 200).
         :type limit: int
-        :param status: Status filters messages by delivery status.
+        :param status: Status is one status to list: queued, sent, failed, delivered, opened, clicked, bounced or complained.
         :type status: str
+        :param provider: Provider is ses or sendgrid.
+        :type provider: str
+        :param since: Since is the earliest send time listed, RFC 3339.
+        :type since: str
+        :param until: Until is the send time listing stops before, RFC 3339.
+        :type until: str
+        :param recipient: Recipient lists the messages to one address.
+        :type recipient: str
+        :param cursor: Cursor is the next of the page before; empty is the newest page.
+        :type cursor: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -239,6 +296,11 @@ class EmailApi:
         _param = self._get_email_serialize(
             limit=limit,
             status=status,
+            provider=provider,
+            since=since,
+            until=until,
+            recipient=recipient,
+            cursor=cursor,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -259,6 +321,11 @@ class EmailApi:
         self,
         limit,
         status,
+        provider,
+        since,
+        until,
+        recipient,
+        cursor,
         _request_auth,
         _content_type,
         _headers,
@@ -288,6 +355,26 @@ class EmailApi:
         if status is not None:
             
             _query_params.append(('status', status))
+            
+        if provider is not None:
+            
+            _query_params.append(('provider', provider))
+            
+        if since is not None:
+            
+            _query_params.append(('since', since))
+            
+        if until is not None:
+            
+            _query_params.append(('until', until))
+            
+        if recipient is not None:
+            
+            _query_params.append(('recipient', recipient))
+            
+        if cursor is not None:
+            
+            _query_params.append(('cursor', cursor))
             
         # process the header parameters
         # process the form parameters
@@ -330,7 +417,7 @@ class EmailApi:
     @validate_call
     def get_email_by_id(
         self,
-        id: Annotated[StrictStr, Field(description="ID is the unique identifier of the message to retrieve.")],
+        id: Annotated[StrictStr, Field(description="ID is our id for the message (msg_…).")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -344,11 +431,11 @@ class EmailApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> EmailMessageRecord:
-        """Retrieves message delivery status by ID for the authenticated organization.
+        """Reads one message of the org's ledger, sent through this API or told of by its provider, with what became of it.
 
-        Retrieves message delivery status by ID for the authenticated organization.  GET /v1/email/:id
+        Reads one message of the org's ledger, sent through this API or told of by its provider, with what became of it.  GET /v1/email/:id
 
-        :param id: ID is the unique identifier of the message to retrieve. (required)
+        :param id: ID is our id for the message (msg_…). (required)
         :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -397,7 +484,7 @@ class EmailApi:
     @validate_call
     def get_email_by_id_with_http_info(
         self,
-        id: Annotated[StrictStr, Field(description="ID is the unique identifier of the message to retrieve.")],
+        id: Annotated[StrictStr, Field(description="ID is our id for the message (msg_…).")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -411,11 +498,11 @@ class EmailApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[EmailMessageRecord]:
-        """Retrieves message delivery status by ID for the authenticated organization.
+        """Reads one message of the org's ledger, sent through this API or told of by its provider, with what became of it.
 
-        Retrieves message delivery status by ID for the authenticated organization.  GET /v1/email/:id
+        Reads one message of the org's ledger, sent through this API or told of by its provider, with what became of it.  GET /v1/email/:id
 
-        :param id: ID is the unique identifier of the message to retrieve. (required)
+        :param id: ID is our id for the message (msg_…). (required)
         :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -464,7 +551,7 @@ class EmailApi:
     @validate_call
     def get_email_by_id_without_preload_content(
         self,
-        id: Annotated[StrictStr, Field(description="ID is the unique identifier of the message to retrieve.")],
+        id: Annotated[StrictStr, Field(description="ID is our id for the message (msg_…).")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -478,11 +565,11 @@ class EmailApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Retrieves message delivery status by ID for the authenticated organization.
+        """Reads one message of the org's ledger, sent through this API or told of by its provider, with what became of it.
 
-        Retrieves message delivery status by ID for the authenticated organization.  GET /v1/email/:id
+        Reads one message of the org's ledger, sent through this API or told of by its provider, with what became of it.  GET /v1/email/:id
 
-        :param id: ID is the unique identifier of the message to retrieve. (required)
+        :param id: ID is our id for the message (msg_…). (required)
         :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -606,9 +693,9 @@ class EmailApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> EmailSendGridStatusResult:
-        """Inspects the authenticated organization's dedicated SendGrid outreach configuration (separate from standard Twilio notify) and whitelabel DNS records.
+        """Reports the org's SendGrid configuration: whether it holds the credentials a send needs, the account's credits as SendGrid answers them, what the org's ledger counted sent by SendGrid in the last 24 hours, and the DNS records of the sending domain.
 
-        Inspects the authenticated organization's dedicated SendGrid outreach configuration (separate from standard Twilio notify) and whitelabel DNS records.  GET /v1/email/sendgrid/status
+        Reports the org's SendGrid configuration: whether it holds the credentials a send needs, the account's credits as SendGrid answers them, what the org's ledger counted sent by SendGrid in the last 24 hours, and the DNS records of the sending domain.  GET /v1/email/sendgrid/status
 
         :param domain: Domain is an optional sending domain to generate SendGrid whitelabel DKIM, Return-Path, and DMARC records for.
         :type domain: str
@@ -673,9 +760,9 @@ class EmailApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[EmailSendGridStatusResult]:
-        """Inspects the authenticated organization's dedicated SendGrid outreach configuration (separate from standard Twilio notify) and whitelabel DNS records.
+        """Reports the org's SendGrid configuration: whether it holds the credentials a send needs, the account's credits as SendGrid answers them, what the org's ledger counted sent by SendGrid in the last 24 hours, and the DNS records of the sending domain.
 
-        Inspects the authenticated organization's dedicated SendGrid outreach configuration (separate from standard Twilio notify) and whitelabel DNS records.  GET /v1/email/sendgrid/status
+        Reports the org's SendGrid configuration: whether it holds the credentials a send needs, the account's credits as SendGrid answers them, what the org's ledger counted sent by SendGrid in the last 24 hours, and the DNS records of the sending domain.  GET /v1/email/sendgrid/status
 
         :param domain: Domain is an optional sending domain to generate SendGrid whitelabel DKIM, Return-Path, and DMARC records for.
         :type domain: str
@@ -740,9 +827,9 @@ class EmailApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Inspects the authenticated organization's dedicated SendGrid outreach configuration (separate from standard Twilio notify) and whitelabel DNS records.
+        """Reports the org's SendGrid configuration: whether it holds the credentials a send needs, the account's credits as SendGrid answers them, what the org's ledger counted sent by SendGrid in the last 24 hours, and the DNS records of the sending domain.
 
-        Inspects the authenticated organization's dedicated SendGrid outreach configuration (separate from standard Twilio notify) and whitelabel DNS records.  GET /v1/email/sendgrid/status
+        Reports the org's SendGrid configuration: whether it holds the credentials a send needs, the account's credits as SendGrid answers them, what the org's ledger counted sent by SendGrid in the last 24 hours, and the DNS records of the sending domain.  GET /v1/email/sendgrid/status
 
         :param domain: Domain is an optional sending domain to generate SendGrid whitelabel DKIM, Return-Path, and DMARC records for.
         :type domain: str
@@ -870,9 +957,9 @@ class EmailApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> EmailSESStatusResult:
-        """Inspects the authenticated organization's Amazon SES configuration, sending limits, and Easy DKIM / MAIL FROM DNS records.
+        """Reports the org's Amazon SES configuration: whether it holds the credentials a send needs, the account's limits as SES answers them (sandbox, sending enabled, 24-hour quota, rate, sent in the last 24 hours), what the org's ledger counted sent by SES in the last 24 hours, and the DNS records of the sending domain.
 
-        Inspects the authenticated organization's Amazon SES configuration, sending limits, and Easy DKIM / MAIL FROM DNS records.  GET /v1/email/ses/status
+        Reports the org's Amazon SES configuration: whether it holds the credentials a send needs, the account's limits as SES answers them (sandbox, sending enabled, 24-hour quota, rate, sent in the last 24 hours), what the org's ledger counted sent by SES in the last 24 hours, and the DNS records of the sending domain.  GET /v1/email/ses/status
 
         :param domain: Domain optionally specifies the sending domain to generate Easy DKIM and MAIL FROM records for.
         :type domain: str
@@ -937,9 +1024,9 @@ class EmailApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[EmailSESStatusResult]:
-        """Inspects the authenticated organization's Amazon SES configuration, sending limits, and Easy DKIM / MAIL FROM DNS records.
+        """Reports the org's Amazon SES configuration: whether it holds the credentials a send needs, the account's limits as SES answers them (sandbox, sending enabled, 24-hour quota, rate, sent in the last 24 hours), what the org's ledger counted sent by SES in the last 24 hours, and the DNS records of the sending domain.
 
-        Inspects the authenticated organization's Amazon SES configuration, sending limits, and Easy DKIM / MAIL FROM DNS records.  GET /v1/email/ses/status
+        Reports the org's Amazon SES configuration: whether it holds the credentials a send needs, the account's limits as SES answers them (sandbox, sending enabled, 24-hour quota, rate, sent in the last 24 hours), what the org's ledger counted sent by SES in the last 24 hours, and the DNS records of the sending domain.  GET /v1/email/ses/status
 
         :param domain: Domain optionally specifies the sending domain to generate Easy DKIM and MAIL FROM records for.
         :type domain: str
@@ -1004,9 +1091,9 @@ class EmailApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Inspects the authenticated organization's Amazon SES configuration, sending limits, and Easy DKIM / MAIL FROM DNS records.
+        """Reports the org's Amazon SES configuration: whether it holds the credentials a send needs, the account's limits as SES answers them (sandbox, sending enabled, 24-hour quota, rate, sent in the last 24 hours), what the org's ledger counted sent by SES in the last 24 hours, and the DNS records of the sending domain.
 
-        Inspects the authenticated organization's Amazon SES configuration, sending limits, and Easy DKIM / MAIL FROM DNS records.  GET /v1/email/ses/status
+        Reports the org's Amazon SES configuration: whether it holds the credentials a send needs, the account's limits as SES answers them (sandbox, sending enabled, 24-hour quota, rate, sent in the last 24 hours), what the org's ledger counted sent by SES in the last 24 hours, and the DNS records of the sending domain.  GET /v1/email/ses/status
 
         :param domain: Domain optionally specifies the sending domain to generate Easy DKIM and MAIL FROM records for.
         :type domain: str
@@ -1118,10 +1205,342 @@ class EmailApi:
 
 
     @validate_call
+    def get_email_stats(
+        self,
+        since: Annotated[Optional[StrictStr], Field(description="Since is where the range starts, RFC 3339, rounded down to its day or hour. Empty is 30 days before Until by day, 48 hours by hour.")] = None,
+        until: Annotated[Optional[StrictStr], Field(description="Until is where the range ends, RFC 3339, rounded up to its day or hour. Empty is now.")] = None,
+        interval: Annotated[Optional[StrictStr], Field(description="Interval is day (default, at most 400 days) or hour (at most 31 days), in UTC.")] = None,
+        provider: Annotated[Optional[StrictStr], Field(description="Provider counts one rail only: ses or sendgrid.")] = None,
+        campaign: Annotated[Optional[StrictStr], Field(description="Campaign counts one campaign only.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> EmailStats:
+        """Counts the org's mail over a range: sent, delivered, opened, clicked, bounced, complained and unsubscribed, each a count of messages, in all, by provider, by campaign and by day or hour (UTC).
+
+        Counts the org's mail over a range: sent, delivered, opened, clicked, bounced, complained and unsubscribed, each a count of messages, in all, by provider, by campaign and by day or hour (UTC). Mail sent around this API, from the org's own tools on its SES or SendGrid account, is counted from the providers' events like mail sent through it.  GET /v1/email/stats
+
+        :param since: Since is where the range starts, RFC 3339, rounded down to its day or hour. Empty is 30 days before Until by day, 48 hours by hour.
+        :type since: str
+        :param until: Until is where the range ends, RFC 3339, rounded up to its day or hour. Empty is now.
+        :type until: str
+        :param interval: Interval is day (default, at most 400 days) or hour (at most 31 days), in UTC.
+        :type interval: str
+        :param provider: Provider counts one rail only: ses or sendgrid.
+        :type provider: str
+        :param campaign: Campaign counts one campaign only.
+        :type campaign: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_email_stats_serialize(
+            since=since,
+            until=until,
+            interval=interval,
+            provider=provider,
+            campaign=campaign,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "EmailStats",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_email_stats_with_http_info(
+        self,
+        since: Annotated[Optional[StrictStr], Field(description="Since is where the range starts, RFC 3339, rounded down to its day or hour. Empty is 30 days before Until by day, 48 hours by hour.")] = None,
+        until: Annotated[Optional[StrictStr], Field(description="Until is where the range ends, RFC 3339, rounded up to its day or hour. Empty is now.")] = None,
+        interval: Annotated[Optional[StrictStr], Field(description="Interval is day (default, at most 400 days) or hour (at most 31 days), in UTC.")] = None,
+        provider: Annotated[Optional[StrictStr], Field(description="Provider counts one rail only: ses or sendgrid.")] = None,
+        campaign: Annotated[Optional[StrictStr], Field(description="Campaign counts one campaign only.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[EmailStats]:
+        """Counts the org's mail over a range: sent, delivered, opened, clicked, bounced, complained and unsubscribed, each a count of messages, in all, by provider, by campaign and by day or hour (UTC).
+
+        Counts the org's mail over a range: sent, delivered, opened, clicked, bounced, complained and unsubscribed, each a count of messages, in all, by provider, by campaign and by day or hour (UTC). Mail sent around this API, from the org's own tools on its SES or SendGrid account, is counted from the providers' events like mail sent through it.  GET /v1/email/stats
+
+        :param since: Since is where the range starts, RFC 3339, rounded down to its day or hour. Empty is 30 days before Until by day, 48 hours by hour.
+        :type since: str
+        :param until: Until is where the range ends, RFC 3339, rounded up to its day or hour. Empty is now.
+        :type until: str
+        :param interval: Interval is day (default, at most 400 days) or hour (at most 31 days), in UTC.
+        :type interval: str
+        :param provider: Provider counts one rail only: ses or sendgrid.
+        :type provider: str
+        :param campaign: Campaign counts one campaign only.
+        :type campaign: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_email_stats_serialize(
+            since=since,
+            until=until,
+            interval=interval,
+            provider=provider,
+            campaign=campaign,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "EmailStats",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_email_stats_without_preload_content(
+        self,
+        since: Annotated[Optional[StrictStr], Field(description="Since is where the range starts, RFC 3339, rounded down to its day or hour. Empty is 30 days before Until by day, 48 hours by hour.")] = None,
+        until: Annotated[Optional[StrictStr], Field(description="Until is where the range ends, RFC 3339, rounded up to its day or hour. Empty is now.")] = None,
+        interval: Annotated[Optional[StrictStr], Field(description="Interval is day (default, at most 400 days) or hour (at most 31 days), in UTC.")] = None,
+        provider: Annotated[Optional[StrictStr], Field(description="Provider counts one rail only: ses or sendgrid.")] = None,
+        campaign: Annotated[Optional[StrictStr], Field(description="Campaign counts one campaign only.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Counts the org's mail over a range: sent, delivered, opened, clicked, bounced, complained and unsubscribed, each a count of messages, in all, by provider, by campaign and by day or hour (UTC).
+
+        Counts the org's mail over a range: sent, delivered, opened, clicked, bounced, complained and unsubscribed, each a count of messages, in all, by provider, by campaign and by day or hour (UTC). Mail sent around this API, from the org's own tools on its SES or SendGrid account, is counted from the providers' events like mail sent through it.  GET /v1/email/stats
+
+        :param since: Since is where the range starts, RFC 3339, rounded down to its day or hour. Empty is 30 days before Until by day, 48 hours by hour.
+        :type since: str
+        :param until: Until is where the range ends, RFC 3339, rounded up to its day or hour. Empty is now.
+        :type until: str
+        :param interval: Interval is day (default, at most 400 days) or hour (at most 31 days), in UTC.
+        :type interval: str
+        :param provider: Provider counts one rail only: ses or sendgrid.
+        :type provider: str
+        :param campaign: Campaign counts one campaign only.
+        :type campaign: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_email_stats_serialize(
+            since=since,
+            until=until,
+            interval=interval,
+            provider=provider,
+            campaign=campaign,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "EmailStats",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_email_stats_serialize(
+        self,
+        since,
+        until,
+        interval,
+        provider,
+        campaign,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if since is not None:
+            
+            _query_params.append(('since', since))
+            
+        if until is not None:
+            
+            _query_params.append(('until', until))
+            
+        if interval is not None:
+            
+            _query_params.append(('interval', interval))
+            
+        if provider is not None:
+            
+            _query_params.append(('provider', provider))
+            
+        if campaign is not None:
+            
+            _query_params.append(('campaign', campaign))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/email/stats',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def post_email(
         self,
         email_send_message_input: EmailSendMessageInput,
-        idempotency_key: Annotated[Optional[StrictStr], Field(description="IdempotencyKey prevents duplicate message dispatches on network retries.")] = None,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="IdempotencyKey names the send, so a retried request sends each recipient's message once: the same key and recipient name the same message.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1135,13 +1554,13 @@ class EmailApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> EmailDispatch:
-        """Sends commercial email from the org: one message per recipient, each carrying its own signed unsubscribe link in the footer and in List-Unsubscribe and List-Unsubscribe-Post (RFC 8058).
+        """Sends commercial email from the org through SES or SendGrid: one message per recipient, each carrying its own signed unsubscribe link in the footer and in List-Unsubscribe and List-Unsubscribe-Post (RFC 8058), and every http(s) link tagged with utm_source=email, utm_medium=<provider>, utm_campaign=<campaign>, utm_content=link<n> and from=<message id>, each only where the link does not carry it already.
 
-        Sends commercial email from the org: one message per recipient, each carrying its own signed unsubscribe link in the footer and in List-Unsubscribe and List-Unsubscribe-Post (RFC 8058). Every recipient is first asked of the one suppression check (marketing_clearance): an address the org's list holds, whose company unsubscribed, or that the platform blocks is not sent to, and is answered in refused with status 422 and the reason; when every recipient is refused the request is 422. A list that cannot answer sends nothing (503). Every message, sent or refused, goes on the CRM record of the person the org holds for the address. Transactional mail — a code, a receipt — is not this route's: it goes by /v1/notify, which no opt-out stops.  POST /v1/email
+        Sends commercial email from the org through SES or SendGrid: one message per recipient, each carrying its own signed unsubscribe link in the footer and in List-Unsubscribe and List-Unsubscribe-Post (RFC 8058), and every http(s) link tagged with utm_source=email, utm_medium=<provider>, utm_campaign=<campaign>, utm_content=link<n> and from=<message id>, each only where the link does not carry it already. Every recipient is first asked of the one suppression check (marketing_clearance): an address the org's list holds, whose company unsubscribed, or that the platform blocks is not sent to, and is answered in refused with status 422 and the reason; when every recipient is refused the request is 422. A list that cannot answer sends nothing (503).  The rail is the provider the request pins (ses or sendgrid), else the org's default (PUT /v1/email/provider), else SES, else SendGrid, whichever the org holds credentials for; anything else is 400. Every message is kept in the org's ledger (GET /v1/email), counted (GET /v1/email/stats), stated on the event stream as email_sent, and put on the CRM record of the person the org holds for the address. The same idempotency key and recipient send once. Transactional mail (a code, a receipt) is not this route's: it goes by /v1/notify, which no opt-out stops.  POST /v1/email
 
         :param email_send_message_input: (required)
         :type email_send_message_input: EmailSendMessageInput
-        :param idempotency_key: IdempotencyKey prevents duplicate message dispatches on network retries.
+        :param idempotency_key: IdempotencyKey names the send, so a retried request sends each recipient's message once: the same key and recipient name the same message.
         :type idempotency_key: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1192,7 +1611,7 @@ class EmailApi:
     def post_email_with_http_info(
         self,
         email_send_message_input: EmailSendMessageInput,
-        idempotency_key: Annotated[Optional[StrictStr], Field(description="IdempotencyKey prevents duplicate message dispatches on network retries.")] = None,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="IdempotencyKey names the send, so a retried request sends each recipient's message once: the same key and recipient name the same message.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1206,13 +1625,13 @@ class EmailApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[EmailDispatch]:
-        """Sends commercial email from the org: one message per recipient, each carrying its own signed unsubscribe link in the footer and in List-Unsubscribe and List-Unsubscribe-Post (RFC 8058).
+        """Sends commercial email from the org through SES or SendGrid: one message per recipient, each carrying its own signed unsubscribe link in the footer and in List-Unsubscribe and List-Unsubscribe-Post (RFC 8058), and every http(s) link tagged with utm_source=email, utm_medium=<provider>, utm_campaign=<campaign>, utm_content=link<n> and from=<message id>, each only where the link does not carry it already.
 
-        Sends commercial email from the org: one message per recipient, each carrying its own signed unsubscribe link in the footer and in List-Unsubscribe and List-Unsubscribe-Post (RFC 8058). Every recipient is first asked of the one suppression check (marketing_clearance): an address the org's list holds, whose company unsubscribed, or that the platform blocks is not sent to, and is answered in refused with status 422 and the reason; when every recipient is refused the request is 422. A list that cannot answer sends nothing (503). Every message, sent or refused, goes on the CRM record of the person the org holds for the address. Transactional mail — a code, a receipt — is not this route's: it goes by /v1/notify, which no opt-out stops.  POST /v1/email
+        Sends commercial email from the org through SES or SendGrid: one message per recipient, each carrying its own signed unsubscribe link in the footer and in List-Unsubscribe and List-Unsubscribe-Post (RFC 8058), and every http(s) link tagged with utm_source=email, utm_medium=<provider>, utm_campaign=<campaign>, utm_content=link<n> and from=<message id>, each only where the link does not carry it already. Every recipient is first asked of the one suppression check (marketing_clearance): an address the org's list holds, whose company unsubscribed, or that the platform blocks is not sent to, and is answered in refused with status 422 and the reason; when every recipient is refused the request is 422. A list that cannot answer sends nothing (503).  The rail is the provider the request pins (ses or sendgrid), else the org's default (PUT /v1/email/provider), else SES, else SendGrid, whichever the org holds credentials for; anything else is 400. Every message is kept in the org's ledger (GET /v1/email), counted (GET /v1/email/stats), stated on the event stream as email_sent, and put on the CRM record of the person the org holds for the address. The same idempotency key and recipient send once. Transactional mail (a code, a receipt) is not this route's: it goes by /v1/notify, which no opt-out stops.  POST /v1/email
 
         :param email_send_message_input: (required)
         :type email_send_message_input: EmailSendMessageInput
-        :param idempotency_key: IdempotencyKey prevents duplicate message dispatches on network retries.
+        :param idempotency_key: IdempotencyKey names the send, so a retried request sends each recipient's message once: the same key and recipient name the same message.
         :type idempotency_key: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1263,7 +1682,7 @@ class EmailApi:
     def post_email_without_preload_content(
         self,
         email_send_message_input: EmailSendMessageInput,
-        idempotency_key: Annotated[Optional[StrictStr], Field(description="IdempotencyKey prevents duplicate message dispatches on network retries.")] = None,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="IdempotencyKey names the send, so a retried request sends each recipient's message once: the same key and recipient name the same message.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1277,13 +1696,13 @@ class EmailApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Sends commercial email from the org: one message per recipient, each carrying its own signed unsubscribe link in the footer and in List-Unsubscribe and List-Unsubscribe-Post (RFC 8058).
+        """Sends commercial email from the org through SES or SendGrid: one message per recipient, each carrying its own signed unsubscribe link in the footer and in List-Unsubscribe and List-Unsubscribe-Post (RFC 8058), and every http(s) link tagged with utm_source=email, utm_medium=<provider>, utm_campaign=<campaign>, utm_content=link<n> and from=<message id>, each only where the link does not carry it already.
 
-        Sends commercial email from the org: one message per recipient, each carrying its own signed unsubscribe link in the footer and in List-Unsubscribe and List-Unsubscribe-Post (RFC 8058). Every recipient is first asked of the one suppression check (marketing_clearance): an address the org's list holds, whose company unsubscribed, or that the platform blocks is not sent to, and is answered in refused with status 422 and the reason; when every recipient is refused the request is 422. A list that cannot answer sends nothing (503). Every message, sent or refused, goes on the CRM record of the person the org holds for the address. Transactional mail — a code, a receipt — is not this route's: it goes by /v1/notify, which no opt-out stops.  POST /v1/email
+        Sends commercial email from the org through SES or SendGrid: one message per recipient, each carrying its own signed unsubscribe link in the footer and in List-Unsubscribe and List-Unsubscribe-Post (RFC 8058), and every http(s) link tagged with utm_source=email, utm_medium=<provider>, utm_campaign=<campaign>, utm_content=link<n> and from=<message id>, each only where the link does not carry it already. Every recipient is first asked of the one suppression check (marketing_clearance): an address the org's list holds, whose company unsubscribed, or that the platform blocks is not sent to, and is answered in refused with status 422 and the reason; when every recipient is refused the request is 422. A list that cannot answer sends nothing (503).  The rail is the provider the request pins (ses or sendgrid), else the org's default (PUT /v1/email/provider), else SES, else SendGrid, whichever the org holds credentials for; anything else is 400. Every message is kept in the org's ledger (GET /v1/email), counted (GET /v1/email/stats), stated on the event stream as email_sent, and put on the CRM record of the person the org holds for the address. The same idempotency key and recipient send once. Transactional mail (a code, a receipt) is not this route's: it goes by /v1/notify, which no opt-out stops.  POST /v1/email
 
         :param email_send_message_input: (required)
         :type email_send_message_input: EmailSendMessageInput
-        :param idempotency_key: IdempotencyKey prevents duplicate message dispatches on network retries.
+        :param idempotency_key: IdempotencyKey names the send, so a retried request sends each recipient's message once: the same key and recipient name the same message.
         :type idempotency_key: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2139,6 +2558,281 @@ class EmailApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/email/webhooks/ses',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def put_email_provider(
+        self,
+        email_choice: EmailChoice,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> EmailChoice:
+        """Sets the provider the org's mail leaves by when a send pins none: ses or sendgrid.
+
+        Sets the provider the org's mail leaves by when a send pins none: ses or sendgrid. With none set it is SES, else SendGrid, whichever the org holds credentials for; a send that pins one goes by it. Org admin only, and on the audit trail (email.provider.set) before it takes effect.  PUT /v1/email/provider
+
+        :param email_choice: (required)
+        :type email_choice: EmailChoice
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_email_provider_serialize(
+            email_choice=email_choice,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "EmailChoice",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def put_email_provider_with_http_info(
+        self,
+        email_choice: EmailChoice,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[EmailChoice]:
+        """Sets the provider the org's mail leaves by when a send pins none: ses or sendgrid.
+
+        Sets the provider the org's mail leaves by when a send pins none: ses or sendgrid. With none set it is SES, else SendGrid, whichever the org holds credentials for; a send that pins one goes by it. Org admin only, and on the audit trail (email.provider.set) before it takes effect.  PUT /v1/email/provider
+
+        :param email_choice: (required)
+        :type email_choice: EmailChoice
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_email_provider_serialize(
+            email_choice=email_choice,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "EmailChoice",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def put_email_provider_without_preload_content(
+        self,
+        email_choice: EmailChoice,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Sets the provider the org's mail leaves by when a send pins none: ses or sendgrid.
+
+        Sets the provider the org's mail leaves by when a send pins none: ses or sendgrid. With none set it is SES, else SendGrid, whichever the org holds credentials for; a send that pins one goes by it. Org admin only, and on the audit trail (email.provider.set) before it takes effect.  PUT /v1/email/provider
+
+        :param email_choice: (required)
+        :type email_choice: EmailChoice
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_email_provider_serialize(
+            email_choice=email_choice,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "EmailChoice",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _put_email_provider_serialize(
+        self,
+        email_choice,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if email_choice is not None:
+            _body_params = email_choice
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/v1/email/provider',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

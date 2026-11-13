@@ -23,6 +23,12 @@ from hanzoai.cloud.models.agent_activity_feed import AgentActivityFeed
 from hanzoai.cloud.models.agent_agent_detail import AgentAgentDetail
 from hanzoai.cloud.models.agent_agent_list import AgentAgentList
 from hanzoai.cloud.models.agent_agent_view import AgentAgentView
+from hanzoai.cloud.models.agent_answer_in import AgentAnswerIn
+from hanzoai.cloud.models.agent_answer_view import AgentAnswerView
+from hanzoai.cloud.models.agent_apply_roster_in import AgentApplyRosterIn
+from hanzoai.cloud.models.agent_apply_roster_out import AgentApplyRosterOut
+from hanzoai.cloud.models.agent_brief_list import AgentBriefList
+from hanzoai.cloud.models.agent_brief_record import AgentBriefRecord
 from hanzoai.cloud.models.agent_build_list import AgentBuildList
 from hanzoai.cloud.models.agent_build_view import AgentBuildView
 from hanzoai.cloud.models.agent_claim_key_out import AgentClaimKeyOut
@@ -30,8 +36,12 @@ from hanzoai.cloud.models.agent_coding_ack import AgentCodingAck
 from hanzoai.cloud.models.agent_coding_artifacts import AgentCodingArtifacts
 from hanzoai.cloud.models.agent_coding_blob import AgentCodingBlob
 from hanzoai.cloud.models.agent_coding_changes import AgentCodingChanges
+from hanzoai.cloud.models.agent_coding_extend_in import AgentCodingExtendIn
+from hanzoai.cloud.models.agent_coding_extended import AgentCodingExtended
 from hanzoai.cloud.models.agent_coding_instruction import AgentCodingInstruction
 from hanzoai.cloud.models.agent_coding_merged import AgentCodingMerged
+from hanzoai.cloud.models.agent_coding_pull_in import AgentCodingPullIn
+from hanzoai.cloud.models.agent_coding_pulled import AgentCodingPulled
 from hanzoai.cloud.models.agent_coding_start_in import AgentCodingStartIn
 from hanzoai.cloud.models.agent_coding_started import AgentCodingStarted
 from hanzoai.cloud.models.agent_coding_tree import AgentCodingTree
@@ -39,14 +49,21 @@ from hanzoai.cloud.models.agent_control_drain import AgentControlDrain
 from hanzoai.cloud.models.agent_control_in import AgentControlIn
 from hanzoai.cloud.models.agent_control_result import AgentControlResult
 from hanzoai.cloud.models.agent_create_agent_in import AgentCreateAgentIn
+from hanzoai.cloud.models.agent_decide_proposal_in import AgentDecideProposalIn
 from hanzoai.cloud.models.agent_event_in import AgentEventIn
+from hanzoai.cloud.models.agent_event_list import AgentEventList
 from hanzoai.cloud.models.agent_event_view import AgentEventView
 from hanzoai.cloud.models.agent_metrics_view import AgentMetricsView
 from hanzoai.cloud.models.agent_patch_session_in import AgentPatchSessionIn
 from hanzoai.cloud.models.agent_patch_target_in import AgentPatchTargetIn
+from hanzoai.cloud.models.agent_proposal_list import AgentProposalList
 from hanzoai.cloud.models.agent_register_req import AgentRegisterReq
 from hanzoai.cloud.models.agent_report_out import AgentReportOut
 from hanzoai.cloud.models.agent_report_run_in import AgentReportRunIn
+from hanzoai.cloud.models.agent_review_proposals_in import AgentReviewProposalsIn
+from hanzoai.cloud.models.agent_review_proposals_out import AgentReviewProposalsOut
+from hanzoai.cloud.models.agent_role_proposal import AgentRoleProposal
+from hanzoai.cloud.models.agent_roster_templates_out import AgentRosterTemplatesOut
 from hanzoai.cloud.models.agent_routed_run_out import AgentRoutedRunOut
 from hanzoai.cloud.models.agent_run_list import AgentRunList
 from hanzoai.cloud.models.agent_session_budget_in import AgentSessionBudgetIn
@@ -56,6 +73,9 @@ from hanzoai.cloud.models.agent_session_list import AgentSessionList
 from hanzoai.cloud.models.agent_session_progress import AgentSessionProgress
 from hanzoai.cloud.models.agent_session_view import AgentSessionView
 from hanzoai.cloud.models.agent_spend_view import AgentSpendView
+from hanzoai.cloud.models.agent_submit_brief_in import AgentSubmitBriefIn
+from hanzoai.cloud.models.agent_talk_in import AgentTalkIn
+from hanzoai.cloud.models.agent_talk_out import AgentTalkOut
 from hanzoai.cloud.models.agent_target_deleted import AgentTargetDeleted
 from hanzoai.cloud.models.agent_target_list import AgentTargetList
 from hanzoai.cloud.models.agent_target_req import AgentTargetReq
@@ -1671,7 +1691,7 @@ class AgentApi:
     ) -> AgentAgentList:
         """Returns every agent defined in the caller's org, each with the number of runs recorded against it.
 
-        Returns every agent defined in the caller's org, each with the number of runs recorded against it.
+        Returns every agent defined in the caller's org, each with the number of runs recorded against it. A retired built-in is left out.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1734,7 +1754,7 @@ class AgentApi:
     ) -> ApiResponse[AgentAgentList]:
         """Returns every agent defined in the caller's org, each with the number of runs recorded against it.
 
-        Returns every agent defined in the caller's org, each with the number of runs recorded against it.
+        Returns every agent defined in the caller's org, each with the number of runs recorded against it. A retired built-in is left out.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1797,7 +1817,7 @@ class AgentApi:
     ) -> RESTResponseType:
         """Returns every agent defined in the caller's org, each with the number of runs recorded against it.
 
-        Returns every agent defined in the caller's org, each with the number of runs recorded against it.
+        Returns every agent defined in the caller's org, each with the number of runs recorded against it. A retired built-in is left out.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2132,6 +2152,515 @@ class AgentApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/agent/activity',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_agent_briefs(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AgentBriefList:
+        """Returns every durable research brief recorded in the caller's organization, newest first.
+
+        Returns every durable research brief recorded in the caller's organization, newest first.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_agent_briefs_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentBriefList",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_agent_briefs_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AgentBriefList]:
+        """Returns every durable research brief recorded in the caller's organization, newest first.
+
+        Returns every durable research brief recorded in the caller's organization, newest first.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_agent_briefs_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentBriefList",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_agent_briefs_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns every durable research brief recorded in the caller's organization, newest first.
+
+        Returns every durable research brief recorded in the caller's organization, newest first.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_agent_briefs_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentBriefList",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_agent_briefs_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/agent/briefs',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_agent_briefs_by_id(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the brief handle (`brief_...`) from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AgentBriefRecord:
+        """Returns one durable research brief and all of its specialist child tasks, citations, unsupported claims, open questions, and attribution records.
+
+        Returns one durable research brief and all of its specialist child tasks, citations, unsupported claims, open questions, and attribution records.
+
+        :param id: ID is the brief handle (`brief_...`) from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_agent_briefs_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentBriefRecord",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_agent_briefs_by_id_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the brief handle (`brief_...`) from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AgentBriefRecord]:
+        """Returns one durable research brief and all of its specialist child tasks, citations, unsupported claims, open questions, and attribution records.
+
+        Returns one durable research brief and all of its specialist child tasks, citations, unsupported claims, open questions, and attribution records.
+
+        :param id: ID is the brief handle (`brief_...`) from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_agent_briefs_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentBriefRecord",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_agent_briefs_by_id_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the brief handle (`brief_...`) from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns one durable research brief and all of its specialist child tasks, citations, unsupported claims, open questions, and attribution records.
+
+        Returns one durable research brief and all of its specialist child tasks, citations, unsupported claims, open questions, and attribution records.
+
+        :param id: ID is the brief handle (`brief_...`) from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_agent_briefs_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentBriefRecord",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_agent_briefs_by_id_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/agent/briefs/{id}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -6552,6 +7081,534 @@ class AgentApi:
 
 
     @validate_call
+    def get_agent_proposals(
+        self,
+        venture: Annotated[Optional[StrictStr], Field(description="Venture filters proposals to a single venture slug when non-empty.")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Status filters proposals by state (pending, approved, rejected) when non-empty.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AgentProposalList:
+        """Returns the organization's nightly role candidate proposals, optionally filtered by venture slug or decision status.
+
+        Returns the organization's nightly role candidate proposals, optionally filtered by venture slug or decision status.
+
+        :param venture: Venture filters proposals to a single venture slug when non-empty.
+        :type venture: str
+        :param status: Status filters proposals by state (pending, approved, rejected) when non-empty.
+        :type status: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_agent_proposals_serialize(
+            venture=venture,
+            status=status,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentProposalList",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_agent_proposals_with_http_info(
+        self,
+        venture: Annotated[Optional[StrictStr], Field(description="Venture filters proposals to a single venture slug when non-empty.")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Status filters proposals by state (pending, approved, rejected) when non-empty.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AgentProposalList]:
+        """Returns the organization's nightly role candidate proposals, optionally filtered by venture slug or decision status.
+
+        Returns the organization's nightly role candidate proposals, optionally filtered by venture slug or decision status.
+
+        :param venture: Venture filters proposals to a single venture slug when non-empty.
+        :type venture: str
+        :param status: Status filters proposals by state (pending, approved, rejected) when non-empty.
+        :type status: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_agent_proposals_serialize(
+            venture=venture,
+            status=status,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentProposalList",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_agent_proposals_without_preload_content(
+        self,
+        venture: Annotated[Optional[StrictStr], Field(description="Venture filters proposals to a single venture slug when non-empty.")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Status filters proposals by state (pending, approved, rejected) when non-empty.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns the organization's nightly role candidate proposals, optionally filtered by venture slug or decision status.
+
+        Returns the organization's nightly role candidate proposals, optionally filtered by venture slug or decision status.
+
+        :param venture: Venture filters proposals to a single venture slug when non-empty.
+        :type venture: str
+        :param status: Status filters proposals by state (pending, approved, rejected) when non-empty.
+        :type status: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_agent_proposals_serialize(
+            venture=venture,
+            status=status,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentProposalList",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_agent_proposals_serialize(
+        self,
+        venture,
+        status,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if venture is not None:
+            
+            _query_params.append(('venture', venture))
+            
+        if status is not None:
+            
+            _query_params.append(('status', status))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/agent/proposals',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_agent_roster_templates(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AgentRosterTemplatesOut:
+        """Returns the seven canonical studio functions and the shared, versioned role templates that ventures reuse.
+
+        Returns the seven canonical studio functions and the shared, versioned role templates that ventures reuse.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_agent_roster_templates_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentRosterTemplatesOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_agent_roster_templates_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AgentRosterTemplatesOut]:
+        """Returns the seven canonical studio functions and the shared, versioned role templates that ventures reuse.
+
+        Returns the seven canonical studio functions and the shared, versioned role templates that ventures reuse.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_agent_roster_templates_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentRosterTemplatesOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_agent_roster_templates_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns the seven canonical studio functions and the shared, versioned role templates that ventures reuse.
+
+        Returns the seven canonical studio functions and the shared, versioned role templates that ventures reuse.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_agent_roster_templates_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentRosterTemplatesOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_agent_roster_templates_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/agent/roster/templates',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_agent_runs(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many runs come back, newest first. Absent, zero or out of range (1..200) reads as 50.")] = None,
@@ -6839,7 +7896,7 @@ class AgentApi:
         parent: Annotated[Optional[StrictStr], Field(description="Parent scopes the page to the direct children of one session. Ignored when root is set; with neither, only ROOT sessions come back.")] = None,
         status: Annotated[Optional[StrictStr], Field(description="Status filters to running, paused, done or error.")] = None,
         project: Annotated[Optional[StrictStr], Field(description="Project filters to the sessions tagged with one product slug.")] = None,
-        room: Annotated[Optional[StrictStr], Field(description="Room filters to the sessions started in one collaborative room — the query a space view runs to show what has been run in it.")] = None,
+        channel: Annotated[Optional[StrictStr], Field(description="Channel filters to the sessions started in one collaborative channel — the query a space view runs to show what has been run in it.")] = None,
         kind: Annotated[Optional[StrictStr], Field(description="Kind filters to the sessions of one kind of run: \"coding\" lists coding runs, each carrying its repo, base, branch, environment and pull request.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page. Absent, zero or over 500 reads as 100.")] = None,
         after: Annotated[Optional[StrictStr], Field(description="After is the `next` of the previous page. Absent starts at the newest.")] = None,
@@ -6868,8 +7925,8 @@ class AgentApi:
         :type status: str
         :param project: Project filters to the sessions tagged with one product slug.
         :type project: str
-        :param room: Room filters to the sessions started in one collaborative room — the query a space view runs to show what has been run in it.
-        :type room: str
+        :param channel: Channel filters to the sessions started in one collaborative channel — the query a space view runs to show what has been run in it.
+        :type channel: str
         :param kind: Kind filters to the sessions of one kind of run: \"coding\" lists coding runs, each carrying its repo, base, branch, environment and pull request.
         :type kind: str
         :param limit: Limit caps the page. Absent, zero or over 500 reads as 100.
@@ -6903,7 +7960,7 @@ class AgentApi:
             parent=parent,
             status=status,
             project=project,
-            room=room,
+            channel=channel,
             kind=kind,
             limit=limit,
             after=after,
@@ -6934,7 +7991,7 @@ class AgentApi:
         parent: Annotated[Optional[StrictStr], Field(description="Parent scopes the page to the direct children of one session. Ignored when root is set; with neither, only ROOT sessions come back.")] = None,
         status: Annotated[Optional[StrictStr], Field(description="Status filters to running, paused, done or error.")] = None,
         project: Annotated[Optional[StrictStr], Field(description="Project filters to the sessions tagged with one product slug.")] = None,
-        room: Annotated[Optional[StrictStr], Field(description="Room filters to the sessions started in one collaborative room — the query a space view runs to show what has been run in it.")] = None,
+        channel: Annotated[Optional[StrictStr], Field(description="Channel filters to the sessions started in one collaborative channel — the query a space view runs to show what has been run in it.")] = None,
         kind: Annotated[Optional[StrictStr], Field(description="Kind filters to the sessions of one kind of run: \"coding\" lists coding runs, each carrying its repo, base, branch, environment and pull request.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page. Absent, zero or over 500 reads as 100.")] = None,
         after: Annotated[Optional[StrictStr], Field(description="After is the `next` of the previous page. Absent starts at the newest.")] = None,
@@ -6963,8 +8020,8 @@ class AgentApi:
         :type status: str
         :param project: Project filters to the sessions tagged with one product slug.
         :type project: str
-        :param room: Room filters to the sessions started in one collaborative room — the query a space view runs to show what has been run in it.
-        :type room: str
+        :param channel: Channel filters to the sessions started in one collaborative channel — the query a space view runs to show what has been run in it.
+        :type channel: str
         :param kind: Kind filters to the sessions of one kind of run: \"coding\" lists coding runs, each carrying its repo, base, branch, environment and pull request.
         :type kind: str
         :param limit: Limit caps the page. Absent, zero or over 500 reads as 100.
@@ -6998,7 +8055,7 @@ class AgentApi:
             parent=parent,
             status=status,
             project=project,
-            room=room,
+            channel=channel,
             kind=kind,
             limit=limit,
             after=after,
@@ -7029,7 +8086,7 @@ class AgentApi:
         parent: Annotated[Optional[StrictStr], Field(description="Parent scopes the page to the direct children of one session. Ignored when root is set; with neither, only ROOT sessions come back.")] = None,
         status: Annotated[Optional[StrictStr], Field(description="Status filters to running, paused, done or error.")] = None,
         project: Annotated[Optional[StrictStr], Field(description="Project filters to the sessions tagged with one product slug.")] = None,
-        room: Annotated[Optional[StrictStr], Field(description="Room filters to the sessions started in one collaborative room — the query a space view runs to show what has been run in it.")] = None,
+        channel: Annotated[Optional[StrictStr], Field(description="Channel filters to the sessions started in one collaborative channel — the query a space view runs to show what has been run in it.")] = None,
         kind: Annotated[Optional[StrictStr], Field(description="Kind filters to the sessions of one kind of run: \"coding\" lists coding runs, each carrying its repo, base, branch, environment and pull request.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page. Absent, zero or over 500 reads as 100.")] = None,
         after: Annotated[Optional[StrictStr], Field(description="After is the `next` of the previous page. Absent starts at the newest.")] = None,
@@ -7058,8 +8115,8 @@ class AgentApi:
         :type status: str
         :param project: Project filters to the sessions tagged with one product slug.
         :type project: str
-        :param room: Room filters to the sessions started in one collaborative room — the query a space view runs to show what has been run in it.
-        :type room: str
+        :param channel: Channel filters to the sessions started in one collaborative channel — the query a space view runs to show what has been run in it.
+        :type channel: str
         :param kind: Kind filters to the sessions of one kind of run: \"coding\" lists coding runs, each carrying its repo, base, branch, environment and pull request.
         :type kind: str
         :param limit: Limit caps the page. Absent, zero or over 500 reads as 100.
@@ -7093,7 +8150,7 @@ class AgentApi:
             parent=parent,
             status=status,
             project=project,
-            room=room,
+            channel=channel,
             kind=kind,
             limit=limit,
             after=after,
@@ -7119,7 +8176,7 @@ class AgentApi:
         parent,
         status,
         project,
-        room,
+        channel,
         kind,
         limit,
         after,
@@ -7161,9 +8218,9 @@ class AgentApi:
             
             _query_params.append(('project', project))
             
-        if room is not None:
+        if channel is not None:
             
-            _query_params.append(('room', room))
+            _query_params.append(('channel', channel))
             
         if kind is not None:
             
@@ -7218,7 +8275,9 @@ class AgentApi:
     @validate_call
     def get_agent_sessions_by_id(
         self,
-        id: Annotated[StrictStr, Field(description="ID is the session to act on, from the path.")],
+        id: Annotated[StrictStr, Field(description="ID is the session to read, from the path.")],
+        after: Annotated[Optional[StrictStr], Field(description="After pages forward through the session's events starting strictly after this seq integer; omitted reads the tail of the log instead.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit bounds how many events recentEvents carries (1..1000; default 50 on a tail read, or 200 when paging forward with after).")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7232,12 +8291,16 @@ class AgentApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> AgentSessionDetail:
-        """Returns one session with its direct child sessions and its 50 most recent events, oldest of those first.
+        """Returns one session with its direct child sessions and a page of its events, oldest of those first (50 from the tail by default, up to `limit` up to 1000, or forward from `after` with a `next` cursor).
 
-        Returns one session with its direct child sessions and its 50 most recent events, oldest of those first. The children are those the caller may see, by the rule the session itself is read by: a member's own, and every one for an admin of the org. In a held org, where self-serve signups land beside the platform's staff, a session is its person's alone.
+        Returns one session with its direct child sessions and a page of its events, oldest of those first (50 from the tail by default, up to `limit` up to 1000, or forward from `after` with a `next` cursor). The children are those the caller may see, by the rule the session itself is read by: a member's own, and every one for an admin of the org. In a held org, where self-serve signups land beside the platform's staff, a session is its person's alone.
 
-        :param id: ID is the session to act on, from the path. (required)
+        :param id: ID is the session to read, from the path. (required)
         :type id: str
+        :param after: After pages forward through the session's events starting strictly after this seq integer; omitted reads the tail of the log instead.
+        :type after: str
+        :param limit: Limit bounds how many events recentEvents carries (1..1000; default 50 on a tail read, or 200 when paging forward with after).
+        :type limit: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7262,6 +8325,8 @@ class AgentApi:
 
         _param = self._get_agent_sessions_by_id_serialize(
             id=id,
+            after=after,
+            limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7285,7 +8350,9 @@ class AgentApi:
     @validate_call
     def get_agent_sessions_by_id_with_http_info(
         self,
-        id: Annotated[StrictStr, Field(description="ID is the session to act on, from the path.")],
+        id: Annotated[StrictStr, Field(description="ID is the session to read, from the path.")],
+        after: Annotated[Optional[StrictStr], Field(description="After pages forward through the session's events starting strictly after this seq integer; omitted reads the tail of the log instead.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit bounds how many events recentEvents carries (1..1000; default 50 on a tail read, or 200 when paging forward with after).")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7299,12 +8366,16 @@ class AgentApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[AgentSessionDetail]:
-        """Returns one session with its direct child sessions and its 50 most recent events, oldest of those first.
+        """Returns one session with its direct child sessions and a page of its events, oldest of those first (50 from the tail by default, up to `limit` up to 1000, or forward from `after` with a `next` cursor).
 
-        Returns one session with its direct child sessions and its 50 most recent events, oldest of those first. The children are those the caller may see, by the rule the session itself is read by: a member's own, and every one for an admin of the org. In a held org, where self-serve signups land beside the platform's staff, a session is its person's alone.
+        Returns one session with its direct child sessions and a page of its events, oldest of those first (50 from the tail by default, up to `limit` up to 1000, or forward from `after` with a `next` cursor). The children are those the caller may see, by the rule the session itself is read by: a member's own, and every one for an admin of the org. In a held org, where self-serve signups land beside the platform's staff, a session is its person's alone.
 
-        :param id: ID is the session to act on, from the path. (required)
+        :param id: ID is the session to read, from the path. (required)
         :type id: str
+        :param after: After pages forward through the session's events starting strictly after this seq integer; omitted reads the tail of the log instead.
+        :type after: str
+        :param limit: Limit bounds how many events recentEvents carries (1..1000; default 50 on a tail read, or 200 when paging forward with after).
+        :type limit: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7329,6 +8400,8 @@ class AgentApi:
 
         _param = self._get_agent_sessions_by_id_serialize(
             id=id,
+            after=after,
+            limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7352,7 +8425,9 @@ class AgentApi:
     @validate_call
     def get_agent_sessions_by_id_without_preload_content(
         self,
-        id: Annotated[StrictStr, Field(description="ID is the session to act on, from the path.")],
+        id: Annotated[StrictStr, Field(description="ID is the session to read, from the path.")],
+        after: Annotated[Optional[StrictStr], Field(description="After pages forward through the session's events starting strictly after this seq integer; omitted reads the tail of the log instead.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit bounds how many events recentEvents carries (1..1000; default 50 on a tail read, or 200 when paging forward with after).")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7366,12 +8441,16 @@ class AgentApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns one session with its direct child sessions and its 50 most recent events, oldest of those first.
+        """Returns one session with its direct child sessions and a page of its events, oldest of those first (50 from the tail by default, up to `limit` up to 1000, or forward from `after` with a `next` cursor).
 
-        Returns one session with its direct child sessions and its 50 most recent events, oldest of those first. The children are those the caller may see, by the rule the session itself is read by: a member's own, and every one for an admin of the org. In a held org, where self-serve signups land beside the platform's staff, a session is its person's alone.
+        Returns one session with its direct child sessions and a page of its events, oldest of those first (50 from the tail by default, up to `limit` up to 1000, or forward from `after` with a `next` cursor). The children are those the caller may see, by the rule the session itself is read by: a member's own, and every one for an admin of the org. In a held org, where self-serve signups land beside the platform's staff, a session is its person's alone.
 
-        :param id: ID is the session to act on, from the path. (required)
+        :param id: ID is the session to read, from the path. (required)
         :type id: str
+        :param after: After pages forward through the session's events starting strictly after this seq integer; omitted reads the tail of the log instead.
+        :type after: str
+        :param limit: Limit bounds how many events recentEvents carries (1..1000; default 50 on a tail read, or 200 when paging forward with after).
+        :type limit: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7396,6 +8475,8 @@ class AgentApi:
 
         _param = self._get_agent_sessions_by_id_serialize(
             id=id,
+            after=after,
+            limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7415,6 +8496,8 @@ class AgentApi:
     def _get_agent_sessions_by_id_serialize(
         self,
         id,
+        after,
+        limit,
         _request_auth,
         _content_type,
         _headers,
@@ -7439,6 +8522,14 @@ class AgentApi:
         if id is not None:
             _path_params['id'] = id
         # process the query parameters
+        if after is not None:
+            
+            _query_params.append(('after', after))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -7741,6 +8832,302 @@ class AgentApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/agent/sessions/{id}/control',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_agent_sessions_by_id_events(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the session to read, from the path.")],
+        after: Annotated[Optional[StrictInt], Field(description="After is the seq of the last event already read; the page starts after it. Absent or zero starts at the first event.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page. Absent, zero or over 1000 reads as 200.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AgentEventList:
+        """Reads a session's log in order, a page at a time: everything after the seq a reader last saw, so a poll resumes exactly where it stopped.
+
+        Reads a session's log in order, a page at a time: everything after the seq a reader last saw, so a poll resumes exactly where it stopped. It is how to see what a run did and why it ended — each model turn, tool call, status and log line, as the run wrote them. A run whose process went away is ended first, with its reason as the last event.
+
+        :param id: ID is the session to read, from the path. (required)
+        :type id: str
+        :param after: After is the seq of the last event already read; the page starts after it. Absent or zero starts at the first event.
+        :type after: int
+        :param limit: Limit caps the page. Absent, zero or over 1000 reads as 200.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_agent_sessions_by_id_events_serialize(
+            id=id,
+            after=after,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentEventList",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_agent_sessions_by_id_events_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the session to read, from the path.")],
+        after: Annotated[Optional[StrictInt], Field(description="After is the seq of the last event already read; the page starts after it. Absent or zero starts at the first event.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page. Absent, zero or over 1000 reads as 200.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AgentEventList]:
+        """Reads a session's log in order, a page at a time: everything after the seq a reader last saw, so a poll resumes exactly where it stopped.
+
+        Reads a session's log in order, a page at a time: everything after the seq a reader last saw, so a poll resumes exactly where it stopped. It is how to see what a run did and why it ended — each model turn, tool call, status and log line, as the run wrote them. A run whose process went away is ended first, with its reason as the last event.
+
+        :param id: ID is the session to read, from the path. (required)
+        :type id: str
+        :param after: After is the seq of the last event already read; the page starts after it. Absent or zero starts at the first event.
+        :type after: int
+        :param limit: Limit caps the page. Absent, zero or over 1000 reads as 200.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_agent_sessions_by_id_events_serialize(
+            id=id,
+            after=after,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentEventList",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_agent_sessions_by_id_events_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the session to read, from the path.")],
+        after: Annotated[Optional[StrictInt], Field(description="After is the seq of the last event already read; the page starts after it. Absent or zero starts at the first event.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page. Absent, zero or over 1000 reads as 200.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Reads a session's log in order, a page at a time: everything after the seq a reader last saw, so a poll resumes exactly where it stopped.
+
+        Reads a session's log in order, a page at a time: everything after the seq a reader last saw, so a poll resumes exactly where it stopped. It is how to see what a run did and why it ended — each model turn, tool call, status and log line, as the run wrote them. A run whose process went away is ended first, with its reason as the last event.
+
+        :param id: ID is the session to read, from the path. (required)
+        :type id: str
+        :param after: After is the seq of the last event already read; the page starts after it. Absent or zero starts at the first event.
+        :type after: int
+        :param limit: Limit caps the page. Absent, zero or over 1000 reads as 200.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_agent_sessions_by_id_events_serialize(
+            id=id,
+            after=after,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentEventList",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_agent_sessions_by_id_events_serialize(
+        self,
+        id,
+        after,
+        limit,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        if after is not None:
+            
+            _query_params.append(('after', after))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/agent/sessions/{id}/events',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -8298,7 +9685,7 @@ class AgentApi:
     ) -> None:
         """Live session and event updates for the caller's org, as Server-Sent Events.
 
-        Holds the connection open as text/event-stream and pushes a frame each time the org's registry moves: an `event: session` frame carrying the same session shape the list and detail reads answer with (a registration, an update, or a login-manager revoke tearing a session down), and an `event: event` frame carrying one appended turn. Optional ?root=<session id> narrows the feed to a single subagent tree.  Requires a validated principal carrying an org: 401 without a principal, 403 without an org. Org-scoped fail-closed: the bus filters on tenant before it fans out, so a subscriber only ever receives its own org's updates, and ?root= narrows that further but can never widen it. Within the org a subscriber receives what GET /v1/agent/sessions/{id} would show them: a member the frames of the sessions they opened, an org admin or a SuperAdmin the org's.  Delivery is best-effort and the GET reads remain the source of truth. A subscriber that falls more than 256 frames behind is DROPPED — its channel is closed and the stream ends — so one stuck dashboard can never back-pressure a session write; the client reconnects and re-reads the session endpoints to resynchronise. A `: ping` comment every 25 seconds holds the connection open through proxies and is how a departed client is noticed.
+        Holds the connection open as text/event-stream and pushes a frame each time the org's registry moves: an `event: session` frame carrying the same session shape the list and detail reads answer with (a registration, an update, or a login-manager revoke tearing a session down), and an `event: event` frame carrying one appended turn (with `id: <seq>`). Optional ?root=<session id> narrows the feed to a single subagent tree, and optional ?after=<seq> (or the `Last-Event-ID` request header) replays stored events with `seq > after` in order before streaming live updates without duplicates.  Requires a validated principal carrying an org: 401 without a principal, 403 without an org. Org-scoped fail-closed: the bus filters on tenant before it fans out, so a subscriber only ever receives its own org's updates, and ?root= narrows that further but can never widen it. Within the org a subscriber receives what GET /v1/agent/sessions/{id} would show them: a member the frames of the sessions they opened, an org admin or a SuperAdmin the org's.  Delivery is best-effort and the GET reads remain the source of truth. A subscriber that falls more than 256 frames behind is DROPPED — its channel is closed and the stream ends — so one stuck dashboard can never back-pressure a session write; the client reconnects and re-reads the session endpoints to resynchronise. A `: ping` comment every 25 seconds holds the connection open through proxies and is how a departed client is noticed.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -8360,7 +9747,7 @@ class AgentApi:
     ) -> ApiResponse[None]:
         """Live session and event updates for the caller's org, as Server-Sent Events.
 
-        Holds the connection open as text/event-stream and pushes a frame each time the org's registry moves: an `event: session` frame carrying the same session shape the list and detail reads answer with (a registration, an update, or a login-manager revoke tearing a session down), and an `event: event` frame carrying one appended turn. Optional ?root=<session id> narrows the feed to a single subagent tree.  Requires a validated principal carrying an org: 401 without a principal, 403 without an org. Org-scoped fail-closed: the bus filters on tenant before it fans out, so a subscriber only ever receives its own org's updates, and ?root= narrows that further but can never widen it. Within the org a subscriber receives what GET /v1/agent/sessions/{id} would show them: a member the frames of the sessions they opened, an org admin or a SuperAdmin the org's.  Delivery is best-effort and the GET reads remain the source of truth. A subscriber that falls more than 256 frames behind is DROPPED — its channel is closed and the stream ends — so one stuck dashboard can never back-pressure a session write; the client reconnects and re-reads the session endpoints to resynchronise. A `: ping` comment every 25 seconds holds the connection open through proxies and is how a departed client is noticed.
+        Holds the connection open as text/event-stream and pushes a frame each time the org's registry moves: an `event: session` frame carrying the same session shape the list and detail reads answer with (a registration, an update, or a login-manager revoke tearing a session down), and an `event: event` frame carrying one appended turn (with `id: <seq>`). Optional ?root=<session id> narrows the feed to a single subagent tree, and optional ?after=<seq> (or the `Last-Event-ID` request header) replays stored events with `seq > after` in order before streaming live updates without duplicates.  Requires a validated principal carrying an org: 401 without a principal, 403 without an org. Org-scoped fail-closed: the bus filters on tenant before it fans out, so a subscriber only ever receives its own org's updates, and ?root= narrows that further but can never widen it. Within the org a subscriber receives what GET /v1/agent/sessions/{id} would show them: a member the frames of the sessions they opened, an org admin or a SuperAdmin the org's.  Delivery is best-effort and the GET reads remain the source of truth. A subscriber that falls more than 256 frames behind is DROPPED — its channel is closed and the stream ends — so one stuck dashboard can never back-pressure a session write; the client reconnects and re-reads the session endpoints to resynchronise. A `: ping` comment every 25 seconds holds the connection open through proxies and is how a departed client is noticed.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -8422,7 +9809,7 @@ class AgentApi:
     ) -> RESTResponseType:
         """Live session and event updates for the caller's org, as Server-Sent Events.
 
-        Holds the connection open as text/event-stream and pushes a frame each time the org's registry moves: an `event: session` frame carrying the same session shape the list and detail reads answer with (a registration, an update, or a login-manager revoke tearing a session down), and an `event: event` frame carrying one appended turn. Optional ?root=<session id> narrows the feed to a single subagent tree.  Requires a validated principal carrying an org: 401 without a principal, 403 without an org. Org-scoped fail-closed: the bus filters on tenant before it fans out, so a subscriber only ever receives its own org's updates, and ?root= narrows that further but can never widen it. Within the org a subscriber receives what GET /v1/agent/sessions/{id} would show them: a member the frames of the sessions they opened, an org admin or a SuperAdmin the org's.  Delivery is best-effort and the GET reads remain the source of truth. A subscriber that falls more than 256 frames behind is DROPPED — its channel is closed and the stream ends — so one stuck dashboard can never back-pressure a session write; the client reconnects and re-reads the session endpoints to resynchronise. A `: ping` comment every 25 seconds holds the connection open through proxies and is how a departed client is noticed.
+        Holds the connection open as text/event-stream and pushes a frame each time the org's registry moves: an `event: session` frame carrying the same session shape the list and detail reads answer with (a registration, an update, or a login-manager revoke tearing a session down), and an `event: event` frame carrying one appended turn (with `id: <seq>`). Optional ?root=<session id> narrows the feed to a single subagent tree, and optional ?after=<seq> (or the `Last-Event-ID` request header) replays stored events with `seq > after` in order before streaming live updates without duplicates.  Requires a validated principal carrying an org: 401 without a principal, 403 without an org. Org-scoped fail-closed: the bus filters on tenant before it fans out, so a subscriber only ever receives its own org's updates, and ?root= narrows that further but can never widen it. Within the org a subscriber receives what GET /v1/agent/sessions/{id} would show them: a member the frames of the sessions they opened, an org admin or a SuperAdmin the org's.  Delivery is best-effort and the GET reads remain the source of truth. A subscriber that falls more than 256 frames behind is DROPPED — its channel is closed and the stream ends — so one stuck dashboard can never back-pressure a session write; the client reconnects and re-reads the session endpoints to resynchronise. A `: ping` comment every 25 seconds holds the connection open through proxies and is how a departed client is noticed.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -10422,6 +11809,242 @@ class AgentApi:
 
 
     @validate_call
+    def post_agent_a2a(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Talk to the Hanzo assistant over A2A (Agent2Agent 1.0, JSON-RPC).
+
+        The A2A server its agent card at /.well-known/agent-card.json names. Each SendMessage is a task the default assistant answers with the tools your credential reaches: an agent run like POST /v1/agent/:ref/run, so your balance is authorized before any inference and the flat run fee is charged only when the run succeeds. A request waits for the answer unless configuration.returnImmediately is set; either way the task is kept, and GetTask, ListTasks and CancelTask read and stop your own tasks. A conversation continues by sending the next message with the task's contextId.  Methods: SendMessage, GetTask, ListTasks, CancelTask. Streaming and push notifications answer UnsupportedOperation (-32004) and PushNotificationNotSupported (-32003). The A2A-Version header, when sent, is 1.0. With no credential the answer is 401 with a WWW-Authenticate challenge naming the protected-resource metadata; every other outcome, refusals included, is a JSON-RPC response.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_a2a_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_agent_a2a_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Talk to the Hanzo assistant over A2A (Agent2Agent 1.0, JSON-RPC).
+
+        The A2A server its agent card at /.well-known/agent-card.json names. Each SendMessage is a task the default assistant answers with the tools your credential reaches: an agent run like POST /v1/agent/:ref/run, so your balance is authorized before any inference and the flat run fee is charged only when the run succeeds. A request waits for the answer unless configuration.returnImmediately is set; either way the task is kept, and GetTask, ListTasks and CancelTask read and stop your own tasks. A conversation continues by sending the next message with the task's contextId.  Methods: SendMessage, GetTask, ListTasks, CancelTask. Streaming and push notifications answer UnsupportedOperation (-32004) and PushNotificationNotSupported (-32003). The A2A-Version header, when sent, is 1.0. With no credential the answer is 401 with a WWW-Authenticate challenge naming the protected-resource metadata; every other outcome, refusals included, is a JSON-RPC response.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_a2a_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_agent_a2a_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Talk to the Hanzo assistant over A2A (Agent2Agent 1.0, JSON-RPC).
+
+        The A2A server its agent card at /.well-known/agent-card.json names. Each SendMessage is a task the default assistant answers with the tools your credential reaches: an agent run like POST /v1/agent/:ref/run, so your balance is authorized before any inference and the flat run fee is charged only when the run succeeds. A request waits for the answer unless configuration.returnImmediately is set; either way the task is kept, and GetTask, ListTasks and CancelTask read and stop your own tasks. A conversation continues by sending the next message with the task's contextId.  Methods: SendMessage, GetTask, ListTasks, CancelTask. Streaming and push notifications answer UnsupportedOperation (-32004) and PushNotificationNotSupported (-32003). The A2A-Version header, when sent, is 1.0. With no credential the answer is 401 with a WWW-Authenticate challenge naming the protected-resource metadata; every other outcome, refusals included, is a JSON-RPC response.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_a2a_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_agent_a2a_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/agent/a2a',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def post_agent_ask(
         self,
         _request_timeout: Union[
@@ -10642,6 +12265,543 @@ class AgentApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/agent/ask',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_agent_briefs(
+        self,
+        agent_submit_brief_in: AgentSubmitBriefIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AgentBriefRecord:
+        """Assigns a research brief to a venture lead, dispatches durable child tasks to the designated specialist agents, attributes each specialist's cited findings and unsupported-claim flags, and runs the lead synthesis once all specialist tasks complete.
+
+        Assigns a research brief to a venture lead, dispatches durable child tasks to the designated specialist agents, attributes each specialist's cited findings and unsupported-claim flags, and runs the lead synthesis once all specialist tasks complete. If any specialist fails, completed specialist work is preserved on the brief (`partial_failure`) so `POST /v1/agent/briefs/:id/rerun` re-executes only the failed specialist task.
+
+        :param agent_submit_brief_in: (required)
+        :type agent_submit_brief_in: AgentSubmitBriefIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_briefs_serialize(
+            agent_submit_brief_in=agent_submit_brief_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentBriefRecord",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_agent_briefs_with_http_info(
+        self,
+        agent_submit_brief_in: AgentSubmitBriefIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AgentBriefRecord]:
+        """Assigns a research brief to a venture lead, dispatches durable child tasks to the designated specialist agents, attributes each specialist's cited findings and unsupported-claim flags, and runs the lead synthesis once all specialist tasks complete.
+
+        Assigns a research brief to a venture lead, dispatches durable child tasks to the designated specialist agents, attributes each specialist's cited findings and unsupported-claim flags, and runs the lead synthesis once all specialist tasks complete. If any specialist fails, completed specialist work is preserved on the brief (`partial_failure`) so `POST /v1/agent/briefs/:id/rerun` re-executes only the failed specialist task.
+
+        :param agent_submit_brief_in: (required)
+        :type agent_submit_brief_in: AgentSubmitBriefIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_briefs_serialize(
+            agent_submit_brief_in=agent_submit_brief_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentBriefRecord",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_agent_briefs_without_preload_content(
+        self,
+        agent_submit_brief_in: AgentSubmitBriefIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Assigns a research brief to a venture lead, dispatches durable child tasks to the designated specialist agents, attributes each specialist's cited findings and unsupported-claim flags, and runs the lead synthesis once all specialist tasks complete.
+
+        Assigns a research brief to a venture lead, dispatches durable child tasks to the designated specialist agents, attributes each specialist's cited findings and unsupported-claim flags, and runs the lead synthesis once all specialist tasks complete. If any specialist fails, completed specialist work is preserved on the brief (`partial_failure`) so `POST /v1/agent/briefs/:id/rerun` re-executes only the failed specialist task.
+
+        :param agent_submit_brief_in: (required)
+        :type agent_submit_brief_in: AgentSubmitBriefIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_briefs_serialize(
+            agent_submit_brief_in=agent_submit_brief_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentBriefRecord",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_agent_briefs_serialize(
+        self,
+        agent_submit_brief_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if agent_submit_brief_in is not None:
+            _body_params = agent_submit_brief_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/agent/briefs',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_agent_briefs_by_id_rerun(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the brief handle (`brief_...`) from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AgentBriefRecord:
+        """RerunBrief re-executes only the failed or pending specialist child tasks on a brief without re-running or duplicating specialists that already succeeded, then runs the lead synthesis once all specialist tasks are complete.
+
+        RerunBrief re-executes only the failed or pending specialist child tasks on a brief without re-running or duplicating specialists that already succeeded, then runs the lead synthesis once all specialist tasks are complete.
+
+        :param id: ID is the brief handle (`brief_...`) from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_briefs_by_id_rerun_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentBriefRecord",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_agent_briefs_by_id_rerun_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the brief handle (`brief_...`) from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AgentBriefRecord]:
+        """RerunBrief re-executes only the failed or pending specialist child tasks on a brief without re-running or duplicating specialists that already succeeded, then runs the lead synthesis once all specialist tasks are complete.
+
+        RerunBrief re-executes only the failed or pending specialist child tasks on a brief without re-running or duplicating specialists that already succeeded, then runs the lead synthesis once all specialist tasks are complete.
+
+        :param id: ID is the brief handle (`brief_...`) from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_briefs_by_id_rerun_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentBriefRecord",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_agent_briefs_by_id_rerun_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the brief handle (`brief_...`) from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """RerunBrief re-executes only the failed or pending specialist child tasks on a brief without re-running or duplicating specialists that already succeeded, then runs the lead synthesis once all specialist tasks are complete.
+
+        RerunBrief re-executes only the failed or pending specialist child tasks on a brief without re-running or duplicating specialists that already succeeded, then runs the lead synthesis once all specialist tasks are complete.
+
+        :param id: ID is the brief handle (`brief_...`) from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_briefs_by_id_rerun_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentBriefRecord",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_agent_briefs_by_id_rerun_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/agent/briefs/{id}/rerun',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -11886,7 +14046,7 @@ class AgentApi:
     ) -> AgentCodingStarted:
         """Start one autonomous coding run against a repo in the caller's org
 
-        Runs a coding task on a repository: clones it into a sandbox, lets a model read and edit the code, run the tests, and push the work to a branch. Say the thing you want done — \"fix the failing auth test in hanzoai/cloud\" — and the run infers the repo, the branch and the plan. No prefix, no ceremony.  Name no repo and the run works in an empty workspace of its own: nothing is cloned and nothing is pushed, and what it makes is kept in its sandbox and as its artifacts. Name a repository the caller can read and not push to — a public one — and it is cloned read-only, the same way.  It answers 202 with the run's handle the moment the run is ADMITTED — not when it finishes. A coding run takes minutes; holding a request open for one would tie a connection to a model loop and give the caller nothing it cannot get better from the session stream.  The handle is a session id, and that is deliberate: the session is already the run's durable record and its live stream (/v1/agent/sessions/stream?root=<id>), so this op does not grow a progress endpoint, a status endpoint or a cancel endpoint of its own. One way to watch a run, whoever started it.  It is also how work CONTINUES. Pass an earlier run's session as `after` and this one starts from where that one stopped, so \"now add tests for it\" builds on the branch already pushed instead of a fresh clone. The follow-up still gets its own branch and its own session — one run, one branch, always reviewable on its own.
+        Runs a coding task on a repository: clones it into a sandbox, lets a model read and edit the code, run the tests, and push the work to a branch. Say the thing you want done — \"fix the failing auth test in hanzoai/cloud\" — and the run infers the repo, the branch and the plan. No prefix, no ceremony.  Name no repo and the run works in an empty workspace of its own: nothing is cloned and nothing is pushed, and what it makes is kept in its sandbox and as its artifacts. Name a repository the caller can read and not push to — a public one — and it is cloned read-only, the same way.  It answers 202 with the run's handle the moment the run is ADMITTED — not when it finishes. A coding run takes minutes; holding a request open for one would tie a connection to a model loop and give the caller nothing it cannot get better from the session stream.  The handle is a session id, and that is deliberate: the session is already the run's durable record and its live stream (/v1/agent/sessions/stream?root=<id>), so this op does not grow a progress endpoint, a status endpoint or a cancel endpoint of its own. One way to watch a run, whoever started it.  It is also how work CONTINUES. Pass an earlier run's session as `after` and this one starts from where that one stopped, so \"now add tests for it\" builds on the branch already pushed instead of a fresh clone. The follow-up has its own session and writes the same branch, so one piece of work is one branch and one pull request however many instructions it takes.  Pass `branch` to name the branch the run writes (`agent/<name>`), and `pull` as false to push it without opening a pull request.
 
         :param agent_coding_start_in: (required)
         :type agent_coding_start_in: AgentCodingStartIn
@@ -11953,7 +14113,7 @@ class AgentApi:
     ) -> ApiResponse[AgentCodingStarted]:
         """Start one autonomous coding run against a repo in the caller's org
 
-        Runs a coding task on a repository: clones it into a sandbox, lets a model read and edit the code, run the tests, and push the work to a branch. Say the thing you want done — \"fix the failing auth test in hanzoai/cloud\" — and the run infers the repo, the branch and the plan. No prefix, no ceremony.  Name no repo and the run works in an empty workspace of its own: nothing is cloned and nothing is pushed, and what it makes is kept in its sandbox and as its artifacts. Name a repository the caller can read and not push to — a public one — and it is cloned read-only, the same way.  It answers 202 with the run's handle the moment the run is ADMITTED — not when it finishes. A coding run takes minutes; holding a request open for one would tie a connection to a model loop and give the caller nothing it cannot get better from the session stream.  The handle is a session id, and that is deliberate: the session is already the run's durable record and its live stream (/v1/agent/sessions/stream?root=<id>), so this op does not grow a progress endpoint, a status endpoint or a cancel endpoint of its own. One way to watch a run, whoever started it.  It is also how work CONTINUES. Pass an earlier run's session as `after` and this one starts from where that one stopped, so \"now add tests for it\" builds on the branch already pushed instead of a fresh clone. The follow-up still gets its own branch and its own session — one run, one branch, always reviewable on its own.
+        Runs a coding task on a repository: clones it into a sandbox, lets a model read and edit the code, run the tests, and push the work to a branch. Say the thing you want done — \"fix the failing auth test in hanzoai/cloud\" — and the run infers the repo, the branch and the plan. No prefix, no ceremony.  Name no repo and the run works in an empty workspace of its own: nothing is cloned and nothing is pushed, and what it makes is kept in its sandbox and as its artifacts. Name a repository the caller can read and not push to — a public one — and it is cloned read-only, the same way.  It answers 202 with the run's handle the moment the run is ADMITTED — not when it finishes. A coding run takes minutes; holding a request open for one would tie a connection to a model loop and give the caller nothing it cannot get better from the session stream.  The handle is a session id, and that is deliberate: the session is already the run's durable record and its live stream (/v1/agent/sessions/stream?root=<id>), so this op does not grow a progress endpoint, a status endpoint or a cancel endpoint of its own. One way to watch a run, whoever started it.  It is also how work CONTINUES. Pass an earlier run's session as `after` and this one starts from where that one stopped, so \"now add tests for it\" builds on the branch already pushed instead of a fresh clone. The follow-up has its own session and writes the same branch, so one piece of work is one branch and one pull request however many instructions it takes.  Pass `branch` to name the branch the run writes (`agent/<name>`), and `pull` as false to push it without opening a pull request.
 
         :param agent_coding_start_in: (required)
         :type agent_coding_start_in: AgentCodingStartIn
@@ -12020,7 +14180,7 @@ class AgentApi:
     ) -> RESTResponseType:
         """Start one autonomous coding run against a repo in the caller's org
 
-        Runs a coding task on a repository: clones it into a sandbox, lets a model read and edit the code, run the tests, and push the work to a branch. Say the thing you want done — \"fix the failing auth test in hanzoai/cloud\" — and the run infers the repo, the branch and the plan. No prefix, no ceremony.  Name no repo and the run works in an empty workspace of its own: nothing is cloned and nothing is pushed, and what it makes is kept in its sandbox and as its artifacts. Name a repository the caller can read and not push to — a public one — and it is cloned read-only, the same way.  It answers 202 with the run's handle the moment the run is ADMITTED — not when it finishes. A coding run takes minutes; holding a request open for one would tie a connection to a model loop and give the caller nothing it cannot get better from the session stream.  The handle is a session id, and that is deliberate: the session is already the run's durable record and its live stream (/v1/agent/sessions/stream?root=<id>), so this op does not grow a progress endpoint, a status endpoint or a cancel endpoint of its own. One way to watch a run, whoever started it.  It is also how work CONTINUES. Pass an earlier run's session as `after` and this one starts from where that one stopped, so \"now add tests for it\" builds on the branch already pushed instead of a fresh clone. The follow-up still gets its own branch and its own session — one run, one branch, always reviewable on its own.
+        Runs a coding task on a repository: clones it into a sandbox, lets a model read and edit the code, run the tests, and push the work to a branch. Say the thing you want done — \"fix the failing auth test in hanzoai/cloud\" — and the run infers the repo, the branch and the plan. No prefix, no ceremony.  Name no repo and the run works in an empty workspace of its own: nothing is cloned and nothing is pushed, and what it makes is kept in its sandbox and as its artifacts. Name a repository the caller can read and not push to — a public one — and it is cloned read-only, the same way.  It answers 202 with the run's handle the moment the run is ADMITTED — not when it finishes. A coding run takes minutes; holding a request open for one would tie a connection to a model loop and give the caller nothing it cannot get better from the session stream.  The handle is a session id, and that is deliberate: the session is already the run's durable record and its live stream (/v1/agent/sessions/stream?root=<id>), so this op does not grow a progress endpoint, a status endpoint or a cancel endpoint of its own. One way to watch a run, whoever started it.  It is also how work CONTINUES. Pass an earlier run's session as `after` and this one starts from where that one stopped, so \"now add tests for it\" builds on the branch already pushed instead of a fresh clone. The follow-up has its own session and writes the same branch, so one piece of work is one branch and one pull request however many instructions it takes.  Pass `branch` to name the branch the run writes (`agent/<name>`), and `pull` as false to push it without opening a pull request.
 
         :param agent_coding_start_in: (required)
         :type agent_coding_start_in: AgentCodingStartIn
@@ -12127,6 +14287,296 @@ class AgentApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/agent/coding',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_agent_coding_by_session_extend(
+        self,
+        session: Annotated[StrictStr, Field(description="Session is the run's handle, from the path.")],
+        agent_coding_extend_in: AgentCodingExtendIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AgentCodingExtended:
+        """Gives your running coding run more time.
+
+        Gives your running coding run more time. A run is held to the time it was asked for (`timeoutSeconds`) and, when it is up, keeps its work on its branch and ends; this moves that time later while the run works, so a task expected to take five minutes that is nearly done is given two more rather than restarted. `seconds` is added to the time the run has left, as far as the longest a run may be given; the answer says when the run is up now, so asking for more than that reads what you got.  The run must be yours and still working: a run that is paused or already out of time is a conflict (start a new one with `after` set to its session), and one that is not running is not found. A run sent to a machine of your own keeps that machine's time and cannot be extended.
+
+        :param session: Session is the run's handle, from the path. (required)
+        :type session: str
+        :param agent_coding_extend_in: (required)
+        :type agent_coding_extend_in: AgentCodingExtendIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_coding_by_session_extend_serialize(
+            session=session,
+            agent_coding_extend_in=agent_coding_extend_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentCodingExtended",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_agent_coding_by_session_extend_with_http_info(
+        self,
+        session: Annotated[StrictStr, Field(description="Session is the run's handle, from the path.")],
+        agent_coding_extend_in: AgentCodingExtendIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AgentCodingExtended]:
+        """Gives your running coding run more time.
+
+        Gives your running coding run more time. A run is held to the time it was asked for (`timeoutSeconds`) and, when it is up, keeps its work on its branch and ends; this moves that time later while the run works, so a task expected to take five minutes that is nearly done is given two more rather than restarted. `seconds` is added to the time the run has left, as far as the longest a run may be given; the answer says when the run is up now, so asking for more than that reads what you got.  The run must be yours and still working: a run that is paused or already out of time is a conflict (start a new one with `after` set to its session), and one that is not running is not found. A run sent to a machine of your own keeps that machine's time and cannot be extended.
+
+        :param session: Session is the run's handle, from the path. (required)
+        :type session: str
+        :param agent_coding_extend_in: (required)
+        :type agent_coding_extend_in: AgentCodingExtendIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_coding_by_session_extend_serialize(
+            session=session,
+            agent_coding_extend_in=agent_coding_extend_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentCodingExtended",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_agent_coding_by_session_extend_without_preload_content(
+        self,
+        session: Annotated[StrictStr, Field(description="Session is the run's handle, from the path.")],
+        agent_coding_extend_in: AgentCodingExtendIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Gives your running coding run more time.
+
+        Gives your running coding run more time. A run is held to the time it was asked for (`timeoutSeconds`) and, when it is up, keeps its work on its branch and ends; this moves that time later while the run works, so a task expected to take five minutes that is nearly done is given two more rather than restarted. `seconds` is added to the time the run has left, as far as the longest a run may be given; the answer says when the run is up now, so asking for more than that reads what you got.  The run must be yours and still working: a run that is paused or already out of time is a conflict (start a new one with `after` set to its session), and one that is not running is not found. A run sent to a machine of your own keeps that machine's time and cannot be extended.
+
+        :param session: Session is the run's handle, from the path. (required)
+        :type session: str
+        :param agent_coding_extend_in: (required)
+        :type agent_coding_extend_in: AgentCodingExtendIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_coding_by_session_extend_serialize(
+            session=session,
+            agent_coding_extend_in=agent_coding_extend_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentCodingExtended",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_agent_coding_by_session_extend_serialize(
+        self,
+        session,
+        agent_coding_extend_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if session is not None:
+            _path_params['session'] = session
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if agent_coding_extend_in is not None:
+            _body_params = agent_coding_extend_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/agent/coding/{session}/extend',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -12405,6 +14855,296 @@ class AgentApi:
 
 
     @validate_call
+    def post_agent_coding_by_session_pull(
+        self,
+        session: Annotated[StrictStr, Field(description="Session is the run's handle, from the path.")],
+        agent_coding_pull_in: AgentCodingPullIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AgentCodingPulled:
+        """Opens the pull request for the branch a coding run pushed, as the run's person and with no agent run, and answers its number and address.
+
+        Opens the pull request for the branch a coding run pushed, as the run's person and with no agent run, and answers its number and address.  A run pushes its branch and stops; the pull request is the step after, taken when the work is ready. A run that already has an open pull request, or a branch that has one on its host, answers with that one, so asking twice is safe. Title, body, base and draft are optional: the title and body come from the run's task, the base is the branch the run started from, and draft opens it as one a reviewer cannot merge yet. The run's branch must be on its host: a run that pushed nothing, or has not pushed yet, is 409. Who may is who may read the run, and the pull request is read back at GET /v1/agent/coding/{session}/changes.
+
+        :param session: Session is the run's handle, from the path. (required)
+        :type session: str
+        :param agent_coding_pull_in: (required)
+        :type agent_coding_pull_in: AgentCodingPullIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_coding_by_session_pull_serialize(
+            session=session,
+            agent_coding_pull_in=agent_coding_pull_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentCodingPulled",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_agent_coding_by_session_pull_with_http_info(
+        self,
+        session: Annotated[StrictStr, Field(description="Session is the run's handle, from the path.")],
+        agent_coding_pull_in: AgentCodingPullIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AgentCodingPulled]:
+        """Opens the pull request for the branch a coding run pushed, as the run's person and with no agent run, and answers its number and address.
+
+        Opens the pull request for the branch a coding run pushed, as the run's person and with no agent run, and answers its number and address.  A run pushes its branch and stops; the pull request is the step after, taken when the work is ready. A run that already has an open pull request, or a branch that has one on its host, answers with that one, so asking twice is safe. Title, body, base and draft are optional: the title and body come from the run's task, the base is the branch the run started from, and draft opens it as one a reviewer cannot merge yet. The run's branch must be on its host: a run that pushed nothing, or has not pushed yet, is 409. Who may is who may read the run, and the pull request is read back at GET /v1/agent/coding/{session}/changes.
+
+        :param session: Session is the run's handle, from the path. (required)
+        :type session: str
+        :param agent_coding_pull_in: (required)
+        :type agent_coding_pull_in: AgentCodingPullIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_coding_by_session_pull_serialize(
+            session=session,
+            agent_coding_pull_in=agent_coding_pull_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentCodingPulled",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_agent_coding_by_session_pull_without_preload_content(
+        self,
+        session: Annotated[StrictStr, Field(description="Session is the run's handle, from the path.")],
+        agent_coding_pull_in: AgentCodingPullIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Opens the pull request for the branch a coding run pushed, as the run's person and with no agent run, and answers its number and address.
+
+        Opens the pull request for the branch a coding run pushed, as the run's person and with no agent run, and answers its number and address.  A run pushes its branch and stops; the pull request is the step after, taken when the work is ready. A run that already has an open pull request, or a branch that has one on its host, answers with that one, so asking twice is safe. Title, body, base and draft are optional: the title and body come from the run's task, the base is the branch the run started from, and draft opens it as one a reviewer cannot merge yet. The run's branch must be on its host: a run that pushed nothing, or has not pushed yet, is 409. Who may is who may read the run, and the pull request is read back at GET /v1/agent/coding/{session}/changes.
+
+        :param session: Session is the run's handle, from the path. (required)
+        :type session: str
+        :param agent_coding_pull_in: (required)
+        :type agent_coding_pull_in: AgentCodingPullIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_coding_by_session_pull_serialize(
+            session=session,
+            agent_coding_pull_in=agent_coding_pull_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentCodingPulled",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_agent_coding_by_session_pull_serialize(
+        self,
+        session,
+        agent_coding_pull_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if session is not None:
+            _path_params['session'] = session
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if agent_coding_pull_in is not None:
+            _body_params = agent_coding_pull_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/agent/coding/{session}/pull',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def post_agent_coding_by_session_steer(
         self,
         session: Annotated[StrictStr, Field(description="Session identifies the running or paused coding session from the path.")],
@@ -12424,7 +15164,7 @@ class AgentApi:
     ) -> AgentCodingAck:
         """Redirect your running or paused coding session.
 
-        Redirect your running or paused coding session. The current run keeps its work before starting a follow-up; its status events report the next session. Ownership comes from the authenticated credential, never the request body.
+        Redirect your running or paused coding session. On an active dev turn the instruction is queued into the running turn in place; otherwise the current run keeps its work before starting a follow-up. Ownership comes from the authenticated credential, never the request body.
 
         :param session: Session identifies the running or paused coding session from the path. (required)
         :type session: str
@@ -12495,7 +15235,7 @@ class AgentApi:
     ) -> ApiResponse[AgentCodingAck]:
         """Redirect your running or paused coding session.
 
-        Redirect your running or paused coding session. The current run keeps its work before starting a follow-up; its status events report the next session. Ownership comes from the authenticated credential, never the request body.
+        Redirect your running or paused coding session. On an active dev turn the instruction is queued into the running turn in place; otherwise the current run keeps its work before starting a follow-up. Ownership comes from the authenticated credential, never the request body.
 
         :param session: Session identifies the running or paused coding session from the path. (required)
         :type session: str
@@ -12566,7 +15306,7 @@ class AgentApi:
     ) -> RESTResponseType:
         """Redirect your running or paused coding session.
 
-        Redirect your running or paused coding session. The current run keeps its work before starting a follow-up; its status events report the next session. Ownership comes from the authenticated credential, never the request body.
+        Redirect your running or paused coding session. On an active dev turn the instruction is queued into the running turn in place; otherwise the current run keeps its work before starting a follow-up. Ownership comes from the authenticated credential, never the request body.
 
         :param session: Session identifies the running or paused coding session from the path. (required)
         :type session: str
@@ -12946,6 +15686,846 @@ class AgentApi:
 
 
     @validate_call
+    def post_agent_proposals_by_id_decide(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the proposal handle (`prop_...`) from the URL path.")],
+        agent_decide_proposal_in: AgentDecideProposalIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AgentRoleProposal:
+        """Approves or rejects a proposed role candidate.
+
+        Approves or rejects a proposed role candidate. Approving a proposal creates the specialist agent under its reporting line once (and is idempotent on repeated approval); rejecting records the rejection without creating an agent.
+
+        :param id: ID is the proposal handle (`prop_...`) from the URL path. (required)
+        :type id: str
+        :param agent_decide_proposal_in: (required)
+        :type agent_decide_proposal_in: AgentDecideProposalIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_proposals_by_id_decide_serialize(
+            id=id,
+            agent_decide_proposal_in=agent_decide_proposal_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentRoleProposal",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_agent_proposals_by_id_decide_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the proposal handle (`prop_...`) from the URL path.")],
+        agent_decide_proposal_in: AgentDecideProposalIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AgentRoleProposal]:
+        """Approves or rejects a proposed role candidate.
+
+        Approves or rejects a proposed role candidate. Approving a proposal creates the specialist agent under its reporting line once (and is idempotent on repeated approval); rejecting records the rejection without creating an agent.
+
+        :param id: ID is the proposal handle (`prop_...`) from the URL path. (required)
+        :type id: str
+        :param agent_decide_proposal_in: (required)
+        :type agent_decide_proposal_in: AgentDecideProposalIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_proposals_by_id_decide_serialize(
+            id=id,
+            agent_decide_proposal_in=agent_decide_proposal_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentRoleProposal",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_agent_proposals_by_id_decide_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the proposal handle (`prop_...`) from the URL path.")],
+        agent_decide_proposal_in: AgentDecideProposalIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Approves or rejects a proposed role candidate.
+
+        Approves or rejects a proposed role candidate. Approving a proposal creates the specialist agent under its reporting line once (and is idempotent on repeated approval); rejecting records the rejection without creating an agent.
+
+        :param id: ID is the proposal handle (`prop_...`) from the URL path. (required)
+        :type id: str
+        :param agent_decide_proposal_in: (required)
+        :type agent_decide_proposal_in: AgentDecideProposalIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_proposals_by_id_decide_serialize(
+            id=id,
+            agent_decide_proposal_in=agent_decide_proposal_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentRoleProposal",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_agent_proposals_by_id_decide_serialize(
+        self,
+        id,
+        agent_decide_proposal_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if agent_decide_proposal_in is not None:
+            _body_params = agent_decide_proposal_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/agent/proposals/{id}/decide',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_agent_proposals_review(
+        self,
+        agent_review_proposals_in: AgentReviewProposalsIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AgentReviewProposalsOut:
+        """Runs the scheduled review of repeated failures, missing expertise, and human review effort across the organization's runs, briefs, and observed coverage gaps, producing role candidate proposals with concrete examples, a micro-USD cost estimate, and a reporting line.
+
+        Runs the scheduled review of repeated failures, missing expertise, and human review effort across the organization's runs, briefs, and observed coverage gaps, producing role candidate proposals with concrete examples, a micro-USD cost estimate, and a reporting line.
+
+        :param agent_review_proposals_in: (required)
+        :type agent_review_proposals_in: AgentReviewProposalsIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_proposals_review_serialize(
+            agent_review_proposals_in=agent_review_proposals_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentReviewProposalsOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_agent_proposals_review_with_http_info(
+        self,
+        agent_review_proposals_in: AgentReviewProposalsIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AgentReviewProposalsOut]:
+        """Runs the scheduled review of repeated failures, missing expertise, and human review effort across the organization's runs, briefs, and observed coverage gaps, producing role candidate proposals with concrete examples, a micro-USD cost estimate, and a reporting line.
+
+        Runs the scheduled review of repeated failures, missing expertise, and human review effort across the organization's runs, briefs, and observed coverage gaps, producing role candidate proposals with concrete examples, a micro-USD cost estimate, and a reporting line.
+
+        :param agent_review_proposals_in: (required)
+        :type agent_review_proposals_in: AgentReviewProposalsIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_proposals_review_serialize(
+            agent_review_proposals_in=agent_review_proposals_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentReviewProposalsOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_agent_proposals_review_without_preload_content(
+        self,
+        agent_review_proposals_in: AgentReviewProposalsIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Runs the scheduled review of repeated failures, missing expertise, and human review effort across the organization's runs, briefs, and observed coverage gaps, producing role candidate proposals with concrete examples, a micro-USD cost estimate, and a reporting line.
+
+        Runs the scheduled review of repeated failures, missing expertise, and human review effort across the organization's runs, briefs, and observed coverage gaps, producing role candidate proposals with concrete examples, a micro-USD cost estimate, and a reporting line.
+
+        :param agent_review_proposals_in: (required)
+        :type agent_review_proposals_in: AgentReviewProposalsIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_proposals_review_serialize(
+            agent_review_proposals_in=agent_review_proposals_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentReviewProposalsOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_agent_proposals_review_serialize(
+        self,
+        agent_review_proposals_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if agent_review_proposals_in is not None:
+            _body_params = agent_review_proposals_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/agent/proposals/review',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_agent_roster(
+        self,
+        agent_apply_roster_in: AgentApplyRosterIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AgentApplyRosterOut:
+        """Turns an approved organization chart into agent definitions in the caller's organization, resolving manager reporting lines (`parent` and `lineage`) and shared role templates with explicit versions.
+
+        Turns an approved organization chart into agent definitions in the caller's organization, resolving manager reporting lines (`parent` and `lineage`) and shared role templates with explicit versions. Applying the same roster again (or resuming an interrupted launch) updates existing roles in place without duplicating agents or budgets.
+
+        :param agent_apply_roster_in: (required)
+        :type agent_apply_roster_in: AgentApplyRosterIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_roster_serialize(
+            agent_apply_roster_in=agent_apply_roster_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentApplyRosterOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_agent_roster_with_http_info(
+        self,
+        agent_apply_roster_in: AgentApplyRosterIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AgentApplyRosterOut]:
+        """Turns an approved organization chart into agent definitions in the caller's organization, resolving manager reporting lines (`parent` and `lineage`) and shared role templates with explicit versions.
+
+        Turns an approved organization chart into agent definitions in the caller's organization, resolving manager reporting lines (`parent` and `lineage`) and shared role templates with explicit versions. Applying the same roster again (or resuming an interrupted launch) updates existing roles in place without duplicating agents or budgets.
+
+        :param agent_apply_roster_in: (required)
+        :type agent_apply_roster_in: AgentApplyRosterIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_roster_serialize(
+            agent_apply_roster_in=agent_apply_roster_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentApplyRosterOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_agent_roster_without_preload_content(
+        self,
+        agent_apply_roster_in: AgentApplyRosterIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Turns an approved organization chart into agent definitions in the caller's organization, resolving manager reporting lines (`parent` and `lineage`) and shared role templates with explicit versions.
+
+        Turns an approved organization chart into agent definitions in the caller's organization, resolving manager reporting lines (`parent` and `lineage`) and shared role templates with explicit versions. Applying the same roster again (or resuming an interrupted launch) updates existing roles in place without duplicating agents or budgets.
+
+        :param agent_apply_roster_in: (required)
+        :type agent_apply_roster_in: AgentApplyRosterIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_roster_serialize(
+            agent_apply_roster_in=agent_apply_roster_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentApplyRosterOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_agent_roster_serialize(
+        self,
+        agent_apply_roster_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if agent_apply_roster_in is not None:
+            _body_params = agent_apply_roster_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/agent/roster',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def post_agent_sessions(
         self,
         agent_register_req: AgentRegisterReq,
@@ -13205,6 +16785,296 @@ class AgentApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/agent/sessions',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_agent_sessions_by_id_answer(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the session whose run asked, from the path.")],
+        agent_answer_in: AgentAnswerIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AgentAnswerView:
+        """Answers a question a session's run asked its person — a coding run's harness, or a turn of the app's conversation asking whether a coding run may start — from the page the session is read on.
+
+        Answers a question a session's run asked its person — a coding run's harness, or a turn of the app's conversation asking whether a coding run may start — from the page the session is read on. The run waiting on it goes on with the answer. Only the person the question is for may answer, once: a question already answered or closed answers 409, and one this session did not ask answers 404.
+
+        :param id: ID is the session whose run asked, from the path. (required)
+        :type id: str
+        :param agent_answer_in: (required)
+        :type agent_answer_in: AgentAnswerIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_sessions_by_id_answer_serialize(
+            id=id,
+            agent_answer_in=agent_answer_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentAnswerView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_agent_sessions_by_id_answer_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the session whose run asked, from the path.")],
+        agent_answer_in: AgentAnswerIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AgentAnswerView]:
+        """Answers a question a session's run asked its person — a coding run's harness, or a turn of the app's conversation asking whether a coding run may start — from the page the session is read on.
+
+        Answers a question a session's run asked its person — a coding run's harness, or a turn of the app's conversation asking whether a coding run may start — from the page the session is read on. The run waiting on it goes on with the answer. Only the person the question is for may answer, once: a question already answered or closed answers 409, and one this session did not ask answers 404.
+
+        :param id: ID is the session whose run asked, from the path. (required)
+        :type id: str
+        :param agent_answer_in: (required)
+        :type agent_answer_in: AgentAnswerIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_sessions_by_id_answer_serialize(
+            id=id,
+            agent_answer_in=agent_answer_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentAnswerView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_agent_sessions_by_id_answer_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the session whose run asked, from the path.")],
+        agent_answer_in: AgentAnswerIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Answers a question a session's run asked its person — a coding run's harness, or a turn of the app's conversation asking whether a coding run may start — from the page the session is read on.
+
+        Answers a question a session's run asked its person — a coding run's harness, or a turn of the app's conversation asking whether a coding run may start — from the page the session is read on. The run waiting on it goes on with the answer. Only the person the question is for may answer, once: a question already answered or closed answers 409, and one this session did not ask answers 404.
+
+        :param id: ID is the session whose run asked, from the path. (required)
+        :type id: str
+        :param agent_answer_in: (required)
+        :type agent_answer_in: AgentAnswerIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_sessions_by_id_answer_serialize(
+            id=id,
+            agent_answer_in=agent_answer_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentAnswerView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_agent_sessions_by_id_answer_serialize(
+        self,
+        id,
+        agent_answer_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if agent_answer_in is not None:
+            _body_params = agent_answer_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/agent/sessions/{id}/answer',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -16049,6 +19919,281 @@ class AgentApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/agent/targets/{id}/runs/{runId}/report',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_agent_turns(
+        self,
+        agent_talk_in: AgentTalkIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AgentTalkOut:
+        """Says one thing in the app's conversation and starts the turn that answers it.
+
+        Says one thing in the app's conversation and starts the turn that answers it. It answers at once with the conversation and the turn's run; the turn itself is read from the session (GET /v1/agent/sessions/{id}, and its ?root= stream): the person's words, what the agent is doing, the coding runs it starts, a question it asks, and its answer.  With no `session` it starts a conversation. With one it continues that conversation in the same session, under a new run, once its last turn has answered: 409 while a turn is still answering — what is said then is that turn's next input (POST /v1/agent/sessions/{id}/message). A conversation is its person's alone: anyone else's answers as absent, and a SuperAdmin acting in an org that is not their own holds none there (their sandbox and builds would be paid by that org).  Nothing is leased to answer: a turn that only talks uses no sandbox. Code is worked on by a coding run — `dev`, with its own tools — which leases the conversation's sandbox on the first build; a later one works on the conversation's repository and carries on its last run, in that run's sandbox and on its branch.
+
+        :param agent_talk_in: (required)
+        :type agent_talk_in: AgentTalkIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_turns_serialize(
+            agent_talk_in=agent_talk_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentTalkOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_agent_turns_with_http_info(
+        self,
+        agent_talk_in: AgentTalkIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AgentTalkOut]:
+        """Says one thing in the app's conversation and starts the turn that answers it.
+
+        Says one thing in the app's conversation and starts the turn that answers it. It answers at once with the conversation and the turn's run; the turn itself is read from the session (GET /v1/agent/sessions/{id}, and its ?root= stream): the person's words, what the agent is doing, the coding runs it starts, a question it asks, and its answer.  With no `session` it starts a conversation. With one it continues that conversation in the same session, under a new run, once its last turn has answered: 409 while a turn is still answering — what is said then is that turn's next input (POST /v1/agent/sessions/{id}/message). A conversation is its person's alone: anyone else's answers as absent, and a SuperAdmin acting in an org that is not their own holds none there (their sandbox and builds would be paid by that org).  Nothing is leased to answer: a turn that only talks uses no sandbox. Code is worked on by a coding run — `dev`, with its own tools — which leases the conversation's sandbox on the first build; a later one works on the conversation's repository and carries on its last run, in that run's sandbox and on its branch.
+
+        :param agent_talk_in: (required)
+        :type agent_talk_in: AgentTalkIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_turns_serialize(
+            agent_talk_in=agent_talk_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentTalkOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_agent_turns_without_preload_content(
+        self,
+        agent_talk_in: AgentTalkIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Says one thing in the app's conversation and starts the turn that answers it.
+
+        Says one thing in the app's conversation and starts the turn that answers it. It answers at once with the conversation and the turn's run; the turn itself is read from the session (GET /v1/agent/sessions/{id}, and its ?root= stream): the person's words, what the agent is doing, the coding runs it starts, a question it asks, and its answer.  With no `session` it starts a conversation. With one it continues that conversation in the same session, under a new run, once its last turn has answered: 409 while a turn is still answering — what is said then is that turn's next input (POST /v1/agent/sessions/{id}/message). A conversation is its person's alone: anyone else's answers as absent, and a SuperAdmin acting in an org that is not their own holds none there (their sandbox and builds would be paid by that org).  Nothing is leased to answer: a turn that only talks uses no sandbox. Code is worked on by a coding run — `dev`, with its own tools — which leases the conversation's sandbox on the first build; a later one works on the conversation's repository and carries on its last run, in that run's sandbox and on its branch.
+
+        :param agent_talk_in: (required)
+        :type agent_talk_in: AgentTalkIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_turns_serialize(
+            agent_talk_in=agent_talk_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentTalkOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_agent_turns_serialize(
+        self,
+        agent_talk_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if agent_talk_in is not None:
+            _body_params = agent_talk_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/agent/turns',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

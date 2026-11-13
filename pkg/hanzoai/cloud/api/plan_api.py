@@ -557,9 +557,9 @@ class PlanApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> PlanPlanList:
-        """ListDNSPlans returns the DNS plan catalog: the tiers priced on zones, records per zone and queries per day.
+        """ListDNSPlans returns the DNS plans on sale: the tiers priced on zones, records per zone and queries per day.
 
-        ListDNSPlans returns the DNS plan catalog: the tiers priced on zones, records per zone and queries per day. It is the canonical catalog for every caller — these plans carry no reseller overrides.
+        ListDNSPlans returns the DNS plans on sale: the tiers priced on zones, records per zone and queries per day. They are the plan authority's rows of the dns category, the same for every caller. Answers 503 while the authority has never been read.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -620,9 +620,9 @@ class PlanApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[PlanPlanList]:
-        """ListDNSPlans returns the DNS plan catalog: the tiers priced on zones, records per zone and queries per day.
+        """ListDNSPlans returns the DNS plans on sale: the tiers priced on zones, records per zone and queries per day.
 
-        ListDNSPlans returns the DNS plan catalog: the tiers priced on zones, records per zone and queries per day. It is the canonical catalog for every caller — these plans carry no reseller overrides.
+        ListDNSPlans returns the DNS plans on sale: the tiers priced on zones, records per zone and queries per day. They are the plan authority's rows of the dns category, the same for every caller. Answers 503 while the authority has never been read.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -683,9 +683,9 @@ class PlanApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """ListDNSPlans returns the DNS plan catalog: the tiers priced on zones, records per zone and queries per day.
+        """ListDNSPlans returns the DNS plans on sale: the tiers priced on zones, records per zone and queries per day.
 
-        ListDNSPlans returns the DNS plan catalog: the tiers priced on zones, records per zone and queries per day. It is the canonical catalog for every caller — these plans carry no reseller overrides.
+        ListDNSPlans returns the DNS plans on sale: the tiers priced on zones, records per zone and queries per day. They are the plan authority's rows of the dns category, the same for every caller. Answers 503 while the authority has never been read.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -791,7 +791,7 @@ class PlanApi:
     @validate_call
     def get_plan_entitlements_by_id(
         self,
-        id: Annotated[StrictStr, Field(description="ID is the plan's catalog id or slug — \"dev\", \"max\", \"team\", \"rpc-growth\". Both are matched, so a slug resolves the plan it names. A withdrawn id still resolves for a renewal, which is why this takes an id rather than a ladder position.")],
+        id: Annotated[StrictStr, Field(description="ID is the plan's slug in the plan authority (\"go\", \"team\"), a slug that plan replaces, or a cloud VM plan's id. An archived plan still resolves for a renewal, which is why this takes an id rather than a ladder position.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -807,9 +807,9 @@ class PlanApi:
     ) -> PlanPlanEntitlements:
         """Returns what one plan GRANTS and not what it costs: the canonical namespaced entitlement block and the flat license-feature list derived from it.
 
-        Returns what one plan GRANTS and not what it costs: the canonical namespaced entitlement block and the flat license-feature list derived from it. It is the entitlement half of ResolvePlan, over the same catalog and the same 404 for an id no catalog holds — the read a licensing or quota gate makes.
+        Returns what one plan GRANTS and not what it costs: the canonical namespaced entitlement block and the flat license-feature list derived from it. It is the entitlement half of ResolvePlan, over the same rows and the same 404 for an id none holds — the read a licensing or quota gate makes.
 
-        :param id: ID is the plan's catalog id or slug — \"dev\", \"max\", \"team\", \"rpc-growth\". Both are matched, so a slug resolves the plan it names. A withdrawn id still resolves for a renewal, which is why this takes an id rather than a ladder position. (required)
+        :param id: ID is the plan's slug in the plan authority (\"go\", \"team\"), a slug that plan replaces, or a cloud VM plan's id. An archived plan still resolves for a renewal, which is why this takes an id rather than a ladder position. (required)
         :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -858,7 +858,7 @@ class PlanApi:
     @validate_call
     def get_plan_entitlements_by_id_with_http_info(
         self,
-        id: Annotated[StrictStr, Field(description="ID is the plan's catalog id or slug — \"dev\", \"max\", \"team\", \"rpc-growth\". Both are matched, so a slug resolves the plan it names. A withdrawn id still resolves for a renewal, which is why this takes an id rather than a ladder position.")],
+        id: Annotated[StrictStr, Field(description="ID is the plan's slug in the plan authority (\"go\", \"team\"), a slug that plan replaces, or a cloud VM plan's id. An archived plan still resolves for a renewal, which is why this takes an id rather than a ladder position.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -874,9 +874,9 @@ class PlanApi:
     ) -> ApiResponse[PlanPlanEntitlements]:
         """Returns what one plan GRANTS and not what it costs: the canonical namespaced entitlement block and the flat license-feature list derived from it.
 
-        Returns what one plan GRANTS and not what it costs: the canonical namespaced entitlement block and the flat license-feature list derived from it. It is the entitlement half of ResolvePlan, over the same catalog and the same 404 for an id no catalog holds — the read a licensing or quota gate makes.
+        Returns what one plan GRANTS and not what it costs: the canonical namespaced entitlement block and the flat license-feature list derived from it. It is the entitlement half of ResolvePlan, over the same rows and the same 404 for an id none holds — the read a licensing or quota gate makes.
 
-        :param id: ID is the plan's catalog id or slug — \"dev\", \"max\", \"team\", \"rpc-growth\". Both are matched, so a slug resolves the plan it names. A withdrawn id still resolves for a renewal, which is why this takes an id rather than a ladder position. (required)
+        :param id: ID is the plan's slug in the plan authority (\"go\", \"team\"), a slug that plan replaces, or a cloud VM plan's id. An archived plan still resolves for a renewal, which is why this takes an id rather than a ladder position. (required)
         :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -925,7 +925,7 @@ class PlanApi:
     @validate_call
     def get_plan_entitlements_by_id_without_preload_content(
         self,
-        id: Annotated[StrictStr, Field(description="ID is the plan's catalog id or slug — \"dev\", \"max\", \"team\", \"rpc-growth\". Both are matched, so a slug resolves the plan it names. A withdrawn id still resolves for a renewal, which is why this takes an id rather than a ladder position.")],
+        id: Annotated[StrictStr, Field(description="ID is the plan's slug in the plan authority (\"go\", \"team\"), a slug that plan replaces, or a cloud VM plan's id. An archived plan still resolves for a renewal, which is why this takes an id rather than a ladder position.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -941,9 +941,9 @@ class PlanApi:
     ) -> RESTResponseType:
         """Returns what one plan GRANTS and not what it costs: the canonical namespaced entitlement block and the flat license-feature list derived from it.
 
-        Returns what one plan GRANTS and not what it costs: the canonical namespaced entitlement block and the flat license-feature list derived from it. It is the entitlement half of ResolvePlan, over the same catalog and the same 404 for an id no catalog holds — the read a licensing or quota gate makes.
+        Returns what one plan GRANTS and not what it costs: the canonical namespaced entitlement block and the flat license-feature list derived from it. It is the entitlement half of ResolvePlan, over the same rows and the same 404 for an id none holds — the read a licensing or quota gate makes.
 
-        :param id: ID is the plan's catalog id or slug — \"dev\", \"max\", \"team\", \"rpc-growth\". Both are matched, so a slug resolves the plan it names. A withdrawn id still resolves for a renewal, which is why this takes an id rather than a ladder position. (required)
+        :param id: ID is the plan's slug in the plan authority (\"go\", \"team\"), a slug that plan replaces, or a cloud VM plan's id. An archived plan still resolves for a renewal, which is why this takes an id rather than a ladder position. (required)
         :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2041,7 +2041,7 @@ class PlanApi:
     @validate_call
     def get_plan_resolve_by_id(
         self,
-        id: Annotated[StrictStr, Field(description="ID is the plan's catalog id or slug — \"dev\", \"max\", \"team\", \"rpc-growth\". Both are matched, so a slug resolves the plan it names. A withdrawn id still resolves for a renewal, which is why this takes an id rather than a ladder position.")],
+        id: Annotated[StrictStr, Field(description="ID is the plan's slug in the plan authority (\"go\", \"team\"), a slug that plan replaces, or a cloud VM plan's id. An archived plan still resolves for a renewal, which is why this takes an id rather than a ladder position.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2057,9 +2057,9 @@ class PlanApi:
     ) -> PlanPlanResolution:
         """Resolves one plan to everything a consumer of the catalog needs at once: its canonical entitlement block, the flat license-feature list a signed license carries, its billing reference, and the catalog it came from.
 
-        Resolves one plan to everything a consumer of the catalog needs at once: its canonical entitlement block, the flat license-feature list a signed license carries, its billing reference, and the catalog it came from. The id may be the plan's id or its slug, and it is resolved against the caller's catalog, so a reseller's override wins over the canonical record. An id no catalog holds answers 404.
+        Resolves one plan to everything a consumer of the catalog needs at once: its canonical entitlement block, the flat license-feature list a signed license carries, its billing reference, and the catalog it came from. The id is a plan's slug, or a slug the plan replaces: a plan the plan authority holds a row for, whatever its status (an archived plan still resolves for a renewal), or a cloud VM plan. An id neither holds answers 404, and 503 while the authority has never been read.
 
-        :param id: ID is the plan's catalog id or slug — \"dev\", \"max\", \"team\", \"rpc-growth\". Both are matched, so a slug resolves the plan it names. A withdrawn id still resolves for a renewal, which is why this takes an id rather than a ladder position. (required)
+        :param id: ID is the plan's slug in the plan authority (\"go\", \"team\"), a slug that plan replaces, or a cloud VM plan's id. An archived plan still resolves for a renewal, which is why this takes an id rather than a ladder position. (required)
         :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2108,7 +2108,7 @@ class PlanApi:
     @validate_call
     def get_plan_resolve_by_id_with_http_info(
         self,
-        id: Annotated[StrictStr, Field(description="ID is the plan's catalog id or slug — \"dev\", \"max\", \"team\", \"rpc-growth\". Both are matched, so a slug resolves the plan it names. A withdrawn id still resolves for a renewal, which is why this takes an id rather than a ladder position.")],
+        id: Annotated[StrictStr, Field(description="ID is the plan's slug in the plan authority (\"go\", \"team\"), a slug that plan replaces, or a cloud VM plan's id. An archived plan still resolves for a renewal, which is why this takes an id rather than a ladder position.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2124,9 +2124,9 @@ class PlanApi:
     ) -> ApiResponse[PlanPlanResolution]:
         """Resolves one plan to everything a consumer of the catalog needs at once: its canonical entitlement block, the flat license-feature list a signed license carries, its billing reference, and the catalog it came from.
 
-        Resolves one plan to everything a consumer of the catalog needs at once: its canonical entitlement block, the flat license-feature list a signed license carries, its billing reference, and the catalog it came from. The id may be the plan's id or its slug, and it is resolved against the caller's catalog, so a reseller's override wins over the canonical record. An id no catalog holds answers 404.
+        Resolves one plan to everything a consumer of the catalog needs at once: its canonical entitlement block, the flat license-feature list a signed license carries, its billing reference, and the catalog it came from. The id is a plan's slug, or a slug the plan replaces: a plan the plan authority holds a row for, whatever its status (an archived plan still resolves for a renewal), or a cloud VM plan. An id neither holds answers 404, and 503 while the authority has never been read.
 
-        :param id: ID is the plan's catalog id or slug — \"dev\", \"max\", \"team\", \"rpc-growth\". Both are matched, so a slug resolves the plan it names. A withdrawn id still resolves for a renewal, which is why this takes an id rather than a ladder position. (required)
+        :param id: ID is the plan's slug in the plan authority (\"go\", \"team\"), a slug that plan replaces, or a cloud VM plan's id. An archived plan still resolves for a renewal, which is why this takes an id rather than a ladder position. (required)
         :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2175,7 +2175,7 @@ class PlanApi:
     @validate_call
     def get_plan_resolve_by_id_without_preload_content(
         self,
-        id: Annotated[StrictStr, Field(description="ID is the plan's catalog id or slug — \"dev\", \"max\", \"team\", \"rpc-growth\". Both are matched, so a slug resolves the plan it names. A withdrawn id still resolves for a renewal, which is why this takes an id rather than a ladder position.")],
+        id: Annotated[StrictStr, Field(description="ID is the plan's slug in the plan authority (\"go\", \"team\"), a slug that plan replaces, or a cloud VM plan's id. An archived plan still resolves for a renewal, which is why this takes an id rather than a ladder position.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2191,9 +2191,9 @@ class PlanApi:
     ) -> RESTResponseType:
         """Resolves one plan to everything a consumer of the catalog needs at once: its canonical entitlement block, the flat license-feature list a signed license carries, its billing reference, and the catalog it came from.
 
-        Resolves one plan to everything a consumer of the catalog needs at once: its canonical entitlement block, the flat license-feature list a signed license carries, its billing reference, and the catalog it came from. The id may be the plan's id or its slug, and it is resolved against the caller's catalog, so a reseller's override wins over the canonical record. An id no catalog holds answers 404.
+        Resolves one plan to everything a consumer of the catalog needs at once: its canonical entitlement block, the flat license-feature list a signed license carries, its billing reference, and the catalog it came from. The id is a plan's slug, or a slug the plan replaces: a plan the plan authority holds a row for, whatever its status (an archived plan still resolves for a renewal), or a cloud VM plan. An id neither holds answers 404, and 503 while the authority has never been read.
 
-        :param id: ID is the plan's catalog id or slug — \"dev\", \"max\", \"team\", \"rpc-growth\". Both are matched, so a slug resolves the plan it names. A withdrawn id still resolves for a renewal, which is why this takes an id rather than a ladder position. (required)
+        :param id: ID is the plan's slug in the plan authority (\"go\", \"team\"), a slug that plan replaces, or a cloud VM plan's id. An archived plan still resolves for a renewal, which is why this takes an id rather than a ladder position. (required)
         :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2810,9 +2810,9 @@ class PlanApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> PlanPlanList:
-        """Returns the subscription ladder — the personal and team tiers a customer buys to use the cloud, each with its monthly and annual price, seat rules, limits and billing reference.
+        """Returns the plans a customer subscribes to that are on sale — each with its monthly and annual price, seat rules, limits, the entitlement block it grants and its billing reference.
 
-        Returns the subscription ladder — the personal and team tiers a customer buys to use the cloud, each with its monthly and annual price, seat rules, limits and billing reference. Scoped to the caller's catalog.
+        Returns the plans a customer subscribes to that are on sale — each with its monthly and annual price, seat rules, limits, the entitlement block it grants and its billing reference. The plans are the plan authority's rows, the ones a card is charged from: an edit made at admin.hanzo.ai is published here within seconds. Answers 503 while the authority has never been read.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2873,9 +2873,9 @@ class PlanApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[PlanPlanList]:
-        """Returns the subscription ladder — the personal and team tiers a customer buys to use the cloud, each with its monthly and annual price, seat rules, limits and billing reference.
+        """Returns the plans a customer subscribes to that are on sale — each with its monthly and annual price, seat rules, limits, the entitlement block it grants and its billing reference.
 
-        Returns the subscription ladder — the personal and team tiers a customer buys to use the cloud, each with its monthly and annual price, seat rules, limits and billing reference. Scoped to the caller's catalog.
+        Returns the plans a customer subscribes to that are on sale — each with its monthly and annual price, seat rules, limits, the entitlement block it grants and its billing reference. The plans are the plan authority's rows, the ones a card is charged from: an edit made at admin.hanzo.ai is published here within seconds. Answers 503 while the authority has never been read.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2936,9 +2936,9 @@ class PlanApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns the subscription ladder — the personal and team tiers a customer buys to use the cloud, each with its monthly and annual price, seat rules, limits and billing reference.
+        """Returns the plans a customer subscribes to that are on sale — each with its monthly and annual price, seat rules, limits, the entitlement block it grants and its billing reference.
 
-        Returns the subscription ladder — the personal and team tiers a customer buys to use the cloud, each with its monthly and annual price, seat rules, limits and billing reference. Scoped to the caller's catalog.
+        Returns the plans a customer subscribes to that are on sale — each with its monthly and annual price, seat rules, limits, the entitlement block it grants and its billing reference. The plans are the plan authority's rows, the ones a card is charged from: an edit made at admin.hanzo.ai is published here within seconds. Answers 503 while the authority has never been read.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

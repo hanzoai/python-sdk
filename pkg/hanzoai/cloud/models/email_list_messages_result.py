@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.email_message_record import EmailMessageRecord
 from typing import Optional, Set
@@ -27,9 +27,9 @@ class EmailListMessagesResult(BaseModel):
     """
     EmailListMessagesResult
     """ # noqa: E501
-    messages: Optional[List[EmailMessageRecord]] = Field(default=None, description="Messages lists the stored transactional emails.")
-    total: Optional[StrictInt] = Field(default=None, description="Total is the count of returned messages.")
-    __properties: ClassVar[List[str]] = ["messages", "total"]
+    messages: Optional[List[EmailMessageRecord]] = Field(default=None, description="Messages is the page.")
+    next: Optional[StrictStr] = Field(default=None, description="Next is the cursor of the page after this one; empty on the last page.")
+    __properties: ClassVar[List[str]] = ["messages", "next"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -90,7 +90,7 @@ class EmailListMessagesResult(BaseModel):
 
         _obj = cls.model_validate({
             "messages": [EmailMessageRecord.from_dict(_item) for _item in obj["messages"]] if obj.get("messages") is not None else None,
-            "total": obj.get("total")
+            "next": obj.get("next")
         })
         return _obj
 

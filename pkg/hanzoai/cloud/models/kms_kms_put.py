@@ -28,7 +28,7 @@ class KmsKmsPut(BaseModel):
     """ # noqa: E501
     env: Optional[StrictStr] = Field(default=None, description="Env is the environment to write under. REQUIRED, with no default: it is part of the storage key, so a silently defaulted write lands in a bucket the readers that resolve project, environment and path never look in, and the stale value keeps being served.")
     name: Optional[StrictStr] = Field(default=None, description="Name is the secret's name. Required.")
-    path: Optional[StrictStr] = Field(default=None, description="Path is an optional subpath beneath the org root, e.g. \"/ci\".")
+    path: Optional[StrictStr] = Field(default=None, description="Path is an optional subpath beneath the org root, e.g. \"/ci\". It never names an org: the root is already `/orgs/<org>`, taken from the credential, so a path that starts with `/orgs/` is refused rather than stored at `/orgs/<org>/orgs/…`.")
     value: Optional[StrictStr] = Field(default=None, description="Value is the secret itself. It is sealed under a fresh per-secret data key before storage, so plaintext never reaches disk, and it is never echoed back, logged, or carried in an error.")
     __properties: ClassVar[List[str]] = ["env", "name", "path", "value"]
 

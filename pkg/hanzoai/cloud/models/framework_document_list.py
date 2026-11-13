@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -27,7 +27,9 @@ class FrameworkDocumentList(BaseModel):
     FrameworkDocumentList
     """ # noqa: E501
     data: Optional[List[Dict[str, Any]]] = Field(default=None, description="Data is the matching documents, newest-updated first unless order_by said otherwise, each projected to the requested fields plus the envelope keys.")
-    __properties: ClassVar[List[str]] = ["data"]
+    next: Optional[StrictStr] = Field(default=None, description="Next is the opaque keyset cursor for the next page; empty on the last.")
+    total: Optional[StrictInt] = Field(default=None, description="Total is the true count of matching documents for this org+doctype.")
+    __properties: ClassVar[List[str]] = ["data", "next", "total"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -80,7 +82,9 @@ class FrameworkDocumentList(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "data": obj.get("data")
+            "data": obj.get("data"),
+            "next": obj.get("next"),
+            "total": obj.get("total")
         })
         return _obj
 

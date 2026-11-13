@@ -17,8 +17,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.billing_crypto_pair import BillingCryptoPair
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -26,9 +27,11 @@ class BillingCryptoOptions(BaseModel):
     """
     BillingCryptoOptions
     """ # noqa: E501
+    assets: Optional[List[BillingCryptoPair]] = Field(default=None, description="Assets is every (chain, token) pair the deposit-address rail accepts. Chains and Tokens are its two axes: a chain and a token each on offer are not a pair on offer, so a picker that crosses them can name an asset the rail will refuse.")
     chains: Optional[List[StrictStr]] = None
+    gateway: Optional[List[StrictStr]] = None
     tokens: Optional[List[StrictStr]] = None
-    __properties: ClassVar[List[str]] = ["chains", "tokens"]
+    __properties: ClassVar[List[str]] = ["assets", "chains", "gateway", "tokens"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -69,6 +72,13 @@ class BillingCryptoOptions(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in assets (list)
+        _items = []
+        if self.assets:
+            for _item_assets in self.assets:
+                if _item_assets:
+                    _items.append(_item_assets.to_dict())
+            _dict['assets'] = _items
         return _dict
 
     @classmethod
@@ -81,7 +91,9 @@ class BillingCryptoOptions(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "assets": [BillingCryptoPair.from_dict(_item) for _item in obj["assets"]] if obj.get("assets") is not None else None,
             "chains": obj.get("chains"),
+            "gateway": obj.get("gateway"),
             "tokens": obj.get("tokens")
         })
         return _obj
