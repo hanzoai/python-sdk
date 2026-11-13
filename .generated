@@ -479,8 +479,6 @@ pkg/hanzoai/cloud/models/billing_mode.py
 pkg/hanzoai/cloud/models/billing_mode_in.py
 pkg/hanzoai/cloud/models/billing_money.py
 pkg/hanzoai/cloud/models/billing_pay_pal_order_out.py
-pkg/hanzoai/cloud/models/billing_pay_pal_public_config.py
-pkg/hanzoai/cloud/models/billing_payment_config.py
 pkg/hanzoai/cloud/models/billing_payout.py
 pkg/hanzoai/cloud/models/billing_paypal_order_in.py
 pkg/hanzoai/cloud/models/billing_raise_in.py

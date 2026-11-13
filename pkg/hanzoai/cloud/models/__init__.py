@@ -357,8 +357,6 @@ from hanzoai.cloud.models.billing_mode import BillingMode
 from hanzoai.cloud.models.billing_mode_in import BillingModeIn
 from hanzoai.cloud.models.billing_money import BillingMoney
 from hanzoai.cloud.models.billing_pay_pal_order_out import BillingPayPalOrderOut
-from hanzoai.cloud.models.billing_pay_pal_public_config import BillingPayPalPublicConfig
-from hanzoai.cloud.models.billing_payment_config import BillingPaymentConfig
 from hanzoai.cloud.models.billing_payout import BillingPayout
 from hanzoai.cloud.models.billing_paypal_order_in import BillingPaypalOrderIn
 from hanzoai.cloud.models.billing_raise_in import BillingRaiseIn

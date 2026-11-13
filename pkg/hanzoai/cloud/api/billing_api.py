@@ -46,7 +46,6 @@ from hanzoai.cloud.models.billing_invoices import BillingInvoices
 from hanzoai.cloud.models.billing_mode import BillingMode
 from hanzoai.cloud.models.billing_mode_in import BillingModeIn
 from hanzoai.cloud.models.billing_pay_pal_order_out import BillingPayPalOrderOut
-from hanzoai.cloud.models.billing_payment_config import BillingPaymentConfig
 from hanzoai.cloud.models.billing_payout import BillingPayout
 from hanzoai.cloud.models.billing_paypal_order_in import BillingPaypalOrderIn
 from hanzoai.cloud.models.billing_raise_in import BillingRaiseIn
@@ -7370,7 +7369,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> BillingPaymentConfig:
+    ) -> object:
         """Answers the PUBLIC half of this org's processor configuration — the ids a browser needs to tokenize a card, and the environment it must tokenize against.
 
         Answers the PUBLIC half of this org's processor configuration — the ids a browser needs to tokenize a card, and the environment it must tokenize against.  It carries no secret: an application id is published to every checkout page by design. What matters is that it names the SAME processor account the charge will be made on, because a card vaulted against one account and charged against another is a card that saves and then cannot be used.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -7405,7 +7404,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BillingPaymentConfig",
+            '200': "object",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7433,7 +7432,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[BillingPaymentConfig]:
+    ) -> ApiResponse[object]:
         """Answers the PUBLIC half of this org's processor configuration — the ids a browser needs to tokenize a card, and the environment it must tokenize against.
 
         Answers the PUBLIC half of this org's processor configuration — the ids a browser needs to tokenize a card, and the environment it must tokenize against.  It carries no secret: an application id is published to every checkout page by design. What matters is that it names the SAME processor account the charge will be made on, because a card vaulted against one account and charged against another is a card that saves and then cannot be used.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -7468,7 +7467,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BillingPaymentConfig",
+            '200': "object",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7531,7 +7530,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BillingPaymentConfig",
+            '200': "object",
         }
         response_data = self.api_client.call_api(
             *_param,

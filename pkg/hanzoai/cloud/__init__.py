@@ -501,8 +501,6 @@ __all__ = [
     "BillingModeIn",
     "BillingMoney",
     "BillingPayPalOrderOut",
-    "BillingPayPalPublicConfig",
-    "BillingPaymentConfig",
     "BillingPayout",
     "BillingPaypalOrderIn",
     "BillingRaiseIn",
@@ -4053,8 +4051,6 @@ from hanzoai.cloud.models.billing_mode import BillingMode as BillingMode
 from hanzoai.cloud.models.billing_mode_in import BillingModeIn as BillingModeIn
 from hanzoai.cloud.models.billing_money import BillingMoney as BillingMoney
 from hanzoai.cloud.models.billing_pay_pal_order_out import BillingPayPalOrderOut as BillingPayPalOrderOut
-from hanzoai.cloud.models.billing_pay_pal_public_config import BillingPayPalPublicConfig as BillingPayPalPublicConfig
-from hanzoai.cloud.models.billing_payment_config import BillingPaymentConfig as BillingPaymentConfig
 from hanzoai.cloud.models.billing_payout import BillingPayout as BillingPayout
 from hanzoai.cloud.models.billing_paypal_order_in import BillingPaypalOrderIn as BillingPaypalOrderIn
 from hanzoai.cloud.models.billing_raise_in import BillingRaiseIn as BillingRaiseIn
