@@ -26,7 +26,7 @@ class BillingCharged(BaseModel):
     """
     BillingCharged
     """ # noqa: E501
-    balance_cents: Optional[StrictInt] = Field(default=None, description="BalanceCents is the subject's balance AFTER the charge settled, in cents, so a caller does not have to re-read to show the new number.", alias="balanceCents")
+    balance_cents: Optional[StrictInt] = Field(default=None, description="BalanceCents is the subject's balance AFTER the charge settled, in cents, read from the ledger GET /v1/billing/balance reads, so a caller does not have to re-read to show the new number. It is absent when that ledger could not say.", alias="balanceCents")
     processor_ref: Optional[StrictStr] = Field(default=None, description="ProcessorRef is the payment processor's own reference. It is the only field that proves money moved at the GATEWAY rather than merely in our ledger, which is why it is answered and not only logged. Absent where the processor returned none.", alias="processorRef")
     status: Optional[StrictStr] = Field(default=None, description="Status is how the charge ended. Read it rather than inferring success from the HTTP status: the call succeeded whenever this field is present, and what the PROCESSOR did is what this says.")
     test: Optional[StrictBool] = Field(default=None, description="Test states which bucket was credited — sandbox money or real money — so no reader has to guess whether a receipt is real. Sandbox and live funds are physically separate ledgers, and a reader that conflates them restates the company's revenue.")
