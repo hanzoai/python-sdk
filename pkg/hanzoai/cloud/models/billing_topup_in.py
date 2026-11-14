@@ -29,7 +29,7 @@ class BillingTopupIn(BaseModel):
     """ # noqa: E501
     amount_cents: Optional[StrictInt] = Field(default=None, description="AmountCents is how much to charge, in cents of Currency. Required.", alias="amountCents")
     billing_address: Optional[BillingBillingAddress] = Field(default=None, alias="billingAddress")
-    billing_phone: Optional[StrictStr] = Field(default=None, description="Phone and Billing are what the buyer typed in the payment form; their name and email are the identity's, never a field here.", alias="billingPhone")
+    billing_phone: Optional[StrictStr] = Field(default=None, description="Phone and Billing are what the buyer typed in the payment form; their name and email are the identity's, never a field here. They come after every older field so the plane layout of those fields holds across a rollout.", alias="billingPhone")
     currency: Optional[StrictStr] = Field(default=None, description="Currency is the ISO-4217 code to charge in. Empty takes the deployment's own default.")
     payment_method_id: Optional[StrictStr] = Field(default=None, description="MethodID names a card the subject already saved, for the saved-card endpoint.", alias="paymentMethodId")
     provider: Optional[StrictStr] = Field(default=None, description="Provider names the explicit payment processor (\"square\" or \"paypal\") when SourceID is a provider-specific order/token (e.g. a PayPal v2 Order ID).")
