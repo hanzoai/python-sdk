@@ -29,7 +29,7 @@ class AgentCodingSteered(BaseModel):
     delivered: Optional[StrictStr] = Field(default=None, description="Delivered is when the run took it, empty while it is queued.")
     request_id: Optional[StrictStr] = Field(default=None, description="RequestID is the id the instruction was sent with, when it had one.", alias="requestId")
     said: Optional[StrictStr] = Field(default=None, description="Said is when it was said, an RFC 3339 time in UTC.")
-    state: Optional[StrictStr] = Field(default=None, description="State is queued while the run has not taken the instruction, and delivered once it has. An instruction queued for a run that ended stays queued: it was never delivered.")
+    state: Optional[StrictStr] = Field(default=None, description="State is queued while the run has not taken the instruction, and delivered once it has. An instruction queued for a run that ended stays queued: it was never delivered, and a run started after it carries it. Dropped is one that fit no task, which that start set aside.")
     text: Optional[StrictStr] = Field(default=None, description="Text is what was said.")
     __properties: ClassVar[List[str]] = ["delivered", "requestId", "said", "state", "text"]
 

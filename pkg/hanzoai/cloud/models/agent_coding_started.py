@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -27,12 +27,16 @@ class AgentCodingStarted(BaseModel):
     AgentCodingStarted
     """ # noqa: E501
     branch: Optional[StrictStr] = Field(default=None, description="Branch is the ref the run will push its work to, and the ONLY ref it is permitted to write. It exists before the work does, so it is safe to tell somebody where to look while the run is still going.")
+    carried: Optional[StrictInt] = Field(default=None, description="Carried is how many of the instructions queued on the run `after` names went into this run's task. Zero for a run that follows nothing, or one with nothing queued.")
+    dropped: Optional[StrictInt] = Field(default=None, description="Dropped is how many of them fit no task at all (more than the prompt limit) and were set aside, not left queued.")
+    left: Optional[StrictInt] = Field(default=None, description="Left is how many of them did not fit this run's task and are still queued on the run it follows.")
+    note: Optional[StrictStr] = Field(default=None, description="Note says what became of the queue in words, when there was one.")
     pull: Optional[StrictStr] = Field(default=None, description="Pull is the CLI command or instruction to pull this run locally, e.g. `hanzo pull <sessionId>`.")
     repo: Optional[StrictStr] = Field(default=None, description="Repo is the repository the run was admitted against, echoed back as the engine resolved it.")
     routed: Optional[StrictBool] = Field(default=None, description="Routed says the run went to one of the org's own registered machines rather than to a sandbox in our cluster. False is the ordinary case.")
     session_id: Optional[StrictStr] = Field(default=None, description="SessionID is the run's handle: its durable record, and the root its live progress streams under at /v1/agent/sessions/stream?root=<sessionId>. Every later question about this run is asked with it.", alias="sessionId")
     target_id: Optional[StrictStr] = Field(default=None, description="TargetID names that machine when Routed is true, and is empty otherwise.", alias="targetId")
-    __properties: ClassVar[List[str]] = ["branch", "pull", "repo", "routed", "sessionId", "targetId"]
+    __properties: ClassVar[List[str]] = ["branch", "carried", "dropped", "left", "note", "pull", "repo", "routed", "sessionId", "targetId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -86,6 +90,10 @@ class AgentCodingStarted(BaseModel):
 
         _obj = cls.model_validate({
             "branch": obj.get("branch"),
+            "carried": obj.get("carried"),
+            "dropped": obj.get("dropped"),
+            "left": obj.get("left"),
+            "note": obj.get("note"),
             "pull": obj.get("pull"),
             "repo": obj.get("repo"),
             "routed": obj.get("routed"),
