@@ -26,7 +26,7 @@ class AgentCodingInstruction(BaseModel):
     """
     AgentCodingInstruction
     """ # noqa: E501
-    request_id: Optional[StrictStr] = Field(default=None, description="RequestID deduplicates retries of the same steer request; optional.", alias="requestId")
+    request_id: Optional[StrictStr] = Field(default=None, description="RequestID makes a retry of this instruction the same instruction: said once to the run, whichever pod takes the retry and whatever restarts between. The Idempotency-Key header is the same value, and wins when both are sent. Optional.", alias="requestId")
     session: Optional[StrictStr] = Field(default=None, description="Session identifies the running or paused coding session from the path.")
     text: Optional[StrictStr] = Field(default=None, description="Text is the new instruction to carry into the running turn or follow-up run.")
     __properties: ClassVar[List[str]] = ["requestId", "session", "text"]

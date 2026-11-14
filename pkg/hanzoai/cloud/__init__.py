@@ -225,6 +225,7 @@ __all__ = [
     "AgentCodingExtended",
     "AgentCodingFile",
     "AgentCodingInstruction",
+    "AgentCodingMergeIn",
     "AgentCodingMerged",
     "AgentCodingPull",
     "AgentCodingPullIn",
@@ -232,6 +233,7 @@ __all__ = [
     "AgentCodingReview",
     "AgentCodingStartIn",
     "AgentCodingStarted",
+    "AgentCodingSteered",
     "AgentCodingTree",
     "AgentControlCommandView",
     "AgentControlDrain",
@@ -3787,6 +3789,7 @@ from hanzoai.cloud.models.agent_coding_extend_in import AgentCodingExtendIn as A
 from hanzoai.cloud.models.agent_coding_extended import AgentCodingExtended as AgentCodingExtended
 from hanzoai.cloud.models.agent_coding_file import AgentCodingFile as AgentCodingFile
 from hanzoai.cloud.models.agent_coding_instruction import AgentCodingInstruction as AgentCodingInstruction
+from hanzoai.cloud.models.agent_coding_merge_in import AgentCodingMergeIn as AgentCodingMergeIn
 from hanzoai.cloud.models.agent_coding_merged import AgentCodingMerged as AgentCodingMerged
 from hanzoai.cloud.models.agent_coding_pull import AgentCodingPull as AgentCodingPull
 from hanzoai.cloud.models.agent_coding_pull_in import AgentCodingPullIn as AgentCodingPullIn
@@ -3794,6 +3797,7 @@ from hanzoai.cloud.models.agent_coding_pulled import AgentCodingPulled as AgentC
 from hanzoai.cloud.models.agent_coding_review import AgentCodingReview as AgentCodingReview
 from hanzoai.cloud.models.agent_coding_start_in import AgentCodingStartIn as AgentCodingStartIn
 from hanzoai.cloud.models.agent_coding_started import AgentCodingStarted as AgentCodingStarted
+from hanzoai.cloud.models.agent_coding_steered import AgentCodingSteered as AgentCodingSteered
 from hanzoai.cloud.models.agent_coding_tree import AgentCodingTree as AgentCodingTree
 from hanzoai.cloud.models.agent_control_command_view import AgentControlCommandView as AgentControlCommandView
 from hanzoai.cloud.models.agent_control_drain import AgentControlDrain as AgentControlDrain

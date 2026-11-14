@@ -203,6 +203,7 @@ pkg/hanzoai/cloud/models/agent_coding_extend_in.py
 pkg/hanzoai/cloud/models/agent_coding_extended.py
 pkg/hanzoai/cloud/models/agent_coding_file.py
 pkg/hanzoai/cloud/models/agent_coding_instruction.py
+pkg/hanzoai/cloud/models/agent_coding_merge_in.py
 pkg/hanzoai/cloud/models/agent_coding_merged.py
 pkg/hanzoai/cloud/models/agent_coding_pull.py
 pkg/hanzoai/cloud/models/agent_coding_pull_in.py
@@ -210,6 +211,7 @@ pkg/hanzoai/cloud/models/agent_coding_pulled.py
 pkg/hanzoai/cloud/models/agent_coding_review.py
 pkg/hanzoai/cloud/models/agent_coding_start_in.py
 pkg/hanzoai/cloud/models/agent_coding_started.py
+pkg/hanzoai/cloud/models/agent_coding_steered.py
 pkg/hanzoai/cloud/models/agent_coding_tree.py
 pkg/hanzoai/cloud/models/agent_control_command_view.py
 pkg/hanzoai/cloud/models/agent_control_drain.py

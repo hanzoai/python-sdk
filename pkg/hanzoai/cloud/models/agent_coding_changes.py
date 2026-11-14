@@ -22,6 +22,7 @@ from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.agent_coding_commit import AgentCodingCommit
 from hanzoai.cloud.models.agent_coding_file import AgentCodingFile
 from hanzoai.cloud.models.agent_coding_pull import AgentCodingPull
+from hanzoai.cloud.models.agent_coding_steered import AgentCodingSteered
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -37,7 +38,8 @@ class AgentCodingChanges(BaseModel):
     more_files: Optional[StrictBool] = Field(default=None, description="MoreFiles says the change is larger than one read answers — past 8 MiB of diff or 3000 files — so Files lists the files before that, and the last of them is marked truncated with the counts of the part read.", alias="moreFiles")
     pull: Optional[AgentCodingPull] = Field(default=None, description="Pull is the run's pull request, or null while it has none. The forge's own is read whole; one proposed somewhere else — a repository the forge only mirrors from GitHub — is the address and number the run recorded, with its state, title and reviews empty.")
     repo: Optional[StrictStr] = Field(default=None, description="Repo is the run's repository on the forge, owner/name.")
-    __properties: ClassVar[List[str]] = ["base", "commits", "files", "head", "moreCommits", "moreFiles", "pull", "repo"]
+    steers: Optional[List[AgentCodingSteered]] = Field(default=None, description="Steers are the instructions said to the run while no pod held it, oldest first, each queued until the run took it and delivered after. An instruction that reached a run directly is not here: its answer was the delivery.")
+    __properties: ClassVar[List[str]] = ["base", "commits", "files", "head", "moreCommits", "moreFiles", "pull", "repo", "steers"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -95,6 +97,13 @@ class AgentCodingChanges(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of pull
         if self.pull:
             _dict['pull'] = self.pull.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in steers (list)
+        _items = []
+        if self.steers:
+            for _item_steers in self.steers:
+                if _item_steers:
+                    _items.append(_item_steers.to_dict())
+            _dict['steers'] = _items
         return _dict
 
     @classmethod
@@ -114,7 +123,8 @@ class AgentCodingChanges(BaseModel):
             "moreCommits": obj.get("moreCommits"),
             "moreFiles": obj.get("moreFiles"),
             "pull": AgentCodingPull.from_dict(obj["pull"]) if obj.get("pull") is not None else None,
-            "repo": obj.get("repo")
+            "repo": obj.get("repo"),
+            "steers": [AgentCodingSteered.from_dict(_item) for _item in obj["steers"]] if obj.get("steers") is not None else None
         })
         return _obj
 

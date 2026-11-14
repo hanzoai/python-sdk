@@ -26,9 +26,10 @@ class AgentCodingExtendIn(BaseModel):
     """
     AgentCodingExtendIn
     """ # noqa: E501
+    request_id: Optional[StrictStr] = Field(default=None, description="RequestID makes a retry of this request the same request: the time is added once, and the retry answers what the first answered. The Idempotency-Key header is the same value, and wins when both are sent. Optional.", alias="requestId")
     seconds: Optional[StrictInt] = Field(default=None, description="Seconds is how much to add to the time the run is held to. It is added to what the run has left, up to the longest a run may be given, so asking for more than that is answered with what the run got.")
     session: Optional[StrictStr] = Field(default=None, description="Session is the run's handle, from the path.")
-    __properties: ClassVar[List[str]] = ["seconds", "session"]
+    __properties: ClassVar[List[str]] = ["requestId", "seconds", "session"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -81,6 +82,7 @@ class AgentCodingExtendIn(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "requestId": obj.get("requestId"),
             "seconds": obj.get("seconds"),
             "session": obj.get("session")
         })

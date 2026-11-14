@@ -81,6 +81,7 @@ from hanzoai.cloud.models.agent_coding_extend_in import AgentCodingExtendIn
 from hanzoai.cloud.models.agent_coding_extended import AgentCodingExtended
 from hanzoai.cloud.models.agent_coding_file import AgentCodingFile
 from hanzoai.cloud.models.agent_coding_instruction import AgentCodingInstruction
+from hanzoai.cloud.models.agent_coding_merge_in import AgentCodingMergeIn
 from hanzoai.cloud.models.agent_coding_merged import AgentCodingMerged
 from hanzoai.cloud.models.agent_coding_pull import AgentCodingPull
 from hanzoai.cloud.models.agent_coding_pull_in import AgentCodingPullIn
@@ -88,6 +89,7 @@ from hanzoai.cloud.models.agent_coding_pulled import AgentCodingPulled
 from hanzoai.cloud.models.agent_coding_review import AgentCodingReview
 from hanzoai.cloud.models.agent_coding_start_in import AgentCodingStartIn
 from hanzoai.cloud.models.agent_coding_started import AgentCodingStarted
+from hanzoai.cloud.models.agent_coding_steered import AgentCodingSteered
 from hanzoai.cloud.models.agent_coding_tree import AgentCodingTree
 from hanzoai.cloud.models.agent_control_command_view import AgentControlCommandView
 from hanzoai.cloud.models.agent_control_drain import AgentControlDrain

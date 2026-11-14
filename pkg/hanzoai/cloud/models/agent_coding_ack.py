@@ -27,7 +27,8 @@ class AgentCodingAck(BaseModel):
     AgentCodingAck
     """ # noqa: E501
     ok: Optional[StrictBool] = Field(default=None, description="OK means the operation was accepted; it does not imply that an associated coding run has finished.")
-    __properties: ClassVar[List[str]] = ["ok"]
+    queued: Optional[StrictBool] = Field(default=None, description="Queued says the instruction was kept and the run has not taken it yet: it is in the run's inbox, and is delivered when the run's owner reads it. Absent, the run has it.")
+    __properties: ClassVar[List[str]] = ["ok", "queued"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -80,7 +81,8 @@ class AgentCodingAck(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "ok": obj.get("ok")
+            "ok": obj.get("ok"),
+            "queued": obj.get("queued")
         })
         return _obj
 

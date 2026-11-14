@@ -39,6 +39,7 @@ from hanzoai.cloud.models.agent_coding_changes import AgentCodingChanges
 from hanzoai.cloud.models.agent_coding_extend_in import AgentCodingExtendIn
 from hanzoai.cloud.models.agent_coding_extended import AgentCodingExtended
 from hanzoai.cloud.models.agent_coding_instruction import AgentCodingInstruction
+from hanzoai.cloud.models.agent_coding_merge_in import AgentCodingMergeIn
 from hanzoai.cloud.models.agent_coding_merged import AgentCodingMerged
 from hanzoai.cloud.models.agent_coding_pull_in import AgentCodingPullIn
 from hanzoai.cloud.models.agent_coding_pulled import AgentCodingPulled
@@ -6294,7 +6295,7 @@ class AgentApi:
     ) -> AgentCodingChanges:
         """Returns what a coding run changed, read from the forge it pushed its branch to: the commits on its branch that the base does not have, newest first; the net change of the branch against its base, one entry per file with that file's patch; and its pull request with the reviews it has had, or null while it has none.
 
-        Returns what a coding run changed, read from the forge it pushed its branch to: the commits on its branch that the base does not have, newest first; the net change of the branch against its base, one entry per file with that file's patch; and its pull request with the reviews it has had, or null while it has none.  A run whose branch is not on the forge yet — still working, or finished with nothing to change — answers with no commits, no files and no pull request. Every read is made as the caller, so a repository they cannot open on the forge is not found here either, whoever can see the run.  One answer is bounded, and says where it was cut rather than failing: the newest 250 commits (`moreCommits` when there are more), the change up to 8 MiB of diff or 3000 files (`moreFiles`, the last file marked truncated), and the first 50 reviews (`moreReviews`), each body up to 16 KiB and 256 KiB across them (`truncated` on a cut one). A caller has at most two of these reads in flight and is answered 429 past that; two asking for the same change at once share one read.
+        Returns what a coding run changed, read from the forge it pushed its branch to: the commits on its branch that the base does not have, newest first; the net change of the branch against its base, one entry per file with that file's patch; and its pull request with the reviews it has had, or null while it has none. `steers` lists the instructions said to the run while no pod held it, each queued until the run took it and delivered after.  A run whose branch is not on the forge yet — still working, or finished with nothing to change — answers with no commits, no files and no pull request. Every read is made as the caller, so a repository they cannot open on the forge is not found here either, whoever can see the run.  One answer is bounded, and says where it was cut rather than failing: the newest 250 commits (`moreCommits` when there are more), the change up to 8 MiB of diff or 3000 files (`moreFiles`, the last file marked truncated), and the first 50 reviews (`moreReviews`), each body up to 16 KiB and 256 KiB across them (`truncated` on a cut one). A caller has at most two of these reads in flight and is answered 429 past that; two asking for the same change at once share one read.
 
         :param session: Session is the run's handle — the sessionId POST /v1/agent/coding answered with — from the path. (required)
         :type session: str
@@ -6361,7 +6362,7 @@ class AgentApi:
     ) -> ApiResponse[AgentCodingChanges]:
         """Returns what a coding run changed, read from the forge it pushed its branch to: the commits on its branch that the base does not have, newest first; the net change of the branch against its base, one entry per file with that file's patch; and its pull request with the reviews it has had, or null while it has none.
 
-        Returns what a coding run changed, read from the forge it pushed its branch to: the commits on its branch that the base does not have, newest first; the net change of the branch against its base, one entry per file with that file's patch; and its pull request with the reviews it has had, or null while it has none.  A run whose branch is not on the forge yet — still working, or finished with nothing to change — answers with no commits, no files and no pull request. Every read is made as the caller, so a repository they cannot open on the forge is not found here either, whoever can see the run.  One answer is bounded, and says where it was cut rather than failing: the newest 250 commits (`moreCommits` when there are more), the change up to 8 MiB of diff or 3000 files (`moreFiles`, the last file marked truncated), and the first 50 reviews (`moreReviews`), each body up to 16 KiB and 256 KiB across them (`truncated` on a cut one). A caller has at most two of these reads in flight and is answered 429 past that; two asking for the same change at once share one read.
+        Returns what a coding run changed, read from the forge it pushed its branch to: the commits on its branch that the base does not have, newest first; the net change of the branch against its base, one entry per file with that file's patch; and its pull request with the reviews it has had, or null while it has none. `steers` lists the instructions said to the run while no pod held it, each queued until the run took it and delivered after.  A run whose branch is not on the forge yet — still working, or finished with nothing to change — answers with no commits, no files and no pull request. Every read is made as the caller, so a repository they cannot open on the forge is not found here either, whoever can see the run.  One answer is bounded, and says where it was cut rather than failing: the newest 250 commits (`moreCommits` when there are more), the change up to 8 MiB of diff or 3000 files (`moreFiles`, the last file marked truncated), and the first 50 reviews (`moreReviews`), each body up to 16 KiB and 256 KiB across them (`truncated` on a cut one). A caller has at most two of these reads in flight and is answered 429 past that; two asking for the same change at once share one read.
 
         :param session: Session is the run's handle — the sessionId POST /v1/agent/coding answered with — from the path. (required)
         :type session: str
@@ -6428,7 +6429,7 @@ class AgentApi:
     ) -> RESTResponseType:
         """Returns what a coding run changed, read from the forge it pushed its branch to: the commits on its branch that the base does not have, newest first; the net change of the branch against its base, one entry per file with that file's patch; and its pull request with the reviews it has had, or null while it has none.
 
-        Returns what a coding run changed, read from the forge it pushed its branch to: the commits on its branch that the base does not have, newest first; the net change of the branch against its base, one entry per file with that file's patch; and its pull request with the reviews it has had, or null while it has none.  A run whose branch is not on the forge yet — still working, or finished with nothing to change — answers with no commits, no files and no pull request. Every read is made as the caller, so a repository they cannot open on the forge is not found here either, whoever can see the run.  One answer is bounded, and says where it was cut rather than failing: the newest 250 commits (`moreCommits` when there are more), the change up to 8 MiB of diff or 3000 files (`moreFiles`, the last file marked truncated), and the first 50 reviews (`moreReviews`), each body up to 16 KiB and 256 KiB across them (`truncated` on a cut one). A caller has at most two of these reads in flight and is answered 429 past that; two asking for the same change at once share one read.
+        Returns what a coding run changed, read from the forge it pushed its branch to: the commits on its branch that the base does not have, newest first; the net change of the branch against its base, one entry per file with that file's patch; and its pull request with the reviews it has had, or null while it has none. `steers` lists the instructions said to the run while no pod held it, each queued until the run took it and delivered after.  A run whose branch is not on the forge yet — still working, or finished with nothing to change — answers with no commits, no files and no pull request. Every read is made as the caller, so a repository they cannot open on the forge is not found here either, whoever can see the run.  One answer is bounded, and says where it was cut rather than failing: the newest 250 commits (`moreCommits` when there are more), the change up to 8 MiB of diff or 3000 files (`moreFiles`, the last file marked truncated), and the first 50 reviews (`moreReviews`), each body up to 16 KiB and 256 KiB across them (`truncated` on a cut one). A caller has at most two of these reads in flight and is answered 429 past that; two asking for the same change at once share one read.
 
         :param session: Session is the run's handle — the sessionId POST /v1/agent/coding answered with — from the path. (required)
         :type session: str
@@ -14031,6 +14032,7 @@ class AgentApi:
     def post_agent_coding(
         self,
         agent_coding_start_in: AgentCodingStartIn,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="RequestID makes a retry of this request the same request: one run for this caller whichever pod takes the retry and whatever restarts between, and the retry answers what the first answered. The Idempotency-Key header is the same value, and wins when both are sent. Optional.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -14046,10 +14048,12 @@ class AgentApi:
     ) -> AgentCodingStarted:
         """Start one autonomous coding run against a repo in the caller's org
 
-        Runs a coding task on a repository: clones it into a sandbox, lets a model read and edit the code, run the tests, and push the work to a branch. Say the thing you want done — \"fix the failing auth test in hanzoai/cloud\" — and the run infers the repo, the branch and the plan. No prefix, no ceremony.  Name no repo and the run works in an empty workspace of its own: nothing is cloned and nothing is pushed, and what it makes is kept in its sandbox and as its artifacts. Name a repository the caller can read and not push to — a public one — and it is cloned read-only, the same way.  It answers 202 with the run's handle the moment the run is ADMITTED — not when it finishes. A coding run takes minutes; holding a request open for one would tie a connection to a model loop and give the caller nothing it cannot get better from the session stream.  The handle is a session id, and that is deliberate: the session is already the run's durable record and its live stream (/v1/agent/sessions/stream?root=<id>), so this op does not grow a progress endpoint, a status endpoint or a cancel endpoint of its own. One way to watch a run, whoever started it.  It is also how work CONTINUES. Pass an earlier run's session as `after` and this one starts from where that one stopped, so \"now add tests for it\" builds on the branch already pushed instead of a fresh clone. The follow-up has its own session and writes the same branch, so one piece of work is one branch and one pull request however many instructions it takes.  Pass `branch` to name the branch the run writes (`agent/<name>`), and `pull` as false to push it without opening a pull request.
+        Runs a coding task on a repository: clones it into a sandbox, lets a model read and edit the code, run the tests, and push the work to a branch. Say the thing you want done — \"fix the failing auth test in hanzoai/cloud\" — and the run infers the repo, the branch and the plan. No prefix, no ceremony.  Name no repo and the run works in an empty workspace of its own: nothing is cloned and nothing is pushed, and what it makes is kept in its sandbox and as its artifacts. Name a repository the caller can read and not push to — a public one — and it is cloned read-only, the same way.  It answers 202 with the run's handle the moment the run is ADMITTED — not when it finishes. A coding run takes minutes; holding a request open for one would tie a connection to a model loop and give the caller nothing it cannot get better from the session stream.  The handle is a session id, and that is deliberate: the session is already the run's durable record and its live stream (/v1/agent/sessions/stream?root=<id>), so this op does not grow a progress endpoint, a status endpoint or a cancel endpoint of its own. One way to watch a run, whoever started it.  It is also how work CONTINUES. Pass an earlier run's session as `after` and this one starts from where that one stopped, so \"now add tests for it\" builds on the branch already pushed instead of a fresh clone. The follow-up has its own session and writes the same branch, so one piece of work is one branch and one pull request however many instructions it takes.  Pass `branch` to name the branch the run writes (`agent/<name>`), and `pull` as false to push it without opening a pull request.  Pass `requestId`, or the Idempotency-Key header, to make a retry the same request: one run, whichever pod takes the retry and whatever restarts between, and the retry answers the first's handle. The same id with another request is 422, and an id is at most 256 bytes.
 
         :param agent_coding_start_in: (required)
         :type agent_coding_start_in: AgentCodingStartIn
+        :param idempotency_key: RequestID makes a retry of this request the same request: one run for this caller whichever pod takes the retry and whatever restarts between, and the retry answers what the first answered. The Idempotency-Key header is the same value, and wins when both are sent. Optional.
+        :type idempotency_key: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -14074,6 +14078,7 @@ class AgentApi:
 
         _param = self._post_agent_coding_serialize(
             agent_coding_start_in=agent_coding_start_in,
+            idempotency_key=idempotency_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -14098,6 +14103,7 @@ class AgentApi:
     def post_agent_coding_with_http_info(
         self,
         agent_coding_start_in: AgentCodingStartIn,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="RequestID makes a retry of this request the same request: one run for this caller whichever pod takes the retry and whatever restarts between, and the retry answers what the first answered. The Idempotency-Key header is the same value, and wins when both are sent. Optional.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -14113,10 +14119,12 @@ class AgentApi:
     ) -> ApiResponse[AgentCodingStarted]:
         """Start one autonomous coding run against a repo in the caller's org
 
-        Runs a coding task on a repository: clones it into a sandbox, lets a model read and edit the code, run the tests, and push the work to a branch. Say the thing you want done — \"fix the failing auth test in hanzoai/cloud\" — and the run infers the repo, the branch and the plan. No prefix, no ceremony.  Name no repo and the run works in an empty workspace of its own: nothing is cloned and nothing is pushed, and what it makes is kept in its sandbox and as its artifacts. Name a repository the caller can read and not push to — a public one — and it is cloned read-only, the same way.  It answers 202 with the run's handle the moment the run is ADMITTED — not when it finishes. A coding run takes minutes; holding a request open for one would tie a connection to a model loop and give the caller nothing it cannot get better from the session stream.  The handle is a session id, and that is deliberate: the session is already the run's durable record and its live stream (/v1/agent/sessions/stream?root=<id>), so this op does not grow a progress endpoint, a status endpoint or a cancel endpoint of its own. One way to watch a run, whoever started it.  It is also how work CONTINUES. Pass an earlier run's session as `after` and this one starts from where that one stopped, so \"now add tests for it\" builds on the branch already pushed instead of a fresh clone. The follow-up has its own session and writes the same branch, so one piece of work is one branch and one pull request however many instructions it takes.  Pass `branch` to name the branch the run writes (`agent/<name>`), and `pull` as false to push it without opening a pull request.
+        Runs a coding task on a repository: clones it into a sandbox, lets a model read and edit the code, run the tests, and push the work to a branch. Say the thing you want done — \"fix the failing auth test in hanzoai/cloud\" — and the run infers the repo, the branch and the plan. No prefix, no ceremony.  Name no repo and the run works in an empty workspace of its own: nothing is cloned and nothing is pushed, and what it makes is kept in its sandbox and as its artifacts. Name a repository the caller can read and not push to — a public one — and it is cloned read-only, the same way.  It answers 202 with the run's handle the moment the run is ADMITTED — not when it finishes. A coding run takes minutes; holding a request open for one would tie a connection to a model loop and give the caller nothing it cannot get better from the session stream.  The handle is a session id, and that is deliberate: the session is already the run's durable record and its live stream (/v1/agent/sessions/stream?root=<id>), so this op does not grow a progress endpoint, a status endpoint or a cancel endpoint of its own. One way to watch a run, whoever started it.  It is also how work CONTINUES. Pass an earlier run's session as `after` and this one starts from where that one stopped, so \"now add tests for it\" builds on the branch already pushed instead of a fresh clone. The follow-up has its own session and writes the same branch, so one piece of work is one branch and one pull request however many instructions it takes.  Pass `branch` to name the branch the run writes (`agent/<name>`), and `pull` as false to push it without opening a pull request.  Pass `requestId`, or the Idempotency-Key header, to make a retry the same request: one run, whichever pod takes the retry and whatever restarts between, and the retry answers the first's handle. The same id with another request is 422, and an id is at most 256 bytes.
 
         :param agent_coding_start_in: (required)
         :type agent_coding_start_in: AgentCodingStartIn
+        :param idempotency_key: RequestID makes a retry of this request the same request: one run for this caller whichever pod takes the retry and whatever restarts between, and the retry answers what the first answered. The Idempotency-Key header is the same value, and wins when both are sent. Optional.
+        :type idempotency_key: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -14141,6 +14149,7 @@ class AgentApi:
 
         _param = self._post_agent_coding_serialize(
             agent_coding_start_in=agent_coding_start_in,
+            idempotency_key=idempotency_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -14165,6 +14174,7 @@ class AgentApi:
     def post_agent_coding_without_preload_content(
         self,
         agent_coding_start_in: AgentCodingStartIn,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="RequestID makes a retry of this request the same request: one run for this caller whichever pod takes the retry and whatever restarts between, and the retry answers what the first answered. The Idempotency-Key header is the same value, and wins when both are sent. Optional.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -14180,10 +14190,12 @@ class AgentApi:
     ) -> RESTResponseType:
         """Start one autonomous coding run against a repo in the caller's org
 
-        Runs a coding task on a repository: clones it into a sandbox, lets a model read and edit the code, run the tests, and push the work to a branch. Say the thing you want done — \"fix the failing auth test in hanzoai/cloud\" — and the run infers the repo, the branch and the plan. No prefix, no ceremony.  Name no repo and the run works in an empty workspace of its own: nothing is cloned and nothing is pushed, and what it makes is kept in its sandbox and as its artifacts. Name a repository the caller can read and not push to — a public one — and it is cloned read-only, the same way.  It answers 202 with the run's handle the moment the run is ADMITTED — not when it finishes. A coding run takes minutes; holding a request open for one would tie a connection to a model loop and give the caller nothing it cannot get better from the session stream.  The handle is a session id, and that is deliberate: the session is already the run's durable record and its live stream (/v1/agent/sessions/stream?root=<id>), so this op does not grow a progress endpoint, a status endpoint or a cancel endpoint of its own. One way to watch a run, whoever started it.  It is also how work CONTINUES. Pass an earlier run's session as `after` and this one starts from where that one stopped, so \"now add tests for it\" builds on the branch already pushed instead of a fresh clone. The follow-up has its own session and writes the same branch, so one piece of work is one branch and one pull request however many instructions it takes.  Pass `branch` to name the branch the run writes (`agent/<name>`), and `pull` as false to push it without opening a pull request.
+        Runs a coding task on a repository: clones it into a sandbox, lets a model read and edit the code, run the tests, and push the work to a branch. Say the thing you want done — \"fix the failing auth test in hanzoai/cloud\" — and the run infers the repo, the branch and the plan. No prefix, no ceremony.  Name no repo and the run works in an empty workspace of its own: nothing is cloned and nothing is pushed, and what it makes is kept in its sandbox and as its artifacts. Name a repository the caller can read and not push to — a public one — and it is cloned read-only, the same way.  It answers 202 with the run's handle the moment the run is ADMITTED — not when it finishes. A coding run takes minutes; holding a request open for one would tie a connection to a model loop and give the caller nothing it cannot get better from the session stream.  The handle is a session id, and that is deliberate: the session is already the run's durable record and its live stream (/v1/agent/sessions/stream?root=<id>), so this op does not grow a progress endpoint, a status endpoint or a cancel endpoint of its own. One way to watch a run, whoever started it.  It is also how work CONTINUES. Pass an earlier run's session as `after` and this one starts from where that one stopped, so \"now add tests for it\" builds on the branch already pushed instead of a fresh clone. The follow-up has its own session and writes the same branch, so one piece of work is one branch and one pull request however many instructions it takes.  Pass `branch` to name the branch the run writes (`agent/<name>`), and `pull` as false to push it without opening a pull request.  Pass `requestId`, or the Idempotency-Key header, to make a retry the same request: one run, whichever pod takes the retry and whatever restarts between, and the retry answers the first's handle. The same id with another request is 422, and an id is at most 256 bytes.
 
         :param agent_coding_start_in: (required)
         :type agent_coding_start_in: AgentCodingStartIn
+        :param idempotency_key: RequestID makes a retry of this request the same request: one run for this caller whichever pod takes the retry and whatever restarts between, and the retry answers what the first answered. The Idempotency-Key header is the same value, and wins when both are sent. Optional.
+        :type idempotency_key: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -14208,6 +14220,7 @@ class AgentApi:
 
         _param = self._post_agent_coding_serialize(
             agent_coding_start_in=agent_coding_start_in,
+            idempotency_key=idempotency_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -14227,6 +14240,7 @@ class AgentApi:
     def _post_agent_coding_serialize(
         self,
         agent_coding_start_in,
+        idempotency_key,
         _request_auth,
         _content_type,
         _headers,
@@ -14250,6 +14264,8 @@ class AgentApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
+        if idempotency_key is not None:
+            _header_params['Idempotency-Key'] = idempotency_key
         # process the form parameters
         # process the body parameter
         if agent_coding_start_in is not None:
@@ -14307,6 +14323,7 @@ class AgentApi:
         self,
         session: Annotated[StrictStr, Field(description="Session is the run's handle, from the path.")],
         agent_coding_extend_in: AgentCodingExtendIn,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="RequestID makes a retry of this request the same request: the time is added once, and the retry answers what the first answered. The Idempotency-Key header is the same value, and wins when both are sent. Optional.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -14322,12 +14339,14 @@ class AgentApi:
     ) -> AgentCodingExtended:
         """Gives your running coding run more time.
 
-        Gives your running coding run more time. A run is held to the time it was asked for (`timeoutSeconds`) and, when it is up, keeps its work on its branch and ends; this moves that time later while the run works, so a task expected to take five minutes that is nearly done is given two more rather than restarted. `seconds` is added to the time the run has left, as far as the longest a run may be given; the answer says when the run is up now, so asking for more than that reads what you got.  The run must be yours and still working: a run that is paused or already out of time is a conflict (start a new one with `after` set to its session), and one that is not running is not found. A run sent to a machine of your own keeps that machine's time and cannot be extended.
+        Gives your running coding run more time. A run is held to the time it was asked for (`timeoutSeconds`) and, when it is up, keeps its work on its branch and ends; this moves that time later while the run works, so a task expected to take five minutes that is nearly done is given two more rather than restarted. `seconds` is added to the time the run has left, as far as the longest a run may be given; the answer says when the run is up now, so asking for more than that reads what you got.  The run must be yours and still working: a run that is paused or already out of time is a conflict (start a new one with `after` set to its session), and one that is not running is not found. A run sent to a machine of your own keeps that machine's time and cannot be extended.  `requestId`, or the Idempotency-Key header, makes a retry the same request: the time is added once, and the retry answers what the first answered. The same id with another request is 422.
 
         :param session: Session is the run's handle, from the path. (required)
         :type session: str
         :param agent_coding_extend_in: (required)
         :type agent_coding_extend_in: AgentCodingExtendIn
+        :param idempotency_key: RequestID makes a retry of this request the same request: the time is added once, and the retry answers what the first answered. The Idempotency-Key header is the same value, and wins when both are sent. Optional.
+        :type idempotency_key: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -14353,6 +14372,7 @@ class AgentApi:
         _param = self._post_agent_coding_by_session_extend_serialize(
             session=session,
             agent_coding_extend_in=agent_coding_extend_in,
+            idempotency_key=idempotency_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -14378,6 +14398,7 @@ class AgentApi:
         self,
         session: Annotated[StrictStr, Field(description="Session is the run's handle, from the path.")],
         agent_coding_extend_in: AgentCodingExtendIn,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="RequestID makes a retry of this request the same request: the time is added once, and the retry answers what the first answered. The Idempotency-Key header is the same value, and wins when both are sent. Optional.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -14393,12 +14414,14 @@ class AgentApi:
     ) -> ApiResponse[AgentCodingExtended]:
         """Gives your running coding run more time.
 
-        Gives your running coding run more time. A run is held to the time it was asked for (`timeoutSeconds`) and, when it is up, keeps its work on its branch and ends; this moves that time later while the run works, so a task expected to take five minutes that is nearly done is given two more rather than restarted. `seconds` is added to the time the run has left, as far as the longest a run may be given; the answer says when the run is up now, so asking for more than that reads what you got.  The run must be yours and still working: a run that is paused or already out of time is a conflict (start a new one with `after` set to its session), and one that is not running is not found. A run sent to a machine of your own keeps that machine's time and cannot be extended.
+        Gives your running coding run more time. A run is held to the time it was asked for (`timeoutSeconds`) and, when it is up, keeps its work on its branch and ends; this moves that time later while the run works, so a task expected to take five minutes that is nearly done is given two more rather than restarted. `seconds` is added to the time the run has left, as far as the longest a run may be given; the answer says when the run is up now, so asking for more than that reads what you got.  The run must be yours and still working: a run that is paused or already out of time is a conflict (start a new one with `after` set to its session), and one that is not running is not found. A run sent to a machine of your own keeps that machine's time and cannot be extended.  `requestId`, or the Idempotency-Key header, makes a retry the same request: the time is added once, and the retry answers what the first answered. The same id with another request is 422.
 
         :param session: Session is the run's handle, from the path. (required)
         :type session: str
         :param agent_coding_extend_in: (required)
         :type agent_coding_extend_in: AgentCodingExtendIn
+        :param idempotency_key: RequestID makes a retry of this request the same request: the time is added once, and the retry answers what the first answered. The Idempotency-Key header is the same value, and wins when both are sent. Optional.
+        :type idempotency_key: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -14424,6 +14447,7 @@ class AgentApi:
         _param = self._post_agent_coding_by_session_extend_serialize(
             session=session,
             agent_coding_extend_in=agent_coding_extend_in,
+            idempotency_key=idempotency_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -14449,6 +14473,7 @@ class AgentApi:
         self,
         session: Annotated[StrictStr, Field(description="Session is the run's handle, from the path.")],
         agent_coding_extend_in: AgentCodingExtendIn,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="RequestID makes a retry of this request the same request: the time is added once, and the retry answers what the first answered. The Idempotency-Key header is the same value, and wins when both are sent. Optional.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -14464,12 +14489,14 @@ class AgentApi:
     ) -> RESTResponseType:
         """Gives your running coding run more time.
 
-        Gives your running coding run more time. A run is held to the time it was asked for (`timeoutSeconds`) and, when it is up, keeps its work on its branch and ends; this moves that time later while the run works, so a task expected to take five minutes that is nearly done is given two more rather than restarted. `seconds` is added to the time the run has left, as far as the longest a run may be given; the answer says when the run is up now, so asking for more than that reads what you got.  The run must be yours and still working: a run that is paused or already out of time is a conflict (start a new one with `after` set to its session), and one that is not running is not found. A run sent to a machine of your own keeps that machine's time and cannot be extended.
+        Gives your running coding run more time. A run is held to the time it was asked for (`timeoutSeconds`) and, when it is up, keeps its work on its branch and ends; this moves that time later while the run works, so a task expected to take five minutes that is nearly done is given two more rather than restarted. `seconds` is added to the time the run has left, as far as the longest a run may be given; the answer says when the run is up now, so asking for more than that reads what you got.  The run must be yours and still working: a run that is paused or already out of time is a conflict (start a new one with `after` set to its session), and one that is not running is not found. A run sent to a machine of your own keeps that machine's time and cannot be extended.  `requestId`, or the Idempotency-Key header, makes a retry the same request: the time is added once, and the retry answers what the first answered. The same id with another request is 422.
 
         :param session: Session is the run's handle, from the path. (required)
         :type session: str
         :param agent_coding_extend_in: (required)
         :type agent_coding_extend_in: AgentCodingExtendIn
+        :param idempotency_key: RequestID makes a retry of this request the same request: the time is added once, and the retry answers what the first answered. The Idempotency-Key header is the same value, and wins when both are sent. Optional.
+        :type idempotency_key: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -14495,6 +14522,7 @@ class AgentApi:
         _param = self._post_agent_coding_by_session_extend_serialize(
             session=session,
             agent_coding_extend_in=agent_coding_extend_in,
+            idempotency_key=idempotency_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -14515,6 +14543,7 @@ class AgentApi:
         self,
         session,
         agent_coding_extend_in,
+        idempotency_key,
         _request_auth,
         _content_type,
         _headers,
@@ -14540,6 +14569,8 @@ class AgentApi:
             _path_params['session'] = session
         # process the query parameters
         # process the header parameters
+        if idempotency_key is not None:
+            _header_params['Idempotency-Key'] = idempotency_key
         # process the form parameters
         # process the body parameter
         if agent_coding_extend_in is not None:
@@ -14595,7 +14626,9 @@ class AgentApi:
     @validate_call
     def post_agent_coding_by_session_merge(
         self,
-        session: Annotated[StrictStr, Field(description="Session is the run's handle — the sessionId POST /v1/agent/coding answered with — from the path.")],
+        session: Annotated[StrictStr, Field(description="Session is the run's handle, from the path.")],
+        agent_coding_merge_in: AgentCodingMergeIn,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="RequestID makes a retry of this merge the same merge, answered as the first was. The Idempotency-Key header is the same value, and wins when both are sent. Optional.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -14611,10 +14644,14 @@ class AgentApi:
     ) -> AgentCodingMerged:
         """Merges a coding run's pull request into the branch it proposes into, on the forge the run pushed to, and answers the pull request after.
 
-        Merges a coding run's pull request into the branch it proposes into, on the forge the run pushed to, and answers the pull request after.  The caller must be able to read the run: its person, or an admin of its org. What lands is the run's branch at the commit the forge holds when this asks — a push after that is refused, not merged unseen — and nothing is forced: a pull request that conflicts, was closed, or that a rule on its base keeps from merging is 409 with the forge's reason. One already merged answers as it is.
+        Merges a coding run's pull request into the branch it proposes into, on the forge the run pushed to, and answers the pull request after.  The caller must be able to read the run: its person, or an admin of its org. What lands is the run's branch at the commit the forge holds when this asks — a push after that is refused, not merged unseen — and nothing is forced: a pull request that conflicts, was closed, or that a rule on its base keeps from merging is 409 with the forge's reason. One already merged answers as it is. `requestId`, or the Idempotency-Key header, makes a retry the same request, answered as the first was; the same id with another request is 422.
 
-        :param session: Session is the run's handle — the sessionId POST /v1/agent/coding answered with — from the path. (required)
+        :param session: Session is the run's handle, from the path. (required)
         :type session: str
+        :param agent_coding_merge_in: (required)
+        :type agent_coding_merge_in: AgentCodingMergeIn
+        :param idempotency_key: RequestID makes a retry of this merge the same merge, answered as the first was. The Idempotency-Key header is the same value, and wins when both are sent. Optional.
+        :type idempotency_key: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -14639,6 +14676,8 @@ class AgentApi:
 
         _param = self._post_agent_coding_by_session_merge_serialize(
             session=session,
+            agent_coding_merge_in=agent_coding_merge_in,
+            idempotency_key=idempotency_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -14662,7 +14701,9 @@ class AgentApi:
     @validate_call
     def post_agent_coding_by_session_merge_with_http_info(
         self,
-        session: Annotated[StrictStr, Field(description="Session is the run's handle — the sessionId POST /v1/agent/coding answered with — from the path.")],
+        session: Annotated[StrictStr, Field(description="Session is the run's handle, from the path.")],
+        agent_coding_merge_in: AgentCodingMergeIn,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="RequestID makes a retry of this merge the same merge, answered as the first was. The Idempotency-Key header is the same value, and wins when both are sent. Optional.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -14678,10 +14719,14 @@ class AgentApi:
     ) -> ApiResponse[AgentCodingMerged]:
         """Merges a coding run's pull request into the branch it proposes into, on the forge the run pushed to, and answers the pull request after.
 
-        Merges a coding run's pull request into the branch it proposes into, on the forge the run pushed to, and answers the pull request after.  The caller must be able to read the run: its person, or an admin of its org. What lands is the run's branch at the commit the forge holds when this asks — a push after that is refused, not merged unseen — and nothing is forced: a pull request that conflicts, was closed, or that a rule on its base keeps from merging is 409 with the forge's reason. One already merged answers as it is.
+        Merges a coding run's pull request into the branch it proposes into, on the forge the run pushed to, and answers the pull request after.  The caller must be able to read the run: its person, or an admin of its org. What lands is the run's branch at the commit the forge holds when this asks — a push after that is refused, not merged unseen — and nothing is forced: a pull request that conflicts, was closed, or that a rule on its base keeps from merging is 409 with the forge's reason. One already merged answers as it is. `requestId`, or the Idempotency-Key header, makes a retry the same request, answered as the first was; the same id with another request is 422.
 
-        :param session: Session is the run's handle — the sessionId POST /v1/agent/coding answered with — from the path. (required)
+        :param session: Session is the run's handle, from the path. (required)
         :type session: str
+        :param agent_coding_merge_in: (required)
+        :type agent_coding_merge_in: AgentCodingMergeIn
+        :param idempotency_key: RequestID makes a retry of this merge the same merge, answered as the first was. The Idempotency-Key header is the same value, and wins when both are sent. Optional.
+        :type idempotency_key: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -14706,6 +14751,8 @@ class AgentApi:
 
         _param = self._post_agent_coding_by_session_merge_serialize(
             session=session,
+            agent_coding_merge_in=agent_coding_merge_in,
+            idempotency_key=idempotency_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -14729,7 +14776,9 @@ class AgentApi:
     @validate_call
     def post_agent_coding_by_session_merge_without_preload_content(
         self,
-        session: Annotated[StrictStr, Field(description="Session is the run's handle — the sessionId POST /v1/agent/coding answered with — from the path.")],
+        session: Annotated[StrictStr, Field(description="Session is the run's handle, from the path.")],
+        agent_coding_merge_in: AgentCodingMergeIn,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="RequestID makes a retry of this merge the same merge, answered as the first was. The Idempotency-Key header is the same value, and wins when both are sent. Optional.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -14745,10 +14794,14 @@ class AgentApi:
     ) -> RESTResponseType:
         """Merges a coding run's pull request into the branch it proposes into, on the forge the run pushed to, and answers the pull request after.
 
-        Merges a coding run's pull request into the branch it proposes into, on the forge the run pushed to, and answers the pull request after.  The caller must be able to read the run: its person, or an admin of its org. What lands is the run's branch at the commit the forge holds when this asks — a push after that is refused, not merged unseen — and nothing is forced: a pull request that conflicts, was closed, or that a rule on its base keeps from merging is 409 with the forge's reason. One already merged answers as it is.
+        Merges a coding run's pull request into the branch it proposes into, on the forge the run pushed to, and answers the pull request after.  The caller must be able to read the run: its person, or an admin of its org. What lands is the run's branch at the commit the forge holds when this asks — a push after that is refused, not merged unseen — and nothing is forced: a pull request that conflicts, was closed, or that a rule on its base keeps from merging is 409 with the forge's reason. One already merged answers as it is. `requestId`, or the Idempotency-Key header, makes a retry the same request, answered as the first was; the same id with another request is 422.
 
-        :param session: Session is the run's handle — the sessionId POST /v1/agent/coding answered with — from the path. (required)
+        :param session: Session is the run's handle, from the path. (required)
         :type session: str
+        :param agent_coding_merge_in: (required)
+        :type agent_coding_merge_in: AgentCodingMergeIn
+        :param idempotency_key: RequestID makes a retry of this merge the same merge, answered as the first was. The Idempotency-Key header is the same value, and wins when both are sent. Optional.
+        :type idempotency_key: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -14773,6 +14826,8 @@ class AgentApi:
 
         _param = self._post_agent_coding_by_session_merge_serialize(
             session=session,
+            agent_coding_merge_in=agent_coding_merge_in,
+            idempotency_key=idempotency_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -14792,6 +14847,8 @@ class AgentApi:
     def _post_agent_coding_by_session_merge_serialize(
         self,
         session,
+        agent_coding_merge_in,
+        idempotency_key,
         _request_auth,
         _content_type,
         _headers,
@@ -14817,8 +14874,12 @@ class AgentApi:
             _path_params['session'] = session
         # process the query parameters
         # process the header parameters
+        if idempotency_key is not None:
+            _header_params['Idempotency-Key'] = idempotency_key
         # process the form parameters
         # process the body parameter
+        if agent_coding_merge_in is not None:
+            _body_params = agent_coding_merge_in
 
 
         # set the HTTP header `Accept`
@@ -14830,6 +14891,19 @@ class AgentApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -14859,6 +14933,7 @@ class AgentApi:
         self,
         session: Annotated[StrictStr, Field(description="Session is the run's handle, from the path.")],
         agent_coding_pull_in: AgentCodingPullIn,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="RequestID makes a retry of this request the same request, answered as the first was. The Idempotency-Key header is the same value, and wins when both are sent. Optional.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -14874,12 +14949,14 @@ class AgentApi:
     ) -> AgentCodingPulled:
         """Opens the pull request for the branch a coding run pushed, as the run's person and with no agent run, and answers its number and address.
 
-        Opens the pull request for the branch a coding run pushed, as the run's person and with no agent run, and answers its number and address.  A run pushes its branch and stops; the pull request is the step after, taken when the work is ready. A run that already has an open pull request, or a branch that has one on its host, answers with that one, so asking twice is safe. Title, body, base and draft are optional: the title and body come from the run's task, the base is the branch the run started from, and draft opens it as one a reviewer cannot merge yet. The run's branch must be on its host: a run that pushed nothing, or has not pushed yet, is 409. Who may is who may read the run, and the pull request is read back at GET /v1/agent/coding/{session}/changes.
+        Opens the pull request for the branch a coding run pushed, as the run's person and with no agent run, and answers its number and address.  A run pushes its branch and stops; the pull request is the step after, taken when the work is ready. A run that already has an open pull request, or a branch that has one on its host, answers with that one, so asking twice is safe. Title, body, base and draft are optional: the title and body come from the run's task, the base is the branch the run started from, and draft opens it as one a reviewer cannot merge yet. The run's branch must be on its host: a run that pushed nothing, or has not pushed yet, is 409. Who may is who may read the run, and the pull request is read back at GET /v1/agent/coding/{session}/changes. `requestId`, or the Idempotency-Key header, makes a retry the same request, answered as the first was; the same id with another request is 422.
 
         :param session: Session is the run's handle, from the path. (required)
         :type session: str
         :param agent_coding_pull_in: (required)
         :type agent_coding_pull_in: AgentCodingPullIn
+        :param idempotency_key: RequestID makes a retry of this request the same request, answered as the first was. The Idempotency-Key header is the same value, and wins when both are sent. Optional.
+        :type idempotency_key: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -14905,6 +14982,7 @@ class AgentApi:
         _param = self._post_agent_coding_by_session_pull_serialize(
             session=session,
             agent_coding_pull_in=agent_coding_pull_in,
+            idempotency_key=idempotency_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -14930,6 +15008,7 @@ class AgentApi:
         self,
         session: Annotated[StrictStr, Field(description="Session is the run's handle, from the path.")],
         agent_coding_pull_in: AgentCodingPullIn,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="RequestID makes a retry of this request the same request, answered as the first was. The Idempotency-Key header is the same value, and wins when both are sent. Optional.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -14945,12 +15024,14 @@ class AgentApi:
     ) -> ApiResponse[AgentCodingPulled]:
         """Opens the pull request for the branch a coding run pushed, as the run's person and with no agent run, and answers its number and address.
 
-        Opens the pull request for the branch a coding run pushed, as the run's person and with no agent run, and answers its number and address.  A run pushes its branch and stops; the pull request is the step after, taken when the work is ready. A run that already has an open pull request, or a branch that has one on its host, answers with that one, so asking twice is safe. Title, body, base and draft are optional: the title and body come from the run's task, the base is the branch the run started from, and draft opens it as one a reviewer cannot merge yet. The run's branch must be on its host: a run that pushed nothing, or has not pushed yet, is 409. Who may is who may read the run, and the pull request is read back at GET /v1/agent/coding/{session}/changes.
+        Opens the pull request for the branch a coding run pushed, as the run's person and with no agent run, and answers its number and address.  A run pushes its branch and stops; the pull request is the step after, taken when the work is ready. A run that already has an open pull request, or a branch that has one on its host, answers with that one, so asking twice is safe. Title, body, base and draft are optional: the title and body come from the run's task, the base is the branch the run started from, and draft opens it as one a reviewer cannot merge yet. The run's branch must be on its host: a run that pushed nothing, or has not pushed yet, is 409. Who may is who may read the run, and the pull request is read back at GET /v1/agent/coding/{session}/changes. `requestId`, or the Idempotency-Key header, makes a retry the same request, answered as the first was; the same id with another request is 422.
 
         :param session: Session is the run's handle, from the path. (required)
         :type session: str
         :param agent_coding_pull_in: (required)
         :type agent_coding_pull_in: AgentCodingPullIn
+        :param idempotency_key: RequestID makes a retry of this request the same request, answered as the first was. The Idempotency-Key header is the same value, and wins when both are sent. Optional.
+        :type idempotency_key: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -14976,6 +15057,7 @@ class AgentApi:
         _param = self._post_agent_coding_by_session_pull_serialize(
             session=session,
             agent_coding_pull_in=agent_coding_pull_in,
+            idempotency_key=idempotency_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -15001,6 +15083,7 @@ class AgentApi:
         self,
         session: Annotated[StrictStr, Field(description="Session is the run's handle, from the path.")],
         agent_coding_pull_in: AgentCodingPullIn,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="RequestID makes a retry of this request the same request, answered as the first was. The Idempotency-Key header is the same value, and wins when both are sent. Optional.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -15016,12 +15099,14 @@ class AgentApi:
     ) -> RESTResponseType:
         """Opens the pull request for the branch a coding run pushed, as the run's person and with no agent run, and answers its number and address.
 
-        Opens the pull request for the branch a coding run pushed, as the run's person and with no agent run, and answers its number and address.  A run pushes its branch and stops; the pull request is the step after, taken when the work is ready. A run that already has an open pull request, or a branch that has one on its host, answers with that one, so asking twice is safe. Title, body, base and draft are optional: the title and body come from the run's task, the base is the branch the run started from, and draft opens it as one a reviewer cannot merge yet. The run's branch must be on its host: a run that pushed nothing, or has not pushed yet, is 409. Who may is who may read the run, and the pull request is read back at GET /v1/agent/coding/{session}/changes.
+        Opens the pull request for the branch a coding run pushed, as the run's person and with no agent run, and answers its number and address.  A run pushes its branch and stops; the pull request is the step after, taken when the work is ready. A run that already has an open pull request, or a branch that has one on its host, answers with that one, so asking twice is safe. Title, body, base and draft are optional: the title and body come from the run's task, the base is the branch the run started from, and draft opens it as one a reviewer cannot merge yet. The run's branch must be on its host: a run that pushed nothing, or has not pushed yet, is 409. Who may is who may read the run, and the pull request is read back at GET /v1/agent/coding/{session}/changes. `requestId`, or the Idempotency-Key header, makes a retry the same request, answered as the first was; the same id with another request is 422.
 
         :param session: Session is the run's handle, from the path. (required)
         :type session: str
         :param agent_coding_pull_in: (required)
         :type agent_coding_pull_in: AgentCodingPullIn
+        :param idempotency_key: RequestID makes a retry of this request the same request, answered as the first was. The Idempotency-Key header is the same value, and wins when both are sent. Optional.
+        :type idempotency_key: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -15047,6 +15132,7 @@ class AgentApi:
         _param = self._post_agent_coding_by_session_pull_serialize(
             session=session,
             agent_coding_pull_in=agent_coding_pull_in,
+            idempotency_key=idempotency_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -15067,6 +15153,7 @@ class AgentApi:
         self,
         session,
         agent_coding_pull_in,
+        idempotency_key,
         _request_auth,
         _content_type,
         _headers,
@@ -15092,6 +15179,8 @@ class AgentApi:
             _path_params['session'] = session
         # process the query parameters
         # process the header parameters
+        if idempotency_key is not None:
+            _header_params['Idempotency-Key'] = idempotency_key
         # process the form parameters
         # process the body parameter
         if agent_coding_pull_in is not None:
@@ -15149,6 +15238,7 @@ class AgentApi:
         self,
         session: Annotated[StrictStr, Field(description="Session identifies the running or paused coding session from the path.")],
         agent_coding_instruction: AgentCodingInstruction,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="RequestID makes a retry of this instruction the same instruction: said once to the run, whichever pod takes the retry and whatever restarts between. The Idempotency-Key header is the same value, and wins when both are sent. Optional.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -15164,12 +15254,14 @@ class AgentApi:
     ) -> AgentCodingAck:
         """Redirect your running or paused coding session.
 
-        Redirect your running or paused coding session. On an active dev turn the instruction is queued into the running turn in place; otherwise the current run keeps its work before starting a follow-up. Ownership comes from the authenticated credential, never the request body.
+        Redirect your running or paused coding session. On an active dev turn the instruction is queued into the running turn in place; otherwise the current run keeps its work before starting a follow-up. Ownership comes from the authenticated credential, never the request body.  A run that no pod holds at that moment, between the halves of a rolling restart or while it is resumed, keeps the instruction in its inbox and takes it, once and in order, when its owner is up; GET /v1/agent/coding/{session}/changes lists these as `steers`, queued or delivered, and the answer says `queued` while the run has not taken the instruction. A run that has ended refuses it with 409. `requestId`, or the Idempotency-Key header, makes a retry the same instruction: said once, whichever pod takes the retry and whatever restarts between. The same id with another instruction is 422.
 
         :param session: Session identifies the running or paused coding session from the path. (required)
         :type session: str
         :param agent_coding_instruction: (required)
         :type agent_coding_instruction: AgentCodingInstruction
+        :param idempotency_key: RequestID makes a retry of this instruction the same instruction: said once to the run, whichever pod takes the retry and whatever restarts between. The Idempotency-Key header is the same value, and wins when both are sent. Optional.
+        :type idempotency_key: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -15195,6 +15287,7 @@ class AgentApi:
         _param = self._post_agent_coding_by_session_steer_serialize(
             session=session,
             agent_coding_instruction=agent_coding_instruction,
+            idempotency_key=idempotency_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -15220,6 +15313,7 @@ class AgentApi:
         self,
         session: Annotated[StrictStr, Field(description="Session identifies the running or paused coding session from the path.")],
         agent_coding_instruction: AgentCodingInstruction,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="RequestID makes a retry of this instruction the same instruction: said once to the run, whichever pod takes the retry and whatever restarts between. The Idempotency-Key header is the same value, and wins when both are sent. Optional.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -15235,12 +15329,14 @@ class AgentApi:
     ) -> ApiResponse[AgentCodingAck]:
         """Redirect your running or paused coding session.
 
-        Redirect your running or paused coding session. On an active dev turn the instruction is queued into the running turn in place; otherwise the current run keeps its work before starting a follow-up. Ownership comes from the authenticated credential, never the request body.
+        Redirect your running or paused coding session. On an active dev turn the instruction is queued into the running turn in place; otherwise the current run keeps its work before starting a follow-up. Ownership comes from the authenticated credential, never the request body.  A run that no pod holds at that moment, between the halves of a rolling restart or while it is resumed, keeps the instruction in its inbox and takes it, once and in order, when its owner is up; GET /v1/agent/coding/{session}/changes lists these as `steers`, queued or delivered, and the answer says `queued` while the run has not taken the instruction. A run that has ended refuses it with 409. `requestId`, or the Idempotency-Key header, makes a retry the same instruction: said once, whichever pod takes the retry and whatever restarts between. The same id with another instruction is 422.
 
         :param session: Session identifies the running or paused coding session from the path. (required)
         :type session: str
         :param agent_coding_instruction: (required)
         :type agent_coding_instruction: AgentCodingInstruction
+        :param idempotency_key: RequestID makes a retry of this instruction the same instruction: said once to the run, whichever pod takes the retry and whatever restarts between. The Idempotency-Key header is the same value, and wins when both are sent. Optional.
+        :type idempotency_key: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -15266,6 +15362,7 @@ class AgentApi:
         _param = self._post_agent_coding_by_session_steer_serialize(
             session=session,
             agent_coding_instruction=agent_coding_instruction,
+            idempotency_key=idempotency_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -15291,6 +15388,7 @@ class AgentApi:
         self,
         session: Annotated[StrictStr, Field(description="Session identifies the running or paused coding session from the path.")],
         agent_coding_instruction: AgentCodingInstruction,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="RequestID makes a retry of this instruction the same instruction: said once to the run, whichever pod takes the retry and whatever restarts between. The Idempotency-Key header is the same value, and wins when both are sent. Optional.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -15306,12 +15404,14 @@ class AgentApi:
     ) -> RESTResponseType:
         """Redirect your running or paused coding session.
 
-        Redirect your running or paused coding session. On an active dev turn the instruction is queued into the running turn in place; otherwise the current run keeps its work before starting a follow-up. Ownership comes from the authenticated credential, never the request body.
+        Redirect your running or paused coding session. On an active dev turn the instruction is queued into the running turn in place; otherwise the current run keeps its work before starting a follow-up. Ownership comes from the authenticated credential, never the request body.  A run that no pod holds at that moment, between the halves of a rolling restart or while it is resumed, keeps the instruction in its inbox and takes it, once and in order, when its owner is up; GET /v1/agent/coding/{session}/changes lists these as `steers`, queued or delivered, and the answer says `queued` while the run has not taken the instruction. A run that has ended refuses it with 409. `requestId`, or the Idempotency-Key header, makes a retry the same instruction: said once, whichever pod takes the retry and whatever restarts between. The same id with another instruction is 422.
 
         :param session: Session identifies the running or paused coding session from the path. (required)
         :type session: str
         :param agent_coding_instruction: (required)
         :type agent_coding_instruction: AgentCodingInstruction
+        :param idempotency_key: RequestID makes a retry of this instruction the same instruction: said once to the run, whichever pod takes the retry and whatever restarts between. The Idempotency-Key header is the same value, and wins when both are sent. Optional.
+        :type idempotency_key: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -15337,6 +15437,7 @@ class AgentApi:
         _param = self._post_agent_coding_by_session_steer_serialize(
             session=session,
             agent_coding_instruction=agent_coding_instruction,
+            idempotency_key=idempotency_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -15357,6 +15458,7 @@ class AgentApi:
         self,
         session,
         agent_coding_instruction,
+        idempotency_key,
         _request_auth,
         _content_type,
         _headers,
@@ -15382,6 +15484,8 @@ class AgentApi:
             _path_params['session'] = session
         # process the query parameters
         # process the header parameters
+        if idempotency_key is not None:
+            _header_params['Idempotency-Key'] = idempotency_key
         # process the form parameters
         # process the body parameter
         if agent_coding_instruction is not None:

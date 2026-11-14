@@ -29,9 +29,10 @@ class AgentCodingPullIn(BaseModel):
     base: Optional[StrictStr] = Field(default=None, description="Base is the branch to propose into. Empty is the branch the run started from.")
     body: Optional[StrictStr] = Field(default=None, description="Body is its description. Empty says who it is for, the task, the branch and the run it came from.")
     draft: Optional[StrictBool] = Field(default=None, description="Draft opens it as a draft, which a reviewer cannot merge until it is ready.")
+    request_id: Optional[StrictStr] = Field(default=None, description="RequestID makes a retry of this request the same request, answered as the first was. The Idempotency-Key header is the same value, and wins when both are sent. Optional.", alias="requestId")
     session: Optional[StrictStr] = Field(default=None, description="Session is the run's handle, from the path.")
     title: Optional[StrictStr] = Field(default=None, description="Title is the pull request's title. Empty takes one from the run's task.")
-    __properties: ClassVar[List[str]] = ["base", "body", "draft", "session", "title"]
+    __properties: ClassVar[List[str]] = ["base", "body", "draft", "requestId", "session", "title"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -87,6 +88,7 @@ class AgentCodingPullIn(BaseModel):
             "base": obj.get("base"),
             "body": obj.get("body"),
             "draft": obj.get("draft"),
+            "requestId": obj.get("requestId"),
             "session": obj.get("session"),
             "title": obj.get("title")
         })
