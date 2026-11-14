@@ -27,7 +27,8 @@ class BillingRouteIn(BaseModel):
     BillingRouteIn
     """ # noqa: E501
     country: Optional[StrictStr] = Field(default=None, description="Country is the buyer's ISO 3166-1 alpha-2 country; the edge's geo country when absent.")
-    __properties: ClassVar[List[str]] = ["country"]
+    currency: Optional[StrictStr] = Field(default=None, description="Currency is what the checkout is paid in; usd when absent.")
+    __properties: ClassVar[List[str]] = ["country", "currency"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -80,7 +81,8 @@ class BillingRouteIn(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "country": obj.get("country")
+            "country": obj.get("country"),
+            "currency": obj.get("currency")
         })
         return _obj
 

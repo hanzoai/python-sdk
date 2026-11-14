@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,11 +26,12 @@ class BillingRoute(BaseModel):
     """
     BillingRoute
     """ # noqa: E501
+    alternatives: Optional[List[StrictStr]] = Field(default=None, description="Alternatives are the other ways this buyer may pay, each its own button beside the card slot: paypal where PayPal operates, crypto where a deposit watcher runs.")
     country: Optional[StrictStr] = None
     methods: Optional[List[StrictStr]] = None
     processor: Optional[StrictStr] = None
-    reason: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["country", "methods", "processor", "reason"]
+    reason: Optional[StrictStr] = Field(default=None, description="Reason is why: saved, assigned, split, merchant or fallback.")
+    __properties: ClassVar[List[str]] = ["alternatives", "country", "methods", "processor", "reason"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -83,6 +84,7 @@ class BillingRoute(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "alternatives": obj.get("alternatives"),
             "country": obj.get("country"),
             "methods": obj.get("methods"),
             "processor": obj.get("processor"),
