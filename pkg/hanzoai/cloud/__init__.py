@@ -472,6 +472,7 @@ __all__ = [
     "BillingAutoRecharge",
     "BillingAutoRechargeEdit",
     "BillingBillingAccount",
+    "BillingBillingAddress",
     "BillingBillingInvoice",
     "BillingCapVerdict",
     "BillingCharged",
@@ -510,6 +511,8 @@ __all__ = [
     "BillingRollup",
     "BillingRollupAllotment",
     "BillingRollupBalance",
+    "BillingRoute",
+    "BillingRouteIn",
     "BillingRoutedUsage",
     "BillingSaleLine",
     "BillingSignedPayment",
@@ -523,6 +526,9 @@ __all__ = [
     "BillingTierBalance",
     "BillingTierLimits",
     "BillingTopupIn",
+    "BillingTopupIntentIn",
+    "BillingTopupIntentOut",
+    "BillingTopupIntentState",
     "BillingTransaction",
     "BillingTransactions",
     "BillingUsageReceipt",
@@ -1174,6 +1180,7 @@ __all__ = [
     "GitActivityTotals",
     "GitActivityWindow",
     "GitBlobJSON",
+    "GitCombinedStatus",
     "GitCommitJSON",
     "GitCommitsJSON",
     "GitCreateReq",
@@ -1182,6 +1189,9 @@ __all__ = [
     "GitGcOut",
     "GitJobLog",
     "GitJobView",
+    "GitKeyIn",
+    "GitKeyList",
+    "GitKeyView",
     "GitLink",
     "GitLinkAll",
     "GitLinkReq",
@@ -1212,6 +1222,8 @@ __all__ = [
     "GitRunStep",
     "GitRunnerList",
     "GitRunnerView",
+    "GitStatusIn",
+    "GitStatusView",
     "GitSubscribeReq",
     "GitSubscriptionList",
     "GitSubscriptionView",
@@ -4022,6 +4034,7 @@ from hanzoai.cloud.models.billing_assignment import BillingAssignment as Billing
 from hanzoai.cloud.models.billing_auto_recharge import BillingAutoRecharge as BillingAutoRecharge
 from hanzoai.cloud.models.billing_auto_recharge_edit import BillingAutoRechargeEdit as BillingAutoRechargeEdit
 from hanzoai.cloud.models.billing_billing_account import BillingBillingAccount as BillingBillingAccount
+from hanzoai.cloud.models.billing_billing_address import BillingBillingAddress as BillingBillingAddress
 from hanzoai.cloud.models.billing_billing_invoice import BillingBillingInvoice as BillingBillingInvoice
 from hanzoai.cloud.models.billing_cap_verdict import BillingCapVerdict as BillingCapVerdict
 from hanzoai.cloud.models.billing_charged import BillingCharged as BillingCharged
@@ -4060,6 +4073,8 @@ from hanzoai.cloud.models.billing_resize import BillingResize as BillingResize
 from hanzoai.cloud.models.billing_rollup import BillingRollup as BillingRollup
 from hanzoai.cloud.models.billing_rollup_allotment import BillingRollupAllotment as BillingRollupAllotment
 from hanzoai.cloud.models.billing_rollup_balance import BillingRollupBalance as BillingRollupBalance
+from hanzoai.cloud.models.billing_route import BillingRoute as BillingRoute
+from hanzoai.cloud.models.billing_route_in import BillingRouteIn as BillingRouteIn
 from hanzoai.cloud.models.billing_routed_usage import BillingRoutedUsage as BillingRoutedUsage
 from hanzoai.cloud.models.billing_sale_line import BillingSaleLine as BillingSaleLine
 from hanzoai.cloud.models.billing_signed_payment import BillingSignedPayment as BillingSignedPayment
@@ -4073,6 +4088,9 @@ from hanzoai.cloud.models.billing_tier import BillingTier as BillingTier
 from hanzoai.cloud.models.billing_tier_balance import BillingTierBalance as BillingTierBalance
 from hanzoai.cloud.models.billing_tier_limits import BillingTierLimits as BillingTierLimits
 from hanzoai.cloud.models.billing_topup_in import BillingTopupIn as BillingTopupIn
+from hanzoai.cloud.models.billing_topup_intent_in import BillingTopupIntentIn as BillingTopupIntentIn
+from hanzoai.cloud.models.billing_topup_intent_out import BillingTopupIntentOut as BillingTopupIntentOut
+from hanzoai.cloud.models.billing_topup_intent_state import BillingTopupIntentState as BillingTopupIntentState
 from hanzoai.cloud.models.billing_transaction import BillingTransaction as BillingTransaction
 from hanzoai.cloud.models.billing_transactions import BillingTransactions as BillingTransactions
 from hanzoai.cloud.models.billing_usage_receipt import BillingUsageReceipt as BillingUsageReceipt
@@ -4724,6 +4742,7 @@ from hanzoai.cloud.models.git_activity_repo import GitActivityRepo as GitActivit
 from hanzoai.cloud.models.git_activity_totals import GitActivityTotals as GitActivityTotals
 from hanzoai.cloud.models.git_activity_window import GitActivityWindow as GitActivityWindow
 from hanzoai.cloud.models.git_blob_json import GitBlobJSON as GitBlobJSON
+from hanzoai.cloud.models.git_combined_status import GitCombinedStatus as GitCombinedStatus
 from hanzoai.cloud.models.git_commit_json import GitCommitJSON as GitCommitJSON
 from hanzoai.cloud.models.git_commits_json import GitCommitsJSON as GitCommitsJSON
 from hanzoai.cloud.models.git_create_req import GitCreateReq as GitCreateReq
@@ -4732,6 +4751,9 @@ from hanzoai.cloud.models.git_files_json import GitFilesJSON as GitFilesJSON
 from hanzoai.cloud.models.git_gc_out import GitGcOut as GitGcOut
 from hanzoai.cloud.models.git_job_log import GitJobLog as GitJobLog
 from hanzoai.cloud.models.git_job_view import GitJobView as GitJobView
+from hanzoai.cloud.models.git_key_in import GitKeyIn as GitKeyIn
+from hanzoai.cloud.models.git_key_list import GitKeyList as GitKeyList
+from hanzoai.cloud.models.git_key_view import GitKeyView as GitKeyView
 from hanzoai.cloud.models.git_link import GitLink as GitLink
 from hanzoai.cloud.models.git_link_all import GitLinkAll as GitLinkAll
 from hanzoai.cloud.models.git_link_req import GitLinkReq as GitLinkReq
@@ -4762,6 +4784,8 @@ from hanzoai.cloud.models.git_run_start import GitRunStart as GitRunStart
 from hanzoai.cloud.models.git_run_step import GitRunStep as GitRunStep
 from hanzoai.cloud.models.git_runner_list import GitRunnerList as GitRunnerList
 from hanzoai.cloud.models.git_runner_view import GitRunnerView as GitRunnerView
+from hanzoai.cloud.models.git_status_in import GitStatusIn as GitStatusIn
+from hanzoai.cloud.models.git_status_view import GitStatusView as GitStatusView
 from hanzoai.cloud.models.git_subscribe_req import GitSubscribeReq as GitSubscribeReq
 from hanzoai.cloud.models.git_subscription_list import GitSubscriptionList as GitSubscriptionList
 from hanzoai.cloud.models.git_subscription_view import GitSubscriptionView as GitSubscriptionView

@@ -328,6 +328,7 @@ from hanzoai.cloud.models.billing_assignment import BillingAssignment
 from hanzoai.cloud.models.billing_auto_recharge import BillingAutoRecharge
 from hanzoai.cloud.models.billing_auto_recharge_edit import BillingAutoRechargeEdit
 from hanzoai.cloud.models.billing_billing_account import BillingBillingAccount
+from hanzoai.cloud.models.billing_billing_address import BillingBillingAddress
 from hanzoai.cloud.models.billing_billing_invoice import BillingBillingInvoice
 from hanzoai.cloud.models.billing_cap_verdict import BillingCapVerdict
 from hanzoai.cloud.models.billing_charged import BillingCharged
@@ -366,6 +367,8 @@ from hanzoai.cloud.models.billing_resize import BillingResize
 from hanzoai.cloud.models.billing_rollup import BillingRollup
 from hanzoai.cloud.models.billing_rollup_allotment import BillingRollupAllotment
 from hanzoai.cloud.models.billing_rollup_balance import BillingRollupBalance
+from hanzoai.cloud.models.billing_route import BillingRoute
+from hanzoai.cloud.models.billing_route_in import BillingRouteIn
 from hanzoai.cloud.models.billing_routed_usage import BillingRoutedUsage
 from hanzoai.cloud.models.billing_sale_line import BillingSaleLine
 from hanzoai.cloud.models.billing_signed_payment import BillingSignedPayment
@@ -379,6 +382,9 @@ from hanzoai.cloud.models.billing_tier import BillingTier
 from hanzoai.cloud.models.billing_tier_balance import BillingTierBalance
 from hanzoai.cloud.models.billing_tier_limits import BillingTierLimits
 from hanzoai.cloud.models.billing_topup_in import BillingTopupIn
+from hanzoai.cloud.models.billing_topup_intent_in import BillingTopupIntentIn
+from hanzoai.cloud.models.billing_topup_intent_out import BillingTopupIntentOut
+from hanzoai.cloud.models.billing_topup_intent_state import BillingTopupIntentState
 from hanzoai.cloud.models.billing_transaction import BillingTransaction
 from hanzoai.cloud.models.billing_transactions import BillingTransactions
 from hanzoai.cloud.models.billing_usage_receipt import BillingUsageReceipt
@@ -1030,6 +1036,7 @@ from hanzoai.cloud.models.git_activity_repo import GitActivityRepo
 from hanzoai.cloud.models.git_activity_totals import GitActivityTotals
 from hanzoai.cloud.models.git_activity_window import GitActivityWindow
 from hanzoai.cloud.models.git_blob_json import GitBlobJSON
+from hanzoai.cloud.models.git_combined_status import GitCombinedStatus
 from hanzoai.cloud.models.git_commit_json import GitCommitJSON
 from hanzoai.cloud.models.git_commits_json import GitCommitsJSON
 from hanzoai.cloud.models.git_create_req import GitCreateReq
@@ -1038,6 +1045,9 @@ from hanzoai.cloud.models.git_files_json import GitFilesJSON
 from hanzoai.cloud.models.git_gc_out import GitGcOut
 from hanzoai.cloud.models.git_job_log import GitJobLog
 from hanzoai.cloud.models.git_job_view import GitJobView
+from hanzoai.cloud.models.git_key_in import GitKeyIn
+from hanzoai.cloud.models.git_key_list import GitKeyList
+from hanzoai.cloud.models.git_key_view import GitKeyView
 from hanzoai.cloud.models.git_link import GitLink
 from hanzoai.cloud.models.git_link_all import GitLinkAll
 from hanzoai.cloud.models.git_link_req import GitLinkReq
@@ -1068,6 +1078,8 @@ from hanzoai.cloud.models.git_run_start import GitRunStart
 from hanzoai.cloud.models.git_run_step import GitRunStep
 from hanzoai.cloud.models.git_runner_list import GitRunnerList
 from hanzoai.cloud.models.git_runner_view import GitRunnerView
+from hanzoai.cloud.models.git_status_in import GitStatusIn
+from hanzoai.cloud.models.git_status_view import GitStatusView
 from hanzoai.cloud.models.git_subscribe_req import GitSubscribeReq
 from hanzoai.cloud.models.git_subscription_list import GitSubscriptionList
 from hanzoai.cloud.models.git_subscription_view import GitSubscriptionView

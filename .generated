@@ -450,6 +450,7 @@ pkg/hanzoai/cloud/models/billing_assignment.py
 pkg/hanzoai/cloud/models/billing_auto_recharge.py
 pkg/hanzoai/cloud/models/billing_auto_recharge_edit.py
 pkg/hanzoai/cloud/models/billing_billing_account.py
+pkg/hanzoai/cloud/models/billing_billing_address.py
 pkg/hanzoai/cloud/models/billing_billing_invoice.py
 pkg/hanzoai/cloud/models/billing_cap_verdict.py
 pkg/hanzoai/cloud/models/billing_charged.py
@@ -488,6 +489,8 @@ pkg/hanzoai/cloud/models/billing_resize.py
 pkg/hanzoai/cloud/models/billing_rollup.py
 pkg/hanzoai/cloud/models/billing_rollup_allotment.py
 pkg/hanzoai/cloud/models/billing_rollup_balance.py
+pkg/hanzoai/cloud/models/billing_route.py
+pkg/hanzoai/cloud/models/billing_route_in.py
 pkg/hanzoai/cloud/models/billing_routed_usage.py
 pkg/hanzoai/cloud/models/billing_sale_line.py
 pkg/hanzoai/cloud/models/billing_signed_payment.py
@@ -501,6 +504,9 @@ pkg/hanzoai/cloud/models/billing_tier.py
 pkg/hanzoai/cloud/models/billing_tier_balance.py
 pkg/hanzoai/cloud/models/billing_tier_limits.py
 pkg/hanzoai/cloud/models/billing_topup_in.py
+pkg/hanzoai/cloud/models/billing_topup_intent_in.py
+pkg/hanzoai/cloud/models/billing_topup_intent_out.py
+pkg/hanzoai/cloud/models/billing_topup_intent_state.py
 pkg/hanzoai/cloud/models/billing_transaction.py
 pkg/hanzoai/cloud/models/billing_transactions.py
 pkg/hanzoai/cloud/models/billing_usage_receipt.py
@@ -1152,6 +1158,7 @@ pkg/hanzoai/cloud/models/git_activity_repo.py
 pkg/hanzoai/cloud/models/git_activity_totals.py
 pkg/hanzoai/cloud/models/git_activity_window.py
 pkg/hanzoai/cloud/models/git_blob_json.py
+pkg/hanzoai/cloud/models/git_combined_status.py
 pkg/hanzoai/cloud/models/git_commit_json.py
 pkg/hanzoai/cloud/models/git_commits_json.py
 pkg/hanzoai/cloud/models/git_create_req.py
@@ -1160,6 +1167,9 @@ pkg/hanzoai/cloud/models/git_files_json.py
 pkg/hanzoai/cloud/models/git_gc_out.py
 pkg/hanzoai/cloud/models/git_job_log.py
 pkg/hanzoai/cloud/models/git_job_view.py
+pkg/hanzoai/cloud/models/git_key_in.py
+pkg/hanzoai/cloud/models/git_key_list.py
+pkg/hanzoai/cloud/models/git_key_view.py
 pkg/hanzoai/cloud/models/git_link.py
 pkg/hanzoai/cloud/models/git_link_all.py
 pkg/hanzoai/cloud/models/git_link_req.py
@@ -1190,6 +1200,8 @@ pkg/hanzoai/cloud/models/git_run_start.py
 pkg/hanzoai/cloud/models/git_run_step.py
 pkg/hanzoai/cloud/models/git_runner_list.py
 pkg/hanzoai/cloud/models/git_runner_view.py
+pkg/hanzoai/cloud/models/git_status_in.py
+pkg/hanzoai/cloud/models/git_status_view.py
 pkg/hanzoai/cloud/models/git_subscribe_req.py
 pkg/hanzoai/cloud/models/git_subscription_list.py
 pkg/hanzoai/cloud/models/git_subscription_view.py
