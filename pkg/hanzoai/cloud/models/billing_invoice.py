@@ -20,6 +20,7 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.billing_invoice_line import BillingInvoiceLine
+from hanzoai.cloud.models.billing_price_quote import BillingPriceQuote
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -36,10 +37,11 @@ class BillingInvoice(BaseModel):
     lines: Optional[List[BillingInvoiceLine]] = Field(default=None, description="Lines are the charges on the invoice.")
     number: Optional[StrictStr] = Field(default=None, description="Number is the human-facing invoice number, e.g. \"INV-0042\". A draft has none; issuing assigns it.")
     payment_ref: Optional[StrictStr] = Field(default=None, description="PaymentRef is the processor reference for the collection, once paid.", alias="paymentRef")
+    quote: Optional[BillingPriceQuote] = Field(default=None, description="Quote is the invoice's price in the buyer's own currency: the bound quote once paid, else the quote an awaiting-bank attempt is bound to, else the displayed price of what is due. Absent in the plan's currency.")
     status: Optional[StrictStr] = Field(default=None, description="Status is draft, open, paid, void or uncollectible. A draft is not collectible; issuing moves it to open.")
     subtotal_cents: Optional[StrictInt] = Field(default=None, description="SubtotalCents is the sum of the lines.", alias="subtotalCents")
     user_id: Optional[StrictStr] = Field(default=None, description="UserID is the customer billed.", alias="userId")
-    __properties: ClassVar[List[str]] = ["amountDueCents", "amountPaidCents", "createdAt", "currency", "customerEmail", "id", "lines", "number", "paymentRef", "status", "subtotalCents", "userId"]
+    __properties: ClassVar[List[str]] = ["amountDueCents", "amountPaidCents", "createdAt", "currency", "customerEmail", "id", "lines", "number", "paymentRef", "quote", "status", "subtotalCents", "userId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -87,6 +89,9 @@ class BillingInvoice(BaseModel):
                 if _item_lines:
                     _items.append(_item_lines.to_dict())
             _dict['lines'] = _items
+        # override the default output from pydantic by calling `to_dict()` of quote
+        if self.quote:
+            _dict['quote'] = self.quote.to_dict()
         return _dict
 
     @classmethod
@@ -108,6 +113,7 @@ class BillingInvoice(BaseModel):
             "lines": [BillingInvoiceLine.from_dict(_item) for _item in obj["lines"]] if obj.get("lines") is not None else None,
             "number": obj.get("number"),
             "paymentRef": obj.get("paymentRef"),
+            "quote": BillingPriceQuote.from_dict(obj["quote"]) if obj.get("quote") is not None else None,
             "status": obj.get("status"),
             "subtotalCents": obj.get("subtotalCents"),
             "userId": obj.get("userId")

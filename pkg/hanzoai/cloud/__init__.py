@@ -471,6 +471,7 @@ __all__ = [
     "BillingAlertPatch",
     "BillingAlertSpec",
     "BillingAssignment",
+    "BillingAuthenticationStep",
     "BillingAutoRecharge",
     "BillingAutoRechargeEdit",
     "BillingBillingAccount",
@@ -498,6 +499,7 @@ __all__ = [
     "BillingInvoice",
     "BillingInvoiceLine",
     "BillingInvoiceLineItem",
+    "BillingInvoicePayment",
     "BillingInvoiceRef",
     "BillingInvoices",
     "BillingMode",
@@ -506,6 +508,7 @@ __all__ = [
     "BillingPayPalOrderOut",
     "BillingPayout",
     "BillingPaypalOrderIn",
+    "BillingPriceQuote",
     "BillingRaiseIn",
     "BillingRecharge",
     "BillingRecharged",
@@ -515,7 +518,9 @@ __all__ = [
     "BillingRollupBalance",
     "BillingRoute",
     "BillingRouteIn",
+    "BillingRouteStep",
     "BillingRoutedUsage",
+    "BillingRoutingCryptoRail",
     "BillingSaleLine",
     "BillingSignedPayment",
     "BillingSubscription",
@@ -4035,6 +4040,7 @@ from hanzoai.cloud.models.billing_alert import BillingAlert as BillingAlert
 from hanzoai.cloud.models.billing_alert_patch import BillingAlertPatch as BillingAlertPatch
 from hanzoai.cloud.models.billing_alert_spec import BillingAlertSpec as BillingAlertSpec
 from hanzoai.cloud.models.billing_assignment import BillingAssignment as BillingAssignment
+from hanzoai.cloud.models.billing_authentication_step import BillingAuthenticationStep as BillingAuthenticationStep
 from hanzoai.cloud.models.billing_auto_recharge import BillingAutoRecharge as BillingAutoRecharge
 from hanzoai.cloud.models.billing_auto_recharge_edit import BillingAutoRechargeEdit as BillingAutoRechargeEdit
 from hanzoai.cloud.models.billing_billing_account import BillingBillingAccount as BillingBillingAccount
@@ -4062,6 +4068,7 @@ from hanzoai.cloud.models.billing_holder import BillingHolder as BillingHolder
 from hanzoai.cloud.models.billing_invoice import BillingInvoice as BillingInvoice
 from hanzoai.cloud.models.billing_invoice_line import BillingInvoiceLine as BillingInvoiceLine
 from hanzoai.cloud.models.billing_invoice_line_item import BillingInvoiceLineItem as BillingInvoiceLineItem
+from hanzoai.cloud.models.billing_invoice_payment import BillingInvoicePayment as BillingInvoicePayment
 from hanzoai.cloud.models.billing_invoice_ref import BillingInvoiceRef as BillingInvoiceRef
 from hanzoai.cloud.models.billing_invoices import BillingInvoices as BillingInvoices
 from hanzoai.cloud.models.billing_mode import BillingMode as BillingMode
@@ -4070,6 +4077,7 @@ from hanzoai.cloud.models.billing_money import BillingMoney as BillingMoney
 from hanzoai.cloud.models.billing_pay_pal_order_out import BillingPayPalOrderOut as BillingPayPalOrderOut
 from hanzoai.cloud.models.billing_payout import BillingPayout as BillingPayout
 from hanzoai.cloud.models.billing_paypal_order_in import BillingPaypalOrderIn as BillingPaypalOrderIn
+from hanzoai.cloud.models.billing_price_quote import BillingPriceQuote as BillingPriceQuote
 from hanzoai.cloud.models.billing_raise_in import BillingRaiseIn as BillingRaiseIn
 from hanzoai.cloud.models.billing_recharge import BillingRecharge as BillingRecharge
 from hanzoai.cloud.models.billing_recharged import BillingRecharged as BillingRecharged
@@ -4079,7 +4087,9 @@ from hanzoai.cloud.models.billing_rollup_allotment import BillingRollupAllotment
 from hanzoai.cloud.models.billing_rollup_balance import BillingRollupBalance as BillingRollupBalance
 from hanzoai.cloud.models.billing_route import BillingRoute as BillingRoute
 from hanzoai.cloud.models.billing_route_in import BillingRouteIn as BillingRouteIn
+from hanzoai.cloud.models.billing_route_step import BillingRouteStep as BillingRouteStep
 from hanzoai.cloud.models.billing_routed_usage import BillingRoutedUsage as BillingRoutedUsage
+from hanzoai.cloud.models.billing_routing_crypto_rail import BillingRoutingCryptoRail as BillingRoutingCryptoRail
 from hanzoai.cloud.models.billing_sale_line import BillingSaleLine as BillingSaleLine
 from hanzoai.cloud.models.billing_signed_payment import BillingSignedPayment as BillingSignedPayment
 from hanzoai.cloud.models.billing_subscription import BillingSubscription as BillingSubscription

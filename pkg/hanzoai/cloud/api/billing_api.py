@@ -41,6 +41,7 @@ from hanzoai.cloud.models.billing_gateway_payment import BillingGatewayPayment
 from hanzoai.cloud.models.billing_gateway_terms import BillingGatewayTerms
 from hanzoai.cloud.models.billing_holder import BillingHolder
 from hanzoai.cloud.models.billing_invoice import BillingInvoice
+from hanzoai.cloud.models.billing_invoice_payment import BillingInvoicePayment
 from hanzoai.cloud.models.billing_invoice_ref import BillingInvoiceRef
 from hanzoai.cloud.models.billing_invoices import BillingInvoices
 from hanzoai.cloud.models.billing_mode import BillingMode
@@ -48,6 +49,7 @@ from hanzoai.cloud.models.billing_mode_in import BillingModeIn
 from hanzoai.cloud.models.billing_pay_pal_order_out import BillingPayPalOrderOut
 from hanzoai.cloud.models.billing_payout import BillingPayout
 from hanzoai.cloud.models.billing_paypal_order_in import BillingPaypalOrderIn
+from hanzoai.cloud.models.billing_price_quote import BillingPriceQuote
 from hanzoai.cloud.models.billing_raise_in import BillingRaiseIn
 from hanzoai.cloud.models.billing_recharge import BillingRecharge
 from hanzoai.cloud.models.billing_resize import BillingResize
@@ -7113,6 +7115,372 @@ class BillingApi:
 
 
     @validate_call
+    def get_billing_quote(
+        self,
+        plan: Annotated[Optional[StrictStr], Field(description="Plan is the plan to price; absent when usdCents asks for credit.")] = None,
+        level: Annotated[Optional[StrictInt], Field(description="Level selects the plan's published price level.")] = None,
+        interval: Annotated[Optional[StrictStr], Field(description="Interval selects the billing term, month or year.")] = None,
+        usd_cents: Annotated[Optional[StrictInt], Field(description="UsdCents asks for an amount of credit when no plan is named.")] = None,
+        country: Annotated[Optional[StrictStr], Field(description="Country is the buyer's ISO 3166-1 alpha-2 country; the edge's geo country when absent.")] = None,
+        currency: Annotated[Optional[StrictStr], Field(description="Currency is the currency the buyer chose; the country's default when absent.")] = None,
+        method: Annotated[Optional[StrictStr], Field(description="Method is the payment method the buyer chose, when they have.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> BillingPriceQuote:
+        """Answers the price of what the caller is about to buy.
+
+        Answers the price of what the caller is about to buy.
+
+        :param plan: Plan is the plan to price; absent when usdCents asks for credit.
+        :type plan: str
+        :param level: Level selects the plan's published price level.
+        :type level: int
+        :param interval: Interval selects the billing term, month or year.
+        :type interval: str
+        :param usd_cents: UsdCents asks for an amount of credit when no plan is named.
+        :type usd_cents: int
+        :param country: Country is the buyer's ISO 3166-1 alpha-2 country; the edge's geo country when absent.
+        :type country: str
+        :param currency: Currency is the currency the buyer chose; the country's default when absent.
+        :type currency: str
+        :param method: Method is the payment method the buyer chose, when they have.
+        :type method: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_billing_quote_serialize(
+            plan=plan,
+            level=level,
+            interval=interval,
+            usd_cents=usd_cents,
+            country=country,
+            currency=currency,
+            method=method,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BillingPriceQuote",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_billing_quote_with_http_info(
+        self,
+        plan: Annotated[Optional[StrictStr], Field(description="Plan is the plan to price; absent when usdCents asks for credit.")] = None,
+        level: Annotated[Optional[StrictInt], Field(description="Level selects the plan's published price level.")] = None,
+        interval: Annotated[Optional[StrictStr], Field(description="Interval selects the billing term, month or year.")] = None,
+        usd_cents: Annotated[Optional[StrictInt], Field(description="UsdCents asks for an amount of credit when no plan is named.")] = None,
+        country: Annotated[Optional[StrictStr], Field(description="Country is the buyer's ISO 3166-1 alpha-2 country; the edge's geo country when absent.")] = None,
+        currency: Annotated[Optional[StrictStr], Field(description="Currency is the currency the buyer chose; the country's default when absent.")] = None,
+        method: Annotated[Optional[StrictStr], Field(description="Method is the payment method the buyer chose, when they have.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[BillingPriceQuote]:
+        """Answers the price of what the caller is about to buy.
+
+        Answers the price of what the caller is about to buy.
+
+        :param plan: Plan is the plan to price; absent when usdCents asks for credit.
+        :type plan: str
+        :param level: Level selects the plan's published price level.
+        :type level: int
+        :param interval: Interval selects the billing term, month or year.
+        :type interval: str
+        :param usd_cents: UsdCents asks for an amount of credit when no plan is named.
+        :type usd_cents: int
+        :param country: Country is the buyer's ISO 3166-1 alpha-2 country; the edge's geo country when absent.
+        :type country: str
+        :param currency: Currency is the currency the buyer chose; the country's default when absent.
+        :type currency: str
+        :param method: Method is the payment method the buyer chose, when they have.
+        :type method: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_billing_quote_serialize(
+            plan=plan,
+            level=level,
+            interval=interval,
+            usd_cents=usd_cents,
+            country=country,
+            currency=currency,
+            method=method,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BillingPriceQuote",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_billing_quote_without_preload_content(
+        self,
+        plan: Annotated[Optional[StrictStr], Field(description="Plan is the plan to price; absent when usdCents asks for credit.")] = None,
+        level: Annotated[Optional[StrictInt], Field(description="Level selects the plan's published price level.")] = None,
+        interval: Annotated[Optional[StrictStr], Field(description="Interval selects the billing term, month or year.")] = None,
+        usd_cents: Annotated[Optional[StrictInt], Field(description="UsdCents asks for an amount of credit when no plan is named.")] = None,
+        country: Annotated[Optional[StrictStr], Field(description="Country is the buyer's ISO 3166-1 alpha-2 country; the edge's geo country when absent.")] = None,
+        currency: Annotated[Optional[StrictStr], Field(description="Currency is the currency the buyer chose; the country's default when absent.")] = None,
+        method: Annotated[Optional[StrictStr], Field(description="Method is the payment method the buyer chose, when they have.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Answers the price of what the caller is about to buy.
+
+        Answers the price of what the caller is about to buy.
+
+        :param plan: Plan is the plan to price; absent when usdCents asks for credit.
+        :type plan: str
+        :param level: Level selects the plan's published price level.
+        :type level: int
+        :param interval: Interval selects the billing term, month or year.
+        :type interval: str
+        :param usd_cents: UsdCents asks for an amount of credit when no plan is named.
+        :type usd_cents: int
+        :param country: Country is the buyer's ISO 3166-1 alpha-2 country; the edge's geo country when absent.
+        :type country: str
+        :param currency: Currency is the currency the buyer chose; the country's default when absent.
+        :type currency: str
+        :param method: Method is the payment method the buyer chose, when they have.
+        :type method: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_billing_quote_serialize(
+            plan=plan,
+            level=level,
+            interval=interval,
+            usd_cents=usd_cents,
+            country=country,
+            currency=currency,
+            method=method,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BillingPriceQuote",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_billing_quote_serialize(
+        self,
+        plan,
+        level,
+        interval,
+        usd_cents,
+        country,
+        currency,
+        method,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if plan is not None:
+            
+            _query_params.append(('plan', plan))
+            
+        if level is not None:
+            
+            _query_params.append(('level', level))
+            
+        if interval is not None:
+            
+            _query_params.append(('interval', interval))
+            
+        if usd_cents is not None:
+            
+            _query_params.append(('usdCents', usd_cents))
+            
+        if country is not None:
+            
+            _query_params.append(('country', country))
+            
+        if currency is not None:
+            
+            _query_params.append(('currency', currency))
+            
+        if method is not None:
+            
+            _query_params.append(('method', method))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/billing/quote',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_billing_recharge(
         self,
         _request_timeout: Union[
@@ -10743,6 +11111,296 @@ class BillingApi:
         return self.api_client.param_serialize(
             method='PATCH',
             resource_path='/v1/billing/alerts/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def pay_invoice(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the invoice id.")],
+        billing_invoice_ref: BillingInvoiceRef,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> BillingInvoicePayment:
+        """Pay an invoice with the buyer present
+
+        Pays an open invoice with the buyer present. A paid or declined payment answers 200 with the invoice and, for a decline, the reason. A card the bank asks to authenticate answers 402 with what the buyer finishes (code, id, clientSecret, publishableKey, quote, message). Paying twice is one payment.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param id: ID is the invoice id. (required)
+        :type id: str
+        :param billing_invoice_ref: (required)
+        :type billing_invoice_ref: BillingInvoiceRef
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._pay_invoice_serialize(
+            id=id,
+            billing_invoice_ref=billing_invoice_ref,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BillingInvoicePayment",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def pay_invoice_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the invoice id.")],
+        billing_invoice_ref: BillingInvoiceRef,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[BillingInvoicePayment]:
+        """Pay an invoice with the buyer present
+
+        Pays an open invoice with the buyer present. A paid or declined payment answers 200 with the invoice and, for a decline, the reason. A card the bank asks to authenticate answers 402 with what the buyer finishes (code, id, clientSecret, publishableKey, quote, message). Paying twice is one payment.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param id: ID is the invoice id. (required)
+        :type id: str
+        :param billing_invoice_ref: (required)
+        :type billing_invoice_ref: BillingInvoiceRef
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._pay_invoice_serialize(
+            id=id,
+            billing_invoice_ref=billing_invoice_ref,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BillingInvoicePayment",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def pay_invoice_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the invoice id.")],
+        billing_invoice_ref: BillingInvoiceRef,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Pay an invoice with the buyer present
+
+        Pays an open invoice with the buyer present. A paid or declined payment answers 200 with the invoice and, for a decline, the reason. A card the bank asks to authenticate answers 402 with what the buyer finishes (code, id, clientSecret, publishableKey, quote, message). Paying twice is one payment.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param id: ID is the invoice id. (required)
+        :type id: str
+        :param billing_invoice_ref: (required)
+        :type billing_invoice_ref: BillingInvoiceRef
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._pay_invoice_serialize(
+            id=id,
+            billing_invoice_ref=billing_invoice_ref,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BillingInvoicePayment",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _pay_invoice_serialize(
+        self,
+        id,
+        billing_invoice_ref,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if billing_invoice_ref is not None:
+            _body_params = billing_invoice_ref
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/billing/invoices/{id}/pay',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

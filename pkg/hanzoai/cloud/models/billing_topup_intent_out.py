@@ -19,6 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
+from hanzoai.cloud.models.billing_price_quote import BillingPriceQuote
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -26,14 +27,16 @@ class BillingTopupIntentOut(BaseModel):
     """
     BillingTopupIntentOut
     """ # noqa: E501
-    amount: Optional[StrictInt] = None
-    client_secret: Optional[StrictStr] = Field(default=None, alias="clientSecret")
-    currency: Optional[StrictStr] = None
-    intent_id: Optional[StrictStr] = Field(default=None, alias="intentId")
-    publishable_key: Optional[StrictStr] = Field(default=None, alias="publishableKey")
-    rate: Optional[Union[StrictFloat, StrictInt]] = None
-    usd_cents: Optional[StrictInt] = Field(default=None, alias="usdCents")
-    __properties: ClassVar[List[str]] = ["amount", "clientSecret", "currency", "intentId", "publishableKey", "rate", "usdCents"]
+    amount: Optional[StrictInt] = Field(default=None, description="Amount is the price in the currency's minor unit.")
+    client_secret: Optional[StrictStr] = Field(default=None, description="ClientSecret mounts the payment element.", alias="clientSecret")
+    currency: Optional[StrictStr] = Field(default=None, description="Currency is what the buyer pays in.")
+    intent_id: Optional[StrictStr] = Field(default=None, description="IntentID is the payment's id.", alias="intentId")
+    policy_version: Optional[StrictInt] = Field(default=None, description="PolicyVersion is the routing policy version the payment was opened under.", alias="policyVersion")
+    publishable_key: Optional[StrictStr] = Field(default=None, description="PublishableKey is the public key the element is mounted with.", alias="publishableKey")
+    quote: Optional[BillingPriceQuote] = Field(default=None, description="Quote is the disclosure the buyer authorizes.")
+    rate: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Rate is the rate the amount was made at, per major unit.")
+    usd_cents: Optional[StrictInt] = Field(default=None, description="UsdCents is the credit the payment buys.", alias="usdCents")
+    __properties: ClassVar[List[str]] = ["amount", "clientSecret", "currency", "intentId", "policyVersion", "publishableKey", "quote", "rate", "usdCents"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -74,6 +77,9 @@ class BillingTopupIntentOut(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of quote
+        if self.quote:
+            _dict['quote'] = self.quote.to_dict()
         return _dict
 
     @classmethod
@@ -90,7 +96,9 @@ class BillingTopupIntentOut(BaseModel):
             "clientSecret": obj.get("clientSecret"),
             "currency": obj.get("currency"),
             "intentId": obj.get("intentId"),
+            "policyVersion": obj.get("policyVersion"),
             "publishableKey": obj.get("publishableKey"),
+            "quote": BillingPriceQuote.from_dict(obj["quote"]) if obj.get("quote") is not None else None,
             "rate": obj.get("rate"),
             "usdCents": obj.get("usdCents")
         })

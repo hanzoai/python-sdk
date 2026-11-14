@@ -17,8 +17,11 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.billing_price_quote import BillingPriceQuote
+from hanzoai.cloud.models.billing_route_step import BillingRouteStep
+from hanzoai.cloud.models.billing_routing_crypto_rail import BillingRoutingCryptoRail
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -26,12 +29,18 @@ class BillingRoute(BaseModel):
     """
     BillingRoute
     """ # noqa: E501
-    alternatives: Optional[List[StrictStr]] = Field(default=None, description="Alternatives are the other ways this buyer may pay, each its own button beside the card slot: paypal where PayPal operates, crypto where a deposit watcher runs.")
-    country: Optional[StrictStr] = None
-    methods: Optional[List[StrictStr]] = None
-    processor: Optional[StrictStr] = None
-    reason: Optional[StrictStr] = Field(default=None, description="Reason is why: saved, assigned, split, merchant or fallback.")
-    __properties: ClassVar[List[str]] = ["alternatives", "country", "methods", "processor", "reason"]
+    alternatives: Optional[List[StrictStr]] = Field(default=None, description="Alternatives are the other ways this buyer may pay, each its own button beside the card slot, offered only where each can take money now.")
+    chain: Optional[List[BillingRouteStep]] = Field(default=None, description="Chain is the seven steps in the order they are taken.")
+    country: Optional[StrictStr] = Field(default=None, description="Country is the buyer's country the answer used.")
+    crypto: Optional[List[BillingRoutingCryptoRail]] = Field(default=None, description="Crypto says, per asset the crypto rails name, which processor takes it for this buyer, in the order the policy chose.")
+    local_currency: Optional[StrictStr] = Field(default=None, description="LocalCurrency is the currency a local-method payment would be quoted in.", alias="localCurrency")
+    methods: Optional[List[StrictStr]] = Field(default=None, description="Methods are what its card slot mounts.")
+    processor: Optional[StrictStr] = Field(default=None, description="Processor is the processor that takes the checkout.")
+    quote: Optional[BillingPriceQuote] = Field(default=None, description="Quote is the price of a local-currency payment, when one was asked for.")
+    reason: Optional[StrictStr] = Field(default=None, description="Reason is why: saved, method, currency, country, issuer, brand, assigned, split, merchant, toggle, fallback or none-eligible.")
+    rule: Optional[StrictStr] = Field(default=None, description="Rule names the rule that decided, in the vocabulary of Reason.")
+    version: Optional[StrictInt] = Field(default=None, description="Version is the policy version the decision was made under.")
+    __properties: ClassVar[List[str]] = ["alternatives", "chain", "country", "crypto", "localCurrency", "methods", "processor", "quote", "reason", "rule", "version"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -72,6 +81,23 @@ class BillingRoute(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in chain (list)
+        _items = []
+        if self.chain:
+            for _item_chain in self.chain:
+                if _item_chain:
+                    _items.append(_item_chain.to_dict())
+            _dict['chain'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in crypto (list)
+        _items = []
+        if self.crypto:
+            for _item_crypto in self.crypto:
+                if _item_crypto:
+                    _items.append(_item_crypto.to_dict())
+            _dict['crypto'] = _items
+        # override the default output from pydantic by calling `to_dict()` of quote
+        if self.quote:
+            _dict['quote'] = self.quote.to_dict()
         return _dict
 
     @classmethod
@@ -85,10 +111,16 @@ class BillingRoute(BaseModel):
 
         _obj = cls.model_validate({
             "alternatives": obj.get("alternatives"),
+            "chain": [BillingRouteStep.from_dict(_item) for _item in obj["chain"]] if obj.get("chain") is not None else None,
             "country": obj.get("country"),
+            "crypto": [BillingRoutingCryptoRail.from_dict(_item) for _item in obj["crypto"]] if obj.get("crypto") is not None else None,
+            "localCurrency": obj.get("localCurrency"),
             "methods": obj.get("methods"),
             "processor": obj.get("processor"),
-            "reason": obj.get("reason")
+            "quote": BillingPriceQuote.from_dict(obj["quote"]) if obj.get("quote") is not None else None,
+            "reason": obj.get("reason"),
+            "rule": obj.get("rule"),
+            "version": obj.get("version")
         })
         return _obj
 

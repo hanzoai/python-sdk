@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,9 +26,11 @@ class BillingRouteIn(BaseModel):
     """
     BillingRouteIn
     """ # noqa: E501
+    amount_cents: Optional[StrictInt] = Field(default=None, description="AmountCents, when given, asks for the quote of that many dollars of credit.", alias="amountCents")
     country: Optional[StrictStr] = Field(default=None, description="Country is the buyer's ISO 3166-1 alpha-2 country; the edge's geo country when absent.")
     currency: Optional[StrictStr] = Field(default=None, description="Currency is what the checkout is paid in; usd when absent.")
-    __properties: ClassVar[List[str]] = ["country", "currency"]
+    method: Optional[StrictStr] = Field(default=None, description="Method is how the buyer chose to pay, when they have (card, cash_app, pix, ...).")
+    __properties: ClassVar[List[str]] = ["amountCents", "country", "currency", "method"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -81,8 +83,10 @@ class BillingRouteIn(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "amountCents": obj.get("amountCents"),
             "country": obj.get("country"),
-            "currency": obj.get("currency")
+            "currency": obj.get("currency"),
+            "method": obj.get("method")
         })
         return _obj
 

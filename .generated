@@ -449,6 +449,7 @@ pkg/hanzoai/cloud/models/billing_alert.py
 pkg/hanzoai/cloud/models/billing_alert_patch.py
 pkg/hanzoai/cloud/models/billing_alert_spec.py
 pkg/hanzoai/cloud/models/billing_assignment.py
+pkg/hanzoai/cloud/models/billing_authentication_step.py
 pkg/hanzoai/cloud/models/billing_auto_recharge.py
 pkg/hanzoai/cloud/models/billing_auto_recharge_edit.py
 pkg/hanzoai/cloud/models/billing_billing_account.py
@@ -476,6 +477,7 @@ pkg/hanzoai/cloud/models/billing_holder.py
 pkg/hanzoai/cloud/models/billing_invoice.py
 pkg/hanzoai/cloud/models/billing_invoice_line.py
 pkg/hanzoai/cloud/models/billing_invoice_line_item.py
+pkg/hanzoai/cloud/models/billing_invoice_payment.py
 pkg/hanzoai/cloud/models/billing_invoice_ref.py
 pkg/hanzoai/cloud/models/billing_invoices.py
 pkg/hanzoai/cloud/models/billing_mode.py
@@ -484,6 +486,7 @@ pkg/hanzoai/cloud/models/billing_money.py
 pkg/hanzoai/cloud/models/billing_pay_pal_order_out.py
 pkg/hanzoai/cloud/models/billing_payout.py
 pkg/hanzoai/cloud/models/billing_paypal_order_in.py
+pkg/hanzoai/cloud/models/billing_price_quote.py
 pkg/hanzoai/cloud/models/billing_raise_in.py
 pkg/hanzoai/cloud/models/billing_recharge.py
 pkg/hanzoai/cloud/models/billing_recharged.py
@@ -493,7 +496,9 @@ pkg/hanzoai/cloud/models/billing_rollup_allotment.py
 pkg/hanzoai/cloud/models/billing_rollup_balance.py
 pkg/hanzoai/cloud/models/billing_route.py
 pkg/hanzoai/cloud/models/billing_route_in.py
+pkg/hanzoai/cloud/models/billing_route_step.py
 pkg/hanzoai/cloud/models/billing_routed_usage.py
+pkg/hanzoai/cloud/models/billing_routing_crypto_rail.py
 pkg/hanzoai/cloud/models/billing_sale_line.py
 pkg/hanzoai/cloud/models/billing_signed_payment.py
 pkg/hanzoai/cloud/models/billing_subscription.py

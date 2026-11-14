@@ -31,7 +31,9 @@ class BillingTopupIntentIn(BaseModel):
     billing_address: Optional[BillingBillingAddress] = Field(default=None, alias="billingAddress")
     billing_phone: Optional[StrictStr] = Field(default=None, description="Phone and Billing are what the buyer typed in the payment form.", alias="billingPhone")
     country: Optional[StrictStr] = Field(default=None, description="Country is the buyer's ISO 3166-1 alpha-2 country; the edge's geo country when absent.")
-    __properties: ClassVar[List[str]] = ["amountCents", "billingAddress", "billingPhone", "country"]
+    currency: Optional[StrictStr] = Field(default=None, description="Currency is the currency the buyer chose to pay in; empty takes the country's default.")
+    method: Optional[StrictStr] = Field(default=None, description="Method is the payment method the buyer chose, when they have.")
+    __properties: ClassVar[List[str]] = ["amountCents", "billingAddress", "billingPhone", "country", "currency", "method"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -90,7 +92,9 @@ class BillingTopupIntentIn(BaseModel):
             "amountCents": obj.get("amountCents"),
             "billingAddress": BillingBillingAddress.from_dict(obj["billingAddress"]) if obj.get("billingAddress") is not None else None,
             "billingPhone": obj.get("billingPhone"),
-            "country": obj.get("country")
+            "country": obj.get("country"),
+            "currency": obj.get("currency"),
+            "method": obj.get("method")
         })
         return _obj
 

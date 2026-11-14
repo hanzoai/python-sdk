@@ -327,6 +327,7 @@ from hanzoai.cloud.models.billing_alert import BillingAlert
 from hanzoai.cloud.models.billing_alert_patch import BillingAlertPatch
 from hanzoai.cloud.models.billing_alert_spec import BillingAlertSpec
 from hanzoai.cloud.models.billing_assignment import BillingAssignment
+from hanzoai.cloud.models.billing_authentication_step import BillingAuthenticationStep
 from hanzoai.cloud.models.billing_auto_recharge import BillingAutoRecharge
 from hanzoai.cloud.models.billing_auto_recharge_edit import BillingAutoRechargeEdit
 from hanzoai.cloud.models.billing_billing_account import BillingBillingAccount
@@ -354,6 +355,7 @@ from hanzoai.cloud.models.billing_holder import BillingHolder
 from hanzoai.cloud.models.billing_invoice import BillingInvoice
 from hanzoai.cloud.models.billing_invoice_line import BillingInvoiceLine
 from hanzoai.cloud.models.billing_invoice_line_item import BillingInvoiceLineItem
+from hanzoai.cloud.models.billing_invoice_payment import BillingInvoicePayment
 from hanzoai.cloud.models.billing_invoice_ref import BillingInvoiceRef
 from hanzoai.cloud.models.billing_invoices import BillingInvoices
 from hanzoai.cloud.models.billing_mode import BillingMode
@@ -362,6 +364,7 @@ from hanzoai.cloud.models.billing_money import BillingMoney
 from hanzoai.cloud.models.billing_pay_pal_order_out import BillingPayPalOrderOut
 from hanzoai.cloud.models.billing_payout import BillingPayout
 from hanzoai.cloud.models.billing_paypal_order_in import BillingPaypalOrderIn
+from hanzoai.cloud.models.billing_price_quote import BillingPriceQuote
 from hanzoai.cloud.models.billing_raise_in import BillingRaiseIn
 from hanzoai.cloud.models.billing_recharge import BillingRecharge
 from hanzoai.cloud.models.billing_recharged import BillingRecharged
@@ -371,7 +374,9 @@ from hanzoai.cloud.models.billing_rollup_allotment import BillingRollupAllotment
 from hanzoai.cloud.models.billing_rollup_balance import BillingRollupBalance
 from hanzoai.cloud.models.billing_route import BillingRoute
 from hanzoai.cloud.models.billing_route_in import BillingRouteIn
+from hanzoai.cloud.models.billing_route_step import BillingRouteStep
 from hanzoai.cloud.models.billing_routed_usage import BillingRoutedUsage
+from hanzoai.cloud.models.billing_routing_crypto_rail import BillingRoutingCryptoRail
 from hanzoai.cloud.models.billing_sale_line import BillingSaleLine
 from hanzoai.cloud.models.billing_signed_payment import BillingSignedPayment
 from hanzoai.cloud.models.billing_subscription import BillingSubscription
