@@ -20,6 +20,7 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.agent_last_event_view import AgentLastEventView
+from hanzoai.cloud.models.agent_session_park import AgentSessionPark
 from hanzoai.cloud.models.agent_session_progress import AgentSessionProgress
 from typing import Optional, Set
 from typing_extensions import Self
@@ -48,6 +49,7 @@ class AgentSessionView(BaseModel):
     mode: Optional[StrictStr] = Field(default=None, description="Mode is what the run may do to its repository: \"build\" edits, commits and pushes its branch; \"plan\" reads and answers with a plan, writing nothing. Empty for a session no run tagged.")
     org: Optional[StrictStr] = Field(default=None, description="Org is the caller's OWN tenant, echoed so a client can build the public build URL (/builds/:org/:project) without a second call or a guess. It is never another tenant's — every read is org-scoped before it gets here.")
     parent_session_id: Optional[StrictStr] = Field(default=None, description="ParentSessionID is the session that spawned this one, making this a subagent of it. Empty means this session is a root — a flow of its own. A parent always belongs to the same org, so a tree never crosses a tenant.", alias="parentSessionId")
+    park: Optional[AgentSessionPark] = Field(default=None, description="Park is present while a coding run waits to go on by itself: the model API refused it for a usage limit, or its payer refused it. The session is paused, holds no sandbox, and its work is on its branch. Absent for every other session.")
     pr: Optional[StrictStr] = Field(default=None, description="PR is the address of the pull request the run proposed. Empty until it proposes one, and for a run that changed nothing.")
     progress: Optional[AgentSessionProgress] = Field(default=None, description="Progress is how far along this run is — a share of its goal, a phase, and a line saying what it is doing. Always present, so a board never branches on whether it is there; `phase` says \"unknown\" when nothing has estimated it. It is a MODEL ESTIMATE wherever `estimated` is true, and the row's own word where it is false. See progress.go.")
     project: Optional[StrictStr] = Field(default=None, description="The readable build: the product this session built and whether its story is public (provenance.go).")
@@ -64,7 +66,7 @@ class AgentSessionView(BaseModel):
     terminal: Optional[StrictStr] = Field(default=None, description="Terminal is where this session can be WATCHED — the URL the machine published for its live terminal. Omitted when it publishes none.")
     title: Optional[StrictStr] = Field(default=None, description="Title is the human line a card shows (\"ship the landing page\"), up to 512 characters. Free text, and the one field a surface may rewrite as the work turns out to be something else.")
     updated_at: Optional[StrictStr] = Field(default=None, description="UpdatedAt is the session's last-activity clock, same format. It moves on a write to the row — a status, a title, a re-dispatch — AND on every appended turn, because the append bumps it in the same transaction. The list is ordered on CreatedAt, so this is the field that says whether a session is still saying anything.", alias="updatedAt")
-    __properties: ClassVar[List[str]] = ["account", "actor", "agent", "base", "branch", "channel", "children", "createdAt", "cwd", "endedAt", "environment", "error", "events", "host", "id", "kind", "lastEvent", "mode", "org", "parentSessionId", "pr", "progress", "project", "provider", "published", "repo", "rootSessionId", "sandbox", "startedAt", "status", "target", "taskRunId", "taskWorkflowId", "terminal", "title", "updatedAt"]
+    __properties: ClassVar[List[str]] = ["account", "actor", "agent", "base", "branch", "channel", "children", "createdAt", "cwd", "endedAt", "environment", "error", "events", "host", "id", "kind", "lastEvent", "mode", "org", "parentSessionId", "park", "pr", "progress", "project", "provider", "published", "repo", "rootSessionId", "sandbox", "startedAt", "status", "target", "taskRunId", "taskWorkflowId", "terminal", "title", "updatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -108,6 +110,9 @@ class AgentSessionView(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of last_event
         if self.last_event:
             _dict['lastEvent'] = self.last_event.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of park
+        if self.park:
+            _dict['park'] = self.park.to_dict()
         # override the default output from pydantic by calling `to_dict()` of progress
         if self.progress:
             _dict['progress'] = self.progress.to_dict()
@@ -143,6 +148,7 @@ class AgentSessionView(BaseModel):
             "mode": obj.get("mode"),
             "org": obj.get("org"),
             "parentSessionId": obj.get("parentSessionId"),
+            "park": AgentSessionPark.from_dict(obj["park"]) if obj.get("park") is not None else None,
             "pr": obj.get("pr"),
             "progress": AgentSessionProgress.from_dict(obj["progress"]) if obj.get("progress") is not None else None,
             "project": obj.get("project"),

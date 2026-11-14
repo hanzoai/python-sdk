@@ -250,6 +250,7 @@ pkg/hanzoai/cloud/models/agent_session_budget_in.py
 pkg/hanzoai/cloud/models/agent_session_budget_view.py
 pkg/hanzoai/cloud/models/agent_session_detail.py
 pkg/hanzoai/cloud/models/agent_session_list.py
+pkg/hanzoai/cloud/models/agent_session_park.py
 pkg/hanzoai/cloud/models/agent_session_progress.py
 pkg/hanzoai/cloud/models/agent_session_view.py
 pkg/hanzoai/cloud/models/agent_spec.py
