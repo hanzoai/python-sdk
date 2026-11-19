@@ -6,8 +6,9 @@ The MCP wire surface is a single action-routed tool: `fs`.
     fs.apply_patch        fs.search_text
     fs.mkdir  fs.rm
 
-`apply_patch` is the only way to edit an existing file and requires
-`base_hash` from a prior `read` so stale edits are impossible.
+`apply_patch` is the only way to edit an existing file. One call edits:
+`uri`, `old_text` (must match exactly once), `new_text`. `base_hash` from a
+prior `read` is optional and, when sent, refuses a stale edit.
 
 The per-action classes (ReadTool, WriteTool, …) are kept importable for
 in-process consumers that need read-only sandboxes — they are NOT
