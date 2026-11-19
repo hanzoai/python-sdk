@@ -5,7 +5,8 @@ This module provides a single unified 'fs' tool that handles all filesystem oper
 - write: Create new files only
 - stat: File metadata including hash
 - list: Directory listing with depth/pattern
-- apply_patch: Edit files with base_hash precondition (the ONLY mutation for existing files)
+- apply_patch: Edit files in one call: uri, old_text (must match exactly once), new_text;
+  base_hash optional (the ONLY mutation for existing files)
 - search_text: Ripgrep-style text search
 - diff: Content diff between hashes
 
@@ -155,6 +156,27 @@ def parse_patch_format(patch_text: str) -> list[PatchFile]:
     return files
 
 
+# apply_patch's parameters, in the Rust and TS tools' words: the model is told
+# what is required and that base_hash is not (hanzo-inc/cloud#758).
+APPLY_PATCH_SCHEMA: dict[str, Any] = {
+    "type": "object",
+    "properties": {
+        "uri": {"type": "string", "description": "Absolute path or file:// URI (path is accepted too)"},
+        "old_text": {
+            "type": "string",
+            "description": "apply_patch (required): the text to replace; must match the file exactly once",
+        },
+        "new_text": {"type": "string", "description": "apply_patch (required): its replacement"},
+        "base_hash": {
+            "type": "string",
+            "description": "apply_patch (optional): the hash read/stat returned; "
+            "the edit is refused if the file changed since",
+        },
+    },
+    "required": ["uri", "old_text", "new_text"],
+}
+
+
 class FsTool(BaseTool):
     """Unified filesystem tool (HIP-0300).
 
@@ -163,13 +185,14 @@ class FsTool(BaseTool):
     - write: Create new files
     - stat: File metadata
     - list: Directory listing
-    - apply_patch: Edit with precondition
+    - apply_patch: Edit in one call (base_hash optional)
     - search_text: Text search
     - mkdir: Create directory
     - rm: Remove (guarded)
 
     CRITICAL: apply_patch is the ONLY way to edit existing files.
-    It requires base_hash to prevent stale edits.
+    old_text must match exactly once; a base_hash, when sent, refuses a stale
+    edit (hanzo-inc/cloud#758, as the Rust and TS tools do).
     """
 
     name: ClassVar[str] = "fs"
@@ -193,7 +216,9 @@ Actions:
 - write: Create new files only
 - stat: File metadata including hash
 - list: Directory listing
-- apply_patch: Edit with base_hash precondition
+- apply_patch: uri, old_text (must match exactly once), new_text. One call edits; no
+  read is needed first. base_hash is optional: pass the hash read/stat returned to
+  refuse the edit if the file changed since.
 - patch: Apply Rust-style patch format (Rust parity)
 - search_text: Text search
 - mkdir: Create directory
@@ -452,31 +477,52 @@ patch supports Rust grammar format: *** Begin Patch / *** Update File: / @@ / -o
                 },
             }
 
-        @self.action("apply_patch", "Edit file with precondition")
+        @self.action(
+            "apply_patch",
+            "Edit: uri, old_text (must match exactly once), new_text; base_hash optional",
+            schema=APPLY_PATCH_SCHEMA,
+        )
         async def apply_patch(
             ctx: MCPContext,
-            uri: str,
-            old_text: str,
-            new_text: str,
-            base_hash: str,
+            uri: str = "",
+            old_text: Optional[str] = None,
+            new_text: Optional[str] = None,
+            base_hash: Optional[str] = None,
+            input: Optional[str] = None,
         ) -> dict:
-            """Edit existing file with base_hash precondition.
+            """Edit an existing file in one call.
 
-            This is the ONLY way to edit existing files.
-            The base_hash must match the current file hash to prevent stale edits.
+            This is the ONLY way to edit existing files. old_text must match the
+            file exactly once. base_hash is optional (hanzo-inc/cloud#758):
+            requiring a read first cost a model a refused call, a read and a
+            retry per edit; without it, the unique match is the guard.
 
             Args:
                 uri: File path
-                old_text: Text to find and replace
+                old_text: Text to replace; must match exactly once
                 new_text: Replacement text
-                base_hash: Expected hash from previous read (prevents race conditions)
+                base_hash: Optional hash from read/stat; refuses a stale edit
+                input: Not taken: a patch text belongs to action "patch"
 
             Returns:
                 New file URI and hash
 
             Raises:
-                ConflictError: If base_hash doesn't match current file
+                ConflictError: If a base_hash was sent and the file changed since
             """
+            if not isinstance(old_text, str) or not isinstance(new_text, str):
+                # A model that knows apply_patch as a patch text sends `input`:
+                # name the action that takes one, so the next call lands.
+                if isinstance(input, str) and input.strip().startswith("*** Begin Patch"):
+                    raise InvalidParamsError(
+                        "apply_patch takes uri, old_text and new_text; "
+                        'for a *** Begin Patch text use action "patch" with input',
+                        param="old_text",
+                    )
+                raise InvalidParamsError(
+                    "apply_patch takes uri, old_text (must match exactly once) and new_text",
+                    param="old_text",
+                )
             path_str = uri.replace("file://", "") if uri.startswith("file://") else uri
             path = self._validate_path(path_str)
             self._check_permission(str(path))
@@ -493,7 +539,7 @@ patch supports Rust grammar format: *** Begin Patch / *** Update File: / @@ / -o
 
             current_hash = self._compute_hash(content)
 
-            if current_hash != base_hash:
+            if base_hash and current_hash != base_hash:
                 raise ConflictError(
                     "File has changed since last read (base_hash mismatch)",
                     expected=base_hash,
