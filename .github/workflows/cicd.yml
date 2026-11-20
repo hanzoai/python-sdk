@@ -57,7 +57,7 @@ on:
         default: ''
 jobs:
   cicd:
-    uses: hanzoai/ci/.github/workflows/build.yml@909203f2ef807bb022e0b3807a43197015203d61
+    uses: hanzoai/ci/.github/workflows/build.yml@4dd48623ea87663bba8ea33b10deb60993de398a
     permissions:
       contents: write
       packages: write
