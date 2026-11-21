@@ -12471,7 +12471,7 @@ class ProviderApi:
     ) -> ForgeLaunched:
         """Forge workflow_job webhook
 
-        Receives the forge's workflow_job delivery. The signature over the raw body is checked against the secret at KMS forge.WebhookRef before anything is decoded; a queued job becomes one ephemeral runner Job on the cluster, minted a registration token for exactly that job. Every other action is answered 200 and ignored.
+        Receives the forge's workflow_job delivery. The signature over the raw body is checked against the secret at KMS forge.WebhookRef before anything is decoded; a queued job becomes one ephemeral runner Job on the cluster, minted a registration token for exactly that job. A job of a pull request, of any action, also writes what its commit's runs say to GitHub as the commit status hanzo/ci. Every other action is answered 200 and ignored.
 
         :param forge_job:
         :type forge_job: ForgeJob
@@ -12538,7 +12538,7 @@ class ProviderApi:
     ) -> ApiResponse[ForgeLaunched]:
         """Forge workflow_job webhook
 
-        Receives the forge's workflow_job delivery. The signature over the raw body is checked against the secret at KMS forge.WebhookRef before anything is decoded; a queued job becomes one ephemeral runner Job on the cluster, minted a registration token for exactly that job. Every other action is answered 200 and ignored.
+        Receives the forge's workflow_job delivery. The signature over the raw body is checked against the secret at KMS forge.WebhookRef before anything is decoded; a queued job becomes one ephemeral runner Job on the cluster, minted a registration token for exactly that job. A job of a pull request, of any action, also writes what its commit's runs say to GitHub as the commit status hanzo/ci. Every other action is answered 200 and ignored.
 
         :param forge_job:
         :type forge_job: ForgeJob
@@ -12605,7 +12605,7 @@ class ProviderApi:
     ) -> RESTResponseType:
         """Forge workflow_job webhook
 
-        Receives the forge's workflow_job delivery. The signature over the raw body is checked against the secret at KMS forge.WebhookRef before anything is decoded; a queued job becomes one ephemeral runner Job on the cluster, minted a registration token for exactly that job. Every other action is answered 200 and ignored.
+        Receives the forge's workflow_job delivery. The signature over the raw body is checked against the secret at KMS forge.WebhookRef before anything is decoded; a queued job becomes one ephemeral runner Job on the cluster, minted a registration token for exactly that job. A job of a pull request, of any action, also writes what its commit's runs say to GitHub as the commit status hanzo/ci. Every other action is answered 200 and ignored.
 
         :param forge_job:
         :type forge_job: ForgeJob

@@ -1,4 +1,4 @@
-ref=bbdf0b36a2fd853a9ed03ca9a9df6744fe8c33b8
-sha256=a87170bc3ef3383f3b41bf898ca35059612da8cf3ea2615c6449ec1b42ac71f9
+ref=d58d8bf3a7f024b4021581ec337f92550f83d8dd
+sha256=df51926be1a2269e6c29ad92fd6bd8805a847b28f08bddbd64e355d4bb53b15f
 repo=hanzo-inc/cloud
 path=openapi.yaml

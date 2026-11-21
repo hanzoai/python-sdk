@@ -1881,6 +1881,11 @@ pkg/hanzoai/cloud/models/o11y_associated_component.py
 pkg/hanzoai/cloud/models/o11y_attribute_key.py
 pkg/hanzoai/cloud/models/o11y_attributes_component_entry.py
 pkg/hanzoai/cloud/models/o11y_authorization.py
+pkg/hanzoai/cloud/models/o11y_auto_fix_cached_entry.py
+pkg/hanzoai/cloud/models/o11y_auto_fix_decision.py
+pkg/hanzoai/cloud/models/o11y_auto_fix_frame_input.py
+pkg/hanzoai/cloud/models/o11y_auto_fix_request.py
+pkg/hanzoai/cloud/models/o11y_auto_fix_status.py
 pkg/hanzoai/cloud/models/o11y_aws_account_config.py
 pkg/hanzoai/cloud/models/o11y_aws_cloud_watch_logs_subscription.py
 pkg/hanzoai/cloud/models/o11y_aws_cloud_watch_metric_stream_filter.py
@@ -1937,6 +1942,7 @@ pkg/hanzoai/cloud/models/o11y_deprecated_gettable_alert.py
 pkg/hanzoai/cloud/models/o11y_discord_config.py
 pkg/hanzoai/cloud/models/o11y_email_config.py
 pkg/hanzoai/cloud/models/o11y_event.py
+pkg/hanzoai/cloud/models/o11y_fault_attribution.py
 pkg/hanzoai/cloud/models/o11y_filter.py
 pkg/hanzoai/cloud/models/o11y_filter_attribute_key_response.py
 pkg/hanzoai/cloud/models/o11y_filter_attribute_value_request.py

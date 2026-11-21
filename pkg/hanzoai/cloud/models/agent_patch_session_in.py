@@ -27,6 +27,7 @@ class AgentPatchSessionIn(BaseModel):
     AgentPatchSessionIn
     """ # noqa: E501
     cwd: Optional[StrictStr] = Field(default=None, description="Cwd is where the session is working NOW.  It was write-once — captured at register and never again — which is right for a run that starts in a directory and stays there, and wrong for a linked shell, which is a place a person moves around in. The console showed the directory `hanzo link` happened to be run from and kept showing it after the shell had walked away, so the field answered \"which work is this\" with an answer that was true once. A pointer, so an unchanged path is an omitted field rather than a repeated write.")
+    error: Optional[StrictStr] = Field(default=None, description="Error is why the session ended in error, from the surface that ended it: the exit status or the refusal, and the last lines the process wrote. It is kept only on a session in error, and only the first 2000 characters of it. A surface that ends a session in error without one leaves the session saying that nothing said why, never an error with no reason.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the session to update, from the path.")
     project: Optional[StrictStr] = Field(default=None, description="Project tags the product this session built; Published is the author's decision to let anyone read the story (provenance.go). Both are pointers so \"absent\" and \"cleared\" are different requests.")
     published: Optional[StrictBool] = Field(default=None, description="Published opens the session's story to the public build route; false withdraws it, and withdrawing is always allowed. PUBLISHING is refused unless the session names a Project — the one set in this same request, or the one already stored — because that route is keyed on (org, project). It widens READ access to what is already there and grants nothing else.")
@@ -34,7 +35,7 @@ class AgentPatchSessionIn(BaseModel):
     target: Optional[StrictStr] = Field(default=None, description="Target re-dispatches a session to a run-target (the #48 association). \"\" detaches.")
     terminal: Optional[StrictStr] = Field(default=None, description="Terminal publishes (or, with \"\", withdraws) the URL this session's live terminal can be watched at. A pointer so \"absent\" and \"withdrawn\" are different requests: a session that stops sharing must be able to say so.")
     title: Optional[StrictStr] = Field(default=None, description="Title rewrites the human line, up to 512 characters — usually because the work turned out to be something other than what it was opened as.")
-    __properties: ClassVar[List[str]] = ["cwd", "id", "project", "published", "status", "target", "terminal", "title"]
+    __properties: ClassVar[List[str]] = ["cwd", "error", "id", "project", "published", "status", "target", "terminal", "title"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -88,6 +89,7 @@ class AgentPatchSessionIn(BaseModel):
 
         _obj = cls.model_validate({
             "cwd": obj.get("cwd"),
+            "error": obj.get("error"),
             "id": obj.get("id"),
             "project": obj.get("project"),
             "published": obj.get("published"),

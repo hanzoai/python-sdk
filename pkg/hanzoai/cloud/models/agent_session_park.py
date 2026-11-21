@@ -27,7 +27,7 @@ class AgentSessionPark(BaseModel):
     AgentSessionPark
     """ # noqa: E501
     message: Optional[StrictStr] = Field(default=None, description="Message is the run's own sentence for it, as its thread's card says it.")
-    reason: Optional[StrictStr] = Field(default=None, description="Reason is \"limit\" (the model API refused the run's calls for a usage limit) or \"payment\" (its payer refused them).")
+    reason: Optional[StrictStr] = Field(default=None, description="Reason is \"limit\" (the model API refused the run's calls for a usage limit), \"payment\" (its payer refused them) or \"fault\" (the model API failed them after the harness tried them again, and the run is tried again by itself).")
     resume_at: Optional[StrictStr] = Field(default=None, description="ResumeAt is when the run is tried again by itself, RFC 3339 in UTC, as the authority that set the limit states it. Absent when nothing names a time: the run then goes on when credits are added, a plan or a cap changes, or a person continues it.", alias="resumeAt")
     __properties: ClassVar[List[str]] = ["message", "reason", "resumeAt"]
 

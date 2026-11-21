@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.tool_tool import ToolTool
 from typing import Optional, Set
@@ -27,8 +27,9 @@ class ToolToolList(BaseModel):
     """
     ToolToolList
     """ # noqa: E501
+    incomplete: Optional[List[StrictStr]] = Field(default=None, description="Incomplete names the sources that did not answer this listing, and \"activation\" when the activation store could not be read. Tools from a named source are absent, not nonexistent, and with \"activation\" every activated flag reads false. Omitted when every source answered.")
     tools: Optional[List[ToolTool]] = Field(default=None, description="Tools is every tool the caller may see, deduplicated by name with source precedence applied.")
-    __properties: ClassVar[List[str]] = ["tools"]
+    __properties: ClassVar[List[str]] = ["incomplete", "tools"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -88,6 +89,7 @@ class ToolToolList(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "incomplete": obj.get("incomplete"),
             "tools": [ToolTool.from_dict(_item) for _item in obj["tools"]] if obj.get("tools") is not None else None
         })
         return _obj
