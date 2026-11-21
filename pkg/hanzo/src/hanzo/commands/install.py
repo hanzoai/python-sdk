@@ -90,7 +90,7 @@ TOOLS = {
         "name": "Hanzo Dev",
         "description": "Rust AI coding assistant (Codex)",
         "source": "github",
-        "repo": "hanzoai/dev",
+        "repo": "hanzoai/dev-v1",
         "binary": "hanzo-dev",
         "language": "rust",
         "cargo": "hanzo-dev",
@@ -709,13 +709,13 @@ install_rust() {
     case "$BUNDLE" in
         rust|full)
             install_rust_binary "hanzoai/node" "hanzo-node"
-            install_rust_binary "hanzoai/dev" "hanzo-dev"
+            install_rust_binary "hanzoai/dev-v1" "hanzo-dev"
             ;;
     esac
 
     case "$BUNDLE" in
         dev)
-            install_rust_binary "hanzoai/dev" "hanzo-dev"
+            install_rust_binary "hanzoai/dev-v1" "hanzo-dev"
             ;;
     esac
 }
