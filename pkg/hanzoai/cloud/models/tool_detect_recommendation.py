@@ -29,7 +29,7 @@ class ToolDetectRecommendation(BaseModel):
     activated: Optional[StrictBool] = Field(default=None, description="Activated reports whether the candidate is switched on for the caller's org and project after processing autoActivate.")
     description: Optional[StrictStr] = Field(default=None, description="Description summarizes what the skill or tool does.")
     name: Optional[StrictStr] = Field(default=None, description="Name is the tool or skill identifier as reported by GET /v1/tool (for example \"skill_dev\", \"skill_ui\", or \"github_create_issue\").")
-    probability: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Probability is the calibrated relevance probability in [0, 1] assigned to this candidate for the prompt.")
+    probability: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Probability is how likely the candidate fits the prompt, in [0, 1]; 0.8 or more means it clearly does.")
     source: Optional[StrictStr] = Field(default=None, description="Source names the provider that owns the entry: skill, mcp, connector, function, agent or zap-service.")
     __properties: ClassVar[List[str]] = ["activated", "description", "name", "probability", "source"]
 

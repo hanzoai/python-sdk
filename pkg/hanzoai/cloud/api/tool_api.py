@@ -3775,9 +3775,9 @@ class ToolApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ToolDetectResult:
-        """Asks Kai (POST /v1/decisions) which skills and tools in the caller's org and project are relevant to a prompt, and optionally activates them automatically.
+        """Recommends which skills and tools in the caller's org and project fit a prompt, and optionally activates them automatically.
 
-        Asks Kai (POST /v1/decisions) which skills and tools in the caller's org and project are relevant to a prompt, and optionally activates them automatically.  Each candidate skill and tool is posed as a typed boolean question over the prompt state in a single Kai decision pass, returning calibrated probabilities in [0, 1]. When autoActivate is true, recommended entries that are not yet enabled — and that the caller has authority to toggle — are activated in the caller's (org, project) scope and recorded on the audit trail.
+        Recommends which skills and tools in the caller's org and project fit a prompt, and optionally activates them automatically.  Every candidate is ranked by what its name and description say against the prompt, the rarer a shared word the more it counts, through one vocabulary for how people ask (\"phones\" and \"responsive\", \"excel\" and \"xlsx\"). Its probability needs enough of that evidence, and a candidate well behind the best of its kind (a skill, or an operation or tool) is held under 0.8, so a prompt no skill fits recommends none. When autoActivate is true, recommended entries that are not yet enabled — and that the caller has authority to toggle — are activated in the caller's (org, project) scope and recorded on the audit trail.
 
         :param tool_detect_req: (required)
         :type tool_detect_req: ToolDetectReq
@@ -3842,9 +3842,9 @@ class ToolApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[ToolDetectResult]:
-        """Asks Kai (POST /v1/decisions) which skills and tools in the caller's org and project are relevant to a prompt, and optionally activates them automatically.
+        """Recommends which skills and tools in the caller's org and project fit a prompt, and optionally activates them automatically.
 
-        Asks Kai (POST /v1/decisions) which skills and tools in the caller's org and project are relevant to a prompt, and optionally activates them automatically.  Each candidate skill and tool is posed as a typed boolean question over the prompt state in a single Kai decision pass, returning calibrated probabilities in [0, 1]. When autoActivate is true, recommended entries that are not yet enabled — and that the caller has authority to toggle — are activated in the caller's (org, project) scope and recorded on the audit trail.
+        Recommends which skills and tools in the caller's org and project fit a prompt, and optionally activates them automatically.  Every candidate is ranked by what its name and description say against the prompt, the rarer a shared word the more it counts, through one vocabulary for how people ask (\"phones\" and \"responsive\", \"excel\" and \"xlsx\"). Its probability needs enough of that evidence, and a candidate well behind the best of its kind (a skill, or an operation or tool) is held under 0.8, so a prompt no skill fits recommends none. When autoActivate is true, recommended entries that are not yet enabled — and that the caller has authority to toggle — are activated in the caller's (org, project) scope and recorded on the audit trail.
 
         :param tool_detect_req: (required)
         :type tool_detect_req: ToolDetectReq
@@ -3909,9 +3909,9 @@ class ToolApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Asks Kai (POST /v1/decisions) which skills and tools in the caller's org and project are relevant to a prompt, and optionally activates them automatically.
+        """Recommends which skills and tools in the caller's org and project fit a prompt, and optionally activates them automatically.
 
-        Asks Kai (POST /v1/decisions) which skills and tools in the caller's org and project are relevant to a prompt, and optionally activates them automatically.  Each candidate skill and tool is posed as a typed boolean question over the prompt state in a single Kai decision pass, returning calibrated probabilities in [0, 1]. When autoActivate is true, recommended entries that are not yet enabled — and that the caller has authority to toggle — are activated in the caller's (org, project) scope and recorded on the audit trail.
+        Recommends which skills and tools in the caller's org and project fit a prompt, and optionally activates them automatically.  Every candidate is ranked by what its name and description say against the prompt, the rarer a shared word the more it counts, through one vocabulary for how people ask (\"phones\" and \"responsive\", \"excel\" and \"xlsx\"). Its probability needs enough of that evidence, and a candidate well behind the best of its kind (a skill, or an operation or tool) is held under 0.8, so a prompt no skill fits recommends none. When autoActivate is true, recommended entries that are not yet enabled — and that the caller has authority to toggle — are activated in the caller's (org, project) scope and recorded on the audit trail.
 
         :param tool_detect_req: (required)
         :type tool_detect_req: ToolDetectReq

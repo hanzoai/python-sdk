@@ -1915,6 +1915,11 @@ __all__ = [
     "O11yAttributeKey",
     "O11yAttributesComponentEntry",
     "O11yAuthorization",
+    "O11yAutoFixCachedEntry",
+    "O11yAutoFixDecision",
+    "O11yAutoFixFrameInput",
+    "O11yAutoFixRequest",
+    "O11yAutoFixStatus",
     "O11yAzureAccountConfig",
     "O11yAzureConnectionArtifact",
     "O11yAzureIntegrationConfig",
@@ -1959,6 +1964,7 @@ __all__ = [
     "O11yDiscordConfig",
     "O11yEmailConfig",
     "O11yEvent",
+    "O11yFaultAttribution",
     "O11yFilter",
     "O11yFilterAttributeKeyResponse",
     "O11yFilterAttributeValueRequest",
@@ -5540,6 +5546,11 @@ from hanzoai.cloud.models.o11y_associated_component import O11yAssociatedCompone
 from hanzoai.cloud.models.o11y_attribute_key import O11yAttributeKey as O11yAttributeKey
 from hanzoai.cloud.models.o11y_attributes_component_entry import O11yAttributesComponentEntry as O11yAttributesComponentEntry
 from hanzoai.cloud.models.o11y_authorization import O11yAuthorization as O11yAuthorization
+from hanzoai.cloud.models.o11y_auto_fix_cached_entry import O11yAutoFixCachedEntry as O11yAutoFixCachedEntry
+from hanzoai.cloud.models.o11y_auto_fix_decision import O11yAutoFixDecision as O11yAutoFixDecision
+from hanzoai.cloud.models.o11y_auto_fix_frame_input import O11yAutoFixFrameInput as O11yAutoFixFrameInput
+from hanzoai.cloud.models.o11y_auto_fix_request import O11yAutoFixRequest as O11yAutoFixRequest
+from hanzoai.cloud.models.o11y_auto_fix_status import O11yAutoFixStatus as O11yAutoFixStatus
 from hanzoai.cloud.models.o11y_azure_account_config import O11yAzureAccountConfig as O11yAzureAccountConfig
 from hanzoai.cloud.models.o11y_azure_connection_artifact import O11yAzureConnectionArtifact as O11yAzureConnectionArtifact
 from hanzoai.cloud.models.o11y_azure_integration_config import O11yAzureIntegrationConfig as O11yAzureIntegrationConfig
@@ -5584,6 +5595,7 @@ from hanzoai.cloud.models.o11y_deprecated_gettable_alert import O11yDeprecatedGe
 from hanzoai.cloud.models.o11y_discord_config import O11yDiscordConfig as O11yDiscordConfig
 from hanzoai.cloud.models.o11y_email_config import O11yEmailConfig as O11yEmailConfig
 from hanzoai.cloud.models.o11y_event import O11yEvent as O11yEvent
+from hanzoai.cloud.models.o11y_fault_attribution import O11yFaultAttribution as O11yFaultAttribution
 from hanzoai.cloud.models.o11y_filter import O11yFilter as O11yFilter
 from hanzoai.cloud.models.o11y_filter_attribute_key_response import O11yFilterAttributeKeyResponse as O11yFilterAttributeKeyResponse
 from hanzoai.cloud.models.o11y_filter_attribute_value_request import O11yFilterAttributeValueRequest as O11yFilterAttributeValueRequest

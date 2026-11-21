@@ -1771,6 +1771,11 @@ from hanzoai.cloud.models.o11y_associated_component import O11yAssociatedCompone
 from hanzoai.cloud.models.o11y_attribute_key import O11yAttributeKey
 from hanzoai.cloud.models.o11y_attributes_component_entry import O11yAttributesComponentEntry
 from hanzoai.cloud.models.o11y_authorization import O11yAuthorization
+from hanzoai.cloud.models.o11y_auto_fix_cached_entry import O11yAutoFixCachedEntry
+from hanzoai.cloud.models.o11y_auto_fix_decision import O11yAutoFixDecision
+from hanzoai.cloud.models.o11y_auto_fix_frame_input import O11yAutoFixFrameInput
+from hanzoai.cloud.models.o11y_auto_fix_request import O11yAutoFixRequest
+from hanzoai.cloud.models.o11y_auto_fix_status import O11yAutoFixStatus
 from hanzoai.cloud.models.o11y_azure_account_config import O11yAzureAccountConfig
 from hanzoai.cloud.models.o11y_azure_connection_artifact import O11yAzureConnectionArtifact
 from hanzoai.cloud.models.o11y_azure_integration_config import O11yAzureIntegrationConfig
@@ -1815,6 +1820,7 @@ from hanzoai.cloud.models.o11y_deprecated_gettable_alert import O11yDeprecatedGe
 from hanzoai.cloud.models.o11y_discord_config import O11yDiscordConfig
 from hanzoai.cloud.models.o11y_email_config import O11yEmailConfig
 from hanzoai.cloud.models.o11y_event import O11yEvent
+from hanzoai.cloud.models.o11y_fault_attribution import O11yFaultAttribution
 from hanzoai.cloud.models.o11y_filter import O11yFilter
 from hanzoai.cloud.models.o11y_filter_attribute_key_response import O11yFilterAttributeKeyResponse
 from hanzoai.cloud.models.o11y_filter_attribute_value_request import O11yFilterAttributeValueRequest
