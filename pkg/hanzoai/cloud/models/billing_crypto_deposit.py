@@ -37,10 +37,12 @@ class BillingCryptoDeposit(BaseModel):
     id: Optional[StrictStr] = Field(default=None, description="ID names the intent; read it back at GET /v1/billing/crypto/deposit/{id}.")
     instructions: Optional[StrictStr] = Field(default=None, description="Instructions says, in one line, what to send where and when it is credited.")
     minimum_cents: Optional[StrictInt] = Field(default=None, description="MinimumCents is the smallest deposit, in USD cents, that credits anything; less credits nothing. Absent when nothing is watching this asset now, and then nothing sent to it is credited.", alias="minimumCents")
+    plan_id: Optional[StrictStr] = Field(default=None, description="PlanID and SubscriptionID are set when the deposit pays a plan's first period.", alias="planId")
     required_confirmations: Optional[StrictInt] = Field(default=None, description="RequiredConfirmations is how many blocks deep the transfer must be before it is credited.", alias="requiredConfirmations")
     status: Optional[StrictStr] = Field(default=None, description="Status is pending until a transfer to the address is seen, confirming while the chain buries it, and succeeded once it is credited as cash in the payer's balance (GET /v1/billing/balance, cash).")
+    subscription_id: Optional[StrictStr] = Field(default=None, alias="subscriptionId")
     token: Optional[StrictStr] = Field(default=None, description="Token is the asset to send; this intent credits that token alone.")
-    __properties: ClassVar[List[str]] = ["addressTag", "amountCents", "chain", "confirmations", "creditedCents", "depositAddress", "expiresAt", "feeCents", "id", "instructions", "minimumCents", "requiredConfirmations", "status", "token"]
+    __properties: ClassVar[List[str]] = ["addressTag", "amountCents", "chain", "confirmations", "creditedCents", "depositAddress", "expiresAt", "feeCents", "id", "instructions", "minimumCents", "planId", "requiredConfirmations", "status", "subscriptionId", "token"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -104,8 +106,10 @@ class BillingCryptoDeposit(BaseModel):
             "id": obj.get("id"),
             "instructions": obj.get("instructions"),
             "minimumCents": obj.get("minimumCents"),
+            "planId": obj.get("planId"),
             "requiredConfirmations": obj.get("requiredConfirmations"),
             "status": obj.get("status"),
+            "subscriptionId": obj.get("subscriptionId"),
             "token": obj.get("token")
         })
         return _obj

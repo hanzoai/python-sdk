@@ -62,6 +62,8 @@ from hanzoai.cloud.models.agent_answer_view import AgentAnswerView
 from hanzoai.cloud.models.agent_apply_roster_in import AgentApplyRosterIn
 from hanzoai.cloud.models.agent_apply_roster_out import AgentApplyRosterOut
 from hanzoai.cloud.models.agent_artifact import AgentArtifact
+from hanzoai.cloud.models.agent_bootstrap_primary_in import AgentBootstrapPrimaryIn
+from hanzoai.cloud.models.agent_bootstrap_primary_out import AgentBootstrapPrimaryOut
 from hanzoai.cloud.models.agent_brief_attribution import AgentBriefAttribution
 from hanzoai.cloud.models.agent_brief_list import AgentBriefList
 from hanzoai.cloud.models.agent_brief_record import AgentBriefRecord
@@ -96,11 +98,17 @@ from hanzoai.cloud.models.agent_control_drain import AgentControlDrain
 from hanzoai.cloud.models.agent_control_in import AgentControlIn
 from hanzoai.cloud.models.agent_control_result import AgentControlResult
 from hanzoai.cloud.models.agent_create_agent_in import AgentCreateAgentIn
+from hanzoai.cloud.models.agent_create_group_in import AgentCreateGroupIn
 from hanzoai.cloud.models.agent_decide_proposal_in import AgentDecideProposalIn
 from hanzoai.cloud.models.agent_event_in import AgentEventIn
 from hanzoai.cloud.models.agent_event_list import AgentEventList
 from hanzoai.cloud.models.agent_event_view import AgentEventView
 from hanzoai.cloud.models.agent_gpu import AgentGPU
+from hanzoai.cloud.models.agent_group_list import AgentGroupList
+from hanzoai.cloud.models.agent_group_policy import AgentGroupPolicy
+from hanzoai.cloud.models.agent_group_view import AgentGroupView
+from hanzoai.cloud.models.agent_group_vote_view import AgentGroupVoteView
+from hanzoai.cloud.models.agent_group_weight import AgentGroupWeight
 from hanzoai.cloud.models.agent_last_event_view import AgentLastEventView
 from hanzoai.cloud.models.agent_mcp_tools import AgentMcpTools
 from hanzoai.cloud.models.agent_metrics import AgentMetrics
@@ -108,6 +116,7 @@ from hanzoai.cloud.models.agent_metrics_view import AgentMetricsView
 from hanzoai.cloud.models.agent_patch_session_in import AgentPatchSessionIn
 from hanzoai.cloud.models.agent_patch_target_in import AgentPatchTargetIn
 from hanzoai.cloud.models.agent_proposal_list import AgentProposalList
+from hanzoai.cloud.models.agent_quasar_cert_view import AgentQuasarCertView
 from hanzoai.cloud.models.agent_register_req import AgentRegisterReq
 from hanzoai.cloud.models.agent_reply import AgentReply
 from hanzoai.cloud.models.agent_report_out import AgentReportOut
@@ -121,11 +130,14 @@ from hanzoai.cloud.models.agent_role_spec import AgentRoleSpec
 from hanzoai.cloud.models.agent_role_template import AgentRoleTemplate
 from hanzoai.cloud.models.agent_roster_templates_out import AgentRosterTemplatesOut
 from hanzoai.cloud.models.agent_routed_run_out import AgentRoutedRunOut
+from hanzoai.cloud.models.agent_run_group_in import AgentRunGroupIn
+from hanzoai.cloud.models.agent_run_group_out import AgentRunGroupOut
 from hanzoai.cloud.models.agent_run_list import AgentRunList
 from hanzoai.cloud.models.agent_series_line import AgentSeriesLine
 from hanzoai.cloud.models.agent_series_point import AgentSeriesPoint
 from hanzoai.cloud.models.agent_session_budget_in import AgentSessionBudgetIn
 from hanzoai.cloud.models.agent_session_budget_view import AgentSessionBudgetView
+from hanzoai.cloud.models.agent_session_deleted import AgentSessionDeleted
 from hanzoai.cloud.models.agent_session_detail import AgentSessionDetail
 from hanzoai.cloud.models.agent_session_list import AgentSessionList
 from hanzoai.cloud.models.agent_session_park import AgentSessionPark
@@ -143,6 +155,7 @@ from hanzoai.cloud.models.agent_target_req import AgentTargetReq
 from hanzoai.cloud.models.agent_target_view import AgentTargetView
 from hanzoai.cloud.models.agent_tree_node import AgentTreeNode
 from hanzoai.cloud.models.agent_update_agent_in import AgentUpdateAgentIn
+from hanzoai.cloud.models.agent_update_group_in import AgentUpdateGroupIn
 from hanzoai.cloud.models.ai_action import AiAction
 from hanzoai.cloud.models.ai_ai_conn_response import AiAiConnResponse
 from hanzoai.cloud.models.ai_anthropic_content_block import AiAnthropicContentBlock
@@ -173,6 +186,7 @@ from hanzoai.cloud.models.ai_decisions_response import AiDecisionsResponse
 from hanzoai.cloud.models.ai_decisions_routing import AiDecisionsRouting
 from hanzoai.cloud.models.ai_decisions_score import AiDecisionsScore
 from hanzoai.cloud.models.ai_decisions_usage import AiDecisionsUsage
+from hanzoai.cloud.models.ai_entitlement import AiEntitlement
 from hanzoai.cloud.models.ai_frame_box import AiFrameBox
 from hanzoai.cloud.models.ai_frame_in import AiFrameIn
 from hanzoai.cloud.models.ai_frame_item import AiFrameItem
@@ -324,6 +338,12 @@ from hanzoai.cloud.models.benchmark_run_point import BenchmarkRunPoint
 from hanzoai.cloud.models.benchmark_suite import BenchmarkSuite
 from hanzoai.cloud.models.billing_accounts import BillingAccounts
 from hanzoai.cloud.models.billing_accounts_total import BillingAccountsTotal
+from hanzoai.cloud.models.billing_agent_error import BillingAgentError
+from hanzoai.cloud.models.billing_agent_item import BillingAgentItem
+from hanzoai.cloud.models.billing_agent_next import BillingAgentNext
+from hanzoai.cloud.models.billing_agent_order import BillingAgentOrder
+from hanzoai.cloud.models.billing_agent_pay import BillingAgentPay
+from hanzoai.cloud.models.billing_agent_payment import BillingAgentPayment
 from hanzoai.cloud.models.billing_alert import BillingAlert
 from hanzoai.cloud.models.billing_alert_patch import BillingAlertPatch
 from hanzoai.cloud.models.billing_alert_spec import BillingAlertSpec
@@ -336,7 +356,11 @@ from hanzoai.cloud.models.billing_billing_address import BillingBillingAddress
 from hanzoai.cloud.models.billing_billing_invoice import BillingBillingInvoice
 from hanzoai.cloud.models.billing_cap_verdict import BillingCapVerdict
 from hanzoai.cloud.models.billing_charged import BillingCharged
+from hanzoai.cloud.models.billing_checkout_change import BillingCheckoutChange
+from hanzoai.cloud.models.billing_checkout_in import BillingCheckoutIn
+from hanzoai.cloud.models.billing_checkout_view import BillingCheckoutView
 from hanzoai.cloud.models.billing_collected import BillingCollected
+from hanzoai.cloud.models.billing_complete_in import BillingCompleteIn
 from hanzoai.cloud.models.billing_credit_balance import BillingCreditBalance
 from hanzoai.cloud.models.billing_credit_entry import BillingCreditEntry
 from hanzoai.cloud.models.billing_credit_grant import BillingCreditGrant
@@ -345,6 +369,10 @@ from hanzoai.cloud.models.billing_crypto_asset import BillingCryptoAsset
 from hanzoai.cloud.models.billing_crypto_deposit import BillingCryptoDeposit
 from hanzoai.cloud.models.billing_crypto_options import BillingCryptoOptions
 from hanzoai.cloud.models.billing_crypto_pair import BillingCryptoPair
+from hanzoai.cloud.models.billing_crypto_topup import BillingCryptoTopup
+from hanzoai.cloud.models.billing_crypto_topup_in import BillingCryptoTopupIn
+from hanzoai.cloud.models.billing_deposit_address import BillingDepositAddress
+from hanzoai.cloud.models.billing_deposit_token import BillingDepositToken
 from hanzoai.cloud.models.billing_detachment import BillingDetachment
 from hanzoai.cloud.models.billing_finance_ledger_entry import BillingFinanceLedgerEntry
 from hanzoai.cloud.models.billing_gateway_accept import BillingGatewayAccept
@@ -377,7 +405,7 @@ from hanzoai.cloud.models.billing_route import BillingRoute
 from hanzoai.cloud.models.billing_route_in import BillingRouteIn
 from hanzoai.cloud.models.billing_route_step import BillingRouteStep
 from hanzoai.cloud.models.billing_routed_usage import BillingRoutedUsage
-from hanzoai.cloud.models.billing_routing_crypto_rail import BillingRoutingCryptoRail
+from hanzoai.cloud.models.billing_routing_crypto_offer import BillingRoutingCryptoOffer
 from hanzoai.cloud.models.billing_sale_line import BillingSaleLine
 from hanzoai.cloud.models.billing_signed_payment import BillingSignedPayment
 from hanzoai.cloud.models.billing_subscription import BillingSubscription
@@ -389,7 +417,11 @@ from hanzoai.cloud.models.billing_subscriptions import BillingSubscriptions
 from hanzoai.cloud.models.billing_tier import BillingTier
 from hanzoai.cloud.models.billing_tier_balance import BillingTierBalance
 from hanzoai.cloud.models.billing_tier_limits import BillingTierLimits
+from hanzoai.cloud.models.billing_token_in import BillingTokenIn
+from hanzoai.cloud.models.billing_token_room import BillingTokenRoom
+from hanzoai.cloud.models.billing_token_supplied import BillingTokenSupplied
 from hanzoai.cloud.models.billing_topup_in import BillingTopupIn
+from hanzoai.cloud.models.billing_topup_intent_cancelled import BillingTopupIntentCancelled
 from hanzoai.cloud.models.billing_topup_intent_in import BillingTopupIntentIn
 from hanzoai.cloud.models.billing_topup_intent_out import BillingTopupIntentOut
 from hanzoai.cloud.models.billing_topup_intent_state import BillingTopupIntentState
@@ -397,7 +429,9 @@ from hanzoai.cloud.models.billing_transaction import BillingTransaction
 from hanzoai.cloud.models.billing_transactions import BillingTransactions
 from hanzoai.cloud.models.billing_usage_receipt import BillingUsageReceipt
 from hanzoai.cloud.models.billing_usage_report import BillingUsageReport
+from hanzoai.cloud.models.billing_wire_credit import BillingWireCredit
 from hanzoai.cloud.models.billing_wire_instructions import BillingWireInstructions
+from hanzoai.cloud.models.billing_wire_reconcile_in import BillingWireReconcileIn
 from hanzoai.cloud.models.block import Block
 from hanzoai.cloud.models.blueprint_blueprint_health import BlueprintBlueprintHealth
 from hanzoai.cloud.models.blueprint_blueprint_index import BlueprintBlueprintIndex
@@ -517,6 +551,10 @@ from hanzoai.cloud.models.chat_turn import ChatTurn
 from hanzoai.cloud.models.ci_execution import CiExecution
 from hanzoai.cloud.models.ci_executions import CiExecutions
 from hanzoai.cloud.models.clip_body import ClipBody
+from hanzoai.cloud.models.cloudflare_ai_search_instance_create import CloudflareAISearchInstanceCreate
+from hanzoai.cloud.models.cloudflare_ai_search_instance_update import CloudflareAISearchInstanceUpdate
+from hanzoai.cloud.models.cloudflare_ai_search_namespace import CloudflareAISearchNamespace
+from hanzoai.cloud.models.cloudflare_ai_search_namespace_create_in import CloudflareAiSearchNamespaceCreateIn
 from hanzoai.cloud.models.cloudflare_bucket_create_in import CloudflareBucketCreateIn
 from hanzoai.cloud.models.cloudflare_d1_query import CloudflareD1Query
 from hanzoai.cloud.models.cloudflare_database_create_in import CloudflareDatabaseCreateIn
@@ -532,6 +570,8 @@ from hanzoai.cloud.models.cloudflare_pages_project_create import CloudflarePages
 from hanzoai.cloud.models.cloudflare_pages_r2_binding import CloudflarePagesR2Binding
 from hanzoai.cloud.models.cloudflare_purge_in import CloudflarePurgeIn
 from hanzoai.cloud.models.cloudflare_route_create_in import CloudflareRouteCreateIn
+from hanzoai.cloud.models.cloudflare_spend_limit import CloudflareSpendLimit
+from hanzoai.cloud.models.cloudflare_spend_limits_out import CloudflareSpendLimitsOut
 from hanzoai.cloud.models.cloudflare_subdomain_set_in import CloudflareSubdomainSetIn
 from hanzoai.cloud.models.cloudflare_worker_script_put import CloudflareWorkerScriptPut
 from hanzoai.cloud.models.cluster_serving import ClusterServing
@@ -544,6 +584,7 @@ from hanzoai.cloud.models.code_file_content import CodeFileContent
 from hanzoai.cloud.models.code_file_input import CodeFileInput
 from hanzoai.cloud.models.code_index_in import CodeIndexIn
 from hanzoai.cloud.models.code_index_result import CodeIndexResult
+from hanzoai.cloud.models.code_reindex_result import CodeReindexResult
 from hanzoai.cloud.models.code_repo_tree import CodeRepoTree
 from hanzoai.cloud.models.code_search_results import CodeSearchResults
 from hanzoai.cloud.models.code_span import CodeSpan
@@ -722,6 +763,7 @@ from hanzoai.cloud.models.deploy_argo_connection_state import DeployArgoConnecti
 from hanzoai.cloud.models.deploy_argo_destination import DeployArgoDestination
 from hanzoai.cloud.models.deploy_argo_group_kind import DeployArgoGroupKind
 from hanzoai.cloud.models.deploy_argo_health import DeployArgoHealth
+from hanzoai.cloud.models.deploy_argo_history import DeployArgoHistory
 from hanzoai.cloud.models.deploy_argo_info_item import DeployArgoInfoItem
 from hanzoai.cloud.models.deploy_argo_list_meta import DeployArgoListMeta
 from hanzoai.cloud.models.deploy_argo_meta import DeployArgoMeta
@@ -1064,6 +1106,7 @@ from hanzoai.cloud.models.git_mirror_list import GitMirrorList
 from hanzoai.cloud.models.git_mirror_target_req import GitMirrorTargetReq
 from hanzoai.cloud.models.git_mirror_target_view import GitMirrorTargetView
 from hanzoai.cloud.models.git_open_req import GitOpenReq
+from hanzoai.cloud.models.git_package_ref_view import GitPackageRefView
 from hanzoai.cloud.models.git_patch_in import GitPatchIn
 from hanzoai.cloud.models.git_pool_declare import GitPoolDeclare
 from hanzoai.cloud.models.git_pool_declared import GitPoolDeclared
@@ -1599,6 +1642,8 @@ from hanzoai.cloud.models.marketing_test_out import MarketingTestOut
 from hanzoai.cloud.models.marketing_unsubscribed import MarketingUnsubscribed
 from hanzoai.cloud.models.marketing_visit import MarketingVisit
 from hanzoai.cloud.models.marketplace_badge import MarketplaceBadge
+from hanzoai.cloud.models.marketplace_capability_in import MarketplaceCapabilityIn
+from hanzoai.cloud.models.marketplace_capability_spec import MarketplaceCapabilitySpec
 from hanzoai.cloud.models.marketplace_decline_in import MarketplaceDeclineIn
 from hanzoai.cloud.models.marketplace_deliver_in import MarketplaceDeliverIn
 from hanzoai.cloud.models.marketplace_delivery import MarketplaceDelivery
@@ -1638,6 +1683,7 @@ from hanzoai.cloud.models.marketplace_reward import MarketplaceReward
 from hanzoai.cloud.models.marketplace_score import MarketplaceScore
 from hanzoai.cloud.models.marketplace_seller import MarketplaceSeller
 from hanzoai.cloud.models.marketplace_shop import MarketplaceShop
+from hanzoai.cloud.models.marketplace_shop_capability_weights import MarketplaceShopCapabilityWeights
 from hanzoai.cloud.models.marketplace_shop_listing import MarketplaceShopListing
 from hanzoai.cloud.models.marketplace_source import MarketplaceSource
 from hanzoai.cloud.models.marketplace_statement import MarketplaceStatement
@@ -2939,6 +2985,8 @@ from hanzoai.cloud.models.s3_upload_ref import S3UploadRef
 from hanzoai.cloud.models.s3_upload_start import S3UploadStart
 from hanzoai.cloud.models.s3_upload_started import S3UploadStarted
 from hanzoai.cloud.models.sandbox_blob import SandboxBlob
+from hanzoai.cloud.models.sandbox_computer_in import SandboxComputerIn
+from hanzoai.cloud.models.sandbox_computer_out import SandboxComputerOut
 from hanzoai.cloud.models.sandbox_end_in import SandboxEndIn
 from hanzoai.cloud.models.sandbox_exec_request import SandboxExecRequest
 from hanzoai.cloud.models.sandbox_exec_result import SandboxExecResult
@@ -3263,6 +3311,7 @@ from hanzoai.cloud.models.train_assignment import TrainAssignment
 from hanzoai.cloud.models.train_budget import TrainBudget
 from hanzoai.cloud.models.train_capabilities_out import TrainCapabilitiesOut
 from hanzoai.cloud.models.train_capability import TrainCapability
+from hanzoai.cloud.models.train_capability_weights import TrainCapabilityWeights
 from hanzoai.cloud.models.train_capture import TrainCapture
 from hanzoai.cloud.models.train_capture_in import TrainCaptureIn
 from hanzoai.cloud.models.train_catalog import TrainCatalog
@@ -3281,6 +3330,7 @@ from hanzoai.cloud.models.train_download import TrainDownload
 from hanzoai.cloud.models.train_evaluation import TrainEvaluation
 from hanzoai.cloud.models.train_event import TrainEvent
 from hanzoai.cloud.models.train_events_out import TrainEventsOut
+from hanzoai.cloud.models.train_example_in import TrainExampleIn
 from hanzoai.cloud.models.train_family import TrainFamily
 from hanzoai.cloud.models.train_forward_in import TrainForwardIn
 from hanzoai.cloud.models.train_job import TrainJob
@@ -3435,5 +3485,10 @@ from hanzoai.cloud.models.world_pipeline_req import WorldPipelineReq
 from hanzoai.cloud.models.world_pipeline_view import WorldPipelineView
 from hanzoai.cloud.models.world_world_index import WorldWorldIndex
 from hanzoai.cloud.models.world_world_wire import WorldWorldWire
+from hanzoai.cloud.models.x402_extra import X402Extra
+from hanzoai.cloud.models.x402_payment_requirements import X402PaymentRequirements
+from hanzoai.cloud.models.x402_price_row import X402PriceRow
+from hanzoai.cloud.models.x402_price_table import X402PriceTable
+from hanzoai.cloud.models.x402_quoted import X402Quoted
 from hanzoai.cloud.models.x402_receipt import X402Receipt
 from hanzoai.cloud.models.x402_settlement_list import X402SettlementList

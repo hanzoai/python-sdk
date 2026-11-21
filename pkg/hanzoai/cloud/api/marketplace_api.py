@@ -39,6 +39,7 @@ from hanzoai.cloud.models.marketplace_payout_challenge import MarketplacePayoutC
 from hanzoai.cloud.models.marketplace_payout_in import MarketplacePayoutIn
 from hanzoai.cloud.models.marketplace_publish_req import MarketplacePublishReq
 from hanzoai.cloud.models.marketplace_shop import MarketplaceShop
+from hanzoai.cloud.models.marketplace_shop_capability_weights import MarketplaceShopCapabilityWeights
 from hanzoai.cloud.models.marketplace_shop_listing import MarketplaceShopListing
 from hanzoai.cloud.models.marketplace_verify_in import MarketplaceVerifyIn
 from hanzoai.cloud.models.marketplace_verify_req import MarketplaceVerifyReq
@@ -1115,7 +1116,7 @@ class MarketplaceApi:
     @validate_call
     def get_marketplace_listings(
         self,
-        kind: Annotated[Optional[StrictStr], Field(description="Kind keeps one kind: agent, persona, app, skill, mcp, tool or expert.")] = None,
+        kind: Annotated[Optional[StrictStr], Field(description="Kind keeps one kind: agent, persona, app, skill, mcp, tool, expert or capability.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1133,7 +1134,7 @@ class MarketplaceApi:
 
         Returns the listings the caller's own org has published — what this org is offering, not what it can buy — optionally of one kind. A publisher only ever sees its own rows.
 
-        :param kind: Kind keeps one kind: agent, persona, app, skill, mcp, tool or expert.
+        :param kind: Kind keeps one kind: agent, persona, app, skill, mcp, tool, expert or capability.
         :type kind: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1182,7 +1183,7 @@ class MarketplaceApi:
     @validate_call
     def get_marketplace_listings_with_http_info(
         self,
-        kind: Annotated[Optional[StrictStr], Field(description="Kind keeps one kind: agent, persona, app, skill, mcp, tool or expert.")] = None,
+        kind: Annotated[Optional[StrictStr], Field(description="Kind keeps one kind: agent, persona, app, skill, mcp, tool, expert or capability.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1200,7 +1201,7 @@ class MarketplaceApi:
 
         Returns the listings the caller's own org has published — what this org is offering, not what it can buy — optionally of one kind. A publisher only ever sees its own rows.
 
-        :param kind: Kind keeps one kind: agent, persona, app, skill, mcp, tool or expert.
+        :param kind: Kind keeps one kind: agent, persona, app, skill, mcp, tool, expert or capability.
         :type kind: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1249,7 +1250,7 @@ class MarketplaceApi:
     @validate_call
     def get_marketplace_listings_without_preload_content(
         self,
-        kind: Annotated[Optional[StrictStr], Field(description="Kind keeps one kind: agent, persona, app, skill, mcp, tool or expert.")] = None,
+        kind: Annotated[Optional[StrictStr], Field(description="Kind keeps one kind: agent, persona, app, skill, mcp, tool, expert or capability.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1267,7 +1268,7 @@ class MarketplaceApi:
 
         Returns the listings the caller's own org has published — what this org is offering, not what it can buy — optionally of one kind. A publisher only ever sees its own rows.
 
-        :param kind: Kind keeps one kind: agent, persona, app, skill, mcp, tool or expert.
+        :param kind: Kind keeps one kind: agent, persona, app, skill, mcp, tool, expert or capability.
         :type kind: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1675,9 +1676,9 @@ class MarketplaceApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> MarketplaceShop:
-        """Searches every public listing of every kind — agents and personas to hire, apps, skills, MCP servers and tools — newest first, with facets by kind, category, price and rating, paged.
+        """Searches every public listing of every kind — agents and personas to hire, apps, skills, Kai capabilities, MCP servers and tools — newest first, with facets by kind, category, price and rating, paged.
 
-        Searches every public listing of every kind — agents and personas to hire, apps, skills, MCP servers and tools — newest first, with facets by kind, category, price and rating, paged. Each listing carries its seller's public face, its reputation from settled jobs and installs, and the command and MCP operation that buy it. It needs no credential and answers the same to everyone.  With kind=expert it also takes sort and dir, language, verified, minLevel, badge, tokenTier, rateMin and rateMax, and product: the experts the ordinary filters match are kept by these, ordered and paged, and total is how many were kept (facets stay the ordinary filters'). An expert whose reward profile is public shows it — level, points, the three rarest badges, the token tier — and each shows the products it scores highest in with the parts of the score, and those it ranks among the best three of all experts in. A private profile shows nothing of the rewards program and is put last by an order that reads it. A value a parameter cannot take, and any of these without kind=expert, is a 400.
+        Searches every public listing of every kind — agents and personas to hire, apps, skills, Kai capabilities, MCP servers and tools — newest first, with facets by kind, category, price and rating, paged. Each listing carries its seller's public face, its reputation from settled jobs and installs, and the command and MCP operation that buy it. It needs no credential and answers the same to everyone.  With kind=expert it also takes sort and dir, language, verified, minLevel, badge, tokenTier, rateMin and rateMax, and product: the experts the ordinary filters match are kept by these, ordered and paged, and total is how many were kept (facets stay the ordinary filters'). An expert whose reward profile is public shows it — level, points, the three rarest badges, the token tier — and each shows the products it scores highest in with the parts of the score, and those it ranks among the best three of all experts in. A private profile shows nothing of the rewards program and is put last by an order that reads it. A value a parameter cannot take, and any of these without kind=expert, is a 400.
 
         :param q: Q keeps listings whose title, description, category, thing or seller contains every word of it, case-insensitively.
         :type q: str
@@ -1814,9 +1815,9 @@ class MarketplaceApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[MarketplaceShop]:
-        """Searches every public listing of every kind — agents and personas to hire, apps, skills, MCP servers and tools — newest first, with facets by kind, category, price and rating, paged.
+        """Searches every public listing of every kind — agents and personas to hire, apps, skills, Kai capabilities, MCP servers and tools — newest first, with facets by kind, category, price and rating, paged.
 
-        Searches every public listing of every kind — agents and personas to hire, apps, skills, MCP servers and tools — newest first, with facets by kind, category, price and rating, paged. Each listing carries its seller's public face, its reputation from settled jobs and installs, and the command and MCP operation that buy it. It needs no credential and answers the same to everyone.  With kind=expert it also takes sort and dir, language, verified, minLevel, badge, tokenTier, rateMin and rateMax, and product: the experts the ordinary filters match are kept by these, ordered and paged, and total is how many were kept (facets stay the ordinary filters'). An expert whose reward profile is public shows it — level, points, the three rarest badges, the token tier — and each shows the products it scores highest in with the parts of the score, and those it ranks among the best three of all experts in. A private profile shows nothing of the rewards program and is put last by an order that reads it. A value a parameter cannot take, and any of these without kind=expert, is a 400.
+        Searches every public listing of every kind — agents and personas to hire, apps, skills, Kai capabilities, MCP servers and tools — newest first, with facets by kind, category, price and rating, paged. Each listing carries its seller's public face, its reputation from settled jobs and installs, and the command and MCP operation that buy it. It needs no credential and answers the same to everyone.  With kind=expert it also takes sort and dir, language, verified, minLevel, badge, tokenTier, rateMin and rateMax, and product: the experts the ordinary filters match are kept by these, ordered and paged, and total is how many were kept (facets stay the ordinary filters'). An expert whose reward profile is public shows it — level, points, the three rarest badges, the token tier — and each shows the products it scores highest in with the parts of the score, and those it ranks among the best three of all experts in. A private profile shows nothing of the rewards program and is put last by an order that reads it. A value a parameter cannot take, and any of these without kind=expert, is a 400.
 
         :param q: Q keeps listings whose title, description, category, thing or seller contains every word of it, case-insensitively.
         :type q: str
@@ -1953,9 +1954,9 @@ class MarketplaceApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Searches every public listing of every kind — agents and personas to hire, apps, skills, MCP servers and tools — newest first, with facets by kind, category, price and rating, paged.
+        """Searches every public listing of every kind — agents and personas to hire, apps, skills, Kai capabilities, MCP servers and tools — newest first, with facets by kind, category, price and rating, paged.
 
-        Searches every public listing of every kind — agents and personas to hire, apps, skills, MCP servers and tools — newest first, with facets by kind, category, price and rating, paged. Each listing carries its seller's public face, its reputation from settled jobs and installs, and the command and MCP operation that buy it. It needs no credential and answers the same to everyone.  With kind=expert it also takes sort and dir, language, verified, minLevel, badge, tokenTier, rateMin and rateMax, and product: the experts the ordinary filters match are kept by these, ordered and paged, and total is how many were kept (facets stay the ordinary filters'). An expert whose reward profile is public shows it — level, points, the three rarest badges, the token tier — and each shows the products it scores highest in with the parts of the score, and those it ranks among the best three of all experts in. A private profile shows nothing of the rewards program and is put last by an order that reads it. A value a parameter cannot take, and any of these without kind=expert, is a 400.
+        Searches every public listing of every kind — agents and personas to hire, apps, skills, Kai capabilities, MCP servers and tools — newest first, with facets by kind, category, price and rating, paged. Each listing carries its seller's public face, its reputation from settled jobs and installs, and the command and MCP operation that buy it. It needs no credential and answers the same to everyone.  With kind=expert it also takes sort and dir, language, verified, minLevel, badge, tokenTier, rateMin and rateMax, and product: the experts the ordinary filters match are kept by these, ordered and paged, and total is how many were kept (facets stay the ordinary filters'). An expert whose reward profile is public shows it — level, points, the three rarest badges, the token tier — and each shows the products it scores highest in with the parts of the score, and those it ranks among the best three of all experts in. A private profile shows nothing of the rewards program and is put last by an order that reads it. A value a parameter cannot take, and any of these without kind=expert, is a 400.
 
         :param q: Q keeps listings whose title, description, category, thing or seller contains every word of it, case-insensitively.
         :type q: str
@@ -2455,6 +2456,267 @@ class MarketplaceApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/marketplace/shop/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_marketplace_shop_by_id_weights(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the listing, from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketplaceShopCapabilityWeights:
+        """Downloads an open-source Kai capability listing's .tar weights (base64) and shared representation metadata.
+
+        Downloads an open-source Kai capability listing's .tar weights (base64) and shared representation metadata. Only public capability listings with price 0 allow weight downloads; monetized capability listings keep their weights sealed and answer 403. It needs no credential.
+
+        :param id: ID is the listing, from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketplace_shop_by_id_weights_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceShopCapabilityWeights",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_marketplace_shop_by_id_weights_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the listing, from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketplaceShopCapabilityWeights]:
+        """Downloads an open-source Kai capability listing's .tar weights (base64) and shared representation metadata.
+
+        Downloads an open-source Kai capability listing's .tar weights (base64) and shared representation metadata. Only public capability listings with price 0 allow weight downloads; monetized capability listings keep their weights sealed and answer 403. It needs no credential.
+
+        :param id: ID is the listing, from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketplace_shop_by_id_weights_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceShopCapabilityWeights",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_marketplace_shop_by_id_weights_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the listing, from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Downloads an open-source Kai capability listing's .tar weights (base64) and shared representation metadata.
+
+        Downloads an open-source Kai capability listing's .tar weights (base64) and shared representation metadata. Only public capability listings with price 0 allow weight downloads; monetized capability listings keep their weights sealed and answer 403. It needs no credential.
+
+        :param id: ID is the listing, from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketplace_shop_by_id_weights_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceShopCapabilityWeights",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_marketplace_shop_by_id_weights_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/marketplace/shop/{id}/weights',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -5535,9 +5797,9 @@ class MarketplaceApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> MarketplaceListing:
-        """Offers one thing the caller's org owns on the marketplace — an agent, persona, app, skill or MCP server, or, for the platform, a tool sold per call — optionally monetized.
+        """Offers one thing the caller's org owns on the marketplace — an agent, persona, app, skill, Kai capability or MCP server, or, for the platform, a tool sold per call — optionally monetized.
 
-        Offers one thing the caller's org owns on the marketplace — an agent, persona, app, skill or MCP server, or, for the platform, a tool sold per call — optionally monetized. An expert is the exception to the org's admin: any member lists themself, once, as a person (kind expert), and is the listing's owner beside the org's admins. The owning app is asked, as the org, whether the thing is the org's, so a listing never sells something that does not exist or belongs to someone else: a tool every org reaches is the platform's, and a server enabled off the public shelf is the shelf's. A monetized listing names a payout wallet of the org's own, which wallets confirms, so a price is never unpayable. The price is exact to 18 decimal places, so a per-call price below a cent is a real price and not a rounded-away zero. An org admin publishes, at most 1000 listings an org; it answers 201 with the created row.
+        Offers one thing the caller's org owns on the marketplace — an agent, persona, app, skill, Kai capability or MCP server, or, for the platform, a tool sold per call — optionally monetized. An expert is the exception to the org's admin: any member lists themself, once, as a person (kind expert), and is the listing's owner beside the org's admins. The owning app is asked, as the org, whether the thing is the org's, so a listing never sells something that does not exist or belongs to someone else: a tool every org reaches is the platform's, and a server enabled off the public shelf is the shelf's. A monetized listing names a payout wallet of the org's own, which wallets confirms, so a price is never unpayable. The price is exact to 18 decimal places, so a per-call price below a cent is a real price and not a rounded-away zero. An org admin publishes, at most 1000 listings an org; it answers 201 with the created row.
 
         :param marketplace_publish_req: (required)
         :type marketplace_publish_req: MarketplacePublishReq
@@ -5602,9 +5864,9 @@ class MarketplaceApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[MarketplaceListing]:
-        """Offers one thing the caller's org owns on the marketplace — an agent, persona, app, skill or MCP server, or, for the platform, a tool sold per call — optionally monetized.
+        """Offers one thing the caller's org owns on the marketplace — an agent, persona, app, skill, Kai capability or MCP server, or, for the platform, a tool sold per call — optionally monetized.
 
-        Offers one thing the caller's org owns on the marketplace — an agent, persona, app, skill or MCP server, or, for the platform, a tool sold per call — optionally monetized. An expert is the exception to the org's admin: any member lists themself, once, as a person (kind expert), and is the listing's owner beside the org's admins. The owning app is asked, as the org, whether the thing is the org's, so a listing never sells something that does not exist or belongs to someone else: a tool every org reaches is the platform's, and a server enabled off the public shelf is the shelf's. A monetized listing names a payout wallet of the org's own, which wallets confirms, so a price is never unpayable. The price is exact to 18 decimal places, so a per-call price below a cent is a real price and not a rounded-away zero. An org admin publishes, at most 1000 listings an org; it answers 201 with the created row.
+        Offers one thing the caller's org owns on the marketplace — an agent, persona, app, skill, Kai capability or MCP server, or, for the platform, a tool sold per call — optionally monetized. An expert is the exception to the org's admin: any member lists themself, once, as a person (kind expert), and is the listing's owner beside the org's admins. The owning app is asked, as the org, whether the thing is the org's, so a listing never sells something that does not exist or belongs to someone else: a tool every org reaches is the platform's, and a server enabled off the public shelf is the shelf's. A monetized listing names a payout wallet of the org's own, which wallets confirms, so a price is never unpayable. The price is exact to 18 decimal places, so a per-call price below a cent is a real price and not a rounded-away zero. An org admin publishes, at most 1000 listings an org; it answers 201 with the created row.
 
         :param marketplace_publish_req: (required)
         :type marketplace_publish_req: MarketplacePublishReq
@@ -5669,9 +5931,9 @@ class MarketplaceApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Offers one thing the caller's org owns on the marketplace — an agent, persona, app, skill or MCP server, or, for the platform, a tool sold per call — optionally monetized.
+        """Offers one thing the caller's org owns on the marketplace — an agent, persona, app, skill, Kai capability or MCP server, or, for the platform, a tool sold per call — optionally monetized.
 
-        Offers one thing the caller's org owns on the marketplace — an agent, persona, app, skill or MCP server, or, for the platform, a tool sold per call — optionally monetized. An expert is the exception to the org's admin: any member lists themself, once, as a person (kind expert), and is the listing's owner beside the org's admins. The owning app is asked, as the org, whether the thing is the org's, so a listing never sells something that does not exist or belongs to someone else: a tool every org reaches is the platform's, and a server enabled off the public shelf is the shelf's. A monetized listing names a payout wallet of the org's own, which wallets confirms, so a price is never unpayable. The price is exact to 18 decimal places, so a per-call price below a cent is a real price and not a rounded-away zero. An org admin publishes, at most 1000 listings an org; it answers 201 with the created row.
+        Offers one thing the caller's org owns on the marketplace — an agent, persona, app, skill, Kai capability or MCP server, or, for the platform, a tool sold per call — optionally monetized. An expert is the exception to the org's admin: any member lists themself, once, as a person (kind expert), and is the listing's owner beside the org's admins. The owning app is asked, as the org, whether the thing is the org's, so a listing never sells something that does not exist or belongs to someone else: a tool every org reaches is the platform's, and a server enabled off the public shelf is the shelf's. A monetized listing names a payout wallet of the org's own, which wallets confirms, so a price is never unpayable. The price is exact to 18 decimal places, so a per-call price below a cent is a real price and not a rounded-away zero. An org admin publishes, at most 1000 listings an org; it answers 201 with the created row.
 
         :param marketplace_publish_req: (required)
         :type marketplace_publish_req: MarketplacePublishReq

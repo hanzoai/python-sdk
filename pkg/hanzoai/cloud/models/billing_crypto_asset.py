@@ -28,8 +28,13 @@ class BillingCryptoAsset(BaseModel):
     """ # noqa: E501
     amount_cents: Optional[StrictInt] = Field(default=None, description="AmountCents is what the payer intends to send, for the record. Optional — the credit is what actually arrives, never what was announced.", alias="amountCents")
     chain: Optional[StrictStr] = Field(default=None, description="Chain is the network to receive on, one of GET /v1/billing/crypto/options chains. Empty takes the rail's default.")
+    coupon: Optional[StrictStr] = None
+    interval: Optional[StrictStr] = None
+    level: Optional[StrictInt] = None
+    plan_id: Optional[StrictStr] = Field(default=None, description="Optional plan fields when paying a plan's first period with crypto.", alias="planId")
+    quantity: Optional[StrictInt] = None
     token: Optional[StrictStr] = Field(default=None, description="Token is the asset on that chain, one of the options' tokens. Empty takes the rail's default.")
-    __properties: ClassVar[List[str]] = ["amountCents", "chain", "token"]
+    __properties: ClassVar[List[str]] = ["amountCents", "chain", "coupon", "interval", "level", "planId", "quantity", "token"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -84,6 +89,11 @@ class BillingCryptoAsset(BaseModel):
         _obj = cls.model_validate({
             "amountCents": obj.get("amountCents"),
             "chain": obj.get("chain"),
+            "coupon": obj.get("coupon"),
+            "interval": obj.get("interval"),
+            "level": obj.get("level"),
+            "planId": obj.get("planId"),
+            "quantity": obj.get("quantity"),
             "token": obj.get("token")
         })
         return _obj

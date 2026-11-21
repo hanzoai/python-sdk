@@ -29,7 +29,8 @@ class BillingTopupIntentState(BaseModel):
     credited: Optional[StrictBool] = Field(default=None, description="Credited says the wallet holds the money.")
     payment_id: Optional[StrictStr] = Field(default=None, description="PaymentID is the receipt of the credit, set once Credited.", alias="paymentId")
     state: Optional[StrictStr] = Field(default=None, description="State is created, pending, succeeded or canceled.")
-    __properties: ClassVar[List[str]] = ["credited", "paymentId", "state"]
+    subscription_id: Optional[StrictStr] = Field(default=None, description="SubscriptionID is set when a plan-bound bank transfer settles and opens the plan.", alias="subscriptionId")
+    __properties: ClassVar[List[str]] = ["credited", "paymentId", "state", "subscriptionId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -84,7 +85,8 @@ class BillingTopupIntentState(BaseModel):
         _obj = cls.model_validate({
             "credited": obj.get("credited"),
             "paymentId": obj.get("paymentId"),
-            "state": obj.get("state")
+            "state": obj.get("state"),
+            "subscriptionId": obj.get("subscriptionId")
         })
         return _obj
 

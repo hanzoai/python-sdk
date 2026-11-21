@@ -29,16 +29,20 @@ class MarketingVisit(BaseModel):
     cid: Optional[StrictStr] = Field(default=None, description="Cid is the Google Analytics client id, the last two fields of _ga.")
     clicked: Optional[StrictInt] = Field(default=None, description="Clicked is when the page captured the click, in unix seconds.")
     consent: Optional[StrictStr] = Field(default=None, description="Consent is the Cookie Preferences the visitor granted, comma separated: any of analytics, marketing and ads. Empty is a visitor who refused them all, which is a choice; absent is one who stated none. It counts only from a browser, and a browser that sends GPC or DNT has allowed nothing.")
+    event_id: Optional[StrictStr] = Field(default=None, description="EventID is the shared conversion deduplication id minted by the browser tag.")
     fbc: Optional[StrictStr] = Field(default=None, description="Fbc is Meta's click cookie, fb.1.<ms>.<fbclid>.")
     fbclid: Optional[StrictStr] = Field(default=None, description="Fbclid is the Meta click id the visitor arrived with.")
     fbp: Optional[StrictStr] = Field(default=None, description="Fbp is Meta's browser cookie, fb.1.<ms>.<random>.")
     gbraid: Optional[StrictStr] = Field(default=None, description="Gbraid is the Google Ads click id for an iOS app click.")
     gclid: Optional[StrictStr] = Field(default=None, description="Gclid is the Google Ads click id the visitor arrived with.")
+    li_fat_id: Optional[StrictStr] = Field(default=None, description="LiFatId is the LinkedIn first-party ads click id (li_fat_id) the visitor arrived with.")
     tags: Optional[StrictStr] = Field(default=None, description="Tags is which of the page's ad tags already saw this lead: ga, meta.")
+    ttclid: Optional[StrictStr] = Field(default=None, description="Ttclid is the TikTok click id (ttclid) the visitor arrived with.")
+    twclid: Optional[StrictStr] = Field(default=None, description="Twclid is the X Ads click id (twclid) the visitor arrived with.")
     url: Optional[StrictStr] = Field(default=None, description="URL is the page the form was filed from, in full.")
     user_agent: Optional[StrictStr] = Field(default=None, description="UserAgent is the visitor's browser, as navigator.userAgent reads.", alias="userAgent")
     wbraid: Optional[StrictStr] = Field(default=None, description="Wbraid is the Google Ads click id for an iOS web click.")
-    __properties: ClassVar[List[str]] = ["cid", "clicked", "consent", "fbc", "fbclid", "fbp", "gbraid", "gclid", "tags", "url", "userAgent", "wbraid"]
+    __properties: ClassVar[List[str]] = ["cid", "clicked", "consent", "event_id", "fbc", "fbclid", "fbp", "gbraid", "gclid", "li_fat_id", "tags", "ttclid", "twclid", "url", "userAgent", "wbraid"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -94,12 +98,16 @@ class MarketingVisit(BaseModel):
             "cid": obj.get("cid"),
             "clicked": obj.get("clicked"),
             "consent": obj.get("consent"),
+            "event_id": obj.get("event_id"),
             "fbc": obj.get("fbc"),
             "fbclid": obj.get("fbclid"),
             "fbp": obj.get("fbp"),
             "gbraid": obj.get("gbraid"),
             "gclid": obj.get("gclid"),
+            "li_fat_id": obj.get("li_fat_id"),
             "tags": obj.get("tags"),
+            "ttclid": obj.get("ttclid"),
+            "twclid": obj.get("twclid"),
             "url": obj.get("url"),
             "userAgent": obj.get("userAgent"),
             "wbraid": obj.get("wbraid")

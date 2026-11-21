@@ -21,7 +21,7 @@ from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.billing_price_quote import BillingPriceQuote
 from hanzoai.cloud.models.billing_route_step import BillingRouteStep
-from hanzoai.cloud.models.billing_routing_crypto_rail import BillingRoutingCryptoRail
+from hanzoai.cloud.models.billing_routing_crypto_offer import BillingRoutingCryptoOffer
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -32,7 +32,7 @@ class BillingRoute(BaseModel):
     alternatives: Optional[List[StrictStr]] = Field(default=None, description="Alternatives are the other ways this buyer may pay, each its own button beside the card slot, offered only where each can take money now.")
     chain: Optional[List[BillingRouteStep]] = Field(default=None, description="Chain is the seven steps in the order they are taken.")
     country: Optional[StrictStr] = Field(default=None, description="Country is the buyer's country the answer used.")
-    crypto: Optional[List[BillingRoutingCryptoRail]] = Field(default=None, description="Crypto says, per asset the crypto rails name, which processor takes it for this buyer, in the order the policy chose.")
+    crypto: Optional[List[BillingRoutingCryptoOffer]] = Field(default=None, description="Crypto says, per asset the crypto rails name, who takes it for this buyer, in the order the policy chose, the currency it is presented in and the networks it is taken on.")
     local_currency: Optional[StrictStr] = Field(default=None, description="LocalCurrency is the currency a local-method payment would be quoted in.", alias="localCurrency")
     methods: Optional[List[StrictStr]] = Field(default=None, description="Methods are what its card slot mounts.")
     processor: Optional[StrictStr] = Field(default=None, description="Processor is the processor that takes the checkout.")
@@ -113,7 +113,7 @@ class BillingRoute(BaseModel):
             "alternatives": obj.get("alternatives"),
             "chain": [BillingRouteStep.from_dict(_item) for _item in obj["chain"]] if obj.get("chain") is not None else None,
             "country": obj.get("country"),
-            "crypto": [BillingRoutingCryptoRail.from_dict(_item) for _item in obj["crypto"]] if obj.get("crypto") is not None else None,
+            "crypto": [BillingRoutingCryptoOffer.from_dict(_item) for _item in obj["crypto"]] if obj.get("crypto") is not None else None,
             "localCurrency": obj.get("localCurrency"),
             "methods": obj.get("methods"),
             "processor": obj.get("processor"),

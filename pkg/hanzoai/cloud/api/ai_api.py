@@ -716,7 +716,7 @@ class AiApi:
     ) -> AiFrameOut:
         """Edits an existing Hyperframe composite or its layer stack (POST /v1/frame/edits): pass background_b64 and layers (or headline, layout, theme, terminal, instruction, or layer_patches) to redesign text, reposition panels, swap themes (light, glass, dark), or add custom card/HTML layers in ~15ms with zero diffusion cost; or set edit_background=true (with qwen-image-edit or iro) to redo the visual background while keeping all typography and UI layers intact.
 
-        Edits an existing Hyperframe composite or its layer stack (POST /v1/frame/edits): pass background_b64 and layers (or headline, layout, theme, terminal, instruction, or layer_patches) to redesign text, reposition panels, swap themes (light, glass, dark), or add custom card/HTML layers in ~15ms with zero diffusion cost; or set edit_background=true (with qwen-image-edit or iro) to redo the visual background while keeping all typography and UI layers intact.
+        Edits an existing Hyperframe composite or its layer stack (POST /v1/frame/edits): pass background_b64 and layers (or headline, layout, theme, terminal, instruction, or layer_patches) to redesign text, reposition panels, swap themes (light, glass, dark), or add custom card/HTML layers in ~15ms with zero diffusion cost; or set edit_background=true (with qwen-image-edit or iro) to redo the visual background while keeping all typography and UI layers intact. background_b64 or layers is required, plus something to change: a request without them is a 400 and no model is asked.
 
         :param ai_frame_in: (required)
         :type ai_frame_in: AiFrameIn
@@ -783,7 +783,7 @@ class AiApi:
     ) -> ApiResponse[AiFrameOut]:
         """Edits an existing Hyperframe composite or its layer stack (POST /v1/frame/edits): pass background_b64 and layers (or headline, layout, theme, terminal, instruction, or layer_patches) to redesign text, reposition panels, swap themes (light, glass, dark), or add custom card/HTML layers in ~15ms with zero diffusion cost; or set edit_background=true (with qwen-image-edit or iro) to redo the visual background while keeping all typography and UI layers intact.
 
-        Edits an existing Hyperframe composite or its layer stack (POST /v1/frame/edits): pass background_b64 and layers (or headline, layout, theme, terminal, instruction, or layer_patches) to redesign text, reposition panels, swap themes (light, glass, dark), or add custom card/HTML layers in ~15ms with zero diffusion cost; or set edit_background=true (with qwen-image-edit or iro) to redo the visual background while keeping all typography and UI layers intact.
+        Edits an existing Hyperframe composite or its layer stack (POST /v1/frame/edits): pass background_b64 and layers (or headline, layout, theme, terminal, instruction, or layer_patches) to redesign text, reposition panels, swap themes (light, glass, dark), or add custom card/HTML layers in ~15ms with zero diffusion cost; or set edit_background=true (with qwen-image-edit or iro) to redo the visual background while keeping all typography and UI layers intact. background_b64 or layers is required, plus something to change: a request without them is a 400 and no model is asked.
 
         :param ai_frame_in: (required)
         :type ai_frame_in: AiFrameIn
@@ -850,7 +850,7 @@ class AiApi:
     ) -> RESTResponseType:
         """Edits an existing Hyperframe composite or its layer stack (POST /v1/frame/edits): pass background_b64 and layers (or headline, layout, theme, terminal, instruction, or layer_patches) to redesign text, reposition panels, swap themes (light, glass, dark), or add custom card/HTML layers in ~15ms with zero diffusion cost; or set edit_background=true (with qwen-image-edit or iro) to redo the visual background while keeping all typography and UI layers intact.
 
-        Edits an existing Hyperframe composite or its layer stack (POST /v1/frame/edits): pass background_b64 and layers (or headline, layout, theme, terminal, instruction, or layer_patches) to redesign text, reposition panels, swap themes (light, glass, dark), or add custom card/HTML layers in ~15ms with zero diffusion cost; or set edit_background=true (with qwen-image-edit or iro) to redo the visual background while keeping all typography and UI layers intact.
+        Edits an existing Hyperframe composite or its layer stack (POST /v1/frame/edits): pass background_b64 and layers (or headline, layout, theme, terminal, instruction, or layer_patches) to redesign text, reposition panels, swap themes (light, glass, dark), or add custom card/HTML layers in ~15ms with zero diffusion cost; or set edit_background=true (with qwen-image-edit or iro) to redo the visual background while keeping all typography and UI layers intact. background_b64 or layers is required, plus something to change: a request without them is a 400 and no model is asked.
 
         :param ai_frame_in: (required)
         :type ai_frame_in: AiFrameIn
@@ -991,7 +991,7 @@ class AiApi:
     ) -> AiFrameOut:
         """Generates a Hyperframe graphic composite (POST /v1/frame/generations): strips all copy and text triggers from the diffusion prompt so the image model (iro, qwen-image, z-image-turbo, flux-3) renders a strictly text-free background, auto-detects the dark hardware/terminal surface bounding box, and layers pixel-perfect @hanzo/font (Zen + Zen Mono) typography and interactive HTML/UI elements on top.
 
-        Generates a Hyperframe graphic composite (POST /v1/frame/generations): strips all copy and text triggers from the diffusion prompt so the image model (iro, qwen-image, z-image-turbo, flux-3) renders a strictly text-free background, auto-detects the dark hardware/terminal surface bounding box, and layers pixel-perfect @hanzo/font (Zen + Zen Mono) typography and interactive HTML/UI elements on top. Returns the composited PNG (b64_json), the clean diffusion background (background_b64), self-contained Hyperframe HTML (html), and the editable layers stack (layers).
+        Generates a Hyperframe graphic composite (POST /v1/frame/generations): strips all copy and text triggers from the diffusion prompt so the image model (iro, qwen-image, z-image-turbo, flux-3) renders a strictly text-free background, auto-detects the dark hardware/terminal surface bounding box, and layers pixel-perfect @hanzo/font (Zen + Zen Mono) typography and interactive HTML/UI elements on top. Returns the composited PNG (b64_json), the clean diffusion background (background_b64), self-contained Hyperframe HTML (html), and the editable layers stack (layers). prompt is required: a request without one is a 400 and no model is asked.
 
         :param ai_frame_in: (required)
         :type ai_frame_in: AiFrameIn
@@ -1058,7 +1058,7 @@ class AiApi:
     ) -> ApiResponse[AiFrameOut]:
         """Generates a Hyperframe graphic composite (POST /v1/frame/generations): strips all copy and text triggers from the diffusion prompt so the image model (iro, qwen-image, z-image-turbo, flux-3) renders a strictly text-free background, auto-detects the dark hardware/terminal surface bounding box, and layers pixel-perfect @hanzo/font (Zen + Zen Mono) typography and interactive HTML/UI elements on top.
 
-        Generates a Hyperframe graphic composite (POST /v1/frame/generations): strips all copy and text triggers from the diffusion prompt so the image model (iro, qwen-image, z-image-turbo, flux-3) renders a strictly text-free background, auto-detects the dark hardware/terminal surface bounding box, and layers pixel-perfect @hanzo/font (Zen + Zen Mono) typography and interactive HTML/UI elements on top. Returns the composited PNG (b64_json), the clean diffusion background (background_b64), self-contained Hyperframe HTML (html), and the editable layers stack (layers).
+        Generates a Hyperframe graphic composite (POST /v1/frame/generations): strips all copy and text triggers from the diffusion prompt so the image model (iro, qwen-image, z-image-turbo, flux-3) renders a strictly text-free background, auto-detects the dark hardware/terminal surface bounding box, and layers pixel-perfect @hanzo/font (Zen + Zen Mono) typography and interactive HTML/UI elements on top. Returns the composited PNG (b64_json), the clean diffusion background (background_b64), self-contained Hyperframe HTML (html), and the editable layers stack (layers). prompt is required: a request without one is a 400 and no model is asked.
 
         :param ai_frame_in: (required)
         :type ai_frame_in: AiFrameIn
@@ -1125,7 +1125,7 @@ class AiApi:
     ) -> RESTResponseType:
         """Generates a Hyperframe graphic composite (POST /v1/frame/generations): strips all copy and text triggers from the diffusion prompt so the image model (iro, qwen-image, z-image-turbo, flux-3) renders a strictly text-free background, auto-detects the dark hardware/terminal surface bounding box, and layers pixel-perfect @hanzo/font (Zen + Zen Mono) typography and interactive HTML/UI elements on top.
 
-        Generates a Hyperframe graphic composite (POST /v1/frame/generations): strips all copy and text triggers from the diffusion prompt so the image model (iro, qwen-image, z-image-turbo, flux-3) renders a strictly text-free background, auto-detects the dark hardware/terminal surface bounding box, and layers pixel-perfect @hanzo/font (Zen + Zen Mono) typography and interactive HTML/UI elements on top. Returns the composited PNG (b64_json), the clean diffusion background (background_b64), self-contained Hyperframe HTML (html), and the editable layers stack (layers).
+        Generates a Hyperframe graphic composite (POST /v1/frame/generations): strips all copy and text triggers from the diffusion prompt so the image model (iro, qwen-image, z-image-turbo, flux-3) renders a strictly text-free background, auto-detects the dark hardware/terminal surface bounding box, and layers pixel-perfect @hanzo/font (Zen + Zen Mono) typography and interactive HTML/UI elements on top. Returns the composited PNG (b64_json), the clean diffusion background (background_b64), self-contained Hyperframe HTML (html), and the editable layers stack (layers). prompt is required: a request without one is a 400 and no model is asked.
 
         :param ai_frame_in: (required)
         :type ai_frame_in: AiFrameIn

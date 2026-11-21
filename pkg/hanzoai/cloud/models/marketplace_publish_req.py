@@ -19,6 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.marketplace_capability_in import MarketplaceCapabilityIn
 from hanzoai.cloud.models.marketplace_expert_in import MarketplaceExpertIn
 from typing import Optional, Set
 from typing_extensions import Self
@@ -27,18 +28,19 @@ class MarketplacePublishReq(BaseModel):
     """
     MarketplacePublishReq
     """ # noqa: E501
+    capability: Optional[MarketplaceCapabilityIn] = Field(default=None, description="Capability carries optional publisher preferences for a listing of kind capability (such as its open-source license). Refused on any other kind.")
     category: Optional[StrictStr] = Field(default=None, description="Category groups the listing in the shop window.")
     currency: Optional[StrictStr] = Field(default=None, description="Currency denominates Price.")
     description: Optional[StrictStr] = Field(default=None, description="Description is the long copy, at most 4096 characters.")
     docs: Optional[StrictStr] = Field(default=None, description="Docs is where the listing's documentation lives: an https URL or a path on docs.hanzo.ai.")
     expert: Optional[MarketplaceExpertIn] = Field(default=None, description="Expert is the person behind a listing of kind expert — their hourly rate, areas, languages, time zone and weekly hours. Required for kind expert and refused for any other. The price is then the fixed engagement price; an expert sets a rate, a price or both.")
-    kind: Optional[StrictStr] = Field(default=None, description="Kind is what is sold: agent, persona, app, skill, mcp, tool (the default) or expert. A tool is a platform tool, sold per call by the platform alone; an expert is the caller, a person making their time available.")
-    price: Optional[StrictStr] = Field(default=None, description="Price is the price as a decimal USD string, exact to 18 places — per call for a tool, what a job is offered at otherwise. \"0.0025\" is a quarter of a cent and stays one. Empty or \"0\" publishes it free; a positive price requires Recipient.")
+    kind: Optional[StrictStr] = Field(default=None, description="Kind is what is sold: agent, persona, app, skill, mcp, tool (the default), expert or capability. A tool is a platform tool, sold per call by the platform alone; an expert is the caller, a person making their time available; a capability is a trained Kai capability adapter of the org's.")
+    price: Optional[StrictStr] = Field(default=None, description="Price is the price as a decimal USD string, exact to 18 places — per call for a tool or capability, what a job is offered at otherwise. \"0.0025\" is a quarter of a cent and stays one. Empty or \"0\" publishes it free; a positive price requires Recipient.")
     public: Optional[StrictBool] = Field(default=None, description="Public makes the listing discoverable by other orgs. Private otherwise.")
     recipient: Optional[StrictStr] = Field(default=None, description="Recipient is the seller's payout wallet id, in the publishing org — the wallet x402 pays. Required for a monetized listing.")
     title: Optional[StrictStr] = Field(default=None, description="Title is the shop-window name, 1-200 characters. Required.")
-    tool: Optional[StrictStr] = Field(default=None, description="Tool names the thing sold, in the seller's own org: an agent's name or id, an app's project slug or id, a skill's name or id, an MCP server's name or id registered by hand, or a platform tool's registry name. It must be the seller's — there are no phantom listings. An expert's is the caller's own IAM identity, and is left out.")
-    __properties: ClassVar[List[str]] = ["category", "currency", "description", "docs", "expert", "kind", "price", "public", "recipient", "title", "tool"]
+    tool: Optional[StrictStr] = Field(default=None, description="Tool names the thing sold, in the seller's own org: an agent's name or id, an app's project slug or id, a skill's name or id, a Kai capability's name, an MCP server's name or id registered by hand, or a platform tool's registry name. It must be the seller's — there are no phantom listings. An expert's is the caller's own IAM identity, and is left out.")
+    __properties: ClassVar[List[str]] = ["capability", "category", "currency", "description", "docs", "expert", "kind", "price", "public", "recipient", "title", "tool"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -79,6 +81,9 @@ class MarketplacePublishReq(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of capability
+        if self.capability:
+            _dict['capability'] = self.capability.to_dict()
         # override the default output from pydantic by calling `to_dict()` of expert
         if self.expert:
             _dict['expert'] = self.expert.to_dict()
@@ -94,6 +99,7 @@ class MarketplacePublishReq(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "capability": MarketplaceCapabilityIn.from_dict(obj["capability"]) if obj.get("capability") is not None else None,
             "category": obj.get("category"),
             "currency": obj.get("currency"),
             "description": obj.get("description"),

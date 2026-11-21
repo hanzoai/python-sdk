@@ -26,13 +26,15 @@ class AgentCodingPullIn(BaseModel):
     """
     AgentCodingPullIn
     """ # noqa: E501
+    assignees: Optional[List[StrictStr]] = Field(default=None, description="Assignees are the GitHub logins it is assigned to. GitHub repositories only; a forge repository ignores them.")
     base: Optional[StrictStr] = Field(default=None, description="Base is the branch to propose into. Empty is the branch the run started from.")
     body: Optional[StrictStr] = Field(default=None, description="Body is its description. Empty says who it is for, the task, the branch and the run it came from.")
     draft: Optional[StrictBool] = Field(default=None, description="Draft opens it as a draft, which a reviewer cannot merge until it is ready.")
     request_id: Optional[StrictStr] = Field(default=None, description="RequestID makes a retry of this request the same request, answered as the first was. The Idempotency-Key header is the same value, and wins when both are sent. Optional.", alias="requestId")
+    reviewers: Optional[List[StrictStr]] = Field(default=None, description="Reviewers are the GitHub logins asked to review it. GitHub repositories only; a forge repository ignores them.")
     session: Optional[StrictStr] = Field(default=None, description="Session is the run's handle, from the path.")
     title: Optional[StrictStr] = Field(default=None, description="Title is the pull request's title. Empty takes one from the run's task.")
-    __properties: ClassVar[List[str]] = ["base", "body", "draft", "requestId", "session", "title"]
+    __properties: ClassVar[List[str]] = ["assignees", "base", "body", "draft", "requestId", "reviewers", "session", "title"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -85,10 +87,12 @@ class AgentCodingPullIn(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "assignees": obj.get("assignees"),
             "base": obj.get("base"),
             "body": obj.get("body"),
             "draft": obj.get("draft"),
             "requestId": obj.get("requestId"),
+            "reviewers": obj.get("reviewers"),
             "session": obj.get("session"),
             "title": obj.get("title")
         })

@@ -17,8 +17,10 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.train_example_in import TrainExampleIn
+from hanzoai.cloud.models.train_question import TrainQuestion
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,8 +29,11 @@ class TrainCreateIn(BaseModel):
     TrainCreateIn
     """ # noqa: E501
     corrections: Optional[List[StrictStr]] = Field(default=None, description="Corrections are the corrections it is taught from: captured corrections of one question, which becomes its route.")
+    examples: Optional[List[TrainExampleIn]] = Field(default=None, description="Examples are cold-start (state, answer) pairs encoded once over Kai's shared representation and filed as captures and corrections of Question.")
     name: Optional[StrictStr] = Field(default=None, description="Name is its name: lowercase words joined by hyphens, at most 64.")
-    __properties: ClassVar[List[str]] = ["corrections", "name"]
+    question: Optional[TrainQuestion] = Field(default=None, description="Question is the route it answers when created cold-start from Examples without prior captured corrections.")
+    train: Optional[StrictBool] = Field(default=None, description="Train runs a lesson immediately after creating the capability.")
+    __properties: ClassVar[List[str]] = ["corrections", "examples", "name", "question", "train"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -69,6 +74,16 @@ class TrainCreateIn(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in examples (list)
+        _items = []
+        if self.examples:
+            for _item_examples in self.examples:
+                if _item_examples:
+                    _items.append(_item_examples.to_dict())
+            _dict['examples'] = _items
+        # override the default output from pydantic by calling `to_dict()` of question
+        if self.question:
+            _dict['question'] = self.question.to_dict()
         return _dict
 
     @classmethod
@@ -82,7 +97,10 @@ class TrainCreateIn(BaseModel):
 
         _obj = cls.model_validate({
             "corrections": obj.get("corrections"),
-            "name": obj.get("name")
+            "examples": [TrainExampleIn.from_dict(_item) for _item in obj["examples"]] if obj.get("examples") is not None else None,
+            "name": obj.get("name"),
+            "question": TrainQuestion.from_dict(obj["question"]) if obj.get("question") is not None else None,
+            "train": obj.get("train")
         })
         return _obj
 

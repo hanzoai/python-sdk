@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -34,7 +34,10 @@ class AgentUpdateAgentIn(BaseModel):
     description: Optional[StrictStr] = Field(default=None, description="Description replaces the line other agents read in the tool catalogue.")
     emoji: Optional[StrictStr] = Field(default=None, description="Emoji re-draws the agent as a glyph. Sending either of the pair replaces BOTH, so setting a glyph clears an image and \"\" for both goes back to the initial — there is no state where a row holds two answers.")
     execution_mode: Optional[StrictStr] = Field(default=None, description="ExecutionMode switches between one-shot and long-running. The RESULTING mode+schedule are validated together, so switching to long-running without a stored or supplied cron is refused rather than accepted into an agent the scheduler would skip forever. A switch INTO long-running counts against the per-org cap and can be a 409.", alias="executionMode")
+    group_id: Optional[StrictStr] = Field(default=None, description="GroupID assigns this bot to a Bot Group (by grp_... id or name), or removes it from its group when set to \"\".", alias="groupId")
     instructions: Optional[StrictStr] = Field(default=None, description="Instructions replaces the system prompt whole, up to 32 KiB. There is no append: a prompt is one text, and sending \"\" clears it.")
+    is_primary: Optional[StrictBool] = Field(default=None, description="IsPrimary promotes (with true) or demotes (with false) this bot as the org's sole Primary Bot; promoting clears isPrimary on every other bot in the org.", alias="isPrimary")
+    layer: Optional[StrictInt] = Field(default=None, description="Layer updates the bot's coordination tier (0..8).")
     max_task_micro_usd: Optional[StrictInt] = Field(default=None, description="MaxTaskMicroUSD is the ceiling for a single run, in micro-USD. A session cannot exceed it even when the period cap still has room, so one runaway task cannot consume a month.")
     model: Optional[StrictStr] = Field(default=None, description="Model re-points the agent at another model, checked against the gateway's served catalogue exactly as create checks it. Empty STRING is refused — say nothing to keep the current one. Past runs keep the model that served them.")
     period: Optional[StrictStr] = Field(default=None, description="Period is the window the cap resets on: day, week or month.")
@@ -42,7 +45,7 @@ class AgentUpdateAgentIn(BaseModel):
     schedule: Optional[StrictStr] = Field(default=None, description="Schedule replaces the cron. It is validated against the mode this update leaves behind, and dropped if that mode is one-shot.")
     service_account_id: Optional[StrictStr] = Field(default=None, description="ServiceAccountID re-points (or, with \"\", clears) the IAM service account a scheduled run is billed as. Clearing it puts that spend back on the org.", alias="serviceAccountId")
     tools: Optional[List[StrictStr]] = Field(default=None, description="Tools replaces the whole allow-list, it does not add to it. Sending [] takes every tool away, which is the only way to say that.")
-    __properties: ClassVar[List[str]] = ["avatar", "avatar_licence", "avatar_source", "cap_micro_usd", "computeRef", "description", "emoji", "executionMode", "instructions", "max_task_micro_usd", "model", "period", "ref", "schedule", "serviceAccountId", "tools"]
+    __properties: ClassVar[List[str]] = ["avatar", "avatar_licence", "avatar_source", "cap_micro_usd", "computeRef", "description", "emoji", "executionMode", "groupId", "instructions", "isPrimary", "layer", "max_task_micro_usd", "model", "period", "ref", "schedule", "serviceAccountId", "tools"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -103,7 +106,10 @@ class AgentUpdateAgentIn(BaseModel):
             "description": obj.get("description"),
             "emoji": obj.get("emoji"),
             "executionMode": obj.get("executionMode"),
+            "groupId": obj.get("groupId"),
             "instructions": obj.get("instructions"),
+            "isPrimary": obj.get("isPrimary"),
+            "layer": obj.get("layer"),
             "max_task_micro_usd": obj.get("max_task_micro_usd"),
             "model": obj.get("model"),
             "period": obj.get("period"),

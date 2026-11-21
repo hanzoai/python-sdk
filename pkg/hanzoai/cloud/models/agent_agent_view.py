@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -36,10 +36,13 @@ class AgentAgentView(BaseModel):
     description: Optional[StrictStr] = Field(default=None, description="Description is the one line another agent reads when deciding whether to call this one: the tool catalogue publishes it as the description of `agent_<name>`, falling back to \"agent <name>\" when it is empty. It is not part of the prompt — Instructions is — so writing the behaviour here reaches the caller and not the model.")
     emoji: Optional[StrictStr] = Field(default=None, description="Emoji is the single glyph a caller picked when they had no image. At most one of avatar and emoji is ever set; neither means the agent is drawn as its initial, the same way a person with no photo is.")
     execution_mode: Optional[StrictStr] = Field(default=None, description="ExecutionMode is one-shot or long-running, and it decides who may start this agent. one-shot runs only when something POSTs to it; long-running is additionally invoked by the scheduler on Schedule, once a minute against the cron. An org's long-running agents are capped, so a switch INTO it can be refused with 409.", alias="executionMode")
+    group_id: Optional[StrictStr] = Field(default=None, description="GroupID names the Bot Group (\"grp_...\") this bot belongs to when assigned to a group; empty when unassigned.", alias="groupId")
     id: Optional[StrictStr] = Field(default=None, description="ID is the agent's stable handle, minted here as \"agent_\" + 32 hex characters of crypto/rand. A caller cannot choose it, and it never changes — unlike Name, which is the other way to address the same agent.")
+    is_primary: Optional[StrictBool] = Field(default=None, description="IsPrimary is true for the org's single Primary Bot (at most one per org, default \"hanzo\") that directs subordinate bots and multi-layer Bot Groups.", alias="isPrimary")
+    layer: Optional[StrictInt] = Field(default=None, description="Layer is the bot's tier in the coordination hierarchy: 0 for the Primary Bot, 1 for top-level group leads, and 2+ for nested worker and consensus bots.")
     lineage: Optional[List[StrictStr]] = Field(default=None, description="Lineage is every agent above this one, nearest first — the parent, its parent, and so on to the agent a person defined. All of them are in this org, so the principal this agent answers to is theirs.")
     max_task_micro_usd: Optional[StrictInt] = Field(default=None, description="MaxTaskMicroUSD is the ceiling for a single run, in micro-USD. A session cannot exceed it even when the period cap still has room, so one runaway task cannot consume a month.")
-    model: Optional[StrictStr] = Field(default=None, description="Model is the Zen model this agent runs on, and it is always OUR name for it: writes normalize through cloud.ZenModel and the read normalizes again, so an upstream family name never leaves here even from a row written before that rule existed. A create that named none took the deployment's configured default, so this is where a caller learns which model it actually got.")
+    model: Optional[StrictStr] = Field(default=None, description="Model is the Zen model this agent runs on, and it is always OUR name for it: writes normalize through aimodel.ZenModel and the read normalizes again, so an upstream family name never leaves here even from a row written before that rule existed. A create that named none took the deployment's configured default, so this is where a caller learns which model it actually got.")
     name: Optional[StrictStr] = Field(default=None, description="Name is the agent's org-unique handle, matching ^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$. It addresses the agent everywhere ID does, it is what a run row records, and it is the suffix of the `agent_<name>` tool other agents call this one by. Set once at create; no update route moves it, because moving it would orphan that history.")
     parent: Optional[StrictStr] = Field(default=None, description="Parent is the agent that spawned this one; absent for an agent a person defined.")
     period: Optional[StrictStr] = Field(default=None, description="Period is the window the cap resets on: day, week or month.")
@@ -49,7 +52,7 @@ class AgentAgentView(BaseModel):
     status: Optional[StrictStr] = Field(default=None, description="Status is the agent's readiness: \"ready\", or \"retired\" for a built-in whose member has left Hanzo's team. A retired agent is left out of the list and still answers a get by its handle. Server-set; no route accepts it.")
     tools: Optional[List[StrictStr]] = Field(default=None, description="Tools are the tool names this agent may call, and the list IS the authority: an agent that declares none gets none. The single entry \"*\" means whatever the fleet's MCP server serves at the moment of the run, resolved per run rather than frozen here, which is how the default assistant reaches subsystems that shipped after it was defined. Empty array, never null.")
     updated_at: Optional[StrictStr] = Field(default=None, description="UpdatedAt is the last time any field above was written, same format. It moves on an update to the DEFINITION and never on a run, so a busy agent nobody has edited keeps an old one.", alias="updatedAt")
-    __properties: ClassVar[List[str]] = ["avatar", "avatar_licence", "avatar_source", "cap_micro_usd", "computeRef", "consumed_micro_usd", "createdAt", "description", "emoji", "executionMode", "id", "lineage", "max_task_micro_usd", "model", "name", "parent", "period", "runs", "schedule", "serviceAccountId", "status", "tools", "updatedAt"]
+    __properties: ClassVar[List[str]] = ["avatar", "avatar_licence", "avatar_source", "cap_micro_usd", "computeRef", "consumed_micro_usd", "createdAt", "description", "emoji", "executionMode", "groupId", "id", "isPrimary", "layer", "lineage", "max_task_micro_usd", "model", "name", "parent", "period", "runs", "schedule", "serviceAccountId", "status", "tools", "updatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -112,7 +115,10 @@ class AgentAgentView(BaseModel):
             "description": obj.get("description"),
             "emoji": obj.get("emoji"),
             "executionMode": obj.get("executionMode"),
+            "groupId": obj.get("groupId"),
             "id": obj.get("id"),
+            "isPrimary": obj.get("isPrimary"),
+            "layer": obj.get("layer"),
             "lineage": obj.get("lineage"),
             "max_task_micro_usd": obj.get("max_task_micro_usd"),
             "model": obj.get("model"),

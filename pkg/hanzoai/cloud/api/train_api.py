@@ -23,6 +23,7 @@ from hanzoai.cloud.models.train_artifacts_out import TrainArtifactsOut
 from hanzoai.cloud.models.train_assignment import TrainAssignment
 from hanzoai.cloud.models.train_capabilities_out import TrainCapabilitiesOut
 from hanzoai.cloud.models.train_capability import TrainCapability
+from hanzoai.cloud.models.train_capability_weights import TrainCapabilityWeights
 from hanzoai.cloud.models.train_capture import TrainCapture
 from hanzoai.cloud.models.train_capture_in import TrainCaptureIn
 from hanzoai.cloud.models.train_catalog import TrainCatalog
@@ -599,9 +600,9 @@ class TrainApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> TrainCapability:
-        """Makes a capability in draft from captured corrections of one question: that question (its key, type and labels) is the route it will be installed behind.
+        """Makes a capability in draft from captured corrections of one question — or cold-start from labeled (state, answer) examples of Question, encoded once over Kai's shared representation — which becomes the route it will be installed behind.
 
-        Makes a capability in draft from captured corrections of one question: that question (its key, type and labels) is the route it will be installed behind. Refused: a name taken by another capability or by a published job's output (409 name_taken), corrections of two questions or not captured (400), and a question another of the org's capabilities answers (409 route_conflict).
+        Makes a capability in draft from captured corrections of one question — or cold-start from labeled (state, answer) examples of Question, encoded once over Kai's shared representation — which becomes the route it will be installed behind. When Train is true, it immediately runs a CPU lesson and returns the evaluated or publishable capability. Refused: a name taken by another capability or by a published job's output (409 name_taken), corrections of two questions or not captured (400), and a question another of the org's capabilities answers (409 route_conflict).
 
         :param train_create_in: (required)
         :type train_create_in: TrainCreateIn
@@ -666,9 +667,9 @@ class TrainApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[TrainCapability]:
-        """Makes a capability in draft from captured corrections of one question: that question (its key, type and labels) is the route it will be installed behind.
+        """Makes a capability in draft from captured corrections of one question — or cold-start from labeled (state, answer) examples of Question, encoded once over Kai's shared representation — which becomes the route it will be installed behind.
 
-        Makes a capability in draft from captured corrections of one question: that question (its key, type and labels) is the route it will be installed behind. Refused: a name taken by another capability or by a published job's output (409 name_taken), corrections of two questions or not captured (400), and a question another of the org's capabilities answers (409 route_conflict).
+        Makes a capability in draft from captured corrections of one question — or cold-start from labeled (state, answer) examples of Question, encoded once over Kai's shared representation — which becomes the route it will be installed behind. When Train is true, it immediately runs a CPU lesson and returns the evaluated or publishable capability. Refused: a name taken by another capability or by a published job's output (409 name_taken), corrections of two questions or not captured (400), and a question another of the org's capabilities answers (409 route_conflict).
 
         :param train_create_in: (required)
         :type train_create_in: TrainCreateIn
@@ -733,9 +734,9 @@ class TrainApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Makes a capability in draft from captured corrections of one question: that question (its key, type and labels) is the route it will be installed behind.
+        """Makes a capability in draft from captured corrections of one question — or cold-start from labeled (state, answer) examples of Question, encoded once over Kai's shared representation — which becomes the route it will be installed behind.
 
-        Makes a capability in draft from captured corrections of one question: that question (its key, type and labels) is the route it will be installed behind. Refused: a name taken by another capability or by a published job's output (409 name_taken), corrections of two questions or not captured (400), and a question another of the org's capabilities answers (409 route_conflict).
+        Makes a capability in draft from captured corrections of one question — or cold-start from labeled (state, answer) examples of Question, encoded once over Kai's shared representation — which becomes the route it will be installed behind. When Train is true, it immediately runs a CPU lesson and returns the evaluated or publishable capability. Refused: a name taken by another capability or by a published job's output (409 name_taken), corrections of two questions or not captured (400), and a question another of the org's capabilities answers (409 route_conflict).
 
         :param train_create_in: (required)
         :type train_create_in: TrainCreateIn
@@ -2737,7 +2738,7 @@ class TrainApi:
     ) -> TrainCapability:
         """Teaches a capability a new version from its corrections, on the CPU over the states its org's decisions captured: no row is encoded again.
 
-        Teaches a capability a new version from its corrections, on the CPU over the states its org's decisions captured: no row is encoded again. The smallest correction that passes evaluation is kept (calibration, then a head, then a boost and veto pair); its evaluation, held out against base Kai, says what it repaired and damaged, how often it fires, that every other answer is base Kai's bit for bit, and what it costs. A version that passed is publishable; one that did not is evaluated, with the gate's reasons. An installed capability keeps serving its installed version until a new one is published.
+        Teaches a capability a new version from its corrections, on the CPU over the states its org's decisions captured: no row is encoded again. When Examples are provided, they are encoded once over Kai's shared representation and any new mistakes are added to its corrections before the lesson runs. The smallest correction that passes evaluation is kept (calibration, then a head, then a boost and veto pair); its evaluation, held out against base Kai, says what it repaired and damaged, how often it fires, that every other answer is base Kai's bit for bit, and what it costs. A version that passed is publishable; one that did not is evaluated, with the gate's reasons. An installed capability keeps serving its installed version until a new one is published.
 
         :param name: (required)
         :type name: str
@@ -2808,7 +2809,7 @@ class TrainApi:
     ) -> ApiResponse[TrainCapability]:
         """Teaches a capability a new version from its corrections, on the CPU over the states its org's decisions captured: no row is encoded again.
 
-        Teaches a capability a new version from its corrections, on the CPU over the states its org's decisions captured: no row is encoded again. The smallest correction that passes evaluation is kept (calibration, then a head, then a boost and veto pair); its evaluation, held out against base Kai, says what it repaired and damaged, how often it fires, that every other answer is base Kai's bit for bit, and what it costs. A version that passed is publishable; one that did not is evaluated, with the gate's reasons. An installed capability keeps serving its installed version until a new one is published.
+        Teaches a capability a new version from its corrections, on the CPU over the states its org's decisions captured: no row is encoded again. When Examples are provided, they are encoded once over Kai's shared representation and any new mistakes are added to its corrections before the lesson runs. The smallest correction that passes evaluation is kept (calibration, then a head, then a boost and veto pair); its evaluation, held out against base Kai, says what it repaired and damaged, how often it fires, that every other answer is base Kai's bit for bit, and what it costs. A version that passed is publishable; one that did not is evaluated, with the gate's reasons. An installed capability keeps serving its installed version until a new one is published.
 
         :param name: (required)
         :type name: str
@@ -2879,7 +2880,7 @@ class TrainApi:
     ) -> RESTResponseType:
         """Teaches a capability a new version from its corrections, on the CPU over the states its org's decisions captured: no row is encoded again.
 
-        Teaches a capability a new version from its corrections, on the CPU over the states its org's decisions captured: no row is encoded again. The smallest correction that passes evaluation is kept (calibration, then a head, then a boost and veto pair); its evaluation, held out against base Kai, says what it repaired and damaged, how often it fires, that every other answer is base Kai's bit for bit, and what it costs. A version that passed is publishable; one that did not is evaluated, with the gate's reasons. An installed capability keeps serving its installed version until a new one is published.
+        Teaches a capability a new version from its corrections, on the CPU over the states its org's decisions captured: no row is encoded again. When Examples are provided, they are encoded once over Kai's shared representation and any new mistakes are added to its corrections before the lesson runs. The smallest correction that passes evaluation is kept (calibration, then a head, then a boost and veto pair); its evaluation, held out against base Kai, says what it repaired and damaged, how often it fires, that every other answer is base Kai's bit for bit, and what it costs. A version that passed is publishable; one that did not is evaluated, with the gate's reasons. An installed capability keeps serving its installed version until a new one is published.
 
         :param name: (required)
         :type name: str
@@ -2992,6 +2993,268 @@ class TrainApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/capabilities/{name}/train',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def capabilities_weights(
+        self,
+        name: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TrainCapabilityWeights:
+        """Answers a capability's .tar weights (base64) and shared representation metadata for its installed or newest passing version, so the org can export or open-source its trained adapter.
+
+        Answers a capability's .tar weights (base64) and shared representation metadata for its installed or newest passing version, so the org can export or open-source its trained adapter.
+
+        :param name: (required)
+        :type name: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._capabilities_weights_serialize(
+            name=name,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TrainCapabilityWeights",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def capabilities_weights_with_http_info(
+        self,
+        name: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TrainCapabilityWeights]:
+        """Answers a capability's .tar weights (base64) and shared representation metadata for its installed or newest passing version, so the org can export or open-source its trained adapter.
+
+        Answers a capability's .tar weights (base64) and shared representation metadata for its installed or newest passing version, so the org can export or open-source its trained adapter.
+
+        :param name: (required)
+        :type name: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._capabilities_weights_serialize(
+            name=name,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TrainCapabilityWeights",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def capabilities_weights_without_preload_content(
+        self,
+        name: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Answers a capability's .tar weights (base64) and shared representation metadata for its installed or newest passing version, so the org can export or open-source its trained adapter.
+
+        Answers a capability's .tar weights (base64) and shared representation metadata for its installed or newest passing version, so the org can export or open-source its trained adapter.
+
+        :param name: (required)
+        :type name: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._capabilities_weights_serialize(
+            name=name,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TrainCapabilityWeights",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _capabilities_weights_serialize(
+        self,
+        name,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if name is not None:
+            _path_params['name'] = name
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/capabilities/{name}/weights',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

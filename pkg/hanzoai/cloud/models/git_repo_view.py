@@ -20,6 +20,7 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.git_link import GitLink
+from hanzoai.cloud.models.git_package_ref_view import GitPackageRefView
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -37,12 +38,14 @@ class GitRepoView(BaseModel):
     link: Optional[GitLink] = Field(default=None, description="Link is where the repo's history lives when it is on another host: reads are served from a cache filled from there and pushes go there. Absent for a repo whose history is here.")
     name: Optional[StrictStr] = Field(default=None, description="Name is the org-unique handle, and the last path segment of both URLs below.")
     org: Optional[StrictStr] = Field(default=None, description="Org owns the repo — the gateway-minted X-Org-Id, and the isolation key.")
+    packages: Optional[List[GitPackageRefView]] = Field(default=None, description="Packages are the registry packages published from Upstream, as the estate's collector registered them (POST /v1/admin/git/metrics).")
     project: Optional[StrictStr] = Field(default=None, description="Project is the optional sub-scope the repo lives in; absent for the org's default scope.")
     public: Optional[StrictBool] = Field(default=None, description="Public grants ANONYMOUS read (fetch) only; push and the whole control plane stay org-authed.")
     size_bytes: Optional[StrictInt] = Field(default=None, description="SizeBytes is the repo's measured on-disk size, re-measured on create, after each push, and after a gc. This is the number billing meters.", alias="sizeBytes")
     ssh_url: Optional[StrictStr] = Field(default=None, description="SSHURL is the scp-style SSH remote (git@host:org/repo.git).", alias="sshUrl")
     updated_at: Optional[StrictStr] = Field(default=None, description="UpdatedAt is RFC 3339 UTC, empty until the first write.", alias="updatedAt")
-    __properties: ClassVar[List[str]] = ["branches", "cloneUrl", "createdAt", "defaultBranch", "description", "head", "id", "link", "name", "org", "project", "public", "sizeBytes", "sshUrl", "updatedAt"]
+    upstream: Optional[StrictStr] = Field(default=None, description="Upstream is the GitHub repository this one follows, as github.com/<owner>/<repo>: what it is linked to, or what the forge mirrors it from. Absent for a repository with no GitHub source.")
+    __properties: ClassVar[List[str]] = ["branches", "cloneUrl", "createdAt", "defaultBranch", "description", "head", "id", "link", "name", "org", "packages", "project", "public", "sizeBytes", "sshUrl", "updatedAt", "upstream"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -86,6 +89,13 @@ class GitRepoView(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of link
         if self.link:
             _dict['link'] = self.link.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in packages (list)
+        _items = []
+        if self.packages:
+            for _item_packages in self.packages:
+                if _item_packages:
+                    _items.append(_item_packages.to_dict())
+            _dict['packages'] = _items
         return _dict
 
     @classmethod
@@ -108,11 +118,13 @@ class GitRepoView(BaseModel):
             "link": GitLink.from_dict(obj["link"]) if obj.get("link") is not None else None,
             "name": obj.get("name"),
             "org": obj.get("org"),
+            "packages": [GitPackageRefView.from_dict(_item) for _item in obj["packages"]] if obj.get("packages") is not None else None,
             "project": obj.get("project"),
             "public": obj.get("public"),
             "sizeBytes": obj.get("sizeBytes"),
             "sshUrl": obj.get("sshUrl"),
-            "updatedAt": obj.get("updatedAt")
+            "updatedAt": obj.get("updatedAt"),
+            "upstream": obj.get("upstream")
         })
         return _obj
 

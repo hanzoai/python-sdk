@@ -19,6 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.marketplace_capability_in import MarketplaceCapabilityIn
 from hanzoai.cloud.models.marketplace_expert_in import MarketplaceExpertIn
 from typing import Optional, Set
 from typing_extensions import Self
@@ -27,6 +28,7 @@ class MarketplacePatchReq(BaseModel):
     """
     MarketplacePatchReq
     """ # noqa: E501
+    capability: Optional[MarketplaceCapabilityIn] = Field(default=None, description="Capability updates a capability listing's license; refused on any other kind.")
     category: Optional[StrictStr] = Field(default=None, description="Category groups the listing in the shop window.")
     currency: Optional[StrictStr] = Field(default=None, description="Currency denominates Price.")
     description: Optional[StrictStr] = Field(default=None, description="Description is the long copy, at most 4096 characters.")
@@ -37,7 +39,7 @@ class MarketplacePatchReq(BaseModel):
     public: Optional[StrictBool] = Field(default=None, description="Public makes the listing discoverable by other orgs, or withdraws it.")
     recipient: Optional[StrictStr] = Field(default=None, description="Recipient is the payout wallet id, in the publishing org.")
     title: Optional[StrictStr] = Field(default=None, description="Title is the shop-window name, 1-200 characters.")
-    __properties: ClassVar[List[str]] = ["category", "currency", "description", "docs", "expert", "id", "price", "public", "recipient", "title"]
+    __properties: ClassVar[List[str]] = ["capability", "category", "currency", "description", "docs", "expert", "id", "price", "public", "recipient", "title"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -78,6 +80,9 @@ class MarketplacePatchReq(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of capability
+        if self.capability:
+            _dict['capability'] = self.capability.to_dict()
         # override the default output from pydantic by calling `to_dict()` of expert
         if self.expert:
             _dict['expert'] = self.expert.to_dict()
@@ -93,6 +98,7 @@ class MarketplacePatchReq(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "capability": MarketplaceCapabilityIn.from_dict(obj["capability"]) if obj.get("capability") is not None else None,
             "category": obj.get("category"),
             "currency": obj.get("currency"),
             "description": obj.get("description"),

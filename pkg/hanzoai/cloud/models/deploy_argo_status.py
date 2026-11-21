@@ -20,6 +20,7 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.deploy_argo_health import DeployArgoHealth
+from hanzoai.cloud.models.deploy_argo_history import DeployArgoHistory
 from hanzoai.cloud.models.deploy_argo_resource_status import DeployArgoResourceStatus
 from hanzoai.cloud.models.deploy_argo_summary import DeployArgoSummary
 from hanzoai.cloud.models.deploy_argo_sync_status import DeployArgoSyncStatus
@@ -31,11 +32,12 @@ class DeployArgoStatus(BaseModel):
     DeployArgoStatus
     """ # noqa: E501
     health: Optional[DeployArgoHealth] = Field(default=None, description="Health is the application's reconciled health.")
+    history: Optional[List[DeployArgoHistory]] = Field(default=None, description="History is the revisions the application was deployed at, OLDEST first as argocd orders it: what a sync may name to roll back to. Only the read of ONE application answers it — a CD row's deploy log and a site's kept releases; an App CR keeps none.")
     reconciled_at: Optional[StrictStr] = Field(default=None, description="ReconciledAt is when the desired state was last compared against the cluster, RFC 3339. Empty for an App CR — the projection derives its verdict at read time and nothing records a comparison — and CD's own status.reconciledAt for a CD row.", alias="reconciledAt")
     resources: Optional[List[DeployArgoResourceStatus]] = Field(default=None, description="Resources are the objects the application owns. EMPTY on the list — filling it would walk the cluster once per row — and populated only by the read of ONE application, which is what makes that the detail view.")
     summary: Optional[DeployArgoSummary] = Field(default=None, description="Summary is the small aggregate the list column renders: the images.")
     sync: Optional[DeployArgoSyncStatus] = Field(default=None, description="Sync is the declared-versus-running verdict and what it was reached against.")
-    __properties: ClassVar[List[str]] = ["health", "reconciledAt", "resources", "summary", "sync"]
+    __properties: ClassVar[List[str]] = ["health", "history", "reconciledAt", "resources", "summary", "sync"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -79,6 +81,13 @@ class DeployArgoStatus(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of health
         if self.health:
             _dict['health'] = self.health.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in history (list)
+        _items = []
+        if self.history:
+            for _item_history in self.history:
+                if _item_history:
+                    _items.append(_item_history.to_dict())
+            _dict['history'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in resources (list)
         _items = []
         if self.resources:
@@ -105,6 +114,7 @@ class DeployArgoStatus(BaseModel):
 
         _obj = cls.model_validate({
             "health": DeployArgoHealth.from_dict(obj["health"]) if obj.get("health") is not None else None,
+            "history": [DeployArgoHistory.from_dict(_item) for _item in obj["history"]] if obj.get("history") is not None else None,
             "reconciledAt": obj.get("reconciledAt"),
             "resources": [DeployArgoResourceStatus.from_dict(_item) for _item in obj["resources"]] if obj.get("resources") is not None else None,
             "summary": DeployArgoSummary.from_dict(obj["summary"]) if obj.get("summary") is not None else None,

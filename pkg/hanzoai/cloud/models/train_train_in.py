@@ -19,6 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.train_example_in import TrainExampleIn
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,8 +28,9 @@ class TrainTrainIn(BaseModel):
     TrainTrainIn
     """ # noqa: E501
     corrections: Optional[List[StrictStr]] = Field(default=None, description="Corrections, when given, replace the corrections it is taught from: captured corrections of its question.")
+    examples: Optional[List[TrainExampleIn]] = Field(default=None, description="Examples, when given, encode additional (state, answer) pairs over Kai's shared representation and append any new corrections to the capability.")
     name: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["corrections", "name"]
+    __properties: ClassVar[List[str]] = ["corrections", "examples", "name"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -69,6 +71,13 @@ class TrainTrainIn(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in examples (list)
+        _items = []
+        if self.examples:
+            for _item_examples in self.examples:
+                if _item_examples:
+                    _items.append(_item_examples.to_dict())
+            _dict['examples'] = _items
         return _dict
 
     @classmethod
@@ -82,6 +91,7 @@ class TrainTrainIn(BaseModel):
 
         _obj = cls.model_validate({
             "corrections": obj.get("corrections"),
+            "examples": [TrainExampleIn.from_dict(_item) for _item in obj["examples"]] if obj.get("examples") is not None else None,
             "name": obj.get("name")
         })
         return _obj

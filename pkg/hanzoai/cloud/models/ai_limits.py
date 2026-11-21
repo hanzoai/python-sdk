@@ -21,6 +21,7 @@ from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.ai_action import AiAction
 from hanzoai.cloud.models.ai_class import AiClass
+from hanzoai.cloud.models.ai_entitlement import AiEntitlement
 from hanzoai.cloud.models.ai_limited import AiLimited
 from hanzoai.cloud.models.ai_paused import AiPaused
 from hanzoai.cloud.models.ai_window import AiWindow
@@ -34,6 +35,7 @@ class AiLimits(BaseModel):
     actions: Optional[List[AiAction]] = Field(default=None, description="Actions are the ways on: upgrade, add prepaid credit.")
     classes: Optional[Dict[str, AiClass]] = Field(default=None, description="Classes are premium (third-party frontier models) and ours (Hanzo's), each present when the plan includes it.")
     day: Optional[AiWindow] = None
+    entitlements: Optional[Dict[str, AiEntitlement]] = Field(default=None, description="Entitlements are what a model or mode needs the plan to include by name, beyond its usage: fable (Claude Fable 5.2) and fast (fast mode). A request that needs one the plan does not include is refused 402 entitlement_required whatever the caller holds, so a picker hides or marks it here instead.")
     limited: Optional[AiLimited] = Field(default=None, description="Limited is present in limited mode.")
     paused: Optional[List[AiPaused]] = Field(default=None, description="Paused are the models whose share of the plan is used for now: each is answered by its fallback in chat until its share resets.")
     pays: Optional[Dict[str, StrictStr]] = Field(default=None, description="Pays is who pays for the next priced request of each class, on any plan or none: plan (its included usage), prepaid (funds the caller added), credits (granted credit, where it pays for the class) or none (nothing does: a request of the class is refused 402 insufficient_balance until funds are added, the `topup` action). It is the usage policy's own answer, so a picker shows Top up on `none` without knowing which credit pays for which class. A class is absent when the wallet could not be read.")
@@ -43,7 +45,7 @@ class AiLimits(BaseModel):
     session: Optional[AiWindow] = Field(default=None, description="Session and Day are the request windows over every request the plan covers.")
     state: Optional[StrictStr] = Field(default=None, description="State is the worst class's: ok, near or limited.")
     upgrade: Optional[StrictStr] = Field(default=None, description="Upgrade is the plan that raises these limits, absent at the top.")
-    __properties: ClassVar[List[str]] = ["actions", "classes", "day", "limited", "paused", "pays", "period_end", "period_start", "plan", "session", "state", "upgrade"]
+    __properties: ClassVar[List[str]] = ["actions", "classes", "day", "entitlements", "limited", "paused", "pays", "period_end", "period_start", "plan", "session", "state", "upgrade"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -101,6 +103,13 @@ class AiLimits(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of day
         if self.day:
             _dict['day'] = self.day.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each value in entitlements (dict)
+        _field_dict = {}
+        if self.entitlements:
+            for _key_entitlements in self.entitlements:
+                if self.entitlements[_key_entitlements]:
+                    _field_dict[_key_entitlements] = self.entitlements[_key_entitlements].to_dict()
+            _dict['entitlements'] = _field_dict
         # override the default output from pydantic by calling `to_dict()` of limited
         if self.limited:
             _dict['limited'] = self.limited.to_dict()
@@ -134,6 +143,12 @@ class AiLimits(BaseModel):
             if obj.get("classes") is not None
             else None,
             "day": AiWindow.from_dict(obj["day"]) if obj.get("day") is not None else None,
+            "entitlements": dict(
+                (_k, AiEntitlement.from_dict(_v))
+                for _k, _v in obj["entitlements"].items()
+            )
+            if obj.get("entitlements") is not None
+            else None,
             "limited": AiLimited.from_dict(obj["limited"]) if obj.get("limited") is not None else None,
             "paused": [AiPaused.from_dict(_item) for _item in obj["paused"]] if obj.get("paused") is not None else None,
             "pays": obj.get("pays"),

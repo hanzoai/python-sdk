@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -34,7 +34,10 @@ class AgentCreateAgentIn(BaseModel):
     description: Optional[StrictStr] = Field(default=None, description="Description is the one line published as the description of the `agent_<name>` tool, which is how another agent decides whether to call this one. Optional, and worth writing for exactly that reason.")
     emoji: Optional[StrictStr] = Field(default=None, description="Emoji is the single glyph shown when there is no image. An image WINS when both are given — it is the thing somebody made — and both empty leaves the agent drawn as its initial.")
     execution_mode: Optional[StrictStr] = Field(default=None, description="ExecutionMode is one-shot or long-running. Empty takes one-shot, which runs only when something POSTs to it. long-running additionally requires Schedule, and counts against a per-org cap that answers 409 when it is full.", alias="executionMode")
+    group_id: Optional[StrictStr] = Field(default=None, description="GroupID optionally assigns this bot to an existing Bot Group (by grp_... id or group name) at creation time.", alias="groupId")
     instructions: Optional[StrictStr] = Field(default=None, description="Instructions is the system prompt, up to 32 KiB, stored verbatim. This is what the model reads; Description is what other CALLERS read.")
+    is_primary: Optional[StrictBool] = Field(default=None, description="IsPrimary promotes this newly created bot to the org's sole Primary Bot (Layer 0), atomically clearing isPrimary on any previous Primary Bot in the org.", alias="isPrimary")
+    layer: Optional[StrictInt] = Field(default=None, description="Layer sets the bot's coordination tier (0 for Primary Bot, 1+ for subordinate layers).")
     max_task_micro_usd: Optional[StrictInt] = Field(default=None, description="MaxTaskMicroUSD is the ceiling for a single run, in micro-USD. A session cannot exceed it even when the period cap still has room, so one runaway task cannot consume a month.")
     model: Optional[StrictStr] = Field(default=None, description="Model names the model to run on. Omit it to take the deployment's configured default; name one and it is checked against the gateway's served catalogue here, so a model this deployment cannot serve is refused now rather than at the first run. Stored under our own name for it, whatever spelling arrives.")
     name: Optional[StrictStr] = Field(default=None, description="Name is the agent's org-unique handle and the only required field. It must match ^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$, and a name already taken in this org is a 409 rather than an overwrite. It is permanent: no update route moves it.")
@@ -43,7 +46,7 @@ class AgentCreateAgentIn(BaseModel):
     schedule: Optional[StrictStr] = Field(default=None, description="Schedule is the 5-field cron a long-running agent fires on, parsed here so a bad expression is a 400 and not an agent that silently never runs. Required with long-running; DISCARDED for one-shot rather than stored unused.")
     service_account_id: Optional[StrictStr] = Field(default=None, description="ServiceAccountID optionally names the IAM agent service account (<org>-<agent>) a scheduled run should be billed AS, so an autonomous run is attributable to a principal rather than only to the org. Same 256-character bound, also unresolved here.", alias="serviceAccountId")
     tools: Optional[List[StrictStr]] = Field(default=None, description="Tools are the tool names this agent may call. Omitted or empty grants NONE — that default is the agent's authority and is not widened anywhere. The single entry \"*\" means whatever the fleet's MCP server serves at the time of each run.")
-    __properties: ClassVar[List[str]] = ["avatar", "avatar_licence", "avatar_source", "cap_micro_usd", "computeRef", "description", "emoji", "executionMode", "instructions", "max_task_micro_usd", "model", "name", "parent", "period", "schedule", "serviceAccountId", "tools"]
+    __properties: ClassVar[List[str]] = ["avatar", "avatar_licence", "avatar_source", "cap_micro_usd", "computeRef", "description", "emoji", "executionMode", "groupId", "instructions", "isPrimary", "layer", "max_task_micro_usd", "model", "name", "parent", "period", "schedule", "serviceAccountId", "tools"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -104,7 +107,10 @@ class AgentCreateAgentIn(BaseModel):
             "description": obj.get("description"),
             "emoji": obj.get("emoji"),
             "executionMode": obj.get("executionMode"),
+            "groupId": obj.get("groupId"),
             "instructions": obj.get("instructions"),
+            "isPrimary": obj.get("isPrimary"),
+            "layer": obj.get("layer"),
             "max_task_micro_usd": obj.get("max_task_micro_usd"),
             "model": obj.get("model"),
             "name": obj.get("name"),

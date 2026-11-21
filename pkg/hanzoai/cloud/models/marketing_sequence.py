@@ -26,12 +26,14 @@ class MarketingSequence(BaseModel):
     """
     MarketingSequence
     """ # noqa: E501
+    cancel_event: Optional[StrictStr] = Field(default=None, description="CancelEvent is an optional canonical analytics event (such as order_completed) that automatically cancels any active walk for that customer as soon as the event plane states it, so a paid buyer never receives an abandoned-checkout step.", alias="cancelEvent")
     created_at: Optional[StrictInt] = Field(default=None, description="CreatedAt is unix seconds when the sequence was registered, server-assigned and never rewritten.", alias="createdAt")
     id: Optional[StrictStr] = Field(default=None, description="ID is the server-assigned sequence id (\"seq_\" + 128 random bits).")
     name: Optional[StrictStr] = Field(default=None, description="Name is the sequence's label. Required, trimmed, capped at 1024 bytes.")
     status: Optional[StrictStr] = Field(default=None, description="Status is the lifecycle: draft, active or archived. Empty means draft, and ONLY an active sequence accepts enrollments.")
+    trigger_event: Optional[StrictStr] = Field(default=None, description="TriggerEvent is an optional canonical analytics event (such as checkout_abandoned or generate_lead) that automatically enrolls the identified customer when the event plane states it while the sequence is active.", alias="triggerEvent")
     updated_at: Optional[StrictInt] = Field(default=None, description="UpdatedAt is unix seconds of the last status flip, server-assigned, and the key the sequence list is ordered by (newest first). Adding a step or enrolling a contact does NOT touch it — only draft/active/archived does — so it tracks activation rather than activity.", alias="updatedAt")
-    __properties: ClassVar[List[str]] = ["createdAt", "id", "name", "status", "updatedAt"]
+    __properties: ClassVar[List[str]] = ["cancelEvent", "createdAt", "id", "name", "status", "triggerEvent", "updatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -84,10 +86,12 @@ class MarketingSequence(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "cancelEvent": obj.get("cancelEvent"),
             "createdAt": obj.get("createdAt"),
             "id": obj.get("id"),
             "name": obj.get("name"),
             "status": obj.get("status"),
+            "triggerEvent": obj.get("triggerEvent"),
             "updatedAt": obj.get("updatedAt")
         })
         return _obj

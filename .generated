@@ -184,6 +184,8 @@ pkg/hanzoai/cloud/models/agent_answer_view.py
 pkg/hanzoai/cloud/models/agent_apply_roster_in.py
 pkg/hanzoai/cloud/models/agent_apply_roster_out.py
 pkg/hanzoai/cloud/models/agent_artifact.py
+pkg/hanzoai/cloud/models/agent_bootstrap_primary_in.py
+pkg/hanzoai/cloud/models/agent_bootstrap_primary_out.py
 pkg/hanzoai/cloud/models/agent_brief_attribution.py
 pkg/hanzoai/cloud/models/agent_brief_list.py
 pkg/hanzoai/cloud/models/agent_brief_record.py
@@ -218,11 +220,17 @@ pkg/hanzoai/cloud/models/agent_control_drain.py
 pkg/hanzoai/cloud/models/agent_control_in.py
 pkg/hanzoai/cloud/models/agent_control_result.py
 pkg/hanzoai/cloud/models/agent_create_agent_in.py
+pkg/hanzoai/cloud/models/agent_create_group_in.py
 pkg/hanzoai/cloud/models/agent_decide_proposal_in.py
 pkg/hanzoai/cloud/models/agent_event_in.py
 pkg/hanzoai/cloud/models/agent_event_list.py
 pkg/hanzoai/cloud/models/agent_event_view.py
 pkg/hanzoai/cloud/models/agent_gpu.py
+pkg/hanzoai/cloud/models/agent_group_list.py
+pkg/hanzoai/cloud/models/agent_group_policy.py
+pkg/hanzoai/cloud/models/agent_group_view.py
+pkg/hanzoai/cloud/models/agent_group_vote_view.py
+pkg/hanzoai/cloud/models/agent_group_weight.py
 pkg/hanzoai/cloud/models/agent_last_event_view.py
 pkg/hanzoai/cloud/models/agent_mcp_tools.py
 pkg/hanzoai/cloud/models/agent_metrics.py
@@ -230,6 +238,7 @@ pkg/hanzoai/cloud/models/agent_metrics_view.py
 pkg/hanzoai/cloud/models/agent_patch_session_in.py
 pkg/hanzoai/cloud/models/agent_patch_target_in.py
 pkg/hanzoai/cloud/models/agent_proposal_list.py
+pkg/hanzoai/cloud/models/agent_quasar_cert_view.py
 pkg/hanzoai/cloud/models/agent_register_req.py
 pkg/hanzoai/cloud/models/agent_reply.py
 pkg/hanzoai/cloud/models/agent_report_out.py
@@ -243,11 +252,14 @@ pkg/hanzoai/cloud/models/agent_role_spec.py
 pkg/hanzoai/cloud/models/agent_role_template.py
 pkg/hanzoai/cloud/models/agent_roster_templates_out.py
 pkg/hanzoai/cloud/models/agent_routed_run_out.py
+pkg/hanzoai/cloud/models/agent_run_group_in.py
+pkg/hanzoai/cloud/models/agent_run_group_out.py
 pkg/hanzoai/cloud/models/agent_run_list.py
 pkg/hanzoai/cloud/models/agent_series_line.py
 pkg/hanzoai/cloud/models/agent_series_point.py
 pkg/hanzoai/cloud/models/agent_session_budget_in.py
 pkg/hanzoai/cloud/models/agent_session_budget_view.py
+pkg/hanzoai/cloud/models/agent_session_deleted.py
 pkg/hanzoai/cloud/models/agent_session_detail.py
 pkg/hanzoai/cloud/models/agent_session_list.py
 pkg/hanzoai/cloud/models/agent_session_park.py
@@ -265,6 +277,7 @@ pkg/hanzoai/cloud/models/agent_target_req.py
 pkg/hanzoai/cloud/models/agent_target_view.py
 pkg/hanzoai/cloud/models/agent_tree_node.py
 pkg/hanzoai/cloud/models/agent_update_agent_in.py
+pkg/hanzoai/cloud/models/agent_update_group_in.py
 pkg/hanzoai/cloud/models/ai_action.py
 pkg/hanzoai/cloud/models/ai_ai_conn_response.py
 pkg/hanzoai/cloud/models/ai_anthropic_content_block.py
@@ -295,6 +308,7 @@ pkg/hanzoai/cloud/models/ai_decisions_response.py
 pkg/hanzoai/cloud/models/ai_decisions_routing.py
 pkg/hanzoai/cloud/models/ai_decisions_score.py
 pkg/hanzoai/cloud/models/ai_decisions_usage.py
+pkg/hanzoai/cloud/models/ai_entitlement.py
 pkg/hanzoai/cloud/models/ai_frame_box.py
 pkg/hanzoai/cloud/models/ai_frame_in.py
 pkg/hanzoai/cloud/models/ai_frame_item.py
@@ -446,6 +460,12 @@ pkg/hanzoai/cloud/models/benchmark_run_point.py
 pkg/hanzoai/cloud/models/benchmark_suite.py
 pkg/hanzoai/cloud/models/billing_accounts.py
 pkg/hanzoai/cloud/models/billing_accounts_total.py
+pkg/hanzoai/cloud/models/billing_agent_error.py
+pkg/hanzoai/cloud/models/billing_agent_item.py
+pkg/hanzoai/cloud/models/billing_agent_next.py
+pkg/hanzoai/cloud/models/billing_agent_order.py
+pkg/hanzoai/cloud/models/billing_agent_pay.py
+pkg/hanzoai/cloud/models/billing_agent_payment.py
 pkg/hanzoai/cloud/models/billing_alert.py
 pkg/hanzoai/cloud/models/billing_alert_patch.py
 pkg/hanzoai/cloud/models/billing_alert_spec.py
@@ -458,7 +478,11 @@ pkg/hanzoai/cloud/models/billing_billing_address.py
 pkg/hanzoai/cloud/models/billing_billing_invoice.py
 pkg/hanzoai/cloud/models/billing_cap_verdict.py
 pkg/hanzoai/cloud/models/billing_charged.py
+pkg/hanzoai/cloud/models/billing_checkout_change.py
+pkg/hanzoai/cloud/models/billing_checkout_in.py
+pkg/hanzoai/cloud/models/billing_checkout_view.py
 pkg/hanzoai/cloud/models/billing_collected.py
+pkg/hanzoai/cloud/models/billing_complete_in.py
 pkg/hanzoai/cloud/models/billing_credit_balance.py
 pkg/hanzoai/cloud/models/billing_credit_entry.py
 pkg/hanzoai/cloud/models/billing_credit_grant.py
@@ -467,6 +491,10 @@ pkg/hanzoai/cloud/models/billing_crypto_asset.py
 pkg/hanzoai/cloud/models/billing_crypto_deposit.py
 pkg/hanzoai/cloud/models/billing_crypto_options.py
 pkg/hanzoai/cloud/models/billing_crypto_pair.py
+pkg/hanzoai/cloud/models/billing_crypto_topup.py
+pkg/hanzoai/cloud/models/billing_crypto_topup_in.py
+pkg/hanzoai/cloud/models/billing_deposit_address.py
+pkg/hanzoai/cloud/models/billing_deposit_token.py
 pkg/hanzoai/cloud/models/billing_detachment.py
 pkg/hanzoai/cloud/models/billing_finance_ledger_entry.py
 pkg/hanzoai/cloud/models/billing_gateway_accept.py
@@ -499,7 +527,7 @@ pkg/hanzoai/cloud/models/billing_route.py
 pkg/hanzoai/cloud/models/billing_route_in.py
 pkg/hanzoai/cloud/models/billing_route_step.py
 pkg/hanzoai/cloud/models/billing_routed_usage.py
-pkg/hanzoai/cloud/models/billing_routing_crypto_rail.py
+pkg/hanzoai/cloud/models/billing_routing_crypto_offer.py
 pkg/hanzoai/cloud/models/billing_sale_line.py
 pkg/hanzoai/cloud/models/billing_signed_payment.py
 pkg/hanzoai/cloud/models/billing_subscription.py
@@ -511,7 +539,11 @@ pkg/hanzoai/cloud/models/billing_subscriptions.py
 pkg/hanzoai/cloud/models/billing_tier.py
 pkg/hanzoai/cloud/models/billing_tier_balance.py
 pkg/hanzoai/cloud/models/billing_tier_limits.py
+pkg/hanzoai/cloud/models/billing_token_in.py
+pkg/hanzoai/cloud/models/billing_token_room.py
+pkg/hanzoai/cloud/models/billing_token_supplied.py
 pkg/hanzoai/cloud/models/billing_topup_in.py
+pkg/hanzoai/cloud/models/billing_topup_intent_cancelled.py
 pkg/hanzoai/cloud/models/billing_topup_intent_in.py
 pkg/hanzoai/cloud/models/billing_topup_intent_out.py
 pkg/hanzoai/cloud/models/billing_topup_intent_state.py
@@ -519,7 +551,9 @@ pkg/hanzoai/cloud/models/billing_transaction.py
 pkg/hanzoai/cloud/models/billing_transactions.py
 pkg/hanzoai/cloud/models/billing_usage_receipt.py
 pkg/hanzoai/cloud/models/billing_usage_report.py
+pkg/hanzoai/cloud/models/billing_wire_credit.py
 pkg/hanzoai/cloud/models/billing_wire_instructions.py
+pkg/hanzoai/cloud/models/billing_wire_reconcile_in.py
 pkg/hanzoai/cloud/models/block.py
 pkg/hanzoai/cloud/models/blueprint_blueprint_health.py
 pkg/hanzoai/cloud/models/blueprint_blueprint_index.py
@@ -639,6 +673,10 @@ pkg/hanzoai/cloud/models/chat_turn.py
 pkg/hanzoai/cloud/models/ci_execution.py
 pkg/hanzoai/cloud/models/ci_executions.py
 pkg/hanzoai/cloud/models/clip_body.py
+pkg/hanzoai/cloud/models/cloudflare_ai_search_instance_create.py
+pkg/hanzoai/cloud/models/cloudflare_ai_search_instance_update.py
+pkg/hanzoai/cloud/models/cloudflare_ai_search_namespace.py
+pkg/hanzoai/cloud/models/cloudflare_ai_search_namespace_create_in.py
 pkg/hanzoai/cloud/models/cloudflare_bucket_create_in.py
 pkg/hanzoai/cloud/models/cloudflare_d1_query.py
 pkg/hanzoai/cloud/models/cloudflare_database_create_in.py
@@ -654,6 +692,8 @@ pkg/hanzoai/cloud/models/cloudflare_pages_project_create.py
 pkg/hanzoai/cloud/models/cloudflare_pages_r2_binding.py
 pkg/hanzoai/cloud/models/cloudflare_purge_in.py
 pkg/hanzoai/cloud/models/cloudflare_route_create_in.py
+pkg/hanzoai/cloud/models/cloudflare_spend_limit.py
+pkg/hanzoai/cloud/models/cloudflare_spend_limits_out.py
 pkg/hanzoai/cloud/models/cloudflare_subdomain_set_in.py
 pkg/hanzoai/cloud/models/cloudflare_worker_script_put.py
 pkg/hanzoai/cloud/models/cluster_serving.py
@@ -666,6 +706,7 @@ pkg/hanzoai/cloud/models/code_file_content.py
 pkg/hanzoai/cloud/models/code_file_input.py
 pkg/hanzoai/cloud/models/code_index_in.py
 pkg/hanzoai/cloud/models/code_index_result.py
+pkg/hanzoai/cloud/models/code_reindex_result.py
 pkg/hanzoai/cloud/models/code_repo_tree.py
 pkg/hanzoai/cloud/models/code_search_results.py
 pkg/hanzoai/cloud/models/code_span.py
@@ -844,6 +885,7 @@ pkg/hanzoai/cloud/models/deploy_argo_connection_state.py
 pkg/hanzoai/cloud/models/deploy_argo_destination.py
 pkg/hanzoai/cloud/models/deploy_argo_group_kind.py
 pkg/hanzoai/cloud/models/deploy_argo_health.py
+pkg/hanzoai/cloud/models/deploy_argo_history.py
 pkg/hanzoai/cloud/models/deploy_argo_info_item.py
 pkg/hanzoai/cloud/models/deploy_argo_list_meta.py
 pkg/hanzoai/cloud/models/deploy_argo_meta.py
@@ -1186,6 +1228,7 @@ pkg/hanzoai/cloud/models/git_mirror_list.py
 pkg/hanzoai/cloud/models/git_mirror_target_req.py
 pkg/hanzoai/cloud/models/git_mirror_target_view.py
 pkg/hanzoai/cloud/models/git_open_req.py
+pkg/hanzoai/cloud/models/git_package_ref_view.py
 pkg/hanzoai/cloud/models/git_patch_in.py
 pkg/hanzoai/cloud/models/git_pool_declare.py
 pkg/hanzoai/cloud/models/git_pool_declared.py
@@ -1718,6 +1761,8 @@ pkg/hanzoai/cloud/models/marketing_test_out.py
 pkg/hanzoai/cloud/models/marketing_unsubscribed.py
 pkg/hanzoai/cloud/models/marketing_visit.py
 pkg/hanzoai/cloud/models/marketplace_badge.py
+pkg/hanzoai/cloud/models/marketplace_capability_in.py
+pkg/hanzoai/cloud/models/marketplace_capability_spec.py
 pkg/hanzoai/cloud/models/marketplace_decline_in.py
 pkg/hanzoai/cloud/models/marketplace_deliver_in.py
 pkg/hanzoai/cloud/models/marketplace_delivery.py
@@ -1757,6 +1802,7 @@ pkg/hanzoai/cloud/models/marketplace_reward.py
 pkg/hanzoai/cloud/models/marketplace_score.py
 pkg/hanzoai/cloud/models/marketplace_seller.py
 pkg/hanzoai/cloud/models/marketplace_shop.py
+pkg/hanzoai/cloud/models/marketplace_shop_capability_weights.py
 pkg/hanzoai/cloud/models/marketplace_shop_listing.py
 pkg/hanzoai/cloud/models/marketplace_source.py
 pkg/hanzoai/cloud/models/marketplace_statement.py
@@ -3061,6 +3107,8 @@ pkg/hanzoai/cloud/models/s3_upload_ref.py
 pkg/hanzoai/cloud/models/s3_upload_start.py
 pkg/hanzoai/cloud/models/s3_upload_started.py
 pkg/hanzoai/cloud/models/sandbox_blob.py
+pkg/hanzoai/cloud/models/sandbox_computer_in.py
+pkg/hanzoai/cloud/models/sandbox_computer_out.py
 pkg/hanzoai/cloud/models/sandbox_end_in.py
 pkg/hanzoai/cloud/models/sandbox_exec_request.py
 pkg/hanzoai/cloud/models/sandbox_exec_result.py
@@ -3385,6 +3433,7 @@ pkg/hanzoai/cloud/models/train_assignment.py
 pkg/hanzoai/cloud/models/train_budget.py
 pkg/hanzoai/cloud/models/train_capabilities_out.py
 pkg/hanzoai/cloud/models/train_capability.py
+pkg/hanzoai/cloud/models/train_capability_weights.py
 pkg/hanzoai/cloud/models/train_capture.py
 pkg/hanzoai/cloud/models/train_capture_in.py
 pkg/hanzoai/cloud/models/train_catalog.py
@@ -3403,6 +3452,7 @@ pkg/hanzoai/cloud/models/train_download.py
 pkg/hanzoai/cloud/models/train_evaluation.py
 pkg/hanzoai/cloud/models/train_event.py
 pkg/hanzoai/cloud/models/train_events_out.py
+pkg/hanzoai/cloud/models/train_example_in.py
 pkg/hanzoai/cloud/models/train_family.py
 pkg/hanzoai/cloud/models/train_forward_in.py
 pkg/hanzoai/cloud/models/train_job.py
@@ -3557,6 +3607,11 @@ pkg/hanzoai/cloud/models/world_pipeline_req.py
 pkg/hanzoai/cloud/models/world_pipeline_view.py
 pkg/hanzoai/cloud/models/world_world_index.py
 pkg/hanzoai/cloud/models/world_world_wire.py
+pkg/hanzoai/cloud/models/x402_extra.py
+pkg/hanzoai/cloud/models/x402_payment_requirements.py
+pkg/hanzoai/cloud/models/x402_price_row.py
+pkg/hanzoai/cloud/models/x402_price_table.py
+pkg/hanzoai/cloud/models/x402_quoted.py
 pkg/hanzoai/cloud/models/x402_receipt.py
 pkg/hanzoai/cloud/models/x402_settlement_list.py
 pkg/hanzoai/cloud/rest.py

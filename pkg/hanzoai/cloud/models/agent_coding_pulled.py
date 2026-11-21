@@ -29,7 +29,8 @@ class AgentCodingPulled(BaseModel):
     base: Optional[StrictStr] = Field(default=None, description="Base is the branch it proposes into.")
     number: Optional[StrictInt] = Field(default=None, description="Number is the pull request's number in its repository.")
     url: Optional[StrictStr] = Field(default=None, description="URL is where it is read.")
-    __properties: ClassVar[List[str]] = ["base", "number", "url"]
+    warning: Optional[StrictStr] = Field(default=None, description="Warning says what was asked and not done: the pull request is open, but an assignee or reviewer GitHub refused (not a collaborator, say) was not added.")
+    __properties: ClassVar[List[str]] = ["base", "number", "url", "warning"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -84,7 +85,8 @@ class AgentCodingPulled(BaseModel):
         _obj = cls.model_validate({
             "base": obj.get("base"),
             "number": obj.get("number"),
-            "url": obj.get("url")
+            "url": obj.get("url"),
+            "warning": obj.get("warning")
         })
         return _obj
 

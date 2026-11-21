@@ -22,13 +22,14 @@ from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class BillingRoutingCryptoRail(BaseModel):
+class BillingAgentPay(BaseModel):
     """
-    BillingRoutingCryptoRail
+    BillingAgentPay
     """ # noqa: E501
-    asset: Optional[StrictStr] = Field(default=None, description="Asset is the coin or token, or \"*\" for any.")
-    processor: Optional[StrictStr] = Field(default=None, description="Processor takes it.")
-    __properties: ClassVar[List[str]] = ["asset", "processor"]
+    network: Optional[StrictStr] = Field(default=None, description="Network is the network to deposit on, for stablecoin; the first the account takes when absent.")
+    token: Optional[StrictStr] = Field(default=None, description="Token is the shared payment token (spt_...), for shared_payment_token.")
+    type: Optional[StrictStr] = Field(default=None, description="Type is shared_payment_token or stablecoin.")
+    __properties: ClassVar[List[str]] = ["network", "token", "type"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +49,7 @@ class BillingRoutingCryptoRail(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of BillingRoutingCryptoRail from a JSON string"""
+        """Create an instance of BillingAgentPay from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,7 +74,7 @@ class BillingRoutingCryptoRail(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of BillingRoutingCryptoRail from a dict"""
+        """Create an instance of BillingAgentPay from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +82,9 @@ class BillingRoutingCryptoRail(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "asset": obj.get("asset"),
-            "processor": obj.get("processor")
+            "network": obj.get("network"),
+            "token": obj.get("token"),
+            "type": obj.get("type")
         })
         return _obj
 

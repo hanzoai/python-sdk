@@ -26,6 +26,7 @@ from hanzoai.cloud.models.code_context_in import CodeContextIn
 from hanzoai.cloud.models.code_file_content import CodeFileContent
 from hanzoai.cloud.models.code_index_in import CodeIndexIn
 from hanzoai.cloud.models.code_index_result import CodeIndexResult
+from hanzoai.cloud.models.code_reindex_result import CodeReindexResult
 from hanzoai.cloud.models.code_repo_tree import CodeRepoTree
 from hanzoai.cloud.models.code_search_results import CodeSearchResults
 
@@ -1998,6 +1999,253 @@ class CodeApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/code/index',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_code_reindex(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> CodeReindexResult:
+        """Rebuilds the caller org's code index in the embedding space this deployment embeds in, from the code the index already holds, across every repository.
+
+        Rebuilds the caller org's code index in the embedding space this deployment embeds in, from the code the index already holds, across every repository. An index created in another space (another model, revision, dimension, normalization or task prefix) has every chunk embedded again, and its old vectors and the record of their space are replaced in the same transaction as the first new ones. An index already in this space keeps its vectors: the first chunk is embedded again to learn whether the model still answers at the index's dimension, then only the chunks that have no vector are, so a reindex that stopped part way is finished by calling it again. It requires ORG ADMIN, bills the embeddings to the caller's org and runs inline. An embedding failure part way answers 502 with how far it got; the index is then in the new space with the chunks it reached.  The request has no body. Response: {\"chunks\": 2048, \"embedded\": 2048, \"vectors\": 2048, \"model_revision\": \"zen-embedding\", \"dimensions\": 1024}
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_code_reindex_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "CodeReindexResult",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_code_reindex_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[CodeReindexResult]:
+        """Rebuilds the caller org's code index in the embedding space this deployment embeds in, from the code the index already holds, across every repository.
+
+        Rebuilds the caller org's code index in the embedding space this deployment embeds in, from the code the index already holds, across every repository. An index created in another space (another model, revision, dimension, normalization or task prefix) has every chunk embedded again, and its old vectors and the record of their space are replaced in the same transaction as the first new ones. An index already in this space keeps its vectors: the first chunk is embedded again to learn whether the model still answers at the index's dimension, then only the chunks that have no vector are, so a reindex that stopped part way is finished by calling it again. It requires ORG ADMIN, bills the embeddings to the caller's org and runs inline. An embedding failure part way answers 502 with how far it got; the index is then in the new space with the chunks it reached.  The request has no body. Response: {\"chunks\": 2048, \"embedded\": 2048, \"vectors\": 2048, \"model_revision\": \"zen-embedding\", \"dimensions\": 1024}
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_code_reindex_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "CodeReindexResult",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_code_reindex_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Rebuilds the caller org's code index in the embedding space this deployment embeds in, from the code the index already holds, across every repository.
+
+        Rebuilds the caller org's code index in the embedding space this deployment embeds in, from the code the index already holds, across every repository. An index created in another space (another model, revision, dimension, normalization or task prefix) has every chunk embedded again, and its old vectors and the record of their space are replaced in the same transaction as the first new ones. An index already in this space keeps its vectors: the first chunk is embedded again to learn whether the model still answers at the index's dimension, then only the chunks that have no vector are, so a reindex that stopped part way is finished by calling it again. It requires ORG ADMIN, bills the embeddings to the caller's org and runs inline. An embedding failure part way answers 502 with how far it got; the index is then in the new space with the chunks it reached.  The request has no body. Response: {\"chunks\": 2048, \"embedded\": 2048, \"vectors\": 2048, \"model_revision\": \"zen-embedding\", \"dimensions\": 1024}
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_code_reindex_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "CodeReindexResult",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_code_reindex_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/code/reindex',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

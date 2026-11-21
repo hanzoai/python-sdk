@@ -31,9 +31,14 @@ class BillingTopupIntentIn(BaseModel):
     billing_address: Optional[BillingBillingAddress] = Field(default=None, alias="billingAddress")
     billing_phone: Optional[StrictStr] = Field(default=None, description="Phone and Billing are what the buyer typed in the payment form.", alias="billingPhone")
     country: Optional[StrictStr] = Field(default=None, description="Country is the buyer's ISO 3166-1 alpha-2 country; the edge's geo country when absent.")
+    coupon: Optional[StrictStr] = None
     currency: Optional[StrictStr] = Field(default=None, description="Currency is the currency the buyer chose to pay in; empty takes the country's default.")
+    interval: Optional[StrictStr] = None
+    level: Optional[StrictInt] = None
     method: Optional[StrictStr] = Field(default=None, description="Method is the payment method the buyer chose, when they have.")
-    __properties: ClassVar[List[str]] = ["amountCents", "billingAddress", "billingPhone", "country", "currency", "method"]
+    plan_id: Optional[StrictStr] = Field(default=None, description="Optional plan fields when paying a plan's first period via bank transfer (ACH).", alias="planId")
+    quantity: Optional[StrictInt] = None
+    __properties: ClassVar[List[str]] = ["amountCents", "billingAddress", "billingPhone", "country", "coupon", "currency", "interval", "level", "method", "planId", "quantity"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -93,8 +98,13 @@ class BillingTopupIntentIn(BaseModel):
             "billingAddress": BillingBillingAddress.from_dict(obj["billingAddress"]) if obj.get("billingAddress") is not None else None,
             "billingPhone": obj.get("billingPhone"),
             "country": obj.get("country"),
+            "coupon": obj.get("coupon"),
             "currency": obj.get("currency"),
-            "method": obj.get("method")
+            "interval": obj.get("interval"),
+            "level": obj.get("level"),
+            "method": obj.get("method"),
+            "planId": obj.get("planId"),
+            "quantity": obj.get("quantity")
         })
         return _obj
 

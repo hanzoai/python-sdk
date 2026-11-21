@@ -19,6 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.marketplace_capability_spec import MarketplaceCapabilitySpec
 from hanzoai.cloud.models.marketplace_expert import MarketplaceExpert
 from hanzoai.cloud.models.marketplace_links import MarketplaceLinks
 from hanzoai.cloud.models.marketplace_reputation import MarketplaceReputation
@@ -30,6 +31,7 @@ class MarketplaceShopListing(BaseModel):
     """
     MarketplaceShopListing
     """ # noqa: E501
+    capability: Optional[MarketplaceCapabilitySpec] = Field(default=None, description="Capability is the Kai capability metadata behind a capability listing — shared representation, route, evaluation metrics and license; absent on any other kind.")
     category: Optional[StrictStr] = Field(default=None, description="Category groups it; empty is ungrouped.")
     created_at: Optional[StrictInt] = Field(default=None, description="CreatedAt is when it was published, unix seconds.", alias="createdAt")
     currency: Optional[StrictStr] = Field(default=None, description="Currency labels Price.")
@@ -47,7 +49,7 @@ class MarketplaceShopListing(BaseModel):
     title: Optional[StrictStr] = Field(default=None, description="Title is the shop-window name.")
     tool: Optional[StrictStr] = Field(default=None, description="Tool names the thing sold, as the seller named it; empty for an expert, who is a person and not a thing.")
     updated_at: Optional[StrictInt] = Field(default=None, description="UpdatedAt is when it was last edited, unix seconds.", alias="updatedAt")
-    __properties: ClassVar[List[str]] = ["category", "createdAt", "currency", "description", "docs", "expert", "id", "kind", "links", "price", "public", "publisherOrg", "reputation", "seller", "title", "tool", "updatedAt"]
+    __properties: ClassVar[List[str]] = ["capability", "category", "createdAt", "currency", "description", "docs", "expert", "id", "kind", "links", "price", "public", "publisherOrg", "reputation", "seller", "title", "tool", "updatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -88,6 +90,9 @@ class MarketplaceShopListing(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of capability
+        if self.capability:
+            _dict['capability'] = self.capability.to_dict()
         # override the default output from pydantic by calling `to_dict()` of expert
         if self.expert:
             _dict['expert'] = self.expert.to_dict()
@@ -117,6 +122,7 @@ class MarketplaceShopListing(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "capability": MarketplaceCapabilitySpec.from_dict(obj["capability"]) if obj.get("capability") is not None else None,
             "category": obj.get("category"),
             "createdAt": obj.get("createdAt"),
             "currency": obj.get("currency"),
