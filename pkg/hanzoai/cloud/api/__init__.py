@@ -107,6 +107,7 @@ from hanzoai.cloud.api.seo_api import SeoApi
 from hanzoai.cloud.api.settings_api import SettingsApi
 from hanzoai.cloud.api.share_api import ShareApi
 from hanzoai.cloud.api.social_api import SocialApi
+from hanzoai.cloud.api.sources_api import SourcesApi
 from hanzoai.cloud.api.space_api import SpaceApi
 from hanzoai.cloud.api.standing_api import StandingApi
 from hanzoai.cloud.api.studio_api import StudioApi

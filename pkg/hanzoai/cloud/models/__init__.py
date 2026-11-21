@@ -1771,6 +1771,11 @@ from hanzoai.cloud.models.o11y_associated_component import O11yAssociatedCompone
 from hanzoai.cloud.models.o11y_attribute_key import O11yAttributeKey
 from hanzoai.cloud.models.o11y_attributes_component_entry import O11yAttributesComponentEntry
 from hanzoai.cloud.models.o11y_authorization import O11yAuthorization
+from hanzoai.cloud.models.o11y_auto_fix_cached_entry import O11yAutoFixCachedEntry
+from hanzoai.cloud.models.o11y_auto_fix_decision import O11yAutoFixDecision
+from hanzoai.cloud.models.o11y_auto_fix_frame_input import O11yAutoFixFrameInput
+from hanzoai.cloud.models.o11y_auto_fix_request import O11yAutoFixRequest
+from hanzoai.cloud.models.o11y_auto_fix_status import O11yAutoFixStatus
 from hanzoai.cloud.models.o11y_azure_account_config import O11yAzureAccountConfig
 from hanzoai.cloud.models.o11y_azure_connection_artifact import O11yAzureConnectionArtifact
 from hanzoai.cloud.models.o11y_azure_integration_config import O11yAzureIntegrationConfig
@@ -1815,6 +1820,7 @@ from hanzoai.cloud.models.o11y_deprecated_gettable_alert import O11yDeprecatedGe
 from hanzoai.cloud.models.o11y_discord_config import O11yDiscordConfig
 from hanzoai.cloud.models.o11y_email_config import O11yEmailConfig
 from hanzoai.cloud.models.o11y_event import O11yEvent
+from hanzoai.cloud.models.o11y_fault_attribution import O11yFaultAttribution
 from hanzoai.cloud.models.o11y_filter import O11yFilter
 from hanzoai.cloud.models.o11y_filter_attribute_key_response import O11yFilterAttributeKeyResponse
 from hanzoai.cloud.models.o11y_filter_attribute_value_request import O11yFilterAttributeValueRequest
@@ -2990,6 +2996,7 @@ from hanzoai.cloud.models.sandbox_computer_out import SandboxComputerOut
 from hanzoai.cloud.models.sandbox_end_in import SandboxEndIn
 from hanzoai.cloud.models.sandbox_exec_request import SandboxExecRequest
 from hanzoai.cloud.models.sandbox_exec_result import SandboxExecResult
+from hanzoai.cloud.models.sandbox_health_out import SandboxHealthOut
 from hanzoai.cloud.models.sandbox_lease_in import SandboxLeaseIn
 from hanzoai.cloud.models.sandbox_leased import SandboxLeased
 from hanzoai.cloud.models.sandbox_path_in import SandboxPathIn
@@ -3003,6 +3010,8 @@ from hanzoai.cloud.models.sandbox_run_in import SandboxRunIn
 from hanzoai.cloud.models.sandbox_sandbox import SandboxSandbox
 from hanzoai.cloud.models.sandbox_sandbox_in import SandboxSandboxIn
 from hanzoai.cloud.models.sandbox_sandbox_list import SandboxSandboxList
+from hanzoai.cloud.models.sandbox_session import SandboxSession
+from hanzoai.cloud.models.sandbox_session_in import SandboxSessionIn
 from hanzoai.cloud.models.sandbox_stop_in import SandboxStopIn
 from hanzoai.cloud.models.sandbox_stopped import SandboxStopped
 from hanzoai.cloud.models.sandbox_ticket_grant import SandboxTicketGrant
@@ -3092,6 +3101,14 @@ from hanzoai.cloud.models.social_social_posts import SocialSocialPosts
 from hanzoai.cloud.models.social_social_provider import SocialSocialProvider
 from hanzoai.cloud.models.social_social_providers import SocialSocialProviders
 from hanzoai.cloud.models.social_social_summary import SocialSocialSummary
+from hanzoai.cloud.models.sources_source import SourcesSource
+from hanzoai.cloud.models.sources_source_beat import SourcesSourceBeat
+from hanzoai.cloud.models.sources_source_beat_reply import SourcesSourceBeatReply
+from hanzoai.cloud.models.sources_source_link import SourcesSourceLink
+from hanzoai.cloud.models.sources_source_linked import SourcesSourceLinked
+from hanzoai.cloud.models.sources_source_list import SourcesSourceList
+from hanzoai.cloud.models.sources_source_provider import SourcesSourceProvider
+from hanzoai.cloud.models.sources_source_revoked import SourcesSourceRevoked
 from hanzoai.cloud.models.space_drive_in import SpaceDriveIn
 from hanzoai.cloud.models.space_drive_item import SpaceDriveItem
 from hanzoai.cloud.models.space_drive_list import SpaceDriveList

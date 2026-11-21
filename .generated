@@ -106,6 +106,7 @@ pkg/hanzoai/cloud/api/seo_api.py
 pkg/hanzoai/cloud/api/settings_api.py
 pkg/hanzoai/cloud/api/share_api.py
 pkg/hanzoai/cloud/api/social_api.py
+pkg/hanzoai/cloud/api/sources_api.py
 pkg/hanzoai/cloud/api/space_api.py
 pkg/hanzoai/cloud/api/standing_api.py
 pkg/hanzoai/cloud/api/studio_api.py
@@ -1881,6 +1882,11 @@ pkg/hanzoai/cloud/models/o11y_associated_component.py
 pkg/hanzoai/cloud/models/o11y_attribute_key.py
 pkg/hanzoai/cloud/models/o11y_attributes_component_entry.py
 pkg/hanzoai/cloud/models/o11y_authorization.py
+pkg/hanzoai/cloud/models/o11y_auto_fix_cached_entry.py
+pkg/hanzoai/cloud/models/o11y_auto_fix_decision.py
+pkg/hanzoai/cloud/models/o11y_auto_fix_frame_input.py
+pkg/hanzoai/cloud/models/o11y_auto_fix_request.py
+pkg/hanzoai/cloud/models/o11y_auto_fix_status.py
 pkg/hanzoai/cloud/models/o11y_aws_account_config.py
 pkg/hanzoai/cloud/models/o11y_aws_cloud_watch_logs_subscription.py
 pkg/hanzoai/cloud/models/o11y_aws_cloud_watch_metric_stream_filter.py
@@ -1937,6 +1943,7 @@ pkg/hanzoai/cloud/models/o11y_deprecated_gettable_alert.py
 pkg/hanzoai/cloud/models/o11y_discord_config.py
 pkg/hanzoai/cloud/models/o11y_email_config.py
 pkg/hanzoai/cloud/models/o11y_event.py
+pkg/hanzoai/cloud/models/o11y_fault_attribution.py
 pkg/hanzoai/cloud/models/o11y_filter.py
 pkg/hanzoai/cloud/models/o11y_filter_attribute_key_response.py
 pkg/hanzoai/cloud/models/o11y_filter_attribute_value_request.py
@@ -3112,6 +3119,7 @@ pkg/hanzoai/cloud/models/sandbox_computer_out.py
 pkg/hanzoai/cloud/models/sandbox_end_in.py
 pkg/hanzoai/cloud/models/sandbox_exec_request.py
 pkg/hanzoai/cloud/models/sandbox_exec_result.py
+pkg/hanzoai/cloud/models/sandbox_health_out.py
 pkg/hanzoai/cloud/models/sandbox_lease_in.py
 pkg/hanzoai/cloud/models/sandbox_leased.py
 pkg/hanzoai/cloud/models/sandbox_path_in.py
@@ -3125,6 +3133,8 @@ pkg/hanzoai/cloud/models/sandbox_run_in.py
 pkg/hanzoai/cloud/models/sandbox_sandbox.py
 pkg/hanzoai/cloud/models/sandbox_sandbox_in.py
 pkg/hanzoai/cloud/models/sandbox_sandbox_list.py
+pkg/hanzoai/cloud/models/sandbox_session.py
+pkg/hanzoai/cloud/models/sandbox_session_in.py
 pkg/hanzoai/cloud/models/sandbox_stop_in.py
 pkg/hanzoai/cloud/models/sandbox_stopped.py
 pkg/hanzoai/cloud/models/sandbox_ticket_grant.py
@@ -3214,6 +3224,14 @@ pkg/hanzoai/cloud/models/social_social_posts.py
 pkg/hanzoai/cloud/models/social_social_provider.py
 pkg/hanzoai/cloud/models/social_social_providers.py
 pkg/hanzoai/cloud/models/social_social_summary.py
+pkg/hanzoai/cloud/models/sources_source.py
+pkg/hanzoai/cloud/models/sources_source_beat.py
+pkg/hanzoai/cloud/models/sources_source_beat_reply.py
+pkg/hanzoai/cloud/models/sources_source_link.py
+pkg/hanzoai/cloud/models/sources_source_linked.py
+pkg/hanzoai/cloud/models/sources_source_list.py
+pkg/hanzoai/cloud/models/sources_source_provider.py
+pkg/hanzoai/cloud/models/sources_source_revoked.py
 pkg/hanzoai/cloud/models/space_drive_in.py
 pkg/hanzoai/cloud/models/space_drive_item.py
 pkg/hanzoai/cloud/models/space_drive_list.py

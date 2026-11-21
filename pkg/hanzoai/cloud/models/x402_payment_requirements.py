@@ -27,13 +27,13 @@ class X402PaymentRequirements(BaseModel):
     """
     X402PaymentRequirements
     """ # noqa: E501
-    amount: Optional[StrictStr] = Field(default=None, description="atomic units of Asset, decimal string")
-    asset: Optional[StrictStr] = Field(default=None, description="EIP-3009 token contract")
+    amount: Optional[StrictStr] = Field(default=None, description="Amount is the price in atomic units of Asset, as a decimal string.")
+    asset: Optional[StrictStr] = Field(default=None, description="Asset is the token contract address, which must implement EIP-3009.")
     extra: Optional[X402Extra] = Field(default=None, description="Extra is the token's EIP-712 domain the authorization is signed over.")
     max_timeout_seconds: Optional[StrictInt] = Field(default=None, description="MaxTimeoutSeconds is how long the client has to complete the payment.", alias="maxTimeoutSeconds")
-    network: Optional[StrictStr] = Field(default=None, description="CAIP-2, e.g. \"eip155:36963\"")
-    pay_to: Optional[StrictStr] = Field(default=None, description="recipient wallet address", alias="payTo")
-    scheme: Optional[StrictStr] = Field(default=None, description="Scheme is how the payment is made: \"exact\", the buyer authorizing exactly Amount. It is the only scheme this rail takes.")
+    network: Optional[StrictStr] = Field(default=None, description="Network is the CAIP-2 identifier of the chain, e.g. \"eip155:8453\".")
+    pay_to: Optional[StrictStr] = Field(default=None, description="PayTo is the recipient address.", alias="payTo")
+    scheme: Optional[StrictStr] = Field(default=None, description="Scheme is how the payment is made: \"exact\", the buyer authorizing exactly Amount. It is the only scheme implemented.")
     __properties: ClassVar[List[str]] = ["amount", "asset", "extra", "maxTimeoutSeconds", "network", "payTo", "scheme"]
 
     model_config = ConfigDict(

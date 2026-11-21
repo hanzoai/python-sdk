@@ -26,7 +26,7 @@ class X402Extra(BaseModel):
     """
     X402Extra
     """ # noqa: E501
-    asset_transfer_method: Optional[StrictStr] = Field(default=None, description="AssetTransferMethod is how the token moves: \"eip3009\", its own transferWithAuthorization.", alias="assetTransferMethod")
+    asset_transfer_method: Optional[StrictStr] = Field(default=None, description="AssetTransferMethod is how the token moves: \"eip3009\", its own transferWithAuthorization. Absent means eip3009.", alias="assetTransferMethod")
     name: Optional[StrictStr] = Field(default=None, description="Name is the token's EIP-712 domain name, e.g. \"USD Coin\".")
     version: Optional[StrictStr] = Field(default=None, description="Version is the token's EIP-712 domain version, e.g. \"2\".")
     __properties: ClassVar[List[str]] = ["assetTransferMethod", "name", "version"]

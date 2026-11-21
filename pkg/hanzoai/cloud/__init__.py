@@ -124,6 +124,7 @@ __all__ = [
     "SettingsApi",
     "ShareApi",
     "SocialApi",
+    "SourcesApi",
     "SpaceApi",
     "StandingApi",
     "StudioApi",
@@ -1915,6 +1916,11 @@ __all__ = [
     "O11yAttributeKey",
     "O11yAttributesComponentEntry",
     "O11yAuthorization",
+    "O11yAutoFixCachedEntry",
+    "O11yAutoFixDecision",
+    "O11yAutoFixFrameInput",
+    "O11yAutoFixRequest",
+    "O11yAutoFixStatus",
     "O11yAzureAccountConfig",
     "O11yAzureConnectionArtifact",
     "O11yAzureIntegrationConfig",
@@ -1959,6 +1965,7 @@ __all__ = [
     "O11yDiscordConfig",
     "O11yEmailConfig",
     "O11yEvent",
+    "O11yFaultAttribution",
     "O11yFilter",
     "O11yFilterAttributeKeyResponse",
     "O11yFilterAttributeValueRequest",
@@ -3134,6 +3141,7 @@ __all__ = [
     "SandboxEndIn",
     "SandboxExecRequest",
     "SandboxExecResult",
+    "SandboxHealthOut",
     "SandboxLeaseIn",
     "SandboxLeased",
     "SandboxPathIn",
@@ -3147,6 +3155,8 @@ __all__ = [
     "SandboxSandbox",
     "SandboxSandboxIn",
     "SandboxSandboxList",
+    "SandboxSession",
+    "SandboxSessionIn",
     "SandboxStopIn",
     "SandboxStopped",
     "SandboxTicketGrant",
@@ -3236,6 +3246,14 @@ __all__ = [
     "SocialSocialProvider",
     "SocialSocialProviders",
     "SocialSocialSummary",
+    "SourcesSource",
+    "SourcesSourceBeat",
+    "SourcesSourceBeatReply",
+    "SourcesSourceLink",
+    "SourcesSourceLinked",
+    "SourcesSourceList",
+    "SourcesSourceProvider",
+    "SourcesSourceRevoked",
     "SpaceDriveIn",
     "SpaceDriveItem",
     "SpaceDriveList",
@@ -3745,6 +3763,7 @@ from hanzoai.cloud.api.seo_api import SeoApi as SeoApi
 from hanzoai.cloud.api.settings_api import SettingsApi as SettingsApi
 from hanzoai.cloud.api.share_api import ShareApi as ShareApi
 from hanzoai.cloud.api.social_api import SocialApi as SocialApi
+from hanzoai.cloud.api.sources_api import SourcesApi as SourcesApi
 from hanzoai.cloud.api.space_api import SpaceApi as SpaceApi
 from hanzoai.cloud.api.standing_api import StandingApi as StandingApi
 from hanzoai.cloud.api.studio_api import StudioApi as StudioApi
@@ -5540,6 +5559,11 @@ from hanzoai.cloud.models.o11y_associated_component import O11yAssociatedCompone
 from hanzoai.cloud.models.o11y_attribute_key import O11yAttributeKey as O11yAttributeKey
 from hanzoai.cloud.models.o11y_attributes_component_entry import O11yAttributesComponentEntry as O11yAttributesComponentEntry
 from hanzoai.cloud.models.o11y_authorization import O11yAuthorization as O11yAuthorization
+from hanzoai.cloud.models.o11y_auto_fix_cached_entry import O11yAutoFixCachedEntry as O11yAutoFixCachedEntry
+from hanzoai.cloud.models.o11y_auto_fix_decision import O11yAutoFixDecision as O11yAutoFixDecision
+from hanzoai.cloud.models.o11y_auto_fix_frame_input import O11yAutoFixFrameInput as O11yAutoFixFrameInput
+from hanzoai.cloud.models.o11y_auto_fix_request import O11yAutoFixRequest as O11yAutoFixRequest
+from hanzoai.cloud.models.o11y_auto_fix_status import O11yAutoFixStatus as O11yAutoFixStatus
 from hanzoai.cloud.models.o11y_azure_account_config import O11yAzureAccountConfig as O11yAzureAccountConfig
 from hanzoai.cloud.models.o11y_azure_connection_artifact import O11yAzureConnectionArtifact as O11yAzureConnectionArtifact
 from hanzoai.cloud.models.o11y_azure_integration_config import O11yAzureIntegrationConfig as O11yAzureIntegrationConfig
@@ -5584,6 +5608,7 @@ from hanzoai.cloud.models.o11y_deprecated_gettable_alert import O11yDeprecatedGe
 from hanzoai.cloud.models.o11y_discord_config import O11yDiscordConfig as O11yDiscordConfig
 from hanzoai.cloud.models.o11y_email_config import O11yEmailConfig as O11yEmailConfig
 from hanzoai.cloud.models.o11y_event import O11yEvent as O11yEvent
+from hanzoai.cloud.models.o11y_fault_attribution import O11yFaultAttribution as O11yFaultAttribution
 from hanzoai.cloud.models.o11y_filter import O11yFilter as O11yFilter
 from hanzoai.cloud.models.o11y_filter_attribute_key_response import O11yFilterAttributeKeyResponse as O11yFilterAttributeKeyResponse
 from hanzoai.cloud.models.o11y_filter_attribute_value_request import O11yFilterAttributeValueRequest as O11yFilterAttributeValueRequest
@@ -6759,6 +6784,7 @@ from hanzoai.cloud.models.sandbox_computer_out import SandboxComputerOut as Sand
 from hanzoai.cloud.models.sandbox_end_in import SandboxEndIn as SandboxEndIn
 from hanzoai.cloud.models.sandbox_exec_request import SandboxExecRequest as SandboxExecRequest
 from hanzoai.cloud.models.sandbox_exec_result import SandboxExecResult as SandboxExecResult
+from hanzoai.cloud.models.sandbox_health_out import SandboxHealthOut as SandboxHealthOut
 from hanzoai.cloud.models.sandbox_lease_in import SandboxLeaseIn as SandboxLeaseIn
 from hanzoai.cloud.models.sandbox_leased import SandboxLeased as SandboxLeased
 from hanzoai.cloud.models.sandbox_path_in import SandboxPathIn as SandboxPathIn
@@ -6772,6 +6798,8 @@ from hanzoai.cloud.models.sandbox_run_in import SandboxRunIn as SandboxRunIn
 from hanzoai.cloud.models.sandbox_sandbox import SandboxSandbox as SandboxSandbox
 from hanzoai.cloud.models.sandbox_sandbox_in import SandboxSandboxIn as SandboxSandboxIn
 from hanzoai.cloud.models.sandbox_sandbox_list import SandboxSandboxList as SandboxSandboxList
+from hanzoai.cloud.models.sandbox_session import SandboxSession as SandboxSession
+from hanzoai.cloud.models.sandbox_session_in import SandboxSessionIn as SandboxSessionIn
 from hanzoai.cloud.models.sandbox_stop_in import SandboxStopIn as SandboxStopIn
 from hanzoai.cloud.models.sandbox_stopped import SandboxStopped as SandboxStopped
 from hanzoai.cloud.models.sandbox_ticket_grant import SandboxTicketGrant as SandboxTicketGrant
@@ -6861,6 +6889,14 @@ from hanzoai.cloud.models.social_social_posts import SocialSocialPosts as Social
 from hanzoai.cloud.models.social_social_provider import SocialSocialProvider as SocialSocialProvider
 from hanzoai.cloud.models.social_social_providers import SocialSocialProviders as SocialSocialProviders
 from hanzoai.cloud.models.social_social_summary import SocialSocialSummary as SocialSocialSummary
+from hanzoai.cloud.models.sources_source import SourcesSource as SourcesSource
+from hanzoai.cloud.models.sources_source_beat import SourcesSourceBeat as SourcesSourceBeat
+from hanzoai.cloud.models.sources_source_beat_reply import SourcesSourceBeatReply as SourcesSourceBeatReply
+from hanzoai.cloud.models.sources_source_link import SourcesSourceLink as SourcesSourceLink
+from hanzoai.cloud.models.sources_source_linked import SourcesSourceLinked as SourcesSourceLinked
+from hanzoai.cloud.models.sources_source_list import SourcesSourceList as SourcesSourceList
+from hanzoai.cloud.models.sources_source_provider import SourcesSourceProvider as SourcesSourceProvider
+from hanzoai.cloud.models.sources_source_revoked import SourcesSourceRevoked as SourcesSourceRevoked
 from hanzoai.cloud.models.space_drive_in import SpaceDriveIn as SpaceDriveIn
 from hanzoai.cloud.models.space_drive_item import SpaceDriveItem as SpaceDriveItem
 from hanzoai.cloud.models.space_drive_list import SpaceDriveList as SpaceDriveList

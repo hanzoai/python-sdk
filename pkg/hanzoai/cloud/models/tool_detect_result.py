@@ -28,8 +28,8 @@ class ToolDetectResult(BaseModel):
     ToolDetectResult
     """ # noqa: E501
     activated: Optional[List[StrictStr]] = Field(default=None, description="Activated lists the tool and skill names that were newly switched on by this call when autoActivate was set.")
-    decision_id: Optional[StrictStr] = Field(default=None, description="DecisionID is the decision identifier returned by POST /v1/decisions when the Kai service answered the batch.", alias="decisionId")
-    model: Optional[StrictStr] = Field(default=None, description="Model is the decision model that evaluated the candidates (for example \"kai\" or a versioned \"kai-<hash>\").")
+    decision_id: Optional[StrictStr] = Field(default=None, description="DecisionID is the identifier of the decision (POST /v1/decisions) the candidates were ranked by, when a decision model ranked them; absent from rank-1.", alias="decisionId")
+    model: Optional[StrictStr] = Field(default=None, description="Model names what ranked the candidates (\"rank-1\").")
     skills: Optional[List[ToolDetectRecommendation]] = Field(default=None, description="Skills lists the recommended skills (skill_<name>), ordered from highest to lowest probability.")
     tools: Optional[List[ToolDetectRecommendation]] = Field(default=None, description="Tools lists the recommended callable tools, ordered from highest to lowest probability.")
     __properties: ClassVar[List[str]] = ["activated", "decisionId", "model", "skills", "tools"]

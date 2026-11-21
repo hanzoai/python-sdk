@@ -28,16 +28,18 @@ class AgentRoutedRunOut(BaseModel):
     """ # noqa: E501
     base: Optional[StrictStr] = Field(default=None, description="Base is the branch to start FROM. Empty means the repository's default — resolve it on the machine, since the machine is the one holding the clone.")
     branch: Optional[StrictStr] = Field(default=None, description="Branch is the ref the run must push its work to, and the ONLY one it is permitted to write: the forge's ref policy refuses anything else from this run's credential. It is decided at dispatch and exists before the work does.")
-    clone_url: Optional[StrictStr] = Field(default=None, description="CloneURL is how to fetch the repository. It carries NO credential — the machine authenticates with the git identity it already holds — which is why this whole shape is safe to hand to a claimed runner.", alias="cloneUrl")
+    clone_url: Optional[StrictStr] = Field(default=None, description="CloneURL is how to fetch the repository. It carries no credential: the machine authenticates with the git identity it already holds, or with DeployKey when the run has one.", alias="cloneUrl")
+    deploy_key: Optional[StrictStr] = Field(default=None, description="DeployKey is the run's own key to its repository, when the repository is one the machine cannot reach otherwise. It opens that one repository, is withdrawn when the run ends, and is for the machine to use for the run and not keep.", alias="deployKey")
     effort: Optional[StrictStr] = Field(default=None, description="Effort is how hard that model reasons: low, medium or high. Empty is the model's own default.")
     instructions: Optional[StrictStr] = Field(default=None, description="Instructions are the person's own instructions for their runs, as they set them in their settings: the machine's harness reads them as its user's, the way AGENTS.md or CLAUDE.md in its home is read. Empty when they set none.")
+    known_hosts: Optional[StrictStr] = Field(default=None, description="KnownHosts is the forge's host key, to check the connection DeployKey opens.", alias="knownHosts")
     model: Optional[StrictStr] = Field(default=None, description="Model is the model the person asked the run's agent to think with, by the id GET /v1/models lists. Empty is the machine's own default.")
     project: Optional[StrictStr] = Field(default=None, description="Project is the product slug the run is filed under, so the machine can tag what it produces. Empty when the dispatch named none.")
     prompt: Optional[StrictStr] = Field(default=None, description="Prompt is the task, in full, as the person wrote it. There is no second field for context.")
     repo: Optional[StrictStr] = Field(default=None, description="Repo is the repository to work in and CloneURL is how to fetch it.")
     session_id: Optional[StrictStr] = Field(default=None, description="SessionID is the live session opened at dispatch; the machine streams its turns into it.", alias="sessionId")
     timeout_seconds: Optional[StrictInt] = Field(default=None, description="TimeoutSeconds bounds the run on the machine; 0 means the machine's own default.", alias="timeoutSeconds")
-    __properties: ClassVar[List[str]] = ["base", "branch", "cloneUrl", "effort", "instructions", "model", "project", "prompt", "repo", "sessionId", "timeoutSeconds"]
+    __properties: ClassVar[List[str]] = ["base", "branch", "cloneUrl", "deployKey", "effort", "instructions", "knownHosts", "model", "project", "prompt", "repo", "sessionId", "timeoutSeconds"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -93,8 +95,10 @@ class AgentRoutedRunOut(BaseModel):
             "base": obj.get("base"),
             "branch": obj.get("branch"),
             "cloneUrl": obj.get("cloneUrl"),
+            "deployKey": obj.get("deployKey"),
             "effort": obj.get("effort"),
             "instructions": obj.get("instructions"),
+            "knownHosts": obj.get("knownHosts"),
             "model": obj.get("model"),
             "project": obj.get("project"),
             "prompt": obj.get("prompt"),

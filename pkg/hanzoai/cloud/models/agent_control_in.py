@@ -27,7 +27,7 @@ class AgentControlIn(BaseModel):
     AgentControlIn
     """ # noqa: E501
     id: Optional[StrictStr] = Field(default=None, description="ID is the session to steer, from the path.")
-    message: Optional[StrictStr] = Field(default=None, description="Message is free text for the running agent, up to 16 KiB. On a stop it is recorded as the cancellation reason.")
+    message: Optional[StrictStr] = Field(default=None, description="Message is free text for the running agent, up to 16 KiB, scanned for credentials before it is stored like the payload. On a stop it is recorded as the cancellation reason.")
     payload: Optional[Any] = None
     __properties: ClassVar[List[str]] = ["id", "message", "payload"]
 

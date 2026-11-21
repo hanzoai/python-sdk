@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -30,12 +30,13 @@ class PlatformRunnerBuildResp(BaseModel):
     image: Optional[StrictStr] = Field(default=None, description="Image is the ref the image lane will push.")
     index: Optional[StrictStr] = Field(default=None, description="Index is the binaries.json URL the artifact lane will publish.")
     platforms: Optional[List[StrictStr]] = Field(default=None, description="Platforms are the architectures the image lane will publish, echoed back.")
+    position: Optional[StrictInt] = Field(default=None, description="Position is the build's place in line while it is `queued`, from 1: how many builds start before it, and it, were nothing to finish meanwhile. Absent once it runs.")
     reason: Optional[StrictStr] = Field(default=None, description="Reason is why a failed build failed, as the cluster said it: the solve's error line (`error: failed to solve: ...`), a container waiting on what it cannot have, or the deadline.")
     runner_pool: Optional[StrictStr] = Field(default=None, description="RunnerPool is the runner class the build was placed on.", alias="runnerPool")
-    status: Optional[StrictStr] = Field(default=None, description="Status is `queued` until the build finishes, then `succeeded` or `failed`. The POST answers `queued`: a build that is accepted has not finished.")
+    status: Optional[StrictStr] = Field(default=None, description="Status is `queued` while the build waits its turn, `building` once it runs, then `succeeded` or `failed`. The POST answers `queued`: a build that is accepted has not run. A build is never refused for the others running.")
     tags: Optional[List[StrictStr]] = Field(default=None, description="Tags are the extra tags the image lane will write beside Image, onto the same manifest: the request's, deduplicated. This is the promise — a tag absent here will not be written.")
     target: Optional[StrictStr] = Field(default=None, description="Target is the multi-stage build target, echoed back.")
-    __properties: ClassVar[List[str]] = ["buildJobId", "image", "index", "platforms", "reason", "runnerPool", "status", "tags", "target"]
+    __properties: ClassVar[List[str]] = ["buildJobId", "image", "index", "platforms", "position", "reason", "runnerPool", "status", "tags", "target"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -92,6 +93,7 @@ class PlatformRunnerBuildResp(BaseModel):
             "image": obj.get("image"),
             "index": obj.get("index"),
             "platforms": obj.get("platforms"),
+            "position": obj.get("position"),
             "reason": obj.get("reason"),
             "runnerPool": obj.get("runnerPool"),
             "status": obj.get("status"),
