@@ -21,7 +21,7 @@ from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr, Validat
 from typing import Optional
 from typing import Union, Any, List, Set, TYPE_CHECKING, Optional, Dict
 from typing_extensions import Literal, Self
-from pydantic import Field
+from pydantic import BaseModel, Field, model_validator
 
 AIDECISIONSREASONCODE_ANY_OF_SCHEMAS = ["int", "str"]
 
@@ -54,6 +54,22 @@ class AiDecisionsReasonCode(BaseModel):
             super().__init__(actual_instance=args[0])
         else:
             super().__init__(**kwargs)
+
+    @model_validator(mode="before")
+    @classmethod
+    def from_wire(cls, data: Any) -> Any:
+        """A raw value is read the way from_json reads it.
+
+        model_validate, and every model holding this one as a field, hands the
+        value over raw, and pydantic would otherwise take a dict for this
+        wrapper's own fields and leave actual_instance None. A variant instance
+        is taken as it is; __init__'s own call passes through.
+        """
+        if isinstance(data, cls) or (isinstance(data, dict) and "actual_instance" in data):
+            return data
+        if data is None or isinstance(data, BaseModel):
+            return {"actual_instance": data}
+        return {"actual_instance": cls.from_json(json.dumps(data)).actual_instance}
 
     @field_validator('actual_instance')
     def actual_instance_must_validate_anyof(cls, v):

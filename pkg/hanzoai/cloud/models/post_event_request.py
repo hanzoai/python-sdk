@@ -20,8 +20,8 @@ from typing import Any, List, Optional
 from hanzoai.cloud.models.capture_batch import CaptureBatch
 from hanzoai.cloud.models.capture_event import CaptureEvent
 from hanzoai.cloud.models.insights_body import InsightsBody
-from pydantic import StrictStr, Field
-from typing import Union, List, Set, Optional, Dict
+from pydantic import BaseModel, StrictStr, Field, model_validator
+from typing import Any, Union, List, Set, Optional, Dict
 from typing_extensions import Literal, Self
 
 POSTEVENTREQUEST_ONE_OF_SCHEMAS = ["CaptureBatch", "CaptureEvent", "InsightsBody", "List[CaptureEvent]"]
@@ -56,6 +56,22 @@ class PostEventRequest(BaseModel):
             super().__init__(actual_instance=args[0])
         else:
             super().__init__(**kwargs)
+
+    @model_validator(mode="before")
+    @classmethod
+    def from_wire(cls, data: Any) -> Any:
+        """A raw value is read the way from_json reads it.
+
+        model_validate, and every model holding this one as a field, hands the
+        value over raw, and pydantic would otherwise take a dict for this
+        wrapper's own fields and leave actual_instance None. A variant instance
+        is taken as it is; __init__'s own call passes through.
+        """
+        if isinstance(data, cls) or (isinstance(data, dict) and "actual_instance" in data):
+            return data
+        if data is None or isinstance(data, BaseModel):
+            return {"actual_instance": data}
+        return {"actual_instance": cls.from_json(json.dumps(data)).actual_instance}
 
     @field_validator('actual_instance')
     def actual_instance_must_validate_oneof(cls, v):

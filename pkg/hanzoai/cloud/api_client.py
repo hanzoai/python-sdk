@@ -184,9 +184,14 @@ class ApiClient:
             header_params['Cookie'] = self.cookie
         if header_params:
             header_params = self.sanitize_for_serialization(header_params)
-            header_params = dict(
-                self.parameters_to_tuples(header_params,collection_formats)
-            )
+            # A header carries text. The document types X-Max-Cost as a number and
+            # urllib3 refuses a float header value outright, so every value is
+            # written the way the wire spells it: str() for a number, lower case
+            # for a boolean.
+            header_params = {
+                k: v if isinstance(v, str) else str(v).lower() if isinstance(v, bool) else str(v)
+                for k, v in self.parameters_to_tuples(header_params, collection_formats)
+            }
 
         # path parameters
         if path_params:

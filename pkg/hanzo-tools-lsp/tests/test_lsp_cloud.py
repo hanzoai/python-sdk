@@ -24,6 +24,7 @@ class FakeResponse:
         self.status_code = status
         self.payload = payload
         self.text = json.dumps(payload)
+        self.headers = {}
 
     def json(self):
         return self.payload

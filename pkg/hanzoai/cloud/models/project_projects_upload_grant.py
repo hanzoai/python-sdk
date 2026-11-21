@@ -26,7 +26,7 @@ class ProjectProjectsUploadGrant(BaseModel):
     """
     ProjectProjectsUploadGrant
     """ # noqa: E501
-    copy: Optional[StrictBool] = Field(default=None, description="Copy is true when the completion of this deployment accepts copyFrom and copy. A client that does not see it uploads every object itself, since a server that ignores those fields would leave the copied keys missing.")
+    copy_: Optional[StrictBool] = Field(default=None, description="Copy is true when the completion of this deployment accepts copyFrom and copy. A client that does not see it uploads every object itself, since a server that ignores those fields would leave the copied keys missing.", alias="copy")
     expires_at: Optional[StrictInt] = Field(default=None, description="ExpiresAt is when the grant stops being accepted, as Unix seconds. It is short-lived by design and is handed out ONCE, on the response that queues the deployment — a later read of that deployment does not carry it, so a grant cannot be fetched again after the build it was minted for.", alias="expiresAt")
     fields: Optional[Dict[str, StrictStr]] = Field(default=None, description="Fields are form values every POST must carry VERBATIM, alongside `key` and `file`. The signature covers them, so altering any one of them — including widening the key to reach outside the prefix — invalidates the grant rather than extending it.")
     max_bytes: Optional[StrictInt] = Field(default=None, description="MaxBytes bounds ONE object, not the upload as a whole.", alias="maxBytes")

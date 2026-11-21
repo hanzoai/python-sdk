@@ -4,15 +4,18 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-tools-llm"
-version = "0.2.1"
-description = "Models through Hanzo as MCP tools: llm (Enso routing, the catalog, feedback) and kai_decide (Kai decisions)"
+version = "0.2.2"
+description = "Models through Hanzo as MCP tools: llm (Enso routing, the catalog, plan limits, feedback) and kai_decide (Kai decisions)"
 readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "MIT" }
 authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
 keywords = ["hanzo", "tools", "llm", "mcp", "ai"]
 dependencies = [
-    "hanzo-tools>=0.3.8",
+    # 8.5.624 is the first hanzoai carrying hanzoai.usage (refusal, read_usage)
+    "hanzoai>=8.5.624",
+    # 0.3.9: a CloudError carries the refusal's body and headers; send() returns headers
+    "hanzo-tools>=0.3.9",
     "httpx>=0.27.0",
     "mcp>=1.25.0",
 ]

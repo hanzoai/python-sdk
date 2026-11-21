@@ -157,5 +157,5 @@ Use the MCP with any AI assistant:
 
 - [GitHub Repository](https://github.com/hanzoai/python-sdk)
 - [PyPI Package](https://pypi.org/project/hanzo-mcp/)
-- [Discord Community](https://discord.gg/CJCyAsm9Vr)
+- [Discord Community](https://discord.gg/XthHQQj)
 - [Hanzo AI](https://hanzo.ai)

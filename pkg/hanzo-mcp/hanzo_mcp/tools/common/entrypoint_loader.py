@@ -34,7 +34,7 @@ PACKAGE_TOOL_PREFIXES: dict[str, list[str]] = {
     "core": ["id"],  # Identity axis (hash, uri, ref, verify)
     "code": ["code"],  # Symbols + Structure axis (parse, transform, summarize)
     "shell": ["exec"],  # Execution axis
-    "vcs": ["git"],  # History + Diffs axis
+    "vcs": ["git", "repo"],  # History + Diffs axis; repo is the Hanzo git side
     "test": ["test"],  # Validation axis (check, build, test)
     "net": ["fetch"],  # Network axis (search, fetch, download, crawl)
     "plan": ["plan"],  # Orchestration axis (intent, route, compose)

@@ -9,6 +9,7 @@ Tools:
   - branch: Branch operations (list, create, delete)
   - checkout: Switch branches
   - log: Commit history
+- repo: Repositories on Hanzo git linked to GitHub (list, sync now)
 
 Outputs diffs in unified patch format for use with fs.apply_patch.
 
@@ -28,17 +29,19 @@ Usage:
 from hanzo_tools.core import BaseTool, ToolRegistry
 
 from .git_tool import GitTool, git_tool
+from .repo_tool import RepoTool
 
 # Backward compat
 VcsTool = GitTool
 vcs_tool = git_tool
 
-# Export list for tool discovery - HIP-0300 unified tool
-TOOLS = [GitTool]
+# Export list for tool discovery - HIP-0300 unified tools
+TOOLS = [GitTool, RepoTool]
 
 __all__ = [
     "GitTool",
     "git_tool",
+    "RepoTool",
     "VcsTool",
     "vcs_tool",
     "register_tools",
@@ -56,7 +59,7 @@ def register_tools(mcp_server, **kwargs) -> list[BaseTool]:
     Returns:
         List of registered tool instances
     """
-    cwd = kwargs.get("cwd")
-    tool = VcsTool(cwd=cwd)
-    ToolRegistry.register_tool(mcp_server, tool)
-    return [tool]
+    tools = [VcsTool(cwd=kwargs.get("cwd")), RepoTool()]
+    for tool in tools:
+        ToolRegistry.register_tool(mcp_server, tool)
+    return tools

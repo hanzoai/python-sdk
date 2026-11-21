@@ -107,6 +107,7 @@ ESSENTIAL_TOOLS = [
     "exec",    # Execution (run, background, ps, kill, logs)
     "code",    # Symbols + Semantics (parse, search, transform, summarize)
     "git",     # Diffs + History
+    "repo",    # Repositories on Hanzo git linked to GitHub (list, sync now)
     "fetch",   # Network (get, post, download)
     "plan",    # Orchestration / intent
     # Knowledge persistence
@@ -117,8 +118,8 @@ ESSENTIAL_TOOLS = [
     # Agent spawning
     "agent",
     # Models through Hanzo: completions Enso routes, the catalog with prices,
-    # feedback (llm); typed questions to Kai (kai_decide). Both are HTTP calls
-    # to api.hanzo.ai, with nothing heavy to install.
+    # the plan's limits, feedback (llm); typed questions to Kai (kai_decide).
+    # Both are HTTP calls to api.hanzo.ai, with nothing heavy to install.
     "llm",
     "kai_decide",
     # Hanzo cloud — one tool projecting every service from the OpenAPI registry.
@@ -143,7 +144,7 @@ HEAVY_TOOLS = [
 # now points at the HIP-0300 axis tool that absorbs the legacy split.
 UNIX_TOOLS = ["exec"]
 BUILD_TOOLS = ["exec"]
-VERSION_CONTROL = ["git"]
+VERSION_CONTROL = ["git", "repo"]
 AI_TOOLS = ["agent", "consensus", "critic", "think", "llm"]
 SEARCH_TOOLS = ["code", "fs"]
 DATABASE_TOOLS = ["sql_query", "sql_search", "graph_add", "graph_query"]

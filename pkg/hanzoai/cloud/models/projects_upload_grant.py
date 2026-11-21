@@ -26,7 +26,7 @@ class ProjectsUploadGrant(BaseModel):
     """
     ProjectsUploadGrant
     """ # noqa: E501
-    copy: Optional[StrictBool] = None
+    copy_: Optional[StrictBool] = Field(default=None, alias="copy")
     expires_at: Optional[StrictInt] = Field(default=None, alias="expiresAt")
     fields: Optional[Dict[str, StrictStr]] = None
     max_bytes: Optional[StrictInt] = Field(default=None, alias="maxBytes")
