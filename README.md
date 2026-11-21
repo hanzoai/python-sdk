@@ -1,5 +1,7 @@
 # Hanzo Python SDK
 
+[![Open in Hanzo](https://hanzo.app/badges/open-in-hanzo.svg)](https://hanzo.app/dev/open?repo=github.com/hanzoai/python-sdk&ref=main&action=open) [![Edit with Hanzo](https://hanzo.app/badges/edit-with-hanzo.svg)](https://hanzo.app/dev/open?repo=github.com/hanzoai/python-sdk&ref=main&action=edit) [![Deploy with Hanzo](https://hanzo.app/badges/deploy-with-hanzo.svg)](https://hanzo.app/dev/open?repo=github.com/hanzoai/python-sdk&ref=main&action=deploy)
+
 `hanzoai` is the Python client for the Hanzo API, generated from the API's own
 OpenAPI document. Every `/v1` route is in it, and the names it exposes are the
 document's operation ids. [`.spec-lock`](.spec-lock) names the commit and sha256
