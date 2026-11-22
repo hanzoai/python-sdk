@@ -95,6 +95,8 @@ class Fake:
         self.experiments: dict[str, list[dict[str, Any]]] = {}
         self.attempts: dict[str, list[dict[str, Any]]] = {}
         self.artifacts: dict[str, dict[str, dict[str, Any]]] = {}
+        self.evidences: dict[tuple[str, str], list[dict[str, Any]]] = {}
+        self.idempotency: dict[tuple[str, str], dict[str, Any]] = {}
         self.claims: list[dict[str, Any]] = []
         self.attempt_rows: list[dict[str, Any]] = []
         self.requests: list[dict[str, Any]] = []
@@ -428,7 +430,7 @@ class Fake:
                 return 302, "text/plain", b""
             who = self.principal(headers)
             try:
-                out = self.route(method, path, q, body, who)
+                out = self.route(method, path, q, body, who, headers)
             except Problem as p:
                 doc = {"detail": p.detail, "status": p.status, "title": "x", "type": "about:blank"}
                 return p.status, "application/json", json.dumps(doc).encode()
@@ -436,7 +438,9 @@ class Fake:
                 return 200, "application/octet-stream", out
             return out[0], "application/json", json.dumps(out[1]).encode()
 
-    def route(self, method: str, path: str, q: dict[str, str], body: Any, who: dict[str, Any] | None) -> Any:
+    def route(
+        self, method: str, path: str, q: dict[str, str], body: Any, who: dict[str, Any] | None, headers: Any = None
+    ) -> Any:
         ok = lambda x: (200, x)  # noqa: E731
         if path == "/v1/research/runs" and method == "GET":
             return ok(self.runs(who, q))
@@ -445,6 +449,39 @@ class Fake:
         if who is None:
             raise Problem(403, "a validated principal is required")
         name = path.removeprefix("/v1/research/")
+        if name == "evidence" and method == "POST":
+            b = body or {}
+            if not b.get("uri") or b.get("content") is None:
+                raise Problem(422, "evidence needs uri and content")
+            idem = (headers.get("Idempotency-Key") if headers else None) or ""
+            if idem and (who["org"], idem) in self.idempotency:
+                return ok(self.idempotency[(who["org"], idem)])
+            chain = self.evidences.setdefault((who["org"], b["uri"]), [])
+            if chain and chain[0].get("hash") and chain[0]["hash"] == b.get("hash"):
+                if idem:
+                    self.idempotency[(who["org"], idem)] = chain[0]
+                return ok(chain[0])
+            ver = (chain[0]["version"] + 1) if chain else 1
+            rec = {
+                "id": f"ev-{who['org']}-{ver}",
+                "uri": b["uri"],
+                "hash": b.get("hash") or "",
+                "kind": b.get("kind") or "element",
+                "source": b.get("source") or {"system": "hanzo"},
+                "links": b.get("links") or [],
+                "content": b["content"],
+                "time": "2026-11-22T00:00:00Z",
+                "version": ver,
+                "by": who["user"] or who["org"],
+            }
+            chain.insert(0, rec)
+            if idem:
+                self.idempotency[(who["org"], idem)] = rec
+            return ok(rec)
+        if name == "evidence" and method == "GET":
+            uri = q.get("uri") or ""
+            rows = list(self.evidences.get((who["org"], uri), []))
+            return ok({"data": rows, "total": len(rows)})
         if method == "POST" and name in KEYS:
             return ok(self.put(who, name, body or {}))
         if method == "GET" and name in ("benchmarks", "studies", "papers"):

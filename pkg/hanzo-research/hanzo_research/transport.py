@@ -122,10 +122,24 @@ class Transport:
     def get(self, path: str, query: Mapping[str, Any] | None = None, auth: bool = True) -> Any:
         return json.loads(self.call("GET", path, query, None, auth) or b"null")
 
-    def post(self, path: str, body: Any, query: Mapping[str, Any] | None = None) -> Any:
-        return json.loads(self.call("POST", path, query, body, True) or b"null")
+    def post(
+        self,
+        path: str,
+        body: Any,
+        query: Mapping[str, Any] | None = None,
+        extra_headers: Mapping[str, str] | None = None,
+    ) -> Any:
+        return json.loads(self.call("POST", path, query, body, True, extra_headers=extra_headers) or b"null")
 
-    def call(self, method: str, path: str, query: Mapping[str, Any] | None, body: Any, auth: bool) -> bytes:
+    def call(
+        self,
+        method: str,
+        path: str,
+        query: Mapping[str, Any] | None,
+        body: Any,
+        auth: bool,
+        extra_headers: Mapping[str, str] | None = None,
+    ) -> bytes:
         """One request; its raw answer on 2xx, else the typed error. 503 is asked again after 2, 4 and 8 s."""
         url = self.base + path + _query(query)
         data = None if body is None else json.dumps(body, allow_nan=False).encode()
@@ -133,7 +147,10 @@ class Transport:
         refreshed = False
         while True:
             # the base is https, or http to this machine, checked in __init__
-            req = urllib.request.Request(url, data=data, method=method, headers=self._headers(auth, data is not None))  # noqa: S310
+            hdrs = self._headers(auth, data is not None)
+            if extra_headers:
+                hdrs.update(extra_headers)
+            req = urllib.request.Request(url, data=data, method=method, headers=hdrs)  # noqa: S310
             try:
                 with self._opener.open(req, timeout=self.timeout) as r:
                     return _read(r, method, path)

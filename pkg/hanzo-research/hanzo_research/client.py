@@ -23,15 +23,18 @@ from . import wire, canonical, provenance
 from .wire import (
     Ack,
     Run,
+    Link,
     Batch,
     Paper,
     Study,
     Record,
+    Source,
     Stored,
     Totals,
     Listing,
     Summary,
     Artifact,
+    Evidence,
     Benchmark,
     Comparison,
     key,
@@ -319,6 +322,127 @@ class Research:
         out = self.http.get("/v1/research/experiments", {"project": project or self.project, "kind": kind})
         return [Record.load(x) for x in out.get("data") or []]
 
+    def query_experiments(
+        self,
+        *,
+        study: str | None = None,
+        verdict: str | None = None,
+        repo: str | None = None,
+        backend: str | None = None,
+        search: str | None = None,
+        include_failures: bool = True,
+        project: str | None = None,
+    ) -> list[Record]:
+        """Rich query across canonical cloud experiments by study, verdict, repo, backend, and search."""
+        import json as _json
+        from .protocol import epistemic_verdict
+
+        want_v = epistemic_verdict(verdict) if verdict else None
+        want_b = backend.strip().lower() if backend else None
+        tokens = [t.lower() for t in (search or "").split() if t.strip()]
+        out: list[Record] = []
+        for rec in self.query(project=project):
+            meta = rec.meta if isinstance(rec.meta, Mapping) else {}
+            ev = epistemic_verdict(str(meta.get("verdict") or ""))
+            if not include_failures and ev == "refuted":
+                continue
+            rec_study = str(meta.get("study") or rec.task or "")
+            if study and rec_study != study and study.lower() not in rec_study.lower():
+                continue
+            if want_v and ev != want_v:
+                continue
+            rec_repo = str(meta.get("repo") or rec.subject.split("/")[0] if rec.subject else "")
+            if repo and rec_repo != repo and repo not in rec.subject:
+                continue
+            rec_backend = str(meta.get("backend") or rec.subject)
+            if want_b and want_b not in rec_backend.lower():
+                continue
+            if tokens:
+                blob = f"{rec.id} {rec.subject} {rec.task} {_json.dumps(meta, sort_keys=True)}".lower()
+                if not all(tok in blob for tok in tokens):
+                    continue
+            out.append(rec)
+        return out
+
+    def prior_failures(self, domain_or_study: str | None = None, *, project: str | None = None) -> list[Record]:
+        """Return refuted cloud experiments carrying failure_diagnosis / because."""
+        needle = domain_or_study.strip().lower() if domain_or_study else None
+        out: list[Record] = []
+        for rec in self.query_experiments(verdict="refuted", include_failures=True, project=project):
+            if needle:
+                meta = rec.meta if isinstance(rec.meta, Mapping) else {}
+                hay = f"{rec.id} {rec.subject} {rec.task} {meta.get('study', '')} {meta.get('repo', '')}".lower()
+                if needle not in hay:
+                    continue
+            out.append(rec)
+        return out
+
+    def recommended_experiments(
+        self, domain: str | None = None, *, top_k: int = 10, project: str | None = None
+    ) -> list[Any]:
+        """Synthesize ranked open Opportunity items from cloud experiments and run notes."""
+        import json as _json
+        from .protocol import Opportunity
+
+        ops: dict[str, Opportunity] = {}
+        needle = domain.strip().lower() if domain else None
+        for rec in self.query(project=project):
+            meta = rec.meta if isinstance(rec.meta, Mapping) else {}
+            nxt = str(meta.get("next_hypothesis") or "").strip()
+            if not nxt:
+                continue
+            dom = str(meta.get("study") or rec.task or "general")
+            if needle and needle not in dom.lower() and needle not in rec.id.lower():
+                continue
+            verdict = str(meta.get("verdict") or "").lower()
+            gain = 0.20 if verdict in ("proven", "win") else 0.12
+            op_id = f"{rec.id}->cloud-followup"
+            ops[op_id] = Opportunity(
+                opportunity_id=op_id,
+                domain=dom,
+                objective=f"{dom}:followup",
+                current_best=rec.value,
+                proposed_approach=nxt,
+                expected_improvement=gain,
+                compute_cost=1.0,
+                related_experiments=[rec.id],
+                trigger_rule=f"cloud_next_hypothesis:{rec.id}",
+                status="open",
+            )
+        for run in self.runs(project=project).data:
+            if not run.notes:
+                continue
+            try:
+                notes = _json.loads(run.notes)
+            except ValueError:
+                continue
+            if not isinstance(notes, Mapping):
+                continue
+            nxt = str(notes.get("next_hypothesis") or "").strip()
+            if not nxt:
+                continue
+            dom = run.study or run.benchmark or "general"
+            if needle and needle not in dom.lower() and needle not in run.id.lower():
+                continue
+            op_id = f"{run.id}->cloud-followup"
+            ops.setdefault(
+                op_id,
+                Opportunity(
+                    opportunity_id=op_id,
+                    domain=dom,
+                    objective=f"{dom}:followup",
+                    current_best=run.measures[0].value if run.measures else 0.0,
+                    proposed_approach=nxt,
+                    expected_improvement=0.15,
+                    compute_cost=1.0,
+                    related_experiments=[run.id],
+                    trigger_rule=f"cloud_run_notes:{run.id}",
+                    status="open",
+                ),
+            )
+        ranked = sorted(ops.values(), key=lambda o: (-o.priority_score, o.opportunity_id))
+        return ranked[: max(0, top_k)]
+
     def totals(self, project: str | None = None) -> Totals:
         return Totals.load(self.http.get("/v1/research/totals", {"project": project}))
 
@@ -377,6 +501,21 @@ class Research:
         return self.http.call(
             "GET", f"/v1/research/artifacts/{quote(sha256, safe='')}", {"project": project}, None, True
         )
+
+    def evidence(
+        self,
+        ev: Evidence | Mapping[str, Any],
+        *,
+        idempotency_key: str | None = None,
+    ) -> Evidence:
+        """File one versioned evidence record at `POST /v1/research/evidence`."""
+        hdrs = {"Idempotency-Key": idempotency_key} if idempotency_key else None
+        return Evidence.load(self.http.post("/v1/research/evidence", dump(ev), extra_headers=hdrs))
+
+    def evidence_versions(self, uri: str) -> list[Evidence]:
+        """Read a uri's evidence versions newest-first (`GET /v1/research/evidence?uri=`)."""
+        out = self.http.get("/v1/research/evidence", {"uri": uri})
+        return [Evidence.load(x) for x in out.get("data") or []]
 
     def experiment(
         self,

@@ -182,10 +182,19 @@ in this workspace may install one.
   `DeterminismReport`, `ArtifactRef`, `ResearchEvent`), each with the crate's digest.
 - `wal.ResearchWal`: an fsynced, hash-chained event log. A log the crate wrote verifies here
   (`wal.verify`), and the reverse.
+- `protocol`: `ExperimentRecordV2`, `HardwareSpec`, `WorkloadManifest`,
+  `StatisticalComparison`, `CorrectnessChecks`, `LocalResearchLedger` (WAL-first persistence
+  with content-addressed artifacts and `docs/research-sync.md` SHA-256 read-back receipts),
+  and `OpportunityQueue` (expected-gain/cost scheduling + discovery propagation).
+- `testing`: anytime-valid adaptive screening (`planned_looks`, `stable_order`,
+  `paired_accuracy_look`, `paired_metric_anytime_look`, `verify_progressive_screen`),
+  `student_t_ci95`, `paired_comparison`, and dependency-scoped `impacted_benchmarks`.
+- CLI additions: `hanzo-research ledger --dir ...`, `hanzo-research opportunities --dir ...`,
+  and `hanzo-research sync-wal --dir ...`; backfill via `python3 -m hanzo_research.backfill`.
 
 ## Tests
 
 ```bash
-uv run --no-project --with pytest pytest pkg/hanzo-research              # no network
+uv run --no-project --with pytest pytest pkg/hanzo-research -k "not live"   # offline + protocol
 uv run --no-project --with pytest pytest pkg/hanzo-research -m integration  # api.hanzo.ai, no credential
 ```

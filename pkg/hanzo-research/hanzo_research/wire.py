@@ -47,6 +47,9 @@ __all__ = [
     "KindTotal",
     "Totals",
     "Summary",
+    "Link",
+    "Source",
+    "Evidence",
     "completion",
     "IDENTITY",
     "key",
@@ -247,7 +250,10 @@ class Study(Wire):
     id: str = ""
     title: str = ""
     question: str = ""
+    method: str = ""
+    runs: list[str] = field(default_factory=list)
     finding: str = ""
+    limits: str = ""
     revision: str = ""
     canonical: bool = False
     when: str = ""
@@ -470,6 +476,64 @@ class Summary(Wire):
     benchmarks: int = 0
     cost_usd: float = 0.0
     kinds: list[str] = dataclasses.field(default_factory=list)
+
+
+@dataclass
+class Link(Wire):
+    """A link from an evidence record to another uri."""
+
+    rel: str = ""
+    uri: str = ""
+
+
+@dataclass
+class Source(Wire):
+    """Where an evidence record comes from."""
+
+    system: str = ""
+    revision: str = ""
+
+    def dump(self) -> dict[str, Any]:
+        out: dict[str, Any] = {"system": self.system}
+        if self.revision:
+            out["revision"] = self.revision
+        return out
+
+
+@dataclass
+class Evidence(Wire):
+    """A versioned evidence record at `/v1/research/evidence`."""
+
+    id: str = ""
+    uri: str = ""
+    hash: str = ""
+    kind: str = ""
+    source: Source = dataclasses.field(default_factory=Source)
+    links: list[Link] = dataclasses.field(default_factory=list)
+    content: Any = None
+    time: str = ""
+    version: int = 0
+    by: str = ""
+
+    def dump(self) -> dict[str, Any]:
+        out: dict[str, Any] = {
+            "uri": self.uri,
+            "hash": self.hash,
+            "kind": self.kind,
+            "source": self.source.dump(),
+            "links": [lnk.dump() for lnk in self.links],
+        }
+        if self.content is not None:
+            out["content"] = _out(self.content)
+        if self.id:
+            out["id"] = self.id
+        if self.time:
+            out["time"] = self.time
+        if self.version:
+            out["version"] = self.version
+        if self.by:
+            out["by"] = self.by
+        return out
 
 
 # ── (de)serialization ─────────────────────────────────────────────────────────
