@@ -477,30 +477,11 @@ def verify_progressive_screen(
         return {"decision": "unverified", "reason": "alpha budget mismatch with preregistration"}
 
     if request["metric"] == "accuracy":
-        if s.get("method") == "binomial_reference_anytime":
-            ref_score = s.get("reference_score")
-            k_ok = s.get("candidate_correct_count")
-            if (
-                not isinstance(ref_score, (int, float))
-                or isinstance(ref_score, bool)
-                or abs(float(ref_score) - float(request["jev_reference"])) > 1e-9
-                or not isinstance(k_ok, int)
-                or isinstance(k_ok, bool)
-                or not (0 <= k_ok <= n)
-            ):
-                return {"decision": "unverified", "reason": "invalid binomial reference accuracy evidence"}
-            if abs(float(development["dev_score"]) - (k_ok / n)) > 1e-7:
-                return {"decision": "unverified", "reason": "binomial accuracy count contradicts dev_score"}
-            ca = [True] * k_ok + [False] * (n - k_ok)
-            return reference_accuracy_look(
-                ca,
-                float(ref_score),
-                look_index=k,
-                family_budget=family_budget,
-                min_samples=min(32, population),
-            )
         if s.get("method") != "paired_exact_mcnemar":
-            return {"decision": "unverified", "reason": "accuracy requires paired exact McNemar"}
+            return {
+                "decision": "unverified",
+                "reason": "accuracy requires paired_exact_mcnemar with aligned per-item baseline outcomes",
+            }
         a, b = s.get("candidate_only"), s.get("jev_only")
         if not (
             isinstance(a, int)

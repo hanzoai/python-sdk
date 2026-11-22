@@ -67,10 +67,10 @@ class ResearchWal:
         with open(self.lock_path, "a+b") as lfp:
             fcntl.flock(lfp.fileno(), fcntl.LOCK_EX)
             _mend(self.path)
-            events = read(self.path)
-            if events:
-                seq = events[-1].sequence + 1
-                prev = events[-1].digest()
+            tail = _read_tail(self.path)
+            if tail is not None:
+                seq = tail.sequence + 1
+                prev = tail.digest()
             else:
                 seq = 1
                 prev = GENESIS
@@ -152,20 +152,52 @@ def read(path: str) -> list[ResearchEvent]:
     return out
 
 
+def _read_tail(path: str) -> ResearchEvent | None:
+    """Read only the last ResearchEvent line from a log in O(1) tail chunks."""
+    if not os.path.exists(path):
+        return None
+    with open(path, "rb") as f:
+        f.seek(0, os.SEEK_END)
+        size = f.tell()
+        if size == 0:
+            return None
+        chunk_size = min(8192, size)
+        while True:
+            f.seek(size - chunk_size, os.SEEK_SET)
+            buf = f.read(chunk_size)
+            stripped = buf.rstrip()
+            if stripped:
+                nl = stripped.rfind(b"\n")
+                if nl >= 0:
+                    line = stripped[nl + 1 :].decode("utf-8")
+                    return ResearchEvent.load(json.loads(line))
+                if chunk_size == size:
+                    return ResearchEvent.load(json.loads(stripped.decode("utf-8")))
+            elif chunk_size == size:
+                return None
+            chunk_size = min(chunk_size * 2, size)
+
+
 def _mend(path: str) -> None:
-    """Mend the last line a crash left: a torn one (not JSON) is cut, a whole one missing its
-    newline gets it, so the next append starts on its own line. A torn line anywhere else
-    is corruption, which `read` and `verify` report."""
+    """Mend the last line a crash left: a torn one (not a valid ResearchEvent) is cut, a whole one
+    missing its newline gets it, so the next append starts on its own line. A torn line anywhere
+    else is corruption, which `read` and `verify` report."""
     if not os.path.exists(path):
         return
     with open(path, "rb") as f:
+        f.seek(0, os.SEEK_END)
+        size = f.tell()
+        if size == 0:
+            return
+        f.seek(size - 1, os.SEEK_SET)
+        if f.read(1) == b"\n":
+            return
+        f.seek(0, os.SEEK_SET)
         data = f.read()
-    if not data or data.endswith(b"\n"):
-        return
     end = data.rfind(b"\n") + 1
     try:
-        json.loads(data[end:])
-    except ValueError:
+        ResearchEvent.load(json.loads(data[end:].decode("utf-8")))
+    except (ValueError, UnicodeDecodeError):
         with open(path, "r+b") as f:
             f.truncate(end)
             os.fsync(f.fileno())

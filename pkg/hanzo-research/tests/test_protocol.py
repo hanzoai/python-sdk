@@ -206,20 +206,44 @@ def test_opportunity_queue_propagation_and_statistical_helpers(tmp_path: Path) -
     assert imp["tasks"] == ["imdb"]
 
 
-def test_reference_accuracy_look_early_futility_and_screen() -> None:
-    from hanzo_research import reference_accuracy_look, verify_progressive_screen
+def test_exhaustive_small_sample_paired_mcnemar_and_alpha_spending() -> None:
+    import math
+    from hanzo_research import paired_accuracy_look, verify_progressive_screen
 
-    # 21/32 = 0.65625 vs Jev 0.91315 -> p_worse <= 0.05/(2*240*1*2) = 0.000104 -> stops early on futility
-    fut = reference_accuracy_look([True] * 21 + [False] * 11, 0.91315, look_index=1, family_budget=240)
-    assert fut["decision"] == "futility"
+    # Exhaustive check across n in 1..12 for every possible discordant pair (a, b) with a + b <= n.
+    for n in range(1, 13):
+        for a in range(n + 1):
+            for b in range(n - a + 1):
+                ca = [True] * a + [False] * b + [True] * (n - a - b)
+                je = [False] * a + [True] * b + [True] * (n - a - b)
+                res = paired_accuracy_look(ca, je, look_index=1, min_samples=1, family_budget=240)
+                d = a + b
+                exp_better = 1.0 if a == 0 else sum(math.comb(d, i) for i in range(a, d + 1)) * (0.5 ** d)
+                exp_worse = 1.0 if b == 0 else sum(math.comb(d, i) for i in range(b, d + 1)) * (0.5 ** d)
+                assert abs(res["one_sided_p_better"] - exp_better) < 1e-12
+                assert abs(res["one_sided_p_worse"] - exp_worse) < 1e-12
+                # Impossible for paired McNemar to produce p < 2^-d or < 2^-n
+                assert res["one_sided_p_better"] >= (0.5 ** n) - 1e-15
+                assert res["one_sided_p_worse"] >= (0.5 ** n) - 1e-15
 
-    req = {
-        "metric": "accuracy",
-        "jev_reference": 0.91315,
-        "screen_plan": {"family_budget": 240},
-    }
-    dev = {
-        "dev_score": 21 / 32,
+    # Check n=32 exact boundary: with 16 candidate errors and 0 baseline errors (b=16, a=0),
+    # minimum possible paired McNemar p-value is 2^-16 = 1.5258789e-5 (NEVER 1.615e-9).
+    res32 = paired_accuracy_look([False] * 16 + [True] * 16, [True] * 32, look_index=1, family_budget=240)
+    assert abs(res32["one_sided_p_worse"] - (2.0 ** -16)) < 1e-12
+    assert res32["decision"] == "futility"
+
+    # At b=14, a=0, p_worse = 2^-14 = 6.10e-5 > spent_alpha (5.208e-5) -> must NOT stop early
+    res14 = paired_accuracy_look([False] * 14 + [True] * 18, [True] * 32, look_index=1, family_budget=240)
+    assert res14["decision"] == "continue"
+
+    # Alpha spending sums across k=1..1000 strictly <= alpha / family_budget < alpha
+    total_spent = sum(0.05 / (240 * k * (k + 1)) for k in range(1, 1001))
+    assert total_spent < 0.05 / 240.0
+
+    # Non-paired one-sample binomial screen must be rejected by verify_progressive_screen
+    req = {"metric": "accuracy", "jev_reference": 0.91315, "screen_plan": {"family_budget": 240}}
+    bad_dev = {
+        "dev_score": 0.5,
         "dev_n": 32,
         "dev_sha": "a" * 64,
         "candidate_sha": "b" * 64,
@@ -232,10 +256,8 @@ def test_reference_accuracy_look_early_futility_and_screen() -> None:
             "n": 32,
             "look_index": 1,
             "order_sha": "c" * 64,
-            "reference_score": 0.91315,
-            "candidate_correct_count": 21,
         },
     }
-    verified = verify_progressive_screen(req, dev, family_budget=240)
-    assert verified["decision"] == "futility"
+    assert verify_progressive_screen(req, bad_dev, family_budget=240)["decision"] == "unverified"
+
 
