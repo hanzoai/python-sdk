@@ -164,6 +164,13 @@ hanzo-research retract RUN_ID --why "read on the wrong split"
 hanzo-research compare RUN_A RUN_B
 hanzo-research provenance --model kai-1.3 --weights /models/kai-1.3 --device cpu
 hanzo-research arena leaderboard --benchmark gpqa_diamond
+hanzo-research query --dir ~/.hanzo/research --search "32k gb10"
+hanzo-research failures --dir ~/.hanzo/research --domain bitcos
+hanzo-research next --dir ~/.hanzo/research --top-k 5
+hanzo-research impact --lineage bench_lineage.json --changed-paths changed.txt
+hanzo-research tick --dir ~/.hanzo/research --campaign campaigns/ml_kernels_and_quant.json --executor scripts/ml_research_executor.py
+hanzo-research loop --dir ~/.hanzo/research --campaign campaigns/ml_kernels_and_quant.json --executor scripts/ml_research_executor.py --max-ticks 10 --budget-minutes 60 --idle-exit
+hanzo-research spool --wal ~/.hanzo/research/wal/wal.jsonl --cursor ~/.hanzo/research/wal/cursor.json
 ```
 
 It is not `hanzo research`: the `hanzo` command is the native CLI, and no Python package
@@ -180,12 +187,33 @@ in this workspace may install one.
   `ContaminationError`, `verify_promotion_eligibility`, and the crate's evidence records
   (`EnvironmentV1`, `GateSpec`, `Claim`, `TeacherInteraction`, `PairEvidence`,
   `DeterminismReport`, `ArtifactRef`, `ResearchEvent`), each with the crate's digest.
-- `wal.ResearchWal`: an fsynced, hash-chained event log. A log the crate wrote verifies here
-  (`wal.verify`), and the reverse.
+- `wal.ResearchWal`: an fsynced, hash-chained event log with `<wal>.lock` `flock` concurrency,
+  torn-tail crash mending, interior-tamper rejection, and `append_idempotent`. `spool.Spooler`
+  drains WAL events to `/v1/research/evidence` with `Idempotency-Key` deduplication.
+- `lease.CloudLeaseManager`: cross-machine leases backed by `/v1/research/evidence` with
+  monotonic server `version` fencing tokens, stale reclamation, and immediate release.
+- `protocol`: HIP-1403 `HypothesisRecord`, `CounterEvidence`, `ResearchBudget`,
+  `research_yield`, `successor_research_lift`, `ExperimentRecordV2` (`dedup_key()`),
+  `LocalResearchLedger` (dual-plane sync + SHA-256 artifact read-back verification), and
+  `OpportunityQueue`.
+- `transfer`: automatic 4-axis transfer hypothesis generator (`generate_transfer_hypotheses`
+  across model scale, sequence length, GPU backend, and workload regime) plus dead-end
+  mechanism-fix routing on refutations.
+- `testing` & `controller`: anytime-valid progressive A/B screening (`ProgressiveAbRunner`
+  with per-look checkpoint resume), Beta-Binomial/mixture-SPRT `paired_accuracy_look` +
+  `power_analysis`, dependency-scoped `impacted_benchmarks`, and `AutonomousController`
+  (`tick` / `loop`, including `--via-tasks --remote-target dgx`).
+- `tasks`: native `hanzoai/tasks` scheduling and linked-machine (`hanzod` / `hanzo link` /
+  `evo` / `dgx`) orchestration (`list_machines` merging `/v1/compute/fleet/workers` and
+  `/v1/agent/targets`, `dispatch_task`, `orchestrate_across_machines` with `--target evo,dgx`
+  72h durable queuing and `--fanout`, busy deferral `release_gpu_job`, SSE event-driven
+  `wait_gpu_job` via `/v1/workflow/events`, and `create_schedule` / `list_schedules` /
+  `describe_schedule` / `trigger_schedule` / `pause_schedule` / `resume_schedule` /
+  `delete_schedule`).
 
 ## Tests
 
 ```bash
-uv run --no-project --with pytest pytest pkg/hanzo-research              # no network
+uv run --no-project --with pytest pytest pkg/hanzo-research -k "not live"   # offline + protocol
 uv run --no-project --with pytest pytest pkg/hanzo-research -m integration  # api.hanzo.ai, no credential
 ```

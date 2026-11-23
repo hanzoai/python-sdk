@@ -17,21 +17,25 @@ from __future__ import annotations
 
 import base64
 import hashlib
-from typing import Any, Mapping, TypeVar, Callable, Iterable
+import time
+from typing import Any, Mapping, Sequence, TypeVar, Callable, Iterable
 
 from . import wire, canonical, provenance
 from .wire import (
     Ack,
     Run,
+    Link,
     Batch,
     Paper,
     Study,
     Record,
+    Source,
     Stored,
     Totals,
     Listing,
     Summary,
     Artifact,
+    Evidence,
     Benchmark,
     Comparison,
     key,
@@ -308,16 +312,180 @@ class Research:
         self, experiments: list[Mapping[str, Any]] | None = None, attempts: list[Mapping[str, Any]] | None = None
     ) -> Ack:
         """File experiment and attempt versions in one batch, idempotent by content."""
+        stamped_exps: list[dict[str, Any]] = []
+        for exp in experiments or []:
+            row = dict(exp)
+            if not row.get("ts"):
+                row["ts"] = int(time.time())
+            stamped_exps.append(row)
         ack = Ack.load(
-            self.http.post("/v1/research/experiments", {"experiments": experiments or [], "attempts": attempts or []})
+            self.http.post("/v1/research/experiments", {"experiments": stamped_exps, "attempts": attempts or []})
         )
         self._filed(ack.project, "experiments and attempts")
         return ack
 
-    def query(self, project: str | None = None, kind: str | None = None) -> list[Record]:
+    def query(
+        self,
+        project: str | None = None,
+        kind: str | None = None,
+        *,
+        include_retracted: bool = False,
+    ) -> list[Record]:
         """Canonical experiments of a project (default the client's), narrowed to one kind."""
-        out = self.http.get("/v1/research/experiments", {"project": project or self.project, "kind": kind})
-        return [Record.load(x) for x in out.get("data") or []]
+        params: dict[str, Any] = {"project": project or self.project, "kind": kind}
+        if include_retracted:
+            params["include_retracted"] = True
+        out = self.http.get("/v1/research/experiments", params)
+        rows = [Record.load(x) for x in out.get("data") or []]
+        if not include_retracted:
+            rows = [
+                r
+                for r in rows
+                if r.revision.strip().lower() != "retracted"
+                and r.status.strip().lower() != "retracted"
+                and not (isinstance(r.meta, Mapping) and bool(r.meta.get("retracted")))
+            ]
+        return rows
+
+    def experiment_versions(self, id: str, project: str | None = None) -> list[Record]:
+        """Read all retained versions (including retracted/superseded) of an experiment id."""
+        out = self.http.get("/v1/research/experiments/versions", {"id": id, "project": project or self.project})
+        raw_versions = (out.get("versions") if isinstance(out, Mapping) else None) or []
+        return [Record.load(x) for x in raw_versions]
+
+    def query_experiments(
+        self,
+        *,
+        study: str | None = None,
+        verdict: str | None = None,
+        repo: str | None = None,
+        backend: str | None = None,
+        search: str | None = None,
+        include_failures: bool = True,
+        include_retracted: bool = False,
+        project: str | None = None,
+    ) -> list[Record]:
+        """Rich query across canonical cloud experiments by study, verdict, repo, backend, and search."""
+        import json as _json
+        from .protocol import epistemic_verdict
+
+        raw_want = verdict.strip().lower() if verdict else None
+        want_v = epistemic_verdict(verdict) if verdict else None
+        want_b = backend.strip().lower() if backend else None
+        tokens = [t.lower() for t in (search or "").split() if t.strip()]
+        out: list[Record] = []
+        for rec in self.query(project=project, include_retracted=include_retracted):
+            meta = rec.meta if isinstance(rec.meta, Mapping) else {}
+            is_ret = (
+                rec.revision.strip().lower() == "retracted"
+                or rec.status.strip().lower() == "retracted"
+                or bool(meta.get("retracted"))
+            )
+            if is_ret and want_v == "proven" and raw_want in ("proven", "win"):
+                continue
+            ev = epistemic_verdict(str(meta.get("verdict") or ""))
+            screen_v = str(meta.get("screen_verdict") or "").strip().lower()
+            if not include_failures and ev == "refuted":
+                continue
+            rec_study = str(meta.get("study") or rec.task or "")
+            if study and rec_study != study and study.lower() not in rec_study.lower():
+                continue
+            if raw_want == "promising_inconclusive":
+                if screen_v != "promising_inconclusive":
+                    continue
+            elif want_v and ev != want_v:
+                continue
+            rec_repo = str(meta.get("repo") or rec.subject.split("/")[0] if rec.subject else "")
+            if repo and rec_repo != repo and repo not in rec.subject:
+                continue
+            rec_backend = str(meta.get("backend") or rec.subject)
+            if want_b and want_b not in rec_backend.lower():
+                continue
+            if tokens:
+                blob = f"{rec.id} {rec.subject} {rec.task} {_json.dumps(meta, sort_keys=True)}".lower()
+                if not all(tok in blob for tok in tokens):
+                    continue
+            out.append(rec)
+        return out
+
+    def prior_failures(self, domain_or_study: str | None = None, *, project: str | None = None) -> list[Record]:
+        """Return refuted cloud experiments carrying failure_diagnosis / because."""
+        needle = domain_or_study.strip().lower() if domain_or_study else None
+        out: list[Record] = []
+        for rec in self.query_experiments(verdict="refuted", include_failures=True, project=project):
+            if needle:
+                meta = rec.meta if isinstance(rec.meta, Mapping) else {}
+                hay = f"{rec.id} {rec.subject} {rec.task} {meta.get('study', '')} {meta.get('repo', '')}".lower()
+                if needle not in hay:
+                    continue
+            out.append(rec)
+        return out
+
+    def recommended_experiments(
+        self, domain: str | None = None, *, top_k: int = 10, project: str | None = None
+    ) -> list[Any]:
+        """Synthesize ranked open Opportunity items from cloud experiments and run notes."""
+        import json as _json
+        from .protocol import Opportunity
+
+        ops: dict[str, Opportunity] = {}
+        needle = domain.strip().lower() if domain else None
+        for rec in self.query(project=project):
+            meta = rec.meta if isinstance(rec.meta, Mapping) else {}
+            nxt = str(meta.get("next_hypothesis") or "").strip()
+            if not nxt:
+                continue
+            dom = str(meta.get("study") or rec.task or "general")
+            if needle and needle not in dom.lower() and needle not in rec.id.lower():
+                continue
+            verdict = str(meta.get("verdict") or "").lower()
+            gain = 0.20 if verdict in ("proven", "win") else 0.12
+            op_id = f"{rec.id}->cloud-followup"
+            ops[op_id] = Opportunity(
+                opportunity_id=op_id,
+                domain=dom,
+                objective=f"{dom}:followup",
+                current_best=rec.value,
+                proposed_approach=nxt,
+                expected_improvement=gain,
+                compute_cost=1.0,
+                related_experiments=[rec.id],
+                trigger_rule=f"cloud_next_hypothesis:{rec.id}",
+                status="open",
+            )
+        for run in self.runs(project=project).data:
+            if not run.notes:
+                continue
+            try:
+                notes = _json.loads(run.notes)
+            except ValueError:
+                continue
+            if not isinstance(notes, Mapping):
+                continue
+            nxt = str(notes.get("next_hypothesis") or "").strip()
+            if not nxt:
+                continue
+            dom = run.study or run.benchmark or "general"
+            if needle and needle not in dom.lower() and needle not in run.id.lower():
+                continue
+            op_id = f"{run.id}->cloud-followup"
+            ops.setdefault(
+                op_id,
+                Opportunity(
+                    opportunity_id=op_id,
+                    domain=dom,
+                    objective=f"{dom}:followup",
+                    current_best=run.measures[0].value if run.measures else 0.0,
+                    proposed_approach=nxt,
+                    expected_improvement=0.15,
+                    compute_cost=1.0,
+                    related_experiments=[run.id],
+                    trigger_rule=f"cloud_run_notes:{run.id}",
+                    status="open",
+                ),
+            )
+        ranked = sorted(ops.values(), key=lambda o: (-o.priority_score, o.opportunity_id))
+        return ranked[: max(0, top_k)]
 
     def totals(self, project: str | None = None) -> Totals:
         return Totals.load(self.http.get("/v1/research/totals", {"project": project}))
@@ -378,6 +546,320 @@ class Research:
             "GET", f"/v1/research/artifacts/{quote(sha256, safe='')}", {"project": project}, None, True
         )
 
+    def evidence(
+        self,
+        ev: Evidence | Mapping[str, Any],
+        *,
+        idempotency_key: str | None = None,
+    ) -> Evidence:
+        """File one versioned evidence record at `POST /v1/research/evidence`."""
+        hdrs = {"Idempotency-Key": idempotency_key} if idempotency_key else None
+        return Evidence.load(self.http.post("/v1/research/evidence", dump(ev), extra_headers=hdrs))
+
+    def evidence_versions(self, uri: str) -> list[Evidence]:
+        """Read a uri's evidence versions newest-first (`GET /v1/research/evidence?uri=`)."""
+        out = self.http.get("/v1/research/evidence", {"uri": uri})
+        return [Evidence.load(x) for x in out.get("data") or []]
+
+    def get_evidence(self, id: str) -> Evidence:
+        """Read one evidence version with its content (`GET /v1/research/evidence/{id}`)."""
+        from urllib.parse import quote
+
+        return Evidence.load(self.http.get(f"/v1/research/evidence/{quote(id, safe='')}"))
+
+    def list_machines(
+        self,
+        *,
+        only_online: bool = True,
+        capability: str | None = None,
+        backend: str | None = None,
+        exclude_busy: bool = False,
+    ) -> list[Any]:
+        """Discover linked machines (`hanzod` Desktop nodes, `hanzo link` hosts, `dgx`) from `/v1/compute/fleet/workers`."""
+        from . import tasks as _tasks
+
+        return _tasks.list_machines(
+            self,
+            only_online=only_online,
+            capability=capability,
+            backend=backend,
+            exclude_busy=exclude_busy,
+        )
+
+    def dispatch_task(
+        self,
+        payload: Mapping[str, Any],
+        *,
+        target: str | None = None,
+        activity_type: str = "research.bench",
+        when_idle_only: bool = True,
+        required_backend: str | None = None,
+        min_memory_gb: float | None = None,
+        job_id: str | None = None,
+        run_id: str | None = None,
+        namespace: str = "gpu-jobs",
+        retry_policy: Mapping[str, Any] | None = None,
+        heartbeat_timeout: str = "60s",
+        start_to_close_timeout: str = "1800s",
+        request_id: str | None = None,
+        identity: str = "",
+    ) -> dict[str, Any]:
+        """Dispatch a busy-aware standalone activity to `hanzoai/tasks` (`/v1/workflow/namespaces/<ns>/activities`)."""
+        from . import tasks as _tasks
+
+        return _tasks.dispatch_task(
+            self,
+            payload,
+            target=target,
+            activity_type=activity_type,
+            when_idle_only=when_idle_only,
+            required_backend=required_backend,
+            min_memory_gb=min_memory_gb,
+            job_id=job_id,
+            run_id=run_id,
+            namespace=namespace,
+            retry_policy=retry_policy,
+            heartbeat_timeout=heartbeat_timeout,
+            start_to_close_timeout=start_to_close_timeout,
+            request_id=request_id,
+            identity=identity,
+        )
+
+    def submit_gpu_job(
+        self,
+        payload: Mapping[str, Any],
+        *,
+        job_type: str = "research.bench",
+        gpu: str | None = None,
+        target: str | None = None,
+        activity_type: str | None = None,
+        when_idle_only: bool = True,
+        required_backend: str | None = None,
+        min_memory_gb: float | None = None,
+        job_id: str | None = None,
+        run_id: str | None = None,
+        namespace: str = "gpu-jobs",
+        retry_policy: Mapping[str, Any] | None = None,
+        heartbeat_timeout: str = "60s",
+        start_to_close_timeout: str = "1800s",
+        request_id: str | None = None,
+        identity: str = "",
+    ) -> dict[str, Any]:
+        """Submit a remote GPU/compute activity to `/v1/workflow/namespaces/<ns>/activities`."""
+        return self.dispatch_task(
+            payload,
+            target=target if target is not None else gpu,
+            activity_type=activity_type or job_type,
+            when_idle_only=when_idle_only,
+            required_backend=required_backend,
+            min_memory_gb=min_memory_gb,
+            job_id=job_id,
+            run_id=run_id,
+            namespace=namespace,
+            retry_policy=retry_policy,
+            heartbeat_timeout=heartbeat_timeout,
+            start_to_close_timeout=start_to_close_timeout,
+            request_id=request_id,
+            identity=identity,
+        )
+
+    def wait_gpu_job(
+        self,
+        job_id: str,
+        *,
+        run_id: str | None = None,
+        namespace: str = "gpu-jobs",
+        timeout_sec: float = 600.0,
+        poll_interval_sec: float = 2.0,
+        sse_read_timeout_sec: float = 15.0,
+    ) -> dict[str, Any]:
+        """Poll a submitted GPU workflow activity across busy deferrals until a terminal state is reached."""
+        from . import tasks as _tasks
+
+        return _tasks.wait_gpu_job(
+            self,
+            job_id,
+            run_id=run_id,
+            namespace=namespace,
+            timeout_sec=timeout_sec,
+            poll_interval_sec=poll_interval_sec,
+            sse_read_timeout_sec=sse_read_timeout_sec,
+        )
+
+    def release_gpu_job(
+        self,
+        activity_id: str,
+        run_id: str | None = None,
+        *,
+        reason: str = "busy",
+        identity: str = "",
+        delay_seconds: int = 10,
+        namespace: str = "gpu-jobs",
+    ) -> dict[str, Any]:
+        """Release/defer a claimed activity when the worker is busy without failing the job."""
+        from . import tasks as _tasks
+
+        return _tasks.release_gpu_job(
+            self,
+            activity_id,
+            run_id,
+            reason=reason,
+            identity=identity,
+            delay_seconds=delay_seconds,
+            namespace=namespace,
+        )
+
+    def orchestrate_across_machines(
+        self,
+        tasks_or_command: Any,
+        *,
+        target: str | Sequence[str] | None = None,
+        capability: str | None = "research.bench",
+        backend: str | None = None,
+        activity_type: str = "research.bench",
+        fanout: bool = False,
+        wait: bool = False,
+        when_idle_only: bool = True,
+        min_memory_gb: float | None = None,
+        namespace: str = "gpu-jobs",
+        timeout_sec: float = 600.0,
+        poll_interval_sec: float = 2.0,
+    ) -> list[dict[str, Any]]:
+        """Orchestrate research tasks across linked `hanzod` / `hanzo link` machines (`--target evo,dgx`, `fanout`, or best-idle)."""
+        from . import tasks as _tasks
+
+        return _tasks.orchestrate_across_machines(
+            self,
+            tasks_or_command,
+            target=target,
+            capability=capability,
+            backend=backend,
+            activity_type=activity_type,
+            fanout=fanout,
+            wait=wait,
+            when_idle_only=when_idle_only,
+            min_memory_gb=min_memory_gb,
+            namespace=namespace,
+            timeout_sec=timeout_sec,
+            poll_interval_sec=poll_interval_sec,
+        )
+
+    orchestrate_tasks = orchestrate_across_machines
+
+    def create_schedule(
+        self,
+        schedule_id: str,
+        *,
+        interval: str | None = None,
+        cron: str | None = None,
+        target: str | None = None,
+        activity_type: str = "research.tick",
+        workflow_type: str | None = None,
+        input_payload: Mapping[str, Any] | None = None,
+        command: str | None = None,
+        campaign: str | None = None,
+        executor: str | None = None,
+        max_compute_seconds: int | None = None,
+        when_idle_only: bool = True,
+        required_backend: str | None = None,
+        paused: bool = False,
+        note: str = "",
+        namespace: str = "gpu-jobs",
+        retry_policy: Mapping[str, Any] | None = None,
+        heartbeat_timeout: str = "60s",
+        start_to_close_timeout: str = "1800s",
+    ) -> dict[str, Any]:
+        """Create a native `hanzoai/tasks` recurring or cron schedule in `/v1/workflow/namespaces/<ns>/schedules`."""
+        from . import tasks as _tasks
+
+        return _tasks.create_schedule(
+            self,
+            schedule_id,
+            interval=interval,
+            cron=cron,
+            target=target,
+            activity_type=activity_type,
+            workflow_type=workflow_type,
+            input_payload=input_payload,
+            command=command,
+            campaign=campaign,
+            executor=executor,
+            max_compute_seconds=max_compute_seconds,
+            when_idle_only=when_idle_only,
+            required_backend=required_backend,
+            paused=paused,
+            note=note,
+            namespace=namespace,
+            retry_policy=retry_policy,
+            heartbeat_timeout=heartbeat_timeout,
+            start_to_close_timeout=start_to_close_timeout,
+        )
+
+    def list_schedules(self, *, namespace: str = "gpu-jobs") -> list[dict[str, Any]]:
+        """List native `hanzoai/tasks` schedules in `/v1/workflow/namespaces/<ns>/schedules`."""
+        from . import tasks as _tasks
+
+        return _tasks.list_schedules(self, namespace=namespace)
+
+    def describe_schedule(self, schedule_id: str, *, namespace: str = "gpu-jobs") -> dict[str, Any]:
+        """Describe one native `hanzoai/tasks` schedule."""
+        from . import tasks as _tasks
+
+        return _tasks.describe_schedule(self, schedule_id, namespace=namespace)
+
+    def trigger_schedule(
+        self,
+        schedule_id: str,
+        *,
+        request_id: str = "",
+        overlap_policy: str = "",
+        namespace: str = "gpu-jobs",
+    ) -> dict[str, Any]:
+        """Trigger immediate execution of a native `hanzoai/tasks` schedule."""
+        from . import tasks as _tasks
+
+        return _tasks.trigger_schedule(
+            self,
+            schedule_id,
+            request_id=request_id,
+            overlap_policy=overlap_policy,
+            namespace=namespace,
+        )
+
+    def pause_schedule(
+        self,
+        schedule_id: str,
+        *,
+        note: str = "",
+        namespace: str = "gpu-jobs",
+    ) -> dict[str, Any]:
+        """Pause a native `hanzoai/tasks` schedule."""
+        from . import tasks as _tasks
+
+        return _tasks.pause_schedule(self, schedule_id, note=note, namespace=namespace)
+
+    def resume_schedule(
+        self,
+        schedule_id: str,
+        *,
+        namespace: str = "gpu-jobs",
+    ) -> dict[str, Any]:
+        """Resume/unpause a native `hanzoai/tasks` schedule."""
+        from . import tasks as _tasks
+
+        return _tasks.resume_schedule(self, schedule_id, namespace=namespace)
+
+    def delete_schedule(
+        self,
+        schedule_id: str,
+        *,
+        namespace: str = "gpu-jobs",
+    ) -> dict[str, Any]:
+        """Delete a native `hanzoai/tasks` schedule."""
+        from . import tasks as _tasks
+
+        return _tasks.delete_schedule(self, schedule_id, namespace=namespace)
+
     def experiment(
         self,
         kind: str,
@@ -388,10 +870,22 @@ class Research:
         note: str = "",
         hypothesis: str = "",
         predict: str = "",
+        tags: list[str] | None = None,
+        ts: int = 0,
     ) -> Experiment:
         """Get or create the experiment `kind:subject:task` and post it in flight (see `Experiment`)."""
         return Experiment(
-            self, kind, subject, task, metric=metric, n_total=n_total, note=note, hypothesis=hypothesis, predict=predict
+            self,
+            kind,
+            subject,
+            task,
+            metric=metric,
+            n_total=n_total,
+            note=note,
+            hypothesis=hypothesis,
+            predict=predict,
+            tags=tags,
+            ts=ts,
         )
 
     def _state(self) -> dict[str, Any]:
@@ -433,6 +927,8 @@ class Experiment:
         note: str = "",
         hypothesis: str = "",
         predict: str = "",
+        tags: list[str] | None = None,
+        ts: int = 0,
     ):
         self.c = client
         self.kind, self.subject, self.task, self.metric = kind, subject, task, metric
@@ -445,6 +941,8 @@ class Experiment:
         self.verdict = ""
         self.because = ""
         self._log: list[str] = []
+        self.tags: list[str] = list(tags or [])
+        self.ts = ts
         self.prov = client._state()
         self.doc = provenance.caller_doc()
         self.note = note
@@ -452,6 +950,13 @@ class Experiment:
         self.libs = provenance.lib_versions(client.libs)
         self.host = provenance.host()
         self._post(status="running", value=0.0)
+
+    def tag(self, *tags: str) -> Experiment:
+        """Attach searchable tags to subsequent experiment posts."""
+        for t in tags:
+            if t and t not in self.tags:
+                self.tags.append(t)
+        return self
 
     def log(self, text: str) -> Experiment:
         """Append to the running log that travels with the run."""
@@ -523,6 +1028,7 @@ class Experiment:
             "git_branch": self.prov["git_branch"],
             "git_dirty": self.prov["git_dirty"],
             "lib_versions": self.libs,
+            "ts": self.ts if self.ts else int(time.time()),
             "meta": {
                 "doc": self.doc,
                 "commits": self.commits,
@@ -535,6 +1041,8 @@ class Experiment:
                 "log": self._log,
             },
         }
+        if self.tags:
+            e["tags"] = list(self.tags)
         return self.c.ingest(experiments=[e])
 
     def __enter__(self) -> Experiment:
