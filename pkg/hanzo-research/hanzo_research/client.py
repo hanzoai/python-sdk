@@ -324,10 +324,34 @@ class Research:
         self._filed(ack.project, "experiments and attempts")
         return ack
 
-    def query(self, project: str | None = None, kind: str | None = None) -> list[Record]:
+    def query(
+        self,
+        project: str | None = None,
+        kind: str | None = None,
+        *,
+        include_retracted: bool = False,
+    ) -> list[Record]:
         """Canonical experiments of a project (default the client's), narrowed to one kind."""
-        out = self.http.get("/v1/research/experiments", {"project": project or self.project, "kind": kind})
-        return [Record.load(x) for x in out.get("data") or []]
+        params: dict[str, Any] = {"project": project or self.project, "kind": kind}
+        if include_retracted:
+            params["include_retracted"] = True
+        out = self.http.get("/v1/research/experiments", params)
+        rows = [Record.load(x) for x in out.get("data") or []]
+        if not include_retracted:
+            rows = [
+                r
+                for r in rows
+                if r.revision.strip().lower() != "retracted"
+                and r.status.strip().lower() != "retracted"
+                and not (isinstance(r.meta, Mapping) and bool(r.meta.get("retracted")))
+            ]
+        return rows
+
+    def experiment_versions(self, id: str, project: str | None = None) -> list[Record]:
+        """Read all retained versions (including retracted/superseded) of an experiment id."""
+        out = self.http.get("/v1/research/experiments/versions", {"id": id, "project": project or self.project})
+        raw_versions = (out.get("versions") if isinstance(out, Mapping) else None) or []
+        return [Record.load(x) for x in raw_versions]
 
     def query_experiments(
         self,
@@ -338,25 +362,38 @@ class Research:
         backend: str | None = None,
         search: str | None = None,
         include_failures: bool = True,
+        include_retracted: bool = False,
         project: str | None = None,
     ) -> list[Record]:
         """Rich query across canonical cloud experiments by study, verdict, repo, backend, and search."""
         import json as _json
         from .protocol import epistemic_verdict
 
+        raw_want = verdict.strip().lower() if verdict else None
         want_v = epistemic_verdict(verdict) if verdict else None
         want_b = backend.strip().lower() if backend else None
         tokens = [t.lower() for t in (search or "").split() if t.strip()]
         out: list[Record] = []
-        for rec in self.query(project=project):
+        for rec in self.query(project=project, include_retracted=include_retracted):
             meta = rec.meta if isinstance(rec.meta, Mapping) else {}
+            is_ret = (
+                rec.revision.strip().lower() == "retracted"
+                or rec.status.strip().lower() == "retracted"
+                or bool(meta.get("retracted"))
+            )
+            if is_ret and want_v == "proven" and raw_want in ("proven", "win"):
+                continue
             ev = epistemic_verdict(str(meta.get("verdict") or ""))
+            screen_v = str(meta.get("screen_verdict") or "").strip().lower()
             if not include_failures and ev == "refuted":
                 continue
             rec_study = str(meta.get("study") or rec.task or "")
             if study and rec_study != study and study.lower() not in rec_study.lower():
                 continue
-            if want_v and ev != want_v:
+            if raw_want == "promising_inconclusive":
+                if screen_v != "promising_inconclusive":
+                    continue
+            elif want_v and ev != want_v:
                 continue
             rec_repo = str(meta.get("repo") or rec.subject.split("/")[0] if rec.subject else "")
             if repo and rec_repo != repo and repo not in rec.subject:
@@ -634,6 +671,7 @@ class Research:
         namespace: str = "gpu-jobs",
         timeout_sec: float = 600.0,
         poll_interval_sec: float = 2.0,
+        sse_read_timeout_sec: float = 15.0,
     ) -> dict[str, Any]:
         """Poll a submitted GPU workflow activity across busy deferrals until a terminal state is reached."""
         from . import tasks as _tasks
@@ -645,6 +683,7 @@ class Research:
             namespace=namespace,
             timeout_sec=timeout_sec,
             poll_interval_sec=poll_interval_sec,
+            sse_read_timeout_sec=sse_read_timeout_sec,
         )
 
     def release_gpu_job(

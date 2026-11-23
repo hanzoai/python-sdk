@@ -216,7 +216,11 @@ class ExperimentRecordV2(Wire):
     statistical_comparison: StatisticalComparison = field(default_factory=StatisticalComparison)
     correctness: CorrectnessChecks = field(default_factory=CorrectnessChecks)
     raw_samples: dict[str, list[float]] = field(default_factory=dict)
+    example_ids: list[str] = field(default_factory=list)
     verdict: str = ""
+    revision: str = ""
+    retracted: bool = False
+    retracted_reason: str = ""
     gpu_time_sec: float = 0.0
     compute_cost_usd: float = 0.0
     conclusion: str = ""
@@ -226,8 +230,16 @@ class ExperimentRecordV2(Wire):
     recorded_at: str = field(default_factory=now)
 
     def __post_init__(self) -> None:
+        if self.retracted and not self.revision:
+            self.revision = "retracted"
+        elif self.revision.strip().lower() == "retracted":
+            self.retracted = True
         if not self.verdict and self.statistical_comparison.verdict:
-            self.verdict = epistemic_verdict(self.statistical_comparison.verdict)
+            raw_v = self.statistical_comparison.verdict.strip().lower()
+            self.verdict = "promising_inconclusive" if raw_v == "promising_inconclusive" else epistemic_verdict(raw_v)
+
+    def is_retracted(self) -> bool:
+        return bool(self.retracted or self.revision.strip().lower() == "retracted")
 
     def digest(self) -> str:
         return canonical.digest(self.dump())
@@ -252,7 +264,7 @@ class ExperimentRecordV2(Wire):
             }
         )
 
-    def validate(self) -> None:
+    def validate(self, *, require_example_ids: bool = False) -> None:
         required_strs = (
             ("project", self.project),
             ("study", self.study),
@@ -282,11 +294,30 @@ class ExperimentRecordV2(Wire):
             c_raw = self.raw_samples.get("candidate", [])
             if not b_raw or not c_raw:
                 raise ValueError("Reproduced experiment must store raw_samples['baseline'] and raw_samples['candidate']")
+            req_ids = bool(require_example_ids or self.config.get("require_example_ids"))
+            if req_ids and not self.is_retracted():
+                from .testing import validate_dataset_manifest_sha256, validate_paired_binary_trace
+
+                validate_dataset_manifest_sha256(self.workload_manifest.manifest_sha256)
+                if len(self.example_ids) != self.statistical_comparison.n:
+                    raise ValueError("Canonical paired run with require_example_ids=True requires aligned example_ids")
+                cleaned_ids = [str(eid).strip() for eid in self.example_ids]
+                if any(not eid for eid in cleaned_ids) or len(set(cleaned_ids)) != len(cleaned_ids):
+                    raise ValueError("example_ids must be non-empty and strictly distinct")
+                if len(b_raw) == len(c_raw) and all(x in (0.0, 1.0) for x in list(b_raw) + list(c_raw)):
+                    validate_paired_binary_trace(
+                        c_raw,
+                        b_raw,
+                        example_ids=cleaned_ids,
+                        dataset_manifest_sha256=self.workload_manifest.manifest_sha256,
+                        require_example_ids=True,
+                    )
 
     def to_run(self) -> Run:
         """Project this rich experiment record onto `/v1/research/runs` wire format."""
         n = self.statistical_comparison.n
         ev = epistemic_verdict(self.statistical_comparison.verdict)
+        raw_verdict = (self.statistical_comparison.verdict or "").strip().lower()
         run = Run(
             project=self.project,
             id=self.experiment_id,
@@ -296,16 +327,21 @@ class ExperimentRecordV2(Wire):
             version=self.commit[:12],
             baseline=False,
             study=self.study,
+            dataset_digest=self.workload_manifest.manifest_sha256,
             commit=self.commit,
             questions=n,
             answered=n,
             when=self.recorded_at,
             ended=self.recorded_at,
+            revision="retracted" if self.is_retracted() else (self.revision or ""),
             notes=json.dumps(
                 {
                     "hypothesis": self.hypothesis,
                     "conclusion": self.conclusion,
                     "verdict": ev,
+                    "screen_verdict": raw_verdict or ev,
+                    "retracted": self.is_retracted(),
+                    "retracted_reason": self.retracted_reason,
                     "failure_diagnosis": self.failure_diagnosis,
                     "next_hypothesis": self.next_hypothesis,
                     "historical": self.historical,
@@ -365,8 +401,9 @@ class ExperimentRecordV2(Wire):
     def to_experiment_wire(self) -> dict[str, Any]:
         """Project onto `/v1/research/experiments` wire format with epistemic verdict."""
         ev = epistemic_verdict(self.statistical_comparison.verdict)
+        raw_verdict = (self.statistical_comparison.verdict or "").strip().lower()
         because = self.failure_diagnosis.strip() if ev == "refuted" and self.failure_diagnosis.strip() else self.conclusion
-        return {
+        out: dict[str, Any] = {
             "id": self.experiment_id,
             "kind": "experiment-v2",
             "subject": f"{self.repo}/{self.hardware.backend or 'CPU'}",
@@ -386,9 +423,13 @@ class ExperimentRecordV2(Wire):
                 "backend": self.hardware.backend,
                 "gpu": self.hardware.gpu,
                 "shapes": list(self.workload_manifest.shapes),
+                "dataset_manifest_sha256": self.workload_manifest.manifest_sha256,
                 "hypothesis": self.hypothesis,
                 "predict": self.objective,
                 "verdict": ev,
+                "screen_verdict": raw_verdict or ev,
+                "retracted": self.is_retracted(),
+                "retracted_reason": self.retracted_reason,
                 "because": because,
                 "conclusion": self.conclusion,
                 "failure_diagnosis": self.failure_diagnosis,
@@ -396,6 +437,11 @@ class ExperimentRecordV2(Wire):
                 "artifact_hashes": dict(self.artifact_hashes),
             },
         }
+        if self.is_retracted():
+            out["revision"] = "retracted"
+        elif self.revision:
+            out["revision"] = self.revision
+        return out
 
 
 @dataclass
@@ -473,7 +519,7 @@ class OpportunityQueue:
         Each target tuple is `(target_id, domain, approach, expected_improvement, compute_cost)`.
         """
         created: list[Opportunity] = []
-        if epistemic_verdict(source_exp.statistical_comparison.verdict) != "proven":
+        if source_exp.is_retracted() or epistemic_verdict(source_exp.statistical_comparison.verdict) != "proven":
             return created
         for tid, domain, approach, gain, cost in targets:
             op = Opportunity(
@@ -671,8 +717,54 @@ class LocalResearchLedger:
         os.replace(tmp, path)
         return path
 
-    def query_all(self) -> list[ExperimentRecordV2]:
-        return self.query()
+    def retract_experiment(
+        self,
+        experiment_id: str,
+        reason: str,
+        *,
+        worker_id: str = "worker-0",
+    ) -> ExperimentRecordV2:
+        """Retract a recorded experiment: preserves historical evidence while excluding it from canonical wins."""
+        why = (reason or "").strip()
+        if not why:
+            raise ValueError("retraction requires a non-empty reason")
+        safe = self._safe_name(experiment_id)
+        rec_path = self.records_dir / f"{safe}.json"
+        if not rec_path.is_file():
+            raise FileNotFoundError(f"experiment {experiment_id!r} not found in local ledger")
+        rec = ExperimentRecordV2.load(json.loads(rec_path.read_text(encoding="utf-8")))
+        rec.retracted = True
+        rec.revision = "retracted"
+        rec.retracted_reason = why
+        rec.historical = True
+        rec_bytes = json.dumps(rec.dump(), indent=2, sort_keys=True).encode("utf-8")
+        rec_sha = self.store_artifact(f"{rec.experiment_id}:record", rec_bytes)
+        tmp = rec_path.with_name(rec_path.name + ".tmp")
+        tmp.write_bytes(rec_bytes)
+        os.replace(tmp, rec_path)
+
+        wal = ResearchWal.open(str(self.wal_dir), self.run_id, worker_id=worker_id)
+        wal.append(
+            "experiment_retracted",
+            {
+                "experiment_id": rec.experiment_id,
+                "reason": why,
+                "record_sha256": rec_sha,
+            },
+        )
+        receipt = SyncReceipt(
+            experiment_id=rec.experiment_id,
+            record_sha256=rec_sha,
+            artifact_sha256=sorted(rec.artifact_hashes.values())[0] if rec.artifact_hashes else rec_sha,
+            uploaded_artifacts={},
+            status="pending_sync",
+            readback_verified=False,
+        )
+        self._write_receipt(receipt)
+        return rec
+
+    def query_all(self, *, include_retracted: bool = False) -> list[ExperimentRecordV2]:
+        return self.query(include_retracted=include_retracted)
 
     def query(
         self,
@@ -681,10 +773,13 @@ class LocalResearchLedger:
         study: str | None = None,
         repo: str | None = None,
         historical: bool | None = None,
+        include_retracted: bool = False,
     ) -> list[ExperimentRecordV2]:
         out: list[ExperimentRecordV2] = []
         for path in sorted(self.records_dir.glob("*.json")):
             rec = ExperimentRecordV2.load(json.loads(path.read_text(encoding="utf-8")))
+            if not include_retracted and rec.is_retracted():
+                continue
             if project is not None and rec.project != project:
                 continue
             if study is not None and rec.study != study:
@@ -705,19 +800,30 @@ class LocalResearchLedger:
         backend: str | None = None,
         search: str | None = None,
         include_failures: bool = True,
+        include_retracted: bool = False,
     ) -> list[ExperimentRecordV2]:
-        """Rich query across local ExperimentRecordV2 entries."""
+        """Rich query across local ExperimentRecordV2 entries.
+
+        Retracted records are excluded from canonical queries/wins by default and remain
+        queryable as historical non-canonical evidence when `include_retracted=True`.
+        """
+        raw_want = verdict.strip().lower() if verdict else None
         want_v = epistemic_verdict(verdict) if verdict else None
         want_b = backend.strip().lower() if backend else None
         tokens = [t.lower() for t in (search or "").split() if t.strip()]
         out: list[ExperimentRecordV2] = []
-        for rec in self.query():
+        for rec in self.query(include_retracted=include_retracted):
+            if rec.is_retracted() and want_v == "proven" and raw_want in ("proven", "win"):
+                continue
             ev = epistemic_verdict(rec.statistical_comparison.verdict)
             if not include_failures and ev == "refuted":
                 continue
             if study and rec.study != study and study.lower() not in rec.study.lower():
                 continue
-            if want_v and ev != want_v and rec.statistical_comparison.verdict.lower() != verdict.strip().lower():  # type: ignore[union-attr]
+            if raw_want == "promising_inconclusive":
+                if rec.statistical_comparison.verdict.strip().lower() != "promising_inconclusive":
+                    continue
+            elif want_v and ev != want_v and rec.statistical_comparison.verdict.lower() != raw_want:
                 continue
             if repo and rec.repo != repo:
                 continue
@@ -732,6 +838,7 @@ class LocalResearchLedger:
                         rec.hypothesis,
                         rec.conclusion,
                         rec.failure_diagnosis,
+                        rec.retracted_reason,
                         rec.next_hypothesis,
                         rec.hardware.gpu,
                         rec.hardware.backend,
@@ -855,10 +962,11 @@ class LocalResearchLedger:
         failure_diagnosis), and EVERY local raw artifact + ExperimentRecordV2 JSON, then
         verifies exact byte-for-byte SHA-256 read-back on every artifact and run.
         """
-        all_recs = self.query()
+        all_recs = self.query(include_retracted=True)
         by_study: dict[str, list[ExperimentRecordV2]] = {}
         for r in all_recs:
-            by_study.setdefault(r.study, []).append(r)
+            if not r.is_retracted():
+                by_study.setdefault(r.study, []).append(r)
 
         results: list[SyncReceipt] = []
         for rec in all_recs:
@@ -931,14 +1039,18 @@ class LocalResearchLedger:
                 )
                 uploaded_arts["record"] = verified_rec_sha
 
-                readback_listing = client.runs(id=rec.experiment_id)
-                readback_rows = getattr(readback_listing, "data", readback_listing)
-                got_run = any(getattr(r, "id", "") == rec.experiment_id for r in readback_rows)
+                if rec.is_retracted():
+                    got_run = True
+                    got_exp = True
+                else:
+                    readback_listing = client.runs(id=rec.experiment_id)
+                    readback_rows = getattr(readback_listing, "data", readback_listing)
+                    got_run = any(getattr(r, "id", "") == rec.experiment_id for r in readback_rows)
 
-                got_exp = True
-                if hasattr(client, "query"):
-                    exp_rows = client.query()
-                    got_exp = any(getattr(e, "id", "") == rec.experiment_id for e in exp_rows)
+                    got_exp = True
+                    if hasattr(client, "query"):
+                        exp_rows = client.query()
+                        got_exp = any(getattr(e, "id", "") == rec.experiment_id for e in exp_rows)
 
                 all_ok = bool(got_run and got_exp and verified_rec_sha == rec_sha)
                 receipt = SyncReceipt(

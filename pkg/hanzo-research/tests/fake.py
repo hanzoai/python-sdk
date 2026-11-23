@@ -104,6 +104,8 @@ class Fake:
         self.agent_targets: list[dict[str, Any]] = []
         self.fleet_presence: dict[str, dict[str, Any]] = {}
         self.busy_defer_queues: set[str] = set()
+        self.instant_complete_jobs: set[str] = set()
+        self.sse_hang_sec: float = 0.0
         self.sse_streams_opened = 0
         self.stage_handler: Any = None
         self.claims: list[dict[str, Any]] = []
@@ -562,7 +564,7 @@ class Fake:
                     raise Problem(404, "activity not found")
                 job["polls"] += 1
                 p_idx = job["polls"]
-                if job.get("sse_completed"):
+                if job.get("sse_completed") or jid in self.instant_complete_jobs:
                     state = "ACTIVITY_TASK_STATE_COMPLETED"
                 elif job["taskQueue"] in self.busy_defer_queues:
                     # Simulate STARTED -> SCHEDULED (busy deferral) -> STARTED -> COMPLETED
@@ -704,12 +706,32 @@ class Fake:
             return ok(self.compare(who, q))
         if name == "grants":
             return ok(self.grant(who, body or {}))
+        if name == "experiments/versions" and method == "GET":
+            exp_id = q.get("id") or ""
+            rows = [
+                e
+                for e in self.experiments.get(who["org"], [])
+                if e.get("id") == exp_id and (not q.get("project") or e["project"] == q["project"])
+            ]
+            return ok({"project": q.get("project") or who["project"], "id": exp_id, "versions": rows})
         if name == "experiments" and method == "POST":
             return ok(self.ingest(who, body or {}))
         if name == "experiments":
-            rows = [
+            all_rows = [
                 e for e in self.experiments.get(who["org"], []) if not q.get("project") or e["project"] == q["project"]
             ]
+            if q.get("include_retracted") == "true":
+                rows = all_rows
+            else:
+                latest_by_id: dict[str, dict[str, Any]] = {}
+                for e in all_rows:
+                    latest_by_id[e["id"]] = e
+                rows = [
+                    e
+                    for e in latest_by_id.values()
+                    if (e.get("revision") or "").lower() != "retracted"
+                    and (e.get("status") or "").lower() != "retracted"
+                ]
             return ok({"data": rows, "total": len(rows)})
         if name == "totals":
             ex = self.experiments.get(who["org"], [])
@@ -836,6 +858,11 @@ class Server:
 
             def answer(self) -> None:
                 if self.command == "GET" and self.path.split("?", 1)[0] == "/v1/workflow/events":
+                    raw_tok = (self.headers.get("Authorization") or "").removeprefix("Bearer ")
+                    if raw_tok in fake.expired:
+                        self.send_response(401)
+                        self.end_headers()
+                        return
                     who = fake.principal(self.headers)
                     if who is None:
                         self.send_response(403)
@@ -848,6 +875,11 @@ class Server:
                     self.end_headers()
                     self.wfile.write(b": hanzo-tasks event stream\n\n")
                     self.wfile.flush()
+                    if fake.sse_hang_sec > 0:
+                        import time as _t
+
+                        _t.sleep(fake.sse_hang_sec)
+                        return
                     with fake.lock:
                         pending = list(fake.workflow_jobs.items())
                     for (ns, jid), job in pending:

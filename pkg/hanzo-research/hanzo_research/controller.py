@@ -495,15 +495,22 @@ class AutonomousController:
     def status(self) -> dict[str, Any]:
         trials = self.trials()
         recs = self.ledger.query()
+        all_with_retracted = self.ledger.query(include_retracted=True)
+        retracted_count = sum(1 for r in all_with_retracted if r.is_retracted())
         open_ops = self.ledger.recommended_experiments(top_k=50)
-        wins = [r for r in recs if epistemic_verdict(r.statistical_comparison.verdict) == "proven"]
+        wins = [r for r in recs if not r.is_retracted() and epistemic_verdict(r.statistical_comparison.verdict) == "proven"]
         failures = [r for r in recs if epistemic_verdict(r.statistical_comparison.verdict) == "refuted"]
+        promising_inc = [
+            r for r in recs if (r.statistical_comparison.verdict or "").strip().lower() == "promising_inconclusive"
+        ]
         return {
             "campaign": self.registry.campaign if self.registry else self.ledger.run_id,
             "host_backends": sorted(detect_host_backends()),
             "total_experiments": len(recs),
             "proven_experiments": len(wins),
+            "promising_inconclusive_experiments": len(promising_inc),
             "refuted_experiments": len(failures),
+            "retracted_experiments": retracted_count,
             "open_opportunities": len(open_ops),
             "top_opportunities": [dict(op.dump(), priority_score=op.priority_score) for op in open_ops[:5]],
             "exposures_count": len(self.exposures.records),
@@ -553,6 +560,31 @@ class AutonomousController:
             if exp_id in completed_ids:
                 self.ledger.opportunities.mark_status(op.opportunity_id, "completed")
                 continue
+
+            arm_name = "opportunity_transfer"
+            arm_variant = op.opportunity_id
+            arm_cfg: dict[str, Any] = {"opportunity_id": op.opportunity_id, "trigger_rule": op.trigger_rule}
+            if op.trigger_rule.startswith("continuation_independent_dev:"):
+                parts = op.trigger_rule.split(":", 2)
+                depth, max_cont = 1, (self.registry.plan.max_continuations if self.registry else 1)
+                if len(parts) >= 2 and "/" in parts[1]:
+                    d_str, m_str = parts[1].split("/", 1)
+                    try:
+                        depth = max(1, int(d_str))
+                        max_cont = max(depth, int(m_str))
+                    except ValueError:
+                        pass
+                if op.related_experiments:
+                    parent_id = op.related_experiments[0]
+                    parent_rec = next((r for r in self.ledger.query() if r.experiment_id == parent_id), None)
+                    if parent_rec is not None:
+                        arm_name = str(parent_rec.config.get("arm") or arm_name)
+                        arm_variant = str(parent_rec.config.get("variant") or arm_variant)
+                        arm_cfg = dict(parent_rec.config, **arm_cfg)
+                arm_cfg["continuation_depth"] = depth
+                arm_cfg["max_continuations"] = max_cont
+                arm_cfg["independent_dev_evidence"] = True
+
             return {
                 "source": "opportunity",
                 "opportunity": op,
@@ -567,10 +599,10 @@ class AutonomousController:
                     dataset=op.domain,
                 ),
                 "arm": SearchArm(
-                    arm="opportunity_transfer",
-                    variant=op.opportunity_id,
+                    arm=arm_name,
+                    variant=arm_variant,
                     hypothesis=op.proposed_approach,
-                    config={"opportunity_id": op.opportunity_id, "trigger_rule": op.trigger_rule},
+                    config=arm_cfg,
                 ),
                 "backend": chosen_backend,
                 "commit": commit_full,
@@ -695,7 +727,7 @@ class AutonomousController:
             try:
                 tok = token()
                 if tok or use_tasks:
-                    active_client = Research(api_key=tok or None, repo=self.repo_dir)
+                    active_client = Research(repo=self.repo_dir)
             except Exception:
                 active_client = None
         if use_tasks and active_client is None:
@@ -813,7 +845,9 @@ class AutonomousController:
 
                 def measure_stage(stage_idx: int, stage: ProgressiveStage) -> ProgressiveStageOutput:
                     nonlocal exec_failed_reason, active_lease
-                    is_final = stage_idx == len(plan.stages)
+                    is_final = stage_idx == len(plan.stages) and plan.canonical_qualification
+                    cont_depth = max(0, int(arm.config.get("continuation_depth", 0)))
+                    stage_seed = 17 + cont_depth * 997
                     eval_sha = obj.eval_sha or _sha256(
                         _canon_bytes({"objective": obj.id, "stage": stage.name, "dataset": obj.dataset or obj.id})
                     )
@@ -863,6 +897,9 @@ class AutonomousController:
                         "reps": stage.reps,
                         "prompt_len": stage.prompt_len,
                         "gen_len": stage.gen_len,
+                        "seed": stage_seed,
+                        "continuation_depth": cont_depth,
+                        "independent_dev_evidence": bool(arm.config.get("independent_dev_evidence", False)),
                         "commit": commit,
                         "eval_sha": eval_sha,
                         "candidate_sha": candidate_sha,
@@ -919,10 +956,26 @@ class AutonomousController:
                             memory_integrity_passed=False,
                             details=exec_failed_reason,
                         )
+                    b_corr = [bool(x) for x in res.get("baseline_correct", [])]
+                    c_corr = [bool(x) for x in res.get("candidate_correct", [])]
+                    b_samps = (
+                        [float(x) for x in res["baseline_samples"]]
+                        if "baseline_samples" in res
+                        else ([1.0 if x else 0.0 for x in b_corr] if b_corr else [])
+                    )
+                    c_samps = (
+                        [float(x) for x in res["candidate_samples"]]
+                        if "candidate_samples" in res
+                        else ([1.0 if x else 0.0 for x in c_corr] if c_corr else [])
+                    )
                     return ProgressiveStageOutput(
                         stage_name=stage.name,
-                        baseline_samples=[float(x) for x in res["baseline_samples"]],
-                        candidate_samples=[float(x) for x in res["candidate_samples"]],
+                        baseline_samples=b_samps,
+                        candidate_samples=c_samps,
+                        baseline_correct=b_corr,
+                        candidate_correct=c_corr,
+                        example_ids=[str(x) for x in res.get("example_ids", [])],
+                        dataset_manifest_sha256=str(res.get("dataset_manifest_sha256", "")),
                         parity_passed=bool(res.get("parity_passed", True)),
                         memory_integrity_passed=bool(res.get("memory_integrity_passed", True)),
                         max_abs_diff=res.get("max_abs_diff"),
@@ -931,6 +984,7 @@ class AutonomousController:
                         details=str(res.get("details", "")),
                     )
 
+                cont_depth_outer = max(0, int(arm.config.get("continuation_depth", 0)))
                 host_info = provenance.host()
                 template = ExperimentRecordV2(
                     project="default",
@@ -955,6 +1009,8 @@ class AutonomousController:
                         arm=arm.arm,
                         variant=arm.variant,
                         fencing_token=active_lease.fencing_token,
+                        continuation_depth=cont_depth_outer,
+                        max_continuations=int(arm.config.get("max_continuations", plan.max_continuations)),
                     ),
                     workload_manifest=WorkloadManifest(
                         manifest_id=f"{obj.id}:{arm.arm}:{arm.variant}",
@@ -963,7 +1019,8 @@ class AutonomousController:
                         shapes=list(obj.shapes) or ["default"],
                         input_lengths=[s.prompt_len for s in plan.stages],
                         batch_size=1,
-                        seed=17,
+                        seed=17 + cont_depth_outer * 997,
+                        manifest_sha256=str(arm.config.get("dataset_manifest_sha256", "")),
                     ),
                     statistical_comparison=StatisticalComparison(
                         metric=obj.metric,
@@ -1003,9 +1060,14 @@ class AutonomousController:
                         "reason": exec_failed_reason,
                     }
 
+                raw_v = (ab_res.verdict or "").strip().lower()
                 ev = epistemic_verdict(ab_res.verdict)
-                trial.state = "qualified" if ev == "proven" else ("refuted" if ev == "refuted" else "explored")
-                trial.verdict = ev
+                if raw_v == "promising_inconclusive":
+                    trial.state = "promising_inconclusive"
+                    trial.verdict = "promising_inconclusive"
+                else:
+                    trial.state = "qualified" if ev == "proven" else ("refuted" if ev == "refuted" else "explored")
+                    trial.verdict = ev
                 trial.score = recorded_exp.statistical_comparison.candidate_mean
                 trial.finished_at = _utc_iso()
                 trial.message = ab_res.failure_diagnosis or recorded_exp.conclusion
@@ -1026,7 +1088,8 @@ class AutonomousController:
                     "status": trial.state,
                     "trial_id": trial_id,
                     "experiment_id": exp_id,
-                    "verdict": ev,
+                    "verdict": trial.verdict,
+                    "epistemic_verdict": ev,
                     "fencing_token": active_lease.fencing_token,
                     "reclaimed_from": active_lease.reclaimed_from,
                     "stopped_stage": ab_res.stopped_stage,

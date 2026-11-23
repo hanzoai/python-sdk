@@ -16,8 +16,8 @@ from typing import TYPE_CHECKING, Any, Mapping, Sequence
 import urllib.error
 from urllib.parse import quote
 
-from . import canonical
-from .errors import Error
+from . import canonical, wire
+from .errors import Denied, Error
 from .wire import Wire
 
 if TYPE_CHECKING:
@@ -523,11 +523,37 @@ def dispatch_task(
     return out
 
 
+def _refresh_client_token(client: Research) -> bool:
+    """Re-fetch a fresh credential via `wire.token()` when a long-lived wait hits 401/403."""
+    try:
+        import hanzo_login as _login
+
+        _login.forget()
+    except Exception:
+        pass
+    try:
+        fresh = wire.token()
+    except Exception:
+        return False
+    if not fresh or fresh == getattr(client.http, "_token", None):
+        return False
+    client.http._token = fresh
+    client.http._checked = False
+    return True
+
+
 def _describe_activity(client: Research, ns: str, job_id: str, run_id: str) -> dict[str, Any]:
     enc_ns = quote(ns, safe="")
     enc_aid = quote(job_id, safe="")
     enc_rid = quote(run_id, safe="")
-    resp = client.http.get(f"/v1/workflow/namespaces/{enc_ns}/activities/{enc_aid}/{enc_rid}")
+    path = f"/v1/workflow/namespaces/{enc_ns}/activities/{enc_aid}/{enc_rid}"
+    try:
+        resp = client.http.get(path)
+    except Denied as err:
+        if getattr(err, "status", 0) in (401, 403, 0) and _refresh_client_token(client):
+            resp = client.http.get(path)
+        else:
+            raise
     data = dict(resp) if isinstance(resp, Mapping) else {}
     state = str(data.get("status") or data.get("state") or "")
     data.setdefault("id", job_id)
@@ -588,14 +614,25 @@ def wait_gpu_job(
     namespace: str = "gpu-jobs",
     timeout_sec: float = 600.0,
     poll_interval_sec: float = 2.0,
+    sse_read_timeout_sec: float = 15.0,
 ) -> dict[str, Any]:
-    """Wait for activity completion via `GET /v1/workflow/events` SSE stream (reconnect backoff only on drop)."""
+    """Wait for activity completion via immediate status pre-check + bounded-timeout SSE stream.
+
+    - Checks `GET /v1/workflow/namespaces/<ns>/activities/<id>/<run_id>` immediately BEFORE opening SSE
+      so sub-50ms jobs on `evo`/`dgx` return immediately without opening SSE.
+    - Bounds each SSE socket read window (`sse_read_timeout_sec`, default 15s) so missed SSE events
+      re-check activity status periodically without hanging until `timeout_sec`.
+    - Refreshes bearer credentials via `wire.token()` on `401`/`403` during long waits.
+    """
+    import socket as _socket
+
     ns = (namespace or "").strip() or "gpu-jobs"
     aid = job_id.strip()
     rid = (run_id or job_id).strip()
 
     start = time.monotonic()
     base_budget = max(0.05, float(timeout_sec))
+    sse_window = max(0.05, float(sse_read_timeout_sec))
     deadline = start + base_budget
     hard_deadline = start + max(base_budget * 3.0, base_budget + 120.0)
     seen_defers = 0
@@ -610,26 +647,27 @@ def wait_gpu_job(
             seen_defers = defer_count
 
     while True:
+        # Always check activity status immediately BEFORE opening SSE (or sleeping).
+        snap0 = _describe_activity(client, ns, aid, rid)
+        st0 = str(snap0.get("status") or snap0.get("state") or "")
+        if st0 in _TERMINAL_ACTIVITY_STATES:
+            return snap0
+        _note_defer(int(snap0.get("deferCount") or 0))
+
         remaining = deadline - time.monotonic()
         if remaining <= 0:
-            snap = _describe_activity(client, ns, aid, rid)
-            st = str(snap.get("status") or snap.get("state") or "")
-            if st in _TERMINAL_ACTIVITY_STATES:
-                return snap
-            dc = int(snap.get("deferCount") or seen_defers)
-            busy_note = snap.get("lastBusyReason") or ""
+            dc = int(snap0.get("deferCount") or seen_defers)
+            busy_note = snap0.get("lastBusyReason") or ""
             suffix = f", deferCount={dc}, lastBusyReason={busy_note!r}" if dc or busy_note else ""
-            raise Error(f"timed out waiting for gpu job {aid!r} (last state: {st!r}{suffix})")
+            raise Error(f"timed out waiting for gpu job {aid!r} (last state: {st0!r}{suffix})")
 
         if sse_supported:
-            snap0 = _describe_activity(client, ns, aid, rid)
-            st0 = str(snap0.get("status") or snap0.get("state") or "")
-            if st0 in _TERMINAL_ACTIVITY_STATES:
-                return snap0
-            _note_defer(int(snap0.get("deferCount") or 0))
             stream = None
+            periodic_recheck = False
+            auth_refreshed = False
             try:
-                stream = client.http.open_stream("/v1/workflow/events", timeout=max(0.1, remaining))
+                per_read_timeout = min(sse_window, max(0.05, remaining))
+                stream = client.http.open_stream("/v1/workflow/events", timeout=per_read_timeout)
                 term_event = _consume_sse_until_terminal(stream, ns, aid, rid, _note_defer)
                 snap = _describe_activity(client, ns, aid, rid)
                 st = str(snap.get("status") or snap.get("state") or "")
@@ -637,17 +675,33 @@ def wait_gpu_job(
                     return snap
                 reconnect_attempt += 1
             except urllib.error.HTTPError as http_err:
-                if http_err.code in (404, 405, 501):
+                if http_err.code in (401, 403):
+                    if _refresh_client_token(client):
+                        auth_refreshed = True
+                        reconnect_attempt = 0
+                    else:
+                        raise Denied("workflow SSE stream refused (401/403)", http_err.code, "GET", "/v1/workflow/events") from None
+                elif http_err.code in (404, 405, 501):
                     sse_supported = False
                 else:
                     reconnect_attempt += 1
-            except (TimeoutError, urllib.error.URLError, ConnectionError, OSError):
-                snap = _describe_activity(client, ns, aid, rid)
-                st = str(snap.get("status") or snap.get("state") or "")
-                if st in _TERMINAL_ACTIVITY_STATES:
-                    return snap
-                _note_defer(int(snap.get("deferCount") or 0))
-                reconnect_attempt += 1
+            except Denied as denied_err:
+                if getattr(denied_err, "status", 0) in (401, 403, 0) and _refresh_client_token(client):
+                    auth_refreshed = True
+                    reconnect_attempt = 0
+                else:
+                    raise
+            except (TimeoutError, _socket.timeout):
+                # Bounded per-SSE-read socket timeout elapsed: loop around immediately to re-check status!
+                periodic_recheck = True
+                reconnect_attempt = 0
+            except (urllib.error.URLError, ConnectionError, OSError) as net_err:
+                reason = getattr(net_err, "reason", net_err)
+                if isinstance(reason, (TimeoutError, _socket.timeout)):
+                    periodic_recheck = True
+                    reconnect_attempt = 0
+                else:
+                    reconnect_attempt += 1
             finally:
                 if stream is not None:
                     try:
@@ -656,6 +710,8 @@ def wait_gpu_job(
                         pass
 
             if sse_supported:
+                if periodic_recheck or auth_refreshed:
+                    continue
                 rem = deadline - time.monotonic()
                 if rem <= 0:
                     continue
@@ -664,11 +720,6 @@ def wait_gpu_job(
                 continue
 
         # Fallback only if server endpoint does not expose `/v1/workflow/events` SSE.
-        snap = _describe_activity(client, ns, aid, rid)
-        st = str(snap.get("status") or snap.get("state") or "")
-        if st in _TERMINAL_ACTIVITY_STATES:
-            return snap
-        _note_defer(int(snap.get("deferCount") or 0))
         rem = deadline - time.monotonic()
         if rem > 0:
             time.sleep(min(rem, max(0.01, float(poll_interval_sec))))

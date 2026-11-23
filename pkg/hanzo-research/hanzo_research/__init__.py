@@ -77,6 +77,7 @@ from .testing import (
     one_sided_mixture_e_value,
     paired_accuracy_look,
     paired_comparison,
+    paired_mcnemar,
     paired_metric_anytime_look,
     paired_throughput_anytime_look,
     planned_looks,
@@ -85,6 +86,8 @@ from .testing import (
     stable_order,
     student_t_ci95,
     student_t_one_sided_p,
+    validate_dataset_manifest_sha256,
+    validate_paired_binary_trace,
     verify_progressive_screen,
 )
 from .transfer import (
@@ -219,8 +222,11 @@ __all__ = [
     "student_t_ci95",
     "student_t_one_sided_p",
     "paired_comparison",
+    "paired_mcnemar",
     "beta_binomial_e_value",
     "one_sided_mixture_e_value",
+    "validate_dataset_manifest_sha256",
+    "validate_paired_binary_trace",
     "paired_accuracy_look",
     "power_analysis",
     "paired_metric_anytime_look",

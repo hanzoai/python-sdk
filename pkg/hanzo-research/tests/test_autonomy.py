@@ -905,3 +905,314 @@ def test_native_tasks_linked_machines_busy_deferral_schedules_and_remote_tick(
             os.environ.pop("HANZO_API_KEY", None)
         else:
             os.environ["HANZO_API_KEY"] = old_key
+
+
+def test_promising_inconclusive_bounded_continuation_and_strict_canonical_qualification(tmp_path: Path) -> None:
+    import hashlib
+    import random
+    from hanzo_research import paired_accuracy_look
+
+    # 1. Exact n=367 +3.0pp dev gain (only_candidate=51, only_jev=40 -> delta=+3.00pp, p ~ 0.147):
+    # must classify as promising_inconclusive (NEVER dropped as refuted/inconclusive, NEVER proven!).
+    rng = random.Random(17)
+    pairs = ([(True, False)] * 51) + ([(False, True)] * 40) + ([(True, True)] * 210) + ([(False, False)] * 66)
+    assert len(pairs) == 367
+    rng.shuffle(pairs)
+    cand_367 = [c for c, _ in pairs]
+    base_367 = [b for _, b in pairs]
+    eids_367 = [f"boolq-dev-{i:04d}" for i in range(367)]
+    manifest_sha = hashlib.sha256(b"boolq-dev-v1-367-examples").hexdigest()
+
+    look_367 = paired_accuracy_look(
+        cand_367,
+        base_367,
+        look_index=1,
+        population_n=367,
+        min_effect_pct=2.0,
+        example_ids=eids_367,
+        dataset_manifest_sha256=manifest_sha,
+        require_example_ids=True,
+    )
+    assert 0.13 <= look_367["one_sided_p_better"] <= 0.16
+    assert look_367["verdict"] == "promising_inconclusive"
+    assert look_367["canonical_qualification"] is False
+
+    # 2. Dev-only ProgressiveAbPlan (canonical_qualification=False) NEVER promotes to "proven" even on huge effect.
+    dev_only_runner = ProgressiveAbRunner(
+        ProgressiveAbPlan(
+            stages=[ProgressiveStage(name="dev_only", reps=5, prompt_len=64, gen_len=16)],
+            min_effect_pct=2.0,
+            canonical_qualification=False,
+        )
+    )
+    dev_only_res = dev_only_runner.run(
+        lambda idx, st: ProgressiveStageOutput(
+            stage_name=st.name,
+            baseline_samples=[100.0, 100.1, 99.9, 100.0, 100.0],
+            candidate_samples=[180.0, 180.2, 179.8, 180.1, 179.9],
+        )
+    )
+    assert dev_only_res.verdict == "promising_inconclusive"
+
+    # 3. AutonomousController enqueues bounded continuation (max_continuations=1) on independent dev evidence.
+    exec_py = tmp_path / "cont_exec.py"
+    exec_py.write_text(
+        f"""#!/usr/bin/env python3
+import argparse, hashlib, json, random
+p = argparse.ArgumentParser()
+p.add_argument("phase")
+p.add_argument("--request", required=True)
+p.add_argument("--output", required=True)
+args = p.parse_args()
+req = json.load(open(args.request, encoding="utf-8"))
+rng = random.Random(int(req.get("seed", 17)))
+# +3.0pp dev gain (p ~ 0.147 on n=367) at both initial screen and continuation #1
+pairs = ([(True, False)] * 51) + ([(False, True)] * 40) + ([(True, True)] * 210) + ([(False, False)] * 66)
+rng.shuffle(pairs)
+depth = int(req.get("continuation_depth", 0))
+eids = [f"slice{{depth}}-item-{{i:04d}}" for i in range(len(pairs))]
+msha = hashlib.sha256(f"manifest-slice-{{depth}}-seed-{{req.get('seed')}}".encode()).hexdigest()
+out = {{
+    "status": "complete",
+    "trial_id": req["trial_id"],
+    "objective_id": req["objective_id"],
+    "baseline_correct": [b for _, b in pairs],
+    "candidate_correct": [c for c, _ in pairs],
+    "example_ids": eids,
+    "dataset_manifest_sha256": msha,
+    "parity_passed": True,
+    "memory_integrity_passed": True,
+    "gpu_time_sec": 0.05,
+    "details": f"depth={{depth}} seed={{req.get('seed')}}"
+}}
+json.dump(out, open(args.output, "w", encoding="utf-8"))
+""",
+        encoding="utf-8",
+    )
+    exec_py.chmod(0o755)
+
+    reg = CampaignRegistry(
+        campaign="promising-cont-camp",
+        repo="hanzoai/ml",
+        plan=ProgressiveAbPlan(
+            stages=[
+                ProgressiveStage(name="dev_screen", reps=1, prompt_len=64, gen_len=16),
+                ProgressiveStage(name="qualification", reps=1, prompt_len=256, gen_len=64),
+            ],
+            min_effect_pct=2.0,
+            max_continuations=1,
+            require_example_ids=True,
+        ),
+        objectives=[
+            ObjectiveSpec(
+                id="boolq_acc",
+                study="boolq_acc",
+                family="acc_fam",
+                metric="accuracy",
+                unit="pp",
+                direction="higher",
+                backends=["CPU", "CUDA"],
+                shapes=["367"],
+            )
+        ],
+        search_space={"acc_fam": [SearchArm(arm="adapter", variant="rank8", hypothesis="+3pp rank8")]},
+    )
+    ctrl = AutonomousController(
+        ledger_dir=tmp_path / "cont_ledger",
+        registry=reg,
+        repo_dir=str(PKG_ROOT),
+        worker_id="cont-worker",
+    )
+
+    # Tick 1: +3.0pp dev gain -> promising_inconclusive, skips sealed qualification, enqueues 1 bounded continuation!
+    t1 = ctrl.tick(exec_py, auto_sync=False)
+    assert t1["verdict"] == "promising_inconclusive"
+    assert t1["epistemic_verdict"] == "inconclusive"
+    assert t1["early_stopped"] is True and t1["stopped_stage"] == 1
+    assert len(t1["generated_opportunities"]) == 1
+    assert "->dev-continuation:1" in t1["generated_opportunities"][0]
+    assert len(ctrl.exposures.records) == 0, "promising_inconclusive must never burn sealed qualification exposure"
+
+    # Tick 2: executes continuation #1 on independent dev evidence (shifted seed & continuation_depth=1);
+    # because max_continuations=1 is reached, generates 0 further continuations!
+    t2 = ctrl.tick(exec_py, auto_sync=False)
+    assert t2["verdict"] == "promising_inconclusive"
+    assert t2["generated_opportunities"] == []
+    recs = ctrl.ledger.query()
+    assert len(recs) == 2
+    cont_rec = [r for r in recs if r.config.get("continuation_depth") == 1][0]
+    assert cont_rec.config["independent_dev_evidence"] is True
+    assert cont_rec.workload_manifest.seed != 17
+    assert ctrl.status()["proven_experiments"] == 0
+    assert ctrl.status()["promising_inconclusive_experiments"] == 2
+
+
+def test_paired_trace_guard_authentic_manifest_and_retracted_queryability(server, tmp_path: Path) -> None:
+    import hashlib
+    import random
+    from hanzo_research import (
+        paired_mcnemar,
+        validate_dataset_manifest_sha256,
+        validate_paired_binary_trace,
+    )
+
+    valid_manifest = hashlib.sha256(b"gpqa-diamond-canonical-manifest-v1").hexdigest()
+    assert validate_dataset_manifest_sha256(f"sha256:{valid_manifest}") == valid_manifest
+    with pytest.raises(ValueError, match="placeholder|64-hex"):
+        validate_dataset_manifest_sha256("0" * 64)
+    with pytest.raises(ValueError, match="placeholder"):
+        validate_dataset_manifest_sha256("a" * 64)
+    with pytest.raises(ValueError, match="placeholder"):
+        validate_dataset_manifest_sha256(hashlib.sha256(b"").hexdigest())
+
+    # Aggregate-rate block pseudo-arrays ([True]*170+[False]*30 vs [True]*160+[False]*40) MUST be rejected!
+    eids_200 = [f"item-{i:04d}" for i in range(200)]
+    pseudo_cand = ([True] * 170) + ([False] * 30)
+    pseudo_base = ([True] * 160) + ([False] * 40)
+    with pytest.raises(ValueError, match="reconstructed aggregate-rate pseudo-array"):
+        paired_mcnemar(
+            pseudo_cand,
+            pseudo_base,
+            example_ids=eids_200,
+            dataset_manifest_sha256=valid_manifest,
+            require_example_ids=True,
+        )
+    # 4-cell contingency-table pseudo-array ([1,0]*20 + [0,1]*5 + [1,1]*150 + [0,0]*25) MUST also be rejected!
+    cell_cand = ([True] * 20) + ([False] * 5) + ([True] * 150) + ([False] * 25)
+    cell_base = ([False] * 20) + ([True] * 5) + ([True] * 150) + ([False] * 25)
+    with pytest.raises(ValueError, match="reconstructed aggregate-rate pseudo-array"):
+        validate_paired_binary_trace(
+            cell_cand,
+            cell_base,
+            example_ids=eids_200,
+            dataset_manifest_sha256=valid_manifest,
+            require_example_ids=True,
+        )
+    # Duplicate example_ids MUST be rejected!
+    rng = random.Random(99)
+    real_pairs = list(zip(cell_cand, cell_base))
+    rng.shuffle(real_pairs)
+    shuf_cand = [c for c, _ in real_pairs]
+    shuf_base = [b for _, b in real_pairs]
+    with pytest.raises(ValueError, match="distinct"):
+        paired_mcnemar(
+            shuf_cand,
+            shuf_base,
+            example_ids=["dup-id"] * 200,
+            dataset_manifest_sha256=valid_manifest,
+            require_example_ids=True,
+        )
+    # Genuine shuffled per-example trace with distinct IDs + authentic manifest succeeds!
+    mc_ok = paired_mcnemar(
+        shuf_cand,
+        shuf_base,
+        example_ids=eids_200,
+        dataset_manifest_sha256=valid_manifest,
+        require_example_ids=True,
+        canonical_qualification=True,
+    )
+    assert mc_ok["verdict"] == "proven"
+    assert mc_ok["dataset_manifest_sha256"] == valid_manifest
+
+    # Retracted records: excluded from canonical queries & wins, queryable with include_retracted=True!
+    ledger = LocalResearchLedger.open(tmp_path / "retract_ledger", run_id="ret-run")
+    exp = ExperimentRecordV2(
+        project="default",
+        study="gpqa-eval",
+        objective="Evaluate reasoning accuracy",
+        hypothesis="Candidate beats baseline by +7.5pp",
+        experiment_id="kai:gpqa:v1",
+        repo="hanzoai/ml",
+        commit="51701f9a672c84d5220ae9a7d5576926d8907822",
+        hardware=HardwareSpec(host="dgx", architecture="aarch64", gpu="NVIDIA GB10", backend="CUDA"),
+        config={"require_example_ids": True},
+        workload_manifest=WorkloadManifest(
+            manifest_id="gpqa-200",
+            dataset="gpqa_diamond",
+            shapes=["200"],
+            manifest_sha256=valid_manifest,
+        ),
+        baseline={"mean": mc_ok["baseline_accuracy"]},
+        candidate={"mean": mc_ok["candidate_accuracy"]},
+        statistical_comparison=StatisticalComparison(
+            metric="accuracy",
+            unit="pp",
+            higher_is_better=True,
+            n=200,
+            baseline_mean=mc_ok["baseline_accuracy"],
+            candidate_mean=mc_ok["candidate_accuracy"],
+            delta=mc_ok["delta"],
+            p_value=mc_ok["one_sided_p_better"],
+            anytime_valid=True,
+            verdict="proven",
+        ),
+        correctness=CorrectnessChecks(parity_passed=True, memory_integrity_passed=True),
+        raw_samples={
+            "baseline": [1.0 if x else 0.0 for x in shuf_base],
+            "candidate": [1.0 if x else 0.0 for x in shuf_cand],
+        },
+        example_ids=eids_200,
+        conclusion="+7.5pp verified",
+    )
+    ledger.record_experiment(exp, artifacts={"trace_json": b'{"n":200}\n'})
+    client = _client(server)
+    assert ledger.sync_to_cloud(client)[0].readback_verified is True
+    assert len(ledger.query_experiments(verdict="proven")) == 1
+
+    # Retract due to holdout contamination discovery
+    retracted = ledger.retract_experiment("kai:gpqa:v1", "holdout prompt overlap discovered in audit")
+    assert retracted.is_retracted() and retracted.historical is True
+    assert ledger.query() == []
+    assert ledger.query_experiments(verdict="proven") == []
+    assert ledger.query_experiments(verdict="proven", include_retracted=True) == []
+    hist = ledger.query_experiments(include_retracted=True)
+    assert len(hist) == 1 and hist[0].retracted_reason == "holdout prompt overlap discovered in audit"
+    assert generate_transfer_hypotheses(retracted) == []
+
+    # Sync retraction to cloud -> withdrawn from canonical cloud query, retained in include_retracted / versions!
+    assert ledger.sync_to_cloud(client)[0].readback_verified is True
+    assert [r.id for r in client.query()] == []
+    assert [r.id for r in client.query(include_retracted=True)] == ["kai:gpqa:v1", "kai:gpqa:v1"]
+    vers = client.experiment_versions("kai:gpqa:v1")
+    assert len(vers) == 2 and vers[-1].revision == "retracted"
+
+
+def test_wait_gpu_job_precheck_sse_timeout_and_401_refresh(server, monkeypatch) -> None:
+    from hanzo_research import wire
+
+    client = _client(server)
+
+    # 1. Sub-50ms job that already completed BEFORE SSE connects returns immediately without opening SSE!
+    sub_fast = client.dispatch_task({"command": "echo fast"}, target="dgx", job_id="fast-sub50ms")
+    server.fake.instant_complete_jobs.add("fast-sub50ms")
+    sse_before = server.fake.sse_streams_opened
+    done_fast = client.wait_gpu_job("fast-sub50ms", run_id=sub_fast["runId"], timeout_sec=5.0)
+    assert done_fast["status"] == "ACTIVITY_TASK_STATE_COMPLETED"
+    assert server.fake.sse_streams_opened == sse_before, "sub-50ms completed job must return before opening SSE"
+
+    # 2. Missed SSE event + bounded per-SSE-read socket timeout re-checks activity status immediately!
+    sub_missed = client.dispatch_task({"command": "echo missed-sse"}, target="dgx", job_id="missed-sse-job")
+    server.fake.sse_hang_sec = 0.25
+    try:
+        done_missed = client.wait_gpu_job(
+            "missed-sse-job",
+            run_id=sub_missed["runId"],
+            timeout_sec=5.0,
+            sse_read_timeout_sec=0.06,
+        )
+        assert done_missed["status"] == "ACTIVITY_TASK_STATE_COMPLETED"
+    finally:
+        server.fake.sse_hang_sec = 0.0
+
+    # 3. Token expiry (401/403) during wait_gpu_job refreshes token via wire.token() seamlessly!
+    from fake import jwt as _make_jwt
+
+    stale_tok = _make_jwt({"sub": "z", "owner": "hanzo", "orgs": [{"org": "hanzo"}], "exp": 4102444800})
+    client_rot = Research(base=server.url, api_key=stale_tok, repo=str(PKG_ROOT))
+    sub_rot = client_rot.dispatch_task({"command": "echo long-job"}, target="dgx", job_id="rot-token-job")
+    server.fake.expired.add(stale_tok)
+    monkeypatch.setattr(wire, "token", lambda: HANZO)
+    done_rot = client_rot.wait_gpu_job("rot-token-job", run_id=sub_rot["runId"], timeout_sec=5.0)
+    assert done_rot["status"] == "ACTIVITY_TASK_STATE_COMPLETED"
+    assert client_rot.http._token == HANZO
+

@@ -36,6 +36,9 @@ __all__ = [
     "paired_comparison",
     "beta_binomial_e_value",
     "one_sided_mixture_e_value",
+    "validate_dataset_manifest_sha256",
+    "validate_paired_binary_trace",
+    "paired_mcnemar",
     "paired_accuracy_look",
     "power_analysis",
     "reference_accuracy_look",
@@ -248,6 +251,175 @@ def one_sided_mixture_e_value(wins: int, losses: int) -> float:
     return 0.5 * e_mix + 0.5 * beta_binomial_e_value(wins, losses)
 
 
+_EMPTY_BYTES_SHA256 = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+
+
+def validate_dataset_manifest_sha256(digest_str: str | None) -> str:
+    """Validate an authentic content-addressed dataset manifest SHA-256 digest.
+
+    Rejects missing digests, non-64-hex values, the empty-bytes SHA-256, and
+    synthetic single-character-repeated placeholder strings (`'0'*64`, `'a'*64`).
+    """
+    raw = (digest_str or "").strip().lower()
+    if raw.startswith("sha256:"):
+        raw = raw[7:]
+    if len(raw) != 64 or not all(ch in "0123456789abcdef" for ch in raw):
+        raise ValueError("dataset_manifest_sha256 must be a valid 64-hex SHA-256 digest")
+    if raw == _EMPTY_BYTES_SHA256 or len(set(raw)) <= 1:
+        raise ValueError("dataset_manifest_sha256 cannot be empty-bytes or synthetic repeated-char placeholder")
+    return raw
+
+
+def _coerce_binary_outcome(x: Any) -> bool:
+    if isinstance(x, bool):
+        return x
+    if isinstance(x, (int, float)) and not isinstance(x, bool) and math.isfinite(float(x)):
+        if float(x) == 1.0:
+            return True
+        if float(x) == 0.0:
+            return False
+    raise ValueError("paired binary trace requires bool or {0, 1} outcomes")
+
+
+def validate_paired_binary_trace(
+    candidate_outcomes: Sequence[bool | int | float],
+    baseline_outcomes: Sequence[bool | int | float],
+    *,
+    example_ids: Sequence[str] | None = None,
+    dataset_manifest_sha256: str | None = None,
+    require_example_ids: bool = True,
+    min_block_check_n: int = 16,
+) -> dict[str, Any]:
+    """Validate per-example paired binary outcomes and reject aggregate-rate pseudo-arrays."""
+    if not candidate_outcomes or len(candidate_outcomes) != len(baseline_outcomes):
+        raise ValueError("paired binary traces must be non-empty and equal length")
+    cand = [_coerce_binary_outcome(x) for x in candidate_outcomes]
+    base = [_coerce_binary_outcome(x) for x in baseline_outcomes]
+    n = len(cand)
+
+    cleaned_ids: list[str] = []
+    manifest_hex = ""
+    if require_example_ids:
+        if example_ids is None or len(example_ids) != n:
+            raise ValueError("require_example_ids=True requires example_ids aligned to every paired outcome")
+        cleaned_ids = [str(eid).strip() for eid in example_ids]
+        if any(not eid for eid in cleaned_ids) or len(set(cleaned_ids)) != n:
+            raise ValueError("example_ids must be non-empty and strictly distinct for paired evaluation")
+        manifest_hex = validate_dataset_manifest_sha256(dataset_manifest_sha256)
+
+        # Detect aggregate-rate / contingency-cell block pseudo-arrays masquerading as per-example traces.
+        pairs = list(zip(cand, base))
+        distinct_states = len(set(pairs))
+        pair_runs = 1 + sum(1 for i in range(1, n) if pairs[i] != pairs[i - 1])
+        cand_runs = 1 + sum(1 for i in range(1, n) if cand[i] != cand[i - 1])
+        base_runs = 1 + sum(1 for i in range(1, n) if base[i] != base[i - 1])
+        cand_ones = sum(1 for x in cand if x)
+        base_ones = sum(1 for x in base if x)
+        if n >= min_block_check_n and distinct_states >= 2:
+            if pair_runs <= distinct_states or (
+                0 < cand_ones < n
+                and cand_runs <= 2
+                and 0 < base_ones < n
+                and base_runs <= 2
+            ):
+                raise ValueError(
+                    "reconstructed aggregate-rate pseudo-array rejected: paired binary trace requires genuine per-example ordering"
+                )
+    else:
+        if example_ids is not None:
+            if len(example_ids) != n:
+                raise ValueError("example_ids length must match paired outcomes")
+            cleaned_ids = [str(eid).strip() for eid in example_ids]
+            if any(not eid for eid in cleaned_ids) or len(set(cleaned_ids)) != n:
+                raise ValueError("example_ids must be non-empty and strictly distinct")
+        if dataset_manifest_sha256:
+            manifest_hex = validate_dataset_manifest_sha256(dataset_manifest_sha256)
+
+    trace_sha = hashlib.sha256(
+        "\n".join(
+            f"{cleaned_ids[i] if cleaned_ids else i}:{int(cand[i])}:{int(base[i])}"
+            for i in range(n)
+        ).encode("utf-8")
+    ).hexdigest()
+    return {
+        "n": n,
+        "candidate_bools": cand,
+        "baseline_bools": base,
+        "example_ids": cleaned_ids,
+        "dataset_manifest_sha256": manifest_hex,
+        "paired_trace_sha256": trace_sha,
+    }
+
+
+def paired_mcnemar(
+    candidate_correct: Sequence[bool | int | float],
+    baseline_correct: Sequence[bool | int | float],
+    *,
+    example_ids: Sequence[str] | None = None,
+    dataset_manifest_sha256: str | None = None,
+    require_example_ids: bool = True,
+    alpha: float = 0.05,
+    min_effect_pct: float = 1.0,
+    promising_effect_pct: float | None = None,
+    futility_alpha: float = 0.10,
+    canonical_qualification: bool = False,
+) -> dict[str, Any]:
+    """Exact conditional paired McNemar test with per-example trace provenance guard."""
+    if not (0.0 < alpha < 1.0) or not (0.0 < futility_alpha < 1.0):
+        raise ValueError("alpha and futility_alpha must be in (0, 1)")
+    checked = validate_paired_binary_trace(
+        candidate_correct,
+        baseline_correct,
+        example_ids=example_ids,
+        dataset_manifest_sha256=dataset_manifest_sha256,
+        require_example_ids=require_example_ids,
+    )
+    cand = checked["candidate_bools"]
+    base = checked["baseline_bools"]
+    n = checked["n"]
+    only_cand = sum(1 for c, b in zip(cand, base) if c and not b)
+    only_base = sum(1 for c, b in zip(cand, base) if b and not c)
+    discordant = only_cand + only_base
+    delta = (only_cand - only_base) / n
+    effect_pct = delta * 100.0
+    p_better = _binom_upper_tail(only_cand, discordant)
+    p_worse = _binom_upper_tail(only_base, discordant)
+    p_two = min(1.0, 2.0 * min(p_better, p_worse))
+    e_better = one_sided_mixture_e_value(only_cand, only_base)
+    e_worse = one_sided_mixture_e_value(only_base, only_cand)
+    eff_promising_pct = promising_effect_pct if promising_effect_pct is not None else (0.5 * min_effect_pct)
+
+    if effect_pct >= min_effect_pct and p_better <= alpha:
+        verdict = "proven" if canonical_qualification else "promising_inconclusive"
+    elif (effect_pct <= -min_effect_pct and p_worse <= alpha) or (delta < 0.0 and p_worse <= futility_alpha):
+        verdict = "refuted"
+    elif effect_pct >= eff_promising_pct and p_worse > futility_alpha:
+        verdict = "promising_inconclusive"
+    else:
+        verdict = "inconclusive"
+
+    return {
+        "method": "paired_exact_mcnemar",
+        "n": n,
+        "candidate_only": only_cand,
+        "baseline_only": only_base,
+        "discordant": discordant,
+        "candidate_accuracy": sum(1 for x in cand if x) / n,
+        "baseline_accuracy": sum(1 for x in base if x) / n,
+        "delta": delta,
+        "effect_pct": effect_pct,
+        "one_sided_p_better": p_better,
+        "one_sided_p_worse": p_worse,
+        "two_sided_p": p_two,
+        "e_value_better": e_better,
+        "e_value_worse": e_worse,
+        "verdict": verdict,
+        "canonical_qualification": bool(canonical_qualification),
+        "dataset_manifest_sha256": checked["dataset_manifest_sha256"],
+        "paired_trace_sha256": checked["paired_trace_sha256"],
+    }
+
+
 def paired_accuracy_look(
     candidate_correct: Sequence[bool],
     jev_correct: Sequence[bool],
@@ -261,6 +433,12 @@ def paired_accuracy_look(
     family_budget: int | None = None,
     population_n: int | None = None,
     fwer_strict: bool = False,
+    example_ids: Sequence[str] | None = None,
+    dataset_manifest_sha256: str | None = None,
+    require_example_ids: bool = False,
+    min_effect_pct: float | None = None,
+    promising_effect_pct: float | None = None,
+    futility_alpha: float = 0.10,
 ) -> dict[str, Any]:
     """One look of an anytime-valid paired mixture-SPRT / Beta-Binomial e-value sequence test.
 
@@ -280,11 +458,20 @@ def paired_accuracy_look(
         raise ValueError("paired predictions must be nonempty and aligned")
     if not all(isinstance(x, bool) for x in list(candidate_correct) + list(jev_correct)):
         raise ValueError("expected paired correct/incorrect booleans")
+    if require_example_ids or example_ids is not None or dataset_manifest_sha256:
+        validate_paired_binary_trace(
+            candidate_correct,
+            jev_correct,
+            example_ids=example_ids,
+            dataset_manifest_sha256=dataset_manifest_sha256,
+            require_example_ids=require_example_ids,
+        )
     n = len(candidate_correct)
     only_candidate = sum(c and not j for c, j in zip(candidate_correct, jev_correct))
     only_jev = sum(j and not c for c, j in zip(candidate_correct, jev_correct))
     discordant = only_candidate + only_jev
     delta = (only_candidate - only_jev) / n
+    effect_pct = delta * 100.0
 
     p_better = _binom_upper_tail(only_candidate, discordant)
     p_worse = _binom_upper_tail(only_jev, discordant)
@@ -313,6 +500,13 @@ def paired_accuracy_look(
     delta_upper_cs = delta + cs_radius
     delta_lower_cs = delta - cs_radius
 
+    eff_min_pct = (
+        min_effect_pct
+        if min_effect_pct is not None
+        else (max(min_effect, min_interesting_delta) * 100.0 if max(min_effect, min_interesting_delta) > 0 else 2.0)
+    )
+    eff_promising_pct = promising_effect_pct if promising_effect_pct is not None else (0.5 * eff_min_pct)
+
     decision = "continue"
     if n >= min_samples:
         is_terminal = population_n is not None and n >= population_n and alpha_final > 0.0
@@ -327,8 +521,18 @@ def paired_accuracy_look(
         elif min_interesting_delta > 0.0 and delta_upper_cs < min_interesting_delta:
             decision = "futility"
 
+    if decision == "promising":
+        verdict = "promising"
+    elif decision == "futility" or (n >= min_samples and delta < 0.0 and p_worse <= futility_alpha):
+        verdict = "refuted"
+    elif n >= min_samples and effect_pct >= eff_promising_pct and p_worse > futility_alpha:
+        verdict = "promising_inconclusive"
+    else:
+        verdict = "inconclusive"
+
     return {
         "decision": decision,
+        "verdict": verdict,
         "method": "paired_mixture_sprt",
         "n": n,
         "look_index": look_index,
@@ -336,6 +540,7 @@ def paired_accuracy_look(
         "jev_only": only_jev,
         "discordant": discordant,
         "delta": delta,
+        "effect_pct": effect_pct,
         "delta_ci_lo": delta_lower_cs,
         "delta_ci_hi": delta_upper_cs,
         "e_value_beta_binomial": e_bb,
@@ -815,6 +1020,10 @@ class ProgressiveStageOutput(Wire):
     stage_name: str = ""
     baseline_samples: list[float] = field(default_factory=list)
     candidate_samples: list[float] = field(default_factory=list)
+    baseline_correct: list[bool] = field(default_factory=list)
+    candidate_correct: list[bool] = field(default_factory=list)
+    example_ids: list[str] = field(default_factory=list)
+    dataset_manifest_sha256: str = ""
     parity_passed: bool = True
     memory_integrity_passed: bool = True
     max_abs_diff: float | None = None
@@ -836,6 +1045,22 @@ class ProgressiveAbPlan(Wire):
     alpha: float = 0.05
     family_budget: int = 1
     min_relative_gain: float = 0.01
+    min_effect_pct: float | None = None
+    promising_effect_pct: float | None = None
+    futility_alpha: float = 0.10
+    max_continuations: int = 1
+    canonical_qualification: bool = True
+    require_example_ids: bool = False
+
+    def effective_min_effect_pct(self) -> float:
+        if self.min_effect_pct is not None:
+            return float(self.min_effect_pct)
+        return float(self.min_relative_gain) * 100.0
+
+    def effective_promising_effect_pct(self) -> float:
+        if self.promising_effect_pct is not None:
+            return float(self.promising_effect_pct)
+        return 0.5 * self.effective_min_effect_pct()
 
 
 @dataclass
@@ -854,6 +1079,15 @@ class ProgressiveAbRunner:
 
     def __init__(self, plan: ProgressiveAbPlan | None = None):
         self.plan = plan or ProgressiveAbPlan()
+
+    def _classify_non_promising(self, effect_pct: float, p_worse: float) -> str:
+        if effect_pct < 0.0 and p_worse <= self.plan.futility_alpha:
+            return "refuted"
+        if effect_pct <= 0.0:
+            return "refuted"
+        if effect_pct >= self.plan.effective_promising_effect_pct() and p_worse > self.plan.futility_alpha:
+            return "promising_inconclusive"
+        return "inconclusive"
 
     def run(
         self,
@@ -894,6 +1128,10 @@ class ProgressiveAbRunner:
                 _os.fsync(fp.fileno())
             _os.replace(tmp, ckpt)
 
+        eff_min_pct = self.plan.effective_min_effect_pct()
+        eff_prom_pct = self.plan.effective_promising_effect_pct()
+        min_rel_gain = eff_min_pct / 100.0
+
         looks: list[dict[str, Any]] = []
         last_out = ProgressiveStageOutput()
         for idx, stage in enumerate(self.plan.stages, 1):
@@ -919,24 +1157,80 @@ class ProgressiveAbRunner:
                         looks=looks,
                         final_output=out,
                     )
-                look = paired_throughput_anytime_look(
-                    out.baseline_samples,
-                    out.candidate_samples,
-                    look_index=idx,
-                    higher_is_better=self.plan.higher_is_better,
-                    alpha=self.plan.alpha,
-                    family_budget=self.plan.family_budget,
-                    min_relative_gain=self.plan.min_relative_gain,
-                )
-                look["stage_name"] = stage.name
+
+                if out.candidate_correct and out.baseline_correct:
+                    validate_paired_binary_trace(
+                        out.candidate_correct,
+                        out.baseline_correct,
+                        example_ids=out.example_ids or None,
+                        dataset_manifest_sha256=out.dataset_manifest_sha256 or None,
+                        require_example_ids=self.plan.require_example_ids,
+                    )
+                    if not out.baseline_samples:
+                        out.baseline_samples = [1.0 if x else 0.0 for x in out.baseline_correct]
+                    if not out.candidate_samples:
+                        out.candidate_samples = [1.0 if x else 0.0 for x in out.candidate_correct]
+                    cand_eff = out.candidate_correct if self.plan.higher_is_better else out.baseline_correct
+                    base_eff = out.baseline_correct if self.plan.higher_is_better else out.candidate_correct
+                    acc_look = paired_accuracy_look(
+                        cand_eff,
+                        base_eff,
+                        look_index=idx,
+                        alpha=self.plan.alpha,
+                        min_samples=min(32, len(cand_eff)),
+                        min_effect=min_rel_gain,
+                        family_budget=self.plan.family_budget,
+                        population_n=len(cand_eff),
+                        example_ids=out.example_ids or None,
+                        dataset_manifest_sha256=out.dataset_manifest_sha256 or None,
+                        require_example_ids=self.plan.require_example_ids,
+                        min_effect_pct=eff_min_pct,
+                        promising_effect_pct=eff_prom_pct,
+                        futility_alpha=self.plan.futility_alpha,
+                    )
+                    comp = paired_comparison(
+                        out.baseline_samples,
+                        out.candidate_samples,
+                        higher_is_better=self.plan.higher_is_better,
+                    )
+                    look = dict(
+                        acc_look,
+                        stage_name=stage.name,
+                        signed_delta=acc_look["delta"],
+                        relative_gain=acc_look["delta"],
+                        comparison=comp,
+                    )
+                else:
+                    if self.plan.require_example_ids:
+                        validate_paired_binary_trace(
+                            out.candidate_samples,
+                            out.baseline_samples,
+                            example_ids=out.example_ids or None,
+                            dataset_manifest_sha256=out.dataset_manifest_sha256 or None,
+                            require_example_ids=True,
+                        )
+                    look = paired_throughput_anytime_look(
+                        out.baseline_samples,
+                        out.candidate_samples,
+                        look_index=idx,
+                        higher_is_better=self.plan.higher_is_better,
+                        alpha=self.plan.alpha,
+                        family_budget=self.plan.family_budget,
+                        min_relative_gain=min_rel_gain,
+                    )
+                    look["stage_name"] = stage.name
+                    look["effect_pct"] = look["relative_gain"] * 100.0
                 looks.append(look)
                 saved_stages[idx] = (out, look)
                 _persist_ckpt()
 
-            if look["decision"] == "futility":
+            effect_pct = float(look.get("effect_pct", look["relative_gain"] * 100.0))
+            p_worse = float(look["one_sided_p_worse"])
+
+            if look["decision"] == "futility" or (effect_pct < 0.0 and p_worse <= self.plan.futility_alpha):
                 diag = (
                     f"early futility/regression at stage {idx} ({stage.name}): "
-                    f"relative_gain={look['relative_gain']:+.4f}, p_worse={look['one_sided_p_worse']:.6f}"
+                    f"relative_gain={look['relative_gain']:+.4f}, p_worse={p_worse:.6f}"
                 )
                 return ProgressiveAbResult(
                     stopped_stage=idx,
@@ -949,12 +1243,20 @@ class ProgressiveAbRunner:
                 )
 
             if idx < len(self.plan.stages) and look["decision"] != "promising":
-                diag = (
-                    f"non-promising micro-screen at stage {idx} ({stage.name}): "
-                    f"relative_gain={look['relative_gain']:+.4f}, p_better={look['one_sided_p_better']:.6f} "
-                    f"did not clear spent_alpha={look['spent_alpha_each_direction']:.6f}; skipping heavier workloads"
-                )
-                verdict = "refuted" if look["relative_gain"] <= 0 else "inconclusive"
+                verdict = self._classify_non_promising(effect_pct, p_worse)
+                if verdict == "promising_inconclusive":
+                    diag = (
+                        f"promising inconclusive screen at stage {idx} ({stage.name}): "
+                        f"effect_pct={effect_pct:+.2f}% >= {eff_prom_pct:.2f}% (p_better={look['one_sided_p_better']:.6f}, "
+                        f"p_worse={p_worse:.6f} > futility_alpha={self.plan.futility_alpha:.3f}); "
+                        f"deferring sealed qualification until bounded independent dev continuation"
+                    )
+                else:
+                    diag = (
+                        f"non-promising micro-screen at stage {idx} ({stage.name}): "
+                        f"relative_gain={look['relative_gain']:+.4f}, p_better={look['one_sided_p_better']:.6f} "
+                        f"did not clear spent_alpha={look['spent_alpha_each_direction']:.6f}; skipping heavier workloads"
+                    )
                 return ProgressiveAbResult(
                     stopped_stage=idx,
                     stage_name=stage.name,
@@ -966,15 +1268,32 @@ class ProgressiveAbRunner:
                 )
 
         final_look = looks[-1]
+        final_effect_pct = float(final_look.get("effect_pct", final_look["relative_gain"] * 100.0))
+        final_p_worse = float(final_look["one_sided_p_worse"])
         if final_look["decision"] == "promising":
-            verdict = "proven"
-            diag = ""
-        elif final_look["decision"] == "futility":
+            if self.plan.canonical_qualification:
+                verdict = "proven"
+                diag = ""
+            else:
+                verdict = "promising_inconclusive"
+                diag = (
+                    f"dev-only screen crossed sequential threshold (effect_pct={final_effect_pct:+.2f}%), "
+                    f"held at promising_inconclusive because canonical_qualification=False"
+                )
+        elif final_look["decision"] == "futility" or (final_effect_pct < 0.0 and final_p_worse <= self.plan.futility_alpha):
             verdict = "refuted"
             diag = f"qualification regression: relative_gain={final_look['relative_gain']:+.4f}"
         else:
-            verdict = "inconclusive"
-            diag = f"qualification inconclusive: relative_gain={final_look['relative_gain']:+.4f}"
+            verdict = self._classify_non_promising(final_effect_pct, final_p_worse)
+            if verdict == "promising_inconclusive":
+                diag = (
+                    f"promising inconclusive result: effect_pct={final_effect_pct:+.2f}% >= {eff_prom_pct:.2f}%, "
+                    f"p_better={final_look['one_sided_p_better']:.6f}, p_worse={final_p_worse:.6f}"
+                )
+            elif verdict == "refuted":
+                diag = f"qualification non-positive effect: relative_gain={final_look['relative_gain']:+.4f}"
+            else:
+                diag = f"qualification inconclusive: relative_gain={final_look['relative_gain']:+.4f}"
         return ProgressiveAbResult(
             stopped_stage=len(self.plan.stages),
             stage_name=self.plan.stages[-1].name,
@@ -1009,6 +1328,14 @@ class ProgressiveAbRunner:
             )
         )
         p_val = res.looks[-1]["one_sided_p_better"] if res.looks else None
+        template.config.setdefault("max_continuations", int(self.plan.max_continuations))
+        template.config.setdefault("continuation_depth", int(template.config.get("continuation_depth", 0)))
+        if self.plan.require_example_ids:
+            template.config["require_example_ids"] = True
+        if out.example_ids and not template.example_ids:
+            template.example_ids = list(out.example_ids)
+        if out.dataset_manifest_sha256 and not template.workload_manifest.manifest_sha256:
+            template.workload_manifest.manifest_sha256 = out.dataset_manifest_sha256
         template.statistical_comparison = StatisticalComparison(
             metric=template.statistical_comparison.metric or "throughput",
             unit=template.statistical_comparison.unit or "tok/s",
@@ -1026,6 +1353,7 @@ class ProgressiveAbRunner:
             anytime_valid=True,
             verdict=res.verdict,
         )
+        template.verdict = res.verdict
         template.correctness = CorrectnessChecks(
             parity_passed=out.parity_passed,
             max_abs_diff=out.max_abs_diff,

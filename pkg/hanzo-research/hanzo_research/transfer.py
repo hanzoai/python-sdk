@@ -153,6 +153,8 @@ class TransferEngine:
         self.catalog = catalog or TransferCatalog()
 
     def dead_end_from(self, exp: ExperimentRecordV2) -> DeadEndEntry | None:
+        if exp.is_retracted():
+            return None
         if _norm_verdict(exp.statistical_comparison.verdict) != "refuted":
             return None
         return DeadEndEntry(
@@ -170,6 +172,36 @@ class TransferEngine:
     def generate(self, exp: ExperimentRecordV2) -> list[Opportunity]:
         from .protocol import Opportunity
 
+        if exp.is_retracted():
+            return []
+        raw_verdict = (exp.statistical_comparison.verdict or "").strip().lower()
+        base_cost = max(0.5, exp.gpu_time_sec / 60.0 if exp.gpu_time_sec > 0 else 1.0)
+        if raw_verdict == "promising_inconclusive":
+            cur_cont = max(0, int(exp.config.get("continuation_depth", 0)))
+            max_cont = max(0, int(exp.config.get("max_continuations", 1)))
+            if cur_cont >= max_cont:
+                return []
+            next_cont = cur_cont + 1
+            gain = _relative_gain(exp)
+            return [
+                Opportunity(
+                    opportunity_id=f"{exp.experiment_id}->dev-continuation:{next_cont}",
+                    domain=exp.study,
+                    objective=f"{exp.study}:dev-continuation-{next_cont}",
+                    current_best=exp.statistical_comparison.candidate_mean,
+                    proposed_approach=(
+                        f"Promising inconclusive dev signal (cand={exp.statistical_comparison.candidate_mean:.4f} vs "
+                        f"base={exp.statistical_comparison.baseline_mean:.4f}); run bounded continuation "
+                        f"{next_cont}/{max_cont} on an independent dev slice before canonical qualification"
+                    ),
+                    expected_improvement=round(gain, 4),
+                    compute_cost=round(base_cost, 4),
+                    related_experiments=[exp.experiment_id],
+                    trigger_rule=f"continuation_independent_dev:{next_cont}/{max_cont}:{exp.experiment_id}",
+                    status="open",
+                )
+            ]
+
         verdict = _norm_verdict(exp.statistical_comparison.verdict)
         if verdict == "refuted":
             if not exp.next_hypothesis.strip():
@@ -186,7 +218,7 @@ class TransferEngine:
                         f"Falsifiable fix hypothesis: {exp.next_hypothesis.strip()}"
                     ),
                     expected_improvement=0.12,
-                    compute_cost=max(0.5, exp.gpu_time_sec / 60.0 if exp.gpu_time_sec > 0 else 1.0),
+                    compute_cost=base_cost,
                     related_experiments=[exp.experiment_id],
                     trigger_rule=f"mechanism_fix_after_refutation:{exp.experiment_id}",
                     status="open",
@@ -197,7 +229,6 @@ class TransferEngine:
             return []
 
         gain = _relative_gain(exp)
-        base_cost = max(0.5, exp.gpu_time_sec / 60.0 if exp.gpu_time_sec > 0 else 1.0)
         ops: list[Opportunity] = []
 
         next_scale = _match_next_scale(exp, self.catalog.model_scales)
