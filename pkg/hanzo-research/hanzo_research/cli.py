@@ -394,7 +394,12 @@ def run(a: argparse.Namespace) -> Any:
 
         try:
             parsed_cmd = json.loads(a.command)
-            payload: Any = parsed_cmd if isinstance(parsed_cmd, dict) else {"command": a.command}
+            if isinstance(parsed_cmd, dict):
+                payload: Any = parsed_cmd
+            elif isinstance(parsed_cmd, list):
+                payload = {"command": parsed_cmd}
+            else:
+                payload = {"command": a.command}
         except ValueError:
             payload = {"command": a.command}
         when_idle_only = not a.allow_when_busy

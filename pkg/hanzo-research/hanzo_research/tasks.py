@@ -464,6 +464,7 @@ def dispatch_task(
 
     enriched_input = dict(payload)
     enriched_input.setdefault("when_idle_only", bool(when_idle_only))
+    enriched_input.setdefault("allow_when_busy", not bool(enriched_input["when_idle_only"]))
     if is_targeted:
         enriched_input.setdefault("target_machine", machine_name)
     if required_backend and required_backend.strip():
