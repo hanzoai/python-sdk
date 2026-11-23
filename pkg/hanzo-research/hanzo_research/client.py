@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import base64
 import hashlib
+import time
 from typing import Any, Mapping, TypeVar, Callable, Iterable
 
 from . import wire, canonical, provenance
@@ -311,8 +312,14 @@ class Research:
         self, experiments: list[Mapping[str, Any]] | None = None, attempts: list[Mapping[str, Any]] | None = None
     ) -> Ack:
         """File experiment and attempt versions in one batch, idempotent by content."""
+        stamped_exps: list[dict[str, Any]] = []
+        for exp in experiments or []:
+            row = dict(exp)
+            if not row.get("ts"):
+                row["ts"] = int(time.time())
+            stamped_exps.append(row)
         ack = Ack.load(
-            self.http.post("/v1/research/experiments", {"experiments": experiments or [], "attempts": attempts or []})
+            self.http.post("/v1/research/experiments", {"experiments": stamped_exps, "attempts": attempts or []})
         )
         self._filed(ack.project, "experiments and attempts")
         return ack
@@ -517,6 +524,63 @@ class Research:
         out = self.http.get("/v1/research/evidence", {"uri": uri})
         return [Evidence.load(x) for x in out.get("data") or []]
 
+    def submit_gpu_job(
+        self,
+        payload: Mapping[str, Any],
+        *,
+        job_type: str = "research.bench",
+        gpu: str | None = None,
+        job_id: str | None = None,
+        namespace: str = "gpu-jobs",
+    ) -> dict[str, Any]:
+        """Submit a remote GPU benchmark/compute activity to `/v1/workflow/namespaces/<ns>/activities`."""
+        from urllib.parse import quote
+
+        ns = namespace.strip() or "gpu-jobs"
+        queue = f"gpu:{gpu.strip()}" if (gpu and gpu.strip()) else "gpu-jobs"
+        jid = (job_id or "").strip() or (
+            f"job-{int(time.time())}-{hashlib.sha256(canonical.canonicalize(dict(payload))).hexdigest()[:12]}"
+        )
+        body: dict[str, Any] = {
+            "id": jid,
+            "type": job_type.strip() or "research.bench",
+            "taskQueue": queue,
+            "input": dict(payload),
+        }
+        resp = self.http.post(f"/v1/workflow/namespaces/{quote(ns, safe='')}/activities", body)
+        out = dict(resp) if isinstance(resp, Mapping) else {}
+        out.setdefault("id", jid)
+        return out
+
+    def wait_gpu_job(
+        self,
+        job_id: str,
+        *,
+        namespace: str = "gpu-jobs",
+        timeout_sec: float = 600.0,
+        poll_interval_sec: float = 2.0,
+    ) -> dict[str, Any]:
+        """Poll a submitted GPU workflow activity until a terminal state is reached."""
+        from urllib.parse import quote
+
+        ns = quote(namespace.strip() or "gpu-jobs", safe="")
+        jid = quote(job_id.strip(), safe="")
+        path = f"/v1/workflow/namespaces/{ns}/activities/{jid}/{jid}"
+        deadline = time.monotonic() + max(0.01, timeout_sec)
+        while True:
+            resp = self.http.get(path)
+            data = dict(resp) if isinstance(resp, Mapping) else {}
+            state = str(data.get("state") or data.get("status") or "")
+            if state in (
+                "ACTIVITY_TASK_STATE_COMPLETED",
+                "ACTIVITY_TASK_STATE_FAILED",
+                "ACTIVITY_TASK_STATE_CANCELED",
+            ):
+                return data
+            if time.monotonic() >= deadline:
+                raise Error(f"timed out waiting for gpu job {job_id!r} (last state: {state!r})")
+            time.sleep(max(0.005, poll_interval_sec))
+
     def experiment(
         self,
         kind: str,
@@ -527,10 +591,22 @@ class Research:
         note: str = "",
         hypothesis: str = "",
         predict: str = "",
+        tags: list[str] | None = None,
+        ts: int = 0,
     ) -> Experiment:
         """Get or create the experiment `kind:subject:task` and post it in flight (see `Experiment`)."""
         return Experiment(
-            self, kind, subject, task, metric=metric, n_total=n_total, note=note, hypothesis=hypothesis, predict=predict
+            self,
+            kind,
+            subject,
+            task,
+            metric=metric,
+            n_total=n_total,
+            note=note,
+            hypothesis=hypothesis,
+            predict=predict,
+            tags=tags,
+            ts=ts,
         )
 
     def _state(self) -> dict[str, Any]:
@@ -572,6 +648,8 @@ class Experiment:
         note: str = "",
         hypothesis: str = "",
         predict: str = "",
+        tags: list[str] | None = None,
+        ts: int = 0,
     ):
         self.c = client
         self.kind, self.subject, self.task, self.metric = kind, subject, task, metric
@@ -584,6 +662,8 @@ class Experiment:
         self.verdict = ""
         self.because = ""
         self._log: list[str] = []
+        self.tags: list[str] = list(tags or [])
+        self.ts = ts
         self.prov = client._state()
         self.doc = provenance.caller_doc()
         self.note = note
@@ -591,6 +671,13 @@ class Experiment:
         self.libs = provenance.lib_versions(client.libs)
         self.host = provenance.host()
         self._post(status="running", value=0.0)
+
+    def tag(self, *tags: str) -> Experiment:
+        """Attach searchable tags to subsequent experiment posts."""
+        for t in tags:
+            if t and t not in self.tags:
+                self.tags.append(t)
+        return self
 
     def log(self, text: str) -> Experiment:
         """Append to the running log that travels with the run."""
@@ -662,6 +749,7 @@ class Experiment:
             "git_branch": self.prov["git_branch"],
             "git_dirty": self.prov["git_dirty"],
             "lib_versions": self.libs,
+            "ts": self.ts if self.ts else int(time.time()),
             "meta": {
                 "doc": self.doc,
                 "commits": self.commits,
@@ -674,6 +762,8 @@ class Experiment:
                 "log": self._log,
             },
         }
+        if self.tags:
+            e["tags"] = list(self.tags)
         return self.c.ingest(experiments=[e])
 
     def __enter__(self) -> Experiment:

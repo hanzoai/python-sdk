@@ -66,6 +66,10 @@ class HypothesisRecord(Wire):
     proposer: str = "did:hanzo:org:research-agent"
     registered_at: str = field(default_factory=now)
 
+    def __post_init__(self) -> None:
+        if not self.hypothesis_id and self.statement.strip():
+            self.with_computed_id()
+
     def with_computed_id(self) -> HypothesisRecord:
         if not self.hypothesis_id:
             body = {k: v for k, v in self.dump().items() if k != "hypothesis_id"}
@@ -220,6 +224,10 @@ class ExperimentRecordV2(Wire):
     next_hypothesis: str = ""
     historical: bool = False
     recorded_at: str = field(default_factory=now)
+
+    def __post_init__(self) -> None:
+        if not self.verdict and self.statistical_comparison.verdict:
+            self.verdict = epistemic_verdict(self.statistical_comparison.verdict)
 
     def digest(self) -> str:
         return canonical.digest(self.dump())
@@ -507,6 +515,10 @@ class SyncReceipt(Wire):
 class LocalResearchLedger:
     """Shared WAL-first local ledger + idempotent `/v1/research` sync queue."""
 
+    @classmethod
+    def open(cls, root: str | Path, run_id: str = "hanzo-shared") -> LocalResearchLedger:
+        return cls(root, run_id=run_id)
+
     def __init__(self, root: str | Path, run_id: str = "hanzo-shared"):
         self.root = Path(root).expanduser().resolve()
         self.run_id = run_id
@@ -658,6 +670,9 @@ class LocalResearchLedger:
         tmp.write_text(json.dumps(receipt.dump(), indent=2, sort_keys=True) + "\n", encoding="utf-8")
         os.replace(tmp, path)
         return path
+
+    def query_all(self) -> list[ExperimentRecordV2]:
+        return self.query()
 
     def query(
         self,

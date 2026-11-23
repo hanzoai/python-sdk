@@ -164,6 +164,13 @@ hanzo-research retract RUN_ID --why "read on the wrong split"
 hanzo-research compare RUN_A RUN_B
 hanzo-research provenance --model kai-1.3 --weights /models/kai-1.3 --device cpu
 hanzo-research arena leaderboard --benchmark gpqa_diamond
+hanzo-research query --dir ~/.hanzo/research --search "32k gb10"
+hanzo-research failures --dir ~/.hanzo/research --domain bitcos
+hanzo-research next --dir ~/.hanzo/research --top-k 5
+hanzo-research impact --lineage bench_lineage.json --changed-paths changed.txt
+hanzo-research tick --dir ~/.hanzo/research --campaign campaigns/ml_kernels_and_quant.json --executor scripts/ml_research_executor.py
+hanzo-research loop --dir ~/.hanzo/research --campaign campaigns/ml_kernels_and_quant.json --executor scripts/ml_research_executor.py --max-ticks 10 --budget-minutes 60 --idle-exit
+hanzo-research spool --wal ~/.hanzo/research/wal/wal.jsonl --cursor ~/.hanzo/research/wal/cursor.json
 ```
 
 It is not `hanzo research`: the `hanzo` command is the native CLI, and no Python package
@@ -180,17 +187,22 @@ in this workspace may install one.
   `ContaminationError`, `verify_promotion_eligibility`, and the crate's evidence records
   (`EnvironmentV1`, `GateSpec`, `Claim`, `TeacherInteraction`, `PairEvidence`,
   `DeterminismReport`, `ArtifactRef`, `ResearchEvent`), each with the crate's digest.
-- `wal.ResearchWal`: an fsynced, hash-chained event log. A log the crate wrote verifies here
-  (`wal.verify`), and the reverse.
-- `protocol`: `ExperimentRecordV2`, `HardwareSpec`, `WorkloadManifest`,
-  `StatisticalComparison`, `CorrectnessChecks`, `LocalResearchLedger` (WAL-first persistence
-  with content-addressed artifacts and `docs/research-sync.md` SHA-256 read-back receipts),
-  and `OpportunityQueue` (expected-gain/cost scheduling + discovery propagation).
-- `testing`: anytime-valid adaptive screening (`planned_looks`, `stable_order`,
-  `paired_accuracy_look`, `paired_metric_anytime_look`, `verify_progressive_screen`),
-  `student_t_ci95`, `paired_comparison`, and dependency-scoped `impacted_benchmarks`.
-- CLI additions: `hanzo-research ledger --dir ...`, `hanzo-research opportunities --dir ...`,
-  and `hanzo-research sync-wal --dir ...`; backfill via `python3 -m hanzo_research.backfill`.
+- `wal.ResearchWal`: an fsynced, hash-chained event log with `<wal>.lock` `flock` concurrency,
+  torn-tail crash mending, interior-tamper rejection, and `append_idempotent`. `spool.Spooler`
+  drains WAL events to `/v1/research/evidence` with `Idempotency-Key` deduplication.
+- `lease.CloudLeaseManager`: cross-machine leases backed by `/v1/research/evidence` with
+  monotonic server `version` fencing tokens, stale reclamation, and immediate release.
+- `protocol`: HIP-1403 `HypothesisRecord`, `CounterEvidence`, `ResearchBudget`,
+  `research_yield`, `successor_research_lift`, `ExperimentRecordV2` (`dedup_key()`),
+  `LocalResearchLedger` (dual-plane sync + SHA-256 artifact read-back verification), and
+  `OpportunityQueue`.
+- `transfer`: automatic 4-axis transfer hypothesis generator (`generate_transfer_hypotheses`
+  across model scale, sequence length, GPU backend, and workload regime) plus dead-end
+  mechanism-fix routing on refutations.
+- `testing` & `controller`: anytime-valid progressive A/B screening (`ProgressiveAbRunner`
+  with per-look checkpoint resume), Beta-Binomial/mixture-SPRT `paired_accuracy_look` +
+  `power_analysis`, dependency-scoped `impacted_benchmarks`, and `AutonomousController`
+  (`tick` / `loop`).
 
 ## Tests
 

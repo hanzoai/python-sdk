@@ -97,6 +97,7 @@ class Fake:
         self.artifacts: dict[str, dict[str, dict[str, Any]]] = {}
         self.evidences: dict[tuple[str, str], list[dict[str, Any]]] = {}
         self.idempotency: dict[tuple[str, str], dict[str, Any]] = {}
+        self.workflow_jobs: dict[tuple[str, str], dict[str, Any]] = {}
         self.claims: list[dict[str, Any]] = []
         self.attempt_rows: list[dict[str, Any]] = []
         self.requests: list[dict[str, Any]] = []
@@ -339,7 +340,26 @@ class Fake:
             raise Problem(422, "sha256 does not match the content bytes")
         store = self.artifacts.setdefault(who["org"], {})
         created = h not in store
-        rec = {k: a.get(k) for k in ("kind", "run_id", "git_sha", "git_branch", "git_dirty", "lib_versions", "ts")}
+        rec = {
+            k: a.get(k)
+            for k in (
+                "kind",
+                "run_id",
+                "git_sha",
+                "git_branch",
+                "git_dirty",
+                "lib_versions",
+                "ts",
+                "artifact_id",
+                "content_sha256",
+                "media_type",
+                "canonicalization",
+                "compression",
+                "uncompressed_size",
+                "tags",
+            )
+        }
+        rec["received_at"] = a.get("received_at") or 1700000999
         store.setdefault(
             h,
             {
@@ -448,6 +468,49 @@ class Fake:
             return self.arena(method, path, q, body, who)
         if who is None:
             raise Problem(403, "a validated principal is required")
+        if path.startswith("/v1/workflow/namespaces/"):
+            rest = path.removeprefix("/v1/workflow/namespaces/")
+            segs = [s for s in rest.split("/") if s]
+            if len(segs) == 2 and segs[1] == "activities" and method == "POST":
+                b = body or {}
+                ns = segs[0]
+                jid = str(b.get("id") or "job-1")
+                self.workflow_jobs[(ns, jid)] = {
+                    "id": jid,
+                    "type": b.get("type") or "research.bench",
+                    "taskQueue": b.get("taskQueue") or "gpu-jobs",
+                    "input": b.get("input") or {},
+                    "polls": 0,
+                }
+                return ok(
+                    {
+                        "id": jid,
+                        "type": b.get("type") or "research.bench",
+                        "taskQueue": b.get("taskQueue") or "gpu-jobs",
+                        "state": "ACTIVITY_TASK_STATE_SCHEDULED",
+                    }
+                )
+            if len(segs) == 4 and segs[1] == "activities" and method == "GET":
+                ns, jid = segs[0], segs[2]
+                job = self.workflow_jobs.get((ns, jid))
+                if not job:
+                    raise Problem(404, "activity not found")
+                job["polls"] += 1
+                state = (
+                    "ACTIVITY_TASK_STATE_COMPLETED"
+                    if job["polls"] >= 2
+                    else "ACTIVITY_TASK_STATE_RUNNING"
+                )
+                return ok(
+                    {
+                        "id": jid,
+                        "type": job["type"],
+                        "taskQueue": job["taskQueue"],
+                        "state": state,
+                        "output": {"tok_per_sec": 182.4},
+                    }
+                )
+            raise Problem(404, "unknown workflow route")
         name = path.removeprefix("/v1/research/")
         if name == "evidence" and method == "POST":
             b = body or {}

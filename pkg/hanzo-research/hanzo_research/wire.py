@@ -16,6 +16,7 @@ import json
 import math
 import types
 import typing
+import time
 import decimal
 import hashlib
 import datetime
@@ -42,6 +43,7 @@ __all__ = [
     "Batch",
     "Stored",
     "Artifact",
+    "ResearchArtifact",
     "Record",
     "Ack",
     "KindTotal",
@@ -394,6 +396,21 @@ class Artifact(Wire):
     canonicalization: str = ""
     compression: str = ""
     uncompressed_size: int = 0
+    tags: list[str] = dataclasses.field(default_factory=list)
+    received_at: int | None = None
+
+    def dump(self) -> dict[str, Any]:
+        out = super().dump()
+        if out.get("ts", 0) == 0:
+            out["ts"] = int(time.time())
+        if not out.get("tags"):
+            out.pop("tags", None)
+        if out.get("received_at") is None:
+            out.pop("received_at", None)
+        return out
+
+
+ResearchArtifact = Artifact
 
 
 @dataclass
@@ -422,6 +439,18 @@ class Record(Wire):
     git_dirty: bool = False
     lib_versions: dict[str, str] = dataclasses.field(default_factory=dict)
     ts: int = 0
+    tags: list[str] = dataclasses.field(default_factory=list)
+    received_at: int | None = None
+
+    def dump(self) -> dict[str, Any]:
+        out = super().dump()
+        if out.get("ts", 0) == 0:
+            out["ts"] = int(time.time())
+        if not out.get("tags"):
+            out.pop("tags", None)
+        if out.get("received_at") is None:
+            out.pop("received_at", None)
+        return out
 
 
 @dataclass

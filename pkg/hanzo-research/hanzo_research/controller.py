@@ -148,8 +148,8 @@ def arm_candidates(
     total = sum(counts.values())
     if total >= cap:
         return []
-    candidates: list[tuple[float, int, str, str]] = []
-    for arm, sup in arms:
+    candidates: list[tuple[float, int, int, str, str]] = []
+    for idx, (arm, sup) in enumerate(arms):
         if (arm, sup) in blocked:
             continue
         n = counts[(arm, sup)]
@@ -160,9 +160,9 @@ def arm_candidates(
             ucb = -1e6 - f if f >= 2 else -1.0 + 0.05 * math.sqrt(math.log(total + 2) / n)
         else:
             ucb = best[(arm, sup)] + 0.12 * math.sqrt(math.log(total + 2) / n) - (0.25 if f >= 2 else 0.0)
-        candidates.append((ucb, -n, arm, sup))
+        candidates.append((ucb, -n, -idx, arm, sup))
     candidates.sort(reverse=True)
-    return candidates
+    return [(ucb, neg_n, arm, sup) for ucb, neg_n, _, arm, sup in candidates]
 
 
 def execute_subprocess(
@@ -419,8 +419,8 @@ class AutonomousController:
 
     def __init__(
         self,
-        *,
         ledger_dir: str | Path,
+        *,
         state_dir: str | Path | None = None,
         registry: CampaignRegistry | None = None,
         repo_dir: str | Path = ".",
@@ -657,8 +657,8 @@ class AutonomousController:
 
     def tick(
         self,
-        *,
         executor: str | Path,
+        *,
         changed_paths: Sequence[str] | None = None,
         lineage: Mapping[str, Mapping[str, Sequence[str]]] | None = None,
         changed_artifacts: Sequence[str] | None = None,
@@ -993,8 +993,8 @@ class AutonomousController:
 
     def loop(
         self,
-        *,
         executor: str | Path,
+        *,
         max_ticks: int = 10,
         budget_minutes: float = 60.0,
         idle_exit: bool = True,
