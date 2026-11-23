@@ -202,7 +202,14 @@ in this workspace may install one.
 - `testing` & `controller`: anytime-valid progressive A/B screening (`ProgressiveAbRunner`
   with per-look checkpoint resume), Beta-Binomial/mixture-SPRT `paired_accuracy_look` +
   `power_analysis`, dependency-scoped `impacted_benchmarks`, and `AutonomousController`
-  (`tick` / `loop`).
+  (`tick` / `loop`, including `--via-tasks --remote-target dgx`).
+- `tasks`: native `hanzoai/tasks` scheduling and linked-machine (`hanzod` / `hanzo link` /
+  `evo` / `dgx`) orchestration (`list_machines` merging `/v1/compute/fleet/workers` and
+  `/v1/agent/targets`, `dispatch_task`, `orchestrate_across_machines` with `--target evo,dgx`
+  72h durable queuing and `--fanout`, busy deferral `release_gpu_job`, SSE event-driven
+  `wait_gpu_job` via `/v1/workflow/events`, and `create_schedule` / `list_schedules` /
+  `describe_schedule` / `trigger_schedule` / `pause_schedule` / `resume_schedule` /
+  `delete_schedule`).
 
 ## Tests
 

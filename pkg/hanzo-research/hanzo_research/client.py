@@ -18,7 +18,7 @@ from __future__ import annotations
 import base64
 import hashlib
 import time
-from typing import Any, Mapping, TypeVar, Callable, Iterable
+from typing import Any, Mapping, Sequence, TypeVar, Callable, Iterable
 
 from . import wire, canonical, provenance
 from .wire import (
@@ -524,62 +524,296 @@ class Research:
         out = self.http.get("/v1/research/evidence", {"uri": uri})
         return [Evidence.load(x) for x in out.get("data") or []]
 
+    def list_machines(
+        self,
+        *,
+        only_online: bool = True,
+        capability: str | None = None,
+        backend: str | None = None,
+        exclude_busy: bool = False,
+    ) -> list[Any]:
+        """Discover linked machines (`hanzod` Desktop nodes, `hanzo link` hosts, `dgx`) from `/v1/compute/fleet/workers`."""
+        from . import tasks as _tasks
+
+        return _tasks.list_machines(
+            self,
+            only_online=only_online,
+            capability=capability,
+            backend=backend,
+            exclude_busy=exclude_busy,
+        )
+
+    def dispatch_task(
+        self,
+        payload: Mapping[str, Any],
+        *,
+        target: str | None = None,
+        activity_type: str = "research.bench",
+        when_idle_only: bool = True,
+        required_backend: str | None = None,
+        min_memory_gb: float | None = None,
+        job_id: str | None = None,
+        run_id: str | None = None,
+        namespace: str = "gpu-jobs",
+        retry_policy: Mapping[str, Any] | None = None,
+        heartbeat_timeout: str = "60s",
+        start_to_close_timeout: str = "1800s",
+        request_id: str | None = None,
+        identity: str = "",
+    ) -> dict[str, Any]:
+        """Dispatch a busy-aware standalone activity to `hanzoai/tasks` (`/v1/workflow/namespaces/<ns>/activities`)."""
+        from . import tasks as _tasks
+
+        return _tasks.dispatch_task(
+            self,
+            payload,
+            target=target,
+            activity_type=activity_type,
+            when_idle_only=when_idle_only,
+            required_backend=required_backend,
+            min_memory_gb=min_memory_gb,
+            job_id=job_id,
+            run_id=run_id,
+            namespace=namespace,
+            retry_policy=retry_policy,
+            heartbeat_timeout=heartbeat_timeout,
+            start_to_close_timeout=start_to_close_timeout,
+            request_id=request_id,
+            identity=identity,
+        )
+
     def submit_gpu_job(
         self,
         payload: Mapping[str, Any],
         *,
         job_type: str = "research.bench",
         gpu: str | None = None,
+        target: str | None = None,
+        activity_type: str | None = None,
+        when_idle_only: bool = True,
+        required_backend: str | None = None,
+        min_memory_gb: float | None = None,
         job_id: str | None = None,
+        run_id: str | None = None,
         namespace: str = "gpu-jobs",
+        retry_policy: Mapping[str, Any] | None = None,
+        heartbeat_timeout: str = "60s",
+        start_to_close_timeout: str = "1800s",
+        request_id: str | None = None,
+        identity: str = "",
     ) -> dict[str, Any]:
-        """Submit a remote GPU benchmark/compute activity to `/v1/workflow/namespaces/<ns>/activities`."""
-        from urllib.parse import quote
-
-        ns = namespace.strip() or "gpu-jobs"
-        queue = f"gpu:{gpu.strip()}" if (gpu and gpu.strip()) else "gpu-jobs"
-        jid = (job_id or "").strip() or (
-            f"job-{int(time.time())}-{hashlib.sha256(canonical.canonicalize(dict(payload))).hexdigest()[:12]}"
+        """Submit a remote GPU/compute activity to `/v1/workflow/namespaces/<ns>/activities`."""
+        return self.dispatch_task(
+            payload,
+            target=target if target is not None else gpu,
+            activity_type=activity_type or job_type,
+            when_idle_only=when_idle_only,
+            required_backend=required_backend,
+            min_memory_gb=min_memory_gb,
+            job_id=job_id,
+            run_id=run_id,
+            namespace=namespace,
+            retry_policy=retry_policy,
+            heartbeat_timeout=heartbeat_timeout,
+            start_to_close_timeout=start_to_close_timeout,
+            request_id=request_id,
+            identity=identity,
         )
-        body: dict[str, Any] = {
-            "id": jid,
-            "type": job_type.strip() or "research.bench",
-            "taskQueue": queue,
-            "input": dict(payload),
-        }
-        resp = self.http.post(f"/v1/workflow/namespaces/{quote(ns, safe='')}/activities", body)
-        out = dict(resp) if isinstance(resp, Mapping) else {}
-        out.setdefault("id", jid)
-        return out
 
     def wait_gpu_job(
         self,
         job_id: str,
         *,
+        run_id: str | None = None,
         namespace: str = "gpu-jobs",
         timeout_sec: float = 600.0,
         poll_interval_sec: float = 2.0,
     ) -> dict[str, Any]:
-        """Poll a submitted GPU workflow activity until a terminal state is reached."""
-        from urllib.parse import quote
+        """Poll a submitted GPU workflow activity across busy deferrals until a terminal state is reached."""
+        from . import tasks as _tasks
 
-        ns = quote(namespace.strip() or "gpu-jobs", safe="")
-        jid = quote(job_id.strip(), safe="")
-        path = f"/v1/workflow/namespaces/{ns}/activities/{jid}/{jid}"
-        deadline = time.monotonic() + max(0.01, timeout_sec)
-        while True:
-            resp = self.http.get(path)
-            data = dict(resp) if isinstance(resp, Mapping) else {}
-            state = str(data.get("state") or data.get("status") or "")
-            if state in (
-                "ACTIVITY_TASK_STATE_COMPLETED",
-                "ACTIVITY_TASK_STATE_FAILED",
-                "ACTIVITY_TASK_STATE_CANCELED",
-            ):
-                return data
-            if time.monotonic() >= deadline:
-                raise Error(f"timed out waiting for gpu job {job_id!r} (last state: {state!r})")
-            time.sleep(max(0.005, poll_interval_sec))
+        return _tasks.wait_gpu_job(
+            self,
+            job_id,
+            run_id=run_id,
+            namespace=namespace,
+            timeout_sec=timeout_sec,
+            poll_interval_sec=poll_interval_sec,
+        )
+
+    def release_gpu_job(
+        self,
+        activity_id: str,
+        run_id: str | None = None,
+        *,
+        reason: str = "busy",
+        identity: str = "",
+        delay_seconds: int = 10,
+        namespace: str = "gpu-jobs",
+    ) -> dict[str, Any]:
+        """Release/defer a claimed activity when the worker is busy without failing the job."""
+        from . import tasks as _tasks
+
+        return _tasks.release_gpu_job(
+            self,
+            activity_id,
+            run_id,
+            reason=reason,
+            identity=identity,
+            delay_seconds=delay_seconds,
+            namespace=namespace,
+        )
+
+    def orchestrate_across_machines(
+        self,
+        tasks_or_command: Any,
+        *,
+        target: str | Sequence[str] | None = None,
+        capability: str | None = "research.bench",
+        backend: str | None = None,
+        activity_type: str = "research.bench",
+        fanout: bool = False,
+        wait: bool = False,
+        when_idle_only: bool = True,
+        min_memory_gb: float | None = None,
+        namespace: str = "gpu-jobs",
+        timeout_sec: float = 600.0,
+        poll_interval_sec: float = 2.0,
+    ) -> list[dict[str, Any]]:
+        """Orchestrate research tasks across linked `hanzod` / `hanzo link` machines (`--target evo,dgx`, `fanout`, or best-idle)."""
+        from . import tasks as _tasks
+
+        return _tasks.orchestrate_across_machines(
+            self,
+            tasks_or_command,
+            target=target,
+            capability=capability,
+            backend=backend,
+            activity_type=activity_type,
+            fanout=fanout,
+            wait=wait,
+            when_idle_only=when_idle_only,
+            min_memory_gb=min_memory_gb,
+            namespace=namespace,
+            timeout_sec=timeout_sec,
+            poll_interval_sec=poll_interval_sec,
+        )
+
+    orchestrate_tasks = orchestrate_across_machines
+
+    def create_schedule(
+        self,
+        schedule_id: str,
+        *,
+        interval: str | None = None,
+        cron: str | None = None,
+        target: str | None = None,
+        activity_type: str = "research.tick",
+        workflow_type: str | None = None,
+        input_payload: Mapping[str, Any] | None = None,
+        command: str | None = None,
+        campaign: str | None = None,
+        executor: str | None = None,
+        max_compute_seconds: int | None = None,
+        when_idle_only: bool = True,
+        required_backend: str | None = None,
+        paused: bool = False,
+        note: str = "",
+        namespace: str = "gpu-jobs",
+        retry_policy: Mapping[str, Any] | None = None,
+        heartbeat_timeout: str = "60s",
+        start_to_close_timeout: str = "1800s",
+    ) -> dict[str, Any]:
+        """Create a native `hanzoai/tasks` recurring or cron schedule in `/v1/workflow/namespaces/<ns>/schedules`."""
+        from . import tasks as _tasks
+
+        return _tasks.create_schedule(
+            self,
+            schedule_id,
+            interval=interval,
+            cron=cron,
+            target=target,
+            activity_type=activity_type,
+            workflow_type=workflow_type,
+            input_payload=input_payload,
+            command=command,
+            campaign=campaign,
+            executor=executor,
+            max_compute_seconds=max_compute_seconds,
+            when_idle_only=when_idle_only,
+            required_backend=required_backend,
+            paused=paused,
+            note=note,
+            namespace=namespace,
+            retry_policy=retry_policy,
+            heartbeat_timeout=heartbeat_timeout,
+            start_to_close_timeout=start_to_close_timeout,
+        )
+
+    def list_schedules(self, *, namespace: str = "gpu-jobs") -> list[dict[str, Any]]:
+        """List native `hanzoai/tasks` schedules in `/v1/workflow/namespaces/<ns>/schedules`."""
+        from . import tasks as _tasks
+
+        return _tasks.list_schedules(self, namespace=namespace)
+
+    def describe_schedule(self, schedule_id: str, *, namespace: str = "gpu-jobs") -> dict[str, Any]:
+        """Describe one native `hanzoai/tasks` schedule."""
+        from . import tasks as _tasks
+
+        return _tasks.describe_schedule(self, schedule_id, namespace=namespace)
+
+    def trigger_schedule(
+        self,
+        schedule_id: str,
+        *,
+        request_id: str = "",
+        overlap_policy: str = "",
+        namespace: str = "gpu-jobs",
+    ) -> dict[str, Any]:
+        """Trigger immediate execution of a native `hanzoai/tasks` schedule."""
+        from . import tasks as _tasks
+
+        return _tasks.trigger_schedule(
+            self,
+            schedule_id,
+            request_id=request_id,
+            overlap_policy=overlap_policy,
+            namespace=namespace,
+        )
+
+    def pause_schedule(
+        self,
+        schedule_id: str,
+        *,
+        note: str = "",
+        namespace: str = "gpu-jobs",
+    ) -> dict[str, Any]:
+        """Pause a native `hanzoai/tasks` schedule."""
+        from . import tasks as _tasks
+
+        return _tasks.pause_schedule(self, schedule_id, note=note, namespace=namespace)
+
+    def resume_schedule(
+        self,
+        schedule_id: str,
+        *,
+        namespace: str = "gpu-jobs",
+    ) -> dict[str, Any]:
+        """Resume/unpause a native `hanzoai/tasks` schedule."""
+        from . import tasks as _tasks
+
+        return _tasks.resume_schedule(self, schedule_id, namespace=namespace)
+
+    def delete_schedule(
+        self,
+        schedule_id: str,
+        *,
+        namespace: str = "gpu-jobs",
+    ) -> dict[str, Any]:
+        """Delete a native `hanzoai/tasks` schedule."""
+        from . import tasks as _tasks
+
+        return _tasks.delete_schedule(self, schedule_id, namespace=namespace)
 
     def experiment(
         self,

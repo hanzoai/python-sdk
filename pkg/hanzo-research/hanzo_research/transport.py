@@ -131,6 +131,28 @@ class Transport:
     ) -> Any:
         return json.loads(self.call("POST", path, query, body, True, extra_headers=extra_headers) or b"null")
 
+    def delete(
+        self,
+        path: str,
+        query: Mapping[str, Any] | None = None,
+        extra_headers: Mapping[str, str] | None = None,
+    ) -> Any:
+        return json.loads(self.call("DELETE", path, query, None, True, extra_headers=extra_headers) or b"null")
+
+    def open_stream(
+        self,
+        path: str,
+        query: Mapping[str, Any] | None = None,
+        timeout: float | None = None,
+    ) -> Any:
+        """Open a live Server-Sent Events (`text/event-stream`) HTTP response stream."""
+        url = self.base + path + _query(query)
+        hdrs = self._headers(True, False)
+        hdrs["Accept"] = "text/event-stream"
+        hdrs["Cache-Control"] = "no-cache"
+        req = urllib.request.Request(url, method="GET", headers=hdrs)  # noqa: S310
+        return self._opener.open(req, timeout=timeout or self.timeout)
+
     def call(
         self,
         method: str,

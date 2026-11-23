@@ -666,8 +666,14 @@ class AutonomousController:
         auto_sync: bool = True,
         client: Research | None = None,
         lease_ttl_sec: int = 600,
+        via_tasks: bool = False,
+        remote_target: str | None = None,
+        poll_interval_sec: float = 1.0,
     ) -> dict[str, Any]:
         """Run one full autonomous research cycle: pull -> lease -> progressive A/B -> WAL -> transfer -> sync."""
+        use_tasks = bool(via_tasks or (remote_target and remote_target.strip()))
+        resolved_target = (remote_target or "").strip() or ("any" if use_tasks else "")
+
         # Step 1: Recover interrupted trials in state_dir before starting new work.
         for t in self.trials():
             if t.state == "running":
@@ -685,13 +691,15 @@ class AutonomousController:
 
         # Step 2: Pull cloud state if credentials or an explicit client exist.
         active_client = client
-        if active_client is None and auto_sync:
+        if active_client is None and (auto_sync or use_tasks):
             try:
                 tok = token()
-                if tok:
-                    active_client = Research(api_key=tok, repo=self.repo_dir)
+                if tok or use_tasks:
+                    active_client = Research(api_key=tok or None, repo=self.repo_dir)
             except Exception:
                 active_client = None
+        if use_tasks and active_client is None:
+            raise RuntimeError("remote hanzoai/tasks execution (--via-tasks / --remote-target) requires a Research client")
         if active_client is not None:
             self.ledger.pull_from_cloud(active_client)
 
@@ -713,8 +721,21 @@ class AutonomousController:
             if not impacted_ids:
                 return {"status": "skipped_unimpacted", "impacted_tasks": []}
 
-        # Step 4: Select highest-priority eligible work.
-        work = self.select_next_work(impacted_ids=impacted_ids)
+        # Step 4: Select highest-priority eligible work (matching remote linked machines when via_tasks is set).
+        eligible_backends: set[str] | None = None
+        if use_tasks and active_client is not None:
+            try:
+                machines = active_client.list_machines(only_online=True)
+                if resolved_target and resolved_target.lower() != "any":
+                    machines = [
+                        m for m in machines if m.id == resolved_target or m.hostname == resolved_target
+                    ]
+                discovered = {b for m in machines for b in m.backends}
+                eligible_backends = discovered or {"CUDA", "ROCM", "METAL", "VULKAN", "CPU"}
+            except Exception:
+                eligible_backends = {"CUDA", "ROCM", "METAL", "VULKAN", "CPU"}
+
+        work = self.select_next_work(impacted_ids=impacted_ids, host_backends=eligible_backends)
         if work is None:
             return {"status": "idle", "reason": "no eligible open opportunities or unexplored campaign arms"}
 
@@ -847,14 +868,44 @@ class AutonomousController:
                         "candidate_sha": candidate_sha,
                         "fencing_token": active_lease.fencing_token,
                     }
-                    res = execute_subprocess(
-                        executor,
-                        "stage",
-                        req,
-                        self.state_dir,
-                        timeout_minutes=timeout_minutes,
-                        job_filename_prefix=f"stage_{stage_idx}_{stage.name}",
-                    )
+                    if use_tasks and active_client is not None:
+                        dispatched = active_client.dispatch_task(
+                            dict(req, executor=str(executor), phase="stage"),
+                            target=resolved_target,
+                            activity_type="research.bench",
+                            when_idle_only=True,
+                            required_backend=backend,
+                            job_id=f"trial-{trial_id}-s{stage_idx}-{stage.name}",
+                        )
+                        completed = active_client.wait_gpu_job(
+                            str(dispatched["id"]),
+                            run_id=str(dispatched.get("runId") or dispatched["id"]),
+                            timeout_sec=max(1, int(timeout_minutes)) * 60.0,
+                            poll_interval_sec=poll_interval_sec,
+                        )
+                        c_state = str(completed.get("status") or completed.get("state") or "")
+                        raw_out = completed.get("result") or completed.get("output") or {}
+                        if c_state == "ACTIVITY_TASK_STATE_COMPLETED" and isinstance(raw_out, Mapping):
+                            res = dict(raw_out)
+                            res.setdefault("status", "complete")
+                        else:
+                            res = {
+                                "status": "failed",
+                                "reason": str(
+                                    completed.get("failureCause")
+                                    or (raw_out.get("reason") if isinstance(raw_out, Mapping) else "")
+                                    or f"remote task ended with {c_state}"
+                                ),
+                            }
+                    else:
+                        res = execute_subprocess(
+                            executor,
+                            "stage",
+                            req,
+                            self.state_dir,
+                            timeout_minutes=timeout_minutes,
+                            job_filename_prefix=f"stage_{stage_idx}_{stage.name}",
+                        )
                     stage_artifacts[f"stage_{stage_idx}_{stage.name}_json"] = (
                         json.dumps(res, indent=2, sort_keys=True) + "\n"
                     ).encode("utf-8")
@@ -1004,6 +1055,9 @@ class AutonomousController:
         changed_artifacts: Sequence[str] | None = None,
         auto_sync: bool = True,
         client: Research | None = None,
+        via_tasks: bool = False,
+        remote_target: str | None = None,
+        poll_interval_sec: float = 1.0,
     ) -> dict[str, Any]:
         """Run autonomous `tick` cycles continuously until budget, tick cap, or queue exhaustion."""
         deadline = time.monotonic() + max(0.1, float(budget_minutes)) * 60.0
@@ -1026,6 +1080,9 @@ class AutonomousController:
                 timeout_minutes=rem_minutes,
                 auto_sync=auto_sync,
                 client=client,
+                via_tasks=via_tasks,
+                remote_target=remote_target,
+                poll_interval_sec=poll_interval_sec,
             )
             ticks_run += 1
             outcomes.append(res)

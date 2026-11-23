@@ -72,6 +72,15 @@ def _add_auto_args(s: argparse.ArgumentParser, *, require_executor: bool = False
     s.add_argument("--max-trials", type=int, default=64, help="maximum trials per objective")
     s.add_argument("--timeout-minutes", type=int, default=30, help="per-stage timeout in minutes")
     s.add_argument("--auto-sync", action=argparse.BooleanOptionalAction, default=True)
+    s.add_argument(
+        "--via-tasks",
+        action="store_true",
+        help="execute progressive A/B benchmark stages remotely through hanzoai/tasks",
+    )
+    s.add_argument(
+        "--remote-target",
+        help="target linked machine id (e.g. 'dgx') or 'any' when running stages via hanzoai/tasks",
+    )
 
 
 def main(argv: Iterable[str] | None = None) -> int:
@@ -201,6 +210,44 @@ def main(argv: Iterable[str] | None = None) -> int:
     s.add_argument("--idle-exit", action=argparse.BooleanOptionalAction, default=True)
     s.add_argument("--sleep-seconds", type=float, default=0.0)
 
+    s = sub.add_parser("machines", help="discover linked hanzod / hanzo link machines from /v1/compute/fleet/workers")
+    s.add_argument("--capability", help="filter by worker capability (e.g. research.bench, hanzod.run)")
+    s.add_argument("--backend", help="filter by execution backend (CUDA, METAL, ROCM, VULKAN, CPU)")
+    s.add_argument("--include-offline", action="store_true", help="include offline machines")
+    s.add_argument("--exclude-busy", action="store_true", help="exclude currently busy machines")
+
+    s = sub.add_parser("dispatch", help="dispatch or fan-out busy-aware tasks across linked machines via hanzoai/tasks")
+    s.add_argument("--command", required=True, help="command or JSON task payload to execute")
+    s.add_argument("--type", dest="activity_type", default="research.bench", help="activity type (default research.bench)")
+    s.add_argument("--target", help="target machine id (e.g. dgx) or 'any' (default: orchestrate best idle / fanout)")
+    s.add_argument("--capability", default="research.bench", help="capability filter for orchestration")
+    s.add_argument("--backend", help="required backend (CUDA, METAL, ROCM, VULKAN, CPU)")
+    s.add_argument("--min-memory-gb", type=float, help="minimum memory in GiB")
+    s.add_argument("--namespace", default="gpu-jobs", help="hanzoai/tasks namespace (default gpu-jobs)")
+    s.add_argument("--fanout", action="store_true", help="fan out across all matching linked machines")
+    s.add_argument("--allow-when-busy", action="store_true", help="run even when machine reports busy")
+    s.add_argument("--wait", action="store_true", help="wait for dispatched tasks to reach a terminal state")
+    s.add_argument("--timeout-sec", type=float, default=600.0, help="wait timeout in seconds")
+
+    s = sub.add_parser("schedule", help="manage recurring native hanzoai/tasks schedules")
+    s.add_argument("action", choices=("create", "list", "describe", "trigger", "pause", "resume", "delete"))
+    s.add_argument("--namespace", default="gpu-jobs", help="hanzoai/tasks namespace (default gpu-jobs)")
+    s.add_argument("--id", dest="schedule_id", help="schedule id")
+    s.add_argument("--interval", help="recurring interval (e.g. 30m, 2h)")
+    s.add_argument("--cron", help="cron expression (e.g. '0 */2 * * *')")
+    s.add_argument("--target", default="any", help="target machine id (e.g. dgx) or 'any'")
+    s.add_argument("--type", dest="activity_type", default="research.tick", help="scheduled activity type")
+    s.add_argument("--workflow-type", help="optional workflowType name when scheduling a workflow")
+    s.add_argument("--command", help="command to run on each tick")
+    s.add_argument("--campaign", help="campaign registry path")
+    s.add_argument("--executor", help="executor path")
+    s.add_argument("--max-compute-seconds", type=int, help="per-run compute budget in seconds")
+    s.add_argument("--backend", help="required backend (CUDA, METAL, ROCM, VULKAN, CPU)")
+    s.add_argument("--allow-when-busy", action="store_true", help="do not defer when machine is busy")
+    s.add_argument("--paused", action="store_true", help="create schedule in paused state")
+    s.add_argument("--note", default="", help="schedule or pause note")
+    s.add_argument("--request-id", default="", help="idempotency request id for trigger")
+
     a = p.parse_args(list(argv) if argv is not None else None)
     try:
         out = run(a)
@@ -298,7 +345,12 @@ def run(a: argparse.Namespace) -> Any:
             return ctrl.status()
         if not a.executor:
             raise ValueError(f"{action} requires --executor")
-        opt_client = Research(base=a.base, project=a.project, org=a.org, repo=a.repo_dir) if a.base else None
+        use_remote = bool(a.via_tasks or a.remote_target)
+        opt_client = (
+            Research(base=a.base, project=a.project, org=a.org, repo=a.repo_dir)
+            if (a.base or use_remote)
+            else None
+        )
         if action == "tick":
             return ctrl.tick(
                 executor=a.executor,
@@ -308,6 +360,8 @@ def run(a: argparse.Namespace) -> Any:
                 timeout_minutes=a.timeout_minutes,
                 auto_sync=a.auto_sync,
                 client=opt_client,
+                via_tasks=a.via_tasks,
+                remote_target=a.remote_target,
             )
         return ctrl.loop(
             executor=a.executor,
@@ -320,9 +374,95 @@ def run(a: argparse.Namespace) -> Any:
             changed_artifacts=_read_lines_arg(a.changed_artifacts),
             auto_sync=a.auto_sync,
             client=opt_client,
+            via_tasks=a.via_tasks,
+            remote_target=a.remote_target,
         )
 
     r = Research(base=a.base, project=a.project, org=a.org, repo=".")
+    if a.cmd == "machines":
+        return [
+            m.dump()
+            for m in r.list_machines(
+                only_online=not a.include_offline,
+                capability=a.capability,
+                backend=a.backend,
+                exclude_busy=a.exclude_busy,
+            )
+        ]
+    if a.cmd == "dispatch":
+        from .tasks import parse_targets
+
+        try:
+            parsed_cmd = json.loads(a.command)
+            payload: Any = parsed_cmd if isinstance(parsed_cmd, dict) else {"command": a.command}
+        except ValueError:
+            payload = {"command": a.command}
+        when_idle_only = not a.allow_when_busy
+        targets = parse_targets(a.target)
+        if a.fanout or not targets or len(targets) > 1 or targets[0].lower() == "any":
+            return r.orchestrate_across_machines(
+                payload,
+                target=targets if (targets and targets[0].lower() != "any") else None,
+                capability=a.capability or None,
+                backend=a.backend,
+                activity_type=a.activity_type,
+                fanout=a.fanout,
+                wait=a.wait,
+                when_idle_only=when_idle_only,
+                min_memory_gb=a.min_memory_gb,
+                namespace=a.namespace,
+                timeout_sec=a.timeout_sec,
+            )
+        dispatched = r.dispatch_task(
+            payload,
+            target=targets[0],
+            activity_type=a.activity_type,
+            when_idle_only=when_idle_only,
+            required_backend=a.backend,
+            min_memory_gb=a.min_memory_gb,
+            namespace=a.namespace,
+        )
+        if a.wait:
+            return r.wait_gpu_job(
+                str(dispatched["id"]),
+                run_id=str(dispatched.get("runId") or dispatched["id"]),
+                namespace=a.namespace,
+                timeout_sec=a.timeout_sec,
+            )
+        return dispatched
+    if a.cmd == "schedule":
+        act = a.action
+        if act == "list":
+            return r.list_schedules(namespace=a.namespace)
+        if not a.schedule_id:
+            raise ValueError(f"schedule {act} requires --id")
+        if act == "create":
+            return r.create_schedule(
+                a.schedule_id,
+                interval=a.interval,
+                cron=a.cron,
+                target=a.target,
+                activity_type=a.activity_type,
+                workflow_type=a.workflow_type,
+                command=a.command,
+                campaign=a.campaign,
+                executor=a.executor,
+                max_compute_seconds=a.max_compute_seconds,
+                when_idle_only=not a.allow_when_busy,
+                required_backend=a.backend,
+                paused=a.paused,
+                note=a.note,
+                namespace=a.namespace,
+            )
+        if act == "describe":
+            return r.describe_schedule(a.schedule_id, namespace=a.namespace)
+        if act == "trigger":
+            return r.trigger_schedule(a.schedule_id, request_id=a.request_id, namespace=a.namespace)
+        if act == "pause":
+            return r.pause_schedule(a.schedule_id, note=a.note, namespace=a.namespace)
+        if act == "resume":
+            return r.resume_schedule(a.schedule_id, namespace=a.namespace)
+        return r.delete_schedule(a.schedule_id, namespace=a.namespace)
     if a.cmd in ("sync-wal", "sync"):
         ledger = LocalResearchLedger(a.dir)
         return [rc.dump() for rc in ledger.sync_to_cloud(r)]

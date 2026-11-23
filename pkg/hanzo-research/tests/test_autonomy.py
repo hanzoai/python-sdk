@@ -588,3 +588,320 @@ json.dump(out, open(args.output, "w", encoding="utf-8"))
     assert cli.main(["controller", "validate", "--campaign", str(camp_path)]) == 0
     val = json.loads(capsys.readouterr().out)
     assert val["campaign"] == "py-auto-camp"
+
+
+def test_native_tasks_linked_machines_busy_deferral_schedules_and_remote_tick(
+    tmp_path: Path, server: Server, capsys: pytest.CaptureFixture[str]
+) -> None:
+    server.fake.fleet_workers = [
+        {
+            "id": "dgx",
+            "hostname": "spark-6826",
+            "status": "online",
+            "os": "linux",
+            "arch": "aarch64",
+            "cpus": 20,
+            "memory": 128 * (1024**3),
+            "gpus": [{"name": "NVIDIA GB10", "memoryTotal": "131072 MiB", "arch": "sm_121", "unified": True}],
+            "capabilities": ["research.bench", "research.tick", "fn.run"],
+            "jobQueue": "gpu:dgx",
+            "busy": False,
+        },
+        {
+            "id": "macbook-hanzod",
+            "hostname": "zach-mbp-hanzod",
+            "status": "online",
+            "os": "darwin",
+            "arch": "arm64",
+            "cpus": 16,
+            "memory": 64 * (1024**3),
+            "gpus": [{"name": "Apple M4 Max", "memoryTotal": "65536 MiB", "unified": True}],
+            "capabilities": ["research.bench", "hanzod.run"],
+            "jobQueue": "gpu:macbook-hanzod",
+        },
+        {
+            "id": "offline-rig",
+            "hostname": "old-rig",
+            "status": "offline",
+            "os": "linux",
+            "arch": "x86_64",
+            "cpus": 8,
+            "capabilities": ["research.bench"],
+        },
+    ]
+    # Org linked machines in /v1/agent/targets: evo (asleep AMD Strix Halo), dgx, dbc (M4 Max)
+    server.fake.agent_targets = [
+        {
+            "id": "tgt_dgx_1",
+            "label": "dgx",
+            "host": "spark-6826",
+            "kind": "gpu",
+            "capacity": "1x GB10 / 128G",
+            "status": "online",
+            "serving": True,
+        },
+        {
+            "id": "tgt_evo_1",
+            "label": "evo",
+            "host": "evo",
+            "kind": "gpu",
+            "capacity": "32 vCPU / 102G",
+            "status": "offline",
+            "serving": False,
+            "spec": {
+                "os": "linux",
+                "arch": "x86_64",
+                "cpus": 32,
+                "memory": 102 * (1024**3),
+                "gpus": [{"name": "AMD Ryzen AI Max+ 395 (gfx1151)", "memoryTotal": "102 GiB"}],
+            },
+        },
+    ]
+    # Presence fallback marks macbook-hanzod busy with active_dev_session
+    server.fake.fleet_presence["macbook-hanzod"] = {
+        "input": {"busy": True, "busyReason": "active_dev_session"}
+    }
+    server.fake.busy_defer_queues.add("gpu:macbook-hanzod")
+
+    client = _client(server)
+
+    # 1. Linked-machine discovery & filtering (merges /v1/compute/fleet/workers + /v1/agent/targets)
+    online = client.list_machines()
+    assert [m.id for m in online] == ["dgx", "macbook-hanzod"]
+    all_linked = client.list_machines(only_online=False)
+    evo_m = next(m for m in all_linked if m.id == "evo")
+    assert evo_m.status == "offline"
+    assert evo_m.task_queue == "gpu:evo"
+    assert "ROCM" in evo_m.backends and "VULKAN" in evo_m.backends
+    cuda_only = client.list_machines(backend="CUDA")
+    assert [m.id for m in cuda_only] == ["dgx"]
+    assert "CUDA" in cuda_only[0].backends and "CPU" in cuda_only[0].backends
+    metal_only = client.list_machines(backend="METAL")
+    assert [m.id for m in metal_only] == ["macbook-hanzod"]
+    assert metal_only[0].busy is True and metal_only[0].busy_reason == "active_dev_session"
+    idle_only = client.list_machines(exclude_busy=True)
+    assert [m.id for m in idle_only] == ["dgx"]
+    hanzod_only = client.list_machines(capability="hanzod.run")
+    assert [m.id for m in hanzod_only] == ["macbook-hanzod"]
+
+    # 1b. Direct --target evo,dgx durable queuing (evo offline -> queued_until_online, dgx online -> online)
+    evo_dgx_jobs = client.orchestrate_across_machines(
+        {"command": "hanzo-research tick --campaign ml.json", "job_id": "pair-run"},
+        target="evo,dgx",
+    )
+    assert [(j["machine"], j["task_queue"], j["machine_status"]) for j in evo_dgx_jobs] == [
+        ("evo", "gpu:evo", "queued_until_online"),
+        ("dgx", "gpu:dgx", "online"),
+    ]
+    assert evo_dgx_jobs[0]["scheduleToCloseTimeout"] == "72h"
+
+    # 2. Fan-out across linked machines + busy deferral retry + explicit release_gpu_job
+    fanout_jobs = client.orchestrate_across_machines(
+        {"command": "hanzo-research tick --campaign ml.json", "job_id": "xarch-bench"},
+        capability="research.bench",
+        fanout=True,
+        wait=False,
+    )
+    assert [j["taskQueue"] for j in fanout_jobs] == ["gpu:dgx", "gpu:macbook-hanzod"]
+    stored_mac_job = server.fake.workflow_jobs[("gpu-jobs", "xarch-bench-macbook-hanzod")]
+    assert stored_mac_job["input"]["when_idle_only"] is True
+    assert stored_mac_job["retryPolicy"]["maximumAttempts"] == 8
+    assert stored_mac_job["heartbeatTimeout"] == "60s"
+
+    # Explicit worker busy release endpoint
+    rel = client.release_gpu_job(
+        "xarch-bench-macbook-hanzod",
+        "xarch-bench-macbook-hanzod",
+        reason="active_dev_session",
+        identity="macbook-hanzod",
+        delay_seconds=5,
+    )
+    assert rel["status"] == "ACTIVITY_TASK_STATE_SCHEDULED"
+    assert rel["deferCount"] == 1
+    assert rel["lastBusyReason"] == "active_dev_session"
+
+    # wait_gpu_job streams SSE from /v1/workflow/events (activity.deferred -> activity.completed)
+    sse_before = server.fake.sse_streams_opened
+    done_mac = client.wait_gpu_job(
+        "xarch-bench-macbook-hanzod",
+        timeout_sec=5.0,
+        poll_interval_sec=2.0,
+    )
+    assert server.fake.sse_streams_opened > sse_before
+    assert done_mac["status"] == "ACTIVITY_TASK_STATE_COMPLETED"
+    assert done_mac["deferCount"] >= 1
+    assert done_mac["result"]["tok_per_sec"] == pytest.approx(182.4)
+
+    # Best-idle selection when fanout=False picks idle dgx, or shared gpu-jobs when all matching are busy
+    best_idle = client.orchestrate_across_machines("echo bench", capability="research.bench", fanout=False)
+    assert best_idle[0]["taskQueue"] == "gpu:dgx"
+    fallback_shared = client.orchestrate_across_machines(
+        "echo metal-bench", capability="research.bench", backend="METAL", fanout=False
+    )
+    assert fallback_shared[0]["taskQueue"] == "gpu-jobs"
+    assert fallback_shared[0]["input"]["required_backend"] == "METAL"
+
+    # 3. Native hanzoai/tasks recurring & cron schedule CRUD
+    created = client.create_schedule(
+        "ml-nightly-gb10",
+        interval="30m",
+        cron="0 */2 * * *",
+        target="dgx",
+        activity_type="research.tick",
+        campaign="campaigns/ml_kernels_and_quant.json",
+        executor="scripts/ml_research_executor.py",
+        max_compute_seconds=900,
+        required_backend="CUDA",
+    )
+    assert created["scheduleId"] == "ml-nightly-gb10"
+    assert created["spec"]["interval"] == [{"interval": "30m"}]
+    assert created["spec"]["cronString"] == ["0 */2 * * *"]
+    assert created["action"]["taskQueue"] == "gpu:dgx"
+    assert created["action"]["activityType"] == {"name": "research.tick"}
+    assert created["action"]["input"]["when_idle_only"] is True
+    assert created["action"]["input"]["max_compute_seconds"] == 900
+
+    listed = client.list_schedules()
+    assert len(listed) == 1 and listed[0]["scheduleId"] == "ml-nightly-gb10"
+    desc = client.describe_schedule("ml-nightly-gb10")
+    assert desc["action"]["taskQueue"] == "gpu:dgx"
+
+    trig = client.trigger_schedule("ml-nightly-gb10", request_id="manual-1")
+    assert trig["status"] == "triggered"
+    assert client.pause_schedule("ml-nightly-gb10", note="maintenance")["status"] == "paused"
+    assert client.describe_schedule("ml-nightly-gb10")["state"]["paused"] is True
+    assert client.resume_schedule("ml-nightly-gb10")["status"] == "running"
+    assert client.describe_schedule("ml-nightly-gb10")["state"]["paused"] is False
+    assert client.delete_schedule("ml-nightly-gb10")["status"] == "deleted"
+    assert client.list_schedules() == []
+
+    # 4. CLI parity (`machines`, `dispatch`, `schedule`, and `tick --via-tasks --remote-target dgx`)
+    old_key = os.environ.get("HANZO_API_KEY")
+    os.environ["HANZO_API_KEY"] = HANZO
+    try:
+        assert cli.main(["--base", server.url, "machines", "--backend", "CUDA"]) == 0
+        m_out = json.loads(capsys.readouterr().out)
+        assert [m["id"] for m in m_out] == ["dgx"]
+
+        assert (
+            cli.main(
+                [
+                    "--base",
+                    server.url,
+                    "dispatch",
+                    "--command",
+                    "hanzo-bench --progressive",
+                    "--fanout",
+                ]
+            )
+            == 0
+        )
+        d_out = json.loads(capsys.readouterr().out)
+        assert len(d_out) == 2
+
+        assert (
+            cli.main(
+                [
+                    "--base",
+                    server.url,
+                    "dispatch",
+                    "--target",
+                    "evo,dgx",
+                    "--command",
+                    "hanzo-bench --progressive",
+                ]
+            )
+            == 0
+        )
+        ed_out = json.loads(capsys.readouterr().out)
+        assert [r["task_queue"] for r in ed_out] == ["gpu:evo", "gpu:dgx"]
+        assert ed_out[0]["machine_status"] == "queued_until_online"
+        assert ed_out[1]["machine_status"] == "online"
+
+        assert (
+            cli.main(
+                [
+                    "--base",
+                    server.url,
+                    "schedule",
+                    "create",
+                    "--id",
+                    "cli-sched",
+                    "--interval",
+                    "15m",
+                    "--target",
+                    "evo,dgx",
+                    "--command",
+                    "hanzo-research tick",
+                ]
+            )
+            == 0
+        )
+        s_out = json.loads(capsys.readouterr().out)
+        assert s_out["scheduleIds"] == ["cli-sched-evo", "cli-sched-dgx"]
+        assert cli.main(["--base", server.url, "schedule", "delete", "--id", "cli-sched-evo"]) == 0
+        _ = capsys.readouterr()
+        assert cli.main(["--base", server.url, "schedule", "delete", "--id", "cli-sched-dgx"]) == 0
+        _ = capsys.readouterr()
+
+        # Remote controller tick via hanzoai/tasks (`--via-tasks --remote-target dgx`)
+        def _remote_stage(inp: dict[str, Any]) -> dict[str, Any]:
+            return {
+                "status": "complete",
+                "trial_id": inp["trial_id"],
+                "objective_id": inp["objective_id"],
+                "baseline_samples": [100.0, 100.2, 99.8, 100.1],
+                "candidate_samples": [172.0, 173.0, 171.5, 172.5],
+                "parity_passed": True,
+                "memory_integrity_passed": True,
+                "gpu_time_sec": 0.12,
+                "details": "remote dgx stage win",
+            }
+
+        server.fake.stage_handler = _remote_stage
+        remote_reg = CampaignRegistry(
+            campaign="remote-dgx-camp",
+            repo="hanzoai/engine",
+            plan=ProgressiveAbPlan(
+                stages=[
+                    ProgressiveStage(name="micro", reps=4, prompt_len=64, gen_len=16),
+                    ProgressiveStage(name="qualification", reps=4, prompt_len=128, gen_len=32),
+                ]
+            ),
+            objectives=[
+                ObjectiveSpec(
+                    id="qmm_cuda",
+                    study="qmm_cuda",
+                    family="cuda_kern",
+                    metric="tok_per_sec",
+                    unit="tok/s",
+                    direction="higher",
+                    backends=["CUDA"],
+                    shapes=["4096x4096"],
+                )
+            ],
+            search_space={
+                "cuda_kern": [SearchArm(arm="marlin", variant="sm121_v2", hypothesis="SM121 warp tile")]
+            },
+        )
+        r_ctrl = AutonomousController(
+            ledger_dir=tmp_path / "remote_ledger",
+            registry=remote_reg,
+            repo_dir=str(PKG_ROOT),
+            worker_id="cpu-orchestrator",
+        )
+        r_tick = r_ctrl.tick(
+            "hanzo-bench",
+            client=client,
+            via_tasks=True,
+            remote_target="dgx",
+            poll_interval_sec=0.01,
+        )
+        assert r_tick["verdict"] == "proven"
+        assert r_tick["stopped_stage"] == 2
+    finally:
+        server.fake.stage_handler = None
+        if old_key is None:
+            os.environ.pop("HANZO_API_KEY", None)
+        else:
+            os.environ["HANZO_API_KEY"] = old_key

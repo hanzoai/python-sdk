@@ -98,6 +98,14 @@ class Fake:
         self.evidences: dict[tuple[str, str], list[dict[str, Any]]] = {}
         self.idempotency: dict[tuple[str, str], dict[str, Any]] = {}
         self.workflow_jobs: dict[tuple[str, str], dict[str, Any]] = {}
+        self.workflow_namespaces: dict[str, dict[str, Any]] = {}
+        self.workflow_schedules: dict[tuple[str, str], dict[str, Any]] = {}
+        self.fleet_workers: list[dict[str, Any]] = []
+        self.agent_targets: list[dict[str, Any]] = []
+        self.fleet_presence: dict[str, dict[str, Any]] = {}
+        self.busy_defer_queues: set[str] = set()
+        self.sse_streams_opened = 0
+        self.stage_handler: Any = None
         self.claims: list[dict[str, Any]] = []
         self.attempt_rows: list[dict[str, Any]] = []
         self.requests: list[dict[str, Any]] = []
@@ -468,26 +476,83 @@ class Fake:
             return self.arena(method, path, q, body, who)
         if who is None:
             raise Problem(403, "a validated principal is required")
+        if path == "/v1/compute/fleet/workers" and method == "GET":
+            return ok({"workers": list(self.fleet_workers)})
+        if path == "/v1/agent/targets" and method == "GET":
+            return ok({"targets": list(self.agent_targets)})
+        if path == "/v1/workflow/namespaces" and method == "POST":
+            b = body or {}
+            ns_name = str((b.get("namespaceInfo") or {}).get("name") or b.get("name") or "default")
+            rec = dict(b, name=ns_name)
+            self.workflow_namespaces[ns_name] = rec
+            return ok(rec)
         if path.startswith("/v1/workflow/namespaces/"):
             rest = path.removeprefix("/v1/workflow/namespaces/")
             segs = [s for s in rest.split("/") if s]
+            if len(segs) == 4 and segs[0] == "fleet" and segs[1] == "activities" and method == "GET":
+                pres = self.fleet_presence.get(segs[2])
+                if not pres:
+                    raise Problem(404, "presence activity not found")
+                return ok(pres)
             if len(segs) == 2 and segs[1] == "activities" and method == "POST":
                 b = body or {}
                 ns = segs[0]
-                jid = str(b.get("id") or "job-1")
+                jid = str(b.get("activityId") or b.get("id") or "job-1")
+                rid = str(b.get("runId") or jid)
+                act_type = (
+                    (b.get("activityType") or {}).get("name")
+                    if isinstance(b.get("activityType"), dict)
+                    else None
+                ) or str(b.get("type") or "research.bench")
+                queue = str(b.get("taskQueue") or "gpu-jobs")
                 self.workflow_jobs[(ns, jid)] = {
                     "id": jid,
-                    "type": b.get("type") or "research.bench",
-                    "taskQueue": b.get("taskQueue") or "gpu-jobs",
+                    "activityId": jid,
+                    "runId": rid,
+                    "type": act_type,
+                    "taskQueue": queue,
                     "input": b.get("input") or {},
+                    "retryPolicy": b.get("retryPolicy"),
+                    "heartbeatTimeout": b.get("heartbeatTimeout"),
+                    "startToCloseTimeout": b.get("startToCloseTimeout"),
+                    "requestId": b.get("requestId"),
                     "polls": 0,
+                    "deferCount": 0,
+                    "lastBusyReason": "",
+                    "notBefore": "",
                 }
                 return ok(
                     {
                         "id": jid,
-                        "type": b.get("type") or "research.bench",
-                        "taskQueue": b.get("taskQueue") or "gpu-jobs",
+                        "activityId": jid,
+                        "runId": rid,
+                        "execution": {"workflowId": jid, "runId": rid},
+                        "type": act_type,
+                        "taskQueue": queue,
+                        "input": b.get("input") or {},
+                        "status": "ACTIVITY_TASK_STATE_SCHEDULED",
                         "state": "ACTIVITY_TASK_STATE_SCHEDULED",
+                    }
+                )
+            if len(segs) == 5 and segs[1] == "activities" and segs[4] == "release" and method == "POST":
+                ns, jid = segs[0], segs[2]
+                job = self.workflow_jobs.get((ns, jid))
+                if not job:
+                    raise Problem(404, "activity not found")
+                b = body or {}
+                job["deferCount"] = int(job.get("deferCount") or 0) + 1
+                job["lastBusyReason"] = str(b.get("reason") or "busy")
+                job["notBefore"] = "2026-11-23T00:15:00Z"
+                return ok(
+                    {
+                        "id": jid,
+                        "execution": {"workflowId": jid, "runId": job["runId"]},
+                        "taskQueue": job["taskQueue"],
+                        "status": "ACTIVITY_TASK_STATE_SCHEDULED",
+                        "state": "ACTIVITY_TASK_STATE_SCHEDULED",
+                        "deferCount": job["deferCount"],
+                        "lastBusyReason": job["lastBusyReason"],
+                        "notBefore": job["notBefore"],
                     }
                 )
             if len(segs) == 4 and segs[1] == "activities" and method == "GET":
@@ -496,20 +561,100 @@ class Fake:
                 if not job:
                     raise Problem(404, "activity not found")
                 job["polls"] += 1
-                state = (
-                    "ACTIVITY_TASK_STATE_COMPLETED"
-                    if job["polls"] >= 2
-                    else "ACTIVITY_TASK_STATE_RUNNING"
+                p_idx = job["polls"]
+                if job.get("sse_completed"):
+                    state = "ACTIVITY_TASK_STATE_COMPLETED"
+                elif job["taskQueue"] in self.busy_defer_queues:
+                    # Simulate STARTED -> SCHEDULED (busy deferral) -> STARTED -> COMPLETED
+                    if p_idx == 1:
+                        state = "ACTIVITY_TASK_STATE_STARTED"
+                    elif p_idx == 2:
+                        state = "ACTIVITY_TASK_STATE_SCHEDULED"
+                        job["deferCount"] = max(1, int(job.get("deferCount") or 0))
+                        job["lastBusyReason"] = job.get("lastBusyReason") or "active_dev_session"
+                    elif p_idx == 3:
+                        state = "ACTIVITY_TASK_STATE_STARTED"
+                    else:
+                        state = "ACTIVITY_TASK_STATE_COMPLETED"
+                else:
+                    state = (
+                        "ACTIVITY_TASK_STATE_COMPLETED"
+                        if p_idx >= 2
+                        else "ACTIVITY_TASK_STATE_STARTED"
+                    )
+                out_val = (
+                    self.stage_handler(job["input"])
+                    if (self.stage_handler is not None and state == "ACTIVITY_TASK_STATE_COMPLETED")
+                    else {"tok_per_sec": 182.4}
                 )
                 return ok(
                     {
                         "id": jid,
+                        "execution": {"workflowId": jid, "runId": job["runId"]},
                         "type": job["type"],
                         "taskQueue": job["taskQueue"],
+                        "status": state,
                         "state": state,
-                        "output": {"tok_per_sec": 182.4},
+                        "deferCount": job.get("deferCount", 0),
+                        "lastBusyReason": job.get("lastBusyReason", ""),
+                        "result": out_val,
+                        "output": out_val,
                     }
                 )
+            if len(segs) == 2 and segs[1] == "schedules" and method == "POST":
+                b = dict(body or {})
+                ns = segs[0]
+                sid = str(b.get("scheduleId") or "")
+                if not sid:
+                    raise Problem(400, "scheduleId required")
+                b["namespace"] = ns
+                b.setdefault("state", {"paused": False, "note": ""})
+                b.setdefault("info", {"actionCount": 0, "createTime": "2026-11-23T00:00:00Z"})
+                self.workflow_schedules[(ns, sid)] = b
+                return ok(b)
+            if len(segs) == 2 and segs[1] == "schedules" and method == "GET":
+                ns = segs[0]
+                rows = [v for (s_ns, _), v in sorted(self.workflow_schedules.items()) if s_ns == ns]
+                return ok({"schedules": rows})
+            if len(segs) == 3 and segs[1] == "schedules" and method == "GET":
+                ns, sid = segs[0], segs[2]
+                sch = self.workflow_schedules.get((ns, sid))
+                if not sch:
+                    raise Problem(404, "schedule not found")
+                return ok(sch)
+            if len(segs) == 3 and segs[1] == "schedules" and method == "DELETE":
+                ns, sid = segs[0], segs[2]
+                if (ns, sid) not in self.workflow_schedules:
+                    raise Problem(404, "schedule not found")
+                del self.workflow_schedules[(ns, sid)]
+                return ok({"status": "deleted"})
+            if len(segs) == 4 and segs[1] == "schedules" and segs[3] == "trigger" and method == "POST":
+                ns, sid = segs[0], segs[2]
+                sch = self.workflow_schedules.get((ns, sid))
+                if not sch:
+                    raise Problem(404, "schedule not found")
+                sch["info"]["actionCount"] = int(sch["info"].get("actionCount") or 0) + 1
+                req_id = str((body or {}).get("requestId") or "r1")
+                return ok(
+                    {
+                        "status": "triggered",
+                        "execution": {"workflowId": f"{sid}-{req_id}", "runId": req_id},
+                    }
+                )
+            if len(segs) == 4 and segs[1] == "schedules" and segs[3] == "pause" and method == "POST":
+                ns, sid = segs[0], segs[2]
+                sch = self.workflow_schedules.get((ns, sid))
+                if not sch:
+                    raise Problem(404, "schedule not found")
+                sch["state"] = {"paused": True, "note": str((body or {}).get("note") or "")}
+                return ok({"status": "paused"})
+            if len(segs) == 4 and segs[1] == "schedules" and segs[3] == "unpause" and method == "POST":
+                ns, sid = segs[0], segs[2]
+                sch = self.workflow_schedules.get((ns, sid))
+                if not sch:
+                    raise Problem(404, "schedule not found")
+                sch["state"] = {"paused": False, "note": ""}
+                return ok({"status": "running"})
             raise Problem(404, "unknown workflow route")
         name = path.removeprefix("/v1/research/")
         if name == "evidence" and method == "POST":
@@ -690,6 +835,52 @@ class Server:
                 pass
 
             def answer(self) -> None:
+                if self.command == "GET" and self.path.split("?", 1)[0] == "/v1/workflow/events":
+                    who = fake.principal(self.headers)
+                    if who is None:
+                        self.send_response(403)
+                        self.end_headers()
+                        return
+                    fake.sse_streams_opened += 1
+                    self.send_response(200)
+                    self.send_header("Content-Type", "text/event-stream")
+                    self.send_header("Cache-Control", "no-cache")
+                    self.end_headers()
+                    self.wfile.write(b": hanzo-tasks event stream\n\n")
+                    self.wfile.flush()
+                    with fake.lock:
+                        pending = list(fake.workflow_jobs.items())
+                    for (ns, jid), job in pending:
+                        rid = job.get("runId") or jid
+                        if job["taskQueue"] in fake.busy_defer_queues:
+                            job["deferCount"] = max(1, int(job.get("deferCount") or 0))
+                            job["lastBusyReason"] = job.get("lastBusyReason") or "active_dev_session"
+                            defer_ev = {
+                                "kind": "activity.deferred",
+                                "namespace": ns,
+                                "workflow_id": jid,
+                                "run_id": rid,
+                                "data": {
+                                    "deferCount": job["deferCount"],
+                                    "lastBusyReason": job["lastBusyReason"],
+                                },
+                            }
+                            self.wfile.write(
+                                f"event: activity.deferred\ndata: {json.dumps(defer_ev)}\n\n".encode()
+                            )
+                        job["sse_completed"] = True
+                        comp_ev = {
+                            "kind": "activity.completed",
+                            "namespace": ns,
+                            "workflow_id": jid,
+                            "run_id": rid,
+                            "data": {"status": "ACTIVITY_TASK_STATE_COMPLETED"},
+                        }
+                        self.wfile.write(
+                            f"event: activity.completed\ndata: {json.dumps(comp_ev)}\n\n".encode()
+                        )
+                        self.wfile.flush()
+                    return
                 n = int(self.headers.get("Content-Length") or 0)
                 status, ctype, out = fake.handle(
                     self.command, self.path, self.headers, self.rfile.read(n) if n else b""
@@ -702,7 +893,7 @@ class Server:
                 self.end_headers()
                 self.wfile.write(out)
 
-            do_GET = do_POST = answer
+            do_GET = do_POST = do_DELETE = answer
 
         self.httpd = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
         self.url = f"http://127.0.0.1:{self.httpd.server_address[1]}"

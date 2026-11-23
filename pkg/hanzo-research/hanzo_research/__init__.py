@@ -17,10 +17,25 @@ The Rust peer is the `hanzo-research` crate (hanzoai/ml): the same wire records,
 RFC 8785 digests, the same lineage and WAL records.
 """
 
-from . import wal, wire, lease, spool, lineage, benchmark, canonical, controller, provenance, protocol, testing, transfer
+from . import (
+    wal,
+    wire,
+    lease,
+    spool,
+    tasks,
+    lineage,
+    benchmark,
+    canonical,
+    controller,
+    provenance,
+    protocol,
+    testing,
+    transfer,
+)
 from .wal import ResearchWal
 from .lease import CloudLeaseManager, Lease, LeaseLostError, LeaseOutcome
 from .spool import SpoolCursor, SpoolReport, Spooler
+from .tasks import DEFAULT_RETRY_POLICY, LinkedMachine, infer_machine_backends, parse_targets, resolve_task_queue
 from .controller import (
     AutonomousController,
     CampaignRegistry,
@@ -157,6 +172,11 @@ __all__ = [
     "Provenance",
     "capture",
     "ResearchWal",
+    "LinkedMachine",
+    "DEFAULT_RETRY_POLICY",
+    "infer_machine_backends",
+    "parse_targets",
+    "resolve_task_queue",
     "ResearchBudget",
     "HypothesisRecord",
     "CounterEvidence",
