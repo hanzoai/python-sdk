@@ -68,6 +68,26 @@ def _latest_version(rows: list[Evidence]) -> Evidence | None:
     return max(rows, key=lambda e: e.version)
 
 
+def _hydrate_latest(
+    client: Any,
+    rows: list[Evidence],
+    *,
+    filed: Evidence | None = None,
+) -> Evidence | None:
+    latest = _latest_version(rows)
+    if filed is not None and (latest is None or latest.version < filed.version):
+        return filed
+    if latest is None:
+        return None
+    if isinstance(latest.content, Mapping) and latest.content:
+        return latest
+    if filed is not None and latest.id and latest.id == filed.id and isinstance(filed.content, Mapping):
+        return filed
+    if latest.id and hasattr(client, "get_evidence"):
+        return client.get_evidence(latest.id)
+    return latest
+
+
 class CloudLeaseManager:
     """Distributed lease manager backed by `/v1/research/evidence` + offline WAL fallback."""
 
@@ -176,7 +196,7 @@ class CloudLeaseManager:
                 return self._acquire_offline(uri, campaign, opportunity_id, ttl_sec)
             raise
 
-        latest = _latest_version(existing)
+        latest = _hydrate_latest(self.client, existing)
         prev_ver = latest.version if latest else 0
         reclaimed_from = ""
         if latest is not None and isinstance(latest.content, Mapping):
@@ -214,11 +234,11 @@ class CloudLeaseManager:
             source=Source(system="hanzo-research-lease", revision=self.commit),
             content=content,
         )
-        self.client.evidence(ev)
+        filed = self.client.evidence(ev)
 
         # Re-GET canonical latest record to resolve concurrent acquisition races deterministically.
         verified_rows = self.client.evidence_versions(uri)
-        winner = _latest_version(verified_rows)
+        winner = _hydrate_latest(self.client, verified_rows, filed=filed)
         if winner is None or not isinstance(winner.content, Mapping):
             raise RuntimeError(f"lease verification failed: no evidence returned for {uri}")
         w_holder = str(winner.content.get("owner_worker_id") or "")
@@ -287,7 +307,7 @@ class CloudLeaseManager:
                 os.replace(tmp, p)
             return renewed
 
-        latest = _latest_version(self.client.evidence_versions(lease.uri))
+        latest = _hydrate_latest(self.client, self.client.evidence_versions(lease.uri))
         if (
             latest is None
             or not isinstance(latest.content, Mapping)
@@ -311,7 +331,7 @@ class CloudLeaseManager:
             "reclaimed_from": lease.reclaimed_from,
             "state": "held",
         }
-        self.client.evidence(
+        filed = self.client.evidence(
             Evidence(
                 uri=lease.uri,
                 hash=canonical.digest(content),
@@ -320,7 +340,7 @@ class CloudLeaseManager:
                 content=content,
             )
         )
-        after = _latest_version(self.client.evidence_versions(lease.uri))
+        after = _hydrate_latest(self.client, self.client.evidence_versions(lease.uri), filed=filed)
         if (
             after is None
             or not isinstance(after.content, Mapping)
@@ -353,7 +373,7 @@ class CloudLeaseManager:
                 ):
                     raise LeaseLostError(f"offline fencing token superseded on {lease.uri}")
             return
-        latest = _latest_version(self.client.evidence_versions(lease.uri))
+        latest = _hydrate_latest(self.client, self.client.evidence_versions(lease.uri))
         if (
             latest is None
             or not isinstance(latest.content, Mapping)
@@ -391,7 +411,7 @@ class CloudLeaseManager:
                     os.replace(tmp, p)
             return None
 
-        latest = _latest_version(self.client.evidence_versions(lease.uri))
+        latest = _hydrate_latest(self.client, self.client.evidence_versions(lease.uri))
         if (
             latest is None
             or not isinstance(latest.content, Mapping)

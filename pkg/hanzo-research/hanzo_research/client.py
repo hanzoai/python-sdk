@@ -524,6 +524,12 @@ class Research:
         out = self.http.get("/v1/research/evidence", {"uri": uri})
         return [Evidence.load(x) for x in out.get("data") or []]
 
+    def get_evidence(self, id: str) -> Evidence:
+        """Read one evidence version with its content (`GET /v1/research/evidence/{id}`)."""
+        from urllib.parse import quote
+
+        return Evidence.load(self.http.get(f"/v1/research/evidence/{quote(id, safe='')}"))
+
     def list_machines(
         self,
         *,
