@@ -1,9 +1,7 @@
-"""The cloud-backed tools ride the default surface of every mode.
+"""The canonical cloud-backed tools ride the default surface of every mode.
 
-A mode disables every registered tool it does not list, so a tool missing from
-ESSENTIAL_TOOLS is installed and invisible. llm (completions, the catalog, the
-plan's limits), kai_decide and repo (repositories on Hanzo git) are HTTP calls to
-api.hanzo.ai, so every mode carries them.
+Under HIP-0300 ("one and one way to do everything"), cloud capabilities are
+exposed via `kai`, `tracker`, `coding`, `research`, `skills`, and `hanzo`.
 """
 
 from hanzo_mcp.tools.common.entrypoint_loader import PACKAGE_TOOL_PREFIXES
@@ -11,7 +9,7 @@ from hanzo_mcp.tools.common.mode import ModeRegistry
 from hanzo_mcp.tools.common.mode_loader import ModeLoader
 from hanzo_mcp.tools.common.personality import ESSENTIAL_TOOLS
 
-CLOUD_TOOLS = ("llm", "kai_decide", "repo")
+CLOUD_TOOLS = ("kai", "tracker", "coding", "research", "skills", "hanzo")
 
 
 def test_the_cloud_tools_are_essential():

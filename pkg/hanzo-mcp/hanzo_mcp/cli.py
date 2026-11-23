@@ -51,6 +51,8 @@ def _pair(args: list[str]) -> None:
 def _seat() -> None:
     """Stand for this user's ZAP router and take this process's seat, so a
     paired browser can reach it before the first browser call."""
+    if "PYTEST_CURRENT_TEST" in os.environ:
+        return
     try:
         from hanzo_tools.browser.zapd_consumer import get_consumer
     except ImportError:
@@ -58,11 +60,133 @@ def _seat() -> None:
     get_consumer()
 
 
+_NATIVE_MAGICS = (
+    b"\x7fELF",
+    b"\xfe\xed\xfa\xce",
+    b"\xce\xfa\xed\xfe",
+    b"\xfe\xed\xfa\xcf",
+    b"\xcf\xfa\xed\xfe",
+    b"\xca\xfe\xba\xbe",
+    b"MZ",
+)
+
+
+def _is_native_binary(path_str: str) -> bool:
+    """Return True iff path_str is an executable compiled binary (never a Python script)."""
+    try:
+        real = os.path.realpath(path_str)
+        if sys.argv and real == os.path.realpath(sys.argv[0]):
+            return False
+        if not (os.path.isfile(real) and os.access(real, os.X_OK)):
+            return False
+        with open(real, "rb") as f:
+            head = f.read(4)
+        return any(head.startswith(m) for m in _NATIVE_MAGICS)
+    except OSError:
+        return False
+
+
+def find_native_hanzo_mcp() -> str | None:
+    """Locate the native Rust hanzo-mcp binary when installed."""
+    candidates: list[str] = []
+    override = (os.environ.get("HANZO_MCP_NATIVE") or "").strip()
+    if override:
+        candidates.append(override)
+    home = Path.home()
+    candidates.append(str(home / ".local" / "bin" / "hanzo-mcp"))
+    candidates.append(str(home / ".cargo" / "bin" / "hanzo-mcp"))
+    for d in (os.environ.get("PATH") or "").split(os.pathsep):
+        if d:
+            candidates.append(os.path.join(d, "hanzo-mcp"))
+    seen: set[str] = set()
+    for cand in candidates:
+        if cand in seen:
+            continue
+        seen.add(cand)
+        if _is_native_binary(cand):
+            return cand
+    return None
+
+
+_PYTHON_ONLY_FLAGS = frozenset(
+    {
+        "--version",
+        "-h",
+        "--help",
+        "--install",
+        "--dev",
+        "--daemon",
+        "--all-shells",
+        "--disable-write-tools",
+        "--disable-search-tools",
+    }
+)
+
+
+def _maybe_delegate_native(argv: list[str]) -> bool:
+    """Delegate `hanzo-mcp [serve]` to the native Rust binary unless HANZO_MCP_PURE_PYTHON=1."""
+    if os.environ.get("HANZO_MCP_PURE_PYTHON") == "1":
+        return False
+    if "PYTEST_CURRENT_TEST" in os.environ and os.environ.get("HANZO_MCP_DELEGATE_NATIVE") != "1":
+        return False
+    args = list(argv[1:])
+    if args and args[0] == "pair":
+        return False
+    if any(tok.split("=")[0] in _PYTHON_ONLY_FLAGS for tok in args):
+        return False
+    native_bin = find_native_hanzo_mcp()
+    if not native_bin:
+        return False
+
+    if args and args[0] == "serve":
+        args = args[1:]
+
+    native_argv: list[str] = [native_bin]
+    project_dir: str | None = None
+    transport: str = "stdio"
+    port: str | None = None
+    i = 0
+    while i < len(args):
+        tok = args[i]
+        if tok in ("--project-dir", "--project", "--allow-path") and i + 1 < len(args):
+            if project_dir is None:
+                project_dir = args[i + 1]
+            i += 2
+        elif tok.startswith(("--project-dir=", "--project=", "--allow-path=")):
+            if project_dir is None:
+                project_dir = tok.split("=", 1)[1]
+            i += 1
+        elif tok == "--transport" and i + 1 < len(args):
+            transport = args[i + 1]
+            i += 2
+        elif tok.startswith("--transport="):
+            transport = tok.split("=", 1)[1]
+            i += 1
+        elif tok == "--port" and i + 1 < len(args):
+            port = args[i + 1]
+            i += 2
+        elif tok.startswith("--port="):
+            port = tok.split("=", 1)[1]
+            i += 1
+        else:
+            i += 1
+
+    native_argv.extend(["-t", "http" if transport == "sse" else transport])
+    if port:
+        native_argv.extend(["-p", port])
+    if project_dir:
+        native_argv.extend(["--project-dir", project_dir])
+
+    os.execv(native_bin, native_argv)
+    return True
+
+
 def main() -> None:
     """Run the CLI for the Hanzo AI server."""
     if len(sys.argv) > 1 and sys.argv[1] == "pair":
         _pair(sys.argv[2:])
         return
+    _maybe_delegate_native(sys.argv)
     # Handle 'serve' subcommand for Claude Code compatibility
     # Claude Code calls: hanzo-mcp serve --enable-agent
     # We support both: hanzo-mcp [serve] [options]

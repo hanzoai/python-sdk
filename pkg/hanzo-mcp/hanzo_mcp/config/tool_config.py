@@ -138,6 +138,23 @@ class DynamicToolRegistry:
         except Exception as e:
             logger.debug(f"Failed to discover entry points: {e}")
 
+        # Register built-in canonical HIP-0300 tools so mode resolution knows them
+        try:
+            from hanzo_mcp.tools.canonical import BUILTIN_CANONICAL_TOOL_CLASSES
+
+            for name, tool_class in BUILTIN_CANONICAL_TOOL_CLASSES.items():
+                if name not in cls._entries:
+                    cls._entries[name] = ToolConfigEntry(
+                        name=name,
+                        description=_extract_tool_description(tool_class),
+                        category=_guess_category(name),
+                        enabled=True,
+                        package="hanzo-mcp",
+                        cli_flag=f"--{name.replace('_', '-')}",
+                    )
+        except Exception as e:
+            logger.debug(f"Failed to register canonical builtin entries: {e}")
+
     @classmethod
     def get(cls, name: str) -> Optional[ToolConfigEntry]:
         cls.initialize()

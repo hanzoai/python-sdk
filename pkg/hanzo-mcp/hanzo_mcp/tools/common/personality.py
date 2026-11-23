@@ -98,52 +98,34 @@ class PersonalityRegistry:
         cls._active_personality = None
 
 
-# Essential tools — HIP-0300 axis surface, always available.
-# One tool per axis: bytes+paths, execution, symbols, history, network,
-# orchestration. Action-routed dispatch on top, not split tools.
-ESSENTIAL_TOOLS = [
-    # HIP-0300 axes
-    "fs",      # Bytes + Paths (read, write, edit, list, stat, apply_patch, search_text)
-    "exec",    # Execution (run, background, ps, kill, logs)
-    "zsh",     # The shell itself
-    "curl",    # HTTP without shell escaping
-    "playwright",  # Headless browser, deterministic
-    "code",    # Symbols + Semantics (parse, search, transform, summarize)
-    "git",     # Diffs + History
-    "repo",    # Repositories on Hanzo git linked to GitHub (list, sync now)
-    "fetch",   # Network (get, post, download)
-    "plan",    # Orchestration / intent
-    # Knowledge persistence
-    "memory",
-    # Reasoning (lightweight)
+# Canonical HIP-0300 19-tool surface ("one and one way to do everything").
+# Exact 1-to-1 parity across Rust hanzo-mcp, TypeScript @hanzo/mcp, and Python hanzo-mcp.
+CANONICAL_TOOLS = [
+    "fs",
+    "exec",
+    "code",
+    "git",
+    "fetch",
+    "workspace",
+    "browser",
+    "computer",
+    "ui",
+    "kai",
     "think",
-    "critic",
-    # Agent spawning
-    "agent",
-    # Models through Hanzo: completions Enso routes, the catalog with prices,
-    # the plan's limits, feedback (llm); typed questions to Kai (kai_decide).
-    # Both are HTTP calls to api.hanzo.ai, with nothing heavy to install.
-    "llm",
-    "kai_decide",
-    # Hanzo cloud — one tool projecting every service from the OpenAPI registry.
-    # It is an axis like the rest: the single seam to the platform, and the tool
-    # the per-service cloud tools are retired in favour of. A mode omitting it
-    # does not merely lose `hanzo`, it un-retires those ten legacy tools, because
-    # register_all_tools() only hides them once `hanzo` is enabled.
+    "plan",
+    "memory",
+    "tasks",
+    "tracker",
+    "coding",
+    "research",
+    "skills",
     "hanzo",
-    # System / configuration
-    "config",
-    "mode",
-    "tool",
 ]
 
-# What a coding agent calls every few steps, and what every prompt of a "hanzo" session carries: the schemas
-# of these are all the model reads before its first call. The rest is a mode away (`mode`) or a name away
-# (`tool enable`, HANZO_MCP_ENABLED_TOOLS).
-DEFAULT_TOOLS = [
-    "fs", "exec", "zsh", "git", "curl", "code", "lsp", "browser", "playwright", "agent", "fetch",
-    "llm", "kai_decide", "repo", "hanzo", "mode", "tool",
-]
+ESSENTIAL_TOOLS = list(CANONICAL_TOOLS)
+
+# Default surface carried by every prompt of a "hanzo" session.
+DEFAULT_TOOLS = list(CANONICAL_TOOLS)
 
 # Process and package helpers the wider personalities keep.
 SHELL_TOOLS = ["ps", "npx", "uvx", "open", "jq", "wget", "cdp"]
@@ -276,7 +258,9 @@ def _register_builtin_personalities() -> None:
 
 
 def ensure_agent_enabled(personality: ToolPersonality) -> ToolPersonality:
-    """Ensure agent tool is enabled if API keys are present."""
+    """Ensure agent tool is enabled if API keys are present (except canonical hanzo mode)."""
+    if personality.name == "hanzo":
+        return personality
     api_keys_present = any(
         os.environ.get(key)
         for key in [

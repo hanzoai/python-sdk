@@ -237,6 +237,15 @@ def register_all_tools(
     # UI component registry tool
     resolved_enabled_tools["ui"] = is_tool_enabled("ui", True)
 
+    # Canonical HIP-0300 built-in tools (kai, plan, tasks, tracker, coding, research, skills)
+    from hanzo_mcp.tools.canonical import (
+        BUILTIN_CANONICAL_TOOL_CLASSES,
+        register_canonical_builtin_tools,
+    )
+
+    for cname in BUILTIN_CANONICAL_TOOL_CLASSES:
+        resolved_enabled_tools[cname] = is_tool_enabled(cname, True)
+
     # Create loader and discover packages
     loader = EntryPointToolLoader(permission_manager=permission_manager)
     discovered = loader.discover_packages()
@@ -247,7 +256,10 @@ def register_all_tools(
     from hanzo_mcp.tools.common.mode import ModeRegistry
 
     mode = ModeRegistry.get_active() if use_mode else None
-    for name in {n for names in discovered.values() for n in names}:
+    all_candidate_names = {n for names in discovered.values() for n in names} | set(
+        BUILTIN_CANONICAL_TOOL_CLASSES.keys()
+    )
+    for name in all_candidate_names:
         if name in asked:
             resolved_enabled_tools[name] = asked[name]
         elif asked.get("all"):
@@ -273,8 +285,17 @@ def register_all_tools(
     else:
         logger.warning("No tool packages discovered via entry points")
 
-    # Register system tools that are always available
-    _register_system_tools(mcp_server, all_tools)
+    # Register canonical built-in tools (kai, plan, tasks, tracker, coding, research, skills)
+    canonical_loaded = register_canonical_builtin_tools(mcp_server, resolved_enabled_tools)
+    all_tools.update(canonical_loaded)
+
+    # Register legacy system tools (tool, version, stats) only when explicitly asked or legacy surface enabled
+    if (
+        asked.get("all")
+        or any(asked.get(k) for k in ("tool", "version", "stats"))
+        or os.environ.get("HANZO_MCP_LEGACY_SURFACE") == "1"
+    ):
+        _register_system_tools(mcp_server, all_tools)
 
     return list(all_tools.values())
 

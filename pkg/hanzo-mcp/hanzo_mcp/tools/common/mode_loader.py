@@ -9,15 +9,9 @@ from hanzo_mcp.tools.common.mode import (
     register_default_modes,
 )
 
-# Essential system tools that are ALWAYS enabled regardless of mode
-# These are core infrastructure tools that should never be disabled
-# NOTE: llm and consensus are NOT essential (heavy llm dependency)
-ESSENTIAL_SYSTEM_TOOLS: Set[str] = {
-    "mode",  # Mode switching: the way to a wider surface
-    "tool",  # Unified tool management (install, enable, disable, list)
-    "version",  # Version info
-    "stats",  # Statistics
-}
+# Legacy system helpers are opt-in under HIP-0300 canonical 19-tool surface
+# (workspace absorbs mode/version/config; skills/hanzo handle discovery).
+ESSENTIAL_SYSTEM_TOOLS: Set[str] = set()
 
 # Heavy tools that are disabled by default (opt-in)
 # These require large dependencies like llm
