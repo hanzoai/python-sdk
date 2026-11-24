@@ -34,12 +34,13 @@ class ComputeGpuJob(BaseModel):
     label: Optional[StrictStr] = Field(default=None, description="Label is the cheap human name for the render — the output filename prefix lifted out of the submitted graph. Empty when the graph carried none. The graph itself is never in this list; the tasks describe endpoint serves it.")
     last_heartbeat: Optional[StrictStr] = Field(default=None, description="LastHeartbeat is the claiming worker's most recent beat on this job, RFC 3339 — the evidence a long render is still alive rather than wedged.", alias="lastHeartbeat")
     lease_expiry: Optional[StrictStr] = Field(default=None, description="LeaseExpiry is when the worker's claim lapses, RFC 3339. Past it with the job still STARTED, the claimant is presumed dead and Status reads \"stalled\".", alias="leaseExpiry")
+    result: Optional[Any] = None
     run_id: Optional[StrictStr] = Field(default=None, description="RunID identifies this execution of the job. It equals ID for a job the dispatcher submitted, which is why a cancel that omits it still works.", alias="runId")
     start_time: Optional[StrictStr] = Field(default=None, description="StartTime is when a worker began executing the job, RFC 3339. Empty while it is still queued.", alias="startTime")
     status: Optional[StrictStr] = Field(default=None, description="Status is the job's lifecycle state: queued, running, completed, failed or canceled — plus \"stalled\", which is this surface's own reading of a job that is STARTED whose worker died: its lease has elapsed and no reaper has taken it back yet. Without it such a job reads \"running\" forever. An engine state this surface does not recognize passes through lower-cased rather than being coerced into one of these.")
     type: Optional[StrictStr] = Field(default=None, description="Type is the work being done (\"studio.render\") — what the claiming worker has to be able to execute.")
     worker: Optional[StrictStr] = Field(default=None, description="Worker is the node that actually CLAIMED the job, which is not always the one it was aimed at: a shared-lane job has no GPU but does have a Worker once picked up. Empty while the job is still waiting.")
-    __properties: ClassVar[List[str]] = ["attempt", "closeTime", "failureCause", "gpu", "id", "label", "lastHeartbeat", "leaseExpiry", "runId", "startTime", "status", "type", "worker"]
+    __properties: ClassVar[List[str]] = ["attempt", "closeTime", "failureCause", "gpu", "id", "label", "lastHeartbeat", "leaseExpiry", "result", "runId", "startTime", "status", "type", "worker"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -80,6 +81,11 @@ class ComputeGpuJob(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if result (nullable) is None
+        # and model_fields_set contains the field
+        if self.result is None and "result" in self.model_fields_set:
+            _dict['result'] = None
+
         return _dict
 
     @classmethod
@@ -100,6 +106,7 @@ class ComputeGpuJob(BaseModel):
             "label": obj.get("label"),
             "lastHeartbeat": obj.get("lastHeartbeat"),
             "leaseExpiry": obj.get("leaseExpiry"),
+            "result": obj.get("result"),
             "runId": obj.get("runId"),
             "startTime": obj.get("startTime"),
             "status": obj.get("status"),

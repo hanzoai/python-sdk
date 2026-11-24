@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,6 +26,7 @@ class SecurityFindingView(BaseModel):
     """
     SecurityFindingView
     """ # noqa: E501
+    commit: Optional[StrictStr] = Field(default=None, description="Commit is the git commit SHA that introduced the finding when scanned from commit history, omitted for working-tree file scans.")
     created_at: Optional[StrictInt] = Field(default=None, description="CreatedAt is when the finding was recorded, in Unix milliseconds.", alias="createdAt")
     fingerprint: Optional[StrictStr] = Field(default=None, description="Fingerprint is the SHA-256 of the raw secret. It is what makes the same secret recognisable across scans and after rotation without the secret ever being written down.")
     id: Optional[StrictStr] = Field(default=None, description="ID addresses this finding.")
@@ -36,7 +37,8 @@ class SecurityFindingView(BaseModel):
     rule_name: Optional[StrictStr] = Field(default=None, description="RuleName is that rule's human name.", alias="ruleName")
     scan_id: Optional[StrictStr] = Field(default=None, description="ScanID is the scan that produced it.", alias="scanId")
     severity: Optional[StrictStr] = Field(default=None, description="Severity ranks the finding: critical, high, medium or low.")
-    __properties: ClassVar[List[str]] = ["createdAt", "fingerprint", "id", "line", "path", "preview", "ruleId", "ruleName", "scanId", "severity"]
+    verified: Optional[StrictBool] = Field(default=None, description="Verified reports whether an opt-in read-only credential probe confirmed the secret is live, omitted when verification was not run.")
+    __properties: ClassVar[List[str]] = ["commit", "createdAt", "fingerprint", "id", "line", "path", "preview", "ruleId", "ruleName", "scanId", "severity", "verified"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -89,6 +91,7 @@ class SecurityFindingView(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "commit": obj.get("commit"),
             "createdAt": obj.get("createdAt"),
             "fingerprint": obj.get("fingerprint"),
             "id": obj.get("id"),
@@ -98,7 +101,8 @@ class SecurityFindingView(BaseModel):
             "ruleId": obj.get("ruleId"),
             "ruleName": obj.get("ruleName"),
             "scanId": obj.get("scanId"),
-            "severity": obj.get("severity")
+            "severity": obj.get("severity"),
+            "verified": obj.get("verified")
         })
         return _obj
 

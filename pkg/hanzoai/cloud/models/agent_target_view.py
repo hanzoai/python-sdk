@@ -30,6 +30,7 @@ class AgentTargetView(BaseModel):
     """ # noqa: E501
     capacity: Optional[StrictStr] = Field(default=None, description="Capacity is a human summary of what the machine has (\"8 vCPU / 32G\", \"1× GB10\"), up to 256 characters. Prose for a card — Spec is the same thing in a form a scheduler can read, and nothing derives one from the other.")
     created_at: Optional[StrictStr] = Field(default=None, description="CreatedAt is when the machine was first registered, RFC 3339 in UTC. A re-link refreshes the row and leaves this alone, so it dates the machine and not the connection.", alias="createdAt")
+    folders: Optional[List[StrictStr]] = Field(default=None, description="Folders are the folders on this machine the web may start runs in, as its owner granted them: a run may work in one or under one. A machine reads them on every heartbeat and drops any folder that is no longer here.")
     host: Optional[StrictStr] = Field(default=None, description="Host is the hostname sessions on this machine report, and it is a JOIN KEY, not a label: a session naming this host counts against the load below even when it names no target id, and a re-link of the same (org, host, owner) refreshes this row instead of creating a second. Empty means the machine is addressable only by ID.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the machine's handle, minted as \"tgt_\" + 32 hex characters. It is what a session records to say it ran here, and what every later patch, claim or delete addresses.")
     kind: Optional[StrictStr] = Field(default=None, description="Kind is what sort of destination this is, from a closed five: laptop | cloud | gpu | cluster | machine. A register that named none is a `machine`.")
@@ -42,7 +43,7 @@ class AgentTargetView(BaseModel):
     spec: Optional[AgentSpec] = Field(default=None, description="Spec is what the machine IS — os, arch, cores, RAM, accelerators — the static half, changed only when something reports it again. Absent when nothing has ever been reported, and a scheduler reads absence as \"cannot satisfy a floor\" rather than as \"no limits\".")
     status: Optional[StrictStr] = Field(default=None, description="Status is the EFFECTIVE liveness — online | offline | draining — not the stored one. offline and draining are operator INTENT and are reported as they stand; `online` is checked against the heartbeat, and a machine that has beaten before but not in the last 90 seconds reports offline whatever its row says. A target that has NEVER beaten keeps its stored status, because a hand-registered destination has no fact to check.")
     updated_at: Optional[StrictStr] = Field(default=None, description="UpdatedAt is the last write to the row, same format — which for a beating machine is its last heartbeat, since a heartbeat IS a write.", alias="updatedAt")
-    __properties: ClassVar[List[str]] = ["capacity", "createdAt", "host", "id", "kind", "label", "metrics", "metricsAt", "running", "serving", "sessions", "spec", "status", "updatedAt"]
+    __properties: ClassVar[List[str]] = ["capacity", "createdAt", "folders", "host", "id", "kind", "label", "metrics", "metricsAt", "running", "serving", "sessions", "spec", "status", "updatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -103,6 +104,7 @@ class AgentTargetView(BaseModel):
         _obj = cls.model_validate({
             "capacity": obj.get("capacity"),
             "createdAt": obj.get("createdAt"),
+            "folders": obj.get("folders"),
             "host": obj.get("host"),
             "id": obj.get("id"),
             "kind": obj.get("kind"),

@@ -16,12 +16,16 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictStr
+from pydantic import Field, StrictInt, StrictStr
+from typing import Optional
 from typing_extensions import Annotated
+from hanzoai.cloud.models.backfilled import Backfilled
 from hanzoai.cloud.models.cart import Cart
 from hanzoai.cloud.models.cart_item_set import CartItemSet
 from hanzoai.cloud.models.cart_open import CartOpen
+from hanzoai.cloud.models.carts import Carts
 from hanzoai.cloud.models.liveness import Liveness
+from hanzoai.cloud.models.orders import Orders
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -39,6 +43,253 @@ class CommerceApi:
         if api_client is None:
             api_client = ApiClient.get_default()
         self.api_client = api_client
+
+
+    @validate_call
+    def backfill_customers(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> Backfilled:
+        """File every subscriber who has paid as a customer of the org they pay
+
+        Files every person who has paid for a plan as a customer of the org they pay, in that org's CRM, for the subscribers held before payments filed their payers.  The subscriptions are the fleet's (the board's read) and the addresses IAM's directory: a subscriber is a person with their own billing account, \"<org>/<name>\", who paid for a plan outside a sandbox. Each is filed as a payment files its payer: lifecycle and type customer unless the team gave another type, and the commerce user linked once. It is idempotent, so a repeat changes nothing. A subscriber with no verified address in IAM, or whose org holds no CRM, is skipped and counted; an org the read ran out of time before is counted unread, and the call is made again. No CRM is installed, and no money is read or moved.  SuperAdmin of the platform only. The run is on the audit trail before it starts (admin.customers.backfill); a trail that does not take it refuses the run (503).  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._backfill_customers_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Backfilled",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def backfill_customers_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[Backfilled]:
+        """File every subscriber who has paid as a customer of the org they pay
+
+        Files every person who has paid for a plan as a customer of the org they pay, in that org's CRM, for the subscribers held before payments filed their payers.  The subscriptions are the fleet's (the board's read) and the addresses IAM's directory: a subscriber is a person with their own billing account, \"<org>/<name>\", who paid for a plan outside a sandbox. Each is filed as a payment files its payer: lifecycle and type customer unless the team gave another type, and the commerce user linked once. It is idempotent, so a repeat changes nothing. A subscriber with no verified address in IAM, or whose org holds no CRM, is skipped and counted; an org the read ran out of time before is counted unread, and the call is made again. No CRM is installed, and no money is read or moved.  SuperAdmin of the platform only. The run is on the audit trail before it starts (admin.customers.backfill); a trail that does not take it refuses the run (503).  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._backfill_customers_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Backfilled",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def backfill_customers_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """File every subscriber who has paid as a customer of the org they pay
+
+        Files every person who has paid for a plan as a customer of the org they pay, in that org's CRM, for the subscribers held before payments filed their payers.  The subscriptions are the fleet's (the board's read) and the addresses IAM's directory: a subscriber is a person with their own billing account, \"<org>/<name>\", who paid for a plan outside a sandbox. Each is filed as a payment files its payer: lifecycle and type customer unless the team gave another type, and the commerce user linked once. It is idempotent, so a repeat changes nothing. A subscriber with no verified address in IAM, or whose org holds no CRM, is skipped and counted; an org the read ran out of time before is counted unread, and the call is made again. No CRM is installed, and no money is read or moved.  SuperAdmin of the platform only. The run is on the audit trail before it starts (admin.customers.backfill); a trail that does not take it refuses the run (503).  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._backfill_customers_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Backfilled",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _backfill_customers_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/commerce/customer/backfill',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
 
 
     @validate_call
@@ -16104,6 +16355,568 @@ class CommerceApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/commerce/watchlist/{watchlistid}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def list_carts(
+        self,
+        email: Annotated[Optional[StrictStr], Field(description="Email is one shopper's address; empty lists every shopper's carts.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is how many carts to answer, newest first; absent is 50, and at most 200.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> Carts:
+        """List the org's carts, newest first, with how many were left
+
+        Lists the org's carts, newest first, with how many of the matched carts were left.  Name one shopper by address to read what they put in a basket; name none to read the org's. A cart is LEFT when it never became an order: it is still being filled or the shopper discarded it. The address is matched lower-cased, which is how a cart opened here stores it; the page holds at most 200 carts, and the count and the left are taken over every cart the query matched.  Only an admin of the org, or SuperAdmin, reads: the list names every shopper. The org is the caller's, taken from the validated principal.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param email: Email is one shopper's address; empty lists every shopper's carts.
+        :type email: str
+        :param limit: Limit is how many carts to answer, newest first; absent is 50, and at most 200.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._list_carts_serialize(
+            email=email,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Carts",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def list_carts_with_http_info(
+        self,
+        email: Annotated[Optional[StrictStr], Field(description="Email is one shopper's address; empty lists every shopper's carts.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is how many carts to answer, newest first; absent is 50, and at most 200.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[Carts]:
+        """List the org's carts, newest first, with how many were left
+
+        Lists the org's carts, newest first, with how many of the matched carts were left.  Name one shopper by address to read what they put in a basket; name none to read the org's. A cart is LEFT when it never became an order: it is still being filled or the shopper discarded it. The address is matched lower-cased, which is how a cart opened here stores it; the page holds at most 200 carts, and the count and the left are taken over every cart the query matched.  Only an admin of the org, or SuperAdmin, reads: the list names every shopper. The org is the caller's, taken from the validated principal.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param email: Email is one shopper's address; empty lists every shopper's carts.
+        :type email: str
+        :param limit: Limit is how many carts to answer, newest first; absent is 50, and at most 200.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._list_carts_serialize(
+            email=email,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Carts",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def list_carts_without_preload_content(
+        self,
+        email: Annotated[Optional[StrictStr], Field(description="Email is one shopper's address; empty lists every shopper's carts.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is how many carts to answer, newest first; absent is 50, and at most 200.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List the org's carts, newest first, with how many were left
+
+        Lists the org's carts, newest first, with how many of the matched carts were left.  Name one shopper by address to read what they put in a basket; name none to read the org's. A cart is LEFT when it never became an order: it is still being filled or the shopper discarded it. The address is matched lower-cased, which is how a cart opened here stores it; the page holds at most 200 carts, and the count and the left are taken over every cart the query matched.  Only an admin of the org, or SuperAdmin, reads: the list names every shopper. The org is the caller's, taken from the validated principal.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param email: Email is one shopper's address; empty lists every shopper's carts.
+        :type email: str
+        :param limit: Limit is how many carts to answer, newest first; absent is 50, and at most 200.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._list_carts_serialize(
+            email=email,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Carts",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _list_carts_serialize(
+        self,
+        email,
+        limit,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if email is not None:
+            
+            _query_params.append(('email', email))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/commerce/cart',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def list_orders(
+        self,
+        email: Annotated[Optional[StrictStr], Field(description="Email is one buyer's address; empty lists every buyer's orders.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is how many orders to answer, newest first; absent is 50, and at most 200.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> Orders:
+        """List the org's orders, newest first, with what they came to
+
+        Lists the org's orders, newest first, with the count and the revenue of every order the query matched.  Name one buyer by address to read what they bought; name none to read the org's sales. The address is matched as commerce stores it, lower-cased. The page holds at most 200 orders, and the count and the revenue are taken over all of them, so a total is the same at any page size.  Only an admin of the org, or SuperAdmin, reads: the list names every buyer. The org is the caller's, taken from the validated principal, so another tenant's orders are not there to be found.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param email: Email is one buyer's address; empty lists every buyer's orders.
+        :type email: str
+        :param limit: Limit is how many orders to answer, newest first; absent is 50, and at most 200.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._list_orders_serialize(
+            email=email,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Orders",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def list_orders_with_http_info(
+        self,
+        email: Annotated[Optional[StrictStr], Field(description="Email is one buyer's address; empty lists every buyer's orders.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is how many orders to answer, newest first; absent is 50, and at most 200.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[Orders]:
+        """List the org's orders, newest first, with what they came to
+
+        Lists the org's orders, newest first, with the count and the revenue of every order the query matched.  Name one buyer by address to read what they bought; name none to read the org's sales. The address is matched as commerce stores it, lower-cased. The page holds at most 200 orders, and the count and the revenue are taken over all of them, so a total is the same at any page size.  Only an admin of the org, or SuperAdmin, reads: the list names every buyer. The org is the caller's, taken from the validated principal, so another tenant's orders are not there to be found.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param email: Email is one buyer's address; empty lists every buyer's orders.
+        :type email: str
+        :param limit: Limit is how many orders to answer, newest first; absent is 50, and at most 200.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._list_orders_serialize(
+            email=email,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Orders",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def list_orders_without_preload_content(
+        self,
+        email: Annotated[Optional[StrictStr], Field(description="Email is one buyer's address; empty lists every buyer's orders.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is how many orders to answer, newest first; absent is 50, and at most 200.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List the org's orders, newest first, with what they came to
+
+        Lists the org's orders, newest first, with the count and the revenue of every order the query matched.  Name one buyer by address to read what they bought; name none to read the org's sales. The address is matched as commerce stores it, lower-cased. The page holds at most 200 orders, and the count and the revenue are taken over all of them, so a total is the same at any page size.  Only an admin of the org, or SuperAdmin, reads: the list names every buyer. The org is the caller's, taken from the validated principal, so another tenant's orders are not there to be found.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param email: Email is one buyer's address; empty lists every buyer's orders.
+        :type email: str
+        :param limit: Limit is how many orders to answer, newest first; absent is 50, and at most 200.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._list_orders_serialize(
+            email=email,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Orders",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _list_orders_serialize(
+        self,
+        email,
+        limit,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if email is not None:
+            
+            _query_params.append(('email', email))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/commerce/order',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

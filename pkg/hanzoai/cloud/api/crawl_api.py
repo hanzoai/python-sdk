@@ -18,6 +18,8 @@ from typing_extensions import Annotated
 
 from hanzoai.cloud.models.crawl_crawl_request import CrawlCrawlRequest
 from hanzoai.cloud.models.crawl_crawl_result import CrawlCrawlResult
+from hanzoai.cloud.models.crawl_render_request import CrawlRenderRequest
+from hanzoai.cloud.models.crawl_render_result import CrawlRenderResult
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -300,6 +302,284 @@ class CrawlApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/crawl',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def render_page(
+        self,
+        crawl_render_request: CrawlRenderRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> CrawlRenderResult:
+        """Draw one URL in a browser and read back its screenshot, DOM, text and links
+
+        Answers one URL as a browser draws it: its screenshot, its DOM, its text and its links.  It is the second half of read_page. read_page fetches and answers markdown, escalating to a browser only for a page too thin to read; this always draws, and costs a render each time (CRAWL_FEE_CENTS), debited only when the browser answered with a picture.  A PAGE THAT COULD NOT BE DRAWN IS A NORMAL ANSWER, as it is there. A refused address, an unreachable host, a browser that could not draw it and a caller who cannot cover the render all answer 200 with `success:false` and the reason in `error`. Non-2xx is reserved for a caller problem: 400 with the same body when there is no url, 401 when the caller has no validated principal. Check `success` before reading `data`.  The URL is caller-supplied and reached from INSIDE the cluster, so the protections are read_page's: only http and https, every address the guarded client dials public unicast and every redirect hop judged, the first host judged again before the browser is asked, and the browser's pod bounded by its egress policy. Nothing is kept: a drawn page is not archived.
+
+        :param crawl_render_request: (required)
+        :type crawl_render_request: CrawlRenderRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._render_page_serialize(
+            crawl_render_request=crawl_render_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "CrawlRenderResult",
+            '400': "CrawlRenderResult",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def render_page_with_http_info(
+        self,
+        crawl_render_request: CrawlRenderRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[CrawlRenderResult]:
+        """Draw one URL in a browser and read back its screenshot, DOM, text and links
+
+        Answers one URL as a browser draws it: its screenshot, its DOM, its text and its links.  It is the second half of read_page. read_page fetches and answers markdown, escalating to a browser only for a page too thin to read; this always draws, and costs a render each time (CRAWL_FEE_CENTS), debited only when the browser answered with a picture.  A PAGE THAT COULD NOT BE DRAWN IS A NORMAL ANSWER, as it is there. A refused address, an unreachable host, a browser that could not draw it and a caller who cannot cover the render all answer 200 with `success:false` and the reason in `error`. Non-2xx is reserved for a caller problem: 400 with the same body when there is no url, 401 when the caller has no validated principal. Check `success` before reading `data`.  The URL is caller-supplied and reached from INSIDE the cluster, so the protections are read_page's: only http and https, every address the guarded client dials public unicast and every redirect hop judged, the first host judged again before the browser is asked, and the browser's pod bounded by its egress policy. Nothing is kept: a drawn page is not archived.
+
+        :param crawl_render_request: (required)
+        :type crawl_render_request: CrawlRenderRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._render_page_serialize(
+            crawl_render_request=crawl_render_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "CrawlRenderResult",
+            '400': "CrawlRenderResult",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def render_page_without_preload_content(
+        self,
+        crawl_render_request: CrawlRenderRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Draw one URL in a browser and read back its screenshot, DOM, text and links
+
+        Answers one URL as a browser draws it: its screenshot, its DOM, its text and its links.  It is the second half of read_page. read_page fetches and answers markdown, escalating to a browser only for a page too thin to read; this always draws, and costs a render each time (CRAWL_FEE_CENTS), debited only when the browser answered with a picture.  A PAGE THAT COULD NOT BE DRAWN IS A NORMAL ANSWER, as it is there. A refused address, an unreachable host, a browser that could not draw it and a caller who cannot cover the render all answer 200 with `success:false` and the reason in `error`. Non-2xx is reserved for a caller problem: 400 with the same body when there is no url, 401 when the caller has no validated principal. Check `success` before reading `data`.  The URL is caller-supplied and reached from INSIDE the cluster, so the protections are read_page's: only http and https, every address the guarded client dials public unicast and every redirect hop judged, the first host judged again before the browser is asked, and the browser's pod bounded by its egress policy. Nothing is kept: a drawn page is not archived.
+
+        :param crawl_render_request: (required)
+        :type crawl_render_request: CrawlRenderRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._render_page_serialize(
+            crawl_render_request=crawl_render_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "CrawlRenderResult",
+            '400': "CrawlRenderResult",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _render_page_serialize(
+        self,
+        crawl_render_request,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if crawl_render_request is not None:
+            _body_params = crawl_render_request
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/crawl/render',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

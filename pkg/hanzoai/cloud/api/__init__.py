@@ -16,7 +16,6 @@ from hanzoai.cloud.api.base_api import BaseApi
 from hanzoai.cloud.api.benchmark_api import BenchmarkApi
 from hanzoai.cloud.api.billing_api import BillingApi
 from hanzoai.cloud.api.blueprint_api import BlueprintApi
-from hanzoai.cloud.api.books_api import BooksApi
 from hanzoai.cloud.api.bot_api import BotApi
 from hanzoai.cloud.api.campaign_api import CampaignApi
 from hanzoai.cloud.api.captable_api import CaptableApi
@@ -46,6 +45,7 @@ from hanzoai.cloud.api.event_api import EventApi
 from hanzoai.cloud.api.exec_api import ExecApi
 from hanzoai.cloud.api.experiment_api import ExperimentApi
 from hanzoai.cloud.api.explorer_api import ExplorerApi
+from hanzoai.cloud.api.finance_api import FinanceApi
 from hanzoai.cloud.api.flag_api import FlagApi
 from hanzoai.cloud.api.flow_api import FlowApi
 from hanzoai.cloud.api.form_api import FormApi
@@ -96,6 +96,7 @@ from hanzoai.cloud.api.pubsub_api import PubsubApi
 from hanzoai.cloud.api.reference_api import ReferenceApi
 from hanzoai.cloud.api.referral_api import ReferralApi
 from hanzoai.cloud.api.registry_api import RegistryApi
+from hanzoai.cloud.api.research_api import ResearchApi
 from hanzoai.cloud.api.reward_api import RewardApi
 from hanzoai.cloud.api.risk_api import RiskApi
 from hanzoai.cloud.api.s3_api import S3Api
@@ -107,6 +108,7 @@ from hanzoai.cloud.api.seo_api import SeoApi
 from hanzoai.cloud.api.settings_api import SettingsApi
 from hanzoai.cloud.api.share_api import ShareApi
 from hanzoai.cloud.api.social_api import SocialApi
+from hanzoai.cloud.api.sources_api import SourcesApi
 from hanzoai.cloud.api.space_api import SpaceApi
 from hanzoai.cloud.api.standing_api import StandingApi
 from hanzoai.cloud.api.studio_api import StudioApi

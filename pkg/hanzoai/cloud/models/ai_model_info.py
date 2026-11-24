@@ -54,8 +54,9 @@ class AiModelInfo(BaseModel):
     supports_tools: Optional[StrictBool] = None
     supports_vision: Optional[StrictBool] = None
     video: Optional[AiVideoSpec] = None
+    virtual_context_window: Optional[StrictInt] = None
     voice: Optional[AiVoiceSpec] = None
-    __properties: ClassVar[List[str]] = ["access", "canonical_slug", "class", "context_window", "created", "description", "endpoint", "expires", "family", "free", "id", "inputs", "max_output_tokens", "name", "object", "outputs", "owned_by", "premium", "pricing", "provider", "supports_reasoning", "supports_tools", "supports_vision", "video", "voice"]
+    __properties: ClassVar[List[str]] = ["access", "canonical_slug", "class", "context_window", "created", "description", "endpoint", "expires", "family", "free", "id", "inputs", "max_output_tokens", "name", "object", "outputs", "owned_by", "premium", "pricing", "provider", "supports_reasoning", "supports_tools", "supports_vision", "video", "virtual_context_window", "voice"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -144,6 +145,7 @@ class AiModelInfo(BaseModel):
             "supports_tools": obj.get("supports_tools"),
             "supports_vision": obj.get("supports_vision"),
             "video": AiVideoSpec.from_dict(obj["video"]) if obj.get("video") is not None else None,
+            "virtual_context_window": obj.get("virtual_context_window"),
             "voice": AiVoiceSpec.from_dict(obj["voice"]) if obj.get("voice") is not None else None
         })
         return _obj

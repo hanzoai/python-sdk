@@ -27,10 +27,12 @@ class MarketingMailIn(BaseModel):
     MarketingMailIn
     """ # noqa: E501
     body: Optional[StrictStr] = Field(default=None, description="Body is the mail as plain text, at most 20000 characters; a blank line separates paragraphs.")
+    in_reply_to: Optional[StrictStr] = Field(default=None, description="InReplyTo is the Message-ID of the mail this one answers, `<id@host>`; the mail leaves in its thread, with In-Reply-To and References.")
     person: Optional[StrictStr] = Field(default=None, description="Person is the CRM person the mail is written to. Empty, the mail goes on the timeline of the person the org holds for the address, if any.")
+    references: Optional[StrictStr] = Field(default=None, description="References are the Message-IDs before it in the thread, separated by spaces.")
     subject: Optional[StrictStr] = Field(default=None, description="Subject is the subject line, at most 200 characters on one line.")
     to: Optional[StrictStr] = Field(default=None, description="To is the one address the mail goes to.")
-    __properties: ClassVar[List[str]] = ["body", "person", "subject", "to"]
+    __properties: ClassVar[List[str]] = ["body", "in_reply_to", "person", "references", "subject", "to"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -84,7 +86,9 @@ class MarketingMailIn(BaseModel):
 
         _obj = cls.model_validate({
             "body": obj.get("body"),
+            "in_reply_to": obj.get("in_reply_to"),
             "person": obj.get("person"),
+            "references": obj.get("references"),
             "subject": obj.get("subject"),
             "to": obj.get("to")
         })

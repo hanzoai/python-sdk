@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.compute_byo_gpu import ComputeByoGPU
 from hanzoai.cloud.models.compute_engine_advertisement import ComputeEngineAdvertisement
@@ -30,6 +30,8 @@ class ComputeByoWorker(BaseModel):
     ComputeByoWorker
     """ # noqa: E501
     arch: Optional[StrictStr] = Field(default=None, description="Arch/CPUs/Memory are the connecting host's static CPU spec, mirrored from the registration: Arch is runtime.GOARCH (amd64 | arm64), Memory is total RAM in BYTES — the same fields a code-linked run-target carries, so the /v1/compute/fleet board renders a linked node's arch + cores + RAM like any other unit.")
+    busy: Optional[StrictBool] = Field(default=None, description="Busy reports whether this linked machine is currently occupied (for example holding a local research GPU lock or running above its GPU utilization ceiling) and will defer idle-only work until free.")
+    busy_reason: Optional[StrictStr] = Field(default=None, description="BusyReason names why Busy is true (e.g. \"local_gpu_lock_held\" or \"gpu_utilization_high\"); omitted when the node is idle.", alias="busyReason")
     capabilities: Optional[List[StrictStr]] = Field(default=None, description="Capabilities is what this worker offers the org: \"studio.render\" when the node can render, \"engine.serve\" when it serves a model endpoint. A node advertises one only once it can honour it, so an absent list means a node that has dialed in but is not ready to serve any of them yet.")
     cpu_model: Optional[StrictStr] = Field(default=None, description="CPUModel is the processor as the host names it (\"Apple M3 Max\"), for display.", alias="cpuModel")
     cpus: Optional[StrictInt] = Field(default=None, description="CPUs is the host's logical core count.")
@@ -52,7 +54,7 @@ class ComputeByoWorker(BaseModel):
     rocm: Optional[StrictStr] = Field(default=None, description="Rocm is the host's ROCm version. AMD hosts report it; empty otherwise.")
     status: Optional[StrictStr] = Field(default=None, description="Status is \"online\" when the last heartbeat landed within 90s, else \"offline\" — so it is a fact about heartbeat freshness, not about the box being powered on. A worker that has never beaten reads offline.")
     version: Optional[StrictStr] = Field(default=None, description="Version is the `hanzo` CLI version running on the node. It is what to check when a worker is missing a field a newer registration reports.")
-    __properties: ClassVar[List[str]] = ["arch", "capabilities", "cpuModel", "cpus", "cuda", "driver", "engine", "firstSeen", "gpus", "hip", "hostname", "id", "jobQueue", "lanes", "lastHeartbeat", "location", "memory", "models", "os", "provider", "rocm", "status", "version"]
+    __properties: ClassVar[List[str]] = ["arch", "busy", "busyReason", "capabilities", "cpuModel", "cpus", "cuda", "driver", "engine", "firstSeen", "gpus", "hip", "hostname", "id", "jobQueue", "lanes", "lastHeartbeat", "location", "memory", "models", "os", "provider", "rocm", "status", "version"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -123,6 +125,8 @@ class ComputeByoWorker(BaseModel):
 
         _obj = cls.model_validate({
             "arch": obj.get("arch"),
+            "busy": obj.get("busy"),
+            "busyReason": obj.get("busyReason"),
             "capabilities": obj.get("capabilities"),
             "cpuModel": obj.get("cpuModel"),
             "cpus": obj.get("cpus"),

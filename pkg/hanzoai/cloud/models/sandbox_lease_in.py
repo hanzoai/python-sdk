@@ -26,6 +26,7 @@ class SandboxLeaseIn(BaseModel):
     """
     SandboxLeaseIn
     """ # noqa: E501
+    bearer: Optional[StrictStr] = Field(default=None, description="Bearer is the person's OWN token, relayed by the sibling that received it, so the sandbox signs in as them: it is exchanged for a token of the same subject that lives no longer than the lease, exactly as the token on POST /v1/sandboxes is. Empty leases a sandbox that holds no identity.  Set it ONLY from a token cloud already validated on this person's own call: cloud.CallerBearer on an HTTP request, or the verified cap of a ZAP stream. Never a credential of ours and never an API key. IAM mints only for the subject the token names, so whoever relays it lands that person and nobody else; the sandbox signs a pod in only for the caller who leased it.  It is on the wire because the plane carries this struct between processes, the way TokenIn carries a bearer. It is never logged, never stored on the sandbox row, and never echoed back: Leased has no field for it.")
     var_class: Optional[StrictStr] = Field(default=None, description="Class is what KIND of computer to lease, and the set is closed:   exec     a throwaway one that keeps nothing. Seconds to minutes.  dev      a coding one, with the project's own disk attached. Hours.  desktop  a dev one that also has a screen.  browser  a desktop with Chromium open full screen, for a page to watch or drive.  android  a desktop with a phone running on that screen.  Empty leases an `exec`, which is the right answer for running a program and the wrong one for working on a repository, because it keeps nothing.  An `android` needs a node that can virtualise a CPU, so it is the one class a deployment may not be able to place. Where the fleet has none, the lease succeeds and the pod stays Pending naming the device it is waiting for — which is the honest answer, because the alternative is an emulator running on an interpreted CPU and never finishing its boot.", alias="class")
     cluster: Optional[StrictStr] = Field(default=None, description="Cluster names one of the org's ATTACHED clusters to run the lease on — the fleet-local name a BYO cluster was registered under. Empty runs where leases have always run, the home cluster. The named cluster must carry the sandbox namespace and the gvisor runtime class; a name the org has not attached is refused 404.")
     disk: Optional[StrictBool] = Field(default=None, description="Disk gives a sandbox with no Project a disk of its OWN, so what it writes survives a park: small — the size its working directory always had — billed as storage for as long as it exists, and deleted with the lease. Without it a project-less sandbox keeps its files in the pod and loses them with it. A project sandbox has the project's disk and ignores this.")
@@ -33,7 +34,7 @@ class SandboxLeaseIn(BaseModel):
     project: Optional[StrictStr] = Field(default=None, description="Project names the disk to attach, and is REQUIRED for every class but `exec`.  One live sandbox per project: the disk attaches to one computer at a time, so a second lease over a project that already has one is refused by name rather than handed a silently empty disk.")
     runtime: Optional[StrictStr] = Field(default=None, description="Runtime is the isolation boundary asked for: `gvisor` shares a filesystem and holds a project volume, `kata-fc` is a microVM that boots slower and reads files faster but has no shared filesystem at all. Empty asks for the fleet's default, which is the right answer unless you are measuring.  It is a REQUEST. The owner decides, and refuses a combination it cannot honour — a volume under a runtime with no shared filesystem would write into a tmpfs and lose the bytes at exit. Read Leased.Runtime for what the sandbox actually got.")
     ttl_sec: Optional[StrictInt] = Field(default=None, description="TTLSec bounds the lease in seconds. Unset takes the class default. Nothing runs forever, because a sandbox is somebody else's code on our nodes.", alias="ttlSec")
-    __properties: ClassVar[List[str]] = ["class", "cluster", "disk", "id", "project", "runtime", "ttlSec"]
+    __properties: ClassVar[List[str]] = ["bearer", "class", "cluster", "disk", "id", "project", "runtime", "ttlSec"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -86,6 +87,7 @@ class SandboxLeaseIn(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "bearer": obj.get("bearer"),
             "class": obj.get("class"),
             "cluster": obj.get("cluster"),
             "disk": obj.get("disk"),

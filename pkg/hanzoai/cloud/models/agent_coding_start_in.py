@@ -35,6 +35,7 @@ class AgentCodingStartIn(BaseModel):
     conversation: Optional[StrictStr] = Field(default=None, description="Conversation is the Dev conversation this run is part of (POST /v1/agent/turns): one of the caller's own. The run is held in its tree, so it is read, steered and written as the conversation is — by its person alone. The app writes it; a run that carries on one in a conversation (After) is in that conversation without naming it. Empty is a run of its own.")
     desktop: Optional[StrictBool] = Field(default=None, description="Desktop asks for a run with a SCREEN — an image carrying an X server — for a task that has to drive a browser or another windowed program. False, the default, is a headless checkout, which is what writing code needs.")
     developer_instructions: Optional[StrictStr] = Field(default=None, description="DeveloperInstructions is the explicit alias for Instructions passed to the coding harness as developer_instructions; optional.", alias="developerInstructions")
+    dir: Optional[StrictStr] = Field(default=None, description="Dir is the folder on that machine the run works in: an absolute path inside one of the folders the machine's owner has let the web use (the target's `folders`). A folder outside every grant is refused 403 `folder_not_granted`, and the machine checks the real path again before it runs. It needs TargetID and is a run on no repository: a run works in a repository or in a folder of the machine, not both. Empty is the machine's own choice.")
     draft: Optional[StrictBool] = Field(default=None, description="Draft opens the pull request Pull asks for as a draft.")
     effort: Optional[StrictStr] = Field(default=None, description="Effort is how hard that model reasons: low, medium or high. Empty takes the model's own default. Taken by the dev and codex harnesses, like Model.")
     instructions: Optional[StrictStr] = Field(default=None, description="Instructions carries per-run developer instructions (such as active skills and memories) separate from Prompt so the user's message stays clean; optional.")
@@ -52,7 +53,7 @@ class AgentCodingStartIn(BaseModel):
     task: Optional[StrictStr] = Field(default=None, description="Task is Prompt under the name a caller asking for work tends to reach for. The two are one field: Prompt wins when both are given.")
     timeout_seconds: Optional[StrictInt] = Field(default=None, description="TimeoutSeconds bounds the whole run. Unset takes the longest a run may take, which is the longest a session may live (a day by default); a longer value is that long. A run that hits the bound is stopped and reports what it had done by then. A dev run's model credential is renewed for as long as it lasts; a claude or codex run reads its credential once, so it ends a little short of the four hours that credential is good for, saying so, with its work kept on its branch.", alias="timeoutSeconds")
     tool: Optional[StrictStr] = Field(default=None, description="Tool is which harness runs the prompt — dev | claude | codex | python | node — and Desktop is whether the run needs a screen. Both are empty by default, which is `dev` with no screen, and that default is what every caller gets until it says otherwise.  They are two fields because they are two questions. The harness decides what argv starts; the screen decides which image carries an X server. A caller may want claude WITH a browser it can see, and a single enum would have made that combination unsayable.")
-    __properties: ClassVar[List[str]] = ["after", "agentRef", "assignees", "base", "branch", "conversation", "desktop", "developerInstructions", "draft", "effort", "instructions", "issue", "mode", "model", "project", "prompt", "pull", "reply", "repo", "requestId", "reviewers", "targetId", "task", "timeoutSeconds", "tool"]
+    __properties: ClassVar[List[str]] = ["after", "agentRef", "assignees", "base", "branch", "conversation", "desktop", "developerInstructions", "dir", "draft", "effort", "instructions", "issue", "mode", "model", "project", "prompt", "pull", "reply", "repo", "requestId", "reviewers", "targetId", "task", "timeoutSeconds", "tool"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -116,6 +117,7 @@ class AgentCodingStartIn(BaseModel):
             "conversation": obj.get("conversation"),
             "desktop": obj.get("desktop"),
             "developerInstructions": obj.get("developerInstructions"),
+            "dir": obj.get("dir"),
             "draft": obj.get("draft"),
             "effort": obj.get("effort"),
             "instructions": obj.get("instructions"),
