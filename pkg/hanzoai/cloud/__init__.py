@@ -46,6 +46,7 @@ __all__ = [
     "ComputeApi",
     "ContentApi",
     "CrawlApi",
+    "CyberApi",
     "DataroomApi",
     "DatasetApi",
     "DeployApi",
@@ -86,6 +87,7 @@ __all__ = [
     "LicensingApi",
     "LinkApi",
     "LspApi",
+    "MachinesApi",
     "MarketApi",
     "MarketingApi",
     "MarketplaceApi",
@@ -828,6 +830,40 @@ __all__ = [
     "CrawlRenderLink",
     "CrawlRenderRequest",
     "CrawlRenderResult",
+    "CyberAddGraphNodeReq",
+    "CyberApprovalList",
+    "CyberApprovalView",
+    "CyberAttackMatrixView",
+    "CyberAttackTechniqueView",
+    "CyberCoaItemView",
+    "CyberCoaView",
+    "CyberCreateEngagementReq",
+    "CyberCreateFindingReq",
+    "CyberCreateRuleReq",
+    "CyberCreateTaskReq",
+    "CyberDashboardView",
+    "CyberDecideApprovalReq",
+    "CyberDeleteRes",
+    "CyberEngagementList",
+    "CyberEngagementView",
+    "CyberFindingList",
+    "CyberFindingView",
+    "CyberGraphNodeView",
+    "CyberHardeningCheckView",
+    "CyberHardeningView",
+    "CyberHealthView",
+    "CyberRecordTrafficReq",
+    "CyberRuleList",
+    "CyberRuleView",
+    "CyberSeedDemoRes",
+    "CyberSubmitApprovalReq",
+    "CyberTaskGraphView",
+    "CyberTaskList",
+    "CyberTaskView",
+    "CyberTrafficList",
+    "CyberTrafficView",
+    "CyberUpdateFindingReq",
+    "CyberVerifyFindingReq",
     "DataroomDataroomAddDocument",
     "DataroomDataroomCreate",
     "DataroomDataroomDocument",
@@ -1691,6 +1727,29 @@ __all__ = [
     "MCPError",
     "MCPRequest",
     "MCPResponse",
+    "MachinesAccount",
+    "MachinesAccountDeleted",
+    "MachinesAccountList",
+    "MachinesAccountNew",
+    "MachinesIncident",
+    "MachinesMachine",
+    "MachinesMachineList",
+    "MachinesProviderStatus",
+    "MachinesProviderUsage",
+    "MachinesSource",
+    "MachinesSourceBeat",
+    "MachinesSourceBeatReply",
+    "MachinesSourceDispatch",
+    "MachinesSourceLink",
+    "MachinesSourceLinked",
+    "MachinesSourceProvider",
+    "MachinesSourceReleased",
+    "MachinesSourceRevoked",
+    "MachinesSourceRoute",
+    "MachinesUsageCredits",
+    "MachinesUsageRow",
+    "MachinesUsageView",
+    "MachinesUsageWindow",
     "MarketDay",
     "MarketFigures",
     "MarketHistory",
@@ -3798,6 +3857,7 @@ from hanzoai.cloud.api.compliance_api import ComplianceApi as ComplianceApi
 from hanzoai.cloud.api.compute_api import ComputeApi as ComputeApi
 from hanzoai.cloud.api.content_api import ContentApi as ContentApi
 from hanzoai.cloud.api.crawl_api import CrawlApi as CrawlApi
+from hanzoai.cloud.api.cyber_api import CyberApi as CyberApi
 from hanzoai.cloud.api.dataroom_api import DataroomApi as DataroomApi
 from hanzoai.cloud.api.dataset_api import DatasetApi as DatasetApi
 from hanzoai.cloud.api.deploy_api import DeployApi as DeployApi
@@ -3838,6 +3898,7 @@ from hanzoai.cloud.api.library_api import LibraryApi as LibraryApi
 from hanzoai.cloud.api.licensing_api import LicensingApi as LicensingApi
 from hanzoai.cloud.api.link_api import LinkApi as LinkApi
 from hanzoai.cloud.api.lsp_api import LspApi as LspApi
+from hanzoai.cloud.api.machines_api import MachinesApi as MachinesApi
 from hanzoai.cloud.api.market_api import MarketApi as MarketApi
 from hanzoai.cloud.api.marketing_api import MarketingApi as MarketingApi
 from hanzoai.cloud.api.marketplace_api import MarketplaceApi as MarketplaceApi
@@ -4584,6 +4645,40 @@ from hanzoai.cloud.models.crawl_render_document import CrawlRenderDocument as Cr
 from hanzoai.cloud.models.crawl_render_link import CrawlRenderLink as CrawlRenderLink
 from hanzoai.cloud.models.crawl_render_request import CrawlRenderRequest as CrawlRenderRequest
 from hanzoai.cloud.models.crawl_render_result import CrawlRenderResult as CrawlRenderResult
+from hanzoai.cloud.models.cyber_add_graph_node_req import CyberAddGraphNodeReq as CyberAddGraphNodeReq
+from hanzoai.cloud.models.cyber_approval_list import CyberApprovalList as CyberApprovalList
+from hanzoai.cloud.models.cyber_approval_view import CyberApprovalView as CyberApprovalView
+from hanzoai.cloud.models.cyber_attack_matrix_view import CyberAttackMatrixView as CyberAttackMatrixView
+from hanzoai.cloud.models.cyber_attack_technique_view import CyberAttackTechniqueView as CyberAttackTechniqueView
+from hanzoai.cloud.models.cyber_coa_item_view import CyberCoaItemView as CyberCoaItemView
+from hanzoai.cloud.models.cyber_coa_view import CyberCoaView as CyberCoaView
+from hanzoai.cloud.models.cyber_create_engagement_req import CyberCreateEngagementReq as CyberCreateEngagementReq
+from hanzoai.cloud.models.cyber_create_finding_req import CyberCreateFindingReq as CyberCreateFindingReq
+from hanzoai.cloud.models.cyber_create_rule_req import CyberCreateRuleReq as CyberCreateRuleReq
+from hanzoai.cloud.models.cyber_create_task_req import CyberCreateTaskReq as CyberCreateTaskReq
+from hanzoai.cloud.models.cyber_dashboard_view import CyberDashboardView as CyberDashboardView
+from hanzoai.cloud.models.cyber_decide_approval_req import CyberDecideApprovalReq as CyberDecideApprovalReq
+from hanzoai.cloud.models.cyber_delete_res import CyberDeleteRes as CyberDeleteRes
+from hanzoai.cloud.models.cyber_engagement_list import CyberEngagementList as CyberEngagementList
+from hanzoai.cloud.models.cyber_engagement_view import CyberEngagementView as CyberEngagementView
+from hanzoai.cloud.models.cyber_finding_list import CyberFindingList as CyberFindingList
+from hanzoai.cloud.models.cyber_finding_view import CyberFindingView as CyberFindingView
+from hanzoai.cloud.models.cyber_graph_node_view import CyberGraphNodeView as CyberGraphNodeView
+from hanzoai.cloud.models.cyber_hardening_check_view import CyberHardeningCheckView as CyberHardeningCheckView
+from hanzoai.cloud.models.cyber_hardening_view import CyberHardeningView as CyberHardeningView
+from hanzoai.cloud.models.cyber_health_view import CyberHealthView as CyberHealthView
+from hanzoai.cloud.models.cyber_record_traffic_req import CyberRecordTrafficReq as CyberRecordTrafficReq
+from hanzoai.cloud.models.cyber_rule_list import CyberRuleList as CyberRuleList
+from hanzoai.cloud.models.cyber_rule_view import CyberRuleView as CyberRuleView
+from hanzoai.cloud.models.cyber_seed_demo_res import CyberSeedDemoRes as CyberSeedDemoRes
+from hanzoai.cloud.models.cyber_submit_approval_req import CyberSubmitApprovalReq as CyberSubmitApprovalReq
+from hanzoai.cloud.models.cyber_task_graph_view import CyberTaskGraphView as CyberTaskGraphView
+from hanzoai.cloud.models.cyber_task_list import CyberTaskList as CyberTaskList
+from hanzoai.cloud.models.cyber_task_view import CyberTaskView as CyberTaskView
+from hanzoai.cloud.models.cyber_traffic_list import CyberTrafficList as CyberTrafficList
+from hanzoai.cloud.models.cyber_traffic_view import CyberTrafficView as CyberTrafficView
+from hanzoai.cloud.models.cyber_update_finding_req import CyberUpdateFindingReq as CyberUpdateFindingReq
+from hanzoai.cloud.models.cyber_verify_finding_req import CyberVerifyFindingReq as CyberVerifyFindingReq
 from hanzoai.cloud.models.dataroom_dataroom_add_document import DataroomDataroomAddDocument as DataroomDataroomAddDocument
 from hanzoai.cloud.models.dataroom_dataroom_create import DataroomDataroomCreate as DataroomDataroomCreate
 from hanzoai.cloud.models.dataroom_dataroom_document import DataroomDataroomDocument as DataroomDataroomDocument
@@ -5447,6 +5542,29 @@ from hanzoai.cloud.models.lsp_symbol import LspSymbol as LspSymbol
 from hanzoai.cloud.models.mcp_error import MCPError as MCPError
 from hanzoai.cloud.models.mcp_request import MCPRequest as MCPRequest
 from hanzoai.cloud.models.mcp_response import MCPResponse as MCPResponse
+from hanzoai.cloud.models.machines_account import MachinesAccount as MachinesAccount
+from hanzoai.cloud.models.machines_account_deleted import MachinesAccountDeleted as MachinesAccountDeleted
+from hanzoai.cloud.models.machines_account_list import MachinesAccountList as MachinesAccountList
+from hanzoai.cloud.models.machines_account_new import MachinesAccountNew as MachinesAccountNew
+from hanzoai.cloud.models.machines_incident import MachinesIncident as MachinesIncident
+from hanzoai.cloud.models.machines_machine import MachinesMachine as MachinesMachine
+from hanzoai.cloud.models.machines_machine_list import MachinesMachineList as MachinesMachineList
+from hanzoai.cloud.models.machines_provider_status import MachinesProviderStatus as MachinesProviderStatus
+from hanzoai.cloud.models.machines_provider_usage import MachinesProviderUsage as MachinesProviderUsage
+from hanzoai.cloud.models.machines_source import MachinesSource as MachinesSource
+from hanzoai.cloud.models.machines_source_beat import MachinesSourceBeat as MachinesSourceBeat
+from hanzoai.cloud.models.machines_source_beat_reply import MachinesSourceBeatReply as MachinesSourceBeatReply
+from hanzoai.cloud.models.machines_source_dispatch import MachinesSourceDispatch as MachinesSourceDispatch
+from hanzoai.cloud.models.machines_source_link import MachinesSourceLink as MachinesSourceLink
+from hanzoai.cloud.models.machines_source_linked import MachinesSourceLinked as MachinesSourceLinked
+from hanzoai.cloud.models.machines_source_provider import MachinesSourceProvider as MachinesSourceProvider
+from hanzoai.cloud.models.machines_source_released import MachinesSourceReleased as MachinesSourceReleased
+from hanzoai.cloud.models.machines_source_revoked import MachinesSourceRevoked as MachinesSourceRevoked
+from hanzoai.cloud.models.machines_source_route import MachinesSourceRoute as MachinesSourceRoute
+from hanzoai.cloud.models.machines_usage_credits import MachinesUsageCredits as MachinesUsageCredits
+from hanzoai.cloud.models.machines_usage_row import MachinesUsageRow as MachinesUsageRow
+from hanzoai.cloud.models.machines_usage_view import MachinesUsageView as MachinesUsageView
+from hanzoai.cloud.models.machines_usage_window import MachinesUsageWindow as MachinesUsageWindow
 from hanzoai.cloud.models.market_day import MarketDay as MarketDay
 from hanzoai.cloud.models.market_figures import MarketFigures as MarketFigures
 from hanzoai.cloud.models.market_history import MarketHistory as MarketHistory

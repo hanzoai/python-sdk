@@ -29,6 +29,7 @@ from hanzoai.cloud.api.compliance_api import ComplianceApi
 from hanzoai.cloud.api.compute_api import ComputeApi
 from hanzoai.cloud.api.content_api import ContentApi
 from hanzoai.cloud.api.crawl_api import CrawlApi
+from hanzoai.cloud.api.cyber_api import CyberApi
 from hanzoai.cloud.api.dataroom_api import DataroomApi
 from hanzoai.cloud.api.dataset_api import DatasetApi
 from hanzoai.cloud.api.deploy_api import DeployApi
@@ -69,6 +70,7 @@ from hanzoai.cloud.api.library_api import LibraryApi
 from hanzoai.cloud.api.licensing_api import LicensingApi
 from hanzoai.cloud.api.link_api import LinkApi
 from hanzoai.cloud.api.lsp_api import LspApi
+from hanzoai.cloud.api.machines_api import MachinesApi
 from hanzoai.cloud.api.market_api import MarketApi
 from hanzoai.cloud.api.marketing_api import MarketingApi
 from hanzoai.cloud.api.marketplace_api import MarketplaceApi
