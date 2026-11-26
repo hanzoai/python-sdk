@@ -40,6 +40,7 @@ class IamToken(BaseModel):
     created_time: Optional[StrictStr] = Field(default=None, alias="createdTime")
     deleted: Optional[StrictBool] = None
     denied: Optional[StrictBool] = Field(default=None, description="Denied records that the person a device authorization (UserCode set) was shown to refused it. The device's next poll is told access_denied once and the code is burned (device.go); until then it cannot be approved.")
+    device: Optional[StrictBool] = Field(default=None, description="Device records that this grant was established by an RFC 8628 approval. Its tokens name the approver's tenancy without any reserved org, because the approval is one click on a code anybody can start. Carried across rotation, like PublicGrant.")
     expires_in: Optional[StrictInt] = Field(default=None, alias="expiresIn")
     id: Optional[StrictStr] = Field(default=None, description="Persisted fields")
     login_hint: Optional[StrictStr] = Field(default=None, description="LoginHint is the address an agent registration (internal/oidc agent.go) named as the person it acts for, normalized. Only the account whose VERIFIED email is this address may approve the registration; empty on every other row.", alias="loginHint")
@@ -65,7 +66,7 @@ class IamToken(BaseModel):
     updated_at: Optional[datetime] = Field(default=None, alias="updatedAt")
     user: Optional[StrictStr] = None
     user_code: Optional[StrictStr] = Field(default=None, alias="userCode")
-    __properties: ClassVar[List[str]] = ["accessToken", "accessTokenHash", "actor", "application", "code", "codeChallenge", "codeChallengeMethod", "codeExpireIn", "codeIsUsed", "createdAt", "createdTime", "deleted", "denied", "expiresIn", "id", "loginHint", "name", "nonce", "organization", "owner", "polled", "publicGrant", "reason", "redirectUri", "refreshConsumed", "refreshExpireIn", "refreshFamily", "refreshToken", "refreshTokenHash", "requestCountry", "requestIp", "requested", "resource", "scope", "tokenType", "updatedAt", "user", "userCode"]
+    __properties: ClassVar[List[str]] = ["accessToken", "accessTokenHash", "actor", "application", "code", "codeChallenge", "codeChallengeMethod", "codeExpireIn", "codeIsUsed", "createdAt", "createdTime", "deleted", "denied", "device", "expiresIn", "id", "loginHint", "name", "nonce", "organization", "owner", "polled", "publicGrant", "reason", "redirectUri", "refreshConsumed", "refreshExpireIn", "refreshFamily", "refreshToken", "refreshTokenHash", "requestCountry", "requestIp", "requested", "resource", "scope", "tokenType", "updatedAt", "user", "userCode"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -131,6 +132,7 @@ class IamToken(BaseModel):
             "createdTime": obj.get("createdTime"),
             "deleted": obj.get("deleted"),
             "denied": obj.get("denied"),
+            "device": obj.get("device"),
             "expiresIn": obj.get("expiresIn"),
             "id": obj.get("id"),
             "loginHint": obj.get("loginHint"),

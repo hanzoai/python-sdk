@@ -4432,7 +4432,7 @@ class ProvisioningApi:
     ) -> List[ProvisioningProvisionedSummary]:
         """Lists the caller org's Hanzo SQL databases.
 
-        Lists the caller org's Hanzo SQL databases. Each one is a DEDICATED PostgreSQL instance the org alone runs, so the host is that instance's own in-cluster Service and the port is 5432.
+        Lists the caller org's Hanzo SQL databases. Each one is a DEDICATED Hanzo SQL instance the org alone runs, so the host is that instance's own in-cluster Service and the port is 5432.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4495,7 +4495,7 @@ class ProvisioningApi:
     ) -> ApiResponse[List[ProvisioningProvisionedSummary]]:
         """Lists the caller org's Hanzo SQL databases.
 
-        Lists the caller org's Hanzo SQL databases. Each one is a DEDICATED PostgreSQL instance the org alone runs, so the host is that instance's own in-cluster Service and the port is 5432.
+        Lists the caller org's Hanzo SQL databases. Each one is a DEDICATED Hanzo SQL instance the org alone runs, so the host is that instance's own in-cluster Service and the port is 5432.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4558,7 +4558,7 @@ class ProvisioningApi:
     ) -> RESTResponseType:
         """Lists the caller org's Hanzo SQL databases.
 
-        Lists the caller org's Hanzo SQL databases. Each one is a DEDICATED PostgreSQL instance the org alone runs, so the host is that instance's own in-cluster Service and the port is 5432.
+        Lists the caller org's Hanzo SQL databases. Each one is a DEDICATED Hanzo SQL instance the org alone runs, so the host is that instance's own in-cluster Service and the port is 5432.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6824,9 +6824,9 @@ class ProvisioningApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ProvisioningProvisionResult:
-        """Launches your org's OWN PostgreSQL instance and answers with its `postgres://` connection string.
+        """Launches your org's OWN Hanzo SQL instance and answers with its `postgres://` connection string.
 
-        Launches your org's OWN PostgreSQL instance and answers with its `postgres://` connection string.  The instance is yours alone — a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster, where there is no orchestrator to launch one, this fails closed with 503 rather than handing back a shared one.
+        Launches your org's OWN Hanzo SQL instance and answers with its `postgres://` connection string.  The instance is yours alone — a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster, where there is no orchestrator to launch one, this fails closed with 503 rather than handing back a shared one.
 
         :param provisioning_provision_request: (required)
         :type provisioning_provision_request: ProvisioningProvisionRequest
@@ -6891,9 +6891,9 @@ class ProvisioningApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[ProvisioningProvisionResult]:
-        """Launches your org's OWN PostgreSQL instance and answers with its `postgres://` connection string.
+        """Launches your org's OWN Hanzo SQL instance and answers with its `postgres://` connection string.
 
-        Launches your org's OWN PostgreSQL instance and answers with its `postgres://` connection string.  The instance is yours alone — a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster, where there is no orchestrator to launch one, this fails closed with 503 rather than handing back a shared one.
+        Launches your org's OWN Hanzo SQL instance and answers with its `postgres://` connection string.  The instance is yours alone — a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster, where there is no orchestrator to launch one, this fails closed with 503 rather than handing back a shared one.
 
         :param provisioning_provision_request: (required)
         :type provisioning_provision_request: ProvisioningProvisionRequest
@@ -6958,9 +6958,9 @@ class ProvisioningApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Launches your org's OWN PostgreSQL instance and answers with its `postgres://` connection string.
+        """Launches your org's OWN Hanzo SQL instance and answers with its `postgres://` connection string.
 
-        Launches your org's OWN PostgreSQL instance and answers with its `postgres://` connection string.  The instance is yours alone — a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster, where there is no orchestrator to launch one, this fails closed with 503 rather than handing back a shared one.
+        Launches your org's OWN Hanzo SQL instance and answers with its `postgres://` connection string.  The instance is yours alone — a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster, where there is no orchestrator to launch one, this fails closed with 503 rather than handing back a shared one.
 
         :param provisioning_provision_request: (required)
         :type provisioning_provision_request: ProvisioningProvisionRequest

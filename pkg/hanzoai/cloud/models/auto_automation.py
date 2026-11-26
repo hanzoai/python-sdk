@@ -30,6 +30,7 @@ class AutoAutomation(BaseModel):
     AutoAutomation
     """ # noqa: E501
     created: Optional[StrictStr] = Field(default=None, description="Created and Updated are RFC 3339 UTC.")
+    dir: Optional[StrictStr] = Field(default=None, description="Dir is the folder on that machine the run works in, inside one its owner granted. Null when the machine may choose its own folder.")
     draft: Optional[StrictBool] = Field(default=None, description="Draft is a flow with no step yet: it has no instructions, never runs, and becomes an automation when its instructions are saved.")
     enabled: Optional[StrictBool] = Field(default=None, description="Enabled is whether its schedule is armed.")
     event: Optional[AutoOutcomeTrigger] = Field(default=None, description="Event runs the automation on a committed product outcome instead of a schedule.")
@@ -47,7 +48,7 @@ class AutoAutomation(BaseModel):
     source: Optional[StrictStr] = Field(default=None, description="Source is the product it was made in: chat, dev, studio or workflow.")
     target: Optional[StrictStr] = Field(default=None, description="Target is an optional registered execution target, such as the person's local machine.")
     updated: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["created", "draft", "enabled", "event", "id", "instructions", "last", "model", "name", "next", "notify", "permissions", "postTo", "project", "schedule", "source", "target", "updated"]
+    __properties: ClassVar[List[str]] = ["created", "dir", "draft", "enabled", "event", "id", "instructions", "last", "model", "name", "next", "notify", "permissions", "postTo", "project", "schedule", "source", "target", "updated"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -110,6 +111,7 @@ class AutoAutomation(BaseModel):
 
         _obj = cls.model_validate({
             "created": obj.get("created"),
+            "dir": obj.get("dir"),
             "draft": obj.get("draft"),
             "enabled": obj.get("enabled"),
             "event": AutoOutcomeTrigger.from_dict(obj["event"]) if obj.get("event") is not None else None,

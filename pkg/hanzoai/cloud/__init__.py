@@ -24,6 +24,7 @@ __all__ = [
     "AgentApi",
     "AiApi",
     "AllowanceApi",
+    "AnalyticsApi",
     "AskApi",
     "AuditApi",
     "AuthorApi",
@@ -403,6 +404,27 @@ __all__ = [
     "AiWindow",
     "AllowanceAllowance",
     "AllowancePool",
+    "AnalyticsAnalyticsOverviewData",
+    "AnalyticsAnalyticsOverviewOut",
+    "AnalyticsDatastoreHealth",
+    "AnalyticsFreshness",
+    "AnalyticsFreshnessData",
+    "AnalyticsFreshnessOut",
+    "AnalyticsHealthData",
+    "AnalyticsHealthOut",
+    "AnalyticsKVStatus",
+    "AnalyticsMetricDef",
+    "AnalyticsMetricsData",
+    "AnalyticsMetricsOut",
+    "AnalyticsOverviewKPIs",
+    "AnalyticsPipelineWatermark",
+    "AnalyticsPlanMeta",
+    "AnalyticsQueryData",
+    "AnalyticsQueryIn",
+    "AnalyticsQueryOut",
+    "AnalyticsQueryRow",
+    "AnalyticsSemaphoreStatus",
+    "AnalyticsStreamStatus",
     "App",
     "ApplicationConfigOption",
     "ApplicationEvent",
@@ -3835,6 +3857,7 @@ from hanzoai.cloud.api.affiliate_api import AffiliateApi as AffiliateApi
 from hanzoai.cloud.api.agent_api import AgentApi as AgentApi
 from hanzoai.cloud.api.ai_api import AiApi as AiApi
 from hanzoai.cloud.api.allowance_api import AllowanceApi as AllowanceApi
+from hanzoai.cloud.api.analytics_api import AnalyticsApi as AnalyticsApi
 from hanzoai.cloud.api.ask_api import AskApi as AskApi
 from hanzoai.cloud.api.audit_api import AuditApi as AuditApi
 from hanzoai.cloud.api.author_api import AuthorApi as AuthorApi
@@ -4218,6 +4241,27 @@ from hanzoai.cloud.models.ai_voice_spec import AiVoiceSpec as AiVoiceSpec
 from hanzoai.cloud.models.ai_window import AiWindow as AiWindow
 from hanzoai.cloud.models.allowance_allowance import AllowanceAllowance as AllowanceAllowance
 from hanzoai.cloud.models.allowance_pool import AllowancePool as AllowancePool
+from hanzoai.cloud.models.analytics_analytics_overview_data import AnalyticsAnalyticsOverviewData as AnalyticsAnalyticsOverviewData
+from hanzoai.cloud.models.analytics_analytics_overview_out import AnalyticsAnalyticsOverviewOut as AnalyticsAnalyticsOverviewOut
+from hanzoai.cloud.models.analytics_datastore_health import AnalyticsDatastoreHealth as AnalyticsDatastoreHealth
+from hanzoai.cloud.models.analytics_freshness import AnalyticsFreshness as AnalyticsFreshness
+from hanzoai.cloud.models.analytics_freshness_data import AnalyticsFreshnessData as AnalyticsFreshnessData
+from hanzoai.cloud.models.analytics_freshness_out import AnalyticsFreshnessOut as AnalyticsFreshnessOut
+from hanzoai.cloud.models.analytics_health_data import AnalyticsHealthData as AnalyticsHealthData
+from hanzoai.cloud.models.analytics_health_out import AnalyticsHealthOut as AnalyticsHealthOut
+from hanzoai.cloud.models.analytics_kv_status import AnalyticsKVStatus as AnalyticsKVStatus
+from hanzoai.cloud.models.analytics_metric_def import AnalyticsMetricDef as AnalyticsMetricDef
+from hanzoai.cloud.models.analytics_metrics_data import AnalyticsMetricsData as AnalyticsMetricsData
+from hanzoai.cloud.models.analytics_metrics_out import AnalyticsMetricsOut as AnalyticsMetricsOut
+from hanzoai.cloud.models.analytics_overview_kpis import AnalyticsOverviewKPIs as AnalyticsOverviewKPIs
+from hanzoai.cloud.models.analytics_pipeline_watermark import AnalyticsPipelineWatermark as AnalyticsPipelineWatermark
+from hanzoai.cloud.models.analytics_plan_meta import AnalyticsPlanMeta as AnalyticsPlanMeta
+from hanzoai.cloud.models.analytics_query_data import AnalyticsQueryData as AnalyticsQueryData
+from hanzoai.cloud.models.analytics_query_in import AnalyticsQueryIn as AnalyticsQueryIn
+from hanzoai.cloud.models.analytics_query_out import AnalyticsQueryOut as AnalyticsQueryOut
+from hanzoai.cloud.models.analytics_query_row import AnalyticsQueryRow as AnalyticsQueryRow
+from hanzoai.cloud.models.analytics_semaphore_status import AnalyticsSemaphoreStatus as AnalyticsSemaphoreStatus
+from hanzoai.cloud.models.analytics_stream_status import AnalyticsStreamStatus as AnalyticsStreamStatus
 from hanzoai.cloud.models.app import App as App
 from hanzoai.cloud.models.application_config_option import ApplicationConfigOption as ApplicationConfigOption
 from hanzoai.cloud.models.application_event import ApplicationEvent as ApplicationEvent

@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.agent_gpu import AgentGPU
 from typing import Optional, Set
@@ -32,7 +32,8 @@ class AgentSpec(BaseModel):
     gpus: Optional[List[AgentGPU]] = Field(default=None, description="GPUs is every accelerator the machine advertises, one entry each, capped at 32 on write. Empty means the probe found none — and that is the answer a Need is checked against, so a machine with no entry here clears no accelerator floor. The list is not vendor-filtered: what satisfies a job is counts and VRAM, never a brand (see Need).")
     memory: Optional[StrictInt] = Field(default=None, description="total RAM, bytes")
     os: Optional[StrictStr] = Field(default=None, description="linux | darwin | windows")
-    __properties: ClassVar[List[str]] = ["arch", "cpus", "gpus", "memory", "os"]
+    read_only_runs: Optional[StrictBool] = Field(default=None, description="ReadOnlyRuns says this machine's harness can run one routed run against a read-only workspace, without commit, push or PR, and refuses one it cannot honour. Absent or false means unsupported: a read-only run is never sent here. It is advertised by the harness itself, not inferred from os/arch/GPUs.", alias="readOnlyRuns")
+    __properties: ClassVar[List[str]] = ["arch", "cpus", "gpus", "memory", "os", "readOnlyRuns"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -96,7 +97,8 @@ class AgentSpec(BaseModel):
             "cpus": obj.get("cpus"),
             "gpus": [AgentGPU.from_dict(_item) for _item in obj["gpus"]] if obj.get("gpus") is not None else None,
             "memory": obj.get("memory"),
-            "os": obj.get("os")
+            "os": obj.get("os"),
+            "readOnlyRuns": obj.get("readOnlyRuns")
         })
         return _obj
 

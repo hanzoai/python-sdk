@@ -36,6 +36,7 @@ class FinetuneJob(BaseModel):
     deployed_model: Optional[StrictStr] = Field(default=None, alias="deployedModel")
     display_name: Optional[StrictStr] = Field(default=None, alias="displayName")
     error: Optional[StrictStr] = None
+    execution_id: Optional[StrictStr] = Field(default=None, alias="executionId")
     finished_time: Optional[StrictStr] = Field(default=None, alias="finishedTime")
     gpu_count: Optional[StrictInt] = Field(default=None, alias="gpuCount")
     gpu_seconds: Optional[StrictInt] = Field(default=None, alias="gpuSeconds")
@@ -56,7 +57,7 @@ class FinetuneJob(BaseModel):
     status: Optional[StrictStr] = None
     task: Optional[StrictStr] = None
     updated_time: Optional[StrictStr] = Field(default=None, alias="updatedTime")
-    __properties: ClassVar[List[str]] = ["baseModel", "costCents", "crName", "createdBy", "createdTime", "dataset", "deployUrl", "deployedModel", "displayName", "error", "finishedTime", "gpuCount", "gpuSeconds", "gpuType", "hyperparams", "message", "metered", "method", "name", "namespace", "numNodes", "outputUri", "owner", "preset", "progress", "runtime", "startedTime", "status", "task", "updatedTime"]
+    __properties: ClassVar[List[str]] = ["baseModel", "costCents", "crName", "createdBy", "createdTime", "dataset", "deployUrl", "deployedModel", "displayName", "error", "executionId", "finishedTime", "gpuCount", "gpuSeconds", "gpuType", "hyperparams", "message", "metered", "method", "name", "namespace", "numNodes", "outputUri", "owner", "preset", "progress", "runtime", "startedTime", "status", "task", "updatedTime"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -119,6 +120,7 @@ class FinetuneJob(BaseModel):
             "deployedModel": obj.get("deployedModel"),
             "displayName": obj.get("displayName"),
             "error": obj.get("error"),
+            "executionId": obj.get("executionId"),
             "finishedTime": obj.get("finishedTime"),
             "gpuCount": obj.get("gpuCount"),
             "gpuSeconds": obj.get("gpuSeconds"),

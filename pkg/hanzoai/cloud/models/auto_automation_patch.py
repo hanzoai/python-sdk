@@ -28,6 +28,7 @@ class AutoAutomationPatch(BaseModel):
     """
     AutoAutomationPatch
     """ # noqa: E501
+    dir: Optional[StrictStr] = Field(default=None, description="Dir replaces the granted folder on the target; null clears it.")
     enabled: Optional[StrictBool] = Field(default=None, description="Enabled arms or disarms its schedule.")
     event: Optional[AutoOutcomeTrigger] = Field(default=None, description="Event replaces the trigger with a product outcome; null clears it.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the automation, from the path.")
@@ -40,7 +41,7 @@ class AutoAutomationPatch(BaseModel):
     project: Optional[StrictStr] = None
     schedule: Optional[AutoSchedule] = None
     target: Optional[StrictStr] = Field(default=None, description="Target replaces the registered execution target; null clears it.")
-    __properties: ClassVar[List[str]] = ["enabled", "event", "id", "instructions", "model", "name", "notify", "permissions", "postTo", "project", "schedule", "target"]
+    __properties: ClassVar[List[str]] = ["dir", "enabled", "event", "id", "instructions", "model", "name", "notify", "permissions", "postTo", "project", "schedule", "target"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -99,6 +100,7 @@ class AutoAutomationPatch(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "dir": obj.get("dir"),
             "enabled": obj.get("enabled"),
             "event": AutoOutcomeTrigger.from_dict(obj["event"]) if obj.get("event") is not None else None,
             "id": obj.get("id"),

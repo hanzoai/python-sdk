@@ -42,6 +42,7 @@ class IamInvitation(BaseModel):
     owner: Optional[StrictStr] = None
     phone: Optional[StrictStr] = None
     quota: Optional[StrictInt] = None
+    role: Optional[StrictStr] = Field(default=None, description="Role is the role a redeemer arrives holding in Owner: \"member\" (or empty) or \"admin\". An admin role is written only by a caller users.Admin lets grant org-admin there, and redeeming applies it: an account that signs up through it is its org's admin, and one that accepts it holds an admin membership.")
     sent_time: Optional[StrictStr] = Field(default=None, description="SentTime is when an email about this invitation last went to its pinned address (RFC 3339), \"\" when none has. It paces resends, so the send endpoint cannot be used to mail one address over and over.", alias="sentTime")
     signup_group: Optional[StrictStr] = Field(default=None, alias="signupGroup")
     state: Optional[StrictStr] = None
@@ -49,7 +50,7 @@ class IamInvitation(BaseModel):
     updated_time: Optional[StrictStr] = Field(default=None, alias="updatedTime")
     used_count: Optional[StrictInt] = Field(default=None, alias="usedCount")
     username: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["application", "code", "createdAt", "createdTime", "defaultCode", "deleted", "displayName", "email", "generated", "id", "isRegexp", "name", "owner", "phone", "quota", "sentTime", "signupGroup", "state", "updatedAt", "updatedTime", "usedCount", "username"]
+    __properties: ClassVar[List[str]] = ["application", "code", "createdAt", "createdTime", "defaultCode", "deleted", "displayName", "email", "generated", "id", "isRegexp", "name", "owner", "phone", "quota", "role", "sentTime", "signupGroup", "state", "updatedAt", "updatedTime", "usedCount", "username"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -117,6 +118,7 @@ class IamInvitation(BaseModel):
             "owner": obj.get("owner"),
             "phone": obj.get("phone"),
             "quota": obj.get("quota"),
+            "role": obj.get("role"),
             "sentTime": obj.get("sentTime"),
             "signupGroup": obj.get("signupGroup"),
             "state": obj.get("state"),

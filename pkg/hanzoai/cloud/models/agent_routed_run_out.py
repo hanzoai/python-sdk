@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -37,10 +37,11 @@ class AgentRoutedRunOut(BaseModel):
     model: Optional[StrictStr] = Field(default=None, description="Model is the model the person asked the run's agent to think with, by the id GET /v1/models lists. Empty is the machine's own default.")
     project: Optional[StrictStr] = Field(default=None, description="Project is the product slug the run is filed under, so the machine can tag what it produces. Empty when the dispatch named none.")
     prompt: Optional[StrictStr] = Field(default=None, description="Prompt is the task, in full, as the person wrote it. There is no second field for context.")
+    read_only: Optional[StrictBool] = Field(default=None, description="ReadOnly tells the machine this run may not write to the granted folder or checkout, commit, push or open a pull request: its answer is the run's terminal status, reported with changed:false. The harness refuses the run if it cannot honour it. This contains one run on the machine; it is not a security boundary against the machine's owner. Not to be confused with DeployKey being read-only.", alias="readOnly")
     repo: Optional[StrictStr] = Field(default=None, description="Repo is the repository to work in and CloneURL is how to fetch it.")
     session_id: Optional[StrictStr] = Field(default=None, description="SessionID is the live session opened at dispatch; the machine streams its turns into it.", alias="sessionId")
     timeout_seconds: Optional[StrictInt] = Field(default=None, description="TimeoutSeconds bounds the run on the machine; 0 means the machine's own default.", alias="timeoutSeconds")
-    __properties: ClassVar[List[str]] = ["base", "branch", "cloneUrl", "deployKey", "dir", "effort", "instructions", "knownHosts", "model", "project", "prompt", "repo", "sessionId", "timeoutSeconds"]
+    __properties: ClassVar[List[str]] = ["base", "branch", "cloneUrl", "deployKey", "dir", "effort", "instructions", "knownHosts", "model", "project", "prompt", "readOnly", "repo", "sessionId", "timeoutSeconds"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -104,6 +105,7 @@ class AgentRoutedRunOut(BaseModel):
             "model": obj.get("model"),
             "project": obj.get("project"),
             "prompt": obj.get("prompt"),
+            "readOnly": obj.get("readOnly"),
             "repo": obj.get("repo"),
             "sessionId": obj.get("sessionId"),
             "timeoutSeconds": obj.get("timeoutSeconds")

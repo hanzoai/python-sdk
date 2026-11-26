@@ -37,12 +37,13 @@ class IamInvitationsInput(BaseModel):
     owner: Optional[StrictStr] = None
     phone: Optional[StrictStr] = None
     quota: Optional[StrictInt] = None
+    role: Optional[StrictStr] = Field(default=None, description="Role is the role a redeemer arrives holding: \"member\" (the default) or \"admin\". An invitation carries admin only when its writer may make an admin of the org (users.Admin), and every edit of one asks again.")
     signup_group: Optional[StrictStr] = Field(default=None, alias="signupGroup")
     state: Optional[StrictStr] = None
     updated_time: Optional[StrictStr] = Field(default=None, alias="updatedTime")
     used_count: Optional[StrictInt] = Field(default=None, alias="usedCount")
     username: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["application", "code", "createdTime", "defaultCode", "displayName", "email", "isRegexp", "name", "owner", "phone", "quota", "signupGroup", "state", "updatedTime", "usedCount", "username"]
+    __properties: ClassVar[List[str]] = ["application", "code", "createdTime", "defaultCode", "displayName", "email", "isRegexp", "name", "owner", "phone", "quota", "role", "signupGroup", "state", "updatedTime", "usedCount", "username"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -106,6 +107,7 @@ class IamInvitationsInput(BaseModel):
             "owner": obj.get("owner"),
             "phone": obj.get("phone"),
             "quota": obj.get("quota"),
+            "role": obj.get("role"),
             "signupGroup": obj.get("signupGroup"),
             "state": obj.get("state"),
             "updatedTime": obj.get("updatedTime"),

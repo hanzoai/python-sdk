@@ -28,6 +28,7 @@ class AutoAutomationIn(BaseModel):
     """
     AutoAutomationIn
     """ # noqa: E501
+    dir: Optional[StrictStr] = Field(default=None, description="Dir is the folder on that machine the run works in: an absolute path inside one of the folders its owner granted. Absent lets the machine choose. It needs Target; the coding run checks the grant again and refuses 403 `folder_not_granted` for a folder outside every grant.")
     enabled: Optional[StrictBool] = Field(default=None, description="Enabled arms its schedule. Absent is true.")
     event: Optional[AutoOutcomeTrigger] = Field(default=None, description="Event arms a product-outcome trigger; it is mutually exclusive with a timed schedule.")
     instructions: Optional[StrictStr] = Field(default=None, description="Instructions are what the agent is asked to do each run. Required.")
@@ -40,7 +41,7 @@ class AutoAutomationIn(BaseModel):
     schedule: Optional[AutoSchedule] = Field(default=None, description="Schedule is when it runs. Absent runs it only on demand.")
     source: Optional[StrictStr] = Field(default=None, description="Source is the product it is made in: chat, dev, studio or workflow. Absent is dev.")
     target: Optional[StrictStr] = Field(default=None, description="Target selects a registered execution target for the coding run.")
-    __properties: ClassVar[List[str]] = ["enabled", "event", "instructions", "model", "name", "notify", "permissions", "postTo", "project", "schedule", "source", "target"]
+    __properties: ClassVar[List[str]] = ["dir", "enabled", "event", "instructions", "model", "name", "notify", "permissions", "postTo", "project", "schedule", "source", "target"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -99,6 +100,7 @@ class AutoAutomationIn(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "dir": obj.get("dir"),
             "enabled": obj.get("enabled"),
             "event": AutoOutcomeTrigger.from_dict(obj["event"]) if obj.get("event") is not None else None,
             "instructions": obj.get("instructions"),

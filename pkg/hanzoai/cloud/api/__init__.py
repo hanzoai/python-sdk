@@ -7,6 +7,7 @@ from hanzoai.cloud.api.affiliate_api import AffiliateApi
 from hanzoai.cloud.api.agent_api import AgentApi
 from hanzoai.cloud.api.ai_api import AiApi
 from hanzoai.cloud.api.allowance_api import AllowanceApi
+from hanzoai.cloud.api.analytics_api import AnalyticsApi
 from hanzoai.cloud.api.ask_api import AskApi
 from hanzoai.cloud.api.audit_api import AuditApi
 from hanzoai.cloud.api.author_api import AuthorApi

@@ -16,7 +16,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictInt, StrictStr
+from pydantic import Field, StrictBool, StrictInt, StrictStr
 from typing import Any, Optional
 from typing_extensions import Annotated
 from hanzoai.cloud.models.iam_accept_body import IamAcceptBody
@@ -4802,7 +4802,7 @@ class IamApi:
     ) -> IamDeleteOutput:
         """Removes a person from your organization.
 
-        Removes a person from your organization. Their sessions stop working immediately and the account is gone rather than suspended — to keep the record and only stop sign-in, update the user instead.  A SuperAdmin's account is removed only by a SuperAdmin.
+        Removes a person from your organization. Their sessions stop working immediately and the account is gone rather than suspended — to keep the record and only stop sign-in, update the user instead.  A SuperAdmin's account is removed only by a SuperAdmin, and only a SuperAdmin removes the last admin of an organization. Every token the account holds stops working at once.
 
         :param owner: Owner is the organization the team belongs to: yours when left out. (required)
         :type owner: str
@@ -4874,7 +4874,7 @@ class IamApi:
     ) -> ApiResponse[IamDeleteOutput]:
         """Removes a person from your organization.
 
-        Removes a person from your organization. Their sessions stop working immediately and the account is gone rather than suspended — to keep the record and only stop sign-in, update the user instead.  A SuperAdmin's account is removed only by a SuperAdmin.
+        Removes a person from your organization. Their sessions stop working immediately and the account is gone rather than suspended — to keep the record and only stop sign-in, update the user instead.  A SuperAdmin's account is removed only by a SuperAdmin, and only a SuperAdmin removes the last admin of an organization. Every token the account holds stops working at once.
 
         :param owner: Owner is the organization the team belongs to: yours when left out. (required)
         :type owner: str
@@ -4946,7 +4946,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Removes a person from your organization.
 
-        Removes a person from your organization. Their sessions stop working immediately and the account is gone rather than suspended — to keep the record and only stop sign-in, update the user instead.  A SuperAdmin's account is removed only by a SuperAdmin.
+        Removes a person from your organization. Their sessions stop working immediately and the account is gone rather than suspended — to keep the record and only stop sign-in, update the user instead.  A SuperAdmin's account is removed only by a SuperAdmin, and only a SuperAdmin removes the last admin of an organization. Every token the account holds stops working at once.
 
         :param owner: Owner is the organization the team belongs to: yours when left out. (required)
         :type owner: str
@@ -18187,6 +18187,7 @@ class IamApi:
         self,
         owner: Annotated[Optional[StrictStr], Field(description="Owner is the organization whose teams to list: yours when left out.")] = None,
         email: Annotated[Optional[StrictStr], Field(description="Email narrows the page to the accounts carrying one address. Looking a person up by their address is a QUERY over the collection, not an item read: an address is not the natural key, two rows in one org can carry one, and a caller that gets a page SEES both — where a single-item read would have to choose, and choosing is how somebody joins a team under a colleague's identity.")] = None,
+        is_admin: Annotated[Optional[StrictBool], Field(description="IsAdmin narrows the page to the org's admins: the accounts that live in it with the org-admin flag. Admins by membership are on the org's roster, GET /v1/iam/memberships?org=, with role admin or owner. The SuperAdmins are the people of the admin org, GET /v1/iam/users?owner=admin, which only a SuperAdmin reads.")] = None,
         limit: Optional[StrictInt] = None,
         offset: Optional[StrictInt] = None,
         _request_timeout: Union[
@@ -18210,6 +18211,8 @@ class IamApi:
         :type owner: str
         :param email: Email narrows the page to the accounts carrying one address. Looking a person up by their address is a QUERY over the collection, not an item read: an address is not the natural key, two rows in one org can carry one, and a caller that gets a page SEES both — where a single-item read would have to choose, and choosing is how somebody joins a team under a colleague's identity.
         :type email: str
+        :param is_admin: IsAdmin narrows the page to the org's admins: the accounts that live in it with the org-admin flag. Admins by membership are on the org's roster, GET /v1/iam/memberships?org=, with role admin or owner. The SuperAdmins are the people of the admin org, GET /v1/iam/users?owner=admin, which only a SuperAdmin reads.
+        :type is_admin: bool
         :param limit:
         :type limit: int
         :param offset:
@@ -18239,6 +18242,7 @@ class IamApi:
         _param = self._get_iam_users_serialize(
             owner=owner,
             email=email,
+            is_admin=is_admin,
             limit=limit,
             offset=offset,
             _request_auth=_request_auth,
@@ -18267,6 +18271,7 @@ class IamApi:
         self,
         owner: Annotated[Optional[StrictStr], Field(description="Owner is the organization whose teams to list: yours when left out.")] = None,
         email: Annotated[Optional[StrictStr], Field(description="Email narrows the page to the accounts carrying one address. Looking a person up by their address is a QUERY over the collection, not an item read: an address is not the natural key, two rows in one org can carry one, and a caller that gets a page SEES both — where a single-item read would have to choose, and choosing is how somebody joins a team under a colleague's identity.")] = None,
+        is_admin: Annotated[Optional[StrictBool], Field(description="IsAdmin narrows the page to the org's admins: the accounts that live in it with the org-admin flag. Admins by membership are on the org's roster, GET /v1/iam/memberships?org=, with role admin or owner. The SuperAdmins are the people of the admin org, GET /v1/iam/users?owner=admin, which only a SuperAdmin reads.")] = None,
         limit: Optional[StrictInt] = None,
         offset: Optional[StrictInt] = None,
         _request_timeout: Union[
@@ -18290,6 +18295,8 @@ class IamApi:
         :type owner: str
         :param email: Email narrows the page to the accounts carrying one address. Looking a person up by their address is a QUERY over the collection, not an item read: an address is not the natural key, two rows in one org can carry one, and a caller that gets a page SEES both — where a single-item read would have to choose, and choosing is how somebody joins a team under a colleague's identity.
         :type email: str
+        :param is_admin: IsAdmin narrows the page to the org's admins: the accounts that live in it with the org-admin flag. Admins by membership are on the org's roster, GET /v1/iam/memberships?org=, with role admin or owner. The SuperAdmins are the people of the admin org, GET /v1/iam/users?owner=admin, which only a SuperAdmin reads.
+        :type is_admin: bool
         :param limit:
         :type limit: int
         :param offset:
@@ -18319,6 +18326,7 @@ class IamApi:
         _param = self._get_iam_users_serialize(
             owner=owner,
             email=email,
+            is_admin=is_admin,
             limit=limit,
             offset=offset,
             _request_auth=_request_auth,
@@ -18347,6 +18355,7 @@ class IamApi:
         self,
         owner: Annotated[Optional[StrictStr], Field(description="Owner is the organization whose teams to list: yours when left out.")] = None,
         email: Annotated[Optional[StrictStr], Field(description="Email narrows the page to the accounts carrying one address. Looking a person up by their address is a QUERY over the collection, not an item read: an address is not the natural key, two rows in one org can carry one, and a caller that gets a page SEES both — where a single-item read would have to choose, and choosing is how somebody joins a team under a colleague's identity.")] = None,
+        is_admin: Annotated[Optional[StrictBool], Field(description="IsAdmin narrows the page to the org's admins: the accounts that live in it with the org-admin flag. Admins by membership are on the org's roster, GET /v1/iam/memberships?org=, with role admin or owner. The SuperAdmins are the people of the admin org, GET /v1/iam/users?owner=admin, which only a SuperAdmin reads.")] = None,
         limit: Optional[StrictInt] = None,
         offset: Optional[StrictInt] = None,
         _request_timeout: Union[
@@ -18370,6 +18379,8 @@ class IamApi:
         :type owner: str
         :param email: Email narrows the page to the accounts carrying one address. Looking a person up by their address is a QUERY over the collection, not an item read: an address is not the natural key, two rows in one org can carry one, and a caller that gets a page SEES both — where a single-item read would have to choose, and choosing is how somebody joins a team under a colleague's identity.
         :type email: str
+        :param is_admin: IsAdmin narrows the page to the org's admins: the accounts that live in it with the org-admin flag. Admins by membership are on the org's roster, GET /v1/iam/memberships?org=, with role admin or owner. The SuperAdmins are the people of the admin org, GET /v1/iam/users?owner=admin, which only a SuperAdmin reads.
+        :type is_admin: bool
         :param limit:
         :type limit: int
         :param offset:
@@ -18399,6 +18410,7 @@ class IamApi:
         _param = self._get_iam_users_serialize(
             owner=owner,
             email=email,
+            is_admin=is_admin,
             limit=limit,
             offset=offset,
             _request_auth=_request_auth,
@@ -18422,6 +18434,7 @@ class IamApi:
         self,
         owner,
         email,
+        is_admin,
         limit,
         offset,
         _request_auth,
@@ -18453,6 +18466,10 @@ class IamApi:
         if email is not None:
             
             _query_params.append(('email', email))
+            
+        if is_admin is not None:
+            
+            _query_params.append(('isAdmin', is_admin))
             
         if limit is not None:
             
@@ -22694,6 +22711,7 @@ class IamApi:
     @validate_call
     def list_organizations(
         self,
+        cf_connecting_ip: Optional[StrictStr] = None,
         x_forwarded_for: Optional[StrictStr] = None,
         q: Optional[StrictStr] = None,
         limit: Optional[StrictInt] = None,
@@ -22715,6 +22733,8 @@ class IamApi:
 
         Returns the organizations you can act in, the ones you belong to first and the rest after, newest first, narrowed by an optional query against the name or the display name.  Platform operators see every organization; everyone else sees their own. Pass the cursor from the previous page to continue; an empty cursor in the answer means there is nothing more.  THE SCOPE IS THE HANDLER'S OWN, so it holds at every endpoint. The Guard refuses a bearerless request before this runs, but the MCP server carries a typed op to its handler with no middleware in front of it — a handler that read no principal would answer such a caller with the whole registry. Reading the principal here is what makes the answer the same one over both.
 
+        :param cf_connecting_ip:
+        :type cf_connecting_ip: str
         :param x_forwarded_for:
         :type x_forwarded_for: str
         :param q:
@@ -22746,6 +22766,7 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._list_organizations_serialize(
+            cf_connecting_ip=cf_connecting_ip,
             x_forwarded_for=x_forwarded_for,
             q=q,
             limit=limit,
@@ -22774,6 +22795,7 @@ class IamApi:
     @validate_call
     def list_organizations_with_http_info(
         self,
+        cf_connecting_ip: Optional[StrictStr] = None,
         x_forwarded_for: Optional[StrictStr] = None,
         q: Optional[StrictStr] = None,
         limit: Optional[StrictInt] = None,
@@ -22795,6 +22817,8 @@ class IamApi:
 
         Returns the organizations you can act in, the ones you belong to first and the rest after, newest first, narrowed by an optional query against the name or the display name.  Platform operators see every organization; everyone else sees their own. Pass the cursor from the previous page to continue; an empty cursor in the answer means there is nothing more.  THE SCOPE IS THE HANDLER'S OWN, so it holds at every endpoint. The Guard refuses a bearerless request before this runs, but the MCP server carries a typed op to its handler with no middleware in front of it — a handler that read no principal would answer such a caller with the whole registry. Reading the principal here is what makes the answer the same one over both.
 
+        :param cf_connecting_ip:
+        :type cf_connecting_ip: str
         :param x_forwarded_for:
         :type x_forwarded_for: str
         :param q:
@@ -22826,6 +22850,7 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._list_organizations_serialize(
+            cf_connecting_ip=cf_connecting_ip,
             x_forwarded_for=x_forwarded_for,
             q=q,
             limit=limit,
@@ -22854,6 +22879,7 @@ class IamApi:
     @validate_call
     def list_organizations_without_preload_content(
         self,
+        cf_connecting_ip: Optional[StrictStr] = None,
         x_forwarded_for: Optional[StrictStr] = None,
         q: Optional[StrictStr] = None,
         limit: Optional[StrictInt] = None,
@@ -22875,6 +22901,8 @@ class IamApi:
 
         Returns the organizations you can act in, the ones you belong to first and the rest after, newest first, narrowed by an optional query against the name or the display name.  Platform operators see every organization; everyone else sees their own. Pass the cursor from the previous page to continue; an empty cursor in the answer means there is nothing more.  THE SCOPE IS THE HANDLER'S OWN, so it holds at every endpoint. The Guard refuses a bearerless request before this runs, but the MCP server carries a typed op to its handler with no middleware in front of it — a handler that read no principal would answer such a caller with the whole registry. Reading the principal here is what makes the answer the same one over both.
 
+        :param cf_connecting_ip:
+        :type cf_connecting_ip: str
         :param x_forwarded_for:
         :type x_forwarded_for: str
         :param q:
@@ -22906,6 +22934,7 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._list_organizations_serialize(
+            cf_connecting_ip=cf_connecting_ip,
             x_forwarded_for=x_forwarded_for,
             q=q,
             limit=limit,
@@ -22929,6 +22958,7 @@ class IamApi:
 
     def _list_organizations_serialize(
         self,
+        cf_connecting_ip,
         x_forwarded_for,
         q,
         limit,
@@ -22968,6 +22998,8 @@ class IamApi:
             _query_params.append(('cursor', cursor))
             
         # process the header parameters
+        if cf_connecting_ip is not None:
+            _header_params['CF-Connecting-IP'] = cf_connecting_ip
         if x_forwarded_for is not None:
             _header_params['X-Forwarded-For'] = x_forwarded_for
         # process the form parameters
@@ -30090,7 +30122,7 @@ class IamApi:
     ) -> None:
         """Answers whether an access token is still good, and what it is good for — the check a resource server of yours makes before honouring a token it did not mint.
 
-        Answers whether an access token is still good, and what it is good for — the check a resource server of yours makes before honouring a token it did not mint.  A token counts as active only if it verifies AND has not been revoked, so a revoked token reads as dead here immediately rather than until it expires. A token that is unknown, expired or revoked answers simply that it is not active, and nothing more — the endpoint is not a way to learn about tokens you were not given.
+        Answers whether an access token is still good, and what it is good for — the check a resource server of yours makes before honouring a token it did not mint.  A token counts as active only if it verifies AND has not been revoked, so a revoked token reads as dead here immediately rather than until it expires. A token that is unknown, expired or revoked answers simply that it is not active, and nothing more — the endpoint is not a way to learn about tokens you were not given.  A genuine store/database error answers HTTP 503 Service Unavailable rather than 200 {\"active\": false}, so callers (such as cloud verifying delegated run tokens) distinguish a transient store fault from permanent revocation.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -30152,7 +30184,7 @@ class IamApi:
     ) -> ApiResponse[None]:
         """Answers whether an access token is still good, and what it is good for — the check a resource server of yours makes before honouring a token it did not mint.
 
-        Answers whether an access token is still good, and what it is good for — the check a resource server of yours makes before honouring a token it did not mint.  A token counts as active only if it verifies AND has not been revoked, so a revoked token reads as dead here immediately rather than until it expires. A token that is unknown, expired or revoked answers simply that it is not active, and nothing more — the endpoint is not a way to learn about tokens you were not given.
+        Answers whether an access token is still good, and what it is good for — the check a resource server of yours makes before honouring a token it did not mint.  A token counts as active only if it verifies AND has not been revoked, so a revoked token reads as dead here immediately rather than until it expires. A token that is unknown, expired or revoked answers simply that it is not active, and nothing more — the endpoint is not a way to learn about tokens you were not given.  A genuine store/database error answers HTTP 503 Service Unavailable rather than 200 {\"active\": false}, so callers (such as cloud verifying delegated run tokens) distinguish a transient store fault from permanent revocation.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -30214,7 +30246,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Answers whether an access token is still good, and what it is good for — the check a resource server of yours makes before honouring a token it did not mint.
 
-        Answers whether an access token is still good, and what it is good for — the check a resource server of yours makes before honouring a token it did not mint.  A token counts as active only if it verifies AND has not been revoked, so a revoked token reads as dead here immediately rather than until it expires. A token that is unknown, expired or revoked answers simply that it is not active, and nothing more — the endpoint is not a way to learn about tokens you were not given.
+        Answers whether an access token is still good, and what it is good for — the check a resource server of yours makes before honouring a token it did not mint.  A token counts as active only if it verifies AND has not been revoked, so a revoked token reads as dead here immediately rather than until it expires. A token that is unknown, expired or revoked answers simply that it is not active, and nothing more — the endpoint is not a way to learn about tokens you were not given.  A genuine store/database error answers HTTP 503 Service Unavailable rather than 200 {\"active\": false}, so callers (such as cloud verifying delegated run tokens) distinguish a transient store fault from permanent revocation.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -34994,7 +35026,7 @@ class IamApi:
     ) -> IamUser:
         """Adds a person to your organization.
 
-        Adds a person to your organization. Send a password and it becomes the one they sign in with; it is hashed before it is stored and never comes back in any response.  The username is checked against the same rule every account in the Hanzo Cloud is held to, whichever way it was created — this call, password signup, a social sign-in, or SCIM — so a name accepted here works everywhere.  A name already taken in your organization is refused rather than overwritten.
+        Adds a person to your organization. Send a password and it becomes the one they sign in with; it is hashed before it is stored and never comes back in any response.  The username is checked against the same rule every account in the Hanzo Cloud is held to, whichever way it was created — this call, password signup, a social sign-in, or SCIM — so a name accepted here works everywhere.  A name already taken in your organization is refused rather than overwritten.  Send `isAdmin: true` to create them as an admin of their organization. A SuperAdmin may do that in any organization; an organization's admin may in their own, unless the platform runs it (a brand), where only a SuperAdmin may. Anyone else is refused, never ignored. The answer states `isAdmin` as stored.
 
         :param iam_create_input: (required)
         :type iam_create_input: IamCreateInput
@@ -35062,7 +35094,7 @@ class IamApi:
     ) -> ApiResponse[IamUser]:
         """Adds a person to your organization.
 
-        Adds a person to your organization. Send a password and it becomes the one they sign in with; it is hashed before it is stored and never comes back in any response.  The username is checked against the same rule every account in the Hanzo Cloud is held to, whichever way it was created — this call, password signup, a social sign-in, or SCIM — so a name accepted here works everywhere.  A name already taken in your organization is refused rather than overwritten.
+        Adds a person to your organization. Send a password and it becomes the one they sign in with; it is hashed before it is stored and never comes back in any response.  The username is checked against the same rule every account in the Hanzo Cloud is held to, whichever way it was created — this call, password signup, a social sign-in, or SCIM — so a name accepted here works everywhere.  A name already taken in your organization is refused rather than overwritten.  Send `isAdmin: true` to create them as an admin of their organization. A SuperAdmin may do that in any organization; an organization's admin may in their own, unless the platform runs it (a brand), where only a SuperAdmin may. Anyone else is refused, never ignored. The answer states `isAdmin` as stored.
 
         :param iam_create_input: (required)
         :type iam_create_input: IamCreateInput
@@ -35130,7 +35162,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Adds a person to your organization.
 
-        Adds a person to your organization. Send a password and it becomes the one they sign in with; it is hashed before it is stored and never comes back in any response.  The username is checked against the same rule every account in the Hanzo Cloud is held to, whichever way it was created — this call, password signup, a social sign-in, or SCIM — so a name accepted here works everywhere.  A name already taken in your organization is refused rather than overwritten.
+        Adds a person to your organization. Send a password and it becomes the one they sign in with; it is hashed before it is stored and never comes back in any response.  The username is checked against the same rule every account in the Hanzo Cloud is held to, whichever way it was created — this call, password signup, a social sign-in, or SCIM — so a name accepted here works everywhere.  A name already taken in your organization is refused rather than overwritten.  Send `isAdmin: true` to create them as an admin of their organization. A SuperAdmin may do that in any organization; an organization's admin may in their own, unless the platform runs it (a brand), where only a SuperAdmin may. Anyone else is refused, never ignored. The answer states `isAdmin` as stored.
 
         :param iam_create_input: (required)
         :type iam_create_input: IamCreateInput
@@ -41362,6 +41394,7 @@ class IamApi:
         origin: Optional[StrictStr] = None,
         host: Optional[StrictStr] = None,
         content_type: Optional[StrictStr] = None,
+        cf_connecting_ip: Optional[StrictStr] = None,
         x_forwarded_for: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -41394,6 +41427,8 @@ class IamApi:
         :type host: str
         :param content_type:
         :type content_type: str
+        :param cf_connecting_ip:
+        :type cf_connecting_ip: str
         :param x_forwarded_for:
         :type x_forwarded_for: str
         :param _request_timeout: timeout setting for this request. If one
@@ -41426,6 +41461,7 @@ class IamApi:
             origin=origin,
             host=host,
             content_type=content_type,
+            cf_connecting_ip=cf_connecting_ip,
             x_forwarded_for=x_forwarded_for,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -41459,6 +41495,7 @@ class IamApi:
         origin: Optional[StrictStr] = None,
         host: Optional[StrictStr] = None,
         content_type: Optional[StrictStr] = None,
+        cf_connecting_ip: Optional[StrictStr] = None,
         x_forwarded_for: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -41491,6 +41528,8 @@ class IamApi:
         :type host: str
         :param content_type:
         :type content_type: str
+        :param cf_connecting_ip:
+        :type cf_connecting_ip: str
         :param x_forwarded_for:
         :type x_forwarded_for: str
         :param _request_timeout: timeout setting for this request. If one
@@ -41523,6 +41562,7 @@ class IamApi:
             origin=origin,
             host=host,
             content_type=content_type,
+            cf_connecting_ip=cf_connecting_ip,
             x_forwarded_for=x_forwarded_for,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -41556,6 +41596,7 @@ class IamApi:
         origin: Optional[StrictStr] = None,
         host: Optional[StrictStr] = None,
         content_type: Optional[StrictStr] = None,
+        cf_connecting_ip: Optional[StrictStr] = None,
         x_forwarded_for: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -41588,6 +41629,8 @@ class IamApi:
         :type host: str
         :param content_type:
         :type content_type: str
+        :param cf_connecting_ip:
+        :type cf_connecting_ip: str
         :param x_forwarded_for:
         :type x_forwarded_for: str
         :param _request_timeout: timeout setting for this request. If one
@@ -41620,6 +41663,7 @@ class IamApi:
             origin=origin,
             host=host,
             content_type=content_type,
+            cf_connecting_ip=cf_connecting_ip,
             x_forwarded_for=x_forwarded_for,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -41648,6 +41692,7 @@ class IamApi:
         origin,
         host,
         content_type,
+        cf_connecting_ip,
         x_forwarded_for,
         _request_auth,
         _content_type,
@@ -41684,6 +41729,8 @@ class IamApi:
             _header_params['Host'] = host
         if content_type is not None:
             _header_params['Content-Type'] = content_type
+        if cf_connecting_ip is not None:
+            _header_params['CF-Connecting-IP'] = cf_connecting_ip
         if x_forwarded_for is not None:
             _header_params['X-Forwarded-For'] = x_forwarded_for
         # process the form parameters
@@ -41759,7 +41806,7 @@ class IamApi:
     ) -> IamUser:
         """Changes a person's profile, their roles, or the credentials they sign in with.
 
-        Changes a person's profile, their roles, or the credentials they sign in with. Send a password to reset it; leave it out and their current one keeps working.  Who they are does not change: their organization, username and the identifier their existing sessions are keyed on all survive the write, so an update never signs anyone out.  A SuperAdmin's account is changed only by a SuperAdmin.
+        Changes a person's profile, their roles, or the credentials they sign in with. Send a password to reset it; leave it out and their current one keeps working.  Who they are does not change: their organization, username and the identifier their existing sessions are keyed on all survive the write, so an update never signs anyone out.  A SuperAdmin's account is changed only by a SuperAdmin.  Send `isAdmin` to make them an admin of their organization or to stop them being one; leave it out and it stays as it is. A SuperAdmin may change it on anyone. An organization's admin may change it on the other people of their own organization, except that only a SuperAdmin makes an admin in an organization the platform runs, nobody makes themselves one, and the last admin is not removed. Anyone else is refused, never ignored. Stopping someone being an admin signs them out everywhere at once: every token they hold stops working. The answer states `isAdmin` as stored.
 
         :param owner: (required)
         :type owner: str
@@ -41835,7 +41882,7 @@ class IamApi:
     ) -> ApiResponse[IamUser]:
         """Changes a person's profile, their roles, or the credentials they sign in with.
 
-        Changes a person's profile, their roles, or the credentials they sign in with. Send a password to reset it; leave it out and their current one keeps working.  Who they are does not change: their organization, username and the identifier their existing sessions are keyed on all survive the write, so an update never signs anyone out.  A SuperAdmin's account is changed only by a SuperAdmin.
+        Changes a person's profile, their roles, or the credentials they sign in with. Send a password to reset it; leave it out and their current one keeps working.  Who they are does not change: their organization, username and the identifier their existing sessions are keyed on all survive the write, so an update never signs anyone out.  A SuperAdmin's account is changed only by a SuperAdmin.  Send `isAdmin` to make them an admin of their organization or to stop them being one; leave it out and it stays as it is. A SuperAdmin may change it on anyone. An organization's admin may change it on the other people of their own organization, except that only a SuperAdmin makes an admin in an organization the platform runs, nobody makes themselves one, and the last admin is not removed. Anyone else is refused, never ignored. Stopping someone being an admin signs them out everywhere at once: every token they hold stops working. The answer states `isAdmin` as stored.
 
         :param owner: (required)
         :type owner: str
@@ -41911,7 +41958,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Changes a person's profile, their roles, or the credentials they sign in with.
 
-        Changes a person's profile, their roles, or the credentials they sign in with. Send a password to reset it; leave it out and their current one keeps working.  Who they are does not change: their organization, username and the identifier their existing sessions are keyed on all survive the write, so an update never signs anyone out.  A SuperAdmin's account is changed only by a SuperAdmin.
+        Changes a person's profile, their roles, or the credentials they sign in with. Send a password to reset it; leave it out and their current one keeps working.  Who they are does not change: their organization, username and the identifier their existing sessions are keyed on all survive the write, so an update never signs anyone out.  A SuperAdmin's account is changed only by a SuperAdmin.  Send `isAdmin` to make them an admin of their organization or to stop them being one; leave it out and it stays as it is. A SuperAdmin may change it on anyone. An organization's admin may change it on the other people of their own organization, except that only a SuperAdmin makes an admin in an organization the platform runs, nobody makes themselves one, and the last admin is not removed. Anyone else is refused, never ignored. Stopping someone being an admin signs them out everywhere at once: every token they hold stops working. The answer states `isAdmin` as stored.
 
         :param owner: (required)
         :type owner: str
