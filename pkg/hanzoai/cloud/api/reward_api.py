@@ -64,7 +64,7 @@ class RewardApi:
     ) -> None:
         """The README badge of a person's level, as an SVG
 
-        Public once the person turns their profile on. Name the handle with the .svg extension. theme=dark|light and style=flat|card choose the look. The image is never cached by a shared cache and answers 304 to a matching ETag, and every word on it is escaped.
+        Public once the person turns their profile on. Name the handle with the .svg extension. theme=dark|light and style=flat|card choose the look. Cached hourly in-process and at the edge (stale-while-revalidate 24h) and answers 304 to a matching ETag, and every word on it is escaped.
 
         :param handle: (required)
         :type handle: str
@@ -130,7 +130,7 @@ class RewardApi:
     ) -> ApiResponse[None]:
         """The README badge of a person's level, as an SVG
 
-        Public once the person turns their profile on. Name the handle with the .svg extension. theme=dark|light and style=flat|card choose the look. The image is never cached by a shared cache and answers 304 to a matching ETag, and every word on it is escaped.
+        Public once the person turns their profile on. Name the handle with the .svg extension. theme=dark|light and style=flat|card choose the look. Cached hourly in-process and at the edge (stale-while-revalidate 24h) and answers 304 to a matching ETag, and every word on it is escaped.
 
         :param handle: (required)
         :type handle: str
@@ -196,7 +196,7 @@ class RewardApi:
     ) -> RESTResponseType:
         """The README badge of a person's level, as an SVG
 
-        Public once the person turns their profile on. Name the handle with the .svg extension. theme=dark|light and style=flat|card choose the look. The image is never cached by a shared cache and answers 304 to a matching ETag, and every word on it is escaped.
+        Public once the person turns their profile on. Name the handle with the .svg extension. theme=dark|light and style=flat|card choose the look. Cached hourly in-process and at the edge (stale-while-revalidate 24h) and answers 304 to a matching ETag, and every word on it is escaped.
 
         :param handle: (required)
         :type handle: str

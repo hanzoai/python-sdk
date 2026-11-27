@@ -21,12 +21,16 @@ from typing_extensions import Annotated
 from hanzoai.cloud.models.network_identity_in import NetworkIdentityIn
 from hanzoai.cloud.models.network_identity_list import NetworkIdentityList
 from hanzoai.cloud.models.network_identity_view import NetworkIdentityView
+from hanzoai.cloud.models.network_invite_check_in import NetworkInviteCheckIn
+from hanzoai.cloud.models.network_invite_verdict import NetworkInviteVerdict
 from hanzoai.cloud.models.network_mesh_service_list import NetworkMeshServiceList
 from hanzoai.cloud.models.network_network_list import NetworkNetworkList
 from hanzoai.cloud.models.network_network_view import NetworkNetworkView
 from hanzoai.cloud.models.network_published_view import NetworkPublishedView
 from hanzoai.cloud.models.network_router_list import NetworkRouterList
 from hanzoai.cloud.models.network_service_in import NetworkServiceIn
+from hanzoai.cloud.models.network_waitlist_entry import NetworkWaitlistEntry
+from hanzoai.cloud.models.network_waitlist_in import NetworkWaitlistIn
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -2094,6 +2098,280 @@ class NetworkApi:
 
 
     @validate_call
+    def post_network_invite_verify(
+        self,
+        network_invite_check_in: NetworkInviteCheckIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> NetworkInviteVerdict:
+        """Says whether an invite code is live: {\"valid\": true} or {\"valid\": false}, and nothing else.
+
+        Says whether an invite code is live: {\"valid\": true} or {\"valid\": false}, and nothing else. It never says why a code is not valid: a code that was never issued, one that is not shaped like a code, one that was revoked and one that has expired get the same status and the same body, and it says nothing of who issued a code. Verifying does not consume the code and does not spend it, and it needs no account. Nothing on the server enforces an invite until redemption exists; the operations that will need one will answer with the problem type invite_required.  A deployment that cannot hold invites, or has issued none yet, answers 503; then a caller past ten requests an hour is 429, a body over 4 KiB 413 and a missing code or a body that is not JSON 400, in that order. A caller that has missed five times in an hour is refused 429 until the window passes, whatever it asks, so the refusal says nothing about whether a code would have been valid, and Retry-After says when to come back. The limits are per network address (an IPv6 /64, with the /48 around it counted at sixteen times as much): clients behind one address share them, and so do callers whose address is unknown.
+
+        :param network_invite_check_in: (required)
+        :type network_invite_check_in: NetworkInviteCheckIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_network_invite_verify_serialize(
+            network_invite_check_in=network_invite_check_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "NetworkInviteVerdict",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_network_invite_verify_with_http_info(
+        self,
+        network_invite_check_in: NetworkInviteCheckIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[NetworkInviteVerdict]:
+        """Says whether an invite code is live: {\"valid\": true} or {\"valid\": false}, and nothing else.
+
+        Says whether an invite code is live: {\"valid\": true} or {\"valid\": false}, and nothing else. It never says why a code is not valid: a code that was never issued, one that is not shaped like a code, one that was revoked and one that has expired get the same status and the same body, and it says nothing of who issued a code. Verifying does not consume the code and does not spend it, and it needs no account. Nothing on the server enforces an invite until redemption exists; the operations that will need one will answer with the problem type invite_required.  A deployment that cannot hold invites, or has issued none yet, answers 503; then a caller past ten requests an hour is 429, a body over 4 KiB 413 and a missing code or a body that is not JSON 400, in that order. A caller that has missed five times in an hour is refused 429 until the window passes, whatever it asks, so the refusal says nothing about whether a code would have been valid, and Retry-After says when to come back. The limits are per network address (an IPv6 /64, with the /48 around it counted at sixteen times as much): clients behind one address share them, and so do callers whose address is unknown.
+
+        :param network_invite_check_in: (required)
+        :type network_invite_check_in: NetworkInviteCheckIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_network_invite_verify_serialize(
+            network_invite_check_in=network_invite_check_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "NetworkInviteVerdict",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_network_invite_verify_without_preload_content(
+        self,
+        network_invite_check_in: NetworkInviteCheckIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Says whether an invite code is live: {\"valid\": true} or {\"valid\": false}, and nothing else.
+
+        Says whether an invite code is live: {\"valid\": true} or {\"valid\": false}, and nothing else. It never says why a code is not valid: a code that was never issued, one that is not shaped like a code, one that was revoked and one that has expired get the same status and the same body, and it says nothing of who issued a code. Verifying does not consume the code and does not spend it, and it needs no account. Nothing on the server enforces an invite until redemption exists; the operations that will need one will answer with the problem type invite_required.  A deployment that cannot hold invites, or has issued none yet, answers 503; then a caller past ten requests an hour is 429, a body over 4 KiB 413 and a missing code or a body that is not JSON 400, in that order. A caller that has missed five times in an hour is refused 429 until the window passes, whatever it asks, so the refusal says nothing about whether a code would have been valid, and Retry-After says when to come back. The limits are per network address (an IPv6 /64, with the /48 around it counted at sixteen times as much): clients behind one address share them, and so do callers whose address is unknown.
+
+        :param network_invite_check_in: (required)
+        :type network_invite_check_in: NetworkInviteCheckIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_network_invite_verify_serialize(
+            network_invite_check_in=network_invite_check_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "NetworkInviteVerdict",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_network_invite_verify_serialize(
+        self,
+        network_invite_check_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if network_invite_check_in is not None:
+            _body_params = network_invite_check_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/network/invite/verify',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def post_network_services(
         self,
         network_service_in: NetworkServiceIn,
@@ -2353,6 +2631,280 @@ class NetworkApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/network/services',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_network_waitlist(
+        self,
+        network_waitlist_in: NetworkWaitlistIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> NetworkWaitlistEntry:
+        """Puts an address or an X handle on the Hanzo Network waitlist and answers 202 pending.
+
+        Puts an address or an X handle on the Hanzo Network waitlist and answers 202 pending. Nothing is mailed. It gives the same answer for an identifier that is new and one asked for before, however often, and with the same headers, so it says nothing about who is on the list; a repeat changes nothing, and the first entry stands. An X handle is never looked up anywhere and no wallet address is taken. No account is needed, and the entry keeps nothing about the caller. It also keeps no email or handle: only a keyed HMAC digest of the identifier, under the one invite secret with a domain of its own, is filed.  A deployment that cannot hold the waitlist, or has issued no invite yet, answers 503; then a caller past ten requests an hour is 429 (with Retry-After), a body over 4 KiB 413, and a body that is not JSON, one with neither or both of email and xHandle, an invalid one or a role that is not miner, builder, researcher or staker 400, in that order. The ten an hour are per network address: clients behind one address share them, and so do callers whose address is unknown. Nothing here is gated by an invite yet; the operations that will be answer with the problem type invite_required.
+
+        :param network_waitlist_in: (required)
+        :type network_waitlist_in: NetworkWaitlistIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_network_waitlist_serialize(
+            network_waitlist_in=network_waitlist_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "NetworkWaitlistEntry",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_network_waitlist_with_http_info(
+        self,
+        network_waitlist_in: NetworkWaitlistIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[NetworkWaitlistEntry]:
+        """Puts an address or an X handle on the Hanzo Network waitlist and answers 202 pending.
+
+        Puts an address or an X handle on the Hanzo Network waitlist and answers 202 pending. Nothing is mailed. It gives the same answer for an identifier that is new and one asked for before, however often, and with the same headers, so it says nothing about who is on the list; a repeat changes nothing, and the first entry stands. An X handle is never looked up anywhere and no wallet address is taken. No account is needed, and the entry keeps nothing about the caller. It also keeps no email or handle: only a keyed HMAC digest of the identifier, under the one invite secret with a domain of its own, is filed.  A deployment that cannot hold the waitlist, or has issued no invite yet, answers 503; then a caller past ten requests an hour is 429 (with Retry-After), a body over 4 KiB 413, and a body that is not JSON, one with neither or both of email and xHandle, an invalid one or a role that is not miner, builder, researcher or staker 400, in that order. The ten an hour are per network address: clients behind one address share them, and so do callers whose address is unknown. Nothing here is gated by an invite yet; the operations that will be answer with the problem type invite_required.
+
+        :param network_waitlist_in: (required)
+        :type network_waitlist_in: NetworkWaitlistIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_network_waitlist_serialize(
+            network_waitlist_in=network_waitlist_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "NetworkWaitlistEntry",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_network_waitlist_without_preload_content(
+        self,
+        network_waitlist_in: NetworkWaitlistIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Puts an address or an X handle on the Hanzo Network waitlist and answers 202 pending.
+
+        Puts an address or an X handle on the Hanzo Network waitlist and answers 202 pending. Nothing is mailed. It gives the same answer for an identifier that is new and one asked for before, however often, and with the same headers, so it says nothing about who is on the list; a repeat changes nothing, and the first entry stands. An X handle is never looked up anywhere and no wallet address is taken. No account is needed, and the entry keeps nothing about the caller. It also keeps no email or handle: only a keyed HMAC digest of the identifier, under the one invite secret with a domain of its own, is filed.  A deployment that cannot hold the waitlist, or has issued no invite yet, answers 503; then a caller past ten requests an hour is 429 (with Retry-After), a body over 4 KiB 413, and a body that is not JSON, one with neither or both of email and xHandle, an invalid one or a role that is not miner, builder, researcher or staker 400, in that order. The ten an hour are per network address: clients behind one address share them, and so do callers whose address is unknown. Nothing here is gated by an invite yet; the operations that will be answer with the problem type invite_required.
+
+        :param network_waitlist_in: (required)
+        :type network_waitlist_in: NetworkWaitlistIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_network_waitlist_serialize(
+            network_waitlist_in=network_waitlist_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "NetworkWaitlistEntry",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_network_waitlist_serialize(
+        self,
+        network_waitlist_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if network_waitlist_in is not None:
+            _body_params = network_waitlist_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/network/waitlist',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

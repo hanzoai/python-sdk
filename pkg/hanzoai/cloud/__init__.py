@@ -1966,6 +1966,8 @@ __all__ = [
     "NetworkIdentityIn",
     "NetworkIdentityList",
     "NetworkIdentityView",
+    "NetworkInviteCheckIn",
+    "NetworkInviteVerdict",
     "NetworkMeshServiceList",
     "NetworkMeshView",
     "NetworkNetworkList",
@@ -1974,6 +1976,8 @@ __all__ = [
     "NetworkRouterList",
     "NetworkRouterView",
     "NetworkServiceIn",
+    "NetworkWaitlistEntry",
+    "NetworkWaitlistIn",
     "Node",
     "NodeNodeView",
     "NodeNodesView",
@@ -5803,6 +5807,8 @@ from hanzoai.cloud.models.mq_streams import MqStreams as MqStreams
 from hanzoai.cloud.models.network_identity_in import NetworkIdentityIn as NetworkIdentityIn
 from hanzoai.cloud.models.network_identity_list import NetworkIdentityList as NetworkIdentityList
 from hanzoai.cloud.models.network_identity_view import NetworkIdentityView as NetworkIdentityView
+from hanzoai.cloud.models.network_invite_check_in import NetworkInviteCheckIn as NetworkInviteCheckIn
+from hanzoai.cloud.models.network_invite_verdict import NetworkInviteVerdict as NetworkInviteVerdict
 from hanzoai.cloud.models.network_mesh_service_list import NetworkMeshServiceList as NetworkMeshServiceList
 from hanzoai.cloud.models.network_mesh_view import NetworkMeshView as NetworkMeshView
 from hanzoai.cloud.models.network_network_list import NetworkNetworkList as NetworkNetworkList
@@ -5811,6 +5817,8 @@ from hanzoai.cloud.models.network_published_view import NetworkPublishedView as 
 from hanzoai.cloud.models.network_router_list import NetworkRouterList as NetworkRouterList
 from hanzoai.cloud.models.network_router_view import NetworkRouterView as NetworkRouterView
 from hanzoai.cloud.models.network_service_in import NetworkServiceIn as NetworkServiceIn
+from hanzoai.cloud.models.network_waitlist_entry import NetworkWaitlistEntry as NetworkWaitlistEntry
+from hanzoai.cloud.models.network_waitlist_in import NetworkWaitlistIn as NetworkWaitlistIn
 from hanzoai.cloud.models.node import Node as Node
 from hanzoai.cloud.models.node_node_view import NodeNodeView as NodeNodeView
 from hanzoai.cloud.models.node_nodes_view import NodeNodesView as NodeNodesView

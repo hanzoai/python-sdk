@@ -1944,6 +1944,8 @@ pkg/hanzoai/cloud/models/mq_streams.py
 pkg/hanzoai/cloud/models/network_identity_in.py
 pkg/hanzoai/cloud/models/network_identity_list.py
 pkg/hanzoai/cloud/models/network_identity_view.py
+pkg/hanzoai/cloud/models/network_invite_check_in.py
+pkg/hanzoai/cloud/models/network_invite_verdict.py
 pkg/hanzoai/cloud/models/network_mesh_service_list.py
 pkg/hanzoai/cloud/models/network_mesh_view.py
 pkg/hanzoai/cloud/models/network_network_list.py
@@ -1952,6 +1954,8 @@ pkg/hanzoai/cloud/models/network_published_view.py
 pkg/hanzoai/cloud/models/network_router_list.py
 pkg/hanzoai/cloud/models/network_router_view.py
 pkg/hanzoai/cloud/models/network_service_in.py
+pkg/hanzoai/cloud/models/network_waitlist_entry.py
+pkg/hanzoai/cloud/models/network_waitlist_in.py
 pkg/hanzoai/cloud/models/node.py
 pkg/hanzoai/cloud/models/node_node_view.py
 pkg/hanzoai/cloud/models/node_nodes_view.py

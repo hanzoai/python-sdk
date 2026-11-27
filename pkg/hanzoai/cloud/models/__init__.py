@@ -1817,6 +1817,8 @@ from hanzoai.cloud.models.mq_streams import MqStreams
 from hanzoai.cloud.models.network_identity_in import NetworkIdentityIn
 from hanzoai.cloud.models.network_identity_list import NetworkIdentityList
 from hanzoai.cloud.models.network_identity_view import NetworkIdentityView
+from hanzoai.cloud.models.network_invite_check_in import NetworkInviteCheckIn
+from hanzoai.cloud.models.network_invite_verdict import NetworkInviteVerdict
 from hanzoai.cloud.models.network_mesh_service_list import NetworkMeshServiceList
 from hanzoai.cloud.models.network_mesh_view import NetworkMeshView
 from hanzoai.cloud.models.network_network_list import NetworkNetworkList
@@ -1825,6 +1827,8 @@ from hanzoai.cloud.models.network_published_view import NetworkPublishedView
 from hanzoai.cloud.models.network_router_list import NetworkRouterList
 from hanzoai.cloud.models.network_router_view import NetworkRouterView
 from hanzoai.cloud.models.network_service_in import NetworkServiceIn
+from hanzoai.cloud.models.network_waitlist_entry import NetworkWaitlistEntry
+from hanzoai.cloud.models.network_waitlist_in import NetworkWaitlistIn
 from hanzoai.cloud.models.node import Node
 from hanzoai.cloud.models.node_node_view import NodeNodeView
 from hanzoai.cloud.models.node_nodes_view import NodeNodesView
