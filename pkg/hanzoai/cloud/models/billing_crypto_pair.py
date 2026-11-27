@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,9 +26,16 @@ class BillingCryptoPair(BaseModel):
     """
     BillingCryptoPair
     """ # noqa: E501
+    address_tag_required: Optional[StrictBool] = Field(default=None, description="AddressTagRequired reports whether deposits on this chain share one address and require a destination tag.", alias="addressTagRequired")
     chain: Optional[StrictStr] = Field(default=None, description="Chain is the network, as a deposit names it (\"base\").")
+    confirmations: Optional[StrictInt] = Field(default=None, description="Confirmations is how many blocks deep a transfer must be before crediting.")
+    contract: Optional[StrictStr] = Field(default=None, description="Contract is the on-chain token contract, SPL mint, jetton master, or issuer.")
+    decimals: Optional[StrictInt] = Field(default=None, description="Decimals is the token's base-unit precision (e.g. 6 for USDC).")
+    fee_cents: Optional[StrictInt] = Field(default=None, description="FeeCents is deducted from each deposit before crediting.", alias="feeCents")
+    min_amount: Optional[StrictStr] = Field(default=None, description="MinAmount is the smallest deposit in raw token base units.", alias="minAmount")
+    minimum_cents: Optional[StrictInt] = Field(default=None, description="MinimumCents is the smallest deposit, in USD cents, that credits anything.", alias="minimumCents")
     token: Optional[StrictStr] = Field(default=None, description="Token is the asset on that chain, as a deposit names it (\"usdc\").")
-    __properties: ClassVar[List[str]] = ["chain", "token"]
+    __properties: ClassVar[List[str]] = ["addressTagRequired", "chain", "confirmations", "contract", "decimals", "feeCents", "minAmount", "minimumCents", "token"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -81,7 +88,14 @@ class BillingCryptoPair(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "addressTagRequired": obj.get("addressTagRequired"),
             "chain": obj.get("chain"),
+            "confirmations": obj.get("confirmations"),
+            "contract": obj.get("contract"),
+            "decimals": obj.get("decimals"),
+            "feeCents": obj.get("feeCents"),
+            "minAmount": obj.get("minAmount"),
+            "minimumCents": obj.get("minimumCents"),
             "token": obj.get("token")
         })
         return _obj

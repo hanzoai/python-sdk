@@ -42,8 +42,9 @@ class AgentTargetView(BaseModel):
     sessions: Optional[StrictInt] = Field(default=None, description="Sessions is how many of the org's sessions are mapped to this machine, by target id OR by matching Host. All of them, whatever their status.")
     spec: Optional[AgentSpec] = Field(default=None, description="Spec is what the machine IS — os, arch, cores, RAM, accelerators — the static half, changed only when something reports it again. Absent when nothing has ever been reported, and a scheduler reads absence as \"cannot satisfy a floor\" rather than as \"no limits\".")
     status: Optional[StrictStr] = Field(default=None, description="Status is the EFFECTIVE liveness — online | offline | draining — not the stored one. offline and draining are operator INTENT and are reported as they stand; `online` is checked against the heartbeat, and a machine that has beaten before but not in the last 90 seconds reports offline whatever its row says. A target that has NEVER beaten keeps its stored status, because a hand-registered destination has no fact to check.")
+    terminal: Optional[StrictStr] = Field(default=None, description="Terminal is where the machine's live terminal can be watched, an https URL. It is the machine's own fact, kept alive by the machine's heartbeat: present only while the machine is online and has restated it within the last 90 seconds, so it does not outlive the shell it points at, and it does not depend on any session surviving the session reaper. Shown only to the machine's owner (or an org admin); a colleague's machine never carries it.")
     updated_at: Optional[StrictStr] = Field(default=None, description="UpdatedAt is the last write to the row, same format — which for a beating machine is its last heartbeat, since a heartbeat IS a write.", alias="updatedAt")
-    __properties: ClassVar[List[str]] = ["capacity", "createdAt", "folders", "host", "id", "kind", "label", "metrics", "metricsAt", "running", "serving", "sessions", "spec", "status", "updatedAt"]
+    __properties: ClassVar[List[str]] = ["capacity", "createdAt", "folders", "host", "id", "kind", "label", "metrics", "metricsAt", "running", "serving", "sessions", "spec", "status", "terminal", "updatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -116,6 +117,7 @@ class AgentTargetView(BaseModel):
             "sessions": obj.get("sessions"),
             "spec": AgentSpec.from_dict(obj["spec"]) if obj.get("spec") is not None else None,
             "status": obj.get("status"),
+            "terminal": obj.get("terminal"),
             "updatedAt": obj.get("updatedAt")
         })
         return _obj

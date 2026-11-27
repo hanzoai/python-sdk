@@ -30,6 +30,7 @@ from hanzoai.cloud.api.compliance_api import ComplianceApi
 from hanzoai.cloud.api.compute_api import ComputeApi
 from hanzoai.cloud.api.content_api import ContentApi
 from hanzoai.cloud.api.crawl_api import CrawlApi
+from hanzoai.cloud.api.crm_api import CrmApi
 from hanzoai.cloud.api.cyber_api import CyberApi
 from hanzoai.cloud.api.dataroom_api import DataroomApi
 from hanzoai.cloud.api.dataset_api import DatasetApi

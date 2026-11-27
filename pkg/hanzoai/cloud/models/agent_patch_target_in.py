@@ -36,7 +36,8 @@ class AgentPatchTargetIn(BaseModel):
     metrics: Optional[AgentMetrics] = Field(default=None, description="Metrics replaces the live sample, and sending one IS A HEARTBEAT: the server stamps the time and appends the point to the fleet series. Sending an all-zero sample CLEARS the heartbeat — the machine goes back to having no liveness fact at all, and its stored status is taken at face value again.")
     spec: Optional[AgentSpec] = Field(default=None, description="Spec replaces the static capability whole, sanitized and clamped the same way a register's is.")
     status: Optional[StrictStr] = Field(default=None, description="Status sets operator INTENT: online | offline | draining. Draining is how a machine is taken out of dispatch without ending what is already on it. What comes back may still read offline, because the heartbeat outranks the intent.")
-    __properties: ClassVar[List[str]] = ["capacity", "host", "id", "kind", "label", "metrics", "spec", "status"]
+    terminal: Optional[StrictStr] = Field(default=None, description="Terminal publishes, or with \"\" clears, the machine's live terminal URL (https). Omit it and the stored terminal is left alone, so a heartbeat from a process that publishes none never wipes another's. The server stamps the time.")
+    __properties: ClassVar[List[str]] = ["capacity", "host", "id", "kind", "label", "metrics", "spec", "status", "terminal"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -102,7 +103,8 @@ class AgentPatchTargetIn(BaseModel):
             "label": obj.get("label"),
             "metrics": AgentMetrics.from_dict(obj["metrics"]) if obj.get("metrics") is not None else None,
             "spec": AgentSpec.from_dict(obj["spec"]) if obj.get("spec") is not None else None,
-            "status": obj.get("status")
+            "status": obj.get("status"),
+            "terminal": obj.get("terminal")
         })
         return _obj
 

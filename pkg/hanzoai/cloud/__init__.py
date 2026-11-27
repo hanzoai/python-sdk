@@ -47,6 +47,7 @@ __all__ = [
     "ComputeApi",
     "ContentApi",
     "CrawlApi",
+    "CrmApi",
     "CyberApi",
     "DataroomApi",
     "DatasetApi",
@@ -563,12 +564,16 @@ __all__ = [
     "BillingInvoicePayment",
     "BillingInvoiceRef",
     "BillingInvoices",
+    "BillingLendablePlan",
+    "BillingLinkBody",
     "BillingMode",
     "BillingModeIn",
     "BillingMoney",
     "BillingPayPalOrderOut",
     "BillingPayout",
     "BillingPaypalOrderIn",
+    "BillingPlanLink",
+    "BillingPlanLinkState",
     "BillingPriceQuote",
     "BillingRaiseIn",
     "BillingRecharge",
@@ -852,6 +857,33 @@ __all__ = [
     "CrawlRenderLink",
     "CrawlRenderRequest",
     "CrawlRenderResult",
+    "CrmCrmAIAssistIn",
+    "CrmCrmAIAssistOut",
+    "CrmCrmAnalyticsOut",
+    "CrmCrmCreateRecordIn",
+    "CrmCrmDeleteRecordOut",
+    "CrmCrmFieldSchema",
+    "CrmCrmGetRecordOut",
+    "CrmCrmInboundEmailIn",
+    "CrmCrmInboundEmailOut",
+    "CrmCrmListRecordsOut",
+    "CrmCrmLogActivityIn",
+    "CrmCrmLogActivityOut",
+    "CrmCrmMergeRecordsIn",
+    "CrmCrmMergeRecordsOut",
+    "CrmCrmMoveDealStageIn",
+    "CrmCrmMoveDealStageOut",
+    "CrmCrmObjectSchema",
+    "CrmCrmObjectsOut",
+    "CrmCrmOutreachFunnel",
+    "CrmCrmPipelineSummary",
+    "CrmCrmRecordOut",
+    "CrmCrmReparentCount",
+    "CrmCrmSearchHit",
+    "CrmCrmSearchOut",
+    "CrmCrmStageMetric",
+    "CrmCrmTaskMetrics",
+    "CrmCrmUpdateRecordIn",
     "CyberAddGraphNodeReq",
     "CyberApprovalList",
     "CyberApprovalView",
@@ -1979,6 +2011,8 @@ __all__ = [
     "NetworkWaitlistEntry",
     "NetworkWaitlistIn",
     "Node",
+    "NodeCallNodeIn",
+    "NodeInvokeView",
     "NodeNodeView",
     "NodeNodesView",
     "NotifyNotifyCredential",
@@ -3884,6 +3918,7 @@ from hanzoai.cloud.api.compliance_api import ComplianceApi as ComplianceApi
 from hanzoai.cloud.api.compute_api import ComputeApi as ComputeApi
 from hanzoai.cloud.api.content_api import ContentApi as ContentApi
 from hanzoai.cloud.api.crawl_api import CrawlApi as CrawlApi
+from hanzoai.cloud.api.crm_api import CrmApi as CrmApi
 from hanzoai.cloud.api.cyber_api import CyberApi as CyberApi
 from hanzoai.cloud.api.dataroom_api import DataroomApi as DataroomApi
 from hanzoai.cloud.api.dataset_api import DatasetApi as DatasetApi
@@ -4404,12 +4439,16 @@ from hanzoai.cloud.models.billing_invoice_line_item import BillingInvoiceLineIte
 from hanzoai.cloud.models.billing_invoice_payment import BillingInvoicePayment as BillingInvoicePayment
 from hanzoai.cloud.models.billing_invoice_ref import BillingInvoiceRef as BillingInvoiceRef
 from hanzoai.cloud.models.billing_invoices import BillingInvoices as BillingInvoices
+from hanzoai.cloud.models.billing_lendable_plan import BillingLendablePlan as BillingLendablePlan
+from hanzoai.cloud.models.billing_link_body import BillingLinkBody as BillingLinkBody
 from hanzoai.cloud.models.billing_mode import BillingMode as BillingMode
 from hanzoai.cloud.models.billing_mode_in import BillingModeIn as BillingModeIn
 from hanzoai.cloud.models.billing_money import BillingMoney as BillingMoney
 from hanzoai.cloud.models.billing_pay_pal_order_out import BillingPayPalOrderOut as BillingPayPalOrderOut
 from hanzoai.cloud.models.billing_payout import BillingPayout as BillingPayout
 from hanzoai.cloud.models.billing_paypal_order_in import BillingPaypalOrderIn as BillingPaypalOrderIn
+from hanzoai.cloud.models.billing_plan_link import BillingPlanLink as BillingPlanLink
+from hanzoai.cloud.models.billing_plan_link_state import BillingPlanLinkState as BillingPlanLinkState
 from hanzoai.cloud.models.billing_price_quote import BillingPriceQuote as BillingPriceQuote
 from hanzoai.cloud.models.billing_raise_in import BillingRaiseIn as BillingRaiseIn
 from hanzoai.cloud.models.billing_recharge import BillingRecharge as BillingRecharge
@@ -4693,6 +4732,33 @@ from hanzoai.cloud.models.crawl_render_document import CrawlRenderDocument as Cr
 from hanzoai.cloud.models.crawl_render_link import CrawlRenderLink as CrawlRenderLink
 from hanzoai.cloud.models.crawl_render_request import CrawlRenderRequest as CrawlRenderRequest
 from hanzoai.cloud.models.crawl_render_result import CrawlRenderResult as CrawlRenderResult
+from hanzoai.cloud.models.crm_crm_ai_assist_in import CrmCrmAIAssistIn as CrmCrmAIAssistIn
+from hanzoai.cloud.models.crm_crm_ai_assist_out import CrmCrmAIAssistOut as CrmCrmAIAssistOut
+from hanzoai.cloud.models.crm_crm_analytics_out import CrmCrmAnalyticsOut as CrmCrmAnalyticsOut
+from hanzoai.cloud.models.crm_crm_create_record_in import CrmCrmCreateRecordIn as CrmCrmCreateRecordIn
+from hanzoai.cloud.models.crm_crm_delete_record_out import CrmCrmDeleteRecordOut as CrmCrmDeleteRecordOut
+from hanzoai.cloud.models.crm_crm_field_schema import CrmCrmFieldSchema as CrmCrmFieldSchema
+from hanzoai.cloud.models.crm_crm_get_record_out import CrmCrmGetRecordOut as CrmCrmGetRecordOut
+from hanzoai.cloud.models.crm_crm_inbound_email_in import CrmCrmInboundEmailIn as CrmCrmInboundEmailIn
+from hanzoai.cloud.models.crm_crm_inbound_email_out import CrmCrmInboundEmailOut as CrmCrmInboundEmailOut
+from hanzoai.cloud.models.crm_crm_list_records_out import CrmCrmListRecordsOut as CrmCrmListRecordsOut
+from hanzoai.cloud.models.crm_crm_log_activity_in import CrmCrmLogActivityIn as CrmCrmLogActivityIn
+from hanzoai.cloud.models.crm_crm_log_activity_out import CrmCrmLogActivityOut as CrmCrmLogActivityOut
+from hanzoai.cloud.models.crm_crm_merge_records_in import CrmCrmMergeRecordsIn as CrmCrmMergeRecordsIn
+from hanzoai.cloud.models.crm_crm_merge_records_out import CrmCrmMergeRecordsOut as CrmCrmMergeRecordsOut
+from hanzoai.cloud.models.crm_crm_move_deal_stage_in import CrmCrmMoveDealStageIn as CrmCrmMoveDealStageIn
+from hanzoai.cloud.models.crm_crm_move_deal_stage_out import CrmCrmMoveDealStageOut as CrmCrmMoveDealStageOut
+from hanzoai.cloud.models.crm_crm_object_schema import CrmCrmObjectSchema as CrmCrmObjectSchema
+from hanzoai.cloud.models.crm_crm_objects_out import CrmCrmObjectsOut as CrmCrmObjectsOut
+from hanzoai.cloud.models.crm_crm_outreach_funnel import CrmCrmOutreachFunnel as CrmCrmOutreachFunnel
+from hanzoai.cloud.models.crm_crm_pipeline_summary import CrmCrmPipelineSummary as CrmCrmPipelineSummary
+from hanzoai.cloud.models.crm_crm_record_out import CrmCrmRecordOut as CrmCrmRecordOut
+from hanzoai.cloud.models.crm_crm_reparent_count import CrmCrmReparentCount as CrmCrmReparentCount
+from hanzoai.cloud.models.crm_crm_search_hit import CrmCrmSearchHit as CrmCrmSearchHit
+from hanzoai.cloud.models.crm_crm_search_out import CrmCrmSearchOut as CrmCrmSearchOut
+from hanzoai.cloud.models.crm_crm_stage_metric import CrmCrmStageMetric as CrmCrmStageMetric
+from hanzoai.cloud.models.crm_crm_task_metrics import CrmCrmTaskMetrics as CrmCrmTaskMetrics
+from hanzoai.cloud.models.crm_crm_update_record_in import CrmCrmUpdateRecordIn as CrmCrmUpdateRecordIn
 from hanzoai.cloud.models.cyber_add_graph_node_req import CyberAddGraphNodeReq as CyberAddGraphNodeReq
 from hanzoai.cloud.models.cyber_approval_list import CyberApprovalList as CyberApprovalList
 from hanzoai.cloud.models.cyber_approval_view import CyberApprovalView as CyberApprovalView
@@ -5820,6 +5886,8 @@ from hanzoai.cloud.models.network_service_in import NetworkServiceIn as NetworkS
 from hanzoai.cloud.models.network_waitlist_entry import NetworkWaitlistEntry as NetworkWaitlistEntry
 from hanzoai.cloud.models.network_waitlist_in import NetworkWaitlistIn as NetworkWaitlistIn
 from hanzoai.cloud.models.node import Node as Node
+from hanzoai.cloud.models.node_call_node_in import NodeCallNodeIn as NodeCallNodeIn
+from hanzoai.cloud.models.node_invoke_view import NodeInvokeView as NodeInvokeView
 from hanzoai.cloud.models.node_node_view import NodeNodeView as NodeNodeView
 from hanzoai.cloud.models.node_nodes_view import NodeNodesView as NodeNodesView
 from hanzoai.cloud.models.notify_notify_credential import NotifyNotifyCredential as NotifyNotifyCredential

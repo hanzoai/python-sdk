@@ -30,19 +30,24 @@ class BillingCryptoDeposit(BaseModel):
     amount_cents: Optional[StrictInt] = Field(default=None, description="AmountCents is what the payer said they would send, in USD cents, when the address was asked for: a record of intent, not a quote. What is credited is what arrives. Absent when nothing was named.", alias="amountCents")
     chain: Optional[StrictStr] = Field(default=None, description="Chain is the network to send on.")
     confirmations: Optional[StrictInt] = Field(default=None, description="Confirmations is how deep the transfer being confirmed is now; zero until one is seen.")
+    contract: Optional[StrictStr] = Field(default=None, description="Contract is the exact watched token contract/mint this intent accepts.")
     credited_cents: Optional[StrictInt] = Field(default=None, description="CreditedCents is what the transfer this intent confirmed credited, in USD cents, once it succeeded. A later transfer to the same address is credited too, and shows in the balance rather than here.", alias="creditedCents")
     deposit_address: Optional[StrictStr] = Field(default=None, description="DepositAddress is where to send it.", alias="depositAddress")
     expires_at: Optional[StrictStr] = Field(default=None, description="ExpiresAt is when this address stops being handed out again (RFC3339). A transfer that arrives after it is still credited.", alias="expiresAt")
     fee_cents: Optional[StrictInt] = Field(default=None, description="FeeCents is deducted from every deposit before it is credited: the cost of sweeping it out of the custody address. Absent deducts nothing.", alias="feeCents")
     id: Optional[StrictStr] = Field(default=None, description="ID names the intent; read it back at GET /v1/billing/crypto/deposit/{id}.")
     instructions: Optional[StrictStr] = Field(default=None, description="Instructions says, in one line, what to send where and when it is credited.")
+    log_index: Optional[StrictInt] = Field(default=None, alias="logIndex")
     minimum_cents: Optional[StrictInt] = Field(default=None, description="MinimumCents is the smallest deposit, in USD cents, that credits anything; less credits nothing. Absent when nothing is watching this asset now, and then nothing sent to it is credited.", alias="minimumCents")
     plan_id: Optional[StrictStr] = Field(default=None, description="PlanID and SubscriptionID are set when the deposit pays a plan's first period.", alias="planId")
     required_confirmations: Optional[StrictInt] = Field(default=None, description="RequiredConfirmations is how many blocks deep the transfer must be before it is credited.", alias="requiredConfirmations")
+    settlement_state: Optional[StrictStr] = Field(default=None, description="SettlementState tracks progression: pending -> confirming -> credited -> swept (or expired).", alias="settlementState")
     status: Optional[StrictStr] = Field(default=None, description="Status is pending until a transfer to the address is seen, confirming while the chain buries it, and succeeded once it is credited as cash in the payer's balance (GET /v1/billing/balance, cash).")
     subscription_id: Optional[StrictStr] = Field(default=None, alias="subscriptionId")
+    swept_tx_hash: Optional[StrictStr] = Field(default=None, description="SweptTxHash records the treasury sweep transaction hash once swept.", alias="sweptTxHash")
     token: Optional[StrictStr] = Field(default=None, description="Token is the asset to send; this intent credits that token alone.")
-    __properties: ClassVar[List[str]] = ["addressTag", "amountCents", "chain", "confirmations", "creditedCents", "depositAddress", "expiresAt", "feeCents", "id", "instructions", "minimumCents", "planId", "requiredConfirmations", "status", "subscriptionId", "token"]
+    tx_hash: Optional[StrictStr] = Field(default=None, description="TxHash and LogIndex identify the on-chain transfer event being confirmed or credited.", alias="txHash")
+    __properties: ClassVar[List[str]] = ["addressTag", "amountCents", "chain", "confirmations", "contract", "creditedCents", "depositAddress", "expiresAt", "feeCents", "id", "instructions", "logIndex", "minimumCents", "planId", "requiredConfirmations", "settlementState", "status", "subscriptionId", "sweptTxHash", "token", "txHash"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -99,18 +104,23 @@ class BillingCryptoDeposit(BaseModel):
             "amountCents": obj.get("amountCents"),
             "chain": obj.get("chain"),
             "confirmations": obj.get("confirmations"),
+            "contract": obj.get("contract"),
             "creditedCents": obj.get("creditedCents"),
             "depositAddress": obj.get("depositAddress"),
             "expiresAt": obj.get("expiresAt"),
             "feeCents": obj.get("feeCents"),
             "id": obj.get("id"),
             "instructions": obj.get("instructions"),
+            "logIndex": obj.get("logIndex"),
             "minimumCents": obj.get("minimumCents"),
             "planId": obj.get("planId"),
             "requiredConfirmations": obj.get("requiredConfirmations"),
+            "settlementState": obj.get("settlementState"),
             "status": obj.get("status"),
             "subscriptionId": obj.get("subscriptionId"),
-            "token": obj.get("token")
+            "sweptTxHash": obj.get("sweptTxHash"),
+            "token": obj.get("token"),
+            "txHash": obj.get("txHash")
         })
         return _obj
 

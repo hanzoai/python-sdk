@@ -30,7 +30,8 @@ class AgentEventIn(BaseModel):
     id: Optional[StrictStr] = Field(default=None, description="ID is the session to append to, from the path.")
     kind: Optional[StrictStr] = Field(default=None, description="Kind is what this turn IS: message, tool-call, spawn, log, status, control or progress. Anything else is refused — the vocabulary is closed so a reader can branch on it.")
     payload: Optional[Any] = None
-    __properties: ClassVar[List[str]] = ["actor", "id", "kind", "payload"]
+    request_id: Optional[StrictStr] = Field(default=None, description="RequestID names this append so it can be made again safely: a second append to the same session with the same id stores nothing and answers with the turn the first one stored; the same id with another turn is refused 422. Up to 256 bytes, no control characters. Leave it out and every append is its own turn.", alias="requestId")
+    __properties: ClassVar[List[str]] = ["actor", "id", "kind", "payload", "requestId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -91,7 +92,8 @@ class AgentEventIn(BaseModel):
             "actor": obj.get("actor"),
             "id": obj.get("id"),
             "kind": obj.get("kind"),
-            "payload": obj.get("payload")
+            "payload": obj.get("payload"),
+            "requestId": obj.get("requestId")
         })
         return _obj
 

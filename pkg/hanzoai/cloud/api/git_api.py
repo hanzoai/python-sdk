@@ -14019,9 +14019,9 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RunnerDeclareOut:
-        """Republishes what a registered runner can do, and answers with what this side understands, so the two learn about each other from one exchange.
+        """Republishes what a registered runner can do and returns server capabilities.
 
-        Republishes what a registered runner can do, and answers with what this side understands, so the two learn about each other from one exchange.
+        Republishes what a registered runner can do and returns server capabilities.
 
         :param runner_declare_in: (required)
         :type runner_declare_in: RunnerDeclareIn
@@ -14094,9 +14094,9 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[RunnerDeclareOut]:
-        """Republishes what a registered runner can do, and answers with what this side understands, so the two learn about each other from one exchange.
+        """Republishes what a registered runner can do and returns server capabilities.
 
-        Republishes what a registered runner can do, and answers with what this side understands, so the two learn about each other from one exchange.
+        Republishes what a registered runner can do and returns server capabilities.
 
         :param runner_declare_in: (required)
         :type runner_declare_in: RunnerDeclareIn
@@ -14169,9 +14169,9 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Republishes what a registered runner can do, and answers with what this side understands, so the two learn about each other from one exchange.
+        """Republishes what a registered runner can do and returns server capabilities.
 
-        Republishes what a registered runner can do, and answers with what this side understands, so the two learn about each other from one exchange.
+        Republishes what a registered runner can do and returns server capabilities.
 
         :param runner_declare_in: (required)
         :type runner_declare_in: RunnerDeclareIn
@@ -14324,9 +14324,9 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RunnerLogOut:
-        """Adds console output to a task's log and answers with how far that log is durable, so the runner knows where to resend from.
+        """Appends console output lines to a task's log and seals on completion.
 
-        Adds console output to a task's log and answers with how far that log is durable, so the runner knows where to resend from.
+        Appends console output lines to a task's log and seals on completion.
 
         :param runner_log_in: (required)
         :type runner_log_in: RunnerLogIn
@@ -14399,9 +14399,9 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[RunnerLogOut]:
-        """Adds console output to a task's log and answers with how far that log is durable, so the runner knows where to resend from.
+        """Appends console output lines to a task's log and seals on completion.
 
-        Adds console output to a task's log and answers with how far that log is durable, so the runner knows where to resend from.
+        Appends console output lines to a task's log and seals on completion.
 
         :param runner_log_in: (required)
         :type runner_log_in: RunnerLogIn
@@ -14474,9 +14474,9 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Adds console output to a task's log and answers with how far that log is durable, so the runner knows where to resend from.
+        """Appends console output lines to a task's log and seals on completion.
 
-        Adds console output to a task's log and answers with how far that log is durable, so the runner knows where to resend from.
+        Appends console output lines to a task's log and seals on completion.
 
         :param runner_log_in: (required)
         :type runner_log_in: RunnerLogIn
@@ -14627,9 +14627,9 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RunnerRegisterOut:
-        """Trades a pool's join secret for a runner identity and the token that authenticates every later call.
+        """Trades a pool's join secret for a runner identity and credential token.
 
-        Trades a pool's join secret for a runner identity and the token that authenticates every later call. It is the one operation with no credential to check, because a runner has none until this answers.  The secret names the pool it opens, and a pool exists only because somebody declared it. A daemon that starts against capacity nobody declared is refused here, which is where the rule that pools are declared state actually holds.
+        Trades a pool's join secret for a runner identity and credential token.
 
         :param runner_register_in: (required)
         :type runner_register_in: RunnerRegisterIn
@@ -14694,9 +14694,9 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[RunnerRegisterOut]:
-        """Trades a pool's join secret for a runner identity and the token that authenticates every later call.
+        """Trades a pool's join secret for a runner identity and credential token.
 
-        Trades a pool's join secret for a runner identity and the token that authenticates every later call. It is the one operation with no credential to check, because a runner has none until this answers.  The secret names the pool it opens, and a pool exists only because somebody declared it. A daemon that starts against capacity nobody declared is refused here, which is where the rule that pools are declared state actually holds.
+        Trades a pool's join secret for a runner identity and credential token.
 
         :param runner_register_in: (required)
         :type runner_register_in: RunnerRegisterIn
@@ -14761,9 +14761,9 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Trades a pool's join secret for a runner identity and the token that authenticates every later call.
+        """Trades a pool's join secret for a runner identity and credential token.
 
-        Trades a pool's join secret for a runner identity and the token that authenticates every later call. It is the one operation with no credential to check, because a runner has none until this answers.  The secret names the pool it opens, and a pool exists only because somebody declared it. A daemon that starts against capacity nobody declared is refused here, which is where the rule that pools are declared state actually holds.
+        Trades a pool's join secret for a runner identity and credential token.
 
         :param runner_register_in: (required)
         :type runner_register_in: RunnerRegisterIn
@@ -14904,9 +14904,9 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RunnerStateOut:
-        """Records a task's progress and that of its steps, and answers with the result this side now holds — which is how a runner learns its task was stopped from somewhere else.
+        """Records a leased task's progress, step statuses, and job outputs.
 
-        Records a task's progress and that of its steps, and answers with the result this side now holds — which is how a runner learns its task was stopped from somewhere else.
+        Records a leased task's progress, step statuses, and job outputs.
 
         :param runner_state_in: (required)
         :type runner_state_in: RunnerStateIn
@@ -14979,9 +14979,9 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[RunnerStateOut]:
-        """Records a task's progress and that of its steps, and answers with the result this side now holds — which is how a runner learns its task was stopped from somewhere else.
+        """Records a leased task's progress, step statuses, and job outputs.
 
-        Records a task's progress and that of its steps, and answers with the result this side now holds — which is how a runner learns its task was stopped from somewhere else.
+        Records a leased task's progress, step statuses, and job outputs.
 
         :param runner_state_in: (required)
         :type runner_state_in: RunnerStateIn
@@ -15054,9 +15054,9 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Records a task's progress and that of its steps, and answers with the result this side now holds — which is how a runner learns its task was stopped from somewhere else.
+        """Records a leased task's progress, step statuses, and job outputs.
 
-        Records a task's progress and that of its steps, and answers with the result this side now holds — which is how a runner learns its task was stopped from somewhere else.
+        Records a leased task's progress, step statuses, and job outputs.
 
         :param runner_state_in: (required)
         :type runner_state_in: RunnerStateIn
@@ -15209,9 +15209,9 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RunnerTaskOut:
-        """Hands the runner a job to execute, if its pool has one, and answers immediately either way.
+        """Leases a queued workflow job to the calling runner if available.
 
-        Hands the runner a job to execute, if its pool has one, and answers immediately either way. A runner sends the queue version it last saw; when it matches, nothing has been queued since and no lease transaction is opened.
+        Leases a queued workflow job to the calling runner if available.
 
         :param runner_task_in: (required)
         :type runner_task_in: RunnerTaskIn
@@ -15284,9 +15284,9 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[RunnerTaskOut]:
-        """Hands the runner a job to execute, if its pool has one, and answers immediately either way.
+        """Leases a queued workflow job to the calling runner if available.
 
-        Hands the runner a job to execute, if its pool has one, and answers immediately either way. A runner sends the queue version it last saw; when it matches, nothing has been queued since and no lease transaction is opened.
+        Leases a queued workflow job to the calling runner if available.
 
         :param runner_task_in: (required)
         :type runner_task_in: RunnerTaskIn
@@ -15359,9 +15359,9 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Hands the runner a job to execute, if its pool has one, and answers immediately either way.
+        """Leases a queued workflow job to the calling runner if available.
 
-        Hands the runner a job to execute, if its pool has one, and answers immediately either way. A runner sends the queue version it last saw; when it matches, nothing has been queued since and no lease transaction is opened.
+        Leases a queued workflow job to the calling runner if available.
 
         :param runner_task_in: (required)
         :type runner_task_in: RunnerTaskIn

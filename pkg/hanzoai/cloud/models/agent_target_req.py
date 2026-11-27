@@ -35,7 +35,8 @@ class AgentTargetReq(BaseModel):
     metrics: Optional[AgentMetrics] = Field(default=None, description="Metrics is a live sample, and sending one IS A HEARTBEAT: it refreshes the row and starts the 90-second liveness window, and it is appended to the fleet series as one point. Its own `at` is ignored — the server stamps the time, so a client can never age or backdate its own machine. Omit it to register a machine without claiming it is alive.")
     spec: Optional[AgentSpec] = Field(default=None, description="Spec is the machine's static capability — os, arch, cores, RAM, accelerators. Every field is bounded on write and at most 32 accelerators are accepted, so what comes back may be clamped. Omit it for a destination nothing probes.")
     status: Optional[StrictStr] = Field(default=None, description="Status is online | offline | draining. Empty registers `online`. It states INTENT — a heartbeat is what decides whether an online machine is actually reachable, so declaring online does not make it so.")
-    __properties: ClassVar[List[str]] = ["capacity", "host", "kind", "label", "metrics", "spec", "status"]
+    terminal: Optional[StrictStr] = Field(default=None, description="Terminal is the https URL this machine's live terminal is published at. Optional: omit it to leave the stored one alone, send \"\" to clear it (the link is ending). The server stamps the time, and the terminal shows on the machine only while the machine beats and restates it within the 90-second window.")
+    __properties: ClassVar[List[str]] = ["capacity", "host", "kind", "label", "metrics", "spec", "status", "terminal"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -100,7 +101,8 @@ class AgentTargetReq(BaseModel):
             "label": obj.get("label"),
             "metrics": AgentMetrics.from_dict(obj["metrics"]) if obj.get("metrics") is not None else None,
             "spec": AgentSpec.from_dict(obj["spec"]) if obj.get("spec") is not None else None,
-            "status": obj.get("status")
+            "status": obj.get("status"),
+            "terminal": obj.get("terminal")
         })
         return _obj
 

@@ -7658,7 +7658,7 @@ class AutoApi:
     ) -> AutoRunResp:
         """Executes one provider action in-process and answers the outcome.
 
-        Executes one provider action in-process and answers the outcome. The caller's resolved credential travels in `auth`, delivered to the action verbatim — the runtime resolves no credential itself. An action that ran and failed (or an action name the provider does not have) answers ok:false with the failure message, not an HTTP error; an unknown provider is 404 and a missing action 422.
+        Executes one provider action in-process and answers the outcome. The caller's resolved credential travels in `auth`, delivered to the action verbatim — the runtime resolves no credential itself. An action that ran and failed (or an action name the provider does not have) answers ok:false with the failure message, not an HTTP error; an unknown provider is 404, a known connector with no program here 422, and a missing action 422.
 
         :param id: ID is the provider to run, from the path. (required)
         :type id: str
@@ -7729,7 +7729,7 @@ class AutoApi:
     ) -> ApiResponse[AutoRunResp]:
         """Executes one provider action in-process and answers the outcome.
 
-        Executes one provider action in-process and answers the outcome. The caller's resolved credential travels in `auth`, delivered to the action verbatim — the runtime resolves no credential itself. An action that ran and failed (or an action name the provider does not have) answers ok:false with the failure message, not an HTTP error; an unknown provider is 404 and a missing action 422.
+        Executes one provider action in-process and answers the outcome. The caller's resolved credential travels in `auth`, delivered to the action verbatim — the runtime resolves no credential itself. An action that ran and failed (or an action name the provider does not have) answers ok:false with the failure message, not an HTTP error; an unknown provider is 404, a known connector with no program here 422, and a missing action 422.
 
         :param id: ID is the provider to run, from the path. (required)
         :type id: str
@@ -7800,7 +7800,7 @@ class AutoApi:
     ) -> RESTResponseType:
         """Executes one provider action in-process and answers the outcome.
 
-        Executes one provider action in-process and answers the outcome. The caller's resolved credential travels in `auth`, delivered to the action verbatim — the runtime resolves no credential itself. An action that ran and failed (or an action name the provider does not have) answers ok:false with the failure message, not an HTTP error; an unknown provider is 404 and a missing action 422.
+        Executes one provider action in-process and answers the outcome. The caller's resolved credential travels in `auth`, delivered to the action verbatim — the runtime resolves no credential itself. An action that ran and failed (or an action name the provider does not have) answers ok:false with the failure message, not an HTTP error; an unknown provider is 404, a known connector with no program here 422, and a missing action 422.
 
         :param id: ID is the provider to run, from the path. (required)
         :type id: str

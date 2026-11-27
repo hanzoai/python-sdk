@@ -30,11 +30,12 @@ class BillingTier(BaseModel):
     """ # noqa: E501
     balance: Optional[BillingTierBalance] = None
     plan: Optional[StrictStr] = Field(default=None, description="Plan is the catalog rung the subject is served as (\"\" with no plan). A tier is a class of rungs; a bound that differs within one class keys on this.")
-    plan_name: Optional[StrictStr] = Field(default=None, description="PlanName is the display name of the served plan (\"Unlimited\"), \"\" with no plan. A plan only the plan authority knows has no catalog name, so a reader shows this, not the tier. Last, for the ZAP wire.", alias="planName")
+    plan_holder: Optional[StrictStr] = Field(default=None, description="PlanHolder is the canonical account claim (\"person:hanzo/james\", \"org:acme\") whose live paid subscription this org borrows through a plan link; absent when the subject uses its own books or holds no plan. Appended last for the ZAP wire.", alias="planHolder")
+    plan_name: Optional[StrictStr] = Field(default=None, description="PlanName is the display name of the served plan (\"Unlimited\"), \"\" with no plan. A plan only the plan authority knows has no catalog name, so a reader shows this, not the tier.", alias="planName")
     subscription: Optional[StrictStr] = Field(default=None, description="Subscription is the id of the subscription row whose plan is the served rung, \"\" when the tier is not a subscription's.")
     tier: Optional[BillingTierLimits] = None
     user: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["balance", "plan", "planName", "subscription", "tier", "user"]
+    __properties: ClassVar[List[str]] = ["balance", "plan", "planHolder", "planName", "subscription", "tier", "user"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -95,6 +96,7 @@ class BillingTier(BaseModel):
         _obj = cls.model_validate({
             "balance": BillingTierBalance.from_dict(obj["balance"]) if obj.get("balance") is not None else None,
             "plan": obj.get("plan"),
+            "planHolder": obj.get("planHolder"),
             "planName": obj.get("planName"),
             "subscription": obj.get("subscription"),
             "tier": BillingTierLimits.from_dict(obj["tier"]) if obj.get("tier") is not None else None,
