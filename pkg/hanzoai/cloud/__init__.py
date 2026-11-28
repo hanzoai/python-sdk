@@ -1546,6 +1546,7 @@ __all__ = [
     "IamProvider",
     "IamProviderItem",
     "IamProviderResult",
+    "IamPublicStats",
     "IamRegistration",
     "IamReleaseOutput",
     "IamReply",
@@ -5421,6 +5422,7 @@ from hanzoai.cloud.models.iam_projects_list_output import IamProjectsListOutput 
 from hanzoai.cloud.models.iam_provider import IamProvider as IamProvider
 from hanzoai.cloud.models.iam_provider_item import IamProviderItem as IamProviderItem
 from hanzoai.cloud.models.iam_provider_result import IamProviderResult as IamProviderResult
+from hanzoai.cloud.models.iam_public_stats import IamPublicStats as IamPublicStats
 from hanzoai.cloud.models.iam_registration import IamRegistration as IamRegistration
 from hanzoai.cloud.models.iam_release_output import IamReleaseOutput as IamReleaseOutput
 from hanzoai.cloud.models.iam_reply import IamReply as IamReply
