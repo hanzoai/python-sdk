@@ -1396,6 +1396,7 @@ from hanzoai.cloud.models.iam_projects_list_output import IamProjectsListOutput
 from hanzoai.cloud.models.iam_provider import IamProvider
 from hanzoai.cloud.models.iam_provider_item import IamProviderItem
 from hanzoai.cloud.models.iam_provider_result import IamProviderResult
+from hanzoai.cloud.models.iam_public_stats import IamPublicStats
 from hanzoai.cloud.models.iam_registration import IamRegistration
 from hanzoai.cloud.models.iam_release_output import IamReleaseOutput
 from hanzoai.cloud.models.iam_reply import IamReply

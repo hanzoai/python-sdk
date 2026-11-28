@@ -1524,6 +1524,7 @@ pkg/hanzoai/cloud/models/iam_projects_list_output.py
 pkg/hanzoai/cloud/models/iam_provider.py
 pkg/hanzoai/cloud/models/iam_provider_item.py
 pkg/hanzoai/cloud/models/iam_provider_result.py
+pkg/hanzoai/cloud/models/iam_public_stats.py
 pkg/hanzoai/cloud/models/iam_registration.py
 pkg/hanzoai/cloud/models/iam_release_output.py
 pkg/hanzoai/cloud/models/iam_reply.py
