@@ -115,9 +115,12 @@ def test_version_is_single_sourced():
     The generator writes `__version__ = "1.0.0"` (its default) into the package
     __init__; that literal disagreed with pyproject for every release.
     """
-    from importlib.metadata import version
+    from importlib.metadata import PackageNotFoundError, version
 
-    assert hanzoai.__version__ == version("hanzoai")
+    try:
+        assert hanzoai.__version__ == version("hanzoai")
+    except PackageNotFoundError:
+        assert hanzoai.__version__ == "0.0.0+dev"
 
 
 def test_cloud_package_imports():
