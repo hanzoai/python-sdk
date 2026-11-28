@@ -32,11 +32,13 @@ class AgentCodingStarted(BaseModel):
     left: Optional[StrictInt] = Field(default=None, description="Left is how many of them did not fit this run's task and are still queued on the run it follows.")
     note: Optional[StrictStr] = Field(default=None, description="Note says what became of the queue in words, when there was one.")
     pull: Optional[StrictStr] = Field(default=None, description="Pull is the CLI command or instruction to pull this run locally, e.g. `hanzo pull <sessionId>`.")
+    queued: Optional[StrictBool] = Field(default=None, description="Queued is true when a steered instruction was queued for the active session rather than delivered immediately into an open turn.")
     repo: Optional[StrictStr] = Field(default=None, description="Repo is the repository the run was admitted against, echoed back as the engine resolved it.")
     routed: Optional[StrictBool] = Field(default=None, description="Routed says the run went to one of the org's own registered machines rather than to a sandbox in our cluster. False is the ordinary case.")
     session_id: Optional[StrictStr] = Field(default=None, description="SessionID is the run's handle: its durable record, and the root its live progress streams under at /v1/agent/sessions/stream?root=<sessionId>. Every later question about this run is asked with it.", alias="sessionId")
+    steered: Optional[StrictBool] = Field(default=None, description="Steered is true when `steer: true` redirected or queued this prompt into the already-active session named by `after` rather than starting a second run.")
     target_id: Optional[StrictStr] = Field(default=None, description="TargetID names that machine when Routed is true, and is empty otherwise.", alias="targetId")
-    __properties: ClassVar[List[str]] = ["branch", "carried", "dropped", "left", "note", "pull", "repo", "routed", "sessionId", "targetId"]
+    __properties: ClassVar[List[str]] = ["branch", "carried", "dropped", "left", "note", "pull", "queued", "repo", "routed", "sessionId", "steered", "targetId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -95,9 +97,11 @@ class AgentCodingStarted(BaseModel):
             "left": obj.get("left"),
             "note": obj.get("note"),
             "pull": obj.get("pull"),
+            "queued": obj.get("queued"),
             "repo": obj.get("repo"),
             "routed": obj.get("routed"),
             "sessionId": obj.get("sessionId"),
+            "steered": obj.get("steered"),
             "targetId": obj.get("targetId")
         })
         return _obj
