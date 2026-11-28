@@ -26,9 +26,10 @@ class ProviderGithubForkReq(BaseModel):
     """
     ProviderGithubForkReq
     """ # noqa: E501
-    org: Optional[StrictStr] = Field(default=None, description="Org is the GitHub account to fork INTO; empty forks to the installation's own account, which is the common case.")
-    repo: Optional[StrictStr] = Field(default=None, description="Repo is a repository the org's installation was GRANTED, by name.")
-    __properties: ClassVar[List[str]] = ["org", "repo"]
+    name: Optional[StrictStr] = Field(default=None, description="Name is an optional target repository name for the new fork.")
+    org: Optional[StrictStr] = Field(default=None, description="Org is the GitHub account to fork INTO; empty forks to the authenticated account (the connected user's personal account or the installation's own).")
+    repo: Optional[StrictStr] = Field(default=None, description="Repo is either a bare repository name granted to the org's installation (\"widgets\") or an owner-qualified repository (\"owner/repo\") forked with the caller's connected GitHub account (falling back to an installation grant).")
+    __properties: ClassVar[List[str]] = ["name", "org", "repo"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -81,6 +82,7 @@ class ProviderGithubForkReq(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "name": obj.get("name"),
             "org": obj.get("org"),
             "repo": obj.get("repo")
         })

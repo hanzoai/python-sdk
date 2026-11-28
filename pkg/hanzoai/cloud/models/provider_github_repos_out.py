@@ -27,7 +27,7 @@ class ProviderGithubReposOut(BaseModel):
     """
     ProviderGithubReposOut
     """ # noqa: E501
-    connected: Optional[StrictBool] = Field(default=None, description="Connected is whether this answer is the caller's OWN GitHub. False with repositories is an org admin seeing the org's installations; false with none is the cue to connect.")
+    connected: Optional[StrictBool] = Field(default=None, description="Connected is true when the caller has connected their own GitHub account OR when an org admin's organization holds at least one active connected GitHub App installation (even if that installation currently has zero repositories). False is the console's cue to ask the caller to connect.")
     next: Optional[StrictStr] = Field(default=None, description="Next is the cursor for the page after this one; empty on the last page.")
     repos: Optional[List[ProviderGithubRepoItem]] = Field(default=None, description="Repos is this page, most recently pushed first. Never null.")
     total: Optional[StrictInt] = Field(default=None, description="Total is how many repositories match q and owner, across every page.")

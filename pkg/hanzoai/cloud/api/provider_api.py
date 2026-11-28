@@ -35,6 +35,8 @@ from hanzoai.cloud.models.provider_disconnect_out import ProviderDisconnectOut
 from hanzoai.cloud.models.provider_github_backfill_in import ProviderGithubBackfillIn
 from hanzoai.cloud.models.provider_github_backfill_result import ProviderGithubBackfillResult
 from hanzoai.cloud.models.provider_github_branches_out import ProviderGithubBranchesOut
+from hanzoai.cloud.models.provider_github_create_repo_out import ProviderGithubCreateRepoOut
+from hanzoai.cloud.models.provider_github_create_repo_req import ProviderGithubCreateRepoReq
 from hanzoai.cloud.models.provider_github_fork_out import ProviderGithubForkOut
 from hanzoai.cloud.models.provider_github_fork_req import ProviderGithubForkReq
 from hanzoai.cloud.models.provider_github_import_in import ProviderGithubImportIn
@@ -3656,7 +3658,7 @@ class ProviderApi:
     ) -> ProviderGithubReposOut:
         """Lists the GitHub repositories the caller may work on, most recently pushed first, searched and paged on the server.
 
-        Lists the GitHub repositories the caller may work on, most recently pushed first, searched and paged on the server.  A person who connected their own GitHub sees what their token reaches in this App's installations. An org admin who has not sees every repository in the installations their org holds. Anyone else gets an empty page with connected:false, which is the console's cue to ask them to connect.
+        Lists the GitHub repositories the caller may work on, most recently pushed first, searched and paged on the server.  A person who connected their own GitHub sees what their token reaches in this App's installations. An org admin who has not sees every repository in the installations their org holds (with connected:true whenever the org holds an active installation, even with zero repositories). Anyone else gets an empty page with connected:false, which is the console's cue to ask them to connect.
 
         :param q: Q keeps repositories whose owner/name contains it, case-insensitively.
         :type q: str
@@ -3735,7 +3737,7 @@ class ProviderApi:
     ) -> ApiResponse[ProviderGithubReposOut]:
         """Lists the GitHub repositories the caller may work on, most recently pushed first, searched and paged on the server.
 
-        Lists the GitHub repositories the caller may work on, most recently pushed first, searched and paged on the server.  A person who connected their own GitHub sees what their token reaches in this App's installations. An org admin who has not sees every repository in the installations their org holds. Anyone else gets an empty page with connected:false, which is the console's cue to ask them to connect.
+        Lists the GitHub repositories the caller may work on, most recently pushed first, searched and paged on the server.  A person who connected their own GitHub sees what their token reaches in this App's installations. An org admin who has not sees every repository in the installations their org holds (with connected:true whenever the org holds an active installation, even with zero repositories). Anyone else gets an empty page with connected:false, which is the console's cue to ask them to connect.
 
         :param q: Q keeps repositories whose owner/name contains it, case-insensitively.
         :type q: str
@@ -3814,7 +3816,7 @@ class ProviderApi:
     ) -> RESTResponseType:
         """Lists the GitHub repositories the caller may work on, most recently pushed first, searched and paged on the server.
 
-        Lists the GitHub repositories the caller may work on, most recently pushed first, searched and paged on the server.  A person who connected their own GitHub sees what their token reaches in this App's installations. An org admin who has not sees every repository in the installations their org holds. Anyone else gets an empty page with connected:false, which is the console's cue to ask them to connect.
+        Lists the GitHub repositories the caller may work on, most recently pushed first, searched and paged on the server.  A person who connected their own GitHub sees what their token reaches in this App's installations. An org admin who has not sees every repository in the installations their org holds (with connected:true whenever the org holds an active installation, even with zero repositories). Anyone else gets an empty page with connected:false, which is the console's cue to ask them to connect.
 
         :param q: Q keeps repositories whose owner/name contains it, case-insensitively.
         :type q: str
@@ -12743,9 +12745,9 @@ class ProviderApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ProviderGithubForkOut:
-        """Forks a granted repository.
+        """Forks either an owner-qualified repository (\"owner/repo\", using the caller's connected personal GitHub OAuth token or a matching installation grant) or a bare repository name granted to the org's installation.
 
-        Forks a granted repository.  GitHub's fork is ASYNCHRONOUS: it answers 202 with the target repo and populates it in the background, and it answers the same 202 when the fork already exists. So this reports what GitHub said rather than waiting — a call that blocked until the clone finished would time out on a large repository and tell the caller nothing it does not already know.
+        Forks either an owner-qualified repository (\"owner/repo\", using the caller's connected personal GitHub OAuth token or a matching installation grant) or a bare repository name granted to the org's installation.  GitHub's fork is ASYNCHRONOUS: it answers 202 with the target repo and populates it in the background, and it answers the same 202 when the fork already exists. So this reports what GitHub said rather than waiting — a call that blocked until the clone finished would time out on a large repository and tell the caller nothing it does not already know.
 
         :param provider_github_fork_req: (required)
         :type provider_github_fork_req: ProviderGithubForkReq
@@ -12810,9 +12812,9 @@ class ProviderApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[ProviderGithubForkOut]:
-        """Forks a granted repository.
+        """Forks either an owner-qualified repository (\"owner/repo\", using the caller's connected personal GitHub OAuth token or a matching installation grant) or a bare repository name granted to the org's installation.
 
-        Forks a granted repository.  GitHub's fork is ASYNCHRONOUS: it answers 202 with the target repo and populates it in the background, and it answers the same 202 when the fork already exists. So this reports what GitHub said rather than waiting — a call that blocked until the clone finished would time out on a large repository and tell the caller nothing it does not already know.
+        Forks either an owner-qualified repository (\"owner/repo\", using the caller's connected personal GitHub OAuth token or a matching installation grant) or a bare repository name granted to the org's installation.  GitHub's fork is ASYNCHRONOUS: it answers 202 with the target repo and populates it in the background, and it answers the same 202 when the fork already exists. So this reports what GitHub said rather than waiting — a call that blocked until the clone finished would time out on a large repository and tell the caller nothing it does not already know.
 
         :param provider_github_fork_req: (required)
         :type provider_github_fork_req: ProviderGithubForkReq
@@ -12877,9 +12879,9 @@ class ProviderApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Forks a granted repository.
+        """Forks either an owner-qualified repository (\"owner/repo\", using the caller's connected personal GitHub OAuth token or a matching installation grant) or a bare repository name granted to the org's installation.
 
-        Forks a granted repository.  GitHub's fork is ASYNCHRONOUS: it answers 202 with the target repo and populates it in the background, and it answers the same 202 when the fork already exists. So this reports what GitHub said rather than waiting — a call that blocked until the clone finished would time out on a large repository and tell the caller nothing it does not already know.
+        Forks either an owner-qualified repository (\"owner/repo\", using the caller's connected personal GitHub OAuth token or a matching installation grant) or a bare repository name granted to the org's installation.  GitHub's fork is ASYNCHRONOUS: it answers 202 with the target repo and populates it in the background, and it answers the same 202 when the fork already exists. So this reports what GitHub said rather than waiting — a call that blocked until the clone finished would time out on a large repository and tell the caller nothing it does not already know.
 
         :param provider_github_fork_req: (required)
         :type provider_github_fork_req: ProviderGithubForkReq
@@ -13261,6 +13263,281 @@ class ProviderApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/provider/github/issues/backfill',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_provider_github_repos(
+        self,
+        provider_github_create_repo_req: ProviderGithubCreateRepoReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ProviderGithubCreateRepoOut:
+        """Creates a repository on GitHub under the caller's connected personal GitHub account (when org is omitted) or under a GitHub organization (when org is set).
+
+        Creates a repository on GitHub under the caller's connected personal GitHub account (when org is omitted) or under a GitHub organization (when org is set).  Creating under a personal account uses the caller's connected GitHub user OAuth token (/v1/provider/github/user/connect). Creating under a GitHub organization prefers the caller's connected GitHub user token and falls back to the org's bound GitHub App installation token when that installation is an Organization. If a repository with the same name already exists on the target account (422), the existing repository is fetched and returned idempotently with existing:true. When link_repo is set, the repository's clone URL is also registered as an outbound mirror target on that Hanzo Git repository.
+
+        :param provider_github_create_repo_req: (required)
+        :type provider_github_create_repo_req: ProviderGithubCreateRepoReq
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_provider_github_repos_serialize(
+            provider_github_create_repo_req=provider_github_create_repo_req,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "ProviderGithubCreateRepoOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_provider_github_repos_with_http_info(
+        self,
+        provider_github_create_repo_req: ProviderGithubCreateRepoReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ProviderGithubCreateRepoOut]:
+        """Creates a repository on GitHub under the caller's connected personal GitHub account (when org is omitted) or under a GitHub organization (when org is set).
+
+        Creates a repository on GitHub under the caller's connected personal GitHub account (when org is omitted) or under a GitHub organization (when org is set).  Creating under a personal account uses the caller's connected GitHub user OAuth token (/v1/provider/github/user/connect). Creating under a GitHub organization prefers the caller's connected GitHub user token and falls back to the org's bound GitHub App installation token when that installation is an Organization. If a repository with the same name already exists on the target account (422), the existing repository is fetched and returned idempotently with existing:true. When link_repo is set, the repository's clone URL is also registered as an outbound mirror target on that Hanzo Git repository.
+
+        :param provider_github_create_repo_req: (required)
+        :type provider_github_create_repo_req: ProviderGithubCreateRepoReq
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_provider_github_repos_serialize(
+            provider_github_create_repo_req=provider_github_create_repo_req,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "ProviderGithubCreateRepoOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_provider_github_repos_without_preload_content(
+        self,
+        provider_github_create_repo_req: ProviderGithubCreateRepoReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Creates a repository on GitHub under the caller's connected personal GitHub account (when org is omitted) or under a GitHub organization (when org is set).
+
+        Creates a repository on GitHub under the caller's connected personal GitHub account (when org is omitted) or under a GitHub organization (when org is set).  Creating under a personal account uses the caller's connected GitHub user OAuth token (/v1/provider/github/user/connect). Creating under a GitHub organization prefers the caller's connected GitHub user token and falls back to the org's bound GitHub App installation token when that installation is an Organization. If a repository with the same name already exists on the target account (422), the existing repository is fetched and returned idempotently with existing:true. When link_repo is set, the repository's clone URL is also registered as an outbound mirror target on that Hanzo Git repository.
+
+        :param provider_github_create_repo_req: (required)
+        :type provider_github_create_repo_req: ProviderGithubCreateRepoReq
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_provider_github_repos_serialize(
+            provider_github_create_repo_req=provider_github_create_repo_req,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "ProviderGithubCreateRepoOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_provider_github_repos_serialize(
+        self,
+        provider_github_create_repo_req,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if provider_github_create_repo_req is not None:
+            _body_params = provider_github_create_repo_req
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/provider/github/repos',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

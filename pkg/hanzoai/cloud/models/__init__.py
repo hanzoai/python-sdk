@@ -2929,6 +2929,8 @@ from hanzoai.cloud.models.provider_github_backfill_in import ProviderGithubBackf
 from hanzoai.cloud.models.provider_github_backfill_result import ProviderGithubBackfillResult
 from hanzoai.cloud.models.provider_github_branch import ProviderGithubBranch
 from hanzoai.cloud.models.provider_github_branches_out import ProviderGithubBranchesOut
+from hanzoai.cloud.models.provider_github_create_repo_out import ProviderGithubCreateRepoOut
+from hanzoai.cloud.models.provider_github_create_repo_req import ProviderGithubCreateRepoReq
 from hanzoai.cloud.models.provider_github_fork_out import ProviderGithubForkOut
 from hanzoai.cloud.models.provider_github_fork_req import ProviderGithubForkReq
 from hanzoai.cloud.models.provider_github_import_in import ProviderGithubImportIn

@@ -3057,6 +3057,8 @@ pkg/hanzoai/cloud/models/provider_github_backfill_in.py
 pkg/hanzoai/cloud/models/provider_github_backfill_result.py
 pkg/hanzoai/cloud/models/provider_github_branch.py
 pkg/hanzoai/cloud/models/provider_github_branches_out.py
+pkg/hanzoai/cloud/models/provider_github_create_repo_out.py
+pkg/hanzoai/cloud/models/provider_github_create_repo_req.py
 pkg/hanzoai/cloud/models/provider_github_fork_out.py
 pkg/hanzoai/cloud/models/provider_github_fork_req.py
 pkg/hanzoai/cloud/models/provider_github_import_in.py
