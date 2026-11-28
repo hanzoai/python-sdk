@@ -292,6 +292,12 @@ uv sync --all-packages
 uv run pytest tests/ -v
 ```
 
+When running `pytest` directly against a source checkout without an editable install:
+
+```bash
+PYTHONPATH=pkg pytest tests/
+```
+
 `pkg/hanzoai/cloud/` is generated and is never edited by hand — a regeneration
 does `rmtree` then `copytree`, so an edit there is gone on the next run. It comes
 from [hanzoai/openapi](https://github.com/hanzoai/openapi):

@@ -179,27 +179,32 @@ def test_full_httpx_client_routes_through_zap() -> None:
     assert auth == "Bearer sk-test"
 
 
-async def test_async_transport_translates_request() -> None:
-    mock = MockCloudClient(status=200, body=b'{"id": "chatcmpl-async"}')
-    transport = AsyncZapTransport(client=mock)
-    try:
-        payload = {"model": "zen-1", "messages": [{"role": "user", "content": "hi"}]}
-        request = httpx.Request(
-            "POST",
-            "https://api.hanzo.ai/v1/chat/completions",
-            headers={"Authorization": "Bearer sk-async"},
-            json=payload,
-        )
-        response = await transport.handle_async_request(request)
-    finally:
-        await transport.aclose()
+def test_async_transport_translates_request() -> None:
+    import asyncio
 
-    assert response.status_code == 200
-    assert response.json() == {"id": "chatcmpl-async"}
-    method, auth, body = mock.calls[0]
-    assert method == "chat.completions"
-    assert auth == "Bearer sk-async"
-    assert json.loads(body) == payload
+    async def _test() -> None:
+        mock = MockCloudClient(status=200, body=b'{"id": "chatcmpl-async"}')
+        transport = AsyncZapTransport(client=mock)
+        try:
+            payload = {"model": "zen-1", "messages": [{"role": "user", "content": "hi"}]}
+            request = httpx.Request(
+                "POST",
+                "https://api.hanzo.ai/v1/chat/completions",
+                headers={"Authorization": "Bearer sk-async"},
+                json=payload,
+            )
+            response = await transport.handle_async_request(request)
+        finally:
+            await transport.aclose()
+
+        assert response.status_code == 200
+        assert response.json() == {"id": "chatcmpl-async"}
+        method, auth, body = mock.calls[0]
+        assert method == "chat.completions"
+        assert auth == "Bearer sk-async"
+        assert json.loads(body) == payload
+
+    asyncio.run(_test())
 
 
 def test_zap_http_client_returns_httpx_client() -> None:
